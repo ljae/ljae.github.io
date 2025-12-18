@@ -4,6 +4,7 @@
 -->
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,24 +17,28 @@
             font-weight: 400;
             font-style: normal;
         }
+
         @font-face {
             font-family: 'Paperlogy';
             src: url('Paperlogy-1.000/Paperlogy-5Medium.ttf') format('truetype');
             font-weight: 500;
             font-style: normal;
         }
+
         @font-face {
             font-family: 'Paperlogy';
             src: url('Paperlogy-1.000/Paperlogy-6SemiBold.ttf') format('truetype');
             font-weight: 600;
             font-style: normal;
         }
+
         @font-face {
             font-family: 'Paperlogy';
             src: url('Paperlogy-1.000/Paperlogy-7Bold.ttf') format('truetype');
             font-weight: 700;
             font-style: normal;
         }
+
         @font-face {
             font-family: 'Paperlogy';
             src: url('Paperlogy-1.000/Paperlogy-8ExtraBold.ttf') format('truetype');
@@ -147,14 +152,19 @@
             position: absolute;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: moveGrid 20s linear infinite;
         }
 
         @keyframes moveGrid {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
         }
 
         .hero-content {
@@ -171,7 +181,7 @@
             font-weight: 800;
             margin-bottom: 24px;
             line-height: 1.2;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 0.8s ease-out;
         }
 
@@ -188,6 +198,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -242,7 +253,7 @@
             padding: 60px;
             max-width: 900px;
             margin: 0 auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(91, 157, 217, 0.1);
         }
 
@@ -274,7 +285,7 @@
             padding: 40px;
             background: var(--white);
             border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
             transition: all 0.4s ease;
             border: 1px solid rgba(91, 157, 217, 0.1);
             position: relative;
@@ -327,7 +338,7 @@
             position: absolute;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
             top: -250px;
             right: -250px;
             border-radius: 50%;
@@ -366,21 +377,57 @@
             background: var(--white);
             padding: 36px;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
             border-left: 5px solid var(--primary-teal);
             transition: all 0.3s ease;
         }
 
         .testimonial:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 16px;
+        }
+
+        .company-logo {
+            max-height: 100%;
+            max-width: 140px;
+            object-fit: contain;
+            object-position: left;
+            /* Grayscale filter for a unified look, color on hover if desired */
+            filter: grayscale(100%) opacity(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover .company-logo {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        .company-name {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-left: auto;
         }
 
         .testimonial p {
-            font-style: italic;
-            color: var(--text-dark);
-            margin-bottom: 20px;
             line-height: 1.8;
+        }
+
+        .testimonial p strong {
+            color: var(--primary-blue);
+            background: linear-gradient(120deg, rgba(80, 227, 194, 0.2) 0%, rgba(80, 227, 194, 0.2) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 2px;
         }
 
         .testimonial .author {
@@ -402,13 +449,13 @@
         }
 
         .contact-card {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 60px;
             max-width: 700px;
             margin: 0 auto;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .contact-info p {
@@ -420,7 +467,7 @@
         /* Footer */
         .footer {
             background: var(--dark-navy);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             text-align: center;
             padding: 60px 20px;
             font-size: 0.95em;
@@ -459,8 +506,78 @@
                 padding: 32px;
             }
         }
+
+        /* Future Plans Section */
+        .future-plans-section {
+            background: linear-gradient(135deg, #fff6e5 0%, #fff 100%);
+            /* Soft warm background to match the fun image */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .future-plans-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 179, 71, 0.2);
+            box-shadow: 0 20px 60px rgba(255, 179, 71, 0.1);
+        }
+
+        .future-plans-text {
+            flex: 1;
+        }
+
+        .future-plans-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .future-plans-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            transform: rotate(2deg);
+            transition: all 0.4s ease;
+        }
+
+        .future-plans-image:hover img {
+            transform: rotate(0) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .future-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #FFB347;
+            color: white;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(255, 179, 71, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .future-plans-content {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 40px;
+                gap: 40px;
+            }
+
+            .future-plans-image img {
+                transform: rotate(0);
+                max-width: 400px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -491,13 +608,16 @@
             <div class="ceo-card">
                 <p>
                     <strong>에스더 한 (Esther Han)</strong> 대표는 <strong>22년 이상</strong>의 교육 경험을 가진 전문가입니다.
-                    미국 <strong>루이지애나 침례교 신학대학교</strong>에서 교육학을 전공하고, 국내 주요 기업과 기관에서 비즈니스 영어 교육 전문가로 활동하며 탁월한 성과를 인정받았습니다.
+                    미국 <strong>루이지애나 침례교 신학대학교(LBU)</strong>에서 교육학을 전공하여 <strong>'사람을 세우는 가치'</strong>와 <strong>'정직한
+                        섬김'</strong>을 경영의 본질로 삼고 있습니다. 국내 주요 기업과 기관에서 비즈니스 영어 교육 전문가로 활동하며 탁월한 성과를
+                    인정받았습니다.
                 </p>
                 <p>
                     이제 Open Edu를 통해 기업 교육에서 검증받은 체계적인 교육 시스템과 우수한 원어민 강사진을 우리 아이들의 영어 교육에 쏟아붓고 있습니다.
                     각 아이의 특성과 학습 속도에 맞춘 1:1 맞춤형 영어 교육으로, 아이들이 영어를 즐겁게 배우고 자신감 있게 사용할 수 있도록 돕는 것이 목표입니다.
                 </p>
-                <em>"모든 아이는 자신만의 속도로 성장합니다. Open Edu는 사회에서 검증된 전문성과 아이들을 향한 진심 어린 마음으로, 우리 아이들의 영어 실력과 자신감을 함께 키워갑니다."</em>
+                <em>"모든 아이는 자신만의 속도로 성장합니다. Open Edu는 사회에서 검증된 전문성과 아이들을 향한 진심 어린 마음으로, 우리 아이들의 영어 실력과 자신감을 함께
+                    키워갑니다."</em>
             </div>
         </div>
     </div>
@@ -520,51 +640,135 @@
                 </div>
             </div>
 
-            <div style="margin-top: 80px; padding: 40px; background: linear-gradient(135deg, rgba(91, 157, 217, 0.1), rgba(80, 227, 194, 0.1)); border-radius: 24px; text-align: center; border: 2px solid rgba(91, 157, 217, 0.2);">
-                <h3 style="font-size: 2em; font-weight: 700; color: var(--primary-blue); margin-bottom: 20px;">💼 기업 교육에서 검증된 시스템을 우리 아이에게</h3>
-                <p style="font-size: 1.15em; color: var(--text-dark); max-width: 800px; margin: 0 auto; line-height: 1.8;">
-                    Open Edu는 국내 주요 기업의 임원과 전문직 종사자들을 대상으로 비즈니스 영어 교육을 제공하며 탁월한 성과를 입증해왔습니다. 까다로운 기업 환경에서 검증받은 체계적인 교육 시스템과 우수한 원어민 강사진을 이제 우리 아이들의 영어 교육에 적용합니다. 사회에서 증명된 전문성으로 아이들의 영어 실력을 체계적으로 키워갑니다.
+            <div
+                style="margin-top: 80px; padding: 40px; background: linear-gradient(135deg, rgba(91, 157, 217, 0.1), rgba(80, 227, 194, 0.1)); border-radius: 24px; text-align: center; border: 2px solid rgba(91, 157, 217, 0.2);">
+                <h3 style="font-size: 2em; font-weight: 700; color: var(--primary-blue); margin-bottom: 20px;">💼 기업
+                    교육에서 검증된 시스템을 우리 아이에게</h3>
+                <p
+                    style="font-size: 1.15em; color: var(--text-dark); max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                    Open Edu는 국내 주요 기업의 임원과 전문직 종사자들을 대상으로 비즈니스 영어 교육을 제공하며 탁월한 성과를 입증해왔습니다. 까다로운 기업 환경에서 검증받은 체계적인 교육
+                    시스템과 우수한 원어민 강사진을 이제 우리 아이들의 영어 교육에 적용합니다. 사회에서 증명된 전문성으로 아이들의 영어 실력을 체계적으로 키워갑니다.
                 </p>
             </div>
         </div>
     </div>
-    
-    <div style="padding: 60px 0; background: var(--bg-light); text-align: center;">
+
+    <div id="future" class="section future-plans-section">
         <div class="container">
-            <h3 style="font-size: 1.5em; font-weight: 600; color: var(--text-dark); margin-bottom: 16px;">앞으로의 계획</h3>
-            <p style="font-size: 1.1em; color: var(--text-light); max-width: 600px; margin: 0 auto;">영어 교육을 중심으로, 향후 경제수학 등 다양한 학습 콘텐츠도 준비 중입니다.</p>
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 class="section-title">더 넓은 세상으로의 도약</h2>
+            </div>
+            <div class="future-plans-content">
+                <div class="future-plans-image">
+                    <img src="math_economics_fun.png" alt="Math and Economics Fun - 아이들이 즐겁게 배우는 모습">
+                </div>
+                <div class="future-plans-text">
+                    <span class="future-badge">Coming Soon</span>
+                    <h3
+                        style="font-size: 2.2em; font-weight: 800; margin-bottom: 24px; background: linear-gradient(135deg, #FFB347, #FFD700); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        영어 너머, 사고력의 확장</h3>
+                    <p style="font-size: 1.15em; color: var(--text-dark); line-height: 1.8; margin-bottom: 30px;">
+                        단순한 언어 습득을 넘어, 아이들의 논리적 사고와 문제 해결 능력을 키워주기 위한 새로운 여정을 준비하고 있습니다.<br><br>
+                        <strong>경제 수학(Math & Economics)</strong> 프로그램을 통해 아이들은 실생활 속의 숫자를 이해하고, 경제 관념을 재미있게 익히며, 세상을
+                        바라보는 더 넓은 시야를 갖게 될 것입니다.
+                    </p>
+                    <a href="#contact"
+                        style="display: inline-flex; align-items: center; color: var(--text-dark); font-weight: 700; text-decoration: none; border-bottom: 2px solid #FFB347; padding-bottom: 4px; transition: color 0.3s;">
+                        사전 예약 문의하기
+                        <span style="margin-left: 8px; font-size: 1.2em;">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="proof" class="section testimonials-section">
         <div class="container">
             <h2 class="section-title">기업 교육에서 검증된 교육 전문성</h2>
-            <div style="text-align: center; max-width: 800px; margin: 0 auto 50px; font-size: 1.15em; color: var(--text-dark);">
-                <p>Open Edu는 수년간 국내 주요 기업의 임원진과 전문직 종사자들을 대상으로 비즈니스 영어 교육을 제공하며 탁월한 성과를 입증해왔습니다. 까다로운 기업 환경에서 검증받은 체계적인 교육 시스템과 우수한 원어민 강사진을 이제 우리 아이들의 영어 교육에 적용합니다.</p>
+            <div
+                style="text-align: center; max-width: 800px; margin: 0 auto 50px; font-size: 1.15em; color: var(--text-dark);">
+                <p>Open Edu는 수년간 국내 주요 기업의 임원진과 전문직 종사자들을 대상으로 비즈니스 영어 교육을 제공하며 탁월한 성과를 입증해왔습니다. 까다로운 기업 환경에서 검증받은 체계적인
+                    교육 시스템과 우수한 원어민 강사진을 이제 우리 아이들의 영어 교육에 적용합니다.</p>
             </div>
             <div class="testimonials-grid">
+                <!-- Woori Financial Group -->
                 <div class="testimonial">
-                    <p>"잦은 해외 출장으로 비지니스 영어는 이미 능통했지만 회의 후 사석에서 이루어지는 프리토킹에 자신이 없어 오픈에듀에 도움을 청했고, 이는 탁월한 선택이었습니다. 원어민 강사와 매번 다양한 주제로 대화하면서 실생활에서 빈번하게 쓰이는 용어들을 재정비하고 재미있는 표현들을 습득하여 그 어떠한 상황에서도 영어로 대화하는 것이 즐거워졌습니다."</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/woorifg.com" alt="Woori Financial Group Logo"
+                            class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">우리금융경영연구소</span>
+                    </div>
+                    <p>"잦은 해외 출장으로 비지니스 영어는 이미 능통했지만 <strong>사석에서 이루어지는 프리토킹</strong>에 자신이 없어 오픈에듀에 도움을 청했고, 이는 탁월한
+                        선택이었습니다. 원어민 강사와 매번 다양한 주제로 대화하면서 <strong>재미있는 표현들을 습득</strong>하여 <strong>그 어떠한 상황에서도 영어로 대화하는
+                            것이 즐거워졌습니다.</strong>"</p>
                     <div class="author">- 김00 소장 (영어 - 일반회화 고급과정)</div>
                 </div>
+
+                <!-- SK Planet -->
                 <div class="testimonial">
-                    <p>"카튜사 군복무 시절의 영어 실력을 회복하고 싶어 오랜 기간 영어 학원에서 수강도 해봤지만 큰 차도를 느끼지 못하던 차 오픈에듀를 알게 되어 지금껏 6개월간 수강하였습니다. 도전을 즐기고 확실한 실력 향상을 원하는 저에게 토익 스피킹과 프리토킹 과정 병행 수업을 제공해 주었고, 토익 점수를 통해 확연히 늘어난 실력 차이를 눈으로도 확인할 수 있어 매우 만족합니다."</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/skplanet.com" alt="SK Planet Logo" class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">SK Planet</span>
+                    </div>
+                    <p>"카튜사 군복무 시절의 영어 실력을 회복하고 싶어 오랜 기간 영어 학원에서 수강도 해봤지만 큰 차도를 느끼지 못하던 차 오픈에듀를 알게 되어 지금껏 6개월간 수강하였습니다.
+                        도전을 즐기고 확실한 실력 향상을 원하는 저에게 <strong>토익 스피킹과 프리토킹 과정 병행 수업</strong>을 제공해 주었고, <strong>토익 점수를 통해
+                            확연히 늘어난 실력 차이</strong>를 눈으로도 확인할 수 있어 매우 만족합니다."</p>
                     <div class="author">- 이00 부장 (TOEIC Speaking 시험대비과정)</div>
                 </div>
+
+                <!-- Seoul St. Mary's Hospital -->
                 <div class="testimonial">
-                    <p>"해외에서 열리는 학회에서 영어로 프리젠테이션을 하고, 학회 후 만찬에서 나누는 대화에 좀 더 능통하고 싶어서 수강하게 되었습니다. 수업을 통해 프리젠테이션에 사용되는 다양한 어휘와 파티에서 사용할 수 있는 격식 차린 고급 영어를 배우고 있습니다. 한국어를 영어로 번역하는 식의 표현이 아닌 현지에서 실제로 사용되는 표현을 습득할 수 있어 좋습니다."</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/cmcseoul.or.kr" alt="Seoul St. Mary's Hospital Logo"
+                            class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">서울성모병원</span>
+                    </div>
+                    <p>"해외에서 열리는 학회에서 영어로 프리젠테이션을 하고, 학회 후 만찬에서 나누는 대화에 좀 더 능통하고 싶어서 수강하게 되었습니다. 수업을 통해 <strong>프리젠테이션에
+                            사용되는 다양한 어휘</strong>와 파티에서 사용할 수 있는 <strong>격식 차린 고급 영어</strong>를 배우고 있습니다. 한국어를 영어로 번역하는 식의
+                        표현이 아닌 <strong>현지에서 실제로 사용되는 표현</strong>을 습득할 수 있어 좋습니다."</p>
                     <div class="author">- 김00 전문의 (영어 - 일반회화 고급과정)</div>
                 </div>
+
+                <!-- Janssen Korea -->
                 <div class="testimonial">
-                    <p>"외국계 기업이다보니 영어로 진행되는 프리젠테이션이 부담스러워 고민 끝에 오픈에듀에 문의하고 수강한지 벌써 1년이 넘었네요. 매번 응원해주신 강사님 덕분에 요즘엔 모두가 꺼리는 외국인 대표님과의 점심시간 말동무도 자처하고 있습니다. 이 회사에 근무하는 한 앞으로도 계속 Esther강사님께 수강하고 싶습니다!"</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/janssen.com" alt="Janssen Logo" class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">한국얀센</span>
+                    </div>
+                    <p>"외국계 기업이다보니 영어로 진행되는 프리젠테이션이 부담스러워 고민 끝에 오픈에듀에 문의하고 수강한지 벌써 1년이 넘었네요. 매번 응원해주신 강사님 덕분에 요즘엔 모두가
+                        꺼리는 <strong>외국인 대표님과의 점심시간 말동무도 자처</strong>하고 있습니다. 이 회사에 근무하는 한 앞으로도 <strong>계속 Esther강사님께 수강하고
+                            싶습니다!</strong>"</p>
                     <div class="author">- 유00 과장 (영어 - 비지니스회화 중급과정)</div>
                 </div>
+
+                <!-- American Standard -->
                 <div class="testimonial">
-                    <p>"한국 지사 대표로서 이사회 회의에 참석해 프리젠테이션 할 때마다 통역사를 사용하는 것이 때론 불편하고 답답했는데, 약 2년째 수강하면서 이제는 각국의 대표들 앞에서 프리젠테이션 하는 것이 별로 부담스럽지 않고, 어떤 주제로든 영어로 장시간 대화하는 것이 가능한 수준이 되었습니다. 원어민처럼 거침없이 영어로 제 의사를 표현할 수 있는 그날까지 오픈에듀와 함께 도전하겠습니다!"</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/americanstandard.com" alt="American Standard Logo"
+                            class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">American Standard</span>
+                    </div>
+                    <p>"한국 지사 대표로서 이사회 회의에 참석해 프리젠테이션 할 때마다 통역사를 사용하는 것이 때론 불편하고 답답했는데, 약 2년째 수강하면서 이제는 <strong>각국의 대표들
+                            앞에서 프리젠테이션 하는 것이 별로 부담스럽지 않고</strong>, 어떤 주제로든 영어로 장시간 대화하는 것이 가능한 수준이 되었습니다. <strong>원어민처럼
+                            거침없이 영어로 제 의사를 표현</strong>할 수 있는 그날까지 오픈에듀와 함께 도전하겠습니다!"</p>
                     <div class="author">- 이00 대표 (영어 - 비지니스회화 고급과정)</div>
                 </div>
+
+                <!-- HomeChoice -->
                 <div class="testimonial">
-                    <p>"사내 영어 교육 실시, 진급 조건에 OPIC 점수 반영 등 회사 방침이 바뀌면서 의무적으로 영어 수업에 참석했는데 학창시절 영어 수업과는 전혀 다른 대화식 수업 덕분에 처음으로 영어 공부에 흥미가 생겼습니다. 실생활에 쓰이는 표현 위주로 배우고 잘못 알고 있었던 표현들이 수정되면서 스피킹 실력이 늘어가는 것을 피부로 느낄 수 있었고 자연스레 OPIC에서도 단기간에 좋은 성적을 얻어 매우 기쁩니다."</p>
+                    <div class="testimonial-header">
+                        <img src="https://logo.clearbit.com/homechoice.co.kr" alt="HomeChoice Logo" class="company-logo"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <span class="company-name" style="display:none">HomeChoice</span>
+                    </div>
+                    <p>"사내 영어 교육 실시, 진급 조건에 OPIC 점수 반영 등 회사 방침이 바뀌면서 의무적으로 영어 수업에 참석했는데 학창시절 영어 수업과는 전혀 다른 <strong>대화식
+                            수업 덕분에 처음으로 영어 공부에 흥미</strong>가 생겼습니다. 실생활에 쓰이는 표현 위주로 배우고 잘못 알고 있었던 표현들이 수정되면서 <strong>스피킹
+                            실력이 늘어가는 것을 피부로 느낄 수 있었고</strong> 자연스레 <strong>OPIC에서도 단기간에 좋은 성적</strong>을 얻어 매우 기쁩니다."</p>
                     <div class="author">- 양00 실장 (OPIC 시험대비과정)</div>
                 </div>
             </div>
@@ -593,4 +797,5 @@
     </footer>
 
 </body>
+
 </html>
