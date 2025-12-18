@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Edu - 우리 아이 첫 영어 & 경제수학</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --new-product-color: #ffc107; /* A color for the new product section */
+        }
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; 
+            color: #333;
+            line-height: 1.6;
+        }
+        header { 
+            background-color: white; 
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 1px solid #eee;
+        }
+        header h1 {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 2.5em;
+        }
+        header .tagline {
+            color: var(--secondary-color);
+        }
+        nav { 
+            display: flex; 
+            justify-content: center; 
+            background-color: var(--dark-gray); 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a { 
+            color: white; 
+            padding: 14px 20px; 
+            text-decoration: none; 
+            text-align: center; 
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: var(--primary-color);
+        }
+        .hero { 
+            background: linear-gradient(to right, var(--primary-color), #0056b3); 
+            color: white; 
+            padding: 80px 20px; 
+            text-align: center; 
+        }
+        .hero h1 { 
+            font-size: 3em; 
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.3em;
+        }
+        .cta-button { 
+            background-color: var(--success-color); 
+            color: white; 
+            padding: 15px 30px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-size: 1.2em; 
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .cta-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .section { 
+            padding: 60px 20px; 
+        }
+        .section-title { 
+            text-align: center; 
+            margin-bottom: 50px; 
+            font-size: 2.5em;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .ceo-section { 
+            background-color: var(--light-gray); 
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .feature {
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            margin: 0 10px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        .feature h3 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .feature p {
+             font-size: 1em;
+        }
+        .new-product-section {
+            background-color: #fffaf0; /* A light cream color for the new section */
+            border-top: 2px solid var(--new-product-color);
+            border-bottom: 2px solid var(--new-product-color);
+        }
+        .new-product-section h2 {
+            color: #d19a00;
+        }
+        .testimonial {
+            background-color: white;
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .testimonial p {
+            font-style: italic;
+        }
+        .testimonial .author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .contact-form input, .contact-form textarea, .contact-form button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Important */
+        }
+        .contact-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .footer { 
+            background-color: var(--dark-gray); 
+            color: white; 
+            text-align: center; 
+            padding: 30px 20px; 
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .section-title {
+                font-size: 2em;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Open Edu</h1>
+        <p class="tagline">즐겁게 배우는 우리 아이 첫 영어와 경제 관념</p>
+    </header>
+
+    <nav>
+        <a href="#home">홈</a>
+        <a href="#about">CEO 소개</a>
+        <a href="#services">영어 교육</a>
+        <a href="#new-product">경제수학</a>
+        <a href="#testimonials">수강 후기</a>
+        <a href="#contact">문의하기</a>
+    </nav>
+
+    <div id="home" class="hero">
+        <h1>우리 아이의 무한한 가능성을 열어주는 교육</h1>
+        <p>1:1 원어민 영어부터 재미있는 경제수학까지, Open Edu와 함께 시작하세요</p>
+        <a href="#contact" class="cta-button">상담 신청하기</a>
+    </div>
+
+    <div id="about" class="section ceo-section">
+        <h2 class="section-title">CEO 소개</h2>
+        <div class="section-content">
+            <p style="text-align: center; font-size: 1.1em;">
+                <strong>에스더 한 (Esther Han)</strong>은(는) <strong>22년 이상</strong>의 교육 경험을 가진 전문가입니다. 
+                미국 <strong>루이지애나 침례교 신학대학교</strong>에서 교육학을 전공하였으며, 
+                초등학교 및 다수의 교육 기관에서 아이들의 영어 능력 향상을 이끌었습니다.
+                <br>
+                Open Education의 대표로서, 실력과 인성을 겸비한 강사와 학생들을 연결하여, 각자의 잠재력을 최대한 발휘할 수 있는 맞춤형 학습 환경을 제공하는 것을 목표로 합니다.
+                <br><br>
+                <em>"모든 아이는 자신만의 속도로 성장하며, 우리의 역할은 그 길을 함께 걸으며 무한한 가능성을 열어주는 것입니다. Open Edu는 진정한 소통과 맞춤 교육을 통해 아이들의 꿈을 응원합니다."</em>
+            </p>
+        </div>
+    </div>
+
+    <div id="services" class="section">
+        <h2 class="section-title">Open Edu의 1:1 맞춤 영어 교육</h2>
+        <div class="section-content features">
+            <div class="feature">
+                <h3>놀이 중심 유아 영어</h3>
+                <p>노래, 게임, 미술 활동 등 아이들의 눈높이에 맞춘 즐거운 놀이를 통해 영어를 자연스럽게 습득합니다. 영어가 공부가 아닌 즐거운 경험이 됩니다.</p>
+            </div>
+            <div class="feature">
+                <h3>교과 연계 초등/중등 영어</h3>
+                <p>학교 교과 과정을 기반으로 한 심도 깊은 학습을 제공합니다. 내신 성적 향상은 물론, 아이의 실제 영어 실력을 탄탄하게 다집니다.</p>
+            </div>
+            <div class="feature">
+                <h3>100% 맞춤형 커리큘럼</h3>
+                <p>아이의 흥미, 성향, 학습 속도에 맞춰 매 수업이 새롭게 디자인됩니다. 아이에게 꼭 맞는 옷과 같은 수업을 통해 학습 효과를 극대화합니다.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="new-product" class="section new-product-section">
+        <h2 class="section-title">NEW! 경제수학 전문 학습지 출시 준비중</h2>
+        <div class="section-content" style="text-align: center;">
+            <p style="font-size: 1.2em;">어릴 때부터 시작하는 올바른 경제 관념! Open Edu가 만든 특별한 경제수학 학습지로 우리 아이의 미래를 준비하세요.</p>
+            <p>수와 연산, 문제 해결 능력을 키우는 동시에 자연스럽게 경제 원리를 이해하게 됩니다. 곧 출시될 Open Edu 경제수학 학습지를 기대해주세요!</p>
+            <a href="#contact" class="cta-button" style="background-color: var(--new-product-color); color: var(--dark-gray);">사전 알림 신청하기</a>
+        </div>
+    </div>
+
+    <!-- 수강 후기: 아래 내용을 실제 후기로 교체해주세요. -->
+    <div id="testimonials" class="section" style="background-color: var(--light-gray);">
+        <h2 class="section-title">수강생들이 전하는 이야기</h2>
+        <div class="section-content">
+            <div class="testimonial">
+                <p>"영어를 입에도 안대던 아이가 이제는 원어민 선생님과 농담도 주고받아요. Open Edu를 만난 건 정말 행운이에요!"</p>
+                <div class="author">- OOO 학부모님</div>
+            </div>
+            <div class="testimonial">
+                <p>"매주 선생님 만나는 날만 기다려요! 숙제같은 영어가 아니라, 친구랑 이야기하는 것처럼 재미있어요."</p>
+                <div class="author">- OOO 학생 (초등학교 4학년)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 문의하기: form action을 설정하고, 필요한 경우 필드를 수정해주세요. -->
+    <div id="contact" class="section">
+        <h2 class="section-title">궁금한 점이 있으신가요?</h2>
+        <div class="contact-form">
+            <input type="text" name="name" placeholder="이름" required>
+            <input type="email" name="email" placeholder="이메일 주소" required>
+            <input type="tel" name="phone" placeholder="연락처" required>
+            <textarea name="message" rows="5" placeholder="궁금한 내용을 적어주세요..."></textarea>
+            <button type="submit">상담 및 알림 신청</button>
+        </div>
+    </div>
+
+    <!-- footer: 아래 내용을 실제 사업자 정보로 교체해주세요. -->
+    <footer class="footer">
+        <p>Open Edu | 대표: [대표자명] | 사업자등록번호: [번호] | 연락처: [연락처]</p>
+        <p>&copy; 2024 Open Edu. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
