@@ -116,7 +116,7 @@
         }
 
         .logo-container img {
-            height: 48px;
+            height: 96px;
             width: auto;
             transition: all 0.3s ease;
         }
@@ -569,6 +569,7 @@
         }
 
         @media (max-width: 768px) {
+
             /* Spacing adjustments */
             .section {
                 padding: 64px 0;
@@ -1058,7 +1059,7 @@
         }
 
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const nav = document.getElementById('mainNav');
             const toggle = document.querySelector('.mobile-menu-toggle');
             const isClickInsideNav = nav.contains(event.target);
@@ -1070,7 +1071,7 @@
         });
 
         // Close mobile menu on window resize to desktop
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             if (window.innerWidth > 768) {
                 closeMobileMenu();
             }
@@ -1078,7 +1079,7 @@
 
         // Header scroll effect
         let lastScroll = 0;
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const header = document.querySelector('header');
             const currentScroll = window.pageYOffset;
 
@@ -1115,7 +1116,7 @@
             rootMargin: '0px 0px -50px 0px'
         };
 
-        const observer = new IntersectionObserver(function(entries) {
+        const observer = new IntersectionObserver(function (entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
@@ -1125,7 +1126,7 @@
         }, observerOptions);
 
         // Observe sections for fade-in effect
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => {
                 section.style.opacity = '0';
