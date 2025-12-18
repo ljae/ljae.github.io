@@ -8,223 +8,475 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Edu - 우리 아이 첫 영어 & 경제수학</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="open_edu_icon.png">
     <style>
-        :root {
-            --primary-color: #4A90E2; /* A softer, friendly blue */
-            --secondary-color: #50E3C2; /* A gentle, modern mint green */
-            --text-color: #333;
-            --background-color: #FDFDFD;
-            --light-gray: #f7f7f7;
-            --dark-gray: #2c3e50; /* A softer dark gray/blue */
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-4Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
         }
-        body { 
-            font-family: 'Inter', sans-serif;
-            margin: 0; 
-            color: var(--text-color);
-            background-color: var(--background-color);
-            line-height: 1.7;
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-5Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
         }
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        header { 
-            background-color: white; 
-            padding: 20px 0; 
-            text-align: center; 
-            border-bottom: 1px solid #eee;
-        }
-        header h1 {
-            color: var(--primary-color);
-            font-weight: 700;
-            font-size: 2.2em;
-            margin: 0;
-        }
-        header .tagline {
-            color: #777;
-            font-size: 1.1em;
-        }
-        nav { 
-            display: flex; 
-            justify-content: center; 
-            background-color: white; 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-        }
-        nav a { 
-            color: #555; 
-            padding: 10px 15px; 
-            text-decoration: none; 
-            text-align: center; 
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-6SemiBold.ttf') format('truetype');
             font-weight: 600;
-            border-radius: 8px;
-            transition: background-color 0.3s, color 0.3s;
+            font-style: normal;
         }
-        nav a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .hero { 
-            color: white; 
-            padding: 100px 20px; 
-            text-align: center; 
-            background: var(--primary-color); /* Fallback */
-            /* AI image suggestion should be used here */
-            background-image: url('assets/hero-image.png'); /* Placeholder Image */
-            background-size: cover;
-            background-position: center;
-        }
-        .hero-content {
-            background-color: rgba(0, 0, 0, 0.4);
-            display: inline-block;
-            padding: 40px;
-            border-radius: 10px;
-        }
-        .hero h1 { 
-            font-size: 3em; 
-            margin-bottom: 10px;
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-7Bold.ttf') format('truetype');
             font-weight: 700;
+            font-style: normal;
         }
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-8ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        :root {
+            --primary-blue: #5B9DD9;
+            --primary-teal: #50E3C2;
+            --accent-orange: #FFB347;
+            --accent-yellow: #FFD700;
+            --dark-navy: #1a2332;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header with glassmorphism */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(91, 157, 217, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container img {
+            height: 50px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section - Modern & Bold */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+            margin-top: 82px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
         .hero p {
-            font-size: 1.3em;
-            opacity: 0.9;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 500;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
-        .cta-button { 
-            background-color: var(--secondary-color);
-            color: white; 
-            padding: 15px 30px; 
-            text-decoration: none; 
-            border-radius: 50px; 
-            font-size: 1.2em; 
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            color: var(--dark-navy);
+            padding: 18px 48px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-block;
-            margin-top: 20px;
             border: none;
             cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255, 179, 71, 0.4);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
         }
+
         .cta-button:hover {
-            background-color: #45c9a8;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 179, 71, 0.6);
         }
-        .section { 
-            padding: 80px 0; 
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
         }
-        .section-title { 
-            text-align: center; 
-            margin-bottom: 60px; 
-            font-size: 2.5em;
-            color: var(--dark-gray);
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* CEO Section with modern card */
+        .ceo-section {
+            background: var(--bg-light);
+        }
+
+        .ceo-card {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(91, 157, 217, 0.1);
+        }
+
+        .ceo-card p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+        }
+
+        .ceo-card em {
+            display: block;
+            margin-top: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(91, 157, 217, 0.1), rgba(80, 227, 194, 0.1));
+            border-radius: 16px;
+            font-size: 1.1em;
+            border-left: 4px solid var(--primary-teal);
+        }
+
+        /* Features - Bento Box Layout */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .feature {
+            padding: 40px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(91, 157, 217, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-teal));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(91, 157, 217, 0.2);
+        }
+
+        .feature h3 {
+            color: var(--primary-blue);
+            font-size: 1.6em;
+            margin-bottom: 16px;
             font-weight: 700;
         }
-        .ceo-section, .testimonials-section { 
-            background-color: var(--light-gray); 
+
+        .feature p {
+            color: var(--text-light);
+            line-height: 1.7;
         }
-        .features {
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        .feature {
-            flex-basis: 300px;
-            padding: 30px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        .feature h3 {
-            color: var(--primary-color);
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
+
+        /* New Product Section - Bold Gradient */
         .new-product-section {
-            background: linear-gradient(to right, #6dd5ed, #2193b0);
-            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
         }
+
+        .new-product-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            top: -250px;
+            right: -250px;
+            border-radius: 50%;
+        }
+
         .new-product-section h2 {
-            color: white;
+            color: var(--white);
         }
+
+        .new-product-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .new-product-content p {
+            font-size: 1.3em;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        /* Testimonials - Modern Cards */
+        .testimonials-section {
+            background: var(--bg-light);
+        }
+
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-        .testimonial {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--secondary-color);
-            text-align: left; /* Changed to left align text */
-        }
-        .testimonial p {
-            font-style: italic;
-            color: #555;
-            margin: 0 0 15px 0;
-        }
-        .testimonial .author {
-            text-align: right;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        .contact-section {
-            text-align: center;
-            background-color: var(--light-gray);
-        }
-        .contact-info p {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-        .footer { 
-            background-color: var(--dark-gray); 
-            color: #aaa;
-            text-align: center; 
-            padding: 40px 20px; 
-            font-size: 0.9em;
-        }
-        .footer p {
-            margin: 5px 0;
+            gap: 28px;
         }
 
-        /* Responsive adjustments */
+        .testimonial {
+            background: var(--white);
+            padding: 36px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border-left: 5px solid var(--primary-teal);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+
+        .testimonial p {
+            font-style: italic;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .testimonial .author {
+            text-align: right;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-style: normal;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: var(--white);
+        }
+
+        .contact-section .section-title {
+            color: var(--white);
+            -webkit-text-fill-color: var(--white);
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 700px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .contact-info p {
+            font-size: 1.3em;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.95em;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2em; }
-            .hero p { font-size: 1em; }
-            .section-title { font-size: 2em; }
+            header .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .hero {
+                margin-top: 140px;
+            }
+
+            .ceo-card {
+                padding: 32px;
+            }
+
+            .contact-card {
+                padding: 32px;
+            }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <h1>Open Edu</h1>
-            <p class="tagline">즐겁게 배우는 우리 아이 첫 영어와 경제 관념</p>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="open_edu_icon.png" alt="Open Edu Icon">
+            </div>
+            <nav>
+                <a href="#about">CEO 소개</a>
+                <a href="#services">영어 교육</a>
+                <a href="#new-product">경제수학</a>
+                <a href="#testimonials">수강 후기</a>
+                <a href="#contact">문의하기</a>
+            </nav>
         </div>
     </header>
-
-    <nav>
-        <a href="#about">CEO 소개</a>
-        <a href="#services">영어 교육</a>
-        <a href="#new-product">경제수학</a>
-        <a href="#testimonials">수강 후기</a>
-        <a href="#contact">문의하기</a>
-    </nav>
 
     <div id="home" class="hero">
         <div class="hero-content">
@@ -233,18 +485,20 @@
             <a href="#contact" class="cta-button">상담 신청하기</a>
         </div>
     </div>
-    
+
     <div id="about" class="section ceo-section">
         <div class="container">
             <h2 class="section-title">CEO 소개</h2>
-            <p style="text-align: center; max-width: 700px; margin: 0 auto; font-size: 1.1em;">
-                <strong>에스더 한 (Esther Han)</strong> 대표는 <strong>22년 이상</strong>의 교육 경험을 가진 전문가입니다. 
-                미국 <strong>루이지애나 침례교 신학대학교</strong>에서 교육학을 전공하고, 수많은 아이들의 영어 능력 향상을 이끌어왔습니다.
-                <br>
-                Open Education의 대표로서, 실력과 인성을 겸비한 강사와 학생들을 연결하여, 각자의 잠재력을 최대한 발휘할 수 있는 맞춤형 학습 환경을 제공하는 것을 목표로 합니다.
-                <br><br>
+            <div class="ceo-card">
+                <p>
+                    <strong>에스더 한 (Esther Han)</strong> 대표는 <strong>22년 이상</strong>의 교육 경험을 가진 전문가입니다.
+                    미국 <strong>루이지애나 침례교 신학대학교</strong>에서 교육학을 전공하고, 수많은 아이들의 영어 능력 향상을 이끌어왔습니다.
+                </p>
+                <p>
+                    Open Education의 대표로서, 실력과 인성을 겸비한 강사와 학생들을 연결하여, 각자의 잠재력을 최대한 발휘할 수 있는 맞춤형 학습 환경을 제공하는 것을 목표로 합니다.
+                </p>
                 <em>"모든 아이는 자신만의 속도로 성장하며, 우리의 역할은 그 길을 함께 걸으며 무한한 가능성을 열어주는 것입니다. Open Edu는 진정한 소통과 맞춤 교육을 통해 아이들의 꿈을 응원합니다."</em>
-            </p>
+            </div>
         </div>
     </div>
 
@@ -269,10 +523,12 @@
     </div>
     
     <div id="new-product" class="section new-product-section">
-        <div class="container" style="text-align: center;">
-            <h2 class="section-title">NEW! 경제수학 전문 학습지</h2>
-            <p style="font-size: 1.2em; max-width: 600px; margin: 0 auto 30px auto;">어릴 때부터 시작하는 올바른 경제 관념! Open Edu가 만든 특별한 경제수학 학습지로 우리 아이의 미래를 준비하세요.</p>
-            <a href="#contact" class="cta-button">사전 알림 신청하기</a>
+        <div class="container">
+            <div class="new-product-content">
+                <h2 class="section-title">NEW! 경제수학 전문 학습지</h2>
+                <p>어릴 때부터 시작하는 올바른 경제 관념! Open Edu가 만든 특별한 경제수학 학습지로 우리 아이의 미래를 준비하세요.</p>
+                <a href="#contact" class="cta-button">사전 알림 신청하기</a>
+            </div>
         </div>
     </div>
 
@@ -303,10 +559,12 @@
     <div id="contact" class="section contact-section">
         <div class="container">
             <h2 class="section-title">궁금한 점이 있으신가요?</h2>
-            <div class="contact-info">
-                <p>아래 연락처로 편하게 문의해주세요. 친절하게 상담해 드리겠습니다.</p>
-                <p><strong>전화:</strong> 010-6558-8205</p>
-                <p><strong>카카오톡 ID:</strong> openedu (24시간 문자상담 가능)</p>
+            <div class="contact-card">
+                <div class="contact-info">
+                    <p>아래 연락처로 편하게 문의해주세요. 친절하게 상담해 드리겠습니다.</p>
+                    <p><strong>전화:</strong> 010-6558-8205</p>
+                    <p><strong>카카오톡 ID:</strong> openedu (24시간 문자상담 가능)</p>
+                </div>
             </div>
         </div>
     </div>
