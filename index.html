@@ -1,3 +1,7 @@
+<!-- 
+    This is a template. All content is placeholder and must be replaced with your own information.
+    Please refer to the comments in the code for guidance on what to change.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -155,13 +159,18 @@
         .new-product-section h2 {
             color: white;
         }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
         .testimonial {
             background-color: white;
             padding: 30px;
-            margin-bottom: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border-left: 5px solid var(--secondary-color);
+            text-align: left; /* Changed to left align text */
         }
         .testimonial p {
             font-style: italic;
@@ -231,6 +240,8 @@
             <p style="text-align: center; max-width: 700px; margin: 0 auto; font-size: 1.1em;">
                 <strong>에스더 한 (Esther Han)</strong> 대표는 <strong>22년 이상</strong>의 교육 경험을 가진 전문가입니다. 
                 미국 <strong>루이지애나 침례교 신학대학교</strong>에서 교육학을 전공하고, 수많은 아이들의 영어 능력 향상을 이끌어왔습니다.
+                <br>
+                Open Education의 대표로서, 실력과 인성을 겸비한 강사와 학생들을 연결하여, 각자의 잠재력을 최대한 발휘할 수 있는 맞춤형 학습 환경을 제공하는 것을 목표로 합니다.
                 <br><br>
                 <em>"모든 아이는 자신만의 속도로 성장하며, 우리의 역할은 그 길을 함께 걸으며 무한한 가능성을 열어주는 것입니다. Open Edu는 진정한 소통과 맞춤 교육을 통해 아이들의 꿈을 응원합니다."</em>
             </p>
@@ -239,7 +250,7 @@
 
     <div id="services" class="section">
         <div class="container">
-            <h2 class="section-title">Open Edu 1:1 맞춤 영어 교육</h2>
+            <h2 class="section-title">Open Edu의 1:1 맞춤 영어 교육</h2>
             <div class="features">
                 <div class="feature">
                     <h3>놀이 중심 유아 영어</h3>
@@ -247,11 +258,11 @@
                 </div>
                 <div class="feature">
                     <h3>교과 연계 초등/중등 영어</h3>
-                    <p>학교 교과 과정을 기반으로 심도 깊은 학습을 제공합니다. 내신 성적 향상은 물론, 실제 영어 실력을 탄탄하게 다집니다.</p>
+                    <p>학교 교과 과정을 기반으로 심도 깊은 학습을 제공합니다. 내신 성적 향상은 물론, 아이의 실제 영어 실력을 탄탄하게 다집니다.</p>
                 </div>
                 <div class="feature">
                     <h3>100% 맞춤 커리큘럼</h3>
-                    <p>아이의 흥미, 성향, 학습 속도에 맞춰 매 수업이 새롭게 디자인됩니다. 학습 효과를 극대화하는 맞춤 수업입니다.</p>
+                    <p>아이의 흥미, 성향, 학습 속도에 맞춰 매 수업이 새롭게 디자인됩니다. 아이에게 꼭 맞는 옷과 같은 수업을 통해 학습 효과를 극대화합니다.</p>
                 </div>
             </div>
         </div>
@@ -268,13 +279,23 @@
     <div id="testimonials" class="section testimonials-section">
         <div class="container">
             <h2 class="section-title">수강생들이 전하는 이야기</h2>
-            <div class="testimonial">
-                <p>"영어를 입에도 안대던 아이가 이제는 원어민 선생님과 농담도 주고받아요. Open Edu를 만난 건 정말 행운이에요!"</p>
-                <div class="author">- OOO 학부모님</div>
-            </div>
-            <div class="testimonial">
-                <p>"매주 선생님 만나는 날만 기다려요! 숙제같은 영어가 아니라, 친구랑 이야기하는 것처럼 재미있어요."</p>
-                <div class="author">- OOO 학생 (초등학교 4학년)</div>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p>"영어를 입에도 안대던 아이가 이제는 원어민 선생님과 농담도 주고받아요. Open Edu를 만난 건 정말 행운이에요!"</p>
+                    <div class="author">- OOO 학부모님</div>
+                </div>
+                <div class="testimonial">
+                    <p>"매주 선생님 만나는 날만 기다려요! 숙제같은 영어가 아니라, 친구랑 이야기하는 것처럼 재미있어요."</p>
+                    <div class="author">- OOO 학생 (초등학교 4학년)</div>
+                </div>
+                <div class="testimonial">
+                    <p>"한마디로 너무 재미있습니다! 제 수준에 딱 맞는 커리큘럼도 만족하고 특히 유쾌한 강사님 덕분에 수업 시간은 과중한 회사 업무로부터 잠시 벗어나 스트레스를 날리는 휴식 시간이 되었습니다. 영어 울렁증에서 해방되고 외국인 앞에서도 당당할 수 있게 해주신 Lydia 강사님, 감사합니다!"</p>
+                    <div class="author">- 이00 과장</div>
+                </div>
+                <div class="testimonial">
+                    <p>"바쁜 일정 때문에 자주 수강하지는 못하고 있지만 영어를 쉽고 재미있는 언어로 느끼게 해주신 강사님께 감사 드립니다. 실력 있는 강사님을 소개해주신 오픈에듀 기관에도 진심으로 감사 드립니다!"</p>
+                    <div class="author">- 이00 대표</div>
+                </div>
             </div>
         </div>
     </div>
