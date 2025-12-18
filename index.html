@@ -674,16 +674,16 @@
             }
 
             .testimonial-header {
-                height: auto;
-                min-height: 60px;
-                flex-wrap: wrap;
+                height: 96px;
+                flex-wrap: nowrap;
+                /* Prevent wrapping to keep row layout if needed, or keep wrap if user wants to stack but usually height 96 imply row */
                 gap: 12px;
                 margin-bottom: 20px;
             }
 
             .company-logo {
-                max-width: 120px;
-                max-height: 50px;
+                max-width: 200px;
+                max-height: 100%;
             }
 
             /* Features grid */
