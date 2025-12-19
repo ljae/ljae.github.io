@@ -711,6 +711,12 @@
                 padding: 32px 20px;
                 gap: 32px;
             }
+
+            /* Contact section grid */
+            .contact-section .container > div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1028,10 +1034,29 @@
     <div id="contact" class="section contact-section">
         <div class="container">
             <h2 class="section-title">상담 문의</h2>
-            <div class="contact-card">
-                <div class="contact-info">
-                    <p><strong>전화:</strong> 010-6558-8205</p>
-                    <p><strong>카카오톡 ID:</strong> openedu (24시간 상담 가능)</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto;">
+                <!-- Contact Image -->
+                <div style="position: relative;">
+                    <img src="assets/contact.png" alt="1:1 맞춤 상담"
+                         style="width: 100%; height: auto; border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);">
+                </div>
+                <!-- Contact Info -->
+                <div class="contact-card" style="margin: 0;">
+                    <h3 style="font-size: 2em; font-weight: 700; color: white; margin-bottom: 24px; line-height: 1.4;">
+                        1:1 원어민 오픈에듀<br>맞춤 상담
+                    </h3>
+                    <p style="font-size: 1.2em; margin-bottom: 32px; opacity: 0.95;">
+                        전문성과 즐거움이 함께하는 영어 교육
+                    </p>
+                    <div class="contact-info">
+                        <p style="font-size: 1.3em; margin-bottom: 20px;">
+                            <strong style="display: inline-block; width: 120px;">전화</strong> 010-6558-8205
+                        </p>
+                        <p style="font-size: 1.3em;">
+                            <strong style="display: inline-block; width: 120px;">카카오톡 ID</strong> openedu
+                        </p>
+                        <p style="margin-top: 20px; font-size: 1em; opacity: 0.9;">24시간 상담 가능</p>
+                    </div>
                 </div>
             </div>
         </div>
