@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Edu - Our Teachers</title>
+    <link rel="icon" type="image/png" href="open_edu_favicon.png">
+    <style>
+        /* Reuse fonts and core variables from index.html */
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-4Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-5Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-6SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-7Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-8ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        :root {
+            --primary-blue: #5B9DD9;
+            --primary-teal: #50E3C2;
+            --accent-orange: #FFB347;
+            --accent-yellow: #FFD700;
+            --dark-navy: #1a2332;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(91, 157, 217, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        header .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(91, 157, 217, 0.08);
+            color: var(--primary-blue);
+        }
+
+        /* Hero */
+        .teachers-hero {
+            padding: 160px 24px 80px;
+            background: linear-gradient(135deg, rgba(80, 227, 194, 0.1), rgba(91, 157, 217, 0.1));
+            text-align: center;
+        }
+
+        .teachers-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark-navy);
+        }
+
+        .teachers-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        /* Teacher Styles */
+        .style-category {
+            margin-bottom: 80px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark-navy);
+        }
+
+        .category-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .badge-a {
+            background: #5B9DD9;
+        }
+
+        .badge-b {
+            background: #50E3C2;
+        }
+
+        .badge-c {
+            background: #FFB347;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .teacher-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(91, 157, 217, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .teacher-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 32px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .teacher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .teacher-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-navy);
+        }
+
+        .teacher-flag {
+            font-size: 1.5rem;
+        }
+
+        .teacher-role {
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .bio {
+            font-size: 1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .tag {
+            background: var(--bg-light);
+            color: var(--text-light);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        @media (max-width: 768px) {
+            .teachers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-image {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <a href="index.html"><img src="open_edu_logo.png" alt="Open Edu Logo"></a>
+            </div>
+            <nav id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="teachers.html" class="active">Teachers</a>
+                <a href="index.html#features">Program</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="teachers-hero">
+        <div class="container">
+            <h1>Meet Our Teachers</h1>
+            <p>아이들의 성향과 눈높이에 맞춘 최고의 원어민 선생님들을 소개합니다.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="container">
+
+            <!-- Type A: Friendly -->
+            <div class="style-category">
+                <div class="category-title">
+                    <span class="category-badge badge-a">TYPE A</span>
+                    Friendly & Warm (20대 후반, 친근함)
+                </div>
+                <div class="teachers-grid">
+                    <!-- Sarah -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_sarah_us.png" alt="Teacher Sarah">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">Sarah Mitchell</h3>
+                                <span class="teacher-flag">🇺🇸</span>
+                            </div>
+                            <span class="teacher-role">Phonics & Early Literacy Specialist</span>
+                            <p class="bio">
+                                "Hello! 영어가 즐거운 놀이가 되도록 도와줄게요."<br><br>
+                                Sarah 선생님은 아이들의 첫 영어 친구가 되어줍니다. 밝고 긍정적인 에너지로 아이들이 영어에 대한 두려움을 없애고, 자연스럽게 말문을 트도록 이끌어줍니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Energetic</span>
+                                <span class="tag">#Storytelling</span>
+                                <span class="tag">#KidsLover</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- James -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_james_ca.png" alt="Teacher James">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">James Wilson</h3>
+                                <span class="teacher-flag">🇨🇦</span>
+                            </div>
+                            <span class="teacher-role">Conversation & Activity Mentor</span>
+                            <p class="bio">
+                                "Let's talk freely! 틀려도 괜찮아요, 자신감 있게!"<br><br>
+                                James 선생님은 편안하고 유머러스한 분위기 속에서 아이들이 자유롭게 자신의 생각을 표현하도록 장려합니다. 활동적인 수업을 통해 영어에 대한 흥미를
+                                높여줍니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Fun</span>
+                                <span class="tag">#Interactive</span>
+                                <span class="tag">#Confidence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type B: Professional -->
+            <div class="style-category">
+                <div class="category-title">
+                    <span class="category-badge badge-b">TYPE B</span>
+                    Confident & Professional (30~40대, 전문적)
+                </div>
+                <div class="teachers-grid">
+                    <!-- William -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_william_uk.png" alt="Teacher William">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">William Turner</h3>
+                                <span class="teacher-flag">🇬🇧</span>
+                            </div>
+                            <span class="teacher-role">Academic Writing & Debate Specialist</span>
+                            <p class="bio">
+                                "Logic helps you speak clearly. 논리적인 영어를 완성합니다."<br><br>
+                                William 선생님은 정확한 문법과 논리적인 글쓰기, 디베이트 수업에 강점이 있습니다. 아이들의 영어를 한 단계 더 세련되고 전문적인 수준으로 끌어올립니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Smart</span>
+                                <span class="tag">#Logic</span>
+                                <span class="tag">#Academic</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Olivia -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_olivia_au.png" alt="Teacher Olivia">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">Olivia Parker</h3>
+                                <span class="teacher-flag">🇦🇺</span>
+                            </div>
+                            <span class="teacher-role">Critical Thinking & Essay Tutor</span>
+                            <p class="bio">
+                                "Think Deeply. 깊이 있는 사고가 좋은 글을 만듭니다."<br><br>
+                                Olivia 선생님은 차분하면서도 예리한 피드백으로 아이들의 비판적 사고력을 키워줍니다. 에세이 작성과 심층 토론을 통해 글로벌 리더로서의 자질을 함양합니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Sophisticated</span>
+                                <span class="tag">#EssayInterim</span>
+                                <span class="tag">#Focus</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type C: Experienced -->
+            <div class="style-category">
+                <div class="category-title">
+                    <span class="category-badge badge-c">TYPE C</span>
+                    Experienced & Caring (40~50대, 인자함)
+                </div>
+                <div class="teachers-grid">
+                    <!-- Mary -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_mary_ie.png" alt="Teacher Mary">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">Mary O'Connor</h3>
+                                <span class="teacher-flag">🇮🇪</span>
+                            </div>
+                            <span class="teacher-role">Literature & Emotional Reading Coach</span>
+                            <p class="bio">
+                                "Reading opens new worlds. 따뜻한 감성으로 영어를 만납니다."<br><br>
+                                Mary 선생님은 문학적 감수성과 풍부한 인생 경험을 바탕으로 아이들의 마음을 어루만집니다. 원서 읽기를 통해 깊이 있는 영어 학습과 정서적 안정을 동시에
+                                돕습니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Kind</span>
+                                <span class="tag">#Literature</span>
+                                <span class="tag">#Mentor</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Robert -->
+                    <div class="teacher-card">
+                        <div class="card-image">
+                            <img src="assets/teachers/teacher_robert_nz.png" alt="Teacher Robert">
+                        </div>
+                        <div class="card-content">
+                            <div class="teacher-header">
+                                <h3 class="teacher-name">Robert Anderson</h3>
+                                <span class="teacher-flag">🇳🇿</span>
+                            </div>
+                            <span class="teacher-role">Personal Roadmap Consultant</span>
+                            <p class="bio">
+                                "Slow and steady wins the race. 아이만의 속도를 존중합니다."<br><br>
+                                Robert 선생님은 오랜 교육 경력을 바탕으로 아이 개개인에게 맞는 최적의 로드맵을 제시합니다. 인자한 미소로 아이들을 격려하며 꾸준한 성장을 이끌어냅니다.
+                            </p>
+                            <div class="tags">
+                                <span class="tag">#Patient</span>
+                                <span class="tag">#Experienced</span>
+                                <span class="tag">#Trust</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Open Edu | 1:1 Premium English Education</p>
+            <p>&copy; 2024 Open Edu. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
