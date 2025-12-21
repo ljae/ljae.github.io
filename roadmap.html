@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Edu - Success Roadmap</title>
+    <link rel="icon" type="image/png" href="open_edu_favicon.png">
+    <style>
+        /* Reuse fonts and core variables from index.html */
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-4Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-5Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-6SemiBold.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-7Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Paperlogy';
+            src: url('Paperlogy-1.000/Paperlogy-8ExtraBold.ttf') format('truetype');
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        :root {
+            --primary-blue: #5B9DD9;
+            --primary-teal: #50E3C2;
+            --accent-orange: #FFB347;
+            --accent-yellow: #FFD700;
+            --dark-navy: #1a2332;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --active-shadow: 0 10px 30px rgba(91, 157, 217, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Paperlogy', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header (Consistent with index.html) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(91, 157, 217, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        header .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        /* Adjusted height for sub-page if needed, or keep 96px */
+
+        /* Nav */
+        nav {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: rgba(91, 157, 217, 0.08);
+            color: var(--primary-blue);
+        }
+
+        /* Hero for Roadmap */
+        .roadmap-hero {
+            padding: 160px 24px 80px;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.9), rgba(91, 157, 217, 0.8)), url('open_edu_hero.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .roadmap-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .roadmap-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        /* Tree / Roadmap Styles */
+        .roadmap-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+        }
+
+        .start-node {
+            background: var(--dark-navy);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+            text-align: center;
+        }
+
+        .branches-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Connection Lines */
+        .branches-container::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            width: 2px;
+            height: 60px;
+            background: var(--text-light);
+            opacity: 0.3;
+            transform: translateX(-50%);
+        }
+
+        .branches-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 16.66%;
+            right: 16.66%;
+            height: 2px;
+            background: var(--text-light);
+            opacity: 0.3;
+        }
+
+        .branch-connector {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: var(--text-light);
+            opacity: 0.3;
+            transform: translateX(-50%);
+        }
+
+        .type-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid transparent;
+            /* default border */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            margin-top: 40px;
+            /* space for connector */
+        }
+
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .type-card.active {
+            border-color: var(--primary-blue);
+            background: #f0f7ff;
+            box-shadow: var(--active-shadow);
+        }
+
+        .type-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+            font-weight: 800;
+        }
+
+        .type-card .subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .type-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Indicators for Type color */
+        .type-a.active h3 {
+            color: #5B9DD9;
+        }
+
+        .type-b.active h3 {
+            color: #50E3C2;
+        }
+
+        .type-c.active h3 {
+            color: #FFB347;
+        }
+
+        .type-a.active {
+            border-color: #5B9DD9;
+            background: rgba(91, 157, 217, 0.05);
+        }
+
+        .type-b.active {
+            border-color: #50E3C2;
+            background: rgba(80, 227, 194, 0.05);
+        }
+
+        .type-c.active {
+            border-color: #FFB347;
+            background: rgba(255, 179, 71, 0.05);
+        }
+
+        /* Detail Section */
+        .roadmap-details {
+            width: 100%;
+            margin-top: 40px;
+            background: var(--white);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(91, 157, 217, 0.1);
+            overflow: hidden;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .detail-content {
+            display: none;
+            padding: 50px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .detail-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-header {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .detail-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--dark-navy);
+        }
+
+        .detail-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            position: relative;
+        }
+
+        /* Arrow between steps */
+        .timeline-grid::after {
+            content: '';
+            /* Could be arrows */
+        }
+
+        .timeline-step {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .timeline-step h4 {
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-step .schools {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--dark-navy);
+            margin-bottom: 12px;
+        }
+
+        .timeline-step p {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .philosophy-section {
+            background: var(--bg-light);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .philosophy-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .philosophy-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--dark-navy);
+        }
+
+        .philosophy-content p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .highlight-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-teal);
+            margin-bottom: 10px;
+        }
+
+        /* Footer (Same as index) */
+        .footer {
+            background: var(--dark-navy);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .branches-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .branches-container::after {
+                display: none;
+            }
+
+            /* Hide horizontal line */
+            .branch-connector {
+                display: none;
+            }
+
+            .type-card {
+                margin-top: 0;
+            }
+
+            .timeline-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .logo-container img {
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <a href="index.html"><img src="open_edu_logo.png" alt="Open Edu Logo"></a>
+            </div>
+            <nav id="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="roadmap.html" class="active">Roadmap</a>
+                <a href="index.html#features">Program</a>
+                <a href="index.html#ceo">About</a>
+                <a href="index.html#testimonials">Reviews</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="roadmap-hero">
+        <div class="container">
+            <h1>Daechi English Success Tree</h1>
+            <p>우리 아이의 '성향'이 가리키는 길이 가장 빠른 지름길입니다.</p>
+        </div>
+    </div>
+
+    <!-- Interactive Tree Section -->
+    <div class="section bg-white">
+        <div class="container">
+            <div class="roadmap-tree">
+
+                <div class="start-node">
+                    START: 우리 아이의 성향은?
+                </div>
+
+                <div class="branches-container">
+                    <!-- Type A -->
+                    <div class="type-card type-a active" onclick="selectType('A')">
+                        <div class="branch-connector"></div>
+                        <h3>TYPE A</h3>
+                        <span class="subtitle">Academic Learner</span>
+                        <p>논리적이고 승부욕이 강한 아이</p>
+                    </div>
+
+                    <!-- Type B -->
+                    <div class="type-card type-b" onclick="selectType('B')">
+                        <div class="branch-connector"></div>
+                        <h3>TYPE B</h3>
+                        <span class="subtitle">Fluency First</span>
+                        <p>언어 감각이 뛰어나고 발표를 즐기는 아이</p>
+                    </div>
+
+                    <!-- Type C -->
+                    <div class="type-card type-c" onclick="selectType('C')">
+                        <div class="branch-connector"></div>
+                        <h3>TYPE C</h3>
+                        <span class="subtitle">Balanced</span>
+                        <p>밸런스를 중시하며 탄탄하게 성장하는 아이</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Details Section -->
+                <div class="roadmap-details">
+
+                    <!-- Content A -->
+                    <div id="content-A" class="detail-content active">
+                        <div class="detail-header">
+                            <h2>TYPE A: Academic Learner</h2>
+                            <p>"정확한 문법, 방대한 리딩, 꼼꼼한 학습을 선호한다면"</p>
+                        </div>
+                        <div class="timeline-grid">
+                            <div class="timeline-step">
+                                <h4>유치부 (5~7세)</h4>
+                                <div class="schools">PSA / GATE</div>
+                                <p>학습식 명문. 타이트한 커리큘럼 적응 및 Writing 기초 확립을 목표로 합니다.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 저학년 (1~3학년)</h4>
+                                <div class="schools">ILE / MI / 해빛</div>
+                                <p>정확도(Accuracy) 중심. 어휘 및 테스트 적응력을 강화하는 시기입니다.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 고학년 (4학년~)</h4>
+                                <div class="schools">ILE 심화 / 선경 / KNS</div>
+                                <p>한국식 문법 연계 및 수능/텝스 유형 완성. 아카데믹한 성장을 완성합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content B -->
+                    <div id="content-B" class="detail-content">
+                        <div class="detail-header">
+                            <h2>TYPE B: Fluency First</h2>
+                            <p>"자유로운 토론, 창의적인 글쓰기, 자연스러운 발화를 원한다면"</p>
+                        </div>
+                        <div class="timeline-grid">
+                            <div class="timeline-step">
+                                <h4>유치부 (5~7세)</h4>
+                                <div class="schools">Apple Tree / LIA / 밤비니</div>
+                                <p>정서적 안정과 자연스러운 Speaking 환경 노출을 중시합니다.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 저학년 (1~3학년)</h4>
+                                <div class="schools">PEAI / Sapiens / InSight</div>
+                                <p>디베이트 입문. 비판적 사고(Critical Thinking) 훈련을 시작합니다.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 고학년 (4학년~)</h4>
+                                <div class="schools">PEAI 심화 / 렉스김 / 원서 읽기</div>
+                                <p>고급 에세이 라이팅 및 국제학부/유학 준비 레벨로 도약합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content C -->
+                    <div id="content-C" class="detail-content">
+                        <div class="detail-header">
+                            <h2>TYPE C: Balanced</h2>
+                            <p>"흥미와 학습의 균형, 내실 있는 성장을 목표로 한다면"</p>
+                        </div>
+                        <div class="timeline-grid">
+                            <div class="timeline-step">
+                                <h4>유치부 (5~7세)</h4>
+                                <div class="schools">Eton House / Kinder Baum</div>
+                                <p>놀이와 학습의 조화. 영어에 대한 긍정적 정서를 함양합니다.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 저학년 (1~3학년)</h4>
+                                <div class="schools">Twig / Alpha / April</div>
+                                <p>4대 영역(L/R/S/W)의 고른 발달을 통한 탄탄한 기본기.</p>
+                            </div>
+                            <div class="timeline-step">
+                                <h4>초등 고학년 (4학년~)</h4>
+                                <div class="schools">A1 / 함영원 / 최선</div>
+                                <p>중등 내신 완벽 대비 및 수행평가 관리로 실질적 성적 향상.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- End Details -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Philosophy Section -->
+    <div class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-content">
+                <h2>Our Philosophy</h2>
+                <p>"단순 티칭(Teaching)을 넘어, 로드맵을 함께 그리는 멘토링(Mentoring)"</p>
+                <p>대치동의 영어 교육은 단거리 경주가 아닌 마라톤입니다. 각 시기별, 학원별 특징을 정확히 파악하고 아이에게 필요한 역량을 1:1로 채워주는 <strong>페이스 메이커(Pace
+                        Maker)</strong>가 필요합니다.</p>
+
+                <div class="highlight-box">
+                    <h3>Gap Filling & Targeted Preparation</h3>
+                    <p>어떤 루트든, 결국 부족한 점을 채워주는 1:1 전문가의 케어가 필수입니다.<br>대형 학원 진도에서 놓치기 쉬운 구멍(Gap)을 1:1 밀착 수업으로 메워드립니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Open Edu | 1:1 Premium English Education</p>
+            <p>&copy; 2024 Open Edu. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function selectType(type) {
+            // Remove active class from all cards
+            document.querySelectorAll('.type-card').forEach(card => card.classList.remove('active'));
+
+            // Add active class to selected card
+            document.querySelector(`.type-${type.toLowerCase()}`).classList.add('active');
+
+            // Hide all content
+            document.querySelectorAll('.detail-content').forEach(content => content.classList.remove('active'));
+
+            // Show selected content
+            document.getElementById(`content-${type}`).classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
