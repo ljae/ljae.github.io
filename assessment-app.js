@@ -68,43 +68,55 @@ function loadQuestion(index) {
         coreBadge.classList.add('hidden');
     }
 
-    // 질문 텍스트
-    document.getElementById('question-text').textContent = question.text;
+    // 상황 설명 + 질문 텍스트
+    const questionHTML = `
+        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl mb-4">
+            <p class="text-sm font-medium text-indigo-900">📖 상황</p>
+            <p class="text-gray-700 mt-1">${question.situation}</p>
+        </div>
+    `;
+    document.getElementById('question-text').innerHTML = questionHTML + '<span class="text-lg font-bold text-gray-800">' + question.text + '</span>';
     document.getElementById('question-text-en').textContent = question.textEn;
 
-    // 답변 옵션 생성
+    // 답변 옵션 생성 (상황별 맞춤 옵션)
     const optionsContainer = document.getElementById('answer-options');
     optionsContainer.innerHTML = '';
 
-    likertOptions.forEach(option => {
+    // options 객체를 배열로 변환 (값이 큰 것부터 = 긍정적인 것부터)
+    const optionEntries = Object.entries(question.options).sort((a, b) => b[0] - a[0]);
+
+    optionEntries.forEach(([value, label]) => {
+        const numValue = parseInt(value);
         const button = document.createElement('button');
         button.className = 'w-full p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-4';
 
-        const isSelected = answers[question.id] === option.value;
+        const isSelected = answers[question.id] === numValue;
         if (isSelected) {
             button.className += ' border-indigo-500 bg-gradient-to-r from-indigo-50 to-purple-50 shadow-lg transform scale-[1.02]';
         } else {
             button.className += ' border-gray-200 hover:border-indigo-200 hover:bg-gray-50 hover:shadow-md';
         }
 
-        button.onclick = () => selectAnswer(question.id, option.value);
+        button.onclick = () => selectAnswer(question.id, numValue);
 
+        // 점수에 따른 이모지
+        const emojis = { 5: '😊', 4: '🙂', 3: '😐', 2: '🙁', 1: '😟' };
         const emoji = document.createElement('span');
         emoji.className = 'text-3xl';
-        emoji.textContent = option.emoji;
+        emoji.textContent = emojis[numValue];
 
         const labelDiv = document.createElement('div');
         labelDiv.className = 'flex-1 text-left';
 
-        const label = document.createElement('span');
-        label.className = 'font-semibold text-lg ' + (isSelected ? 'text-indigo-700' : 'text-gray-700');
-        label.textContent = option.label;
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'font-semibold text-base leading-snug ' + (isSelected ? 'text-indigo-700' : 'text-gray-700');
+        labelSpan.textContent = label;
 
-        labelDiv.appendChild(label);
+        labelDiv.appendChild(labelSpan);
 
         if (isSelected) {
             const checkmark = document.createElement('div');
-            checkmark.className = 'w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center';
+            checkmark.className = 'w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0';
             checkmark.innerHTML = '<svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>';
             button.appendChild(checkmark);
         }
