@@ -561,6 +561,48 @@
             margin: 8px 0;
         }
 
+        /* Philosophy Section */
+        .philosophy-section {
+            margin-top: 140px;
+            /* Header height + spacing */
+            padding: 60px 0;
+            background: linear-gradient(to bottom, var(--white), var(--bg-light));
+            text-align: center;
+        }
+
+        .philosophy-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .philosophy-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: 24px;
+        }
+
+        .philosophy-content p {
+            font-size: 1.2rem;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+
+        .highlight-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(91, 157, 217, 0.1);
+            margin-top: 40px;
+            border: 1px solid rgba(91, 157, 217, 0.1);
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-teal);
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
         /* Responsive - Mobile First Approach */
         @media (max-width: 1024px) {
             .features {
@@ -635,6 +677,11 @@
 
             nav a::after {
                 display: none;
+            }
+
+            .philosophy-section {
+                margin-top: 130px;
+                padding: 40px 0;
             }
 
             /* Hero adjustments */
