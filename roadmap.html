@@ -1,13 +1,16 @@
+<!-- 
+    This is a template. All content is placeholder and must be replaced with your own information.
+    Please refer to the comments in the code for guidance on what to change.
+-->
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Edu - Success Roadmap</title>
+    <title>Roadmap - Open Edu</title>
     <link rel="icon" type="image/png" href="open_edu_favicon.png">
     <style>
-        /* Reuse fonts and core variables from index.html */
         @font-face {
             font-family: 'Paperlogy';
             src: url('Paperlogy-1.000/Paperlogy-4Regular.ttf') format('truetype');
@@ -53,7 +56,6 @@
             --text-light: #718096;
             --bg-light: #f8fafc;
             --white: #ffffff;
-            --active-shadow: 0 10px 30px rgba(91, 157, 217, 0.4);
         }
 
         * {
@@ -70,7 +72,13 @@
             overflow-x: hidden;
         }
 
-        /* Header, Mobile Menu, Nav Styles from index.html */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header with glassmorphism */
         header {
             position: fixed;
             top: 0;
@@ -95,9 +103,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
+            padding: 16px 0;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 16px 24px;
         }
 
         .logo-container {
@@ -112,6 +121,7 @@
             transition: all 0.3s ease;
         }
 
+        /* Mobile Menu Toggle */
         .mobile-menu-toggle {
             display: none;
             flex-direction: column;
@@ -182,7 +192,394 @@
             transform: scaleX(1);
         }
 
+        /* Hero Section - Modern & Bold */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.85), rgba(91, 157, 217, 0.65)), url('open_edu_hero.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 68px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 500;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            color: var(--dark-navy);
+            padding: 18px 48px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255, 179, 71, 0.4);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 179, 71, 0.6);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* CEO Section with modern card */
+        .ceo-section {
+            background: var(--bg-light);
+        }
+
+        .ceo-card {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(91, 157, 217, 0.05);
+            border: 1px solid rgba(91, 157, 217, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ceo-card:hover {
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(91, 157, 217, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .ceo-card p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+        }
+
+        .ceo-card em {
+            display: block;
+            margin-top: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(91, 157, 217, 0.1), rgba(80, 227, 194, 0.1));
+            border-radius: 16px;
+            font-size: 1.1em;
+            border-left: 4px solid var(--primary-teal);
+        }
+
+        /* Features - Bento Box Layout */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .feature {
+            padding: 40px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(91, 157, 217, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-teal));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(91, 157, 217, 0.2);
+        }
+
+        .feature h3 {
+            color: var(--primary-blue);
+            font-size: 1.6em;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .feature p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* New Product Section - Bold Gradient */
+        .new-product-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .new-product-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            top: -250px;
+            right: -250px;
+            border-radius: 50%;
+        }
+
+        .new-product-section h2 {
+            color: var(--white);
+        }
+
+        .new-product-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .new-product-content p {
+            font-size: 1.3em;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        /* Testimonials - Modern Cards */
+        .testimonials-section {
+            background: var(--bg-light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .testimonial {
+            background: var(--white);
+            padding: 36px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid var(--primary-teal);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            height: 96px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 16px;
+        }
+
+        .company-logo {
+            max-height: 100%;
+            max-width: 280px;
+            object-fit: contain;
+            object-position: left;
+            /* Grayscale filter for a unified look, color on hover if desired */
+            filter: grayscale(100%) opacity(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover .company-logo {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        .company-name {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-left: auto;
+        }
+
+        .testimonial p {
+            line-height: 1.8;
+        }
+
+        .testimonial p strong {
+            color: var(--primary-blue);
+            background: linear-gradient(120deg, rgba(80, 227, 194, 0.2) 0%, rgba(80, 227, 194, 0.2) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 2px;
+        }
+
+        .testimonial .author {
+            text-align: right;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-style: normal;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: var(--white);
+        }
+
+        .contact-section .section-title {
+            color: var(--white);
+            -webkit-text-fill-color: var(--white);
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px;
+            max-width: 700px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-info p {
+            font-size: 1.3em;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.95em;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        /* Responsive - Mobile First Approach */
+        @media (max-width: 1024px) {
+            .features {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
+
+            /* Spacing adjustments */
+            .section {
+                padding: 64px 0;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            /* Header & Navigation */
             header .header-content {
                 padding: 12px 20px;
                 justify-content: center;
@@ -239,12 +636,187 @@
             nav a::after {
                 display: none;
             }
+
+            /* Hero adjustments */
+            .hero {
+                margin-top: 64px;
+                min-height: calc(100vh - 64px);
+                padding: 40px 0;
+            }
+
+            .hero-content {
+                padding: 24px;
+            }
+
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 2.75rem);
+                margin-bottom: 20px;
+                line-height: 1.3;
+            }
+
+            .hero p {
+                font-size: clamp(1rem, 4vw, 1.25rem);
+                margin-bottom: 32px;
+            }
+
+            .cta-button {
+                padding: 16px 40px;
+                font-size: 1.1em;
+                width: auto;
+                min-width: 240px;
+            }
+
+            /* Section titles */
+            .section-title {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+                margin-bottom: 40px;
+            }
+
+            /* Cards */
+            .ceo-card,
+            .contact-card {
+                padding: 32px 24px;
+                border-radius: 24px;
+            }
+
+            .testimonial {
+                padding: 28px 20px;
+            }
+
+            .testimonial-header {
+                height: 96px;
+                flex-wrap: nowrap;
+                /* Prevent wrapping to keep row layout if needed, or keep wrap if user wants to stack but usually height 96 imply row */
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .company-logo {
+                max-width: 280px;
+                max-height: 100%;
+            }
+
+            /* Features grid */
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature {
+                padding: 32px 24px;
+            }
+
+            /* Future plans */
+            .future-plans-content {
+                padding: 32px 20px;
+                gap: 32px;
+            }
+
+            /* Contact section - stack on mobile */
+            #contact .container>div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+            }
         }
 
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
 
-        /* Hero for Roadmap */
+            .hero h1 {
+                font-size: 1.85rem;
+            }
+
+            .section {
+                padding: 48px 0;
+            }
+
+            .ceo-card,
+            .contact-card {
+                padding: 24px 20px;
+            }
+
+            .testimonial {
+                padding: 24px 16px;
+            }
+        }
+
+        /* Future Plans Section */
+        .future-plans-section {
+            background: linear-gradient(135deg, #fff6e5 0%, #fff 100%);
+            /* Soft warm background to match the fun image */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .future-plans-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 179, 71, 0.2);
+            box-shadow: 0 20px 60px rgba(255, 179, 71, 0.1);
+        }
+
+        .future-plans-text {
+            flex: 1;
+        }
+
+        .future-plans-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .future-plans-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            transform: rotate(2deg);
+            transition: all 0.4s ease;
+        }
+
+        .future-plans-image:hover img {
+            transform: rotate(0) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .future-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #FFB347;
+            color: white;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(255, 179, 71, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .future-plans-content {
+                flex-direction: column-reverse;
+                /* Stack image on top of text for better flow usually, or stick to design */
+                text-align: center;
+                padding: 30px;
+                gap: 30px;
+            }
+
+            .future-plans-image img {
+                transform: rotate(0);
+                max-width: 100%;
+                width: 300px;
+                /* Limit width on mobile */
+            }
+        }
+
+        /* --- Roadmap Styles --- */
         .roadmap-hero {
-            padding: 160px 24px 80px;
+            padding: 100px 24px 80px;
             background: linear-gradient(135deg, rgba(26, 35, 50, 0.9), rgba(91, 157, 217, 0.8)), url('open_edu_hero.png');
             background-size: cover;
             background-position: center;
@@ -265,18 +837,6 @@
             margin: 0 auto;
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section {
-            padding: 80px 0;
-        }
-
-        /* Tree / Roadmap Styles */
         .roadmap-tree {
             display: flex;
             flex-direction: column;
@@ -305,7 +865,6 @@
             position: relative;
         }
 
-        /* Connection Lines */
         .branches-container::before {
             content: '';
             position: absolute;
@@ -346,13 +905,11 @@
             padding: 30px;
             text-align: center;
             border: 2px solid transparent;
-            /* default border */
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
             margin-top: 40px;
-            /* space for connector */
         }
 
         .type-card:hover {
@@ -363,7 +920,7 @@
         .type-card.active {
             border-color: var(--primary-blue);
             background: #f0f7ff;
-            box-shadow: var(--active-shadow);
+            box-shadow: 0 10px 30px rgba(91, 157, 217, 0.4);
         }
 
         .type-card h3 {
@@ -387,7 +944,6 @@
             color: var(--text-dark);
         }
 
-        /* Indicators for Type color */
         .type-a.active h3 {
             color: #5B9DD9;
         }
@@ -415,7 +971,6 @@
             background: rgba(255, 179, 71, 0.05);
         }
 
-        /* Detail Section */
         .roadmap-details {
             width: 100%;
             margin-top: 40px;
@@ -473,12 +1028,6 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             position: relative;
-        }
-
-        /* Arrow between steps */
-        .timeline-grid::after {
-            content: '';
-            /* Could be arrows */
         }
 
         .timeline-step {
@@ -545,15 +1094,6 @@
             margin-bottom: 10px;
         }
 
-        /* Footer (Same as index) */
-        .footer {
-            background: var(--dark-navy);
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        /* Responsive */
         @media (max-width: 900px) {
             .branches-container {
                 grid-template-columns: 1fr;
@@ -564,7 +1104,6 @@
                 display: none;
             }
 
-            /* Hide horizontal line */
             .branch-connector {
                 display: none;
             }
@@ -577,10 +1116,6 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-
-            .logo-container img {
-                height: 48px;
-            }
         }
     </style>
 </head>
@@ -590,7 +1125,7 @@
     <header>
         <div class="header-content">
             <div class="logo-container">
-                <a href="index.html"><img src="open_edu_logo.png" alt="Open Edu Logo"></a>
+                <img src="open_edu_logo.png" alt="Open Edu Logo">
             </div>
             <button class="mobile-menu-toggle" aria-label="메뉴 열기" onclick="toggleMobileMenu()">
                 <span></span>
@@ -608,173 +1143,149 @@
         </div>
     </header>
 
-    <div class="roadmap-hero">
-        <div class="container">
-            <h1>Daechi English Success Tree</h1>
-            <p>우리 아이의 '성향'이 가리키는 길이 가장 빠른 지름길입니다.</p>
-        </div>
-    </div>
 
-    <!-- Interactive Tree Section -->
-    <div class="section bg-white">
-        <div class="container">
-            <div class="roadmap-tree">
 
-                <div class="start-node">
-                    START: 우리 아이의 성향은?
-                </div>
 
-                <div class="branches-container">
-                    <!-- Type A -->
-                    <div class="type-card type-a active" onclick="selectType('A')">
-                        <div class="branch-connector"></div>
-                        <h3>TYPE A</h3>
-                        <span class="subtitle">Academic Learner</span>
-                        <p>논리적이고 승부욕이 강한 아이</p>
-                    </div>
-
-                    <!-- Type B -->
-                    <div class="type-card type-b" onclick="selectType('B')">
-                        <div class="branch-connector"></div>
-                        <h3>TYPE B</h3>
-                        <span class="subtitle">Fluency First</span>
-                        <p>언어 감각이 뛰어나고 발표를 즐기는 아이</p>
-                    </div>
-
-                    <!-- Type C -->
-                    <div class="type-card type-c" onclick="selectType('C')">
-                        <div class="branch-connector"></div>
-                        <h3>TYPE C</h3>
-                        <span class="subtitle">Balanced</span>
-                        <p>밸런스를 중시하며 탄탄하게 성장하는 아이</p>
-                    </div>
-                </div>
-
-                <!-- Dynamic Details Section -->
-                <div class="roadmap-details">
-
-                    <!-- Content A -->
-                    <div id="content-A" class="detail-content active">
-                        <div class="detail-header">
-                            <h2>TYPE A: Academic Learner</h2>
-                            <p>"정확한 문법, 방대한 리딩, 꼼꼼한 학습을 선호한다면"</p>
-                        </div>
-                        <div class="timeline-grid">
-                            <div class="timeline-step">
-                                <h4>유치부 (5~7세)</h4>
-                                <div class="schools">PSA / GATE</div>
-                                <p>학습식 명문. 타이트한 커리큘럼 적응 및 Writing 기초 확립을 목표로 합니다.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 저학년 (1~3학년)</h4>
-                                <div class="schools">ILE / MI / 해빛</div>
-                                <p>정확도(Accuracy) 중심. 어휘 및 테스트 적응력을 강화하는 시기입니다.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 고학년 (4학년~)</h4>
-                                <div class="schools">ILE 심화 / 선경 / KNS</div>
-                                <p>한국식 문법 연계 및 수능/텝스 유형 완성. 아카데믹한 성장을 완성합니다.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content B -->
-                    <div id="content-B" class="detail-content">
-                        <div class="detail-header">
-                            <h2>TYPE B: Fluency First</h2>
-                            <p>"자유로운 토론, 창의적인 글쓰기, 자연스러운 발화를 원한다면"</p>
-                        </div>
-                        <div class="timeline-grid">
-                            <div class="timeline-step">
-                                <h4>유치부 (5~7세)</h4>
-                                <div class="schools">Apple Tree / LIA / 밤비니</div>
-                                <p>정서적 안정과 자연스러운 Speaking 환경 노출을 중시합니다.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 저학년 (1~3학년)</h4>
-                                <div class="schools">PEAI / Sapiens / InSight</div>
-                                <p>디베이트 입문. 비판적 사고(Critical Thinking) 훈련을 시작합니다.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 고학년 (4학년~)</h4>
-                                <div class="schools">PEAI 심화 / 렉스김 / 원서 읽기</div>
-                                <p>고급 에세이 라이팅 및 국제학부/유학 준비 레벨로 도약합니다.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content C -->
-                    <div id="content-C" class="detail-content">
-                        <div class="detail-header">
-                            <h2>TYPE C: Balanced</h2>
-                            <p>"흥미와 학습의 균형, 내실 있는 성장을 목표로 한다면"</p>
-                        </div>
-                        <div class="timeline-grid">
-                            <div class="timeline-step">
-                                <h4>유치부 (5~7세)</h4>
-                                <div class="schools">Eton House / Kinder Baum</div>
-                                <p>놀이와 학습의 조화. 영어에 대한 긍정적 정서를 함양합니다.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 저학년 (1~3학년)</h4>
-                                <div class="schools">Twig / Alpha / April</div>
-                                <p>4대 영역(L/R/S/W)의 고른 발달을 통한 탄탄한 기본기.</p>
-                            </div>
-                            <div class="timeline-step">
-                                <h4>초등 고학년 (4학년~)</h4>
-                                <div class="schools">A1 / 함영원 / 최선</div>
-                                <p>중등 내신 완벽 대비 및 수행평가 관리로 실질적 성적 향상.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- End Details -->
-
+    <!-- Roadmap Section -->
+    <div id="roadmap" style="padding-top: 68px;">
+        <div class="roadmap-hero">
+            <div class="container">
+                <h1>Daechi English Success Tree</h1>
+                <p>우리 아이의 '성향'이 가리키는 길이 가장 빠른 지름길입니다.</p>
             </div>
         </div>
-    </div>
 
-    <!-- Philosophy Section -->
-    <div class="philosophy-section">
-        <div class="container">
-            <div class="philosophy-content">
-                <h2>Our Philosophy</h2>
-                <p>"단순 티칭(Teaching)을 넘어, 로드맵을 함께 그리는 멘토링(Mentoring)"</p>
-                <p>대치동의 영어 교육은 단거리 경주가 아닌 마라톤입니다. 각 시기별, 학원별 특징을 정확히 파악하고 아이에게 필요한 역량을 1:1로 채워주는 <strong>페이스 메이커(Pace
-                        Maker)</strong>가 필요합니다.</p>
+        <div class="section bg-white">
+            <div class="container">
+                <div class="roadmap-tree">
+                    <div class="start-node">START: 우리 아이의 성향은?</div>
 
-                <div class="highlight-box">
-                    <h3>Gap Filling & Targeted Preparation</h3>
-                    <p>어떤 루트든, 결국 부족한 점을 채워주는 1:1 전문가의 케어가 필수입니다.<br>대형 학원 진도에서 놓치기 쉬운 구멍(Gap)을 1:1 밀착 수업으로 메워드립니다.</p>
+                    <div class="branches-container">
+                        <div class="type-card type-a active" onclick="selectType('A')">
+                            <div class="branch-connector"></div>
+                            <h3>TYPE A</h3>
+                            <span class="subtitle">Academic Learner</span>
+                            <p>논리적이고 승부욕이 강한 아이</p>
+                        </div>
+                        <div class="type-card type-b" onclick="selectType('B')">
+                            <div class="branch-connector"></div>
+                            <h3>TYPE B</h3>
+                            <span class="subtitle">Fluency First</span>
+                            <p>언어 감각이 뛰어나고 발표를 즐기는 아이</p>
+                        </div>
+                        <div class="type-card type-c" onclick="selectType('C')">
+                            <div class="branch-connector"></div>
+                            <h3>TYPE C</h3>
+                            <span class="subtitle">Balanced</span>
+                            <p>밸런스를 중시하며 탄탄하게 성장하는 아이</p>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-details">
+                        <div id="content-A" class="detail-content active">
+                            <div class="detail-header">
+                                <h2>TYPE A: Academic Learner</h2>
+                                <p>"정확한 문법, 방대한 리딩, 꼼꼼한 학습을 선호한다면"</p>
+                            </div>
+                            <div class="timeline-grid">
+                                <div class="timeline-step">
+                                    <h4>유치부 (5~7세)</h4>
+                                    <div class="schools">PSA / GATE</div>
+                                    <p>학습식 명문. 타이트한 커리큘럼 적응 및 Writing 기초 확립을 목표로 합니다.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 저학년 (1~3학년)</h4>
+                                    <div class="schools">ILE / MI / 해빛</div>
+                                    <p>정확도(Accuracy) 중심. 어휘 및 테스트 적응력을 강화하는 시기입니다.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 고학년 (4학년~)</h4>
+                                    <div class="schools">ILE 심화 / 선경 / KNS</div>
+                                    <p>한국식 문법 연계 및 수능/텝스 유형 완성. 아카데믹한 성장을 완성합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-B" class="detail-content">
+                            <div class="detail-header">
+                                <h2>TYPE B: Fluency First</h2>
+                                <p>"자유로운 토론, 창의적인 글쓰기, 자연스러운 발화를 원한다면"</p>
+                            </div>
+                            <div class="timeline-grid">
+                                <div class="timeline-step">
+                                    <h4>유치부 (5~7세)</h4>
+                                    <div class="schools">Apple Tree / LIA / 밤비니</div>
+                                    <p>정서적 안정과 자연스러운 Speaking 환경 노출을 중시합니다.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 저학년 (1~3학년)</h4>
+                                    <div class="schools">PEAI / Sapiens / InSight</div>
+                                    <p>디베이트 입문. 비판적 사고(Critical Thinking) 훈련을 시작합니다.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 고학년 (4학년~)</h4>
+                                    <div class="schools">PEAI 심화 / 렉스김 / 원서 읽기</div>
+                                    <p>고급 에세이 라이팅 및 국제학부/유학 준비 레벨로 도약합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="content-C" class="detail-content">
+                            <div class="detail-header">
+                                <h2>TYPE C: Balanced</h2>
+                                <p>"흥미와 학습의 균형, 내실 있는 성장을 목표로 한다면"</p>
+                            </div>
+                            <div class="timeline-grid">
+                                <div class="timeline-step">
+                                    <h4>유치부 (5~7세)</h4>
+                                    <div class="schools">Eton House / Kinder Baum</div>
+                                    <p>놀이와 학습의 조화. 영어에 대한 긍정적 정서를 함양합니다.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 저학년 (1~3학년)</h4>
+                                    <div class="schools">Twig / Alpha / April</div>
+                                    <p>4대 영역(L/R/S/W)의 고른 발달을 통한 탄탄한 기본기.</p>
+                                </div>
+                                <div class="timeline-step">
+                                    <h4>초등 고학년 (4학년~)</h4>
+                                    <div class="schools">A1 / 함영원 / 최선</div>
+                                    <p>중등 내신 완벽 대비 및 수행평가 관리로 실질적 성적 향상.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="philosophy-section">
+            <div class="container">
+                <div class="philosophy-content">
+                    <h2>Our Philosophy</h2>
+                    <p>"단순 티칭(Teaching)을 넘어, 로드맵을 함께 그리는 멘토링(Mentoring)"</p>
+                    <p>대치동의 영어 교육은 단거리 경주가 아닌 마라톤입니다. 각 시기별, 학원별 특징을 정확히 파악하고 아이에게 필요한 역량을 1:1로 채워주는 <strong>페이스
+                            메이커(Pace Maker)</strong>가 필요합니다.</p>
+                    <div class="highlight-box">
+                        <h3>Gap Filling & Targeted Preparation</h3>
+                        <p>어떤 루트든, 결국 부족한 점을 채워주는 1:1 전문가의 케어가 필수입니다.<br>대형 학원 진도에서 놓치기 쉬운 구멍(Gap)을 1:1 밀착 수업으로 메워드립니다.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
+
+
     <footer class="footer">
         <div class="container">
-            <p>Open Edu | 1:1 Premium English Education</p>
-            <p>&copy; 2024 Open Edu. All rights reserved.</p>
+            <p>Open Edu | 사업자등록번호: 130-38-15883</p>
+            <p>위치: 서울시 서초구 태봉로2길 60</p>
+            <p>COPYRIGHT(C) 2014 OPEN EDUCATION. ALL RIGHTS RESERVED.</p>
         </div>
     </footer>
 
     <script>
-        function selectType(type) {
-            // Remove active class from all cards
-            document.querySelectorAll('.type-card').forEach(card => card.classList.remove('active'));
-
-            // Add active class to selected card
-            document.querySelector(`.type-${type.toLowerCase()}`).classList.add('active');
-
-            // Hide all content
-            document.querySelectorAll('.detail-content').forEach(content => content.classList.remove('active'));
-
-            // Show selected content
-            document.getElementById(`content-${type}`).classList.add('active');
-        }
-
         // Mobile menu toggle functionality
         function toggleMobileMenu() {
             const nav = document.getElementById('mainNav');
@@ -782,10 +1293,11 @@
             nav.classList.toggle('active');
             toggle.classList.toggle('active');
 
-            // Update aria-label
+            // Update aria-label for accessibility
             const isOpen = nav.classList.contains('active');
             toggle.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
 
+            // Prevent body scroll when menu is open
             document.body.style.overflow = isOpen ? 'hidden' : '';
         }
 
@@ -805,12 +1317,12 @@
             const isClickInsideNav = nav.contains(event.target);
             const isClickOnToggle = toggle.contains(event.target);
 
-            if (nav && !isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
+            if (!isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
                 closeMobileMenu();
             }
         });
 
-        // Window resize handler
+        // Close mobile menu on window resize to desktop
         window.addEventListener('resize', function () {
             if (window.innerWidth > 768) {
                 closeMobileMenu();
@@ -818,14 +1330,76 @@
         });
 
         // Header scroll effect
+        let lastScroll = 0;
         window.addEventListener('scroll', function () {
             const header = document.querySelector('header');
-            if (header) {
-                if (window.pageYOffset > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
+
+            lastScroll = currentScroll;
         });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections for fade-in effect
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+
+        function selectType(type) {
+            // Remove active class from all cards
+            document.querySelectorAll('.type-card').forEach(card => card.classList.remove('active'));
+            // Add active class to selected card
+            document.querySelector(`.type-${type.toLowerCase()}`).classList.add('active');
+            // Hide all content
+            document.querySelectorAll('.detail-content').forEach(content => content.classList.remove('active'));
+            // Show selected content
+            document.getElementById(`content-${type}`).classList.add('active');
+        }
     </script>
+
 </body>
 
 </html>
