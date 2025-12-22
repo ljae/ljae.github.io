@@ -774,6 +774,57 @@
             // Show selected content
             document.getElementById(`content-${type}`).classList.add('active');
         }
+
+        // Mobile menu toggle functionality
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            nav.classList.toggle('active');
+            toggle.classList.toggle('active');
+
+            // Update aria-label
+            const isOpen = nav.classList.contains('active');
+            toggle.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
+
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            nav.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-label', '메뉴 열기');
+            document.body.style.overflow = '';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const nav = document.getElementById('mainNav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const isClickInsideNav = nav.contains(event.target);
+            const isClickOnToggle = toggle.contains(event.target);
+
+            if (nav && !isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        // Window resize handler
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (header) {
+                if (window.pageYOffset > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            }
+        });
     </script>
 </body>
 
