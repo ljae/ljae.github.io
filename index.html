@@ -9,6 +9,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Edu - 우리 아이를 위한 1:1 원어민 영어 교육</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Open Edu는 22년 교육 전문가 에스더 한 대표의 노하우를 담아, 아이의 일상과 성향에 맞춘 1:1 원어민 영어 교육을 제공합니다. 기업에서 검증된 최정예 강사진과 함께 생활 속에서 영어가 자연스럽게 자라나는 경험을 선물하세요.">
+    <meta name="keywords" content="1:1영어, 원어민영어, 어린이영어, 초등영어, 영어교육, 맞춤영어, 오픈에듀, Open Edu, 에스더한">
+    <link rel="canonical" href="https://openedu4u.com/index.html">
+
+    <!-- Open Graph / Facebook / Kakao -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://openedu4u.com/index.html">
+    <meta property="og:title" content="Open Edu - 우리 아이를 위한 1:1 원어민 영어 교육">
+    <meta property="og:description" content="아이의 일상과 성향에 맞춘 1:1 원어민 영어 교육. 22년 교육 전문가 에스더 한 대표의 노하우와 기업에서 검증된 최정예 강사진을 만나보세요.">
+    <meta property="og:image" content="https://openedu4u.com/open_edu_hero.png">
+    <meta property="og:site_name" content="Open Edu">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://openedu4u.com/index.html">
+    <meta name="twitter:title" content="Open Edu - 우리 아이를 위한 1:1 원어민 영어 교육">
+    <meta name="twitter:description" content="아이의 일상과 성향에 맞춘 1:1 원어민 영어 교육. 22년 교육 전문가 에스더 한 대표의 노하우와 기업에서 검증된 최정예 강사진을 만나보세요.">
+    <meta name="twitter:image" content="https://openedu4u.com/open_edu_hero.png">
+    
     <link rel="icon" type="image/png" href="open_edu_favicon.png">
     <style>
         @font-face {
@@ -358,6 +380,30 @@
             border-left: 4px solid var(--primary-teal);
         }
 
+        .ceo-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        .ceo-image-container {
+            flex: 0 0 300px; /* Do not grow, do not shrink, base width 300px */
+            position: relative;
+        }
+        .ceo-image {
+            width: 100%;
+            height: auto;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .ceo-image-container:hover .ceo-image {
+            transform: scale(1.05);
+            box-shadow: 0 25px 60px rgba(91, 157, 217, 0.2);
+        }
+        .ceo-text-container {
+            flex: 1;
+        }
+
         /* Features - Bento Box Layout */
         .features {
             display: grid;
@@ -679,6 +725,16 @@
                 border-radius: 24px;
             }
 
+            .ceo-content-wrapper {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            .ceo-image-container {
+                width: 70%;
+                max-width: 250px;
+            }
+
             .testimonial {
                 padding: 28px 20px;
             }
@@ -852,18 +908,25 @@
         <div class="container">
             <h2 class="section-title">CEO 소개</h2>
             <div class="ceo-card">
-                <p>
-                    <strong>22년 교육 전문가 에스더 한 대표</strong>가 Open Edu를 통해 차별화된 영어 교육을 시작합니다.
-                </p>
-                <p>
-                    기업 현장에서 검증받은 최정예 원어민 강사진과 함께, 아이의 일상과 성향을 깊이 이해하는 <strong>맞춤 영어 교육</strong>을 제공합니다.
-                </p>
-                <em>
-                    <strong
-                        style="display:block; margin-bottom: 16px; font-size: 1.2em; color: var(--primary-teal);">"아이의
-                        일상에서 시작하는 영어 교육"</strong>
-                    아이가 좋아하는 것에서 출발합니다. 기업에서 검증된 전문성에 아이 개개인의 일상을 이해하는 진심을 더했습니다. 영어가 생활 속에서 자연스럽게 자라나도록 함께하겠습니다.
-                </em>
+                <div class="ceo-content-wrapper">
+                    <div class="ceo-image-container">
+                        <img src="assets/CEO.png" alt="에스더 한 대표 (Esther Han)" class="ceo-image">
+                    </div>
+                    <div class="ceo-text-container">
+                        <p>
+                            <strong>22년 교육 전문가 에스더 한 대표</strong>가 Open Edu를 통해 차별화된 영어 교육을 시작합니다.
+                        </p>
+                        <p>
+                            기업 현장에서 검증받은 최정예 원어민 강사진과 함께, 아이의 일상과 성향을 깊이 이해하는 <strong>맞춤 영어 교육</strong>을 제공합니다.
+                        </p>
+                        <em>
+                            <strong
+                                style="display:block; margin-bottom: 16px; font-size: 1.2em; color: var(--primary-teal);">"아이의
+                                일상에서 시작하는 영어 교육"</strong>
+                            아이가 좋아하는 것에서 출발합니다. 기업에서 검증된 전문성에 아이 개개인의 일상을 이해하는 진심을 더했습니다. 영어가 생활 속에서 자연스럽게 자라나도록 함께하겠습니다.
+                        </em>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
