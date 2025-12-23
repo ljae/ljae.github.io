@@ -266,7 +266,7 @@
     <header>
         <div class="header-content">
             <div class="logo-container">
-                <img src="open_edu_logo.png" alt="Open Edu Logo">
+                <a href="index.html"><img src="open_edu_logo.png" alt="Open Edu Logo"></a>
             </div>
             <button class="mobile-menu-toggle" aria-label="메뉴 열기" onclick="toggleMobileMenu()">
                 <span></span>
@@ -275,7 +275,7 @@
             </button>
             <nav id="mainNav">
                 <a href="index.html#about" onclick="closeMobileMenu()">CEO 소개</a>
-                <a href="roadmap.html" onclick="closeMobileMenu()">레테(LevelTest)</a>
+                <a href="roadmap.html" onclick="closeMobileMenu()">레벨테스트</a>
                 <a href="assessment.html" onclick="closeMobileMenu()">아이성향파악</a>
                 <a href="teachers.html" onclick="closeMobileMenu()">Teachers</a>
                 <a href="index.html#services" onclick="closeMobileMenu()">영어 교육</a>
@@ -287,95 +287,31 @@
 
     <!-- Intro Screen -->
     <div id="intro-screen" class="min-h-screen flex items-center justify-center p-4 pt-24 md:pt-28">
-        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 animate-fadeIn">
+        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12 animate-fadeIn">
             <div class="text-center mb-8">
-                <div class="text-7xl mb-4">🎯</div>
-                <h1 class="text-3xl font-extrabold text-gray-800 mb-3">
-                    영어 말하기 심층 성향 분석
+                <div class="text-7xl mb-4">🌱</div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-3">
+                    우리 아이 학습 성향 진단
                 </h1>
-                <p class="text-gray-500 text-sm mb-2">
-                    FLCAS & WTC 기반 전문 심리측정학적 진단 도구
+                <p class="text-gray-500 text-base mb-6">
+                    간단한 15개 질문으로 우리 아이의 학습 성향을 파악하고,<br class="hidden md:block">ぴったりの学習ロードマップのヒントを得ましょう。
                 </p>
-                <div class="inline-block bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-medium">
-                    Ver 2.0 Advanced | Psychometric Assessment
+                <div class="inline-block bg-teal-100 text-teal-700 px-4 py-1 rounded-full text-sm font-medium">
+                    Roadmap-based Assessment (Ver. 4.0)
                 </div>
             </div>
 
-            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 mb-6 border border-indigo-100">
-                <h3 class="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                    <span class="text-xl">📊</span>
-                    이 검사의 특징
-                </h3>
-                <ul class="space-y-2 text-sm text-gray-700">
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>30개 정교한 문항</strong>으로 15개 하위 척도 측정</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>표준점수(T-score) & 백분위</strong> 제공</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>8가지 세분화된 프로필</strong> 유형 분류</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>학년별 규준 비교</strong> 및 또래 분석</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>응답 신뢰도 검증</strong> 및 일관성 분석</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-emerald-500 mt-0.5">✓</span>
-                        <span><strong>우선순위 개선 영역</strong> 및 구체적 실행 계획</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                <p class="text-sm text-gray-700 leading-relaxed">
-                    <span class="font-semibold text-amber-700">📝 소요 시간:</span> 약 8-10분 |
-                    <span class="font-semibold text-amber-700 ml-3">📱 권장:</span> 조용한 환경에서 집중하여 응답
+            <div class="bg-gray-50 rounded-2xl p-6 mb-8 text-center">
+                 <p class="text-sm text-gray-700 leading-relaxed">
+                    <span class="font-semibold text-gray-700">📝 소요 시간:</span> 약 3~5분<br>
+                    <span class="font-semibold text-gray-700 mt-2 block">🔍 대상:</span> 유아, 초등학생 (또는 학부모님)
                 </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-4 mb-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">이름</label>
-                    <input type="text" id="student-name"
-                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
-                        placeholder="이름을 입력하세요">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">학년</label>
-                    <select id="student-grade"
-                        class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition bg-white">
-                        <option value="">선택하세요</option>
-                        <option value="초3">초3</option>
-                        <option value="초4">초4</option>
-                        <option value="초5">초5</option>
-                        <option value="초6">초6</option>
-                        <option value="중1">중1</option>
-                        <option value="중2">중2</option>
-                        <option value="중3">중3</option>
-                        <option value="고1">고1</option>
-                        <option value="고2">고2</option>
-                        <option value="고3">고3</option>
-                    </select>
-                </div>
             </div>
 
             <button onclick="startSurvey()" id="start-button"
-                class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:from-indigo-700 hover:to-purple-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                disabled>
-                검사 시작하기 →
+                class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl hover:from-indigo-700 hover:to-purple-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                진단 시작하기 →
             </button>
-
-            <p class="text-center text-xs text-gray-400 mt-4">
-                Horwitz et al. (1986) & MacIntyre et al. (1998) 기반
-            </p>
 
             <div class="text-center mt-6">
                 <a href="index.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
@@ -393,35 +329,24 @@
                 <div class="flex justify-between items-center text-sm mb-3">
                     <div class="flex items-center gap-2">
                         <span class="font-semibold text-gray-700">진행률</span>
-                        <span class="text-gray-500"><span id="current-question-num">1</span> / 30</span>
+                        <span class="text-gray-500"><span id="current-question-num">1</span> / 15</span>
                     </div>
                 </div>
                 <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
                     <div id="progress-bar"
-                        class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-500 ease-out relative"
-                        style="width: 3.33%">
-                        <div class="absolute inset-0 bg-white opacity-20 animate-pulse"></div>
+                        class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-500 ease-out"
+                        style="width: 6.66%">
                     </div>
                 </div>
-                <div class="text-right text-xs text-gray-500 mt-1"><span id="progress-percent">3</span>% 완료</div>
+                <div class="text-right text-xs text-gray-500 mt-1"><span id="progress-percent">6</span>% 완료</div>
             </div>
 
             <!-- Question Card -->
             <div class="bg-white rounded-3xl shadow-2xl p-8 mb-6">
-                <div class="mb-4 flex items-center justify-between">
-                    <div></div><!-- Placeholder for alignment -->
-                    <span id="core-badge"
-                        class="hidden text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-medium">
-                        ⭐ 핵심문항
-                    </span>
-                </div>
-
-                <h2 id="question-text" class="text-xl font-bold text-gray-800 mb-3 leading-relaxed">
+                <p id="question-situation" class="text-lg text-gray-500 mb-4"></p>
+                <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-8 leading-relaxed">
                     질문이 여기 표시됩니다
                 </h2>
-                <p id="question-text-en" class="text-sm text-gray-400 italic mb-8 leading-relaxed">
-                    Question will be displayed here
-                </p>
 
                 <div id="answer-options" class="space-y-3">
                     <!-- 답변 옵션들이 동적으로 생성됩니다 -->
@@ -445,68 +370,7 @@
     <!-- Result Screen -->
     <div id="result-screen" class="hidden min-h-screen p-4 py-8">
         <div class="max-w-4xl mx-auto space-y-6" id="result-content">
-            <!-- Header -->
-            <div class="bg-white rounded-3xl shadow-2xl p-8 animate-fadeIn">
-                <div class="text-center mb-6">
-                    <h1 class="text-4xl font-extrabold text-gray-800 mb-2">심층 성향 분석 결과</h1>
-                    <p class="text-gray-500">
-                        <span id="result-student-name" class="font-semibold"></span>님의 (<span id="result-student-grade"></span>) 영어 말하기 프로필
-                    </p>
-                </div>
-
-                <!-- Profile Card -->
-                <div id="profile-card" class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl border-2 border-indigo-200 shadow-lg text-center">
-                    <div id="profile-emoji" class="text-7xl mb-4"></div>
-                    <h2 id="profile-type" class="text-3xl font-bold text-gray-800 mb-2"></h2>
-                    <p id="profile-description" class="text-gray-600 max-w-xl mx-auto"></p>
-                </div>
-            </div>
-
-            <!-- Score Details -->
-            <div class="grid md:grid-cols-2 gap-6">
-                <div id="anxiety-score-card"></div>
-                <div id="wtc-score-card"></div>
-                <div id="aptitude-score-card"></div>
-                <div id="tendency-score-card"></div>
-            </div>
-
-            <!-- Strengths and Challenges -->
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-md">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="text-2xl">💪</span> 강점
-                    </h3>
-                    <ul id="strengths-list" class="space-y-2 text-gray-700"></ul>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border-2 border-gray-200 shadow-md">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="text-2xl">🎯</span> 도전 과제
-                    </h3>
-                    <ul id="challenges-list" class="space-y-2 text-gray-700"></ul>
-                </div>
-            </div>
-
-            <!-- Recommendations -->
-            <div class="bg-white p-8 rounded-2xl border-2 border-gray-200 shadow-md">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center gap-3">
-                    <span class="text-3xl">🚀</span> 맞춤 성장 전략
-                </h3>
-                <ul id="recommendations-list" class="space-y-4"></ul>
-            </div>
-            
-            <!-- Sub-scores -->
-            <div class="bg-white p-8 rounded-2xl border-2 border-gray-200 shadow-md">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">📊 하위 영역 상세 분석</h3>
-                <div id="subscores-container" class="grid md:grid-cols-2 gap-x-8 gap-y-6">
-                </div>
-            </div>
-
-            <!-- Footer / Meta Info -->
-            <div class="text-center text-sm text-gray-500 bg-white p-6 rounded-2xl shadow-md">
-                검사 완료 시간: <span id="completion-time" class="font-semibold"></span> | 
-                <a href="javascript:downloadPDF()" class="text-indigo-600 hover:underline font-semibold ml-4">결과지 다운로드 (PDF)</a> |
-                <a href="javascript:restartAssessment()" class="text-indigo-600 hover:underline font-semibold ml-4">다시 검사하기</a>
-            </div>
+            <!-- Results will be dynamically generated here -->
         </div>
     </div>
 
@@ -520,13 +384,6 @@
             const toggle = document.querySelector('.mobile-menu-toggle');
             nav.classList.toggle('active');
             toggle.classList.toggle('active');
-
-            // Update aria-label for accessibility
-            const isOpen = nav.classList.contains('active');
-            toggle.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
-
-            // Prevent body scroll when menu is open
-            document.body.style.overflow = isOpen ? 'hidden' : '';
         }
 
         function closeMobileMenu() {
@@ -534,42 +391,7 @@
             const toggle = document.querySelector('.mobile-menu-toggle');
             nav.classList.remove('active');
             toggle.classList.remove('active');
-            toggle.setAttribute('aria-label', '메뉴 열기');
-            document.body.style.overflow = '';
         }
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function (event) {
-            const nav = document.getElementById('mainNav');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            const isClickInsideNav = nav.contains(event.target);
-            const isClickOnToggle = toggle.contains(event.target);
-
-            if (!isClickInsideNav && !isClickOnToggle && nav.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
-
-        // Close mobile menu on window resize to desktop
-        window.addEventListener('resize', function () {
-            if (window.innerWidth > 768) {
-                closeMobileMenu();
-            }
-        });
-
-        // Header scroll effect
-        let lastScroll = 0;
-        window.addEventListener('scroll', function () {
-            const header = document.querySelector('header');
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            lastScroll = currentScroll;
-        });
     </script>
 
 </body>
