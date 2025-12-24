@@ -70,8 +70,47 @@
             }
         }
 
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
         .animate-fadeIn {
             animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-slideInUp {
+            animation: slideInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .hidden {
@@ -321,68 +360,173 @@
 
     <!-- Intro Screen -->
     <div id="intro-screen" class="min-h-screen flex items-center justify-center p-4 pt-36 md:pt-44">
-        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-8 md:p-12 animate-fadeIn">
-            <div class="text-center mb-8">
-                <div class="text-7xl mb-4">🔬</div>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-3">
-                    우리 아이 잠재력 발견, STEAM 역량 진단
-                </h1>
-                <p class="text-gray-500 text-base mb-6">
-                    단순한 성향 분석을 넘어, 하워드 가드너의 다중지능 이론을 기반으로 설계된<br class="hidden md:block">
-                    STEAM 역량 모델을 통해 우리 아이의 숨겨진 잠재력을 발견하고 맞춤 교육 전략을 세워보세요.
-                </p>
-                <div class="inline-block bg-teal-100 text-teal-700 px-4 py-1 rounded-full text-sm font-medium">
-                    STEAM Competency Model (Ver. 5.0)
+        <div class="max-w-3xl w-full">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden animate-fadeIn">
+                <!-- Hero Section with Gradient Background -->
+                <div class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-8 md:p-12 text-white text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzBoLTJWMGgydjMwem0wIDMwdi0yaDMwdjJIMzZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+                    <div class="relative z-10">
+                        <div class="text-6xl md:text-7xl mb-4 animate-scaleIn">🔬</div>
+                        <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
+                            우리 아이 잠재력 발견<br class="md:hidden"> STEAM 역량 진단
+                        </h1>
+                        <p class="text-indigo-100 text-base md:text-lg mb-6 max-w-2xl mx-auto">
+                            단순한 성향 분석을 넘어, 하워드 가드너의 다중지능 이론을 기반으로<br class="hidden md:block">
+                            우리 아이의 숨겨진 잠재력을 과학적으로 발견하고 맞춤 교육 전략을 세워보세요.
+                        </p>
+                        <div class="inline-block bg-white/20 backdrop-blur-sm border border-white/30 text-white px-5 py-2 rounded-full text-sm font-semibold">
+                            ✨ STEAM Competency Model (Ver. 5.0)
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="bg-gray-50 rounded-2xl p-6 mb-8 text-left space-y-3 text-sm text-gray-700">
-               <p><strong class="text-indigo-600">S (Science):</strong> 지적탐구심, 논리분석력</p>
-               <p><strong class="text-indigo-600">T (Technology):</strong> 논리분석력, 창의직관력</p>
-               <p><strong class="text-indigo-600">E (Engineering):</strong> 학습회복력, 논리분석력, 창의직관력</p>
-               <p><strong class="text-indigo-600">A (Arts):</strong> 창의직관력, 표현력</p>
-               <p><strong class="text-indigo-600">M (Mathematics):</strong> 논리분석력, 학습회복력</p>
-            </div>
+                <!-- Content Section -->
+                <div class="p-8 md:p-12">
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">📊 5가지 핵심 역량 분석</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200 transform transition hover:scale-105">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-3xl">🧮</span>
+                                    <div>
+                                        <h3 class="font-bold text-blue-900 mb-1">논리분석력</h3>
+                                        <p class="text-xs text-blue-700">체계적 사고와 문제 해결 능력</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200 transform transition hover:scale-105">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-3xl">🎨</span>
+                                    <div>
+                                        <h3 class="font-bold text-purple-900 mb-1">창의직관력</h3>
+                                        <p class="text-xs text-purple-700">독창적 아이디어와 상상력</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200 transform transition hover:scale-105">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-3xl">🔍</span>
+                                    <div>
+                                        <h3 class="font-bold text-green-900 mb-1">지적탐구심</h3>
+                                        <p class="text-xs text-green-700">호기심과 학습 동기</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200 transform transition hover:scale-105">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-3xl">💪</span>
+                                    <div>
+                                        <h3 class="font-bold text-orange-900 mb-1">학습회복력</h3>
+                                        <p class="text-xs text-orange-700">끈기와 도전 정신</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl p-4 border border-pink-200 transform transition hover:scale-105">
+                            <div class="flex items-start gap-3">
+                                <span class="text-3xl">💬</span>
+                                <div>
+                                    <h3 class="font-bold text-pink-900 mb-1">표현력</h3>
+                                    <p class="text-xs text-pink-700">효과적인 의사소통 능력</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <button onclick="startSurvey()" id="start-button"
-                class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl hover:from-indigo-700 hover:to-purple-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                진단 시작하기 →
-            </button>
+                    <div class="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-6 mb-8 border border-indigo-100">
+                        <div class="flex items-start gap-3 mb-3">
+                            <span class="text-2xl">⏱️</span>
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-2">진단 안내</h3>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-indigo-500 mt-0.5">•</span>
+                                        <span><strong>총 15개 문항</strong> (약 5-7분 소요)</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-purple-500 mt-0.5">•</span>
+                                        <span>부모님의 관점에서 <strong>평소 아이의 모습</strong>을 떠올리며 답변해주세요</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-pink-500 mt-0.5">•</span>
+                                        <span>정답은 없으니 <strong>솔직하고 편안하게</strong> 선택해주세요</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="text-center mt-6">
-                <a href="index.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
-                    ← 홈으로 돌아가기
-                </a>
+                    <button onclick="startSurvey();" id="start-button"
+                        class="w-full py-5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold text-lg rounded-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 relative overflow-hidden group">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                            <span>진단 시작하기</span>
+                            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </button>
+
+                    <div class="text-center mt-6">
+                        <a href="index.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>
+                            홈으로 돌아가기
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Survey Screen -->
-    <div id="survey-screen" class="hidden min-h-screen p-4 py-8">
-        <div class="max-w-2xl mx-auto">
+    <div id="survey-screen" class="hidden min-h-screen p-4 py-8 pt-36 md:pt-44">
+        <div class="max-w-3xl mx-auto">
             <!-- Progress Bar -->
-            <div class="mb-6 bg-white rounded-2xl shadow-lg p-4">
+            <div class="mb-6 bg-white rounded-2xl shadow-xl p-5 border border-indigo-100 animate-fadeIn">
                 <div class="flex justify-between items-center text-sm mb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="font-semibold text-gray-700">진행률</span>
-                        <span class="text-gray-500"><span id="current-question-num">1</span> / 15</span>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-bold text-gray-800 block">진행 상황</span>
+                            <span class="text-gray-500 text-xs">질문 <span id="current-question-num">1</span> / 15</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                            <span id="progress-percent">6</span>%
+                        </div>
+                        <div class="text-xs text-gray-500">완료</div>
                     </div>
                 </div>
-                <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-4 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full overflow-hidden shadow-inner">
                     <div id="progress-bar"
-                        class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-500 ease-out"
+                        class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-500 ease-out shadow-lg relative"
                         style="width: 6.66%">
+                        <div class="absolute inset-0 bg-white/30 animate-shimmer"></div>
                     </div>
                 </div>
-                <div class="text-right text-xs text-gray-500 mt-1"><span id="progress-percent">6</span>% 완료</div>
             </div>
 
             <!-- Question Card -->
-            <div class="bg-white rounded-3xl shadow-2xl p-8 mb-6">
-                <p id="question-situation" class="text-lg text-gray-500 mb-4"></p>
-                <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-8 leading-relaxed">
-                    질문이 여기 표시됩니다
-                </h2>
+            <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 mb-6 border border-gray-100 animate-slideInUp">
+                <div class="mb-6">
+                    <span class="inline-block px-4 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full text-sm font-semibold mb-4">
+                        상황
+                    </span>
+                    <p id="question-situation" class="text-lg text-gray-600 italic leading-relaxed"></p>
+                </div>
+
+                <div class="border-l-4 border-gradient-to-b from-indigo-500 to-purple-500 pl-5 mb-8">
+                    <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-gray-800 leading-relaxed">
+                        질문이 여기 표시됩니다
+                    </h2>
+                </div>
 
                 <div id="answer-options" class="space-y-3">
                     <!-- 답변 옵션들이 동적으로 생성됩니다 -->
@@ -392,12 +536,21 @@
             <!-- Navigation -->
             <div class="flex gap-4">
                 <button onclick="previousQuestion()" id="prev-button"
-                    class="flex-1 py-4 bg-white border-2 border-gray-200 text-gray-600 font-semibold rounded-xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-gray-300 transition shadow-md">
-                    ← 이전
+                    class="flex-1 py-4 px-6 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
+                    <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>이전</span>
                 </button>
                 <button onclick="nextQuestion()" id="next-button" disabled
-                    class="flex-1 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:from-indigo-700 hover:to-purple-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                    다음 →
+                    class="flex-1 py-4 px-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-2xl transition-all duration-300 shadow-lg transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center gap-2 group relative overflow-hidden">
+                    <span class="relative z-10 flex items-center gap-2">
+                        <span>다음</span>
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </button>
             </div>
         </div>

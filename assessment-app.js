@@ -38,21 +38,41 @@ function loadQuestion(index) {
     optionsContainer.innerHTML = '';
     const optionEntries = Object.entries(question.options).sort((a, b) => b[0] - a[0]);
 
-    optionEntries.forEach(([value, label]) => {
+    optionEntries.forEach(([value, label], index) => {
         const numValue = parseInt(value);
         const isSelected = answers[question.id] === numValue;
 
         const button = document.createElement('button');
-        button.className = `w-full p-4 rounded-xl border-2 text-left transition-all duration-200 ${isSelected ? 'border-indigo-500 bg-indigo-50 shadow-md' : 'border-gray-200 hover:border-indigo-300 hover:bg-gray-50'}`;
+        const gradientColors = {
+            5: 'from-green-50 to-emerald-50 border-green-300 hover:border-green-400 hover:shadow-green-200',
+            4: 'from-blue-50 to-cyan-50 border-blue-300 hover:border-blue-400 hover:shadow-blue-200',
+            3: 'from-yellow-50 to-amber-50 border-yellow-300 hover:border-yellow-400 hover:shadow-yellow-200',
+            2: 'from-orange-50 to-red-50 border-orange-300 hover:border-orange-400 hover:shadow-orange-200',
+            1: 'from-red-50 to-pink-50 border-red-300 hover:border-red-400 hover:shadow-red-200'
+        };
+
+        const baseClasses = isSelected
+            ? 'border-indigo-500 bg-gradient-to-r from-indigo-50 to-purple-50 shadow-lg scale-[1.02] ring-2 ring-indigo-200'
+            : `bg-gradient-to-r ${gradientColors[numValue]} border-2 hover:shadow-md hover:scale-[1.01]`;
+
+        button.className = `w-full p-5 rounded-2xl text-left transition-all duration-300 transform ${baseClasses}`;
         button.onclick = () => selectAnswer(question.id, numValue);
-        
+        button.style.animationDelay = `${index * 50}ms`;
+        button.classList.add('animate-slideInUp');
+
         const emojiMap = { 5: '🤩', 4: '🙂', 3: '🤔', 2: '😕', 1: '😥' };
-        
+        const scoreText = { 5: '매우 그렇다', 4: '그렇다', 3: '보통', 2: '아니다', 1: '전혀 아니다' };
+
         button.innerHTML = `
-            <div class="flex items-center gap-4">
-                <span class="text-3xl">${emojiMap[numValue]}</span>
-                <span class="flex-1 font-semibold text-gray-700">${label}</span>
-                ${isSelected ? `<div class="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div>` : ''}
+            <div class="flex items-start gap-4">
+                <div class="text-4xl transform transition-transform duration-300 ${isSelected ? 'scale-125' : 'group-hover:scale-110'}">${emojiMap[numValue]}</div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-indigo-200 text-indigo-800' : 'bg-gray-200 text-gray-600'}">${scoreText[numValue]}</span>
+                    </div>
+                    <span class="font-semibold text-gray-800 text-base leading-relaxed block">${label}</span>
+                </div>
+                ${isSelected ? `<div class="w-7 h-7 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md animate-scaleIn"><svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg></div>` : ''}
             </div>
         `;
         optionsContainer.appendChild(button);
