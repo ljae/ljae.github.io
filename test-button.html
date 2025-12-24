@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+</head>
+<body>
+    <h1>JavaScript Button Test</h1>
+    <button onclick="testFunction()">Click Me</button>
+
+    <div id="output"></div>
+
+    <script src="assessment-data.js"></script>
+    <script src="assessment-app.js"></script>
+    <script>
+        function testFunction() {
+            alert('Button clicked!');
+            document.getElementById('output').innerHTML = 'Button works!<br>';
+
+            // Test if questions array is loaded
+            if (typeof questions !== 'undefined') {
+                document.getElementById('output').innerHTML += 'Questions loaded: ' + questions.length + '<br>';
+            } else {
+                document.getElementById('output').innerHTML += 'ERROR: Questions not loaded<br>';
+            }
+
+            // Test if startSurvey exists
+            if (typeof startSurvey !== 'undefined') {
+                document.getElementById('output').innerHTML += 'startSurvey function exists<br>';
+                try {
+                    startSurvey();
+                } catch(e) {
+                    document.getElementById('output').innerHTML += 'ERROR calling startSurvey: ' + e.message + '<br>';
+                }
+            } else {
+                document.getElementById('output').innerHTML += 'ERROR: startSurvey not defined<br>';
+            }
+        }
+    </script>
+</body>
+</html>

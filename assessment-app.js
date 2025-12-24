@@ -9,14 +9,32 @@ let resultProfile = null; // Stores the detailed STEAM assessment result
 // --- Core Functions ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // No validation needed on start anymore
+    console.log('Assessment app loaded successfully');
+    console.log('startSurvey function:', typeof startSurvey);
 });
 
-function startSurvey() {
-    currentStep = 'survey';
-    document.getElementById('intro-screen').classList.add('hidden');
-    document.getElementById('survey-screen').classList.remove('hidden');
-    loadQuestion(0);
+window.startSurvey = function() {
+    console.log('startSurvey called');
+    try {
+        currentStep = 'survey';
+        const introScreen = document.getElementById('intro-screen');
+        const surveyScreen = document.getElementById('survey-screen');
+
+        console.log('intro-screen element:', introScreen);
+        console.log('survey-screen element:', surveyScreen);
+
+        if (!introScreen || !surveyScreen) {
+            console.error('Required screen elements not found');
+            return;
+        }
+
+        introScreen.classList.add('hidden');
+        surveyScreen.classList.remove('hidden');
+        loadQuestion(0);
+    } catch (error) {
+        console.error('Error in startSurvey:', error);
+        alert('진단을 시작하는 중 오류가 발생했습니다. 페이지를 새로고침해주세요.');
+    }
 }
 
 function loadQuestion(index) {
@@ -111,13 +129,13 @@ function updateNextButton() {
     }
 }
 
-function previousQuestion() {
+window.previousQuestion = function() {
     if (currentQuestionIndex > 0) {
         loadQuestion(currentQuestionIndex - 1);
     }
 }
 
-function nextQuestion() {
+window.nextQuestion = function() {
     if (currentQuestionIndex < questions.length - 1) {
         loadQuestion(currentQuestionIndex + 1);
     } else {
@@ -435,7 +453,7 @@ function renderResults(resultProfile) {
     `;
 }
 
-function copyResults() {
+window.copyResults = function() {
     const nameInput = document.getElementById('student-name-result');
     const genderInput = document.getElementById('student-gender-result');
     const gradeInput = document.getElementById('student-grade-result');
@@ -546,7 +564,7 @@ ${resultProfile.overallSummary}
 }
 
 
-function restartAssessment() {
+window.restartAssessment = function() {
     currentStep = 'intro';
     answers = {};
     currentQuestionIndex = 0;
