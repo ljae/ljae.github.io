@@ -192,27 +192,6 @@
             transform: scaleX(1);
         }
 
-        nav a.appendix-menu {
-            margin-left: 20px;
-            /* Separation from other items */
-            border: 1px solid rgba(91, 157, 217, 0.3);
-            background-color: rgba(91, 157, 217, 0.05);
-            color: var(--primary-blue);
-            border-radius: 20px;
-            padding: 10px 20px;
-        }
-
-        nav a.appendix-menu:hover {
-            background-color: var(--primary-blue);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(91, 157, 217, 0.2);
-        }
-
-        nav a.appendix-menu::after {
-            display: none;
-        }
-
         /* Hero Section - Modern & Bold */
         .hero {
             min-height: 100vh;
@@ -656,16 +635,6 @@
 
             nav a::after {
                 display: none;
-            }
-
-            nav a.appendix-menu {
-                margin-left: 0;
-                /* Reset margin on mobile */
-                margin-top: 10px;
-                /* Add some top spacing */
-                background-color: rgba(91, 157, 217, 0.1);
-                width: 100%;
-                text-align: center;
             }
 
             /* Hero adjustments */
@@ -1165,17 +1134,31 @@
             </button>
             <nav id="mainNav">
                 <a href="index.html#about" onclick="closeMobileMenu()">CEO 소개</a>
+                <a href="roadmap.html" onclick="closeMobileMenu()">레테(LevelTest)</a>
                 <a href="assessment.html" onclick="closeMobileMenu()">아이성향파악</a>
                 <a href="teachers.html" onclick="closeMobileMenu()">Teachers</a>
                 <a href="index.html#services" onclick="closeMobileMenu()">영어 교육</a>
                 <a href="index.html#proof" onclick="closeMobileMenu()">검증된 전문성</a>
                 <a href="index.html#contact" onclick="closeMobileMenu()">문의하기</a>
-                <a href="roadmap.html" onclick="closeMobileMenu()" class="appendix-menu">대치동 레테 대비</a>
             </nav>
         </div>
     </header>
 
-
+    <div class="philosophy-section">
+        <div class="container">
+            <div class="philosophy-content">
+                <h2>Our Philosophy</h2>
+                <p>"단순 티칭(Teaching)을 넘어, 로드맵을 함께 그리는 멘토링(Mentoring)"</p>
+                <p>대치동의 영어 교육을 지향하지는 않습니다. 다만, 메인스트림에 소외되지 않는 그 이상의 영어실력을 추구합니다. 아이에게 필요한 역량을 1:1로 채워주는 <strong>페이스
+                        메이커(Pace Maker)</strong>가 필요합니다.</p>
+                <div class="highlight-box">
+                    <h3>Gap Filling & Targeted Preparation</h3>
+                    <p>어떤 루트든, 결국 부족한 점을 채워주는 1:1 전문가의 케어가 필수입니다.<br>대형 학원 진도에서 놓치기 쉬운 구멍(Gap)을 1:1 밀착 수업으로 메워드립니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Roadmap Section -->
@@ -1289,21 +1272,7 @@
         </div>
     </div>
 
-    <div class="philosophy-section">
-        <div class="container">
-            <div class="philosophy-content">
-                <h2>Our Philosophy</h2>
-                <p>"단순 티칭(Teaching)을 넘어, 로드맵을 함께 그리는 멘토링(Mentoring)"</p>
-                <p>대치동의 영어 교육을 지향하지는 않습니다. 다만, 메인스트림에 소외되지 않는 그 이상의 영어실력을 추구합니다. 아이에게 필요한 역량을 1:1로 채워주는 <strong>페이스
-                        메이커(Pace Maker)</strong>가 필요합니다.</p>
-                <div class="highlight-box">
-                    <h3>Gap Filling & Targeted Preparation</h3>
-                    <p>어떤 루트든, 결국 부족한 점을 채워주는 1:1 전문가의 케어가 필수입니다.<br>대형 학원 진도에서 놓치기 쉬운 구멍(Gap)을 1:1 밀착 수업으로 메워드립니다.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+
     </div>
 
 
