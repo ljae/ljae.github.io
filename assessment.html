@@ -203,6 +203,27 @@
             transform: scaleX(1);
         }
 
+        nav a.appendix-menu {
+            margin-left: 20px;
+            /* Separation from other items */
+            border: 1px solid rgba(91, 157, 217, 0.3);
+            background-color: rgba(91, 157, 217, 0.05);
+            color: var(--primary-blue);
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+
+        nav a.appendix-menu:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(91, 157, 217, 0.2);
+        }
+
+        nav a.appendix-menu::after {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             header .header-content {
                 padding: 12px 20px;
@@ -260,6 +281,16 @@
             nav a::after {
                 display: none;
             }
+
+            nav a.appendix-menu {
+                margin-left: 0;
+                /* Reset margin on mobile */
+                margin-top: 10px;
+                /* Add some top spacing */
+                background-color: rgba(91, 157, 217, 0.1);
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -278,12 +309,12 @@
             </button>
             <nav id="mainNav">
                 <a href="index.html#about" onclick="closeMobileMenu()">CEO 소개</a>
-                <a href="roadmap.html" onclick="closeMobileMenu()">레테(LevelTest)</a>
                 <a href="assessment.html" onclick="closeMobileMenu()">아이성향파악</a>
                 <a href="teachers.html" onclick="closeMobileMenu()">Teachers</a>
                 <a href="index.html#services" onclick="closeMobileMenu()">영어 교육</a>
                 <a href="index.html#proof" onclick="closeMobileMenu()">검증된 전문성</a>
                 <a href="index.html#contact" onclick="closeMobileMenu()">문의하기</a>
+                <a href="roadmap.html" onclick="closeMobileMenu()" class="appendix-menu">대치동 레테 대비</a>
             </nav>
         </div>
     </header>
