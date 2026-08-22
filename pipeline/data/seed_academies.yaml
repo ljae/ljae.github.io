@@ -1,0 +1,192 @@
+# ─────────────────────────────────────────────────────────────────────
+# 시드 학원 로스터 — 데모/개발용
+#
+# ★ 중요
+#   - 여기 실린 항목은 전부 data_source: seed 로 저장되고 UI에 "샘플" 칩이 붙는다.
+#   - NEIS 동기화가 성공하면 aca_asnum 기준으로 검증된 레코드가 이 값을 덮어쓴다.
+#   - 시드 점수는 합성값이다. 실제 평가가 아니며 앱이 데모 모드 배너로 명시한다.
+#   - regions 는 "해당 학군에 지점이 있는가"만 표시한다. 지점별 상세는 NEIS가 채운다.
+# ─────────────────────────────────────────────────────────────────────
+
+academies:
+  # ─── 수학 · 사고력 ───
+  - name: 소마사고력수학
+    aliases: [소마, 소마사고력]
+    regions: [daechi]
+    subjects: [math]
+    stages: [math_el_thinking]
+    flagship: [math_el_thinking]
+  - name: 시매쓰수학
+    aliases: [시매쓰]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math]
+    stages: [math_el_basic, math_el_thinking]
+    flagship: [math_el_thinking]
+  - name: CMS영재교육
+    aliases: [CMS, 씨엠에스]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math, science]
+    stages: [math_el_thinking, sci_el_lab, sci_el_gifted]
+    flagship: [math_el_thinking]
+  - name: 와이즈만영재교육
+    aliases: [와이즈만]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math, science]
+    stages: [math_el_thinking, sci_el_lab, sci_el_gifted]
+    flagship: [sci_el_gifted]
+  - name: 필즈수학
+    aliases: [필즈]
+    regions: [daechi, mokdong]
+    subjects: [math]
+    stages: [math_el_thinking, math_el_competition]
+
+  # ─── 수학 · 경시/심화 ───
+  - name: 생각하는황소
+    aliases: [황소, 생황, 생각황소]
+    regions: [daechi]
+    subjects: [math]
+    stages: [math_el_competition, math_mid_kmo]
+    flagship: [math_el_competition]
+  - name: 페르마에듀
+    aliases: [페르마, 페르마수학]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math]
+    stages: [math_el_competition, math_mid_kmo, math_mid_preview]
+  - name: 깊은생각수학
+    aliases: [깊은생각, 깊생]
+    regions: [daechi]
+    subjects: [math]
+    stages: [math_el_competition, math_mid_kmo]
+  - name: 하이스트학원
+    aliases: [하이스트]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math, science]
+    stages: [math_mid_kmo, math_mid_yeongjae, sci_mid_olympiad, sci_mid_preview]
+    flagship: [math_mid_yeongjae]
+
+  # ─── 수학 · 중고등 ───
+  - name: 미래탐구
+    aliases: [미탐, 미래탐구학원]
+    regions: [daechi, banpo, jamsil]
+    subjects: [math, science]
+    stages: [math_el_preview, math_mid_naesin, math_mid_preview, math_mid_yeongjae, sci_mid_preview]
+    flagship: [math_mid_preview]
+  - name: 종로엠스쿨
+    aliases: [엠스쿨, 종로M스쿨]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [math, english]
+    stages: [math_el_preview, math_mid_naesin, math_mid_preview]
+  - name: 시대인재
+    aliases: [시대, 시대인재학원]
+    regions: [daechi]
+    subjects: [math, korean, english, science]
+    stages: [math_hi_suneung, math_hi_top, math_hi_nsu, kor_hi_suneung, sci_hi_suneung, sci_hi_two, eng_hi_suneung]
+    flagship: [math_hi_top]
+  - name: 강남대성학원
+    aliases: [강대, 강남대성]
+    regions: [daechi]
+    subjects: [math, korean, english, science]
+    stages: [math_hi_nsu, math_hi_suneung, kor_hi_suneung, eng_hi_suneung, sci_hi_suneung]
+    flagship: [math_hi_nsu]
+  - name: 종로학원
+    aliases: [종로]
+    regions: [daechi, mokdong]
+    subjects: [math, korean, english, science]
+    stages: [math_hi_nsu, math_hi_suneung, kor_hi_suneung]
+  - name: 이투스247학원
+    aliases: [이투스, 이투스247]
+    regions: [daechi, mokdong, jamsil]
+    subjects: [math, korean, english, science]
+    stages: [math_hi_naesin, math_hi_suneung, kor_hi_suneung, eng_hi_suneung]
+
+  # ─── 영어 ───
+  - name: 청담어학원
+    aliases: [청담, 청담영어]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw, eng_mid_naesin]
+    flagship: [eng_el_academy]
+  - name: DYB최선어학원
+    aliases: [DYB, 디와이비, 최선]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw, eng_mid_test, eng_mid_preview]
+    flagship: [eng_mid_test]
+  - name: 아발론교육
+    aliases: [아발론]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw, eng_mid_test]
+  - name: 폴리어학원
+    aliases: [폴리, 폴리영어]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+    flagship: [eng_el_phonics]
+  - name: 정상어학원
+    aliases: [정상, 정상영어]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw, eng_el_bridge]
+  - name: 에이프릴어학원
+    aliases: [에이프릴, April]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy, eng_el_rw]
+  - name: 이지어학원
+    aliases: [이지영어]
+    regions: [daechi, jamsil]
+    subjects: [english]
+    stages: [eng_el_bridge, eng_mid_naesin, eng_mid_preview]
+  - name: 세정학원
+    aliases: [세정, 세정영어]
+    regions: [daechi, banpo]
+    subjects: [english]
+    stages: [eng_mid_naesin, eng_mid_preview, eng_hi_naesin, eng_hi_suneung, eng_hi_adv]
+    flagship: [eng_hi_adv]
+
+  # ─── 국어 · 논술 ───
+  - name: 한우리독서토론논술
+    aliases: [한우리, 한우리논술]
+    regions: [daechi, mokdong, banpo, jamsil]
+    subjects: [korean]
+    stages: [kor_el_reading, kor_el_literacy]
+    flagship: [kor_el_reading]
+  - name: 눈높이독서논술
+    aliases: [눈높이논술]
+    regions: [mokdong, jamsil]
+    subjects: [korean]
+    stages: [kor_el_reading]
+  - name: 이룸국어논술
+    aliases: [이룸국어]
+    regions: [daechi, banpo]
+    subjects: [korean]
+    stages: [kor_el_literacy, kor_el_preview, kor_mid_naesin]
+  - name: 강남국어학원
+    aliases: [강남국어]
+    regions: [daechi]
+    subjects: [korean]
+    stages: [kor_mid_deep, kor_mid_preview, kor_hi_naesin, kor_hi_suneung]
+  - name: 대치국어논술
+    aliases: [대치국어]
+    regions: [daechi]
+    subjects: [korean]
+    stages: [kor_hi_suneung, kor_hi_nonsul]
+    flagship: [kor_hi_nonsul]
+
+  # ─── 과학 ───
+  - name: 아이스터디과학
+    aliases: [아이스터디]
+    regions: [mokdong, jamsil]
+    subjects: [science]
+    stages: [sci_el_lab, sci_el_preview]
+  - name: 대치과학학원
+    aliases: [대치과학]
+    regions: [daechi]
+    subjects: [science]
+    stages: [sci_mid_naesin, sci_mid_preview, sci_hi_naesin, sci_hi_suneung]
+  - name: 메가스터디학원
+    aliases: [메가스터디, 메가]
+    regions: [daechi, mokdong, jamsil]
+    subjects: [math, korean, english, science]
+    stages: [math_hi_suneung, kor_hi_suneung, eng_hi_suneung, sci_hi_suneung, sci_hi_two]

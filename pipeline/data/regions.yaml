@@ -1,0 +1,40 @@
+# 대상 학군. NEIS 수집 시 sigungu + dong_list 로 필터링한다.
+- id: daechi
+  name_ko: 대치
+  name_en: Daechi
+  sigungu: 강남구
+  dong_list: [대치동, 도곡동, 개포동]
+  atpt_code: B10
+  center: [37.4995, 127.0629]
+  tagline: 전 과목 최대 밀집 · 의대/영재고 라인의 본진
+  sort_order: 0
+
+- id: mokdong
+  name_ko: 목동
+  name_en: Mokdong
+  sigungu: 양천구
+  dong_list: [목동, 신정동]
+  atpt_code: B10
+  center: [37.5326, 126.8756]
+  tagline: 학군 자체 완결성 · 수학 강세
+  sort_order: 1
+
+- id: banpo
+  name_ko: 반포
+  name_en: Banpo
+  sigungu: 서초구
+  dong_list: [반포동, 잠원동, 서초동]
+  atpt_code: B10
+  center: [37.5045, 127.0110]
+  tagline: 국제·영어 강세 · 대치 위성 학군
+  sort_order: 2
+
+- id: jamsil
+  name_ko: 잠실
+  name_en: Jamsil
+  sigungu: 송파구
+  dong_list: [잠실동, 신천동, 방이동]
+  atpt_code: B10
+  center: [37.5133, 127.1000]
+  tagline: 중등 내신 중심 · 대치 통학권
+  sort_order: 3
