@@ -212,7 +212,16 @@
           };
 
           naver.maps.Event.once(map, 'tilesloaded', repaint);
-          [80, 300, 800, 1500].forEach(function (ms) { setTimeout(repaint, ms); });
+
+          // 초반 몇 번만으로는 부족했다. 배포 후 확인해 보니 80~1500ms 에
+          // 호출해도 화면은 그대로였고, 몇 초 뒤 손으로 부르면 바로 나왔다.
+          // 칠하지 않는 상태가 언제 시작되는지 정해져 있지 않다는 뜻이라,
+          // 처음 8초 동안 반복해서 부른다. opacity 토글이라 비용은 거의 없다.
+          var tries = 0;
+          var boot = setInterval(function () {
+            repaint();
+            if (++tries >= 16) clearInterval(boot);
+          }, 500);
 
           // 스크롤·필터로 위치가 바뀌면 같은 증상이 재발한다. 저빈도로 지켜본다.
           // getBoundingClientRect 한 번이라 비용은 무시할 수준이고,
