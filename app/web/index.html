@@ -256,9 +256,9 @@
             });
             var poly = new naver.maps.Polygon({
               map: map, paths: [path],
-              fillColor: z.color || '#182448', fillOpacity: 0.10,
+              fillColor: z.color || '#182448', fillOpacity: 0.05,
               strokeColor: z.color || '#182448', strokeOpacity: 0.75,
-              strokeWeight: 2, strokeStyle: 'shortdash', zIndex: 0
+              strokeWeight: 2.5, strokeStyle: 'shortdash', zIndex: 0
             });
             naver.maps.Event.addListener(poly, 'click', function (e) {
               info.setContent(

@@ -175,10 +175,26 @@ class _MapSurface extends StatelessWidget {
         'z': 1,
       });
     }
+    // 선택한 학군에 걸친 구역만 그린다.
+    //
+    // 처음에는 전체 227개를 다 그렸는데, fillOpacity 0.1 짜리 폴리곤이
+    // 겹겹이 쌓여 지도를 하얗게 덮어 버렸다. 타일이 안 나오는 것처럼 보여
+    // 한참 엉뚱한 곳을 팠다. 실제로 타일은 정상이었고 위가 가려져 있었다.
+    final activeZones = <String>{
+      for (final s in schools)
+        if (s.zoneId != null) s.zoneId!,
+      for (final a in apartments)
+        for (final z in a.zones)
+          if (z.zoneId != null) z.zoneId!,
+    };
+
     final zonePolys = <Map<String, dynamic>>[];
     for (final f in data.zoneFeatures) {
       final props = (f['properties'] as Map).cast<String, dynamic>();
       if (level != null && props['level'] != level) continue;
+      if (activeZones.isNotEmpty && !activeZones.contains(props['zoneId'])) {
+        continue;
+      }
       final geom = (f['geometry'] as Map).cast<String, dynamic>();
       zonePolys.add({
         'name': props['zoneName'],
