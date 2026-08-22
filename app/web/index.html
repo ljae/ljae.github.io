@@ -191,15 +191,34 @@
           });
           instances[id] = map;
 
-          // 플러터 플랫폼 뷰는 지도를 만든 직후에도 크기가 한 번 더 바뀐다.
-          // 그때 네이버에 알려주지 않으면 타일이 안 그려진 채로 남는다
-          // (마커만 뜨고 배경이 비어 보이던 원인).
-          var nudge = function () { naver.maps.Event.trigger(map, 'resize'); };
-          setTimeout(nudge, 60);
-          setTimeout(nudge, 400);
+          // 첫 로드에서 타일이 안 그려지던 문제.
+          //
+          // 원인은 크기가 아니었다(생성 시점에 컨테이너는 이미 1264×790 이었다).
+          // 플랫폼 뷰가 DOM 에 붙는 과정에서 지도가 타일 요청을 한 번 놓치고
+          // 그대로 멈춰 있었다. 마커는 좌표 기반이라 멀쩡히 보여서 더 헷갈렸다.
+          //
+          // resize 이벤트만으로는 부족해 refresh(true) 로 전체 재렌더를 건다.
+          // tilesloaded 가 오면 정착한 것이므로 더 흔들지 않는다.
+          var settled = false;
+          naver.maps.Event.once(map, 'tilesloaded', function () { settled = true; });
+
+          var nudge = function () {
+            if (settled) return;
+            naver.maps.Event.trigger(map, 'resize');
+            if (typeof map.refresh === 'function') map.refresh(true);
+          };
+          // 붙는 시점이 브라우저마다 달라 몇 구간에 나눠 시도한다.
+          [0, 80, 250, 600, 1200].forEach(function (ms) { setTimeout(nudge, ms); });
+
+          // 이후 크기 변화(필터 토글로 목록 높이가 바뀌는 등)도 따라간다.
           if (window.ResizeObserver) {
-            var ro = new ResizeObserver(function () { nudge(); });
-            ro.observe(el);
+            var last = 0;
+            new ResizeObserver(function () {
+              var now = Date.now();
+              if (now - last < 120) return;   // 연속 호출 억제
+              last = now;
+              naver.maps.Event.trigger(map, 'resize');
+            }).observe(el);
           }
         } else {
           map.setCenter(new naver.maps.LatLng(lat, lng));
@@ -277,7 +296,9 @@
         });
         return true;
       }
-      return { init: init, ready: ready };
+      // 진단용. 콘솔에서 지도 상태를 확인할 때 쓴다.
+      function get(id) { return instances[id]; }
+      return { init: init, ready: ready, get: get };
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>
