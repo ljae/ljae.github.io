@@ -12,6 +12,8 @@ class Region {
   final String tagline;
   final double lat;
   final double lng;
+  /// 학군별 전출입 추이. '학군이 좋으면 전입이 많다'를 수치로 보여준다.
+  final List<RegionTrend> trends;
 
   const Region({
     required this.id,
@@ -22,6 +24,7 @@ class Region {
     required this.tagline,
     required this.lat,
     required this.lng,
+    this.trends = const [],
   });
 
   factory Region.fromJson(Map<String, dynamic> j) {
@@ -35,8 +38,45 @@ class Region {
       tagline: (j['tagline'] ?? '') as String,
       lat: (center[0] as num).toDouble(),
       lng: (center[1] as num).toDouble(),
+      trends: ((j['trends'] as List?) ?? const [])
+          .map((t) => RegionTrend.fromJson((t as Map).cast<String, dynamic>()))
+          .toList(),
     );
   }
+
+  /// 가장 최근 연도의 학교급별 순유입
+  RegionTrend? latestTrend(String level) {
+    final rows = trends.where((t) => t.level == level).toList()
+      ..sort((a, b) => b.year.compareTo(a.year));
+    return rows.isEmpty ? null : rows.first;
+  }
+}
+
+class RegionTrend {
+  final String year;
+  final String level;
+  final int transferIn;
+  final int transferOut;
+  final int netTransfer;
+  final int schools;
+
+  const RegionTrend({
+    required this.year,
+    required this.level,
+    required this.transferIn,
+    required this.transferOut,
+    required this.netTransfer,
+    required this.schools,
+  });
+
+  factory RegionTrend.fromJson(Map<String, dynamic> j) => RegionTrend(
+        year: '${j['year']}',
+        level: (j['level'] ?? '') as String,
+        transferIn: (j['transferIn'] as num?)?.toInt() ?? 0,
+        transferOut: (j['transferOut'] as num?)?.toInt() ?? 0,
+        netTransfer: (j['netTransfer'] as num?)?.toInt() ?? 0,
+        schools: (j['schools'] as num?)?.toInt() ?? 0,
+      );
 }
 
 class Stage {

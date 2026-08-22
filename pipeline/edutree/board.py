@@ -201,7 +201,8 @@ def seoul_trend_report() -> list[dict]:
     """
     from . import edss
     rows = edss.load()
-    if not rows:
+    dist = edss.load_districts()
+    if not rows and not dist:
         return []
 
     labels = {"elementary": "초등학교", "middle": "중학교", "high": "고등학교"}
@@ -224,6 +225,25 @@ def seoul_trend_report() -> list[dict]:
                 parts.append(f"순유입 {r['netTransfer']:+,}명")
             body.append("  " + " · ".join(parts))
         body.append("")
+
+    if dist:
+        names = {"daechi": "대치", "mokdong": "목동",
+                 "banpo": "반포", "jamsil": "잠실"}
+        latest = max(r["year"] for r in dist)
+        body += ["■ 4개 학군 순유입 (초등, " + latest + "년)"]
+        picks = sorted(
+            [r for r in dist if r["year"] == latest and r["level"] == "elementary"],
+            key=lambda r: -r["netTransfer"])
+        for r in picks:
+            body.append(
+                f"  {names.get(r['regionId'], r['regionId'])} "
+                f"{r['netTransfer']:+,}명 "
+                f"(전입 {r['transferIn']:,} · 전출 {r['transferOut']:,} · "
+                f"{r['schools']}개교)")
+        body += ["",
+                 "서울 전체 초등은 순유출인데 이 네 학군은 모두 순유입입니다. "
+                 "그 격차가 '학군'이라는 말의 실체에 가장 가까운 수치입니다.",
+                 ""]
 
     body += [
         "■ 읽는 법",

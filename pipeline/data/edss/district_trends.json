@@ -1,0 +1,1406 @@
+[
+ {
+  "year": "2013",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1258,
+  "transferOut": 950,
+  "netTransfer": 308,
+  "schools": 22
+ },
+ {
+  "year": "2013",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 391,
+  "transferOut": 412,
+  "netTransfer": -21,
+  "schools": 11
+ },
+ {
+  "year": "2013",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 496,
+  "transferOut": 336,
+  "netTransfer": 160,
+  "schools": 15
+ },
+ {
+  "year": "2013",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1796,
+  "transferOut": 1261,
+  "netTransfer": 535,
+  "schools": 30
+ },
+ {
+  "year": "2013",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 477,
+  "transferOut": 459,
+  "netTransfer": 18,
+  "schools": 21
+ },
+ {
+  "year": "2013",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 628,
+  "transferOut": 528,
+  "netTransfer": 100,
+  "schools": 23
+ },
+ {
+  "year": "2013",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 2201,
+  "transferOut": 2377,
+  "netTransfer": -176,
+  "schools": 37
+ },
+ {
+  "year": "2013",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 357,
+  "transferOut": 418,
+  "netTransfer": -61,
+  "schools": 17
+ },
+ {
+  "year": "2013",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 683,
+  "transferOut": 735,
+  "netTransfer": -52,
+  "schools": 26
+ },
+ {
+  "year": "2013",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1961,
+  "transferOut": 1538,
+  "netTransfer": 423,
+  "schools": 29
+ },
+ {
+  "year": "2013",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 283,
+  "transferOut": 289,
+  "netTransfer": -6,
+  "schools": 14
+ },
+ {
+  "year": "2013",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 601,
+  "transferOut": 598,
+  "netTransfer": 3,
+  "schools": 19
+ },
+ {
+  "year": "2014",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1212,
+  "transferOut": 948,
+  "netTransfer": 264,
+  "schools": 22
+ },
+ {
+  "year": "2014",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 382,
+  "transferOut": 357,
+  "netTransfer": 25,
+  "schools": 11
+ },
+ {
+  "year": "2014",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 447,
+  "transferOut": 293,
+  "netTransfer": 154,
+  "schools": 15
+ },
+ {
+  "year": "2014",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1700,
+  "transferOut": 1059,
+  "netTransfer": 641,
+  "schools": 30
+ },
+ {
+  "year": "2014",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 394,
+  "transferOut": 414,
+  "netTransfer": -20,
+  "schools": 21
+ },
+ {
+  "year": "2014",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 702,
+  "transferOut": 480,
+  "netTransfer": 222,
+  "schools": 23
+ },
+ {
+  "year": "2014",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1881,
+  "transferOut": 1759,
+  "netTransfer": 122,
+  "schools": 36
+ },
+ {
+  "year": "2014",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 368,
+  "transferOut": 348,
+  "netTransfer": 20,
+  "schools": 17
+ },
+ {
+  "year": "2014",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 572,
+  "transferOut": 657,
+  "netTransfer": -85,
+  "schools": 26
+ },
+ {
+  "year": "2014",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1679,
+  "transferOut": 1252,
+  "netTransfer": 427,
+  "schools": 29
+ },
+ {
+  "year": "2014",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 248,
+  "transferOut": 313,
+  "netTransfer": -65,
+  "schools": 14
+ },
+ {
+  "year": "2014",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 508,
+  "transferOut": 522,
+  "netTransfer": -14,
+  "schools": 19
+ },
+ {
+  "year": "2015",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1554,
+  "transferOut": 905,
+  "netTransfer": 649,
+  "schools": 22
+ },
+ {
+  "year": "2015",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 301,
+  "transferOut": 253,
+  "netTransfer": 48,
+  "schools": 11
+ },
+ {
+  "year": "2015",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 360,
+  "transferOut": 245,
+  "netTransfer": 115,
+  "schools": 15
+ },
+ {
+  "year": "2015",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 2044,
+  "transferOut": 1183,
+  "netTransfer": 861,
+  "schools": 30
+ },
+ {
+  "year": "2015",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 438,
+  "transferOut": 353,
+  "netTransfer": 85,
+  "schools": 21
+ },
+ {
+  "year": "2015",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 708,
+  "transferOut": 332,
+  "netTransfer": 376,
+  "schools": 23
+ },
+ {
+  "year": "2015",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1495,
+  "transferOut": 1949,
+  "netTransfer": -454,
+  "schools": 36
+ },
+ {
+  "year": "2015",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 269,
+  "transferOut": 284,
+  "netTransfer": -15,
+  "schools": 17
+ },
+ {
+  "year": "2015",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 502,
+  "transferOut": 647,
+  "netTransfer": -145,
+  "schools": 26
+ },
+ {
+  "year": "2015",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1778,
+  "transferOut": 1323,
+  "netTransfer": 455,
+  "schools": 29
+ },
+ {
+  "year": "2015",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 279,
+  "transferOut": 249,
+  "netTransfer": 30,
+  "schools": 14
+ },
+ {
+  "year": "2015",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 505,
+  "transferOut": 465,
+  "netTransfer": 40,
+  "schools": 19
+ },
+ {
+  "year": "2016",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1304,
+  "transferOut": 1031,
+  "netTransfer": 273,
+  "schools": 22
+ },
+ {
+  "year": "2016",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 282,
+  "transferOut": 243,
+  "netTransfer": 39,
+  "schools": 11
+ },
+ {
+  "year": "2016",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 307,
+  "transferOut": 273,
+  "netTransfer": 34,
+  "schools": 15
+ },
+ {
+  "year": "2016",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1912,
+  "transferOut": 1088,
+  "netTransfer": 824,
+  "schools": 30
+ },
+ {
+  "year": "2016",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 369,
+  "transferOut": 361,
+  "netTransfer": 8,
+  "schools": 21
+ },
+ {
+  "year": "2016",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 742,
+  "transferOut": 414,
+  "netTransfer": 328,
+  "schools": 23
+ },
+ {
+  "year": "2016",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1567,
+  "transferOut": 1942,
+  "netTransfer": -375,
+  "schools": 36
+ },
+ {
+  "year": "2016",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 329,
+  "transferOut": 282,
+  "netTransfer": 47,
+  "schools": 17
+ },
+ {
+  "year": "2016",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 444,
+  "transferOut": 573,
+  "netTransfer": -129,
+  "schools": 26
+ },
+ {
+  "year": "2016",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1925,
+  "transferOut": 1120,
+  "netTransfer": 805,
+  "schools": 29
+ },
+ {
+  "year": "2016",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 254,
+  "transferOut": 245,
+  "netTransfer": 9,
+  "schools": 14
+ },
+ {
+  "year": "2016",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 483,
+  "transferOut": 444,
+  "netTransfer": 39,
+  "schools": 19
+ },
+ {
+  "year": "2017",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1192,
+  "transferOut": 883,
+  "netTransfer": 309,
+  "schools": 22
+ },
+ {
+  "year": "2017",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 234,
+  "transferOut": 242,
+  "netTransfer": -8,
+  "schools": 11
+ },
+ {
+  "year": "2017",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 293,
+  "transferOut": 278,
+  "netTransfer": 15,
+  "schools": 15
+ },
+ {
+  "year": "2017",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1841,
+  "transferOut": 1133,
+  "netTransfer": 708,
+  "schools": 30
+ },
+ {
+  "year": "2017",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 368,
+  "transferOut": 357,
+  "netTransfer": 11,
+  "schools": 21
+ },
+ {
+  "year": "2017",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 473,
+  "transferOut": 328,
+  "netTransfer": 145,
+  "schools": 22
+ },
+ {
+  "year": "2017",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1483,
+  "transferOut": 2015,
+  "netTransfer": -532,
+  "schools": 36
+ },
+ {
+  "year": "2017",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 323,
+  "transferOut": 310,
+  "netTransfer": 13,
+  "schools": 17
+ },
+ {
+  "year": "2017",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 470,
+  "transferOut": 640,
+  "netTransfer": -170,
+  "schools": 26
+ },
+ {
+  "year": "2017",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1871,
+  "transferOut": 1196,
+  "netTransfer": 675,
+  "schools": 29
+ },
+ {
+  "year": "2017",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 230,
+  "transferOut": 306,
+  "netTransfer": -76,
+  "schools": 14
+ },
+ {
+  "year": "2017",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 415,
+  "transferOut": 427,
+  "netTransfer": -12,
+  "schools": 19
+ },
+ {
+  "year": "2018",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1105,
+  "transferOut": 876,
+  "netTransfer": 229,
+  "schools": 22
+ },
+ {
+  "year": "2018",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 277,
+  "transferOut": 247,
+  "netTransfer": 30,
+  "schools": 11
+ },
+ {
+  "year": "2018",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 235,
+  "transferOut": 247,
+  "netTransfer": -12,
+  "schools": 15
+ },
+ {
+  "year": "2018",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1818,
+  "transferOut": 953,
+  "netTransfer": 865,
+  "schools": 29
+ },
+ {
+  "year": "2018",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 423,
+  "transferOut": 437,
+  "netTransfer": -14,
+  "schools": 21
+ },
+ {
+  "year": "2018",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 489,
+  "transferOut": 367,
+  "netTransfer": 122,
+  "schools": 22
+ },
+ {
+  "year": "2018",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1517,
+  "transferOut": 1555,
+  "netTransfer": -38,
+  "schools": 36
+ },
+ {
+  "year": "2018",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 372,
+  "transferOut": 377,
+  "netTransfer": -5,
+  "schools": 17
+ },
+ {
+  "year": "2018",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 415,
+  "transferOut": 513,
+  "netTransfer": -98,
+  "schools": 26
+ },
+ {
+  "year": "2018",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1658,
+  "transferOut": 1027,
+  "netTransfer": 631,
+  "schools": 29
+ },
+ {
+  "year": "2018",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 280,
+  "transferOut": 324,
+  "netTransfer": -44,
+  "schools": 14
+ },
+ {
+  "year": "2018",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 373,
+  "transferOut": 360,
+  "netTransfer": 13,
+  "schools": 19
+ },
+ {
+  "year": "2019",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1090,
+  "transferOut": 880,
+  "netTransfer": 210,
+  "schools": 22
+ },
+ {
+  "year": "2019",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 281,
+  "transferOut": 285,
+  "netTransfer": -4,
+  "schools": 11
+ },
+ {
+  "year": "2019",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 270,
+  "transferOut": 252,
+  "netTransfer": 18,
+  "schools": 15
+ },
+ {
+  "year": "2019",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1900,
+  "transferOut": 901,
+  "netTransfer": 999,
+  "schools": 28
+ },
+ {
+  "year": "2019",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 414,
+  "transferOut": 352,
+  "netTransfer": 62,
+  "schools": 21
+ },
+ {
+  "year": "2019",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 478,
+  "transferOut": 315,
+  "netTransfer": 163,
+  "schools": 22
+ },
+ {
+  "year": "2019",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1342,
+  "transferOut": 1517,
+  "netTransfer": -175,
+  "schools": 37
+ },
+ {
+  "year": "2019",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 297,
+  "transferOut": 318,
+  "netTransfer": -21,
+  "schools": 17
+ },
+ {
+  "year": "2019",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 408,
+  "transferOut": 428,
+  "netTransfer": -20,
+  "schools": 26
+ },
+ {
+  "year": "2019",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1558,
+  "transferOut": 1038,
+  "netTransfer": 520,
+  "schools": 29
+ },
+ {
+  "year": "2019",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 232,
+  "transferOut": 266,
+  "netTransfer": -34,
+  "schools": 14
+ },
+ {
+  "year": "2019",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 419,
+  "transferOut": 408,
+  "netTransfer": 11,
+  "schools": 19
+ },
+ {
+  "year": "2020",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1058,
+  "transferOut": 910,
+  "netTransfer": 148,
+  "schools": 22
+ },
+ {
+  "year": "2020",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 283,
+  "transferOut": 272,
+  "netTransfer": 11,
+  "schools": 11
+ },
+ {
+  "year": "2020",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 239,
+  "transferOut": 212,
+  "netTransfer": 27,
+  "schools": 15
+ },
+ {
+  "year": "2020",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 2376,
+  "transferOut": 785,
+  "netTransfer": 1591,
+  "schools": 28
+ },
+ {
+  "year": "2020",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 401,
+  "transferOut": 322,
+  "netTransfer": 79,
+  "schools": 21
+ },
+ {
+  "year": "2020",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 566,
+  "transferOut": 324,
+  "netTransfer": 242,
+  "schools": 22
+ },
+ {
+  "year": "2020",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1959,
+  "transferOut": 1757,
+  "netTransfer": 202,
+  "schools": 37
+ },
+ {
+  "year": "2020",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 355,
+  "transferOut": 328,
+  "netTransfer": 27,
+  "schools": 17
+ },
+ {
+  "year": "2020",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 401,
+  "transferOut": 500,
+  "netTransfer": -99,
+  "schools": 26
+ },
+ {
+  "year": "2020",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1539,
+  "transferOut": 962,
+  "netTransfer": 577,
+  "schools": 29
+ },
+ {
+  "year": "2020",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 296,
+  "transferOut": 236,
+  "netTransfer": 60,
+  "schools": 14
+ },
+ {
+  "year": "2020",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 353,
+  "transferOut": 359,
+  "netTransfer": -6,
+  "schools": 19
+ },
+ {
+  "year": "2021",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1440,
+  "transferOut": 961,
+  "netTransfer": 479,
+  "schools": 22
+ },
+ {
+  "year": "2021",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 155,
+  "transferOut": 160,
+  "netTransfer": -5,
+  "schools": 11
+ },
+ {
+  "year": "2021",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 241,
+  "transferOut": 184,
+  "netTransfer": 57,
+  "schools": 15
+ },
+ {
+  "year": "2021",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 2548,
+  "transferOut": 1028,
+  "netTransfer": 1520,
+  "schools": 28
+ },
+ {
+  "year": "2021",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 323,
+  "transferOut": 266,
+  "netTransfer": 57,
+  "schools": 21
+ },
+ {
+  "year": "2021",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 509,
+  "transferOut": 252,
+  "netTransfer": 257,
+  "schools": 22
+ },
+ {
+  "year": "2021",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1659,
+  "transferOut": 1621,
+  "netTransfer": 38,
+  "schools": 37
+ },
+ {
+  "year": "2021",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 253,
+  "transferOut": 223,
+  "netTransfer": 30,
+  "schools": 17
+ },
+ {
+  "year": "2021",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 392,
+  "transferOut": 382,
+  "netTransfer": 10,
+  "schools": 26
+ },
+ {
+  "year": "2021",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 2215,
+  "transferOut": 1252,
+  "netTransfer": 963,
+  "schools": 29
+ },
+ {
+  "year": "2021",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 213,
+  "transferOut": 199,
+  "netTransfer": 14,
+  "schools": 14
+ },
+ {
+  "year": "2021",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 401,
+  "transferOut": 348,
+  "netTransfer": 53,
+  "schools": 19
+ },
+ {
+  "year": "2022",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1633,
+  "transferOut": 1425,
+  "netTransfer": 208,
+  "schools": 22
+ },
+ {
+  "year": "2022",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 210,
+  "transferOut": 225,
+  "netTransfer": -15,
+  "schools": 11
+ },
+ {
+  "year": "2022",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 285,
+  "transferOut": 260,
+  "netTransfer": 25,
+  "schools": 15
+ },
+ {
+  "year": "2022",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 2536,
+  "transferOut": 1183,
+  "netTransfer": 1353,
+  "schools": 28
+ },
+ {
+  "year": "2022",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 350,
+  "transferOut": 361,
+  "netTransfer": -11,
+  "schools": 21
+ },
+ {
+  "year": "2022",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 505,
+  "transferOut": 344,
+  "netTransfer": 161,
+  "schools": 22
+ },
+ {
+  "year": "2022",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1595,
+  "transferOut": 1841,
+  "netTransfer": -246,
+  "schools": 37
+ },
+ {
+  "year": "2022",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 282,
+  "transferOut": 255,
+  "netTransfer": 27,
+  "schools": 17
+ },
+ {
+  "year": "2022",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 418,
+  "transferOut": 450,
+  "netTransfer": -32,
+  "schools": 26
+ },
+ {
+  "year": "2022",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1670,
+  "transferOut": 1080,
+  "netTransfer": 590,
+  "schools": 29
+ },
+ {
+  "year": "2022",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 238,
+  "transferOut": 249,
+  "netTransfer": -11,
+  "schools": 14
+ },
+ {
+  "year": "2022",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 305,
+  "transferOut": 354,
+  "netTransfer": -49,
+  "schools": 19
+ },
+ {
+  "year": "2023",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1083,
+  "transferOut": 734,
+  "netTransfer": 349,
+  "schools": 21
+ },
+ {
+  "year": "2023",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 193,
+  "transferOut": 185,
+  "netTransfer": 8,
+  "schools": 11
+ },
+ {
+  "year": "2023",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 216,
+  "transferOut": 228,
+  "netTransfer": -12,
+  "schools": 15
+ },
+ {
+  "year": "2023",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 1958,
+  "transferOut": 884,
+  "netTransfer": 1074,
+  "schools": 28
+ },
+ {
+  "year": "2023",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 344,
+  "transferOut": 324,
+  "netTransfer": 20,
+  "schools": 21
+ },
+ {
+  "year": "2023",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 464,
+  "transferOut": 302,
+  "netTransfer": 162,
+  "schools": 22
+ },
+ {
+  "year": "2023",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1396,
+  "transferOut": 1687,
+  "netTransfer": -291,
+  "schools": 37
+ },
+ {
+  "year": "2023",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 236,
+  "transferOut": 273,
+  "netTransfer": -37,
+  "schools": 17
+ },
+ {
+  "year": "2023",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 331,
+  "transferOut": 399,
+  "netTransfer": -68,
+  "schools": 26
+ },
+ {
+  "year": "2023",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1364,
+  "transferOut": 873,
+  "netTransfer": 491,
+  "schools": 29
+ },
+ {
+  "year": "2023",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 230,
+  "transferOut": 217,
+  "netTransfer": 13,
+  "schools": 14
+ },
+ {
+  "year": "2023",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 294,
+  "transferOut": 301,
+  "netTransfer": -7,
+  "schools": 19
+ },
+ {
+  "year": "2024",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1275,
+  "transferOut": 796,
+  "netTransfer": 479,
+  "schools": 21
+ },
+ {
+  "year": "2024",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 234,
+  "transferOut": 197,
+  "netTransfer": 37,
+  "schools": 11
+ },
+ {
+  "year": "2024",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 294,
+  "transferOut": 257,
+  "netTransfer": 37,
+  "schools": 14
+ },
+ {
+  "year": "2024",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 3128,
+  "transferOut": 1008,
+  "netTransfer": 2120,
+  "schools": 30
+ },
+ {
+  "year": "2024",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 475,
+  "transferOut": 350,
+  "netTransfer": 125,
+  "schools": 21
+ },
+ {
+  "year": "2024",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 612,
+  "transferOut": 294,
+  "netTransfer": 318,
+  "schools": 23
+ },
+ {
+  "year": "2024",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1286,
+  "transferOut": 1343,
+  "netTransfer": -57,
+  "schools": 37
+ },
+ {
+  "year": "2024",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 260,
+  "transferOut": 247,
+  "netTransfer": 13,
+  "schools": 17
+ },
+ {
+  "year": "2024",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 334,
+  "transferOut": 350,
+  "netTransfer": -16,
+  "schools": 26
+ },
+ {
+  "year": "2024",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1612,
+  "transferOut": 899,
+  "netTransfer": 713,
+  "schools": 29
+ },
+ {
+  "year": "2024",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 216,
+  "transferOut": 229,
+  "netTransfer": -13,
+  "schools": 14
+ },
+ {
+  "year": "2024",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 328,
+  "transferOut": 330,
+  "netTransfer": -2,
+  "schools": 18
+ },
+ {
+  "year": "2025",
+  "regionId": "banpo",
+  "level": "elementary",
+  "transferIn": 1249,
+  "transferOut": 777,
+  "netTransfer": 472,
+  "schools": 21
+ },
+ {
+  "year": "2025",
+  "regionId": "banpo",
+  "level": "high",
+  "transferIn": 197,
+  "transferOut": 168,
+  "netTransfer": 29,
+  "schools": 11
+ },
+ {
+  "year": "2025",
+  "regionId": "banpo",
+  "level": "middle",
+  "transferIn": 317,
+  "transferOut": 277,
+  "netTransfer": 40,
+  "schools": 14
+ },
+ {
+  "year": "2025",
+  "regionId": "daechi",
+  "level": "elementary",
+  "transferIn": 3313,
+  "transferOut": 1174,
+  "netTransfer": 2139,
+  "schools": 30
+ },
+ {
+  "year": "2025",
+  "regionId": "daechi",
+  "level": "high",
+  "transferIn": 397,
+  "transferOut": 384,
+  "netTransfer": 13,
+  "schools": 21
+ },
+ {
+  "year": "2025",
+  "regionId": "daechi",
+  "level": "middle",
+  "transferIn": 908,
+  "transferOut": 448,
+  "netTransfer": 460,
+  "schools": 23
+ },
+ {
+  "year": "2025",
+  "regionId": "jamsil",
+  "level": "elementary",
+  "transferIn": 1538,
+  "transferOut": 1432,
+  "netTransfer": 106,
+  "schools": 37
+ },
+ {
+  "year": "2025",
+  "regionId": "jamsil",
+  "level": "high",
+  "transferIn": 280,
+  "transferOut": 210,
+  "netTransfer": 70,
+  "schools": 17
+ },
+ {
+  "year": "2025",
+  "regionId": "jamsil",
+  "level": "middle",
+  "transferIn": 431,
+  "transferOut": 395,
+  "netTransfer": 36,
+  "schools": 26
+ },
+ {
+  "year": "2025",
+  "regionId": "mokdong",
+  "level": "elementary",
+  "transferIn": 1788,
+  "transferOut": 872,
+  "netTransfer": 916,
+  "schools": 29
+ },
+ {
+  "year": "2025",
+  "regionId": "mokdong",
+  "level": "high",
+  "transferIn": 216,
+  "transferOut": 217,
+  "netTransfer": -1,
+  "schools": 14
+ },
+ {
+  "year": "2025",
+  "regionId": "mokdong",
+  "level": "middle",
+  "transferIn": 372,
+  "transferOut": 384,
+  "netTransfer": -12,
+  "schools": 18
+ }
+]

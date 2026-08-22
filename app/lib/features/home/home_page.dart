@@ -168,7 +168,8 @@ class _RegionGrid extends ConsumerWidget {
     return ContentWidth(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SectionHeader('4개 학군',
-            subtitle: '각 학군은 서로 다른 논리로 움직입니다. 같은 과목이라도 경로가 다릅니다.'),
+            subtitle: '서울 전체는 초등학생이 줄고 있습니다(2025년 순유출 −188명). '
+                '그런데 이 네 학군은 모두 순유입입니다. 그 격차가 학군이라는 말의 실체입니다.'),
         GridView.count(
           crossAxisCount: columns,
           shrinkWrap: true,
@@ -226,6 +227,27 @@ class _RegionCard extends StatelessWidget {
                     style: text.bodyMedium, maxLines: 3),
               ),
               const Divider(height: AppSpace.lg),
+              // 순유입은 이 서비스만 보여주는 숫자다. 서울 전체가 학생을
+              // 잃는 동안 이 학군들이 얼마나 끌어당기는지를 한 줄로 말해 준다.
+              if (region.latestTrend('elementary') case final t?) ...[
+                Row(children: [
+                  Icon(t.netTransfer >= 0 ? Icons.trending_up : Icons.trending_down,
+                      size: 14,
+                      color: t.netTransfer >= 0 ? AppColors.rising : AppColors.falling),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Text(
+                      '초등 순유입 ${t.netTransfer >= 0 ? "+" : ""}${t.netTransfer}명',
+                      style: text.labelMedium?.copyWith(
+                        color: t.netTransfer >= 0 ? AppColors.rising : AppColors.falling,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  Text('${t.year}', style: text.bodySmall?.copyWith(fontSize: 10.5)),
+                ]),
+                const SizedBox(height: 6),
+              ],
               Row(children: [
                 Text('학원 $count곳', style: text.labelLarge),
                 const Spacer(),

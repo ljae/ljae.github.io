@@ -521,6 +521,14 @@ def audit_uniqueness(rows: list[dict]) -> list[str]:
     return problems
 
 
+def _district_trends() -> list[dict]:
+    try:
+        from . import edss
+        return edss.load_districts()
+    except Exception:                       # noqa: BLE001
+        return []
+
+
 def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
@@ -634,7 +642,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     payload_registry = [base(a) for a in registry_only]
 
     files = {
-        "regions.json": regions,
+        "regions.json": [{**r, "trends": [
+            t for t in _district_trends() if t["regionId"] == r["id"]]}
+            for r in regions],
         "schools.json": [{
             "id": s["id"], "name": s["name"], "level": s["level"],
             "levelLabel": s["level_label"], "regionId": s["region_id"],

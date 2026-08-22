@@ -47,6 +47,76 @@ def _num(v) -> int:
         return 0
 
 
+# 4개 학군이 속한 자치구. 공통_학교속성의 '시군명' 으로 좁힌다.
+DISTRICTS = {"강남구": "daechi", "양천구": "mokdong",
+             "서초구": "banpo", "송파구": "jamsil"}
+
+
+def district_map(attrs_csv: str) -> dict[str, str]:
+    """개방ID → 학군.
+
+    공통_학교속성에는 학교명이 없지만 '시군명' 이 있다. 학교를 특정하지는
+    못해도 어느 자치구인지는 알 수 있어, 학군 단위 집계가 가능해진다.
+
+    파일에는 2009년 자료만 들어 있는데, 개방ID 가 해마다 유지되는지 확인했다
+    (2009 매핑으로 2025년 전출입 981행이 매칭된다). 폐교·신설은 놓치지만
+    학군 단위 추세를 보는 데는 문제가 없다.
+    """
+    out: dict[str, str] = {}
+    with open(attrs_csv, encoding="cp949") as f:
+        for r in csv.DictReader(f):
+            gu = (r.get("시군명") or "").strip()
+            if r.get("시도명") == "서울" and gu in DISTRICTS:
+                out[r["개방ID"]] = DISTRICTS[gu]
+    return out
+
+
+def district_trends(attrs_csv: str, transfer_csvs: list[str]) -> dict:
+    """학군 × 학교급 × 연도 전출입.
+
+    서울 전체는 초등생이 줄어드는데 이 네 학군은 순유입이다. 그 격차가
+    '학군' 이라는 말의 실체에 가장 가까운 수치다.
+    """
+    id_map = district_map(attrs_csv)
+    agg: dict = collections.defaultdict(
+        lambda: {"in": 0, "out": 0, "schools": set()})
+
+    for path in transfer_csvs:
+        with open(path, encoding="cp949") as f:
+            for r in csv.DictReader(f):
+                region = id_map.get(r.get("개방ID"))
+                if not region:
+                    continue
+                lvl = _level(r.get("학교급명") or "")
+                if not lvl:
+                    continue
+                a = agg[(r["공시년도"], region, lvl)]
+                for k, v in r.items():
+                    if "전입학생수" in k:
+                        a["in"] += _num(v)
+                    elif "전출학생수" in k:
+                        a["out"] += _num(v)
+                a["schools"].add(r["개방ID"])
+
+    rows = [{
+        "year": y, "regionId": reg, "level": lvl,
+        "transferIn": a["in"], "transferOut": a["out"],
+        "netTransfer": a["in"] - a["out"],
+        "schools": len(a["schools"]),
+    } for (y, reg, lvl), a in sorted(agg.items())]
+
+    path = DATA / "district_trends.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"  학군별 전출입 {len(rows)}행 → {path.name}")
+    return {"rows": len(rows)}
+
+
+def load_districts() -> list[dict]:
+    path = DATA / "district_trends.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+
+
 def build(base_csv: str, transfer_csvs: list[str]) -> dict:
     """서울 학교급×연도 집계를 만든다."""
     stats: dict = collections.defaultdict(
