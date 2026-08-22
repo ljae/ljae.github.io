@@ -15,6 +15,13 @@ class Region {
   /// 학군별 전출입 추이. '학군이 좋으면 전입이 많다'를 수치로 보여준다.
   final List<RegionTrend> trends;
 
+  /// 등록부까지 포함한 학원 수. 파이프라인이 미리 세어 둔다 —
+  /// 이 숫자 하나 때문에 첫 화면에서 등록부를 통째로 읽을 이유가 없다.
+  final int academyCount;
+
+  /// 그중 채점까지 마친 수
+  final int evaluatedCount;
+
   const Region({
     required this.id,
     required this.nameKo,
@@ -25,6 +32,8 @@ class Region {
     required this.lat,
     required this.lng,
     this.trends = const [],
+    this.academyCount = 0,
+    this.evaluatedCount = 0,
   });
 
   factory Region.fromJson(Map<String, dynamic> j) {
@@ -41,6 +50,8 @@ class Region {
       trends: ((j['trends'] as List?) ?? const [])
           .map((t) => RegionTrend.fromJson((t as Map).cast<String, dynamic>()))
           .toList(),
+      academyCount: (j['academy_count'] as num?)?.toInt() ?? 0,
+      evaluatedCount: (j['evaluated_count'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -146,7 +157,7 @@ class StageEdge {
     required this.type,
   });
 
-  factory StageEdge.fromList(List raw) => StageEdge(
+  factory StageEdge.fromList(List<dynamic> raw) => StageEdge(
         from: raw[0] as String,
         to: raw[1] as String,
         condition: raw.length > 2 ? (raw[2] as String? ?? '') : '',

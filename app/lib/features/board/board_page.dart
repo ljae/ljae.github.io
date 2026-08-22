@@ -92,7 +92,7 @@ class _BoardPageState extends ConsumerState<BoardPage> {
   }
 
   void _write(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
@@ -168,11 +168,11 @@ class _PostTile extends StatelessWidget {
             Row(children: [
               Text(post.nickname, style: text.labelMedium),
               const SizedBox(width: AppSpace.md),
-              Icon(Icons.mode_comment_outlined, size: 13, color: AppColors.mist),
+              const Icon(Icons.mode_comment_outlined, size: 13, color: AppColors.mist),
               const SizedBox(width: 3),
               Text('${post.commentCount}', style: text.bodySmall),
               const SizedBox(width: AppSpace.md),
-              Icon(Icons.visibility_outlined, size: 13, color: AppColors.mist),
+              const Icon(Icons.visibility_outlined, size: 13, color: AppColors.mist),
               const SizedBox(width: 3),
               Text('${post.viewCount}', style: text.bodySmall),
               if (post.academyKeys.isNotEmpty) ...[

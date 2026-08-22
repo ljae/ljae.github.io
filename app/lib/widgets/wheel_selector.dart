@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
@@ -34,6 +36,7 @@ class WheelSelector<T> extends StatefulWidget {
 
 class _WheelSelectorState<T> extends State<WheelSelector<T>> {
   FixedExtentScrollController? _controller;
+  Timer? _settle;
 
   int get _index =>
       widget.options.indexWhere((o) => o.$1 == widget.selected).clamp(0, 1 << 30);
@@ -50,13 +53,31 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
     if (old.selected != widget.selected && _controller!.hasClients) {
       final target = _index;
       if (_controller!.selectedItem != target) {
-        _controller!.jumpToItem(target);
+        // 밖에서 값이 바뀐 경우다. 툭 끊기지 않게 굴려서 옮긴다.
+        _controller!.animateToItem(target,
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic);
       }
     }
   }
 
+  /// 휠이 멈춘 뒤에만 선택을 확정한다.
+  ///
+  /// 예전에는 지나가는 칸마다 onChanged 가 불렸다. 한 번 튕기면 상태가
+  /// 대여섯 번 바뀌고 그때마다 화면 전체가 다시 그려져서, 손을 떼기도 전에
+  /// 버벅였다. 스크롤이 잦아들면 그때 한 번만 알린다.
+  void _commit(int index) {
+    _settle?.cancel();
+    _settle = Timer(const Duration(milliseconds: 140), () {
+      if (!mounted) return;
+      final value = widget.options[index].$1;
+      if (value != widget.selected) widget.onChanged(value);
+    });
+  }
+
   @override
   void dispose() {
+    _settle?.cancel();
     _controller?.dispose();
     super.dispose();
   }
@@ -109,7 +130,7 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
                 diameterRatio: 1.5,
                 perspective: 0.003,
                 physics: const FixedExtentScrollPhysics(),
-                onSelectedItemChanged: (i) => widget.onChanged(widget.options[i].$1),
+                onSelectedItemChanged: _commit,
                 childDelegate: ListWheelChildBuilderDelegate(
                   childCount: widget.options.length,
                   builder: (context, i) {

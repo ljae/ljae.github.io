@@ -30,14 +30,25 @@ class _MapPageState extends ConsumerState<MapPage> {
   @override
   Widget build(BuildContext context) {
     final async = ref.watch(dataProvider);
+    // 지도 데이터는 이 화면에서 처음 읽는다.
+    final mapAsync = ref.watch(mapDataProvider);
     final sel = ref.watch(selectionProvider);
+
+    if (async.hasError || mapAsync.hasError) {
+      return Center(
+          child: Text('${async.error ?? mapAsync.error}'));
+    }
+    if (!async.hasValue || !mapAsync.hasValue) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final mapData = mapAsync.requireValue;
 
     return async.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('$e')),
       data: (data) {
         final region = data.regionById[sel.regionId];
-        final schools = data.schoolsIn(sel.regionId, level: _level);
+        final schools = mapData.schoolsIn(sel.regionId, level: _level);
         final academies = _showAcademies
             ? data.academies
                 .where((a) =>
@@ -46,7 +57,10 @@ class _MapPageState extends ConsumerState<MapPage> {
                 .toList()
             : <Academy>[];
         final apartments = _showApartments
-            ? data.apartmentsIn(sel.regionId).where((a) => a.hasLocation).toList()
+            ? mapData
+                .apartmentsIn(sel.regionId)
+                .where((a) => a.hasLocation)
+                .toList()
             : <Apartment>[];
 
         return ListView(
@@ -94,7 +108,7 @@ class _MapPageState extends ConsumerState<MapPage> {
                     schools: schools,
                     academies: academies,
                     apartments: apartments,
-                    data: data,
+                    mapData: mapData,
                     level: _level,
                   ),
                   const SizedBox(height: AppSpace.lg),
@@ -122,7 +136,7 @@ class _MapSurface extends StatelessWidget {
   final List<School> schools;
   final List<Academy> academies;
   final List<Apartment> apartments;
-  final EduTreeData data;
+  final MapData mapData;
   final String? level;
   const _MapSurface({
     required this.region,
@@ -131,7 +145,7 @@ class _MapSurface extends StatelessWidget {
     required this.schools,
     required this.academies,
     this.apartments = const [],
-    required this.data,
+    required this.mapData,
     this.level,
   });
 
@@ -189,7 +203,7 @@ class _MapSurface extends StatelessWidget {
     };
 
     final zonePolys = <Map<String, dynamic>>[];
-    for (final f in data.zoneFeatures) {
+    for (final f in mapData.zoneFeatures) {
       final props = (f['properties'] as Map).cast<String, dynamic>();
       if (level != null && props['level'] != level) continue;
       if (activeZones.isNotEmpty && !activeZones.contains(props['zoneId'])) {
@@ -231,7 +245,7 @@ class _MapSurface extends StatelessWidget {
                 zoom: allRegions ? 12 : 15,
                 markersJson: _markers(),
               )
-            : _Schematic(data: data, schools: schools),
+            : _Schematic(schools: schools),
       ),
     );
   }
@@ -239,9 +253,8 @@ class _MapSurface extends StatelessWidget {
 
 /// 지도 키가 없거나 SDK 인증이 실패했을 때. 화면이 비지 않도록 모식도로 대체한다.
 class _Schematic extends StatelessWidget {
-  final EduTreeData data;
   final List<School> schools;
-  const _Schematic({required this.data, required this.schools});
+  const _Schematic({required this.schools});
 
   @override
   Widget build(BuildContext context) {
@@ -393,7 +406,7 @@ class _SchoolList extends StatelessWidget {
             for (final s in byLevel[level]!)
               InkWell(
                 borderRadius: BorderRadius.circular(AppRadius.sm),
-                onTap: () => showModalBottomSheet(
+                onTap: () => showModalBottomSheet<void>(
                   context: context,
                   isScrollControlled: true,
                   showDragHandle: true,

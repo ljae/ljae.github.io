@@ -36,58 +36,82 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
 
-        return ListView(
-          padding: const EdgeInsets.symmetric(vertical: AppSpace.lg),
-          children: [
-            ContentWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
-                      subtitle:
-                          '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 순위에서 제외됩니다'),
-                  ChipRow<String>(
-                    options: [
-                      for (final e in subjectNames.entries)
-                        if (e.key != 'etc') (e.key, e.value),
+        // 랭킹은 100곳이 넘는다. 카드마다 막대가 넷이라 한 번에 다 만들면
+        // 첫 스크롤이 걸린다. 보이는 것만 만든다.
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(top: AppSpace.lg),
+                child: ContentWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
+                          subtitle:
+                              '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 순위에서 제외됩니다'),
+                      ChipRow<String>(
+                        options: [
+                          for (final e in subjectNames.entries)
+                            if (e.key != 'etc') (e.key, e.value),
+                        ],
+                        selected: _subject,
+                        onChanged: (v) => setState(() => _subject = v),
+                      ),
+                      const SizedBox(height: AppSpace.lg),
+                      _MethodNote(meta: data.meta),
+                      const SizedBox(height: AppSpace.md),
                     ],
-                    selected: _subject,
-                    onChanged: (v) => setState(() => _subject = v),
                   ),
-                  const SizedBox(height: AppSpace.lg),
-                  _MethodNote(meta: data.meta),
-                  const SizedBox(height: AppSpace.md),
-                  if (ranked.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
-                      child: Center(
-                          child: Text('조건에 맞는 학원이 없습니다',
-                              style: text.bodyMedium)),
-                    )
-                  else
-                    for (var i = 0; i < ranked.length; i++)
-                      AcademyCard(academy: ranked[i], rank: i + 1),
-                  if (unranked.isNotEmpty) ...[
-                    const SizedBox(height: AppSpace.xl),
-                    SectionHeader('표본 부족으로 순위에서 제외된 학원',
-                        subtitle:
-                            '유효 후기 ${data.meta.minSampleForRank}건 미만입니다. 점수가 낮아서가 아니라, '
-                            '적은 표본으로 순위를 매기는 것이 부당하기 때문입니다.'),
-                    Wrap(
-                      spacing: AppSpace.sm,
-                      runSpacing: AppSpace.sm,
-                      children: [
-                        for (final a in unranked)
-                          ActionChip(
-                            label: Text(a.displayName),
-                            onPressed: () => context.go('/academy/${a.id}'),
-                          ),
-                      ],
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
+            if (ranked.isEmpty)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
+                  child: Center(
+                      child: Text('조건에 맞는 학원이 없습니다',
+                          style: text.bodyMedium)),
+                ),
+              )
+            else
+              SliverList.builder(
+                itemCount: ranked.length,
+                itemBuilder: (context, i) => ContentWidth(
+                  child: AcademyCard(
+                      key: ValueKey(ranked[i].id),
+                      academy: ranked[i],
+                      rank: i + 1),
+                ),
+              ),
+            if (unranked.isNotEmpty)
+              SliverToBoxAdapter(
+                child: ContentWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: AppSpace.xl),
+                      SectionHeader('표본 부족으로 순위에서 제외된 학원',
+                          subtitle:
+                              '유효 후기 ${data.meta.minSampleForRank}건 미만입니다. 점수가 낮아서가 아니라, '
+                              '적은 표본으로 순위를 매기는 것이 부당하기 때문입니다.'),
+                      Wrap(
+                        spacing: AppSpace.sm,
+                        runSpacing: AppSpace.sm,
+                        children: [
+                          for (final a in unranked)
+                            ActionChip(
+                              label: Text(a.displayName),
+                              onPressed: () => context.go('/academy/${a.id}'),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpace.lg),
+                    ],
+                  ),
+                ),
+              ),
           ],
         );
       },

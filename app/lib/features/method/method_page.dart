@@ -65,7 +65,7 @@ class MethodPage extends ConsumerWidget {
 
                   const SizedBox(height: AppSpace.xl),
                   const SectionHeader('광고와 후기를 어떻게 구분하나요'),
-                  _Prose(
+                  const _Prose(
                     '체험단·원고료·협찬 문구, 연락처와 외부 링크, 해시태그 도배, 같은 어절의 기계적 반복 — '
                     '이런 신호를 모아 게시물마다 스팸 점수를 매깁니다. 0.6을 넘으면 점수 계산에서 제외하고, '
                     '그 아래여도 신뢰도 가중치를 그만큼 깎습니다.\n\n'
@@ -131,7 +131,7 @@ class _Formula extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('트리스코어',
+        const Text('트리스코어',
             style: TextStyle(
                 fontFamily: 'Paperlogy',
                 fontSize: 12,
@@ -167,7 +167,7 @@ class _Formula extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpace.md),
-        Text('각 기둥은 0–100점으로 따로 계산한 뒤 위 비율로 합칩니다.',
+        const Text('각 기둥은 0–100점으로 따로 계산한 뒤 위 비율로 합칩니다.',
             style: TextStyle(
                 fontFamily: 'Paperlogy',
                 fontSize: 13,

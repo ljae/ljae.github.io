@@ -9,6 +9,7 @@ import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repository.dart';
 import 'common.dart';
+import 'header_layout.dart';
 import 'wheel_selector.dart';
 
 const _navItems = <(String path, String label, IconData icon)>[
@@ -20,33 +21,51 @@ const _navItems = <(String path, String label, IconData icon)>[
   ('/method', '산식', Icons.calculate_outlined),
 ];
 
+/// 헤더 안쪽에서 실제로 쓸 수 있는 폭. [ContentWidth] 와 같은 계산이다.
+double headerContentWidth(BuildContext context) {
+  final w = MediaQuery.sizeOf(context).width;
+  final pad = w < 640 ? AppSpace.md : AppSpace.lg;
+  return (w < AppSpace.maxContent ? w : AppSpace.maxContent) - pad * 2;
+}
+
 class AppShell extends ConsumerWidget {
   final Widget child;
   const AppShell({super.key, required this.child});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wide = MediaQuery.sizeOf(context).width >= 860;
-    final meta = ref.watch(dataProvider).value?.meta;
+    final layout = HeaderLayout.forWidth(headerContentWidth(context));
+    // 데모 배너는 있을 때만 자리를 차지한다.
+    final demo = ref.watch(dataProvider.select((d) => d.value?.meta.isDemo == true));
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-            topBarHeightFor(context) + (meta?.isDemo == true ? 38 : 0)),
+        preferredSize: Size.fromHeight(layout.barHeight + (demo ? 38 : 0)),
         child: Column(children: [
-          _TopBar(wide: wide),
-          if (meta != null) DemoBanner(meta: meta),
+          _TopBar(layout: layout),
+          if (demo) const _DemoBanner(),
         ]),
       ),
       body: child,
-      bottomNavigationBar: wide ? null : _BottomBar(),
+      // 상단에 메뉴를 못 넣는 폭에서는 하단 바가 대신한다.
+      bottomNavigationBar: layout.showNav ? null : const _BottomBar(),
     );
   }
 }
 
+class _DemoBanner extends ConsumerWidget {
+  const _DemoBanner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final meta = ref.watch(dataProvider).value?.meta;
+    return meta == null ? const SizedBox.shrink() : DemoBanner(meta: meta);
+  }
+}
+
 class _TopBar extends StatelessWidget {
-  final bool wide;
-  const _TopBar({required this.wide});
+  final HeaderLayout layout;
+  const _TopBar({required this.layout});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +73,7 @@ class _TopBar extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      height: topBarHeightFor(context),
+      height: layout.barHeight,
       decoration: BoxDecoration(
         color: dark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
@@ -63,36 +82,39 @@ class _TopBar extends StatelessWidget {
       ),
       child: ContentWidth(
         child: Row(children: [
-          InkWell(
-            onTap: () => context.go('/'),
-            child: Row(children: [
-              const _Logo(),
-              const SizedBox(width: AppSpace.sm),
-              Text(Brand.name,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      fontSize: wide ? 32 : 24,
-                      letterSpacing: -0.6)),
-            ]),
-          ),
-          const SizedBox(width: 9),
-          const _ByOperator(),
-          const SizedBox(width: AppSpace.lg),
-          const _HeaderFilters(),
+          _Brand(layout: layout),
+          if (layout.showByOperator) ...[
+            const SizedBox(width: 9),
+            const _ByOperator(),
+          ],
+          if (layout.showFilters) ...[
+            const SizedBox(width: AppSpace.md),
+            _HeaderFilters(wheels: layout.useWheels),
+          ],
           const Spacer(),
-          if (wide)
-            for (final (path, label, _) in _navItems)
-              _NavLink(
-                  path: path,
-                  label: label,
-                  active: path == '/'
-                      ? location == '/'
-                      : location.startsWith(path)),
-          if (wide) const SizedBox(width: AppSpace.sm),
+          // 자리가 모자라면 잘리는 대신 가로로 밀린다.
+          // 예전에는 Row 가 그대로 넘쳐서 '산식'과 검색이 사라졌다.
+          if (layout.showNav)
+            Flexible(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                reverse: true,
+                child: Row(children: [
+                  for (final (path, label, _) in _navItems)
+                    _NavLink(
+                        path: path,
+                        label: label,
+                        active: path == '/'
+                            ? location == '/'
+                            : location.startsWith(path)),
+                  const SizedBox(width: AppSpace.xs),
+                ]),
+              ),
+            ),
           IconButton(
             tooltip: '학원 검색',
-            onPressed: () => showSearch(
-                context: context, delegate: _AcademySearch()),
+            onPressed: () =>
+                showSearch(context: context, delegate: _AcademySearch()),
             icon: const Icon(Icons.search, size: 21),
           ),
         ]),
@@ -101,14 +123,30 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-/// 헤더 로고 크기. 상단 바 높이가 여기에 딸려 간다.
-///
-/// 데스크톱은 크게 간다 — 브랜드가 눈에 들어와야 한다.
-/// 모바일은 조금 줄인다. 100px 로고 + 124px 바는 812px 화면의 15%를 먹는다.
-double logoSizeFor(BuildContext context) =>
-    MediaQuery.sizeOf(context).width >= 720 ? 100.0 : 72.0;
+/// 로고 + 워드마크. 폭이 모자라면 워드마크가 줄어들되 잘리지는 않는다.
+class _Brand extends StatelessWidget {
+  final HeaderLayout layout;
+  const _Brand({required this.layout});
 
-double topBarHeightFor(BuildContext context) => logoSizeFor(context) + 24;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => context.go('/'),
+      borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        _Logo(size: layout.logo),
+        const SizedBox(width: AppSpace.sm),
+        Text(Brand.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w800,
+                fontSize: layout.titleSize,
+                letterSpacing: -0.6)),
+      ]),
+    );
+  }
+}
 
 /// 운영사 표기. 제목 옆에 작게 붙이고 회사 소개로 연결한다.
 /// 브랜드를 가리지 않을 만큼만 — 크기와 색을 확실히 낮췄다.
@@ -123,8 +161,8 @@ class _ByOperator extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.sm),
         onTap: () => launchUrl(Uri.base.resolve('openedu/'),
             webOnlyWindowName: '_blank'),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Text('by ',
                 style: TextStyle(
@@ -132,13 +170,13 @@ class _ByOperator extends StatelessWidget {
                     fontSize: 12,
                     color: AppColors.mist)),
             Text(Brand.operator,
-                style: const TextStyle(
+                style: TextStyle(
                     fontFamily: 'Paperlogy',
                     fontSize: 12.5,
                     fontWeight: FontWeight.w700,
                     color: AppColors.gold)),
-            const SizedBox(width: 2),
-            const Icon(Icons.north_east, size: 9.5, color: AppColors.gold),
+            SizedBox(width: 2),
+            Icon(Icons.north_east, size: 9.5, color: AppColors.gold),
           ]),
         ),
       ),
@@ -148,18 +186,21 @@ class _ByOperator extends StatelessWidget {
 
 /// 학군·학교급 필터. 페이지마다 흩어 두지 않고 헤더에 한 번만 둔다.
 class _HeaderFilters extends ConsumerWidget {
-  const _HeaderFilters();
+  final bool wheels;
+  const _HeaderFilters({required this.wheels});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(dataProvider).value;
+    // 학군 목록만 본다. 학원 목록이 바뀌었다고 헤더가 다시 그려질 이유는 없다.
+    final regionList =
+        ref.watch(dataProvider.select((d) => d.value?.regions)) ??
+            const <Region>[];
     final sel = ref.watch(selectionProvider);
     final notifier = ref.read(selectionProvider.notifier);
-    final narrow = MediaQuery.sizeOf(context).width < 1180;
 
     final regions = <(String, String)>[
       ('all', '전체'),
-      for (final r in data?.regions ?? const <Region>[]) (r.id, r.nameKo),
+      for (final r in regionList) (r.id, r.nameKo),
     ];
 
     return Row(mainAxisSize: MainAxisSize.min, children: [
@@ -169,7 +210,7 @@ class _HeaderFilters extends ConsumerWidget {
         selected: sel.regionId,
         onChanged: notifier.setRegion,
         width: 92,
-        compact: narrow,
+        compact: !wheels,
       ),
       const SizedBox(width: AppSpace.sm),
       WheelSelector<String>(
@@ -182,18 +223,18 @@ class _HeaderFilters extends ConsumerWidget {
         selected: sel.schoolLevel,
         onChanged: notifier.setSchoolLevel,
         width: 78,
-        compact: narrow,
+        compact: !wheels,
       ),
     ]);
   }
 }
 
 class _Logo extends StatelessWidget {
-  const _Logo();
+  final double size;
+  const _Logo({required this.size});
 
   @override
   Widget build(BuildContext context) {
-    final size = logoSizeFor(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(size * 0.2),
       child: Image.asset(
@@ -201,7 +242,10 @@ class _Logo extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.cover,
-        filterQuality: FilterQuality.high,
+        filterQuality: FilterQuality.medium,
+        // 표시 크기에 맞춰 디코딩한다. 원본을 그대로 풀면
+        // 헤더 하나 그리자고 큰 비트맵을 메모리에 올리게 된다.
+        cacheWidth: (size * MediaQuery.devicePixelRatioOf(context)).round(),
       ),
     );
   }
@@ -235,6 +279,8 @@ class _NavLink extends StatelessWidget {
 }
 
 class _BottomBar extends StatelessWidget {
+  const _BottomBar();
+
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
@@ -281,23 +327,37 @@ class _AcademySearch extends SearchDelegate<String> {
       if (data == null) {
         return const Center(child: CircularProgressIndicator());
       }
-      final rows = data.search(query);
       if (query.isEmpty) {
         return const Center(
             child: Text('학원명 또는 별칭을 입력하세요',
                 style: TextStyle(color: AppColors.mist)));
       }
+
+      // 등록부는 검색을 열 때 처음 읽는다. 아직 안 왔으면 채점 대상만
+      // 먼저 보여주고, 도착하면 뒤에 이어 붙는다 — 기다리게 하지 않는다.
+      final registry = ref.watch(registryProvider).value;
+      final q = query.trim().toLowerCase();
+      final rows = <SearchHit>[
+        ...data.search(query),
+        if (registry != null)
+          for (final r in registry)
+            if (r.name.toLowerCase().contains(q) ||
+                r.displayName.toLowerCase().contains(q))
+              SearchHit.listed(r),
+      ];
+
       if (rows.isEmpty) {
         return Center(child: Text("'$query' 검색 결과가 없습니다"));
       }
       return ListView.builder(
-        itemCount: rows.length,
+        itemCount: rows.length > 40 ? 40 : rows.length,
         itemBuilder: (context, i) {
           final hit = rows[i];
           final region = data.regionById[hit.regionId];
           final subjects =
               hit.subjects.map((s) => subjectNames[s] ?? s).join(', ');
           return ListTile(
+            key: ValueKey(hit.id),
             title: Text(hit.name),
             subtitle: Text('${region?.nameKo ?? ''}'
                 '${subjects.isEmpty ? '' : ' · $subjects'}'),

@@ -1,28 +1,33 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
+# 정적 분석 설정.
 #
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
+# CI 가 `flutter analyze` 로 배포를 막는다. info 수준도 실패로 친다 —
+# 한 번 쌓이기 시작하면 아무도 안 보게 되기 때문이다.
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+analyzer:
+  language:
+    # 암묵적 dynamic 을 막는다. 정적 JSON 을 다루는 코드라
+    # 캐스팅이 조용히 넘어가면 런타임에서야 터진다.
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # 쓰지 않는 코드는 지운다. 남겨 두면 다음 사람이 이유를 찾느라 시간을 쓴다.
+    unused_element: warning
+    unused_field: warning
+    unused_import: warning
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+linter:
+  rules:
+    - avoid_print                    # 로깅은 dart:developer 로
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - prefer_const_declarations
+    - prefer_final_locals
+    - unawaited_futures              # 던져 놓고 잊는 비동기 방지
+    - use_build_context_synchronously # await 뒤 context 사용
+    - always_declare_return_types
+    - always_use_package_imports: false
+    - sized_box_for_whitespace
+    - use_colored_box
+    - use_decorated_box

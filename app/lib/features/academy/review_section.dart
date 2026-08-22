@@ -66,7 +66,7 @@ class ReviewSection extends ConsumerWidget {
   }
 
   void _openForm(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,

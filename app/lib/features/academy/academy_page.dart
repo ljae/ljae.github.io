@@ -99,7 +99,7 @@ class _Body extends StatelessWidget {
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
-              SectionHeader('점수 구성',
+              const SectionHeader('점수 구성',
                   subtitle: '각 기둥의 계산 근거를 펼쳐 볼 수 있습니다'),
               for (final key in pillarNames.keys)
                 _PillarPanel(
@@ -139,7 +139,7 @@ class _Body extends StatelessWidget {
 
               // ── 테크트리 위치 ───────────────────────────────
               if (stages.isNotEmpty) ...[
-                SectionHeader('테크트리에서의 위치',
+                const SectionHeader('테크트리에서의 위치',
                     subtitle: '이 학원이 담당하는 단계입니다'),
                 Wrap(
                   spacing: AppSpace.sm,
@@ -156,7 +156,7 @@ class _Body extends StatelessWidget {
               ],
 
               // ── 근거 ───────────────────────────────────────
-              SectionHeader('평판 점수에 반영된 근거',
+              const SectionHeader('평판 점수에 반영된 근거',
                   subtitle: '신뢰도 상위 게시물입니다. 원문 링크로만 제공하며 본문을 전재하지 않습니다.'),
               if (academy.evidence.isEmpty)
                 Text('표시할 근거가 없습니다.', style: text.bodyMedium)

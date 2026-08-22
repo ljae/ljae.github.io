@@ -181,7 +181,7 @@ class _RegionGrid extends ConsumerWidget {
             for (final region in data.regions)
               _RegionCard(
                 region: region,
-                count: data.academyCountIn(region.id),
+                count: region.academyCount,
                 onTap: () {
                   ref.read(selectionProvider.notifier).setRegion(region.id);
                   context.go('/tree');

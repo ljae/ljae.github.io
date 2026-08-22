@@ -642,9 +642,16 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     payload_registry = [base(a) for a in registry_only]
 
     files = {
-        "regions.json": [{**r, "trends": [
-            t for t in _district_trends() if t["regionId"] == r["id"]]}
-            for r in regions],
+        # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
+        # 전체(1.4MB)를 첫 화면에서 읽어야 했는데, 정작 쓰는 건 숫자 넷이다.
+        "regions.json": [{
+            **r,
+            "academy_count": sum(1 for a in evaluated if a["region_id"] == r["id"])
+                           + sum(1 for a in registry_only if a["region_id"] == r["id"]),
+            "evaluated_count": sum(1 for a in evaluated if a["region_id"] == r["id"]),
+            "trends": [
+                t for t in _district_trends() if t["regionId"] == r["id"]],
+        } for r in regions],
         "schools.json": [{
             "id": s["id"], "name": s["name"], "level": s["level"],
             "levelLabel": s["level_label"], "regionId": s["region_id"],

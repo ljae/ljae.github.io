@@ -14,20 +14,12 @@ class EduTreeData {
   final List<Region> regions;
   final List<Track> tracks;
   final List<Academy> academies;
-  final List<RegistryEntry> registry;
-  final List<School> schools;
-  final List<Apartment> apartments;
-  final List<dynamic> zoneFeatures;
 
   EduTreeData({
     required this.meta,
     required this.regions,
     required this.tracks,
     required this.academies,
-    this.registry = const [],
-    this.schools = const [],
-    this.apartments = const [],
-    this.zoneFeatures = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -101,7 +93,7 @@ class EduTreeData {
     return rows;
   }
 
-  /// 검색 결과. 점수가 있는 학원을 먼저, 등록부 학원을 뒤에 둔다.
+  /// 채점 대상 안에서의 검색. 등록부는 [registryProvider] 가 따로 늦게 온다.
   List<SearchHit> search(String query) {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return const [];
@@ -113,53 +105,34 @@ class EduTreeData {
           a.aliases.any((x) => x.toLowerCase().contains(q));
       if (match) hits.add(SearchHit.scored(a));
     }
-    for (final r in registry) {
-      if (r.name.toLowerCase().contains(q) ||
-          r.displayName.toLowerCase().contains(q)) {
-        hits.add(SearchHit.listed(r));
-      }
-    }
-    return hits.take(40).toList();
+    return hits;
   }
+}
 
-  /// 학군별 등록 학원 수 — 채점 대상뿐 아니라 등록부 전체를 센다.
-  /// 지도의 밀도는 '우리가 점수를 매긴 수'가 아니라 '실제로 있는 수'여야 한다.
+/// 지도 전용 데이터. 학교·아파트·학구 폴리곤 합쳐 1.6MB 라
+/// 첫 화면에서 같이 읽으면 그만큼 첫 그림이 늦어진다. 지도에 들어갈 때 읽는다.
+class MapData {
+  final List<School> schools;
+  final List<Apartment> apartments;
+  final List<dynamic> zoneFeatures;
+
+  const MapData({
+    this.schools = const [],
+    this.apartments = const [],
+    this.zoneFeatures = const [],
+  });
+
   List<School> schoolsIn(String regionId, {String? level}) => schools
       .where((s) =>
-          matchRegion(s.regionId, regionId) &&
+          EduTreeData.matchRegion(s.regionId, regionId) &&
           (level == null || s.level == level))
       .toList()
     ..sort((a, b) => a.name.compareTo(b.name));
 
   List<Apartment> apartmentsIn(String regionId) => apartments
-      .where((a) => matchRegion(a.regionId, regionId))
+      .where((a) => EduTreeData.matchRegion(a.regionId, regionId))
       .toList()
     ..sort((a, b) => (b.households ?? 0).compareTo(a.households ?? 0));
-
-  int academyCountIn(String regionId) =>
-      academies.where((a) => a.regionId == regionId).length +
-      registry.where((r) => r.regionId == regionId).length;
-
-  /// 채점까지 마친 학원 수
-  int evaluatedCountIn(String regionId) =>
-      academies.where((a) => a.regionId == regionId).length;
-
-  /// 학군 × 과목 분포 — 등록부까지 포함
-  Map<String, int> subjectBreakdown(String regionId) {
-    final counts = <String, int>{};
-    void add(List<String> subjects) {
-      for (final s in subjects.isEmpty ? const ['etc'] : subjects) {
-        counts[s] = (counts[s] ?? 0) + 1;
-      }
-    }
-    for (final a in academies.where((a) => a.regionId == regionId)) {
-      add(a.subjects);
-    }
-    for (final r in registry.where((r) => r.regionId == regionId)) {
-      add(r.subjects);
-    }
-    return counts;
-  }
 }
 
 /// 검색 결과 한 줄. 점수가 있는 학원과 등록부 학원을 함께 담는다.
@@ -201,16 +174,13 @@ class SearchHit {
 class EduTreeRepository {
   const EduTreeRepository();
 
+  /// 첫 화면에 필요한 것만. 1.4MB.
   Future<EduTreeData> load() async {
     final results = await Future.wait([
       _json('assets/data/meta.json'),
       _json('assets/data/regions.json'),
       _json('assets/data/techtree.json'),
       _json('assets/data/academies.json'),
-      _json('assets/data/registry.json'),
-      _json('assets/data/schools.json'),
-      _json('assets/data/apartments.json'),
-      _json('assets/data/zones.geojson'),
     ]);
 
     return EduTreeData(
@@ -224,17 +194,30 @@ class EduTreeRepository {
       academies: (results[3] as List)
           .map((e) => Academy.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
-      registry: (results[4] as List)
+    );
+  }
+
+  /// 등록부 1.4MB. 검색을 열 때만 필요하다.
+  Future<List<RegistryEntry>> loadRegistry() async =>
+      ((await _json('assets/data/registry.json')) as List)
           .map((e) => RegistryEntry.fromJson((e as Map).cast<String, dynamic>()))
-          .toList(),
-      schools: (results[5] as List)
+          .toList();
+
+  /// 지도 데이터 1.6MB. 학군지도에 들어갈 때만 필요하다.
+  Future<MapData> loadMapData() async {
+    final results = await Future.wait([
+      _json('assets/data/schools.json'),
+      _json('assets/data/apartments.json'),
+      _json('assets/data/zones.geojson'),
+    ]);
+    return MapData(
+      schools: (results[0] as List)
           .map((e) => School.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
-      apartments: (results[6] as List)
+      apartments: (results[1] as List)
           .map((e) => Apartment.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
-      zoneFeatures:
-          ((results[7] as Map)['features'] as List?) ?? const [],
+      zoneFeatures: ((results[2] as Map)['features'] as List?) ?? const [],
     );
   }
 
@@ -247,6 +230,14 @@ final repositoryProvider =
 
 final dataProvider = FutureProvider<EduTreeData>(
     (ref) => ref.watch(repositoryProvider).load());
+
+/// 등록부 — 검색이 열릴 때 처음 읽힌다. 한 번 읽으면 남는다.
+final registryProvider = FutureProvider<List<RegistryEntry>>(
+    (ref) => ref.watch(repositoryProvider).loadRegistry());
+
+/// 지도 데이터 — 학군지도에 들어갈 때 처음 읽힌다.
+final mapDataProvider = FutureProvider<MapData>(
+    (ref) => ref.watch(repositoryProvider).loadMapData());
 
 /// 전역 선택 상태 — 지역 / 과목 / 학교급
 class Selection {
@@ -270,6 +261,19 @@ class Selection {
 
   String get trackId => '${subject}_$schoolLevel';
   bool get isAllRegions => regionId == 'all';
+
+  // 값이 같으면 같은 상태다. 이게 없으면 리버팟이 매 갱신을 '바뀐 것'으로
+  // 보고 구독자를 전부 다시 그린다. 휠을 한 번 굴릴 때마다 화면 전체가
+  // 재구성되던 원인이었다.
+  @override
+  bool operator ==(Object other) =>
+      other is Selection &&
+      other.regionId == regionId &&
+      other.subject == subject &&
+      other.schoolLevel == schoolLevel;
+
+  @override
+  int get hashCode => Object.hash(regionId, subject, schoolLevel);
 }
 
 class SelectionNotifier extends Notifier<Selection> {

@@ -164,7 +164,7 @@ class BoardService {
 
   Future<void> bumpView(String postId) async {
     try {
-      await _db.rpc('bump_view', params: {'p_id': postId});
+      await _db.rpc<void>('bump_view', params: {'p_id': postId});
     } catch (_) {/* 조회수는 실패해도 무시 */}
   }
 }

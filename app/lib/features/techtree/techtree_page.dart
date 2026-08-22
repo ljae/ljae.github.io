@@ -115,7 +115,7 @@ class _TrackBody extends StatelessWidget {
 
   void _openStage(
       BuildContext context, Stage stage, EduTreeData data, String regionId) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
