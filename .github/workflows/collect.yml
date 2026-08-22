@@ -1,0 +1,55 @@
+name: Nightly data collection
+
+# 매일 새벽 NEIS·네이버에서 수집하고 점수를 다시 계산해 커밋한다.
+# 카페 로컬 모듈은 여기서 절대 실행되지 않는다(모듈 자체가 CI를 거부한다).
+
+on:
+  schedule:
+    - cron: '0 19 * * *'      # UTC 19:00 = KST 04:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - run: pip install -r pipeline/requirements.txt
+
+      - name: 수집 · 채점
+        env:
+          NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python pipeline/run.py
+
+      - name: Supabase 업로드 (키가 있을 때만)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_URL" ]; then
+            python pipeline/sync_supabase.py
+          else
+            echo "Supabase 키 없음 — 건너뜀"
+          fi
+
+      - name: 변경분 커밋
+        run: |
+          git config user.name  "edutree-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add app/assets/data
+          if git diff --staged --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "data: 학원 데이터 및 트리스코어 갱신 ($(date -u +%Y-%m-%d))"
+            git push
+          fi

@@ -17,3 +17,24 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Flutter
+app/build/
+app/.dart_tool/
+app/.flutter-plugins*
+app/ios/Pods/
+app/ios/.symlinks/
+app/android/.gradle/
+app/android/local.properties
+*.iml
+
+# 파이프라인
+pipeline/.cache/
+__pycache__/
+*.pyc
+
+# 배포 산출물
+_site/
+
+# IDE
+app/.idea/

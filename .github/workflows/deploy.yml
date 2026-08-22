@@ -1,0 +1,79 @@
+name: Deploy to GitHub Pages
+
+# openedu4u.com 배포.
+#   /            → Flutter 웹 빌드 (에듀트리)
+#   /openedu/    → 기존 Open Edu 정적 사이트 (그대로 보존)
+#
+# ★ 최초 1회 설정 필요: 저장소 Settings → Pages → Source 를
+#   "Deploy from a branch" 에서 "GitHub Actions" 로 바꿔야 합니다.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.2'
+          channel: stable
+          cache: true
+
+      - name: 의존성 설치
+        working-directory: app
+        run: flutter pub get
+
+      - name: 정적 분석 · 테스트
+        working-directory: app
+        run: |
+          flutter analyze
+          flutter test
+
+      - name: 웹 빌드
+        working-directory: app
+        run: flutter build web --release --base-href /
+
+      - name: 배포 산출물 조립
+        run: |
+          mkdir -p _site
+          cp -r app/build/web/. _site/
+          # 기존 Open Edu 사이트를 하위 경로로 보존
+          mkdir -p _site/openedu
+          cp -r openedu/. _site/openedu/
+          # 커스텀 도메인
+          cp CNAME _site/CNAME
+          # SPA 라우팅: 알 수 없는 경로도 앱이 처리하도록
+          cp _site/index.html _site/404.html
+          echo "--- 배포 트리 ---"
+          ls -la _site | head -20
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
