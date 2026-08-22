@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:js_interop';
 import 'dart:ui_web' as ui_web;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:web/web.dart' as web;
 
@@ -21,9 +23,6 @@ bool get naverMapAvailable {
 }
 
 /// 네이버 지도를 감싼 플랫폼 뷰.
-///
-/// 뷰 타입을 인스턴스마다 새로 등록하지 않는다. 한 번만 등록하고 div 의
-/// id 로 구분한다 — 재등록하면 Flutter 가 중복 등록 예외를 던진다.
 class NaverMapView extends StatefulWidget {
   final double lat;
   final double lng;
@@ -44,24 +43,36 @@ class NaverMapView extends StatefulWidget {
 class _NaverMapViewState extends State<NaverMapView> {
   static const _viewType = 'hakwon-naver-map';
   static bool _registered = false;
-  static int _seq = 0;
 
-  late final String _elementId = 'hakwon-map-${_seq++}';
+  /// 플랫폼 뷰 id 로 div id 를 정한다.
+  ///
+  /// 처음에는 creationParams 로 id 를 넘겼는데, 뷰가 DOM 에 붙는 시점과
+  /// Dart 가 init 을 부르는 시점이 어긋나 지도가 끝내 그려지지 않았다.
+  /// (div 는 만들어졌는데 자식이 0개였다.) 뷰 id 를 콜백으로 받아 쓰면
+  /// '붙은 뒤'가 보장된다.
+  int? _viewId;
+  Timer? _retry;
 
   @override
   void initState() {
     super.initState();
     if (!_registered) {
       _registered = true;
-      ui_web.platformViewRegistry.registerViewFactory(_viewType, (int id, {Object? params}) {
+      ui_web.platformViewRegistry.registerViewFactory(_viewType, (int id) {
         final div = web.document.createElement('div') as web.HTMLDivElement;
-        div.id = (params as String?) ?? 'hakwon-map-$id';
+        div.id = 'hakwon-map-$id';
         div.style
           ..width = '100%'
           ..height = '100%';
         return div;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _retry?.cancel();
+    super.dispose();
   }
 
   @override
@@ -74,24 +85,37 @@ class _NaverMapViewState extends State<NaverMapView> {
     }
   }
 
-  void _draw() {
-    // 플랫폼 뷰가 DOM 에 붙은 다음 프레임에 그린다. 바로 부르면 div 가 없다.
+  /// 몇 번 다시 시도한다. 레이아웃이 잡히기 전에 부르면 네이버가 크기 0으로
+  /// 지도를 만들어 버려서, 성공(true)할 때까지 짧게 재시도하는 편이 안전하다.
+  void _draw({int attempt = 0}) {
+    final id = _viewId;
+    if (id == null || !mounted) return;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      var ok = false;
       try {
-        _init(_elementId, widget.lat, widget.lng, widget.zoom, widget.markersJson);
-      } catch (_) {
-        // SDK 미로드·인증 실패. 상위에서 모식도로 대체한다.
+        ok = _init('hakwon-map-$id', widget.lat, widget.lng, widget.zoom,
+            widget.markersJson);
+      } catch (e) {
+        if (kDebugMode) debugPrint('naver map init 실패: $e');
+      }
+      if (!ok && attempt < 5) {
+        _retry?.cancel();
+        _retry = Timer(Duration(milliseconds: 120 * (attempt + 1)),
+            () => _draw(attempt: attempt + 1));
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _draw();
     return HtmlElementView(
       viewType: _viewType,
-      creationParams: _elementId,
-      onPlatformViewCreated: (_) => _draw(),
+      onPlatformViewCreated: (id) {
+        _viewId = id;
+        _draw();
+      },
     );
   }
 }
