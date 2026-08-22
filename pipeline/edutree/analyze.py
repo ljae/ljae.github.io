@@ -52,7 +52,22 @@ SPAM_PHRASES = (
     "이벤트", "할인", "무료체험", "원장님이하시는", "제휴", "협찬",
     "체험단", "소정의", "원고료", "블로그체험", "포스팅",
 )
-CONTACT = re.compile(r"01[016-9][-\s]?\d{3,4}[-\s]?\d{4}|https?://|카톡\s*:|kakao")
+# 학원이 직접 올리는 홍보글에 자주 나오는 표현.
+# 학부모 후기에는 거의 안 쓰이고, 짧은 스니펫에서도 잘 잡힌다.
+PROMO_PHRASES = (
+    "신청마감", "등록문의", "상담예약", "모집중", "모집합니다",
+    "런칭", "개강안내", "설명회신청", "특강안내", "얼리버드", "마감임박",
+    "지금바로", "문의하세요", "예약하기", "커리큘럼안내", "입학설명회",
+)
+# 스니펫이 짧아(평균 120자) 긴 글 기준으로 잡은 임계값은 거의 발동하지 않는다.
+# 실측 분포에서 명백한 홍보글이 0.18~0.53 에 몰려 있어 여기에 맞춘다.
+SPAM_EXCLUDE_THRESHOLD = 0.35
+# 연락처 신호는 세기가 다르다. 전화번호와 카톡 아이디는 광고의 강한 증거지만,
+# 링크는 아니다 — 카페 스니펫은 본문 첫 줄이 URL인 경우가 흔해서, 링크만으로
+# 배제하면 "OO학원 어떤가요?" 같은 평범한 질문글까지 걷어내게 된다.
+PHONE = re.compile(r"01[016-9][-\s]?\d{3,4}[-\s]?\d{4}")
+KAKAO = re.compile(r"카톡\s*:|오픈\s*채팅|kakao|카카오톡\s*문의")
+URL = re.compile(r"https?://")
 EMOJI_RUN = re.compile(r"[\U0001F300-\U0001FAFF☀-➿]{3,}")
 
 # ── 진입난이도 신호 ────────────────────────────────────────────────
@@ -116,8 +131,17 @@ def score_spam(text: str, title: str = "") -> float:
     flat = blob.replace(" ", "")
     score = 0.0
     score += 0.18 * sum(1 for p in SPAM_PHRASES if p in flat)
-    if CONTACT.search(blob):
+    score += 0.20 * sum(1 for p in PROMO_PHRASES if p in flat)
+    if PHONE.search(blob):
         score += 0.35
+    if KAKAO.search(blob):
+        score += 0.30
+    if URL.search(blob):
+        score += 0.12
+    # 【브랜드】 [브랜드] 로 시작하는 제목 + 홍보 표현 = 학원 공식 계정 글
+    if re.match(r"^\s*[\[【(]", title or "") and (
+            any(p in flat for p in PROMO_PHRASES + SPAM_PHRASES)):
+        score += 0.25
     if EMOJI_RUN.search(blob):
         score += 0.15
     if blob.count("#") >= 5:                       # 해시태그 도배
@@ -163,6 +187,40 @@ def selectivity_signals(text: str) -> dict[str, int]:
     }
 
 
+_NORM = re.compile(r"[^가-힣A-Za-z0-9]")
+
+
+def _norm(text: str) -> str:
+    return _NORM.sub("", text or "").lower()
+
+
+def name_candidates(academy: dict) -> set[str]:
+    """이 학원을 가리킬 수 있는 표기들."""
+    raw = [academy.get("brand"), academy.get("name"), *(academy.get("aliases") or [])]
+    out: set[str] = set()
+    for n in raw:
+        if not n:
+            continue
+        out.add(_norm(n))
+        # '대치 생각하는황소학원' 처럼 지역 접두어가 붙은 형태도 뗀 걸 넣는다
+        out.add(_norm(re.sub(r"^(대치|목동|반포|잠실|서울)\s*", "", n)))
+    return {c for c in out if len(c) >= 2}
+
+
+def is_relevant(mention: dict, candidates: set[str]) -> bool:
+    """이 글이 정말 그 학원에 대한 글인가.
+
+    네이버 검색은 질의와 느슨하게 관련된 결과를 폭넓게 돌려준다.
+    '대치 OO학원 후기'로 검색해도 학원 이름이 한 번도 안 나오는 입시 잡담이
+    대량으로 딸려 온다. 실측에서 수집분의 68%가 그랬다.
+
+    학원명이 제목이나 본문에 실제로 등장하지 않으면 그 학원에 대한 근거가
+    아니므로 버린다. 가중치를 낮추는 정도로는 부족하다 — 애초에 증거가 아니다.
+    """
+    blob = _norm(f"{mention.get('title', '')} {mention.get('snippet', '')}")
+    return any(c in blob for c in candidates)
+
+
 def analyze(mention: dict) -> dict:
     """언급 한 건을 분석해 필드를 채워 돌려준다."""
     text = mention.get("snippet", "")
@@ -173,7 +231,7 @@ def analyze(mention: dict) -> dict:
     spam = score_spam(text, title)
     credibility = score_credibility(text, title, mention.get("source", ""))
 
-    # 스팸 의심이 높을수록 신뢰도를 깎는다. 0.6 이상이면 아예 배제.
+    # 스팸 의심이 높을수록 신뢰도를 깎는다. 임계값 이상이면 아예 배제.
     credibility *= max(0.0, 1.0 - spam)
 
     mention = dict(mention)
@@ -182,7 +240,7 @@ def analyze(mention: dict) -> dict:
         "aspects": aspects,
         "spam_score": spam,
         "credibility": round(credibility, 3),
-        "is_excluded": spam >= 0.6,
+        "is_excluded": spam >= SPAM_EXCLUDE_THRESHOLD,
         "selectivity": selectivity_signals(blob),
     })
     return mention

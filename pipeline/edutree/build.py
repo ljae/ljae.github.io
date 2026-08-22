@@ -21,7 +21,13 @@ from .neis import match_keys, normalize_name
 
 
 # ── 학원 로딩 ──────────────────────────────────────────────────────
-def load_academies() -> tuple[list[dict], str]:
+def load_academies(from_cache: bool = False) -> tuple[list[dict], str]:
+    cache = config.CACHE_DIR / "neis_academies.json"
+    if from_cache and cache.exists():
+        rows = json.loads(cache.read_text(encoding="utf-8"))
+        print(f"캐시에서 NEIS {len(rows)}곳 로드")
+        return _merge_seed_into_neis(rows), "live"
+
     if config.HAS_NEIS:
         from . import neis
         print("NEIS 수집 중…")
@@ -50,6 +56,8 @@ def _expand_seed() -> list[dict]:
                 "name": display,
                 "brand": brand["name"],
                 "name_normalized": normalize_name(display),
+                # 시드에는 지정번호가 없으니 학군+브랜드로 고유 키를 만든다
+                "id": f"{region_id}-{normalize_name(brand['name'])}",
                 "aliases": brand.get("aliases", []),
                 "region_id": region_id,
                 "subjects": brand["subjects"],
@@ -98,6 +106,12 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             for key in match_keys(alias):
                 seed_by_key.setdefault(key, brand)
 
+    before = len(neis_rows)
+    neis_rows = [r for r in neis_rows
+                 if (r.get("realm_sc_nm") or "") in config.ACADEMIC_REALMS]
+    print(f"  학술 분야 필터: {before}곳 → {len(neis_rows)}곳 "
+          f"(예능·기예·독서실 등 {before - len(neis_rows)}곳 제외)")
+
     matched = 0
     for row in neis_rows:
         brand = next((seed_by_key[k] for k in match_keys(row["name"]) if k in seed_by_key), None)
@@ -113,29 +127,94 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             row.setdefault("flagship", [])
             row.setdefault("subjects", _infer_subjects(row))
         row.setdefault("school_levels", [])
+        row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
     print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨")
     return neis_rows
 
 
 _SUBJECT_HINTS = {
-    "math": ("수학", "산수", "사고력"),
-    "english": ("영어", "어학", "English"),
-    "korean": ("국어", "논술", "독서", "문해"),
-    "science": ("과학", "물리", "화학", "생물", "지구"),
+    "math": ("수학", "산수", "사고력", "매쓰", "MATH", "Math"),
+    "english": ("영어", "어학", "English", "ENGLISH", "잉글리시", "어학원"),
+    "korean": ("국어", "논술", "독서", "문해", "언어"),
+    "science": ("과학", "물리", "화학", "생물", "지구과학"),
 }
 
 
 def _infer_subjects(row: dict) -> list[str]:
-    blob = " ".join(str(row.get(k) or "") for k in
-                    ("name", "le_crse_list_nm", "le_crse_nm", "realm_sc_nm"))
-    found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in blob for h in hints)]
-    return found or ["etc"]
+    """과목 추론.
+
+    학원명이 가장 정확한 신호다('○○수학학원'). 교습과정은 '보습'처럼
+    과목을 특정하지 않는 값이 많아 보조로만 쓴다. 아무것도 안 잡히면
+    'etc'(종합·보습)로 둔다 — 억지로 배정하지 않는다.
+    """
+    name = str(row.get("name") or "")
+    found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in name for h in hints)]
+    if found:
+        return found
+
+    course = " ".join(str(row.get(k) or "") for k in ("le_crse_list_nm", "le_crse_nm"))
+    found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in course for h in hints)]
+    if found:
+        return found
+
+    if (row.get("realm_sc_nm") or "") == "국제화" or "외국어" in course:
+        return ["english"]
+    return ["etc"]
 
 
 # ── 언급 로딩 ──────────────────────────────────────────────────────
+def select_for_mentions(academies: list[dict]) -> tuple[list[dict], list[dict]]:
+    """네이버 수집 대상을 예산 안에서 고른다.
+
+    학군마다 예산을 똑같이 나눈다. 전체를 점수순으로 자르면 대치가 예산을
+    독식해 다른 학군 랭킹이 비어버린다.
+
+    우선순위
+      1. 큐레이션 테크트리에 매핑된 학원 (테크트리 화면이 이들에 의존한다)
+      2. 과목이 특정된 학원 (종합·보습보다 커뮤니티 언급이 잡히기 쉽다)
+      3. 정원이 큰 학원 (규모가 클수록 언급이 많다는 대리 지표)
+
+    고르지 못한 학원은 점수를 계산하지 않는다. 언급 0건으로 채점하면
+    '평가했는데 낮은 점수'처럼 보이지만 실제로는 '보지도 않은' 것이라
+    그렇게 표시하는 편이 정직하다.
+    """
+    budget = config.NAVER_MAX_ACADEMIES
+    regions = [r["id"] for r in config.regions()]
+    per_region = max(1, budget // max(1, len(regions)))
+
+    def priority(a: dict):
+        return (
+            0 if a.get("stages") else 1,
+            0 if (a.get("subjects") or ["etc"]) != ["etc"] else 1,
+            -(a.get("tofor_smtot") or 0),
+        )
+
+    selected, skipped = [], []
+    for region_id in regions:
+        rows = [a for a in academies if a.get("region_id") == region_id]
+        rows.sort(key=priority)
+        selected.extend(rows[:per_region])
+        skipped.extend(rows[per_region:])
+
+    other = [a for a in academies if a.get("region_id") not in regions]
+    skipped.extend(other)
+
+    print(f"  네이버 수집 대상 {len(selected)}곳 선별 "
+          f"(학군당 {per_region}곳, 예산 {budget})")
+    print(f"  미수집 {len(skipped)}곳은 등록부에만 남기고 점수를 매기지 않습니다")
+    return selected, skipped
+
+
 def load_mentions(academies: list[dict], mode: str,
-                  with_cafe: bool = False) -> list[dict]:
+                  with_cafe: bool = False,
+                  from_cache: bool = False) -> list[dict]:
     mentions: list[dict] = []
+
+    cache = config.CACHE_DIR / "naver_mentions.json"
+    if from_cache and cache.exists():
+        rows = json.loads(cache.read_text(encoding="utf-8"))
+        print(f"캐시에서 언급 {len(rows):,}건 로드 (API 호출 없음)")
+        return rows
 
     if config.HAS_NAVER:
         from . import naver
@@ -202,13 +281,13 @@ def _synthesize_mentions(academies: list[dict]) -> list[dict]:
                 body = "★신규 오픈 이벤트★ 선착순 무료체험 상담문의 카톡 주세요 #학원 #추천 #할인 #최고 #이벤트"
             out.append({
                 "source": source,
-                "source_url": f"https://demo.local/{a['name_normalized']}/{i}",
+                "source_url": f"https://demo.local/{a['id']}/{i}",
                 "url_hash": hashlib.sha256(f"{a['name']}{i}".encode()).hexdigest()[:32],
                 "author_hash": hashlib.sha256(f"author{rng.randint(1, 400)}".encode()).hexdigest()[:32],
                 "title": f"{a.get('brand', a['name'])} 후기",
                 "snippet": body,
                 "posted_at": posted.isoformat() if has_date else None,
-                "academy_key": a["name_normalized"],
+                "academy_key": a["id"],
                 "academy_name": a["name"],
                 "region_id": a.get("region_id"),
                 "is_demo": True,
@@ -217,11 +296,28 @@ def _synthesize_mentions(academies: list[dict]) -> list[dict]:
 
 
 # ── 조립 ───────────────────────────────────────────────────────────
-def run(with_cafe: bool = False) -> dict:
-    academies, mode = load_academies()
+def run(with_cafe: bool = False, from_cache: bool = False) -> dict:
+    academies, mode = load_academies(from_cache=from_cache)
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
 
-    mentions = load_mentions(academies, mode, with_cafe=with_cafe)
+    if mode == "live":
+        evaluated, registry_only = select_for_mentions(academies)
+    else:
+        evaluated, registry_only = academies, []
+
+    mentions = load_mentions(evaluated, mode, with_cafe=with_cafe,
+                             from_cache=from_cache)
+
+    # 관련성 게이트 — 학원명이 실제로 등장하는 글만 근거로 인정한다.
+    candidates = {a["id"]: analyze.name_candidates(a) for a in evaluated}
+    before = len(mentions)
+    mentions = [m for m in mentions
+                if analyze.is_relevant(m, candidates.get(m["academy_key"], set()))]
+    dropped = before - len(mentions)
+    if before:
+        print(f"  관련성 게이트: {before:,}건 → {len(mentions):,}건 "
+              f"(학원명 미등장 {dropped:,}건 제외, {dropped/before*100:.0f}%)")
+
     mentions = [analyze.analyze(m) for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
     print(f"언급 {len(mentions)}건 분석 완료 "
@@ -231,33 +327,40 @@ def run(with_cafe: bool = False) -> dict:
     for m in mentions:
         by_key[m["academy_key"]].append(m)
 
-    cohorts = scoring.build_cohorts(academies, by_key)
+    cohorts = scoring.build_cohorts(evaluated, by_key)
     scores = {}
-    for a in academies:
-        s = scoring.compute(a, by_key.get(a["name_normalized"], []),
+    for a in evaluated:
+        s = scoring.compute(a, by_key.get(a["id"], []),
                             scoring.cohort_for(a, cohorts))
-        scores[a["name_normalized"]] = s
+        scores[a["id"]] = s
 
-    _assign_ranks(academies, scores)
-    export(academies, mentions, scores, cohorts, mode)
-    return {"mode": mode, "academies": len(academies),
-            "mentions": len(mentions), "scores": len(scores)}
+    _assign_ranks(evaluated, scores)
+    export(evaluated, registry_only, mentions, scores, cohorts, mode)
+    return {
+        "mode": mode,
+        "evaluated": len(evaluated),
+        "registry": len(evaluated) + len(registry_only),
+        "mentions": len(mentions),
+        "ranked": sum(1 for s in scores.values() if s["is_ranked"]),
+    }
 
 
 def _assign_ranks(academies: list[dict], scores: dict) -> None:
     by_region: dict[str, list] = defaultdict(list)
     for a in academies:
-        s = scores[a["name_normalized"]]
+        s = scores[a["id"]]
         if s["is_ranked"]:
-            by_region[a["region_id"]].append((s["total"], a["name_normalized"]))
+            by_region[a["region_id"]].append((s["total"], a["id"]))
     for region_id, rows in by_region.items():
-        for rank, (_, key) in enumerate(sorted(rows, reverse=True), start=1):
+        # 동점일 때도 매 실행 같은 순서가 나오도록 (총점 내림차순, id 오름차순)
+        rows.sort(key=lambda t: (-t[0], t[1]))
+        for rank, (_, key) in enumerate(rows, start=1):
             scores[key]["rank_in_region"] = rank
         for _, key in rows:
             scores[key]["region_ranked_count"] = len(rows)
 
 
-def export(academies, mentions, scores, cohorts, mode) -> None:
+def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -277,28 +380,34 @@ def export(academies, mentions, scores, cohorts, mode) -> None:
                 "credibility": m["credibility"],
             })
 
-    payload_academies = []
-    for a in academies:
-        key = a["name_normalized"]
-        s = scores[key]
-        payload_academies.append({
-            "id": key,
+    def base(a: dict) -> dict:
+        return {
+            "id": a["id"],
             "name": a["name"],
+            "regionId": a.get("region_id"),
+            "dong": a.get("dong"),
+            "subjects": a.get("subjects", []),
+            "address": a.get("road_address"),
+            "capacity": a.get("tofor_smtot"),
+            "tuitionMonthly": a.get("tuition_monthly_krw"),
+            "registrationStatus": a.get("reg_stttus_nm"),
+            "isVerified": a.get("is_verified", False),
+        }
+
+    payload_academies = []
+    for a in evaluated:
+        key = a["id"]
+        s = scores[key]
+        row = base(a)
+        row.update({
             "brand": a.get("brand"),
             "aliases": a.get("aliases", []),
-            "regionId": a.get("region_id"),
-            "subjects": a.get("subjects", []),
             "schoolLevels": a.get("school_levels", []),
             "stages": a.get("stages", []),
             "flagship": a.get("flagship", []),
-            "address": a.get("road_address"),
             "tel": a.get("tel"),
-            "capacity": a.get("tofor_smtot"),
-            "tuitionMonthly": a.get("tuition_monthly_krw"),
             "tuitionRaw": a.get("thcc_ctnt"),
-            "registrationStatus": a.get("reg_stttus_nm"),
             "establishedOn": a.get("estbl_ymd"),
-            "isVerified": a.get("is_verified", False),
             "dataSource": a.get("data_source", "seed"),
             "score": {
                 "total": s["total"],
@@ -316,23 +425,31 @@ def export(academies, mentions, scores, cohorts, mode) -> None:
             },
             "evidence": top_evidence.get(key, []),
         })
+        payload_academies.append(row)
+
+    # 등록부: 수집 대상이 아니었던 학원. 점수를 붙이지 않는다.
+    # '평가했는데 낮음'과 '아직 보지 않음'은 다르고, 섞으면 그게 곧 왜곡이다.
+    payload_registry = [base(a) for a in registry_only]
 
     files = {
         "regions.json": regions,
         "techtree.json": tree,
         "academies.json": payload_academies,
+        "registry.json": payload_registry,
         "meta.json": {
             "mode": mode,
             "generatedAt": datetime.now(timezone.utc).isoformat(),
-            "academyCount": len(academies),
+            "evaluatedCount": len(payload_academies),
+            "registryCount": len(payload_academies) + len(payload_registry),
             "mentionCount": len(mentions),
+            "naverBudget": config.NAVER_MAX_ACADEMIES,
             "weights": config.WEIGHTS,
             "minSampleForRank": config.MIN_SAMPLE_FOR_RANK,
             "reputationPriorCount": config.REPUTATION_PRIOR_COUNT,
             "recencyHalflifeDays": config.RECENCY_HALFLIFE_DAYS,
             "sources": {
                 "official": "NEIS 학원교습소정보 (open.neis.go.kr)" if config.HAS_NEIS else None,
-                "community": "네이버 검색 오픈 API" if config.HAS_NAVER else None,
+                "community": "네이버 검색 API" if config.HAS_NAVER else None,
             },
         },
     }

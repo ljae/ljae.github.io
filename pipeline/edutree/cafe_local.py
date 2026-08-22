@@ -138,20 +138,20 @@ def ingest_local_html(academies: list[dict]) -> list[dict]:
 
         hit_keys: set[str] = set()
         for needle, academy in lookup:
-            if needle.replace(" ", "") in flat and academy["name_normalized"] not in hit_keys:
-                hit_keys.add(academy["name_normalized"])
+            if needle.replace(" ", "") in flat and academy["id"] not in hit_keys:
+                hit_keys.add(academy["id"])
                 mentions.append({
                     "source": "cafe_local",
                     # 로컬 파일이므로 공개 URL이 없다. 파일명만 근거로 남긴다.
                     "source_url": f"local://{path.name}",
                     "url_hash": hashlib.sha256(
-                        f"{path.name}|{academy['name_normalized']}".encode()).hexdigest()[:32],
+                        f"{path.name}|{academy['id']}".encode()).hexdigest()[:32],
                     "author_hash": None,      # 작성자 정보는 수집하지 않는다
                     "title": title[:200],
                     # 본문 전체를 저장하지 않는다. 분석에 필요한 만큼만 남긴다.
                     "snippet": _relevant_window(text, needle),
                     "posted_at": posted,
-                    "academy_key": academy["name_normalized"],
+                    "academy_key": academy["id"],
                     "academy_name": academy["name"],
                     "region_id": academy.get("region_id"),
                     "collected_at": datetime.now(timezone.utc).isoformat(),

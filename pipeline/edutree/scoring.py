@@ -230,7 +230,7 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
 
     sample = len([m for m in mentions if not m.get("is_excluded")])
     return {
-        "academy_key": academy["name_normalized"],
+        "academy_key": academy["id"],
         "total": round(total, 1),
         "reputation": rep,
         "momentum": mom,
@@ -262,7 +262,7 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
     for key, members in groups.items():
         sentiments, volumes, ratios = [], [], []
         for a in members:
-            ms = [m for m in mentions_by_key.get(a["name_normalized"], [])
+            ms = [m for m in mentions_by_key.get(a["id"], [])
                   if not m.get("is_excluded")]
             if ms:
                 sentiments.extend(float(m.get("sentiment", 0.0)) for m in ms)

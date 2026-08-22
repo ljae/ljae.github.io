@@ -35,6 +35,7 @@ FIELD_MAP = {
     "DTM_RCPTN_ABLTY_NMPR_SMTOT": "dtm_rcptn_ablty_nmpr_smtot",  # 동시수용인원합계
     "THCC_CTNT": "thcc_ctnt",               # 교습비내용
     "FA_RDNMA": "road_address",             # 도로명주소
+    "FA_RDNDA": "address_detail",           # 상세주소 — 괄호 안에 법정동이 있다
     "FA_TELNO": "tel",                      # 전화번호
     "BRHS_ACA_YN": "brhs_aca_yn",           # 기숙사학원여부
 }
@@ -107,6 +108,19 @@ def parse_tuition(thcc_ctnt: str | None) -> int | None:
     return (plausible[mid - 1] + plausible[mid]) // 2
 
 
+# 도로명주소에는 법정동이 없다. 대신 상세주소 끝 괄호에 들어 있다.
+#   ", 3층 301호 (개포동, 삼성빌딩)"  →  개포동
+# NEIS 4개 구 표본에서 99% 이상 추출된다.
+_DONG = re.compile(r"[（(]\s*([가-힣]+\d*동)\s*[,，)）]")
+
+
+def extract_dong(row: dict) -> str | None:
+    """법정동을 뽑는다. 학군 판정의 유일하게 신뢰할 수 있는 근거."""
+    blob = f"{row.get('FA_RDNDA') or ''} {row.get('FA_RDNMA') or ''}"
+    m = _DONG.search(blob)
+    return m.group(1) if m else None
+
+
 def normalize(row: dict) -> dict:
     out = {internal: row.get(neis) for neis, internal in FIELD_MAP.items()}
 
@@ -122,8 +136,16 @@ def normalize(row: dict) -> dict:
     else:
         out["estbl_ymd"] = None
 
+    out["dong"] = extract_dong(row)
     out["tuition_monthly_krw"] = parse_tuition(out.get("thcc_ctnt"))
     out["name_normalized"] = normalize_name(out.get("name") or "")
+    # 학원지정번호(ACA_ASNUM)를 고유 식별자로 쓴다.
+    #
+    # 처음에는 정규화한 학원명을 id 로 썼는데, 지점이 여럿인 브랜드가 전부
+    # 한 키로 뭉쳤다. '목동 청담어학원'과 '잠실 청담어학원'이 같은 '청담'이
+    # 되어 언급과 점수를 공유했고, 표본 1,028건짜리 유령이 두 학군 랭킹에
+    # 동시에 1위로 올랐다. 지정번호는 4개 구 9,324건에서 결측 없이 고유하다.
+    out["id"] = out.get("aca_asnum") or f"n-{out['name_normalized']}"
     out["is_verified"] = True
     out["data_source"] = "neis"
     return out
@@ -189,15 +211,26 @@ def fetch_region(region: dict) -> list[dict]:
         page += 1
         time.sleep(0.2)
 
-    dongs = tuple(region["dong_list"])
-    out = []
+    # 법정동 정확 일치로 거른다.
+    #
+    # 처음에는 도로명주소에 동 이름이 들어 있으리라 보고 부분 문자열로 걸렀는데
+    # 완전히 틀린 접근이었다. 도로명주소는 애초에 동 기반 주소를 대체한 체계라
+    # 동 이름이 없다. 그 결과 '반포'는 서초구 대부분에 헛매칭되고(1,812곳),
+    # 송파구는 도로명에 '잠실'이 없어 3곳만 남았다.
+    dongs = set(region["dong_list"])
+    out, unmatched = [], 0
     for row in collected:
-        addr = row.get("FA_RDNMA") or ""
-        if dongs and not any(d[:-1] in addr or d in addr for d in dongs):
+        dong = extract_dong(row)
+        if dong is None:
+            unmatched += 1
+            continue
+        if dongs and dong not in dongs:
             continue
         rec = normalize(row)
         rec["region_id"] = region["id"]
         out.append(rec)
+    if unmatched:
+        print(f"    (법정동 미추출 {unmatched}곳 제외)")
     return out
 
 

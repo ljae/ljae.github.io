@@ -60,6 +60,20 @@ RECENCY_HALFLIFE_DAYS = 180
 MIN_SAMPLE_FOR_RANK = 10
 CONFIDENCE_HIGH = 30
 
+# 네이버 수집은 유료 한도가 있는 자원이다. 학원 하나에 3~5질의 × 3소스가
+# 나가므로 4,000곳을 전부 돌면 6만 회를 넘긴다. 그래서 예산을 정하고
+# 우선순위대로 고른다. 수집하지 않은 학원은 점수를 매기지 않고 등록부에만 남긴다.
+NAVER_MAX_ACADEMIES = int(os.getenv("NAVER_MAX_ACADEMIES", "400"))
+
+# 진학 테크트리와 무관한 분야는 등록부에서 제외한다.
+# (예능·기예·직업기술·독서실 등)
+ACADEMIC_REALMS = {
+    "입시.검정 및 보습",
+    "국제화",
+    "종합(대)",
+    "인문사회(대)",
+}
+
 SUBJECTS = {
     "math": "수학",
     "english": "영어",
