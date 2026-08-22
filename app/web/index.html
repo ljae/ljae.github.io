@@ -205,10 +205,15 @@
           // 리페인트가 원인이었던 것이다.
           //
           // 그래서 스타일을 아주 살짝 흔들어 리페인트를 강제한다.
+          // opacity 를 흔드는 것으로는 합성 레이어가 다시 그려지지 않았다.
+          // display 를 잠깐 끊는 쪽이 확실하다 — SVG 를 숨겼을 때 지도가
+          // 나왔던 것과 같은 효과다. 한 프레임 안에서 되돌리므로 깜빡임은 없다.
           var repaint = function () {
-            el.style.opacity = '0.999';
-            void el.offsetHeight;          // 강제 리플로우
-            el.style.opacity = '1';
+            var node = document.getElementById(id);   // 매번 살아 있는 노드를 잡는다
+            if (!node) return;
+            node.style.display = 'none';
+            void node.offsetHeight;                   // 강제 리플로우
+            node.style.display = '';
           };
 
           naver.maps.Event.once(map, 'tilesloaded', repaint);
