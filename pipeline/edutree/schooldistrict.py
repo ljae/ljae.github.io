@@ -52,12 +52,14 @@ def _fetch_page(page: int) -> tuple[list[dict], int]:
     except ValueError as exc:
         raise RuntimeError(f"JSON 파싱 실패: {text[:160]}") from exc
 
-    # 표준데이터 응답은 response.body.items 아래에 들어온다.
-    body = body.get("response", body)
-    inner = body.get("body", body)
+    # 표준데이터 응답 봉투는 서비스마다 다르다. 이 API 는 response 래퍼 없이
+    # 바로 {header, body} 로 오고, items 안에 item 배열이 한 겹 더 있다.
+    inner = body.get("response", body).get("body", body)
     items = inner.get("items") or []
     if isinstance(items, dict):
         items = items.get("item") or []
+    if isinstance(items, dict):
+        items = [items]
     total = int(inner.get("totalCount") or 0)
     return items, total
 

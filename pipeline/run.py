@@ -38,6 +38,8 @@ def check() -> None:
           + ("  (진학 실적은 이 API 에 없음 — CLAUDE.md 참고)"
              if schoolinfo.HAS_SCHOOLINFO else ""))
     print(f"     학구도(통학구역) {schooldistrict.status()}")
+    from edutree import apartments
+    print(f"     공동주택(아파트)  {apartments.status()}")
 
     print("─" * 62)
     print(f"  실행 모드: {mode}")
