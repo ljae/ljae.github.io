@@ -191,43 +191,42 @@
           });
           instances[id] = map;
 
-          // 첫 로드에서 타일이 안 그려지던 문제.
+          // 첫 로드에서 지도가 비어 보이던 문제.
           //
-          // 타일은 정상적으로 내려받아진다(45장 확인). 문제는 위치였다.
-          // 지도 컨테이너는 화면 y=282 에 있는데 타일은 y=0 부터 깔려 있었다.
-          // 지도가 원점을 잘못 잡은 상태로 굳은 것이다. 마커·폴리곤은 좌표
-          // 기반이라 멀쩡히 보여서 '타일만 안 나온다'로 보였다.
+          // 진짜 원인은 '칠하지 않음' 이었다. 타일은 정상적으로 내려받아지고
+          // (45장) 위치도 맞는데, 브라우저가 그 영역을 다시 칠하지 않아
+          // 화면에만 안 나왔다. 플러터 플랫폼 뷰가 만드는 합성 레이어 안에서
+          // 벌어지는 일이라 지도 API 로는 손댈 수 없다.
           //
-          // 플러터는 플랫폼 뷰를 CSS transform 으로 옮긴다. 그래서 크기는
-          // 그대로인 채 위치만 바뀌고, ResizeObserver 로는 잡히지 않는다.
-          // 위치를 직접 감시해 바뀔 때마다 다시 그린다.
+          // 여기까지 오는 데 네 번 헛짚었다. 타일 로딩 → 컨테이너 크기 →
+          // 컨테이너 위치 → 폴리곤이 덮음. 전부 아니었다.
+          // 결정적 단서: SVG 를 숨겼더니 지도가 나왔는데, 폴리곤을 그대로 둔
+          // 채 opacity 만 건드려도 똑같이 나왔다. 숨김이 아니라 그로 인한
+          // 리페인트가 원인이었던 것이다.
           //
-          // tilesloaded 로 '정착'을 판단하던 이전 시도는 틀렸다. 잘못된
-          // 위치로 타일이 로드돼도 그 이벤트가 떠서, 보정을 스스로 막았다.
-          var lastBox = '';
-          var redraw = function () {
-            var r = el.getBoundingClientRect();
-            var box = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
-            if (box === lastBox || r.width === 0) return;
-            lastBox = box;
-            // 전역 resize 를 쏜다.
-            //
-            // Event.trigger(map,'resize') 와 map.refresh(true) 로는 고쳐지지
-            // 않았다. 지도가 생성 시점의 컨테이너 위치를 (0,0) 으로 캐시해
-            // 두는데, 그 값을 다시 계산하는 것은 네이버 자신의 window resize
-            // 핸들러뿐이기 때문이다. 실측에서 타일 오프셋이 정확히 -282,
-            // 즉 컨테이너 top 만큼 어긋나 있었다.
-            //
-            // 위치가 실제로 바뀐 순간에만 쏘므로 평소에는 발생하지 않는다.
-            window.dispatchEvent(new Event('resize'));
-            naver.maps.Event.trigger(map, 'resize');
-            if (typeof map.refresh === 'function') map.refresh(true);
+          // 그래서 스타일을 아주 살짝 흔들어 리페인트를 강제한다.
+          var repaint = function () {
+            el.style.opacity = '0.999';
+            void el.offsetHeight;          // 강제 리플로우
+            el.style.opacity = '1';
           };
-          redraw();
-          // 붙는 시점이 브라우저마다 달라 초반에 몇 번 더 확인한다.
-          [50, 150, 400, 900].forEach(function (ms) { setTimeout(redraw, ms); });
-          // 이후에도 스크롤·필터 변경으로 위치가 계속 바뀐다. 저빈도로 지켜본다.
-          map.__watch = setInterval(redraw, 250);
+
+          naver.maps.Event.once(map, 'tilesloaded', repaint);
+          [80, 300, 800, 1500].forEach(function (ms) { setTimeout(repaint, ms); });
+
+          // 스크롤·필터로 위치가 바뀌면 같은 증상이 재발한다. 저빈도로 지켜본다.
+          // getBoundingClientRect 한 번이라 비용은 무시할 수준이고,
+          // 값이 그대로면 아무것도 하지 않는다.
+          var lastBox = '';
+          map.__watch = setInterval(function () {
+            var r = el.getBoundingClientRect();
+            if (r.width === 0) return;
+            var box = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
+            if (box === lastBox) return;
+            lastBox = box;
+            naver.maps.Event.trigger(map, 'resize');
+            repaint();
+          }, 250);
         } else {
           map.setCenter(new naver.maps.LatLng(lat, lng));
           map.setZoom(zoom);
