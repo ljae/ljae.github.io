@@ -31,6 +31,14 @@ def check() -> None:
         if not ok:
             print(f"     발급: {url}")
     mode = "live" if (config.HAS_NEIS or config.HAS_NAVER) else "demo"
+    # data.go.kr·학교알리미는 서비스별 승인이 필요해 키 유무만으로는 알 수 없다.
+    from edutree import schooldistrict, schoolinfo
+    print("  ─ 추가 연동 ─")
+    print(f"     학교알리미     {'✓ 사용 가능' if schoolinfo.HAS_SCHOOLINFO else '✗ 키 없음'}"
+          + ("  (진학 실적은 이 API 에 없음 — CLAUDE.md 참고)"
+             if schoolinfo.HAS_SCHOOLINFO else ""))
+    print(f"     학구도(통학구역) {schooldistrict.status()}")
+
     print("─" * 62)
     print(f"  실행 모드: {mode}")
     if mode == "demo":
