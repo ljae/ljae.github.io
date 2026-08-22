@@ -77,7 +77,7 @@ class _Hero extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 620),
               child: Text(
                 '${Brand.name}는 학원 목록이 아니라 학원 사이의 길을 보여줍니다. '
-                '공공데이터로 사실을 확인하고, 커뮤니티 신호로 평판을 읽어 '
+                'NEIS 공시로 사실을 확인하고, 커뮤니티 신호로 평판을 읽어 '
                 '${data.regions.length}개 학군의 진학 경로를 한 장의 지도로 만듭니다.',
                 style: text.bodyLarge
                     ?.copyWith(color: Colors.white.withValues(alpha: 0.82)),
@@ -106,10 +106,10 @@ class _Hero extends StatelessWidget {
             ]),
             const SizedBox(height: AppSpace.xl),
             Wrap(spacing: AppSpace.xl, runSpacing: AppSpace.md, children: [
-              _Stat('${data.academies.length}', '수록 학원'),
-              _Stat('${data.tracks.length}', '과목·학교급 트랙'),
+              _Stat(_n(data.meta.registryCount), '등록 학원'),
+              _Stat(_n(data.meta.evaluatedCount), '트리스코어 채점'),
               _Stat('${data.stageById.length}', '테크트리 단계'),
-              _Stat('${data.meta.mentionCount}', '분석한 커뮤니티 글'),
+              _Stat(_n(data.meta.mentionCount), '분석한 커뮤니티 글'),
             ]),
           ],
         ),
@@ -117,6 +117,10 @@ class _Hero extends StatelessWidget {
     );
   }
 }
+
+/// 천 단위 구분. 4,170 을 4170 으로 두면 규모가 안 읽힌다.
+String _n(int v) => v.toString()
+    .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+$)'), (m) => '${m[1]},');
 
 class _Stat extends StatelessWidget {
   final String value;

@@ -196,19 +196,27 @@ class _AcademySearch extends SearchDelegate<String> {
       return ListView.builder(
         itemCount: rows.length,
         itemBuilder: (context, i) {
-          final a = rows[i];
-          final region = data.regionById[a.regionId];
+          final hit = rows[i];
+          final region = data.regionById[hit.regionId];
+          final subjects =
+              hit.subjects.map((s) => subjectNames[s] ?? s).join(', ');
           return ListTile(
-            title: Text(a.displayName),
-            subtitle: Text(
-                '${region?.nameKo ?? ''} · ${a.subjects.map((s) => subjectNames[s] ?? s).join(", ")}'),
-            trailing: Text(a.score.total.toStringAsFixed(0),
-                style: const TextStyle(
-                    fontFamily: 'Paperlogy', fontWeight: FontWeight.w700)),
-            onTap: () {
-              close(context, a.id);
-              context.go('/academy/${a.id}');
-            },
+            title: Text(hit.name),
+            subtitle: Text('${region?.nameKo ?? ''}'
+                '${subjects.isEmpty ? '' : ' · $subjects'}'),
+            trailing: hit.evaluated
+                ? Text(hit.total!.toStringAsFixed(0),
+                    style: const TextStyle(
+                        fontFamily: 'Paperlogy', fontWeight: FontWeight.w700))
+                : const Chip2('미평가', color: AppColors.mist),
+            // 등록부 학원은 상세 화면이 없다. 점수를 만들지 않았으므로
+            // 보여줄 것도 없고, 있는 척하면 그게 곧 거짓이다.
+            onTap: hit.evaluated
+                ? () {
+                    close(context, hit.id);
+                    context.go('/academy/${hit.id}');
+                  }
+                : null,
           );
         },
       );

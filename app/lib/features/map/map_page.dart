@@ -226,14 +226,12 @@ class _RegionBreakdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final rows = data.academies.where((a) => a.regionId == region.id).toList();
-    final bySubject = <String, int>{};
-    for (final a in rows) {
-      for (final s in a.subjects) {
-        bySubject[s] = (bySubject[s] ?? 0) + 1;
-      }
-    }
+    final bySubject = data.subjectBreakdown(region.id);
+    final count = data.academyCountIn(region.id);
+    final evaluated = data.evaluatedCountIn(region.id);
     final total = bySubject.values.fold(0, (a, b) => a + b).clamp(1, 1 << 30);
+    final entries = bySubject.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
@@ -245,7 +243,9 @@ class _RegionBreakdown extends StatelessWidget {
             const SizedBox(width: AppSpace.sm),
             Text(region.dongList.join(' · '), style: text.bodySmall),
             const Spacer(),
-            Text('${rows.length}곳', style: text.labelLarge),
+            Text('$count곳', style: text.labelLarge),
+            const SizedBox(width: 6),
+            Chip2('채점 $evaluated', color: AppColors.evergreen),
           ]),
           const SizedBox(height: AppSpace.sm),
           ClipRRect(
@@ -253,7 +253,7 @@ class _RegionBreakdown extends StatelessWidget {
             child: SizedBox(
               height: 9,
               child: Row(children: [
-                for (final e in bySubject.entries)
+                for (final e in entries)
                   Expanded(
                     flex: (e.value / total * 1000).round().clamp(1, 1000),
                     child: Container(
@@ -264,7 +264,7 @@ class _RegionBreakdown extends StatelessWidget {
           ),
           const SizedBox(height: AppSpace.sm),
           Wrap(spacing: AppSpace.sm, runSpacing: 6, children: [
-            for (final e in bySubject.entries)
+            for (final e in entries)
               Chip2('${subjectNames[e.key] ?? e.key} ${e.value}',
                   color: AppColors.subjects[e.key] ?? AppColors.slate),
           ]),

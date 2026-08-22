@@ -329,7 +329,8 @@ class Academy {
 class Meta {
   final String mode;
   final String generatedAt;
-  final int academyCount;
+  final int evaluatedCount;
+  final int registryCount;
   final int mentionCount;
   final Map<String, double> weights;
   final int minSampleForRank;
@@ -339,7 +340,8 @@ class Meta {
   const Meta({
     required this.mode,
     required this.generatedAt,
-    required this.academyCount,
+    required this.evaluatedCount,
+    required this.registryCount,
     required this.mentionCount,
     required this.weights,
     required this.minSampleForRank,
@@ -352,7 +354,8 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> j) => Meta(
         mode: (j['mode'] ?? 'demo') as String,
         generatedAt: (j['generatedAt'] ?? '') as String,
-        academyCount: (j['academyCount'] as num?)?.toInt() ?? 0,
+        evaluatedCount: (j['evaluatedCount'] as num?)?.toInt() ?? 0,
+        registryCount: (j['registryCount'] as num?)?.toInt() ?? 0,
         mentionCount: (j['mentionCount'] as num?)?.toInt() ?? 0,
         weights: ((j['weights'] as Map?) ?? const {})
             .map((k, v) => MapEntry(k as String, (v as num).toDouble())),
@@ -362,13 +365,56 @@ class Meta {
       );
 }
 
+/// 등록부 엔트리 — NEIS로 검증됐지만 커뮤니티 수집 대상은 아니었던 학원.
+///
+/// 점수를 갖지 않는다. '평가했는데 낮은 점수'와 '아직 보지 않음'은 다르고,
+/// 둘을 같은 화면에 같은 모양으로 두면 그 자체가 왜곡이다.
+class RegistryEntry {
+  final String id;
+  final String name;
+  final String regionId;
+  final String? dong;
+  final List<String> subjects;
+  final String? address;
+  final int? capacity;
+  final int? tuitionMonthly;
+  final String? registrationStatus;
+  final bool isVerified;
+
+  const RegistryEntry({
+    required this.id,
+    required this.name,
+    required this.regionId,
+    this.dong,
+    required this.subjects,
+    this.address,
+    this.capacity,
+    this.tuitionMonthly,
+    this.registrationStatus,
+    required this.isVerified,
+  });
+
+  factory RegistryEntry.fromJson(Map<String, dynamic> j) => RegistryEntry(
+        id: j['id'] as String,
+        name: j['name'] as String,
+        regionId: (j['regionId'] ?? '') as String,
+        dong: j['dong'] as String?,
+        subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
+        address: j['address'] as String?,
+        capacity: (j['capacity'] as num?)?.toInt(),
+        tuitionMonthly: (j['tuitionMonthly'] as num?)?.toInt(),
+        registrationStatus: j['registrationStatus'] as String?,
+        isVerified: (j['isVerified'] ?? false) as bool,
+      );
+}
+
 /// 과목 · 학교급 표시 이름
 const subjectNames = <String, String>{
   'math': '수학',
   'english': '영어',
   'korean': '국어·논술',
   'science': '과학',
-  'etc': '기타',
+  'etc': '종합·보습',
 };
 
 const schoolLevelNames = <String, String>{

@@ -14,12 +14,14 @@ class EduTreeData {
   final List<Region> regions;
   final List<Track> tracks;
   final List<Academy> academies;
+  final List<RegistryEntry> registry;
 
   EduTreeData({
     required this.meta,
     required this.regions,
     required this.tracks,
     required this.academies,
+    this.registry = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -85,18 +87,86 @@ class EduTreeData {
     return rows;
   }
 
-  List<Academy> search(String query) {
+  /// 검색 결과. 점수가 있는 학원을 먼저, 등록부 학원을 뒤에 둔다.
+  List<SearchHit> search(String query) {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return const [];
-    return academies.where((a) {
-      if (a.name.toLowerCase().contains(q)) return true;
-      if ((a.brand ?? '').toLowerCase().contains(q)) return true;
-      return a.aliases.any((x) => x.toLowerCase().contains(q));
-    }).take(30).toList();
+
+    final hits = <SearchHit>[];
+    for (final a in academies) {
+      final match = a.name.toLowerCase().contains(q) ||
+          (a.brand ?? '').toLowerCase().contains(q) ||
+          a.aliases.any((x) => x.toLowerCase().contains(q));
+      if (match) hits.add(SearchHit.scored(a));
+    }
+    for (final r in registry) {
+      if (r.name.toLowerCase().contains(q)) hits.add(SearchHit.listed(r));
+    }
+    return hits.take(40).toList();
   }
 
+  /// 학군별 등록 학원 수 — 채점 대상뿐 아니라 등록부 전체를 센다.
+  /// 지도의 밀도는 '우리가 점수를 매긴 수'가 아니라 '실제로 있는 수'여야 한다.
   int academyCountIn(String regionId) =>
+      academies.where((a) => a.regionId == regionId).length +
+      registry.where((r) => r.regionId == regionId).length;
+
+  /// 채점까지 마친 학원 수
+  int evaluatedCountIn(String regionId) =>
       academies.where((a) => a.regionId == regionId).length;
+
+  /// 학군 × 과목 분포 — 등록부까지 포함
+  Map<String, int> subjectBreakdown(String regionId) {
+    final counts = <String, int>{};
+    void add(List<String> subjects) {
+      for (final s in subjects.isEmpty ? const ['etc'] : subjects) {
+        counts[s] = (counts[s] ?? 0) + 1;
+      }
+    }
+    for (final a in academies.where((a) => a.regionId == regionId)) {
+      add(a.subjects);
+    }
+    for (final r in registry.where((r) => r.regionId == regionId)) {
+      add(r.subjects);
+    }
+    return counts;
+  }
+}
+
+/// 검색 결과 한 줄. 점수가 있는 학원과 등록부 학원을 함께 담는다.
+class SearchHit {
+  final String id;
+  final String name;
+  final String regionId;
+  final List<String> subjects;
+  final double? total;
+  final bool evaluated;
+
+  const SearchHit({
+    required this.id,
+    required this.name,
+    required this.regionId,
+    required this.subjects,
+    this.total,
+    required this.evaluated,
+  });
+
+  factory SearchHit.scored(Academy a) => SearchHit(
+        id: a.id,
+        name: a.displayName,
+        regionId: a.regionId,
+        subjects: a.subjects,
+        total: a.score.total,
+        evaluated: true,
+      );
+
+  factory SearchHit.listed(RegistryEntry r) => SearchHit(
+        id: r.id,
+        name: r.name,
+        regionId: r.regionId,
+        subjects: r.subjects,
+        evaluated: false,
+      );
 }
 
 class EduTreeRepository {
@@ -108,6 +178,7 @@ class EduTreeRepository {
       _json('assets/data/regions.json'),
       _json('assets/data/techtree.json'),
       _json('assets/data/academies.json'),
+      _json('assets/data/registry.json'),
     ]);
 
     return EduTreeData(
@@ -120,6 +191,9 @@ class EduTreeRepository {
           .toList(),
       academies: (results[3] as List)
           .map((e) => Academy.fromJson((e as Map).cast<String, dynamic>()))
+          .toList(),
+      registry: (results[4] as List)
+          .map((e) => RegistryEntry.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
     );
   }
