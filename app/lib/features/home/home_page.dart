@@ -244,7 +244,7 @@ class _RegionCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text('${t.year}', style: text.bodySmall?.copyWith(fontSize: 10.5)),
+                  Text(t.year, style: text.bodySmall?.copyWith(fontSize: 10.5)),
                 ]),
                 const SizedBox(height: 6),
               ],
