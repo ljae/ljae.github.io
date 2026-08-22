@@ -210,6 +210,16 @@
             var box = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
             if (box === lastBox || r.width === 0) return;
             lastBox = box;
+            // 전역 resize 를 쏜다.
+            //
+            // Event.trigger(map,'resize') 와 map.refresh(true) 로는 고쳐지지
+            // 않았다. 지도가 생성 시점의 컨테이너 위치를 (0,0) 으로 캐시해
+            // 두는데, 그 값을 다시 계산하는 것은 네이버 자신의 window resize
+            // 핸들러뿐이기 때문이다. 실측에서 타일 오프셋이 정확히 -282,
+            // 즉 컨테이너 top 만큼 어긋나 있었다.
+            //
+            // 위치가 실제로 바뀐 순간에만 쏘므로 평소에는 발생하지 않는다.
+            window.dispatchEvent(new Event('resize'));
             naver.maps.Event.trigger(map, 'resize');
             if (typeof map.refresh === 'function') map.refresh(true);
           };
