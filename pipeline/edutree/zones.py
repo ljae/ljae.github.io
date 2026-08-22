@@ -102,3 +102,50 @@ def assign(apartments: list[dict], schools: list[dict]) -> dict:
 
     print(f"  학구 폴리곤 {len(features)}개 · 아파트 {assigned}/{len(apartments)}단지 배정")
     return {"zones": len(features), "assigned": assigned}
+
+
+def attach_apartments(schools: list[dict], apartments: list[dict]) -> int:
+    """학교 → 배정 아파트 (아파트 → 학교의 역방향).
+
+    학부모는 양방향으로 묻는다. '이 집은 어느 학교냐' 만큼이나
+    '이 학교 보내려면 어디 살아야 하냐' 를 많이 찾는다.
+
+    배정 세대수 합계도 같이 낸다. 학교 규모를 가늠하는 실질 지표이고,
+    공시 학생수와 달리 '앞으로 들어올 수요' 를 보여준다.
+    """
+    by_zone: dict[str, list[dict]] = {}
+    for a in apartments:
+        for z in a.get("zones") or []:
+            zid = z.get("zoneId")
+            if zid:
+                by_zone.setdefault(zid, []).append((a, z))
+
+    hit = 0
+    for s in schools:
+        zid = s.get("zone_id")
+        if not zid:
+            continue
+        pairs = by_zone.get(zid, [])
+        if not pairs:
+            continue
+        hit += 1
+        rows = []
+        total = 0
+        for a, z in pairs:
+            households = a.get("households")
+            n = int(float(households)) if households else None
+            if n:
+                total += n
+            rows.append({
+                "name": a.get("name") or a.get("kaptName"),
+                "dong": a.get("dong"),
+                "households": n,
+                # 초등 단독 구역이면 이 학교로 확정 배정된다
+                "certain": bool(z.get("certain")),
+            })
+        rows.sort(key=lambda r: -(r["households"] or 0))
+        s["apartments"] = rows
+        s["apartment_households"] = total or None
+
+    print(f"  학교별 배정 아파트: {hit}곳에 연결")
+    return hit

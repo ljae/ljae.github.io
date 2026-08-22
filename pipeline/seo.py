@@ -186,17 +186,43 @@ def school_pages(out: Path, schools, regions) -> list[str]:
         sid = s["id"]
         reg = region_name.get(s.get("regionId"), "")
         title = f"{s['name']} — {reg} {s.get('levelLabel','')} | 학원실록"
-        desc = (f"{reg} {s['name']} 위치와 기본 정보. "
-                f"{s.get('foundation','')} {s.get('coed','')}".strip())
+        apt_n = len(s.get("apartments") or [])
+        desc = (f"{reg} {s['name']} 위치와 배정 정보."
+                + (f" 배정 아파트 {apt_n}단지." if apt_n else "")
+                + f" {s.get('foundation','')} {s.get('coed','')}").strip()
         rows = [("학교급", s.get("levelLabel")), ("학군", reg),
                 ("설립", s.get("foundation")), ("남녀공학", s.get("coed")),
                 ("주소", s.get("address")), ("법정동", s.get("dong"))]
+        apts = s.get("apartments") or []
+        certain = s.get("level") == "elementary" and any(a.get("certain") for a in apts)
+        if s.get("zoneName"):
+            rows.append(("학구", s["zoneName"]))
+        if apts:
+            rows.append(("배정 아파트",
+                         f"{len(apts)}단지"
+                         + (f" · {s['apartmentHouseholds']:,}세대"
+                            if s.get("apartmentHouseholds") else "")))
+
         body = [f"<h1>{esc(s['name'])}</h1>",
                 f'<p class="sub">{esc(reg)} · {esc(s.get("levelLabel"))}</p>',
                 "<table>" + "".join(
                     f"<tr><th>{esc(k)}</th><td>{esc(v) or '—'}</td></tr>"
-                    for k, v in rows) + "</table>",
-                f'<a class="cta" href="{SITE}/#/map">학군지도에서 위치 보기</a>']
+                    for k, v in rows) + "</table>"]
+
+        if apts:
+            body.append("<h2>" + ("이 학교로 배정되는 아파트"
+                                  if certain else "이 학교군에 속한 아파트") + "</h2>")
+            body.append("<ul>" + "".join(
+                f"<li>{esc(a['name'])}"
+                + (f" — {a['households']:,}세대" if a.get("households") else "")
+                + "</li>" for a in apts[:40]) + "</ul>")
+            body.append("<p>" + ("초등학교는 통학구역이 1:1 이라 배정이 확정됩니다. "
+                                 "구역은 해마다 조정될 수 있으니 관할 교육지원청 공고를 확인하세요."
+                                 if certain else
+                                 "중·고등학교는 학교군 추첨이라 반드시 이 학교로 배정되는 것은 아닙니다.")
+                        + "</p>")
+
+        body.append(f'<a class="cta" href="{SITE}/#/map">학군지도에서 위치 보기</a>')
         ld = {"@context": "https://schema.org", "@type": "School",
               "name": s["name"], "url": f"{SITE}/s/{sid}.html", "areaServed": reg}
         if s.get("address"):

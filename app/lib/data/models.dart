@@ -455,6 +455,10 @@ class School {
   final List<String> zonePeers;
   /// '통학구역'(초등 1:1) 또는 '학교군 추첨'(중·고)
   final String? assignment;
+  /// 이 학교로 배정되는 아파트들 (아파트→학교의 역방향)
+  final List<ZonedApartment> apartments;
+  /// 배정 아파트 세대수 합계. 공시 학생수와 달리 '앞으로 들어올 수요'를 보여준다.
+  final int? apartmentHouseholds;
 
   const School({
     required this.id,
@@ -475,6 +479,8 @@ class School {
     this.eduOffice,
     this.zonePeers = const [],
     this.assignment,
+    this.apartments = const [],
+    this.apartmentHouseholds,
   });
 
   factory School.fromJson(Map<String, dynamic> j) => School(
@@ -496,6 +502,10 @@ class School {
         eduOffice: j['eduOffice'] as String?,
         zonePeers: ((j['zonePeers'] as List?) ?? const []).cast<String>(),
         assignment: j['assignment'] as String?,
+        apartments: ((j['apartments'] as List?) ?? const [])
+            .map((a) => ZonedApartment.fromJson((a as Map).cast<String, dynamic>()))
+            .toList(),
+        apartmentHouseholds: (j['apartmentHouseholds'] as num?)?.toInt(),
       );
 
   bool get hasLocation => lat != null && lng != null;
@@ -544,6 +554,28 @@ class Apartment {
       );
 
   bool get hasLocation => lat != null && lng != null;
+}
+
+/// 학교 쪽에서 본 배정 아파트
+class ZonedApartment {
+  final String name;
+  final String? dong;
+  final int? households;
+  final bool certain;
+
+  const ZonedApartment({
+    required this.name,
+    this.dong,
+    this.households,
+    this.certain = false,
+  });
+
+  factory ZonedApartment.fromJson(Map<String, dynamic> j) => ZonedApartment(
+        name: (j['name'] ?? '') as String,
+        dong: j['dong'] as String?,
+        households: (j['households'] as num?)?.toInt(),
+        certain: (j['certain'] ?? false) as bool,
+      );
 }
 
 class ApartmentZone {

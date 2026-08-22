@@ -375,7 +375,16 @@ class _SchoolList extends StatelessWidget {
           ),
           Wrap(spacing: AppSpace.sm, runSpacing: AppSpace.sm, children: [
             for (final s in byLevel[level]!)
-              Container(
+              InkWell(
+                borderRadius: BorderRadius.circular(AppRadius.sm),
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  showDragHandle: true,
+                  constraints: const BoxConstraints(maxWidth: 640),
+                  builder: (_) => _SchoolSheet(school: s),
+                ),
+                child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.line),
@@ -390,18 +399,125 @@ class _SchoolList extends StatelessWidget {
                     const SizedBox(width: 6),
                     Chip2(s.zoneName!, color: AppColors.navy),
                   ],
-                  if (s.assignment != null) ...[
+                  if (s.apartments.isNotEmpty) ...[
                     const SizedBox(width: 6),
-                    Chip2(s.assignment!,
-                        color: s.assignment == '통학구역'
-                            ? AppColors.verified
-                            : AppColors.estimated),
+                    Chip2('배정 ${s.apartments.length}단지',
+                        color: AppColors.navy),
                   ],
                 ]),
+              ),
               ),
           ]),
         ],
     ]);
+  }
+}
+
+/// 학교 상세 — 배정 아파트를 보여준다.
+///
+/// '이 집은 어느 학교냐' 만큼이나 '이 학교 보내려면 어디 살아야 하냐' 를
+/// 많이 찾는다. 같은 데이터를 양방향으로 볼 수 있어야 한다.
+class _SchoolSheet extends StatelessWidget {
+  final School school;
+  const _SchoolSheet({required this.school});
+
+  static String _won(int v) => v >= 10000
+      ? '${(v / 10000).toStringAsFixed(1)}만'
+      : '$v';
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final certain = school.level == 'elementary' &&
+        school.apartments.any((a) => a.certain);
+
+    return DraggableScrollableSheet(
+      expand: false,
+      initialChildSize: 0.7,
+      maxChildSize: 0.94,
+      builder: (context, controller) => ListView(
+        controller: controller,
+        padding: const EdgeInsets.fromLTRB(
+            AppSpace.lg, 0, AppSpace.lg, AppSpace.xl),
+        children: [
+          Row(children: [
+            Chip2(school.levelLabel,
+                color: Color(schoolLevelColors[school.level]!), filled: true),
+            const SizedBox(width: 6),
+            if (school.foundation != null)
+              Chip2(school.foundation!, color: AppColors.slate),
+            if (school.coed != null) ...[
+              const SizedBox(width: 6),
+              Chip2(school.coed!, color: AppColors.slate),
+            ],
+          ]),
+          const SizedBox(height: AppSpace.sm),
+          Text(school.name, style: text.headlineLarge),
+          if (school.address != null)
+            Text(school.address!, style: text.bodyMedium),
+          const SizedBox(height: AppSpace.lg),
+
+          if (school.zoneName != null) ...[
+            Text('학구', style: text.labelMedium),
+            const SizedBox(height: 4),
+            Text(school.zoneName!, style: text.titleMedium),
+            if (school.zonePeers.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(
+                '이 학교군에는 ${school.zonePeers.length + 1}개 학교가 묶여 있어 '
+                '추첨으로 배정됩니다: ${school.zonePeers.take(6).join(", ")}'
+                '${school.zonePeers.length > 6 ? " 외" : ""}',
+                style: text.bodyMedium,
+              ),
+            ],
+            const SizedBox(height: AppSpace.lg),
+          ],
+
+          if (school.apartments.isEmpty)
+            Text('연결된 배정 아파트 정보가 없습니다.', style: text.bodyMedium)
+          else ...[
+            SectionHeader(
+              certain ? '이 학교로 배정되는 아파트' : '이 학교군에 속한 아파트',
+              subtitle: school.apartmentHouseholds != null
+                  ? '${school.apartments.length}단지 · '
+                      '${_won(school.apartmentHouseholds!)}세대'
+                      '${certain ? "" : " (추첨 대상)"}'
+                  : '${school.apartments.length}단지',
+            ),
+            for (final a in school.apartments)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: Row(children: [
+                  Icon(
+                      a.certain
+                          ? Icons.verified_rounded
+                          : Icons.casino_outlined,
+                      size: 14,
+                      color: a.certain
+                          ? AppColors.verified
+                          : AppColors.estimated),
+                  const SizedBox(width: 7),
+                  Expanded(child: Text(a.name, style: text.bodyLarge)),
+                  if (a.dong != null)
+                    Text(a.dong!, style: text.bodySmall),
+                  const SizedBox(width: AppSpace.sm),
+                  if (a.households != null)
+                    Text('${a.households}세대', style: text.labelMedium),
+                ]),
+              ),
+            const SizedBox(height: AppSpace.md),
+            Text(
+              certain
+                  ? '초등학교는 통학구역이 1:1 이라 배정이 확정됩니다. '
+                    '다만 구역은 해마다 조정될 수 있으니 관할 교육지원청 공고를 확인해 주세요.'
+                  : '중·고등학교는 학교군 추첨이라 이 아파트들이 반드시 이 학교로 '
+                    '배정되는 것은 아닙니다.',
+              style: text.bodySmall,
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }
 

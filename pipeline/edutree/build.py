@@ -561,6 +561,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             print(f"  아파트 캐시 {len(apt_rows):,}단지")
             from . import zones as zone_mod
             zone_mod.assign(apt_rows, school_rows)
+            zone_mod.attach_apartments(school_rows, apt_rows)
         got = geocode.enrich(evaluated + registry_only)
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
@@ -645,6 +646,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "eduOffice": s.get("edu_office"),
             "zonePeers": s.get("zone_peers") or [],
             "assignment": s.get("assignment"),
+            "apartments": s.get("apartments") or [],
+            "apartmentHouseholds": s.get("apartment_households"),
         } for s in school_rows],
         "apartments.json": [{
             "id": a.get("kaptCode"),
