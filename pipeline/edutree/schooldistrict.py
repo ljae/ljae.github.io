@@ -93,6 +93,23 @@ def fetch_all(max_pages: int = 200) -> list[dict]:
     return out
 
 
+def zone_names() -> dict[str, dict]:
+    """학구 ID → 이름. 표준데이터 XML 에서 뽑아 둔 것을 읽는다.
+
+    API 는 학구 ID 만 주고 이름을 주지 않는다. 'Z000300008' 보다
+    '강남서초학교군' 이 학부모에게 훨씬 쓸모 있다.
+    """
+    out: dict[str, dict] = {}
+    for level in ("elementary", "middle", "high"):
+        path = config.DATA_DIR / "zones" / f"{level}.json"
+        if not path.exists():
+            continue
+        for row in json.loads(path.read_text(encoding="utf-8")):
+            if row.get("zone_id"):
+                out[row["zone_id"]] = row
+    return out
+
+
 def attach_to_schools(schools: list[dict]) -> int:
     """학교 목록에 학구 ID 를 붙인다.
 
@@ -112,6 +129,7 @@ def attach_to_schools(schools: list[dict]) -> int:
     for r in seoul:
         per_zone.setdefault(r.get("atndsklId"), []).append(r.get("schulNm"))
 
+    names = zone_names()
     hit = 0
     for s in schools:
         r = by_name.get(s.get("name"))
@@ -120,13 +138,15 @@ def attach_to_schools(schools: list[dict]) -> int:
         zone = r.get("atndsklId")
         peers = [n for n in per_zone.get(zone, []) if n != s.get("name")]
         s["zone_id"] = zone
+        s["zone_name"] = (names.get(zone) or {}).get("zone_name")
         s["edu_office"] = r.get("edcSportNm")
         s["zone_peers"] = peers
         # 초등은 1:1 배정, 중·고는 학교군 추첨
         s["assignment"] = "통학구역" if s.get("level") == "elementary" and not peers \
             else ("학교군 추첨" if peers else "통학구역")
         hit += 1
-    print(f"  학구 ID 매칭 {hit}/{len(schools)}곳")
+    named = sum(1 for s in schools if s.get("zone_name"))
+    print(f"  학구 ID 매칭 {hit}/{len(schools)}곳 (학구명 확보 {named}곳)")
     return hit
 
 

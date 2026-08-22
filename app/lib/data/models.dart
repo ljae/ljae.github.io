@@ -450,6 +450,7 @@ class School {
   final double? lat;
   final double? lng;
   final String? zoneId;
+  final String? zoneName;
   final String? eduOffice;
   final List<String> zonePeers;
   /// '통학구역'(초등 1:1) 또는 '학교군 추첨'(중·고)
@@ -470,6 +471,7 @@ class School {
     this.lat,
     this.lng,
     this.zoneId,
+    this.zoneName,
     this.eduOffice,
     this.zonePeers = const [],
     this.assignment,
@@ -490,6 +492,7 @@ class School {
         lat: (j['lat'] as num?)?.toDouble(),
         lng: (j['lng'] as num?)?.toDouble(),
         zoneId: j['zoneId'] as String?,
+        zoneName: j['zoneName'] as String?,
         eduOffice: j['eduOffice'] as String?,
         zonePeers: ((j['zonePeers'] as List?) ?? const []).cast<String>(),
         assignment: j['assignment'] as String?,

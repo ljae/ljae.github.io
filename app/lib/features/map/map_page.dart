@@ -135,8 +135,11 @@ class _MapSurface extends StatelessWidget {
       items.add({
         'lat': s.lat, 'lng': s.lng, 'label': s.name,
         'title': s.name,
-        'subtitle': [s.levelLabel, s.foundation, s.coed]
-            .whereType<String>().where((x) => x.isNotEmpty).join(' · '),
+        'subtitle': [
+          s.levelLabel, s.foundation, s.coed,
+          if (s.zoneName != null) s.zoneName,
+          if (s.zonePeers.isNotEmpty) '학교군 ${s.zonePeers.length + 1}개교 추첨',
+        ].whereType<String>().where((x) => x.isNotEmpty).join(' · '),
         'color': '#${schoolLevelColors[s.level]!.toRadixString(16).substring(2)}',
         'z': 3,
       });
@@ -315,6 +318,10 @@ class _SchoolList extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text([s.foundation, s.coed].whereType<String>().join(' · '),
                       style: text.bodySmall?.copyWith(fontSize: 11)),
+                  if (s.zoneName != null) ...[
+                    const SizedBox(width: 6),
+                    Chip2(s.zoneName!, color: AppColors.navy),
+                  ],
                   if (s.assignment != null) ...[
                     const SizedBox(width: 6),
                     Chip2(s.assignment!,

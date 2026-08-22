@@ -1,0 +1,5034 @@
+[
+ {
+  "zone_id": "Z000100375",
+  "zone_name": "서울월촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3866"
+ },
+ {
+  "zone_id": "Z000100245",
+  "zone_name": "서울재동초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2377"
+ },
+ {
+  "zone_id": "Z000100117",
+  "zone_name": "서울당중초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1189"
+ },
+ {
+  "zone_id": "Z000100489",
+  "zone_name": "서울구의초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5111"
+ },
+ {
+  "zone_id": "Z000100144",
+  "zone_name": "서울안천초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "320"
+ },
+ {
+  "zone_id": "Z000100137",
+  "zone_name": "서울시흥초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5371"
+ },
+ {
+  "zone_id": "Z000100515",
+  "zone_name": "서울장안초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6118"
+ },
+ {
+  "zone_id": "Z000100486",
+  "zone_name": "서울광장초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3081"
+ },
+ {
+  "zone_id": "Z000100128",
+  "zone_name": "서울매봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1796"
+ },
+ {
+  "zone_id": "Z000106122",
+  "zone_name": "서울금나래초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1192"
+ },
+ {
+  "zone_id": "Z000100459",
+  "zone_name": "서울사당초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5039"
+ },
+ {
+  "zone_id": "Z000100242",
+  "zone_name": "서울원효초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "6961"
+ },
+ {
+  "zone_id": "Z000100019",
+  "zone_name": "서울신묵초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6119"
+ },
+ {
+  "zone_id": "Z000100157",
+  "zone_name": "서울오류초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6204"
+ },
+ {
+  "zone_id": "Z000100204",
+  "zone_name": "서울원광초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1704"
+ },
+ {
+  "zone_id": "Z000100287",
+  "zone_name": "서울선린초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3675"
+ },
+ {
+  "zone_id": "Z000150726",
+  "zone_name": "서울석촌초서울해누리초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3071"
+ },
+ {
+  "zone_id": "Z000106210",
+  "zone_name": "서울가락초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4862"
+ },
+ {
+  "zone_id": "Z000100363",
+  "zone_name": "서울양명초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "19"
+ },
+ {
+  "zone_id": "Z000100382",
+  "zone_name": "서울탑산초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3572"
+ },
+ {
+  "zone_id": "Z000100256",
+  "zone_name": "서울흥인초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1933"
+ },
+ {
+  "zone_id": "Z000100327",
+  "zone_name": "서울경인초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "319"
+ },
+ {
+  "zone_id": "Z000100481",
+  "zone_name": "서울흑석초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "567"
+ },
+ {
+  "zone_id": "Z000100332",
+  "zone_name": "서울내발산초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "887"
+ },
+ {
+  "zone_id": "Z000100369",
+  "zone_name": "서울염경초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3864"
+ },
+ {
+  "zone_id": "Z000100318",
+  "zone_name": "서울풍성초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5142"
+ },
+ {
+  "zone_id": "Z000100391",
+  "zone_name": "서울대도초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5331"
+ },
+ {
+  "zone_id": "Z000150001",
+  "zone_name": "서울군자초서울답십리초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "5333"
+ },
+ {
+  "zone_id": "Z000100053",
+  "zone_name": "서울망원초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2721"
+ },
+ {
+  "zone_id": "Z000100122",
+  "zone_name": "서울덕의초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6761"
+ },
+ {
+  "zone_id": "Z000100183",
+  "zone_name": "서울상수초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1660"
+ },
+ {
+  "zone_id": "Z000100047",
+  "zone_name": "서울녹번초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3243"
+ },
+ {
+  "zone_id": "Z000100284",
+  "zone_name": "서울삼전초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "662"
+ },
+ {
+  "zone_id": "Z000150015",
+  "zone_name": "서울공연초서울용원초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3475"
+ },
+ {
+  "zone_id": "Z000100410",
+  "zone_name": "서울서이초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1030"
+ },
+ {
+  "zone_id": "Z000100477",
+  "zone_name": "서울인헌초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4089"
+ },
+ {
+  "zone_id": "Z000100250",
+  "zone_name": "서울충무초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5167"
+ },
+ {
+  "zone_id": "Z000100272",
+  "zone_name": "서울대명초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2465"
+ },
+ {
+  "zone_id": "Z000100078",
+  "zone_name": "서울연가초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4407"
+ },
+ {
+  "zone_id": "Z000150629",
+  "zone_name": "서울강솔초서울강일초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5303"
+ },
+ {
+  "zone_id": "Z000150628",
+  "zone_name": "서울광희초서울창신초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2823"
+ },
+ {
+  "zone_id": "Z000100239",
+  "zone_name": "서울신용산초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5921"
+ },
+ {
+  "zone_id": "Z000100377",
+  "zone_name": "서울장수초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "9"
+ },
+ {
+  "zone_id": "Z000100311",
+  "zone_name": "서울중대초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5149"
+ },
+ {
+  "zone_id": "Z000100155",
+  "zone_name": "서울영중초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1712"
+ },
+ {
+  "zone_id": "Z000100109",
+  "zone_name": "서울구로남초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3002"
+ },
+ {
+  "zone_id": "Z000100323",
+  "zone_name": "서울강서초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2690"
+ },
+ {
+  "zone_id": "Z000100361",
+  "zone_name": "서울양강초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2696"
+ },
+ {
+  "zone_id": "Z000150045",
+  "zone_name": "서울중광초서울중마초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1705"
+ },
+ {
+  "zone_id": "Z000100312",
+  "zone_name": "서울천동초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1882"
+ },
+ {
+  "zone_id": "Z000100514",
+  "zone_name": "서울자양초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "131"
+ },
+ {
+  "zone_id": "Z000100506",
+  "zone_name": "서울양남초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1561"
+ },
+ {
+  "zone_id": "Z000100249",
+  "zone_name": "서울청파초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1387"
+ },
+ {
+  "zone_id": "Z000100111",
+  "zone_name": "서울구일초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6522"
+ },
+ {
+  "zone_id": "Z000100337",
+  "zone_name": "서울등원초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5352"
+ },
+ {
+  "zone_id": "Z000100428",
+  "zone_name": "서울우솔초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1028"
+ },
+ {
+  "zone_id": "Z000100432",
+  "zone_name": "서울율현초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "2502"
+ },
+ {
+  "zone_id": "Z000150027",
+  "zone_name": "서울토성초서울풍성초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3371"
+ },
+ {
+  "zone_id": "Z000150011",
+  "zone_name": "서울염리초서울용강초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1152"
+ },
+ {
+  "zone_id": "Z000100084",
+  "zone_name": "서울염리초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "5600"
+ },
+ {
+  "zone_id": "Z000100538",
+  "zone_name": "서울숭곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "4539"
+ },
+ {
+  "zone_id": "Z000150041",
+  "zone_name": "서울동자초서울신양초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6114"
+ },
+ {
+  "zone_id": "Z000100286",
+  "zone_name": "서울석촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3955"
+ },
+ {
+  "zone_id": "Z000100322",
+  "zone_name": "서울갈산초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4118"
+ },
+ {
+  "zone_id": "Z000100159",
+  "zone_name": "서울온수초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "841"
+ },
+ {
+  "zone_id": "Z000100298",
+  "zone_name": "서울신천초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2480"
+ },
+ {
+  "zone_id": "Z000100071",
+  "zone_name": "서울신도초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1147"
+ },
+ {
+  "zone_id": "Z000100511",
+  "zone_name": "서울용답초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "4466"
+ },
+ {
+  "zone_id": "Z000100498",
+  "zone_name": "서울무학초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "161"
+ },
+ {
+  "zone_id": "Z000100277",
+  "zone_name": "서울명일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5455"
+ },
+ {
+  "zone_id": "Z000100265",
+  "zone_name": "서울거여초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2786"
+ },
+ {
+  "zone_id": "Z000100310",
+  "zone_name": "서울문현초등통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4554"
+ },
+ {
+  "zone_id": "Z000100354",
+  "zone_name": "서울신남초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1798"
+ },
+ {
+  "zone_id": "Z000150003",
+  "zone_name": "서울면남초서울중곡초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "652"
+ },
+ {
+  "zone_id": "Z000150046",
+  "zone_name": "서울미양초서울삼각산초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5172"
+ },
+ {
+  "zone_id": "Z000100192",
+  "zone_name": "서울신방학초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5499"
+ },
+ {
+  "zone_id": "Z000100317",
+  "zone_name": "서울풍납초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4292"
+ },
+ {
+  "zone_id": "Z000100414",
+  "zone_name": "서울수서초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3956"
+ },
+ {
+  "zone_id": "Z000100064",
+  "zone_name": "서울서신초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4518"
+ },
+ {
+  "zone_id": "Z000100138",
+  "zone_name": "서울신구로초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3873"
+ },
+ {
+  "zone_id": "Z000150017",
+  "zone_name": "서울수암초서울을지초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5239"
+ },
+ {
+  "zone_id": "Z000100379",
+  "zone_name": "서울정목초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6769"
+ },
+ {
+  "zone_id": "Z000100244",
+  "zone_name": "서울장충초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1627"
+ },
+ {
+  "zone_id": "Z000100203",
+  "zone_name": "서울용원초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5210"
+ },
+ {
+  "zone_id": "Z000100409",
+  "zone_name": "서울서원초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1929"
+ },
+ {
+  "zone_id": "Z000100115",
+  "zone_name": "서울당산초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3008"
+ },
+ {
+  "zone_id": "Z000100231",
+  "zone_name": "서울매동초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "6737"
+ },
+ {
+  "zone_id": "Z000100270",
+  "zone_name": "서울길동초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4580"
+ },
+ {
+  "zone_id": "Z000100076",
+  "zone_name": "서울안산초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "712"
+ },
+ {
+  "zone_id": "Z000100408",
+  "zone_name": "서울서래초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5050"
+ },
+ {
+  "zone_id": "Z000100338",
+  "zone_name": "서울등촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "538"
+ },
+ {
+  "zone_id": "Z000100325",
+  "zone_name": "서울강월초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5269"
+ },
+ {
+  "zone_id": "Z000100324",
+  "zone_name": "서울강신초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1738"
+ },
+ {
+  "zone_id": "Z000100168",
+  "zone_name": "서울공연초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1908"
+ },
+ {
+  "zone_id": "Z000100502",
+  "zone_name": "서울송원초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "7026"
+ },
+ {
+  "zone_id": "Z000100222",
+  "zone_name": "서울태릉초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1557"
+ },
+ {
+  "zone_id": "Z000150044",
+  "zone_name": "서울양남초서울성자초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6897"
+ },
+ {
+  "zone_id": "Z000150039",
+  "zone_name": "서울광장초서울양진초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3070"
+ },
+ {
+  "zone_id": "Z000100421",
+  "zone_name": "서울언남초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3344"
+ },
+ {
+  "zone_id": "Z000100400",
+  "zone_name": "서울매헌초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6187"
+ },
+ {
+  "zone_id": "Z000100082",
+  "zone_name": "서울연천초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6470"
+ },
+ {
+  "zone_id": "Z000100176",
+  "zone_name": "서울동일초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5332"
+ },
+ {
+  "zone_id": "Z000100528",
+  "zone_name": "서울번동초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "64"
+ },
+ {
+  "zone_id": "Z000100320",
+  "zone_name": "서울가곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1794"
+ },
+ {
+  "zone_id": "Z000100415",
+  "zone_name": "서울신구초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1032"
+ },
+ {
+  "zone_id": "Z000100236",
+  "zone_name": "서울서빙고초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "3270"
+ },
+ {
+  "zone_id": "Z000100293",
+  "zone_name": "서울송전초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5998"
+ },
+ {
+  "zone_id": "Z000150035",
+  "zone_name": "서울서이초서울서일초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1024"
+ },
+ {
+  "zone_id": "Z000150040",
+  "zone_name": "서울금옥초서울금호초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1928"
+ },
+ {
+  "zone_id": "Z000100543",
+  "zone_name": "서울오현초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5316"
+ },
+ {
+  "zone_id": "Z000100055",
+  "zone_name": "서울북가좌초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "7043"
+ },
+ {
+  "zone_id": "Z000150030",
+  "zone_name": "서울화곡초서울화일초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2697"
+ },
+ {
+  "zone_id": "Z000150013",
+  "zone_name": "서울당산초서울선유초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3875"
+ },
+ {
+  "zone_id": "Z000100341",
+  "zone_name": "서울목운초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4764"
+ },
+ {
+  "zone_id": "Z000100533",
+  "zone_name": "서울성북초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "4170"
+ },
+ {
+  "zone_id": "Z000100198",
+  "zone_name": "서울연지초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5340"
+ },
+ {
+  "zone_id": "Z000100411",
+  "zone_name": "서울서일초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6346"
+ },
+ {
+  "zone_id": "Z000100132",
+  "zone_name": "서울문성초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4775"
+ },
+ {
+  "zone_id": "Z000100413",
+  "zone_name": "서울세명초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "393"
+ },
+ {
+  "zone_id": "Z000150034",
+  "zone_name": "서울방일초서울방현초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5928"
+ },
+ {
+  "zone_id": "Z000100124",
+  "zone_name": "서울도신초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "41"
+ },
+ {
+  "zone_id": "Z000100472",
+  "zone_name": "서울영화초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4721"
+ },
+ {
+  "zone_id": "Z000100406",
+  "zone_name": "서울봉은초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6995"
+ },
+ {
+  "zone_id": "Z000100197",
+  "zone_name": "서울쌍문초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "157"
+ },
+ {
+  "zone_id": "Z000100281",
+  "zone_name": "서울방산초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "70"
+ },
+ {
+  "zone_id": "Z000100442",
+  "zone_name": "서울구암초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "6046"
+ },
+ {
+  "zone_id": "Z000100460",
+  "zone_name": "서울삼성초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5847"
+ },
+ {
+  "zone_id": "Z000100329",
+  "zone_name": "서울공진초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6140"
+ },
+ {
+  "zone_id": "Z000100446",
+  "zone_name": "서울남부초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5896"
+ },
+ {
+  "zone_id": "Z000100555",
+  "zone_name": "서울청덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "4307"
+ },
+ {
+  "zone_id": "Z000100552",
+  "zone_name": "서울정덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "150"
+ },
+ {
+  "zone_id": "Z000100154",
+  "zone_name": "서울영일초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4762"
+ },
+ {
+  "zone_id": "Z000100165",
+  "zone_name": "서울가인초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "944"
+ },
+ {
+  "zone_id": "Z000100146",
+  "zone_name": "서울영남초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "921"
+ },
+ {
+  "zone_id": "Z000100066",
+  "zone_name": "서울성서초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4403"
+ },
+ {
+  "zone_id": "Z000100307",
+  "zone_name": "서울잠일초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5469"
+ },
+ {
+  "zone_id": "Z000100295",
+  "zone_name": "서울신가초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4547"
+ },
+ {
+  "zone_id": "Z000100131",
+  "zone_name": "서울문백초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3009"
+ },
+ {
+  "zone_id": "Z000100462",
+  "zone_name": "서울상도초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "279"
+ },
+ {
+  "zone_id": "Z000150910",
+  "zone_name": "서울염경초서울염동초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "540"
+ },
+ {
+  "zone_id": "Z000100220",
+  "zone_name": "서울초당초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1939"
+ },
+ {
+  "zone_id": "Z000100282",
+  "zone_name": "서울방이초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1855"
+ },
+ {
+  "zone_id": "Z000150032",
+  "zone_name": "서울매헌초서울언남초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1782"
+ },
+ {
+  "zone_id": "Z000100340",
+  "zone_name": "서울목동초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3863"
+ },
+ {
+  "zone_id": "Z000100251",
+  "zone_name": "서울한강초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "3196"
+ },
+ {
+  "zone_id": "Z000100527",
+  "zone_name": "서울미양초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "2820"
+ },
+ {
+  "zone_id": "Z000100339",
+  "zone_name": "서울등현초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3561"
+ },
+ {
+  "zone_id": "Z000100189",
+  "zone_name": "서울수암초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5993"
+ },
+ {
+  "zone_id": "Z000100027",
+  "zone_name": "서울전농초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4469"
+ },
+ {
+  "zone_id": "Z000100041",
+  "zone_name": "서울갈현초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "5251"
+ },
+ {
+  "zone_id": "Z000100025",
+  "zone_name": "서울장평초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "5242"
+ },
+ {
+  "zone_id": "Z000100299",
+  "zone_name": "서울아주초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6304"
+ },
+ {
+  "zone_id": "Z000100089",
+  "zone_name": "서울은평초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2955"
+ },
+ {
+  "zone_id": "Z000100326",
+  "zone_name": "서울개화초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2402"
+ },
+ {
+  "zone_id": "Z000100362",
+  "zone_name": "서울양동초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "898"
+ },
+ {
+  "zone_id": "Z000100541",
+  "zone_name": "서울숭인초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6254"
+ },
+ {
+  "zone_id": "Z000100452",
+  "zone_name": "서울동작초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4155"
+ },
+ {
+  "zone_id": "Z000100392",
+  "zone_name": "서울대모초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4848"
+ },
+ {
+  "zone_id": "Z000100227",
+  "zone_name": "서울남산초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "576"
+ },
+ {
+  "zone_id": "Z000100275",
+  "zone_name": "서울명덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6294"
+ },
+ {
+  "zone_id": "Z000100398",
+  "zone_name": "서울도곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1789"
+ },
+ {
+  "zone_id": "Z000100164",
+  "zone_name": "서울탑동초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "813"
+ },
+ {
+  "zone_id": "Z000100140",
+  "zone_name": "서울신도림초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5645"
+ },
+ {
+  "zone_id": "Z000100444",
+  "zone_name": "서울난우초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2610"
+ },
+ {
+  "zone_id": "Z000100434",
+  "zone_name": "서울일원초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6305"
+ },
+ {
+  "zone_id": "Z000100226",
+  "zone_name": "서울금양초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5848"
+ },
+ {
+  "zone_id": "Z000100516",
+  "zone_name": "서울중광초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "992"
+ },
+ {
+  "zone_id": "Z000100153",
+  "zone_name": "서울영원초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1717"
+ },
+ {
+  "zone_id": "Z000100321",
+  "zone_name": "서울가양초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6763"
+ },
+ {
+  "zone_id": "Z000100141",
+  "zone_name": "서울신미림초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "2999"
+ },
+ {
+  "zone_id": "Z000100125",
+  "zone_name": "서울독산초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5654"
+ },
+ {
+  "zone_id": "Z000100119",
+  "zone_name": "서울대동초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3010"
+ },
+ {
+  "zone_id": "Z000100454",
+  "zone_name": "서울미성초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1719"
+ },
+ {
+  "zone_id": "Z000100356",
+  "zone_name": "서울신서초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1409"
+ },
+ {
+  "zone_id": "Z000100355",
+  "zone_name": "서울신목초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "314"
+ },
+ {
+  "zone_id": "Z000100544",
+  "zone_name": "서울우이초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6337"
+ },
+ {
+  "zone_id": "Z000100517",
+  "zone_name": "서울중마초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3684"
+ },
+ {
+  "zone_id": "Z000100418",
+  "zone_name": "서울압구정초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1031"
+ },
+ {
+  "zone_id": "Z000100185",
+  "zone_name": "서울상월초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4803"
+ },
+ {
+  "zone_id": "Z000100113",
+  "zone_name": "서울금산초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5246"
+ },
+ {
+  "zone_id": "Z000100333",
+  "zone_name": "서울등마초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6765"
+ },
+ {
+  "zone_id": "Z000100208",
+  "zone_name": "서울자운초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3549"
+ },
+ {
+  "zone_id": "Z000100118",
+  "zone_name": "서울대길초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4402"
+ },
+ {
+  "zone_id": "Z000100370",
+  "zone_name": "서울염동초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2107"
+ },
+ {
+  "zone_id": "Z000100439",
+  "zone_name": "서울학동초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4455"
+ },
+ {
+  "zone_id": "Z000150006",
+  "zone_name": "서울원묵초서울공릉초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6120"
+ },
+ {
+  "zone_id": "Z000100081",
+  "zone_name": "서울연은초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6789"
+ },
+ {
+  "zone_id": "Z000100335",
+  "zone_name": "서울등서초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6212"
+ },
+ {
+  "zone_id": "Z000100478",
+  "zone_name": "서울조원초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4399"
+ },
+ {
+  "zone_id": "Z000106258",
+  "zone_name": "서울고현초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4443"
+ },
+ {
+  "zone_id": "Z000100269",
+  "zone_name": "서울고일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5301"
+ },
+ {
+  "zone_id": "Z000100067",
+  "zone_name": "서울성원초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4514"
+ },
+ {
+  "zone_id": "Z000100016",
+  "zone_name": "서울상봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "651"
+ },
+ {
+  "zone_id": "Z000100104",
+  "zone_name": "서울개봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "2345"
+ },
+ {
+  "zone_id": "Z000100229",
+  "zone_name": "서울덕수초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2374"
+ },
+ {
+  "zone_id": "Z000100106",
+  "zone_name": "서울고산초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4116"
+ },
+ {
+  "zone_id": "Z000100331",
+  "zone_name": "서울남명초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "12"
+ },
+ {
+  "zone_id": "Z000100126",
+  "zone_name": "서울동구로초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3003"
+ },
+ {
+  "zone_id": "Z000100050",
+  "zone_name": "서울대조초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "820"
+ },
+ {
+  "zone_id": "Z000100031",
+  "zone_name": "서울중목초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "989"
+ },
+ {
+  "zone_id": "Z000100052",
+  "zone_name": "서울마포초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6048"
+ },
+ {
+  "zone_id": "Z000150031",
+  "zone_name": "서울대도초서울도곡초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "7134"
+ },
+ {
+  "zone_id": "Z000100453",
+  "zone_name": "서울문창초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "811"
+ },
+ {
+  "zone_id": "Z000100380",
+  "zone_name": "서울지향초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4486"
+ },
+ {
+  "zone_id": "Z000100009",
+  "zone_name": "서울면북초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6610"
+ },
+ {
+  "zone_id": "Z000100471",
+  "zone_name": "서울영본초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2957"
+ },
+ {
+  "zone_id": "Z000100342",
+  "zone_name": "서울목원초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3000"
+ },
+ {
+  "zone_id": "Z000100105",
+  "zone_name": "서울개웅초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6209"
+ },
+ {
+  "zone_id": "Z000100107",
+  "zone_name": "서울고원초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1410"
+ },
+ {
+  "zone_id": "Z000100352",
+  "zone_name": "서울신곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4112"
+ },
+ {
+  "zone_id": "Z000100423",
+  "zone_name": "서울언주초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3547"
+ },
+ {
+  "zone_id": "Z000100344",
+  "zone_name": "서울방화초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6651"
+ },
+ {
+  "zone_id": "Z000100083",
+  "zone_name": "서울연희초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "286"
+ },
+ {
+  "zone_id": "Z000100296",
+  "zone_name": "서울신명초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5982"
+ },
+ {
+  "zone_id": "Z000100294",
+  "zone_name": "서울송파초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6024"
+ },
+ {
+  "zone_id": "Z000100553",
+  "zone_name": "서울정릉초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1625"
+ },
+ {
+  "zone_id": "Z000100467",
+  "zone_name": "서울신봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4299"
+ },
+ {
+  "zone_id": "Z000100554",
+  "zone_name": "서울정수초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5169"
+ },
+ {
+  "zone_id": "Z000100278",
+  "zone_name": "서울묘곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3680"
+ },
+ {
+  "zone_id": "Z000100217",
+  "zone_name": "서울창원초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2746"
+ },
+ {
+  "zone_id": "Z000100079",
+  "zone_name": "서울연광초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3237"
+ },
+ {
+  "zone_id": "Z000100213",
+  "zone_name": "서울창경초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1844"
+ },
+ {
+  "zone_id": "Z000100457",
+  "zone_name": "서울봉천초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1620"
+ },
+ {
+  "zone_id": "Z000100150",
+  "zone_name": "서울영문초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4765"
+ },
+ {
+  "zone_id": "Z000100093",
+  "zone_name": "서울증산초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "807"
+ },
+ {
+  "zone_id": "Z000100195",
+  "zone_name": "서울신학초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3716"
+ },
+ {
+  "zone_id": "Z000100162",
+  "zone_name": "서울정심초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3591"
+ },
+ {
+  "zone_id": "Z000100451",
+  "zone_name": "서울대림초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2359"
+ },
+ {
+  "zone_id": "Z000100072",
+  "zone_name": "서울신북초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "923"
+ },
+ {
+  "zone_id": "Z000100048",
+  "zone_name": "서울대신초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6479"
+ },
+ {
+  "zone_id": "Z000100030",
+  "zone_name": "서울중랑초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4395"
+ },
+ {
+  "zone_id": "Z000100378",
+  "zone_name": "서울정곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1734"
+ },
+ {
+  "zone_id": "Z000100049",
+  "zone_name": "서울대은초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2358"
+ },
+ {
+  "zone_id": "Z000100173",
+  "zone_name": "서울당현초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4481"
+ },
+ {
+  "zone_id": "Z000100535",
+  "zone_name": "서울송천초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6341"
+ },
+ {
+  "zone_id": "Z000100458",
+  "zone_name": "서울봉현초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "3395"
+ },
+ {
+  "zone_id": "Z000100182",
+  "zone_name": "서울상곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1790"
+ },
+ {
+  "zone_id": "Z000100028",
+  "zone_name": "서울종암초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6347"
+ },
+ {
+  "zone_id": "Z000150005",
+  "zone_name": "서울신답초서울전농초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "3548"
+ },
+ {
+  "zone_id": "Z000100088",
+  "zone_name": "서울은진초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4408"
+ },
+ {
+  "zone_id": "Z000100241",
+  "zone_name": "서울용암초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2378"
+ },
+ {
+  "zone_id": "Z000100263",
+  "zone_name": "서울강일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3539"
+ },
+ {
+  "zone_id": "Z000100114",
+  "zone_name": "서울금천초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1713"
+ },
+ {
+  "zone_id": "Z000100351",
+  "zone_name": "서울신강초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2692"
+ },
+ {
+  "zone_id": "Z000100170",
+  "zone_name": "서울노일초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4465"
+ },
+ {
+  "zone_id": "Z000100169",
+  "zone_name": "서울노원초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2558"
+ },
+ {
+  "zone_id": "Z000100305",
+  "zone_name": "서울잠신초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1562"
+ },
+ {
+  "zone_id": "Z000100407",
+  "zone_name": "서울삼릉초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6198"
+ },
+ {
+  "zone_id": "Z000100206",
+  "zone_name": "서울월천초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4464"
+ },
+ {
+  "zone_id": "Z000100134",
+  "zone_name": "서울백산초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6232"
+ },
+ {
+  "zone_id": "Z000100036",
+  "zone_name": "서울홍파초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6256"
+ },
+ {
+  "zone_id": "Z000100211",
+  "zone_name": "서울중평초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1658"
+ },
+ {
+  "zone_id": "Z000100529",
+  "zone_name": "서울삼선초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5489"
+ },
+ {
+  "zone_id": "Z000100218",
+  "zone_name": "서울창일초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5323"
+ },
+ {
+  "zone_id": "Z000100288",
+  "zone_name": "서울선사초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5412"
+ },
+ {
+  "zone_id": "Z000150025",
+  "zone_name": "서울석촌초서울송전초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4266"
+ },
+ {
+  "zone_id": "Z000100077",
+  "zone_name": "서울역촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "7046"
+ },
+ {
+  "zone_id": "Z000100171",
+  "zone_name": "서울녹천초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6089"
+ },
+ {
+  "zone_id": "Z000100280",
+  "zone_name": "서울문정초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6275"
+ },
+ {
+  "zone_id": "Z000100545",
+  "zone_name": "서울월곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "7124"
+ },
+ {
+  "zone_id": "Z000100136",
+  "zone_name": "서울세곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "10"
+ },
+ {
+  "zone_id": "Z000100014",
+  "zone_name": "서울배봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4390"
+ },
+ {
+  "zone_id": "Z000100029",
+  "zone_name": "서울중곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2473"
+ },
+ {
+  "zone_id": "Z000100225",
+  "zone_name": "서울교동초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "577"
+ },
+ {
+  "zone_id": "Z000100276",
+  "zone_name": "서울명원초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5463"
+ },
+ {
+  "zone_id": "Z000100149",
+  "zone_name": "서울영림초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "35"
+ },
+ {
+  "zone_id": "Z000100365",
+  "zone_name": "서울양원초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3500"
+ },
+ {
+  "zone_id": "Z000100212",
+  "zone_name": "서울중현초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6997"
+ },
+ {
+  "zone_id": "Z000150024",
+  "zone_name": "서울삼전초서울송전초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5115"
+ },
+ {
+  "zone_id": "Z000100186",
+  "zone_name": "서울상천초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4482"
+ },
+ {
+  "zone_id": "Z000100070",
+  "zone_name": "서울수색초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2119"
+ },
+ {
+  "zone_id": "Z000100531",
+  "zone_name": "서울석계초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1697"
+ },
+ {
+  "zone_id": "Z000100129",
+  "zone_name": "서울문교초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "43"
+ },
+ {
+  "zone_id": "Z000150026",
+  "zone_name": "서울석촌초서울가락초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2212"
+ },
+ {
+  "zone_id": "Z000100346",
+  "zone_name": "서울삼정초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6145"
+ },
+ {
+  "zone_id": "Z000100174",
+  "zone_name": "서울덕암초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2802"
+ },
+ {
+  "zone_id": "Z000100393",
+  "zone_name": "서울대왕초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4543"
+ },
+ {
+  "zone_id": "Z000100476",
+  "zone_name": "서울은천초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "3828"
+ },
+ {
+  "zone_id": "Z000100315",
+  "zone_name": "서울토성초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5145"
+ },
+ {
+  "zone_id": "Z000100148",
+  "zone_name": "서울영등포초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "2120"
+ },
+ {
+  "zone_id": "Z000100417",
+  "zone_name": "서울신중초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6060"
+ },
+ {
+  "zone_id": "Z000100507",
+  "zone_name": "서울양진초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1569"
+ },
+ {
+  "zone_id": "Z000106220",
+  "zone_name": "서울항동초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3505"
+ },
+ {
+  "zone_id": "Z000100232",
+  "zone_name": "서울명신초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "146"
+ },
+ {
+  "zone_id": "Z000100372",
+  "zone_name": "서울영도초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5006"
+ },
+ {
+  "zone_id": "Z000100374",
+  "zone_name": "서울월정초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "842"
+ },
+ {
+  "zone_id": "Z000100087",
+  "zone_name": "서울은빛초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3491"
+ },
+ {
+  "zone_id": "Z000100190",
+  "zone_name": "서울숭미초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2835"
+ },
+ {
+  "zone_id": "Z000100523",
+  "zone_name": "서울길음초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1022"
+ },
+ {
+  "zone_id": "Z000150018",
+  "zone_name": "서울신학초서울창경초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6345"
+ },
+ {
+  "zone_id": "Z000150019",
+  "zone_name": "서울신학초서울초당초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6340"
+ },
+ {
+  "zone_id": "Z000100396",
+  "zone_name": "서울대치초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6572"
+ },
+ {
+  "zone_id": "Z000100353",
+  "zone_name": "서울신기초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1800"
+ },
+ {
+  "zone_id": "Z000100219",
+  "zone_name": "서울청계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4347"
+ },
+ {
+  "zone_id": "Z000100172",
+  "zone_name": "서울누원초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6196"
+ },
+ {
+  "zone_id": "Z000100271",
+  "zone_name": "서울남천초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "985"
+ },
+ {
+  "zone_id": "Z000100133",
+  "zone_name": "서울미래초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4768"
+ },
+ {
+  "zone_id": "Z000100262",
+  "zone_name": "서울강명초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4448"
+ },
+ {
+  "zone_id": "Z000100302",
+  "zone_name": "서울오륜초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1861"
+ },
+ {
+  "zone_id": "Z000100151",
+  "zone_name": "서울영서초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1191"
+ },
+ {
+  "zone_id": "Z000100547",
+  "zone_name": "서울인수초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1930"
+ },
+ {
+  "zone_id": "Z000100359",
+  "zone_name": "서울신은초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5266"
+ },
+ {
+  "zone_id": "Z000100542",
+  "zone_name": "서울안암초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6338"
+ },
+ {
+  "zone_id": "Z000100235",
+  "zone_name": "서울삼광초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "566"
+ },
+ {
+  "zone_id": "Z000100200",
+  "zone_name": "서울오봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6255"
+ },
+ {
+  "zone_id": "Z000100253",
+  "zone_name": "서울혜화초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2385"
+ },
+ {
+  "zone_id": "Z000106221",
+  "zone_name": "서울하늘숲초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "889"
+ },
+ {
+  "zone_id": "Z000150747",
+  "zone_name": "서울천왕초서울하늘숲초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5345"
+ },
+ {
+  "zone_id": "Z000100210",
+  "zone_name": "서울중원초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "758"
+ },
+ {
+  "zone_id": "Z000100042",
+  "zone_name": "서울고은초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6474"
+ },
+ {
+  "zone_id": "Z000100316",
+  "zone_name": "서울평화초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "948"
+ },
+ {
+  "zone_id": "Z000100103",
+  "zone_name": "서울개명초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3567"
+ },
+ {
+  "zone_id": "Z000100492",
+  "zone_name": "서울금호초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2824"
+ },
+ {
+  "zone_id": "Z000100214",
+  "zone_name": "서울창도초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "876"
+ },
+ {
+  "zone_id": "Z000100247",
+  "zone_name": "서울청구초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1020"
+ },
+ {
+  "zone_id": "Z000100456",
+  "zone_name": "서울본동초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "3396"
+ },
+ {
+  "zone_id": "Z000150047",
+  "zone_name": "서울석계초서울석관초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6086"
+ },
+ {
+  "zone_id": "Z000100525",
+  "zone_name": "서울동신초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6336"
+ },
+ {
+  "zone_id": "Z000100147",
+  "zone_name": "서울영동초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4401"
+ },
+ {
+  "zone_id": "Z000100193",
+  "zone_name": "서울신상계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1554"
+ },
+ {
+  "zone_id": "Z000100255",
+  "zone_name": "서울후암초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5037"
+ },
+ {
+  "zone_id": "Z000100065",
+  "zone_name": "서울성산초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "7045"
+ },
+ {
+  "zone_id": "Z000100424",
+  "zone_name": "서울역삼초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "66"
+ },
+ {
+  "zone_id": "Z000100394",
+  "zone_name": "서울대진초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1558"
+ },
+ {
+  "zone_id": "Z000100058",
+  "zone_name": "서울불광초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "283"
+ },
+ {
+  "zone_id": "Z000100063",
+  "zone_name": "서울서교초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6792"
+ },
+ {
+  "zone_id": "Z000100308",
+  "zone_name": "서울잠전초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5991"
+ },
+ {
+  "zone_id": "Z000100301",
+  "zone_name": "서울오금초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6274"
+ },
+ {
+  "zone_id": "Z000100524",
+  "zone_name": "서울돈암초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6335"
+ },
+ {
+  "zone_id": "Z000100023",
+  "zone_name": "서울원묵초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "3339"
+ },
+ {
+  "zone_id": "Z000100556",
+  "zone_name": "서울화계초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1944"
+ },
+ {
+  "zone_id": "Z000100437",
+  "zone_name": "서울청담초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6191"
+ },
+ {
+  "zone_id": "Z000100449",
+  "zone_name": "서울노량진초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2068"
+ },
+ {
+  "zone_id": "Z000100521",
+  "zone_name": "서울개운초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "158"
+ },
+ {
+  "zone_id": "Z000100257",
+  "zone_name": "서울가동초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1862"
+ },
+ {
+  "zone_id": "Z000100068",
+  "zone_name": "서울소의초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2529"
+ },
+ {
+  "zone_id": "Z000100069",
+  "zone_name": "서울수리초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3818"
+ },
+ {
+  "zone_id": "Z000100364",
+  "zone_name": "서울양목초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2343"
+ },
+ {
+  "zone_id": "Z000100123",
+  "zone_name": "서울도림초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4517"
+ },
+ {
+  "zone_id": "Z000100015",
+  "zone_name": "서울봉화초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4263"
+ },
+ {
+  "zone_id": "Z000100264",
+  "zone_name": "서울개롱초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5445"
+ },
+ {
+  "zone_id": "Z000100447",
+  "zone_name": "서울남사초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "3262"
+ },
+ {
+  "zone_id": "Z000100399",
+  "zone_name": "서울도성초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "2676"
+ },
+ {
+  "zone_id": "Z000100360",
+  "zone_name": "서울신정초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "1802"
+ },
+ {
+  "zone_id": "Z000100479",
+  "zone_name": "서울청룡초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5156"
+ },
+ {
+  "zone_id": "Z000100461",
+  "zone_name": "서울삼일초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "6370"
+ },
+ {
+  "zone_id": "Z000100297",
+  "zone_name": "서울신암초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2750"
+ },
+ {
+  "zone_id": "Z000100445",
+  "zone_name": "서울난향초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2606"
+ },
+ {
+  "zone_id": "Z000100289",
+  "zone_name": "서울성내초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4549"
+ },
+ {
+  "zone_id": "Z000100291",
+  "zone_name": "서울세륜초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "88"
+ },
+ {
+  "zone_id": "Z000100493",
+  "zone_name": "서울동명초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2740"
+ },
+ {
+  "zone_id": "Z000150020",
+  "zone_name": "서울태랑초서울태릉초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2804"
+ },
+ {
+  "zone_id": "Z000100347",
+  "zone_name": "서울서정초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "537"
+ },
+ {
+  "zone_id": "Z000100215",
+  "zone_name": "서울창동초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3546"
+ },
+ {
+  "zone_id": "Z000100178",
+  "zone_name": "서울백운초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4612"
+ },
+ {
+  "zone_id": "Z000100443",
+  "zone_name": "서울난곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4406"
+ },
+ {
+  "zone_id": "Z000100175",
+  "zone_name": "서울도봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6258"
+ },
+ {
+  "zone_id": "Z000100367",
+  "zone_name": "서울양화초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6524"
+ },
+ {
+  "zone_id": "Z000100328",
+  "zone_name": "서울계남초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5872"
+ },
+ {
+  "zone_id": "Z000100121",
+  "zone_name": "서울대영초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "919"
+ },
+ {
+  "zone_id": "Z000100191",
+  "zone_name": "서울신계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2684"
+ },
+ {
+  "zone_id": "Z000100448",
+  "zone_name": "서울남성초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1057"
+ },
+ {
+  "zone_id": "Z000100040",
+  "zone_name": "서울가재울초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4405"
+ },
+ {
+  "zone_id": "Z000100221",
+  "zone_name": "서울태랑초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2474"
+ },
+ {
+  "zone_id": "Z000100179",
+  "zone_name": "서울불암초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "5106"
+ },
+ {
+  "zone_id": "Z000106191",
+  "zone_name": "서울어울초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "5594"
+ },
+ {
+  "zone_id": "Z000100470",
+  "zone_name": "서울신우초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "2950"
+ },
+ {
+  "zone_id": "Z000100260",
+  "zone_name": "서울강덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "647"
+ },
+ {
+  "zone_id": "Z000106194",
+  "zone_name": "서울새솔초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "689"
+ },
+ {
+  "zone_id": "Z000100026",
+  "zone_name": "서울전곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "3556"
+ },
+ {
+  "zone_id": "Z000100057",
+  "zone_name": "서울북한산초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6053"
+ },
+ {
+  "zone_id": "Z000100485",
+  "zone_name": "서울광남초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2209"
+ },
+ {
+  "zone_id": "Z000100259",
+  "zone_name": "서울가주초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3636"
+ },
+ {
+  "zone_id": "Z000100199",
+  "zone_name": "서울연촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3481"
+ },
+ {
+  "zone_id": "Z000100003",
+  "zone_name": "서울동답초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "7000"
+ },
+ {
+  "zone_id": "Z000100480",
+  "zone_name": "서울행림초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "6736"
+ },
+ {
+  "zone_id": "Z000100473",
+  "zone_name": "서울원당초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1621"
+ },
+ {
+  "zone_id": "Z000100246",
+  "zone_name": "서울창신초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1932"
+ },
+ {
+  "zone_id": "Z000100381",
+  "zone_name": "서울치현초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4185"
+ },
+ {
+  "zone_id": "Z000100022",
+  "zone_name": "서울용두초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "63"
+ },
+ {
+  "zone_id": "Z000100536",
+  "zone_name": "서울수송초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6331"
+ },
+ {
+  "zone_id": "Z000100184",
+  "zone_name": "서울상원초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "2166"
+ },
+ {
+  "zone_id": "Z000100180",
+  "zone_name": "서울상경초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4467"
+ },
+ {
+  "zone_id": "Z000100248",
+  "zone_name": "서울청운초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "6368"
+ },
+ {
+  "zone_id": "Z000100389",
+  "zone_name": "서울논현초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1947"
+ },
+ {
+  "zone_id": "Z000100540",
+  "zone_name": "서울숭례초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "62"
+ },
+ {
+  "zone_id": "Z000100056",
+  "zone_name": "서울북성초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4300"
+ },
+ {
+  "zone_id": "Z000100177",
+  "zone_name": "서울방학초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3626"
+ },
+ {
+  "zone_id": "Z000100205",
+  "zone_name": "서울월계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3551"
+ },
+ {
+  "zone_id": "Z000100142",
+  "zone_name": "서울신영초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3878"
+ },
+ {
+  "zone_id": "Z000100283",
+  "zone_name": "서울버들초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6903"
+ },
+ {
+  "zone_id": "Z000100546",
+  "zone_name": "서울유현초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "719"
+ },
+ {
+  "zone_id": "Z000100097",
+  "zone_name": "서울하늘초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3869"
+ },
+ {
+  "zone_id": "Z000100018",
+  "zone_name": "서울신답초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4456"
+ },
+ {
+  "zone_id": "Z000100166",
+  "zone_name": "서울계상초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3477"
+ },
+ {
+  "zone_id": "Z000100534",
+  "zone_name": "서울송중초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1845"
+ },
+ {
+  "zone_id": "Z000100156",
+  "zone_name": "서울오류남초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1797"
+ },
+ {
+  "zone_id": "Z000100468",
+  "zone_name": "서울신상도초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "3832"
+ },
+ {
+  "zone_id": "Z000100020",
+  "zone_name": "서울신현초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6000"
+ },
+ {
+  "zone_id": "Z000150004",
+  "zone_name": "서울묵현초서울원묵초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4396"
+ },
+ {
+  "zone_id": "Z000100013",
+  "zone_name": "서울묵현초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4590"
+ },
+ {
+  "zone_id": "Z000100224",
+  "zone_name": "서울광희초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "3710"
+ },
+ {
+  "zone_id": "Z000100503",
+  "zone_name": "서울숭신초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5497"
+ },
+ {
+  "zone_id": "Z000100243",
+  "zone_name": "서울이태원초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2380"
+ },
+ {
+  "zone_id": "Z000100059",
+  "zone_name": "서울상신초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4515"
+ },
+ {
+  "zone_id": "Z000100046",
+  "zone_name": "서울금화초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1622"
+ },
+ {
+  "zone_id": "Z000100268",
+  "zone_name": "서울고명초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1893"
+ },
+ {
+  "zone_id": "Z000100223",
+  "zone_name": "서울한천초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3443"
+ },
+ {
+  "zone_id": "Z000100196",
+  "zone_name": "서울신화초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1423"
+ },
+ {
+  "zone_id": "Z000100216",
+  "zone_name": "서울창림초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1848"
+ },
+ {
+  "zone_id": "Z000100032",
+  "zone_name": "서울중화초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2478"
+ },
+ {
+  "zone_id": "Z000100201",
+  "zone_name": "서울온곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6088"
+ },
+ {
+  "zone_id": "Z000100086",
+  "zone_name": "서울은명초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6790"
+ },
+ {
+  "zone_id": "Z000100139",
+  "zone_name": "서울신대림초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5370"
+ },
+ {
+  "zone_id": "Z000100202",
+  "zone_name": "서울용동초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6115"
+ },
+ {
+  "zone_id": "Z000100039",
+  "zone_name": "서울전동초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6570"
+ },
+ {
+  "zone_id": "Z000100188",
+  "zone_name": "서울수락초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3687"
+ },
+ {
+  "zone_id": "Z000100001",
+  "zone_name": "서울군자초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4349"
+ },
+ {
+  "zone_id": "Z000100357",
+  "zone_name": "서울신원초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2625"
+ },
+ {
+  "zone_id": "Z000100091",
+  "zone_name": "서울인왕초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6962"
+ },
+ {
+  "zone_id": "Z000100425",
+  "zone_name": "서울영희초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5989"
+ },
+ {
+  "zone_id": "Z000100002",
+  "zone_name": "서울답십리초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2686"
+ },
+ {
+  "zone_id": "Z000100051",
+  "zone_name": "서울동교초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2723"
+ },
+ {
+  "zone_id": "Z000100035",
+  "zone_name": "서울홍릉초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "877"
+ },
+ {
+  "zone_id": "Z000100469",
+  "zone_name": "서울신성초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4728"
+ },
+ {
+  "zone_id": "Z000100550",
+  "zone_name": "서울장월초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "6190"
+ },
+ {
+  "zone_id": "Z000100145",
+  "zone_name": "서울여의도초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6469"
+ },
+ {
+  "zone_id": "Z000100397",
+  "zone_name": "서울대현초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "7027"
+ },
+ {
+  "zone_id": "Z000100390",
+  "zone_name": "서울대곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1662"
+ },
+ {
+  "zone_id": "Z000150014",
+  "zone_name": "서울당서초서울선유초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1190"
+ },
+ {
+  "zone_id": "Z000100116",
+  "zone_name": "서울당서초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "33"
+ },
+ {
+  "zone_id": "Z000100512",
+  "zone_name": "서울용마초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6902"
+ },
+ {
+  "zone_id": "Z000100080",
+  "zone_name": "서울연신초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3245"
+ },
+ {
+  "zone_id": "Z000100102",
+  "zone_name": "서울가산초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "6538"
+ },
+ {
+  "zone_id": "Z000100228",
+  "zone_name": "서울남정초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1385"
+ },
+ {
+  "zone_id": "Z000150996",
+  "zone_name": "서울대영초서울우신초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1715"
+ },
+ {
+  "zone_id": "Z000100120",
+  "zone_name": "서울대방초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "4404"
+ },
+ {
+  "zone_id": "Z000100488",
+  "zone_name": "서울구남초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6909"
+ },
+ {
+  "zone_id": "Z000100160",
+  "zone_name": "서울우신초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3485"
+ },
+ {
+  "zone_id": "Z000100108",
+  "zone_name": "서울고척초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "2702"
+ },
+ {
+  "zone_id": "Z000100292",
+  "zone_name": "서울송례초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1883"
+ },
+ {
+  "zone_id": "Z000100237",
+  "zone_name": "서울세검정초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5038"
+ },
+ {
+  "zone_id": "Z000100130",
+  "zone_name": "서울문래초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3880"
+ },
+ {
+  "zone_id": "Z000100044",
+  "zone_name": "서울구산초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6128"
+ },
+ {
+  "zone_id": "Z000100021",
+  "zone_name": "서울안평초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "3479"
+ },
+ {
+  "zone_id": "Z000100238",
+  "zone_name": "서울신당초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5493"
+ },
+ {
+  "zone_id": "Z000150630",
+  "zone_name": "서울숭신초서울무학초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5496"
+ },
+ {
+  "zone_id": "Z000150632",
+  "zone_name": "서울송례초서울위례별초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6288"
+ },
+ {
+  "zone_id": "Z000100112",
+  "zone_name": "서울금동초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "2602"
+ },
+ {
+  "zone_id": "Z000100474",
+  "zone_name": "서울원신초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1431"
+ },
+ {
+  "zone_id": "Z000100465",
+  "zone_name": "서울신남성초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "4963"
+ },
+ {
+  "zone_id": "Z000100422",
+  "zone_name": "서울언북초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5321"
+ },
+ {
+  "zone_id": "Z000100314",
+  "zone_name": "서울천호초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4574"
+ },
+ {
+  "zone_id": "Z000100045",
+  "zone_name": "서울구현초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1718"
+ },
+ {
+  "zone_id": "Z000100403",
+  "zone_name": "서울방배초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5042"
+ },
+ {
+  "zone_id": "Z000100433",
+  "zone_name": "서울이수초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5925"
+ },
+ {
+  "zone_id": "Z000100254",
+  "zone_name": "서울효제초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "714"
+ },
+ {
+  "zone_id": "Z000100099",
+  "zone_name": "서울홍연초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2952"
+ },
+ {
+  "zone_id": "Z000100043",
+  "zone_name": "서울공덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6050"
+ },
+ {
+  "zone_id": "Z000100234",
+  "zone_name": "서울봉래초통학구역",
+  "level": "elementary",
+  "sgg_code": "140",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1386"
+ },
+ {
+  "zone_id": "Z000100230",
+  "zone_name": "서울독립문초통학구역",
+  "level": "elementary",
+  "sgg_code": "110",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "5166"
+ },
+ {
+  "zone_id": "Z000100513",
+  "zone_name": "서울응봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1849"
+ },
+ {
+  "zone_id": "Z000100258",
+  "zone_name": "서울가원초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4289"
+ },
+ {
+  "zone_id": "Z000100012",
+  "zone_name": "서울묵동초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "132"
+ },
+ {
+  "zone_id": "Z000100279",
+  "zone_name": "서울문덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6272"
+ },
+ {
+  "zone_id": "Z000100267",
+  "zone_name": "서울고덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "7100"
+ },
+ {
+  "zone_id": "Z000106123",
+  "zone_name": "서울강솔초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2663"
+ },
+ {
+  "zone_id": "Z000100100",
+  "zone_name": "서울홍은초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "5162"
+ },
+ {
+  "zone_id": "Z000100090",
+  "zone_name": "서울응암초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "823"
+ },
+ {
+  "zone_id": "Z000100006",
+  "zone_name": "서울면남초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "3349"
+ },
+ {
+  "zone_id": "Z000100440",
+  "zone_name": "서울강남초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "711"
+ },
+ {
+  "zone_id": "Z000100101",
+  "zone_name": "서울홍제초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4726"
+ },
+ {
+  "zone_id": "Z000100033",
+  "zone_name": "서울중흥초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6900"
+ },
+ {
+  "zone_id": "Z000100522",
+  "zone_name": "서울길원초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5490"
+ },
+ {
+  "zone_id": "Z000100463",
+  "zone_name": "서울상현초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5163"
+ },
+ {
+  "zone_id": "Z000100167",
+  "zone_name": "서울공릉초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "127"
+ },
+ {
+  "zone_id": "Z000100438",
+  "zone_name": "서울포이초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4473"
+ },
+ {
+  "zone_id": "Z000106348",
+  "zone_name": "서울위례솔초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5461"
+ },
+ {
+  "zone_id": "Z000100274",
+  "zone_name": "서울마천초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5542"
+ },
+ {
+  "zone_id": "Z000106127",
+  "zone_name": "서울위례별초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "1890"
+ },
+ {
+  "zone_id": "Z000100240",
+  "zone_name": "서울용산초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "4091"
+ },
+ {
+  "zone_id": "Z000106315",
+  "zone_name": "서울강빛초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "869"
+ },
+ {
+  "zone_id": "Z000100548",
+  "zone_name": "서울일신초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "5400"
+ },
+ {
+  "zone_id": "Z000150033",
+  "zone_name": "서울반원초서울원촌초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3398"
+ },
+ {
+  "zone_id": "Z000151265",
+  "zone_name": "서울두산초서울안천초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3872"
+ },
+ {
+  "zone_id": "Z000100127",
+  "zone_name": "서울두산초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "325"
+ },
+ {
+  "zone_id": "Z000100075",
+  "zone_name": "서울아현초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3394"
+ },
+ {
+  "zone_id": "Z000151326",
+  "zone_name": "서울경수초서울신양초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "757"
+ },
+ {
+  "zone_id": "Z000100455",
+  "zone_name": "서울보라매초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "821"
+ },
+ {
+  "zone_id": "Z000100300",
+  "zone_name": "서울영풍초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "980"
+ },
+ {
+  "zone_id": "Z000151235",
+  "zone_name": "서울위례별초서울거원초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4572"
+ },
+ {
+  "zone_id": "Z000151234",
+  "zone_name": "서울송례초서울거원초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4557"
+ },
+ {
+  "zone_id": "Z000151018",
+  "zone_name": "서울전곡초서울전농초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "7133"
+ },
+ {
+  "zone_id": "Z000150659",
+  "zone_name": "서울당서초서울영동초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "327"
+ },
+ {
+  "zone_id": "Z000100181",
+  "zone_name": "서울상계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4352"
+ },
+ {
+  "zone_id": "Z000150016",
+  "zone_name": "서울상계초서울중계초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4351"
+ },
+ {
+  "zone_id": "Z000100135",
+  "zone_name": "서울선유초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1188"
+ },
+ {
+  "zone_id": "Z000100143",
+  "zone_name": "서울신흥초통학구역",
+  "level": "elementary",
+  "sgg_code": "545",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1714"
+ },
+ {
+  "zone_id": "Z000150660",
+  "zone_name": "서울삼일초서울남성초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5035"
+ },
+ {
+  "zone_id": "Z000100110",
+  "zone_name": "서울구로초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "3871"
+ },
+ {
+  "zone_id": "Z000106405",
+  "zone_name": "서울개원초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4480"
+ },
+ {
+  "zone_id": "Z000100386",
+  "zone_name": "서울개일초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3439"
+ },
+ {
+  "zone_id": "Z000106404",
+  "zone_name": "서울개현초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3440"
+ },
+ {
+  "zone_id": "Z000150037",
+  "zone_name": "서울경동초서울경수초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "881"
+ },
+ {
+  "zone_id": "Z000100530",
+  "zone_name": "서울삼양초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1025"
+ },
+ {
+  "zone_id": "Z000100450",
+  "zone_name": "서울당곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1143"
+ },
+ {
+  "zone_id": "Z000100537",
+  "zone_name": "서울수유초통학구역",
+  "level": "elementary",
+  "sgg_code": "305",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "3715"
+ },
+ {
+  "zone_id": "Z000100010",
+  "zone_name": "서울면일초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "4858"
+ },
+ {
+  "zone_id": "Z000100539",
+  "zone_name": "서울숭덕초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "1931"
+ },
+ {
+  "zone_id": "Z000100496",
+  "zone_name": "서울동호초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5168"
+ },
+ {
+  "zone_id": "Z000100207",
+  "zone_name": "서울을지초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "4391"
+ },
+ {
+  "zone_id": "Z000100431",
+  "zone_name": "서울원촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6333"
+ },
+ {
+  "zone_id": "Z000100266",
+  "zone_name": "서울거원초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3677"
+ },
+ {
+  "zone_id": "Z000151233",
+  "zone_name": "서울위례솔초서울거원초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2796"
+ },
+ {
+  "zone_id": "Z000151545",
+  "zone_name": "서울휘경초서울청량초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "1227"
+ },
+ {
+  "zone_id": "Z000100037",
+  "zone_name": "서울휘경초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "5206"
+ },
+ {
+  "zone_id": "Z000100551",
+  "zone_name": "서울장위초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "4470"
+ },
+ {
+  "zone_id": "Z000100532",
+  "zone_name": "서울석관초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "4343"
+ },
+ {
+  "zone_id": "Z000100404",
+  "zone_name": "서울방일초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "582"
+ },
+ {
+  "zone_id": "Z000151535",
+  "zone_name": "서울방일초서울신중초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3272"
+ },
+ {
+  "zone_id": "Z000100416",
+  "zone_name": "서울신동초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "2821"
+ },
+ {
+  "zone_id": "Z000100094",
+  "zone_name": "서울진관초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6791"
+ },
+ {
+  "zone_id": "Z000100024",
+  "zone_name": "서울이문초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6091"
+ },
+ {
+  "zone_id": "Z000100061",
+  "zone_name": "서울상지초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3870"
+ },
+ {
+  "zone_id": "Z000100060",
+  "zone_name": "서울상암초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6537"
+ },
+ {
+  "zone_id": "Z000106437",
+  "zone_name": "서울위례초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3669"
+ },
+ {
+  "zone_id": "Z000100319",
+  "zone_name": "서울한산초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5448"
+ },
+ {
+  "zone_id": "Z000151507",
+  "zone_name": "서울금화초서울미동초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6967"
+ },
+ {
+  "zone_id": "Z000100054",
+  "zone_name": "서울미동초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2845"
+ },
+ {
+  "zone_id": "Z000100358",
+  "zone_name": "서울신월초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "886"
+ },
+ {
+  "zone_id": "Z000106438",
+  "zone_name": "서울둔촌초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4575"
+ },
+ {
+  "zone_id": "Z000151557",
+  "zone_name": "서울성일초서울위례초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5414"
+ },
+ {
+  "zone_id": "Z000151555",
+  "zone_name": "서울둔촌초서울성일초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "5416"
+ },
+ {
+  "zone_id": "Z000100290",
+  "zone_name": "서울성일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "83"
+ },
+ {
+  "zone_id": "Z000151556",
+  "zone_name": "서울둔촌초서울한산초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4555"
+ },
+ {
+  "zone_id": "Z000106368",
+  "zone_name": "서울개포초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "7034"
+ },
+ {
+  "zone_id": "Z000100420",
+  "zone_name": "서울양전초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1700"
+ },
+ {
+  "zone_id": "Z000150002",
+  "zone_name": "서울면남초서울면동초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "655"
+ },
+ {
+  "zone_id": "Z000150690",
+  "zone_name": "서울금옥초서울동호초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5170"
+ },
+ {
+  "zone_id": "Z000100038",
+  "zone_name": "서울휘봉초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2591"
+ },
+ {
+  "zone_id": "Z000100464",
+  "zone_name": "서울신길초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "5016"
+ },
+ {
+  "zone_id": "Z000100376",
+  "zone_name": "서울은정초통학구역",
+  "level": "elementary",
+  "sgg_code": "470",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5879"
+ },
+ {
+  "zone_id": "Z000100350",
+  "zone_name": "서울수명초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "832"
+ },
+ {
+  "zone_id": "Z000100343",
+  "zone_name": "서울발산초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "2626"
+ },
+ {
+  "zone_id": "Z000100194",
+  "zone_name": "서울신창초통학구역",
+  "level": "elementary",
+  "sgg_code": "320",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "3627"
+ },
+ {
+  "zone_id": "Z000100005",
+  "zone_name": "서울망우초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "1595"
+ },
+ {
+  "zone_id": "Z000100073",
+  "zone_name": "서울신사초통학구역",
+  "level": "elementary",
+  "sgg_code": "380",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3486"
+ },
+ {
+  "zone_id": "Z000100209",
+  "zone_name": "서울중계초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "1906"
+ },
+ {
+  "zone_id": "Z000100152",
+  "zone_name": "서울영신초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5252"
+ },
+ {
+  "zone_id": "Z000100252",
+  "zone_name": "서울한남초통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "2536"
+ },
+ {
+  "zone_id": "Z000100158",
+  "zone_name": "서울오정초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "838"
+ },
+ {
+  "zone_id": "Z000100008",
+  "zone_name": "서울면목초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "658"
+ },
+ {
+  "zone_id": "Z000100007",
+  "zone_name": "서울면동초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "657"
+ },
+ {
+  "zone_id": "Z000150043",
+  "zone_name": "서울장안초서울성수초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2590"
+ },
+ {
+  "zone_id": "Z000151315",
+  "zone_name": "서울서초초서울원명초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5488"
+ },
+ {
+  "zone_id": "Z000100430",
+  "zone_name": "서울원명초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5491"
+ },
+ {
+  "zone_id": "Z000100412",
+  "zone_name": "서울서초초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1027"
+ },
+ {
+  "zone_id": "Z000100034",
+  "zone_name": "서울청량초통학구역",
+  "level": "elementary",
+  "sgg_code": "230",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2557"
+ },
+ {
+  "zone_id": "Z000100373",
+  "zone_name": "서울우장초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4490"
+ },
+ {
+  "zone_id": "Z000100384",
+  "zone_name": "서울화일초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4492"
+ },
+ {
+  "zone_id": "Z000151504",
+  "zone_name": "서울서빙고초서울이태원초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "170",
+  "edu_office": "서울특별시중부교육지원청",
+  "spatial_id": "1460"
+ },
+ {
+  "zone_id": "Z000100187",
+  "zone_name": "서울선곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "350",
+  "edu_office": "서울특별시북부교육지원청",
+  "spatial_id": "6994"
+ },
+ {
+  "zone_id": "Z000100549",
+  "zone_name": "서울장곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "7132"
+ },
+ {
+  "zone_id": "Z000100401",
+  "zone_name": "서울반원초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "716"
+ },
+ {
+  "zone_id": "Z000151329",
+  "zone_name": "서울율현초서울자곡초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "4857"
+ },
+ {
+  "zone_id": "Z000100161",
+  "zone_name": "서울윤중초통학구역",
+  "level": "elementary",
+  "sgg_code": "560",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "5898"
+ },
+ {
+  "zone_id": "Z000100163",
+  "zone_name": "서울천왕초통학구역",
+  "level": "elementary",
+  "sgg_code": "530",
+  "edu_office": "서울특별시남부교육지원청",
+  "spatial_id": "1743"
+ },
+ {
+  "zone_id": "Z000100494",
+  "zone_name": "서울동의초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3348"
+ },
+ {
+  "zone_id": "Z000100510",
+  "zone_name": "서울용곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1565"
+ },
+ {
+  "zone_id": "Z000100313",
+  "zone_name": "서울천일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "82"
+ },
+ {
+  "zone_id": "Z000100345",
+  "zone_name": "서울백석초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4113"
+ },
+ {
+  "zone_id": "Z000100371",
+  "zone_name": "서울염창초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "4755"
+ },
+ {
+  "zone_id": "Z000100366",
+  "zone_name": "서울양천초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6207"
+ },
+ {
+  "zone_id": "Z000100497",
+  "zone_name": "서울마장초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5313"
+ },
+ {
+  "zone_id": "Z000100499",
+  "zone_name": "서울사근초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2677"
+ },
+ {
+  "zone_id": "Z000100336",
+  "zone_name": "서울등양초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "5347"
+ },
+ {
+  "zone_id": "Z000151628",
+  "zone_name": "서울대청초서울영희초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "6905"
+ },
+ {
+  "zone_id": "Z000100419",
+  "zone_name": "서울양재초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "2743"
+ },
+ {
+  "zone_id": "Z000100435",
+  "zone_name": "서울자곡초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "2208"
+ },
+ {
+  "zone_id": "Z000100426",
+  "zone_name": "서울왕북초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "3347"
+ },
+ {
+  "zone_id": "Z000100466",
+  "zone_name": "서울신림초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "6464"
+ },
+ {
+  "zone_id": "Z000100441",
+  "zone_name": "서울관악초통학구역",
+  "level": "elementary",
+  "sgg_code": "620",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "1151"
+ },
+ {
+  "zone_id": "Z000100427",
+  "zone_name": "서울우면초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5495"
+ },
+ {
+  "zone_id": "Z000100429",
+  "zone_name": "서울우암초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1943"
+ },
+ {
+  "zone_id": "Z000100388",
+  "zone_name": "서울구룡초통학구역",
+  "level": "elementary",
+  "sgg_code": "680",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5327"
+ },
+ {
+  "zone_id": "Z000100405",
+  "zone_name": "서울방현초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "1624"
+ },
+ {
+  "zone_id": "Z000100261",
+  "zone_name": "서울강동초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "81"
+ },
+ {
+  "zone_id": "Z000100348",
+  "zone_name": "서울송정초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3287"
+ },
+ {
+  "zone_id": "Z000151598",
+  "zone_name": "서울공항초서울송정초공동통학구역(적용시기: 2026.3.1.부터, 적용대상: 2026학년도 취학예정 대상자 및 해당 통학구역 전입자)",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "3290"
+ },
+ {
+  "zone_id": "Z000150038",
+  "zone_name": "서울경동초서울경일초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "67"
+ },
+ {
+  "zone_id": "Z000100482",
+  "zone_name": "서울경동초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "5329"
+ },
+ {
+  "zone_id": "Z000100504",
+  "zone_name": "서울신양초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "4353"
+ },
+ {
+  "zone_id": "Z000100495",
+  "zone_name": "서울동자초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3478"
+ },
+ {
+  "zone_id": "Z000100285",
+  "zone_name": "서울상일초통학구역",
+  "level": "elementary",
+  "sgg_code": "740",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "2667"
+ },
+ {
+  "zone_id": "Z000100518",
+  "zone_name": "서울행당초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "4540"
+ },
+ {
+  "zone_id": "Z000100519",
+  "zone_name": "서울행현초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6342"
+ },
+ {
+  "zone_id": "Z000100349",
+  "zone_name": "서울송화초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "7060"
+ },
+ {
+  "zone_id": "Z000100490",
+  "zone_name": "서울금북초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1938"
+ },
+ {
+  "zone_id": "Z000151584",
+  "zone_name": "서울등명초서울등양초서울등현초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "885"
+ },
+ {
+  "zone_id": "Z000100330",
+  "zone_name": "서울공항초통학구역",
+  "level": "elementary",
+  "sgg_code": "500",
+  "edu_office": "서울특별시강서양천교육지원청",
+  "spatial_id": "6143"
+ },
+ {
+  "zone_id": "Z000100501",
+  "zone_name": "서울성자초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "1910"
+ },
+ {
+  "zone_id": "Z000100500",
+  "zone_name": "서울성수초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2560"
+ },
+ {
+  "zone_id": "Z000100505",
+  "zone_name": "서울신자초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "4398"
+ },
+ {
+  "zone_id": "Z000100304",
+  "zone_name": "서울잠동초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4855"
+ },
+ {
+  "zone_id": "Z000100306",
+  "zone_name": "서울잠실초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "6023"
+ },
+ {
+  "zone_id": "Z000100309",
+  "zone_name": "서울잠현초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "4861"
+ },
+ {
+  "zone_id": "Z000106209",
+  "zone_name": "서울해누리초통학구역",
+  "level": "elementary",
+  "sgg_code": "710",
+  "edu_office": "서울특별시강동송파교육지원청",
+  "spatial_id": "3073"
+ },
+ {
+  "zone_id": "Z000100487",
+  "zone_name": "서울광진초통학구역",
+  "level": "elementary",
+  "sgg_code": "215",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "2476"
+ },
+ {
+  "zone_id": "Z000150042",
+  "zone_name": "서울마장초서울사근초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6260"
+ },
+ {
+  "zone_id": "Z000100491",
+  "zone_name": "서울금옥초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "149"
+ },
+ {
+  "zone_id": "Z000100509",
+  "zone_name": "서울옥정초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6332"
+ },
+ {
+  "zone_id": "Z000100508",
+  "zone_name": "서울옥수초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "4615"
+ },
+ {
+  "zone_id": "Z000100074",
+  "zone_name": "서울신석초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1146"
+ },
+ {
+  "zone_id": "Z000100085",
+  "zone_name": "서울용강초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "6477"
+ },
+ {
+  "zone_id": "Z000100098",
+  "zone_name": "서울한서초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "708"
+ },
+ {
+  "zone_id": "Z000100096",
+  "zone_name": "서울창천초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "3827"
+ },
+ {
+  "zone_id": "Z000100062",
+  "zone_name": "서울서강초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "276"
+ },
+ {
+  "zone_id": "Z000150012",
+  "zone_name": "서울중동초서울창서초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "2603"
+ },
+ {
+  "zone_id": "Z000100095",
+  "zone_name": "서울창서초통학구역",
+  "level": "elementary",
+  "sgg_code": "410",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "4722"
+ },
+ {
+  "zone_id": "Z000100092",
+  "zone_name": "서울중동초통학구역",
+  "level": "elementary",
+  "sgg_code": "440",
+  "edu_office": "서울특별시서부교육지원청",
+  "spatial_id": "1720"
+ },
+ {
+  "zone_id": "Z000100483",
+  "zone_name": "서울경수초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "884"
+ },
+ {
+  "zone_id": "Z000100484",
+  "zone_name": "서울경일초통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "6189"
+ },
+ {
+  "zone_id": "Z000100436",
+  "zone_name": "서울잠원초통학구역",
+  "level": "elementary",
+  "sgg_code": "650",
+  "edu_office": "서울특별시강남서초교육지원청",
+  "spatial_id": "5054"
+ },
+ {
+  "zone_id": "Z000100475",
+  "zone_name": "서울은로초통학구역",
+  "level": "elementary",
+  "sgg_code": "590",
+  "edu_office": "서울특별시동작관악교육지원청",
+  "spatial_id": "6733"
+ },
+ {
+  "zone_id": "Z000151430",
+  "zone_name": "서울금옥초서울옥수초공동통학구역",
+  "level": "elementary",
+  "sgg_code": "200",
+  "edu_office": "서울특별시성동광진교육지원청",
+  "spatial_id": "3708"
+ },
+ {
+  "zone_id": "Z000100526",
+  "zone_name": "서울미아초통학구역",
+  "level": "elementary",
+  "sgg_code": "290",
+  "edu_office": "서울특별시성북강북교육지원청",
+  "spatial_id": "2826"
+ },
+ {
+  "zone_id": "Z000100004",
+  "zone_name": "서울동원초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6944"
+ },
+ {
+  "zone_id": "Z000106338",
+  "zone_name": "서울양원숲초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "6029"
+ },
+ {
+  "zone_id": "Z000100017",
+  "zone_name": "서울신내초통학구역",
+  "level": "elementary",
+  "sgg_code": "260",
+  "edu_office": "서울특별시동부교육지원청",
+  "spatial_id": "2482"
+ }
+]
