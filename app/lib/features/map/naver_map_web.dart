@@ -4,6 +4,7 @@ import 'dart:ui_web' as ui_web;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:web/web.dart' as web;
 
 @JS('hakwonMap.ready')
@@ -114,8 +115,27 @@ class _NaverMapViewState extends State<NaverMapView> {
       } catch (e) {
         if (kDebugMode) debugPrint('naver map init 실패: $e');
       }
-      if (!ok && attempt < 8) _draw(attempt: attempt + 1);
+      if (ok) {
+        _pump();
+      } else if (attempt < 8) {
+        _draw(attempt: attempt + 1);
+      }
     });
+  }
+
+  /// 지도를 만든 뒤 프레임을 몇 번 강제로 돌린다.
+  ///
+  /// 지도는 정상적으로 그려져 있는데 화면에 안 나오다가, 클릭 한 번이면
+  /// 즉시 나타났다. 정적인 화면에서는 플러터가 프레임을 예약하지 않아
+  /// 플랫폼 뷰가 재합성되지 않기 때문이다. 입력이 들어오면 프레임이 돌고
+  /// 그제서야 합성된다.
+  ///
+  /// JS 쪽에서 opacity·display 를 흔들어 봐도 소용없었다. 다시 그려야 하는
+  /// 주체가 브라우저가 아니라 플러터의 합성기이기 때문이다.
+  void _pump({int left = 12}) {
+    if (!mounted || left <= 0) return;
+    SchedulerBinding.instance.scheduleFrame();
+    Timer(const Duration(milliseconds: 180), () => _pump(left: left - 1));
   }
 
   @override
