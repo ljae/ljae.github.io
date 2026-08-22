@@ -296,7 +296,8 @@ def _synthesize_mentions(academies: list[dict]) -> list[dict]:
 
 
 # ── 조립 ───────────────────────────────────────────────────────────
-def run(with_cafe: bool = False, from_cache: bool = False) -> dict:
+def run(with_cafe: bool = False, from_cache: bool = False,
+        skip_blog_text: bool = False) -> dict:
     academies, mode = load_academies(from_cache=from_cache)
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
 
@@ -307,6 +308,26 @@ def run(with_cafe: bool = False, from_cache: bool = False) -> dict:
 
     mentions = load_mentions(evaluated, mode, with_cafe=with_cafe,
                              from_cache=from_cache)
+
+    # 블로그 본문 보강 — 관련성 게이트보다 먼저 한다.
+    # 스니펫에는 학원명이 안 나와도 본문에는 나오는 글이 많아서, 순서가
+    # 바뀌면 멀쩡한 근거를 게이트에서 버리게 된다.
+    if mode == "live" and not skip_blog_text:
+        from . import blog
+        filled = blog.enrich(mentions)
+        print(f"  블로그 본문 반영 {filled:,}건")
+
+    # 날짜 보강 — 순서대로 신뢰도가 높은 출처를 먼저 쓴다.
+    if mode == "live":
+        from . import cafe_dates, discovery
+        got = cafe_dates.apply(mentions)
+        if got:
+            print(f"  카페 목록 페이지에서 날짜 {got:,}건 보강")
+        store = discovery.update(mentions)
+        new = discovery.apply(mentions, store)
+        if new:
+            print(f"  발견 시점으로 날짜 {new:,}건 보강")
+        print(f"  날짜 확보율: {cafe_dates.coverage(mentions)}")
 
     # 관련성 게이트 — 학원명이 실제로 등장하는 글만 근거로 인정한다.
     candidates = {a["id"]: analyze.name_candidates(a) for a in evaluated}

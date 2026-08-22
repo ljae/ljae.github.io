@@ -6,6 +6,7 @@
     python pipeline/run.py --with-cafe # 카페 로컬 모듈까지 사용 (옵트인, 로컬 전용)
     python pipeline/run.py --test      # 발급받은 키가 실제로 통하는지 호출해 확인
     python pipeline/run.py --from-cache # 캐시로 재채점 (API 호출 없음, 산식 실험용)
+    python pipeline/run.py --skip-blog-text  # 블로그 본문 수집 생략
 """
 import sys
 from pathlib import Path
@@ -106,5 +107,6 @@ if __name__ == "__main__":
         from edutree.build import run
         check()
         result = run(with_cafe="--with-cafe" in sys.argv,
-                     from_cache="--from-cache" in sys.argv)
+                     from_cache="--from-cache" in sys.argv,
+                     skip_blog_text="--skip-blog-text" in sys.argv)
         print(f"\n완료: {result}")
