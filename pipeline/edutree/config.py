@@ -24,8 +24,18 @@ for _d in (CACHE_DIR, EXPORT_DIR):
 
 # ── 자격 증명 (없으면 시드 모드로 동작) ────────────────────────────
 NEIS_API_KEY = os.getenv("NEIS_API_KEY", "").strip()
+
+# 네이버 검색 API 자격 증명.
+# 두 콘솔 모두 'Client ID + Client Secret' 한 쌍을 주지만, 호출 방식이 다르다.
+#   legacy : developers.naver.com    → openapi.naver.com/v1/search/*.json
+#            헤더 X-Naver-Client-Id / X-Naver-Client-Secret
+#   hub    : console.ncloud.com      → naverapihub.apigw.ntruss.com/search/v1/*
+#            헤더 X-NCP-APIGW-API-KEY-ID / X-NCP-APIGW-API-KEY
+# 어느 쪽 키를 넣든 동작하도록 NAVER_API_MODE=auto 가 기본값이며,
+# 첫 호출에서 실제로 통하는 쪽을 자동으로 찾는다.
 NAVER_CLIENT_ID = os.getenv("NAVER_CLIENT_ID", "").strip()
 NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET", "").strip()
+NAVER_API_MODE = os.getenv("NAVER_API_MODE", "auto").strip().lower()
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip()
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", "").strip()
 

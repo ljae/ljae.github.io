@@ -14,55 +14,96 @@ python3 pipeline/run.py --check
 
 ## 1단계 — NEIS 학원 데이터 (가장 먼저, 가장 중요)
 
-학원의 이름·주소·정원·교습비·등록상태가 여기서 옵니다. **투명성 점수 전체가 이 데이터에 걸려 있습니다.**
+학원의 이름·주소·정원·교습비·등록상태가 여기서 옵니다.
+**투명성 점수(25%) 전체가 이 데이터에 걸려 있고**, 학원이 "공식 검증" 배지를
+받는 근거도 이것뿐입니다.
 
-1. https://open.neis.go.kr 접속 → 우측 상단 **회원가입** (무료)
-2. 로그인 후 상단 **[OpenAPI] → [인증키 신청]**
+인증키 발급·조회: **https://open.neis.go.kr/portal/myPage/actKeyPage.do**
+
+1. 위 주소로 이동 (로그인 필요 — 없으면 회원가입, 무료)
+2. **인증키 신청** 클릭
 3. 신청서 작성
    - 활용 목적: `학원 정보 조회 서비스`
    - 활용 구분: `웹사이트 개발`
-4. 발급된 인증키 복사 (즉시 발급, 심사 없음)
+4. 발급된 인증키 복사 — 심사 없이 즉시 발급됩니다
 
-> 일일 호출 한도가 있습니다. 인증키 없이도 하루 1,000건까지 되지만,
-> 4개 학군을 다 훑으려면 키가 필요합니다.
+같은 페이지에서 이미 발급받은 키를 다시 확인하거나 재발급할 수 있습니다.
+
+> 키 없이도 하루 1,000건까지 호출되지만, 4개 학군을 다 훑으려면 부족합니다.
 
 ---
 
-## 2단계 — 네이버 검색 API (평판 · 화제성 점수용)
+## 2단계 — 네이버 검색 API (평판 35% · 화제성 20%)
 
-1. https://developers.naver.com/apps/#/register 접속 (네이버 계정 필요)
-2. **애플리케이션 이름**: `에듀트리`
-3. **사용 API**: `검색` 체크
-4. **비로그인 오픈 API 서비스 환경**:
-   - `WEB 설정` 추가 → 웹 서비스 URL에 `https://openedu4u.com` 입력
-5. 등록하면 **Client ID** 와 **Client Secret** 이 나옵니다
+### ⚠ 먼저 알아야 할 것: 콘솔이 두 개입니다
 
-> 한도: 앱당 하루 25,000회. 학원 83곳 × 질의 5개 × 소스 3개 ≈ 1,245회이므로
-> 넉넉합니다. 학원 수가 500곳을 넘어가면 수집 주기를 나눠야 합니다.
+네이버가 검색 API를 **개발자센터 → NAVER API Hub** 로 옮기는 중입니다.
+두 곳 모두 `Client ID` + `Client Secret` 한 쌍을 주지만 **도메인·경로·인증 헤더가
+전부 다릅니다.** 도메인만 바꿔서는 동작하지 않습니다.
+
+| | 신규 (권장) | 기존 |
+|---|---|---|
+| 콘솔 | **console.ncloud.com/naver-api-hub/application** | developers.naver.com/apps |
+| 도메인 | `naverapihub.apigw.ntruss.com` | `openapi.naver.com` |
+| 경로 | `/search/v1/cafearticle` | `/v1/search/cafearticle.json` |
+| 헤더 | `X-NCP-APIGW-API-KEY-ID`<br>`X-NCP-APIGW-API-KEY` | `X-Naver-Client-Id`<br>`X-Naver-Client-Secret` |
+| 지원 종료 | — | **2027-06-30** |
+
+**어느 쪽 키를 넣어도 파이프라인은 그대로 동작합니다.** 두 방식을 모두
+구현해 두었고, 첫 호출에서 실제로 통하는 쪽을 자동으로 찾습니다
+(`NAVER_API_MODE=auto`, 기본값).
+
+이 프로젝트가 쓰는 **카페글·블로그·지식iN 검색은 이관 후에도 계속 제공됩니다.**
+(2026-07-31 종료된 것은 쇼핑·도서·전문자료 검색이며, 우리는 쓰지 않습니다.)
+
+### NAVER API Hub 에서 발급 (신규)
+
+1. **https://console.ncloud.com/naver-api-hub/application** 접속
+2. **Application 등록** 클릭
+3. 이용약관(AI·NAVER API + NAVER API 서비스) 동의
+4. Application 이름: `에듀트리`
+5. 사용할 API로 **검색(Search)** 선택
+6. 등록 완료 후 **Client ID / Client Secret** 확인
+
+> 키 하나로 검색·쇼핑인사이트·트렌드를 함께 쓸 수 있습니다.
+> NCP는 결제수단 등록을 요구할 수 있으니 무료 한도를 확인하세요.
+
+### 개발자센터에서 발급 (기존, 2027-06 까지)
+
+1. https://developers.naver.com/apps/#/register
+2. 애플리케이션 이름 `에듀트리`, 사용 API **검색** 체크
+3. 비로그인 오픈 API 환경 → `WEB 설정` → `https://openedu4u.com`
+
+> 한도: 하루 25,000회. 학원 83곳 × 질의 5 × 소스 3 ≈ 1,245회라 넉넉합니다.
 
 ---
 
 ## 3단계 — .env 파일 만들기
 
-저장소 루트에 `.env` 를 만들고 붙여넣으세요. **이 파일은 `.gitignore`에 있어 커밋되지 않습니다.**
+저장소 루트에 `.env` 를 만드세요. **`.gitignore`에 있어 커밋되지 않습니다.**
+키는 이 파일에만 두고, 채팅·이슈·커밋에 붙여넣지 마세요.
 
 ```bash
 cp .env.example .env
 ```
 
 ```ini
-NEIS_API_KEY=여기에_1단계_인증키
-NAVER_CLIENT_ID=여기에_2단계_클라이언트_ID
-NAVER_CLIENT_SECRET=여기에_2단계_시크릿
+NEIS_API_KEY=1단계에서_받은_인증키
+NAVER_CLIENT_ID=2단계에서_받은_ID
+NAVER_CLIENT_SECRET=2단계에서_받은_시크릿
+# 자동 감지가 기본값. 필요할 때만 hub 또는 legacy 로 고정하세요.
+# NAVER_API_MODE=hub
 ```
 
-확인:
+### 키가 맞는지 바로 확인
 
 ```bash
-python3 pipeline/run.py --check
+python3 pipeline/run.py --test
 ```
 
-`✓` 가 뜨면 성공. 이제 실제 수집을 돌립니다:
+실제로 한 번씩 호출해서 결과를 보여줍니다 — NEIS는 몇 건이 조회되는지,
+네이버는 두 방식 중 어느 쪽이 통하는지, 카페글이 실제로 수신되는지까지.
+`✓` 가 뜨면 본 수집을 돌립니다:
 
 ```bash
 python3 pipeline/run.py

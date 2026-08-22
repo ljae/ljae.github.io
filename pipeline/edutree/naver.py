@@ -20,7 +20,32 @@ import requests
 
 from . import config
 
-BASE = "https://openapi.naver.com/v1/search"
+# ── 두 가지 호출 방식 ──────────────────────────────────────────────
+# 네이버가 검색 API를 개발자센터에서 NAVER API Hub 로 옮기는 중이다.
+# 두 콘솔이 주는 자격 증명 이름은 똑같이 'Client ID / Client Secret' 인데
+# 도메인·경로·헤더가 전부 달라서, 도메인만 바꿔서는 동작하지 않는다.
+#
+# 어느 콘솔에서 키를 받았든 그대로 쓰게 하려고 양쪽을 다 구현하고
+# 실제로 통하는 쪽을 첫 호출에서 자동으로 고른다(NAVER_API_MODE=auto).
+MODES = {
+    "hub": {
+        "label": "NAVER API Hub (console.ncloud.com)",
+        "base": "https://naverapihub.apigw.ntruss.com/search/v1",
+        "suffix": "",
+        "header_id": "X-NCP-APIGW-API-KEY-ID",
+        "header_secret": "X-NCP-APIGW-API-KEY",
+    },
+    "legacy": {
+        "label": "개발자센터 (developers.naver.com)",
+        "base": "https://openapi.naver.com/v1/search",
+        "suffix": ".json",
+        "header_id": "X-Naver-Client-Id",
+        "header_secret": "X-Naver-Client-Secret",
+    },
+}
+# 자동 탐지 순서. 신규 발급은 Hub 이므로 Hub 를 먼저 본다.
+MODE_ORDER = ("hub", "legacy")
+
 SOURCES = {
     "naver_cafe": "cafearticle",
     "naver_blog": "blog",
@@ -31,6 +56,8 @@ MAX_START = 1000
 TIMEOUT = 15
 SLEEP = 0.12          # 초당 ~8회. 공식 한도보다 넉넉히 낮게 유지한다.
 
+_resolved_mode: str | None = None
+
 _TAG = re.compile(r"<[^>]+>")
 
 
@@ -38,13 +65,62 @@ class NaverError(RuntimeError):
     pass
 
 
-def _headers() -> dict:
+def _headers(mode: str) -> dict:
     if not config.HAS_NAVER:
         raise NaverError("NAVER_CLIENT_ID / NAVER_CLIENT_SECRET 가 없습니다.")
+    spec = MODES[mode]
     return {
-        "X-Naver-Client-Id": config.NAVER_CLIENT_ID,
-        "X-Naver-Client-Secret": config.NAVER_CLIENT_SECRET,
+        spec["header_id"]: config.NAVER_CLIENT_ID,
+        spec["header_secret"]: config.NAVER_CLIENT_SECRET,
     }
+
+
+def _url(mode: str, service: str) -> str:
+    spec = MODES[mode]
+    return f"{spec['base']}/{service}{spec['suffix']}"
+
+
+def probe(mode: str) -> tuple[bool, str]:
+    """해당 모드로 실제 호출이 되는지 한 번 찔러본다."""
+    try:
+        resp = requests.get(
+            _url(mode, "blog"),
+            params={"query": "학원", "display": 1},
+            headers=_headers(mode),
+            timeout=TIMEOUT,
+        )
+    except requests.RequestException as exc:
+        return False, f"연결 실패: {exc}"
+    if resp.status_code == 200:
+        return True, "정상"
+    return False, f"HTTP {resp.status_code}: {resp.text[:160]}"
+
+
+def resolve_mode(force: bool = False) -> str:
+    """쓸 수 있는 호출 방식을 확정한다. 결과는 프로세스 내에서 재사용한다."""
+    global _resolved_mode
+    if _resolved_mode and not force:
+        return _resolved_mode
+
+    if config.NAVER_API_MODE in MODES:
+        _resolved_mode = config.NAVER_API_MODE
+        print(f"  네이버 API 모드(지정): {MODES[_resolved_mode]['label']}")
+        return _resolved_mode
+
+    errors = []
+    for mode in MODE_ORDER:
+        ok, detail = probe(mode)
+        if ok:
+            _resolved_mode = mode
+            print(f"  네이버 API 모드(자동 감지): {MODES[mode]['label']}")
+            return mode
+        errors.append(f"    - {MODES[mode]['label']}: {detail}")
+
+    raise NaverError(
+        "네이버 검색 API 자격 증명으로 어느 방식도 호출되지 않았습니다.\n"
+        + "\n".join(errors)
+        + "\n  키를 다시 확인하거나 NAVER_API_MODE=hub|legacy 로 직접 지정하세요."
+    )
 
 
 def clean(text: str | None) -> str:
@@ -81,6 +157,7 @@ def _author_hash(item: dict) -> str | None:
 
 def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     """한 소스에서 질의어 하나를 페이지네이션하며 수집한다."""
+    mode = resolve_mode()
     endpoint = SOURCES[source]
     out: list[dict] = []
     start = 1
@@ -91,8 +168,8 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
             "start": start,
             "sort": "date" if source == "naver_blog" else "sim",
         }
-        resp = requests.get(f"{BASE}/{endpoint}.json", params=params,
-                            headers=_headers(), timeout=TIMEOUT)
+        resp = requests.get(_url(mode, endpoint), params=params,
+                            headers=_headers(mode), timeout=TIMEOUT)
         if resp.status_code == 429:
             time.sleep(2.0)
             continue
