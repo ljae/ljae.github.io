@@ -551,14 +551,23 @@ class ApartmentZone {
   final String? zoneName;
   final String? level;
   final List<String> schools;
+  /// 초등 통학구역이면서 학교가 하나일 때만 true — '배정'이라 단정할 수 있다.
+  final bool certain;
 
-  const ApartmentZone({this.zoneId, this.zoneName, this.level, this.schools = const []});
+  const ApartmentZone({
+    this.zoneId,
+    this.zoneName,
+    this.level,
+    this.schools = const [],
+    this.certain = false,
+  });
 
   factory ApartmentZone.fromJson(Map<String, dynamic> j) => ApartmentZone(
         zoneId: j['zoneId'] as String?,
         zoneName: j['zoneName'] as String?,
         level: j['level'] as String?,
         schools: ((j['schools'] as List?) ?? const []).cast<String>(),
+        certain: (j['certain'] ?? false) as bool,
       );
 
   String get levelLabel => switch (level) {
@@ -566,6 +575,14 @@ class ApartmentZone {
         'high' => '고등학교',
         _ => '초등학교',
       };
+
+  /// 화면 문구. 추첨을 '배정'이라 쓰지 않는 것이 이 게터의 존재 이유다.
+  String get assignmentText {
+    if (certain && schools.isNotEmpty) return '${schools.first} 배정';
+    if (schools.isEmpty) return zoneName ?? '';
+    if (level == 'elementary') return '$zoneName (${schools.length}개교 공동)';
+    return '$zoneName · ${schools.length}개교 중 추첨';
+  }
 }
 
 const schoolLevelColors = <String, int>{

@@ -65,7 +65,12 @@ def rings(shape) -> list[list]:
     return [shape.points[parts[i]:parts[i + 1]] for i in range(len(parts) - 1)]
 
 
-def convert(path: Path, level: str, tol: float = 12.0) -> dict:
+# 초등 통학구역은 블록 단위로 작아서 12m 로 줄이면 모양이 뭉개진다.
+TOLERANCE = {"elementary": 6.0, "middle": 12.0, "high": 15.0}
+
+
+def convert(path: Path, level: str, tol: float | None = None) -> dict:
+    tol = tol if tol is not None else TOLERANCE.get(level, 12.0)
     reader = shapefile.Reader(str(path), encoding="euc-kr")
     fields = [f[0] for f in reader.fields[1:]]
     features = []
@@ -111,7 +116,7 @@ def convert(path: Path, level: str, tol: float = 12.0) -> dict:
 
 def main(base: str) -> None:
     base_path = Path(base)
-    jobs = [("middle", "middle"), ("high", "high")]
+    jobs = [("elementary", "elementary"), ("middle", "middle"), ("high", "high")]
     out: dict = {"type": "FeatureCollection", "features": []}
     for folder, level in jobs:
         shp = base_path / folder / "zone.shp"

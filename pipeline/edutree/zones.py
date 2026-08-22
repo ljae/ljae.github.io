@@ -86,12 +86,19 @@ def assign(apartments: list[dict], schools: list[dict]) -> dict:
         if not zones:
             continue
         assigned += 1
-        a["zones"] = [{
-            "zoneId": z.get("zoneId"),
-            "zoneName": z.get("zoneName"),
-            "level": z.get("level"),
-            "schools": [s["name"] for s in by_zone.get(z.get("zoneId"), [])],
-        } for z in zones]
+        entries = []
+        for z in zones:
+            schools_in = [s["name"] for s in by_zone.get(z.get("zoneId"), [])]
+            entries.append({
+                "zoneId": z.get("zoneId"),
+                "zoneName": z.get("zoneName"),
+                "level": z.get("level"),
+                "schools": schools_in,
+                # 초등 통학구역은 학교 하나에 구역 하나다 → '배정'이라 말할 수 있다.
+                # 중·고 학교군은 여러 학교가 묶여 추첨이므로 '소속'이 정확하다.
+                "certain": z.get("level") == "elementary" and len(schools_in) == 1,
+            })
+        a["zones"] = entries
 
     print(f"  학구 폴리곤 {len(features)}개 · 아파트 {assigned}/{len(apartments)}단지 배정")
     return {"zones": len(features), "assigned": assigned}

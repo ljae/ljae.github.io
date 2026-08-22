@@ -98,6 +98,9 @@ class _MapPageState extends ConsumerState<MapPage> {
                     level: _level,
                   ),
                   const SizedBox(height: AppSpace.lg),
+                  if (apartments.isNotEmpty)
+                    _ApartmentList(apartments: apartments),
+                  const SizedBox(height: AppSpace.lg),
                   _SchoolList(schools: schools, region: region),
                   const SizedBox(height: AppSpace.xl),
                   const _PendingNotice(),
@@ -152,10 +155,12 @@ class _MapSurface extends StatelessWidget {
         'lat': a.lat, 'lng': a.lng, 'label': a.name,
         'title': a.name,
         'subtitle': [
-          a.dong,
-          if (a.households != null) '${a.households}세대',
-          if (a.buildings != null) '${a.buildings}개동',
-        ].whereType<String>().join(' · '),
+          [
+            a.dong,
+            if (a.households != null) '${a.households}세대',
+          ].whereType<String>().join(' · '),
+          ...a.zones.map((z) => '${z.levelLabel} ${z.assignmentText}'),
+        ].where((x) => x.isNotEmpty).join('<br>'),
         'color': '#8B5CF6',
         'z': 2,
       });
@@ -290,6 +295,53 @@ class _Schematic extends StatelessWidget {
   }
 }
 
+/// 아파트별 배정 학교. 학부모가 실제로 찾는 정보라 목록으로도 둔다.
+class _ApartmentList extends StatelessWidget {
+  final List<Apartment> apartments;
+  const _ApartmentList({required this.apartments});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final rows = apartments.take(40).toList();
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SectionHeader('아파트별 배정 학교 (${apartments.length}단지)',
+          subtitle: '초등학교는 통학구역이라 배정이 확정됩니다. '
+              '중·고등학교는 학교군 추첨이라 학교를 특정할 수 없습니다.'),
+      for (final a in rows)
+        Card(
+          margin: const EdgeInsets.only(bottom: AppSpace.sm),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpace.md),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
+                Expanded(child: Text(a.name, style: text.titleMedium)),
+                if (a.households != null)
+                  Text('${a.households}세대', style: text.bodySmall),
+              ]),
+              const SizedBox(height: 6),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                for (final z in a.zones)
+                  Chip2('${z.levelLabel} · ${z.assignmentText}',
+                      color: z.certain
+                          ? AppColors.verified
+                          : (z.level == 'elementary'
+                              ? AppColors.reputation
+                              : AppColors.estimated),
+                      icon: z.certain ? Icons.verified_rounded : null),
+              ]),
+            ]),
+          ),
+        ),
+      if (apartments.length > rows.length)
+        Padding(
+          padding: const EdgeInsets.only(top: AppSpace.sm),
+          child: Text('외 ${apartments.length - rows.length}단지', style: text.bodySmall),
+        ),
+    ]);
+  }
+}
+
 class _SchoolList extends StatelessWidget {
   final List<School> schools;
   final Region? region;
@@ -365,17 +417,17 @@ class _PendingNotice extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpace.md),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            const Icon(Icons.construction, size: 17, color: AppColors.estimated),
+            const Icon(Icons.info_outline, size: 17, color: AppColors.estimated),
             const SizedBox(width: AppSpace.sm),
-            Text('준비 중', style: text.titleMedium),
+            Text('배정 정보를 읽는 법', style: text.titleMedium),
           ]),
           const SizedBox(height: 6),
           Text(
-            '아파트 363단지와 학교 136곳의 위치는 지도에 표시됩니다. '
-            '다만 "이 아파트 → 이 학교" 를 잇는 구역 경계(폴리곤)는 아직입니다 — '
-            '학구도안내서비스의 SHP 파일이 필요합니다.\n\n'
-            '중요: 중·고등학교는 여러 학교가 같은 학구를 공유하는 "학교군 추첨" 방식이라 '
-            '배정 학교를 단정할 수 없습니다. 1:1 배정이 성립하는 것은 초등학교뿐입니다.\n\n'
+            '초등학교는 통학구역이 1:1 이라 배정 학교를 확정할 수 있습니다. '
+            '중·고등학교는 여러 학교가 한 학교군에 묶여 추첨으로 정해지므로 '
+            '학교를 특정하지 않고 "N개교 중 추첨" 으로 표시합니다.\n\n'
+            '배정은 해마다 바뀔 수 있습니다. 실제 배정은 관할 교육지원청 공고를 '
+            '확인해 주세요.\n\n'
             '학교 순위는 학교알리미 OpenAPI 에 졸업생 진로현황이 없어 보류 중입니다.',
             style: text.bodyMedium,
           ),
