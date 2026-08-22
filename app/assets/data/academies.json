@@ -24,7 +24,9 @@
    "시대",
    "시대인재학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_suneung",
    "math_hi_top",
@@ -176,7 +178,9 @@
   "aliases": [
    "종로"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_nsu",
    "math_hi_suneung",
@@ -323,7 +327,9 @@
    "이투스",
    "이투스247"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_naesin",
    "math_hi_suneung",
@@ -468,7 +474,9 @@
    "에이프릴",
    "April"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "eng_el_phonics",
    "eng_el_academy",
@@ -613,7 +621,10 @@
    "생황",
    "생각황소"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -758,7 +769,10 @@
    "세정",
    "세정영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [
    "eng_mid_naesin",
    "eng_mid_preview",
@@ -906,7 +920,10 @@
    "세정",
    "세정영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [
    "eng_mid_naesin",
    "eng_mid_preview",
@@ -1054,7 +1071,9 @@
    "소마",
    "소마사고력"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking"
   ],
@@ -1198,7 +1217,9 @@
   "aliases": [
    "와이즈만"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -1344,7 +1365,9 @@
    "한우리",
    "한우리논술"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "kor_el_reading",
    "kor_el_literacy"
@@ -1488,7 +1511,10 @@
   "aliases": [
    "이지영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "eng_el_bridge",
    "eng_mid_naesin",
@@ -1633,7 +1659,10 @@
    "미탐",
    "미래탐구학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_preview",
    "math_mid_naesin",
@@ -1778,7 +1807,9 @@
   "lng": 127.0623333,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2138-1010",
@@ -1864,7 +1895,9 @@
   "lng": 127.0579733,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-552-2373",
@@ -2275,7 +2308,9 @@
   "lng": 127.0611383,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-3454-1162",
@@ -2513,7 +2548,9 @@
   "lng": 127.0587528,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-501-0110",
@@ -3534,7 +3571,9 @@
   "lng": 127.0620226,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-552-2373",
@@ -3878,7 +3917,9 @@
   "lng": 127.0577209,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-557-4808",
@@ -4326,7 +4367,9 @@
   "lng": 127.0616159,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-501-5702",
@@ -4882,7 +4925,9 @@
   "lng": 127.0626825,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-571-0509",
@@ -5825,7 +5870,9 @@
   "lng": 127.0587866,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-562-3399",
@@ -5926,7 +5973,9 @@
   "lng": 127.0588181,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-562-3399",
@@ -6146,7 +6195,9 @@
   "lng": 127.0614205,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-555-4569",
@@ -6508,7 +6559,9 @@
   "lng": 127.0577966,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-538-3372",
@@ -6767,7 +6820,9 @@
   "lng": 127.0626942,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-508-0586",
@@ -6877,7 +6932,9 @@
   "lng": 127.0589401,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-557-5442",
@@ -7014,7 +7071,9 @@
   "lng": 127.0688253,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": null,
@@ -7151,7 +7210,9 @@
   "lng": 127.0608448,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-538-3372",
@@ -8340,7 +8401,9 @@
   "lng": 127.0587286,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-563-0330",
@@ -8787,7 +8850,9 @@
   "lng": 127.0577209,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-000-0000",
@@ -9283,7 +9348,9 @@
   "lng": 127.0537582,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-1899-6160",
@@ -9558,7 +9625,9 @@
   "lng": 127.0598713,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-563-5050",
@@ -9695,7 +9764,9 @@
   "lng": 127.0540364,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-539-8850",
@@ -10224,7 +10295,9 @@
   "lng": 127.062676,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-0000-0000",
@@ -10533,7 +10606,10 @@
   "lng": 127.0531684,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-566-1690",
@@ -10811,7 +10887,11 @@
    "미탐",
    "미래탐구학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle",
+   "high"
+  ],
   "stages": [
    "math_el_preview",
    "math_mid_naesin",
@@ -10961,7 +11041,9 @@
    "CMS",
    "씨엠에스"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -11108,7 +11190,10 @@
   "aliases": [
    "와이즈만"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -11254,7 +11339,10 @@
    "깊은생각",
    "깊생"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -11397,7 +11485,10 @@
    "청담",
    "청담영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "eng_el_academy",
    "eng_el_rw",
@@ -11546,7 +11637,9 @@
    "강대",
    "강남대성"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_nsu",
    "math_hi_suneung",
@@ -11696,7 +11789,9 @@
    "CMS",
    "씨엠에스"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -11842,7 +11937,9 @@
    "폴리",
    "폴리영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "eng_el_phonics",
    "eng_el_academy"
@@ -11989,7 +12086,10 @@
    "생황",
    "생각황소"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -12133,7 +12233,9 @@
   "aliases": [
    "시매쓰"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_basic",
    "math_el_thinking"
@@ -12278,7 +12380,9 @@
    "한우리",
    "한우리논술"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "kor_el_reading",
    "kor_el_literacy"
@@ -12423,7 +12527,9 @@
    "소마",
    "소마사고력"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking"
   ],
@@ -12570,7 +12676,9 @@
    "시대",
    "시대인재학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_suneung",
    "math_hi_top",
@@ -13935,7 +14043,10 @@
   "lng": 126.8691903,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2654-5003",
@@ -14182,7 +14293,9 @@
   "lng": 126.8713768,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2643-1238",
@@ -15038,7 +15151,9 @@
   "lng": 126.8795025,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6737-5577",
@@ -15139,7 +15254,9 @@
   "lng": 126.8810981,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2648-5577",
@@ -15414,7 +15531,9 @@
   "lng": 126.8643243,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-0000-0000",
@@ -16017,7 +16136,9 @@
   "lng": 126.878557,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2654-5342",
@@ -16328,7 +16449,10 @@
   "lng": 126.8712989,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2088-1230",
@@ -16553,7 +16677,9 @@
   "lng": 126.8801354,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2061-5588",
@@ -17643,7 +17769,9 @@
   "lng": 126.8628084,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2604-6034",
@@ -18586,7 +18714,9 @@
   "lng": 126.8653309,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2650-8353",
@@ -19484,7 +19614,9 @@
   "lng": 126.8788616,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2646-3703",
@@ -19843,7 +19975,9 @@
   "lng": 126.8735909,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2646-5677",
@@ -20244,7 +20378,9 @@
   "lng": 126.8695483,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2648-2722",
@@ -20957,7 +21093,9 @@
   "lng": 126.872619,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2642-2722",
@@ -21451,7 +21589,9 @@
   "lng": 126.8791832,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2652-1162",
@@ -21987,7 +22127,10 @@
    "세정",
    "세정영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [
    "eng_mid_naesin",
    "eng_mid_preview",
@@ -22138,7 +22281,9 @@
    "시대",
    "시대인재학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_suneung",
    "math_hi_top",
@@ -22288,7 +22433,10 @@
    "청담",
    "청담영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "eng_el_academy",
    "eng_el_rw",
@@ -22434,7 +22582,9 @@
    "소마",
    "소마사고력"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking"
   ],
@@ -22579,7 +22729,10 @@
   "aliases": [
    "와이즈만"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -22727,7 +22880,10 @@
    "생황",
    "생각황소"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -22872,7 +23028,10 @@
    "깊은생각",
    "깊생"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -23015,7 +23174,9 @@
    "에이프릴",
    "April"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "eng_el_phonics",
    "eng_el_academy",
@@ -23159,7 +23320,9 @@
    "소마",
    "소마사고력"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking"
   ],
@@ -23302,7 +23465,9 @@
   "aliases": [
    "필즈"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "math_el_competition"
@@ -23444,7 +23609,9 @@
   "aliases": [
    "시매쓰"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_basic",
    "math_el_thinking"
@@ -23589,7 +23756,9 @@
    "한우리",
    "한우리논술"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "kor_el_reading",
    "kor_el_literacy"
@@ -23733,7 +23902,9 @@
   "aliases": [
    "시매쓰"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_basic",
    "math_el_thinking"
@@ -23877,7 +24048,9 @@
   "aliases": [
    "대치국어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "kor_hi_suneung",
    "kor_hi_nonsul"
@@ -24025,7 +24198,9 @@
    "시대",
    "시대인재학원"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_suneung",
    "math_hi_top",
@@ -24774,7 +24949,9 @@
   "lng": 127.0164872,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-0000-0000",
@@ -24946,7 +25123,9 @@
   "lng": 127.0129173,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-523-2789",
@@ -25083,7 +25262,9 @@
   "lng": 127.0036767,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-595-5679",
@@ -25220,7 +25401,9 @@
   "lng": 127.0112042,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-595-4808",
@@ -25321,7 +25504,10 @@
   "lng": 127.0010192,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-593-1775",
@@ -25892,7 +26078,9 @@
   "lng": 127.0096492,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-3477-7473",
@@ -26030,7 +26218,9 @@
   "lng": 127.0067411,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-598-2510",
@@ -26253,7 +26443,9 @@
   "lng": 127.0104533,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-537-7919",
@@ -26390,7 +26582,9 @@
   "lng": 127.0113023,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-534-9962",
@@ -26476,7 +26670,9 @@
   "lng": 127.0094759,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-585-0509",
@@ -26705,7 +26901,9 @@
   "lng": 127.0212251,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-516-0509",
@@ -26815,7 +27013,9 @@
   "lng": 127.0118485,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6261-8280",
@@ -26952,7 +27152,9 @@
   "lng": 127.0113023,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6261-8280",
@@ -27038,7 +27240,9 @@
   "lng": 127.0212251,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-997-0509",
@@ -27139,7 +27343,9 @@
   "lng": 127.0118485,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6951-5033",
@@ -27516,7 +27722,9 @@
   "lng": 127.0107813,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-595-4808",
@@ -27602,7 +27810,9 @@
   "lng": 127.0023317,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-517-0304",
@@ -27703,7 +27913,9 @@
   "lng": 127.0096492,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-0000-0000",
@@ -27926,7 +28138,9 @@
   "lng": 127.0109408,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-3486-2000",
@@ -28063,7 +28277,10 @@
   "lng": 127.0038988,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-525-0630",
@@ -28345,7 +28562,9 @@
   "lng": 127.0257556,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-569-7467",
@@ -28936,7 +29155,9 @@
   "lng": 127.0286762,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-533-6270",
@@ -29037,7 +29258,9 @@
   "lng": 127.010484,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-591-7396",
@@ -29174,7 +29397,9 @@
   "lng": 127.0112346,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-3486-2000",
@@ -30202,7 +30427,9 @@
   "lng": 127.0102525,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-553-2684",
@@ -31221,7 +31448,9 @@
   "lng": 127.0012667,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-548-1755",
@@ -31307,7 +31536,9 @@
   "lng": 127.0117389,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": null,
@@ -31393,7 +31624,9 @@
   "lng": 127.0104533,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-3477-4280",
@@ -31999,7 +32232,9 @@
   "lng": 127.0234626,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2135-3877",
@@ -32100,7 +32335,9 @@
   "lng": 127.011233,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-538-3328",
@@ -32237,7 +32474,9 @@
   "lng": 127.0286925,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6954-2486",
@@ -32861,7 +33100,9 @@
    "메가스터디",
    "메가"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [
    "math_hi_suneung",
    "kor_hi_suneung",
@@ -33007,7 +33248,10 @@
    "청담",
    "청담영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "eng_el_academy",
    "eng_el_rw",
@@ -33154,7 +33398,10 @@
    "깊은생각",
    "깊생"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary",
+   "middle"
+  ],
   "stages": [
    "math_el_competition",
    "math_mid_kmo"
@@ -33297,7 +33544,9 @@
    "소마",
    "소마사고력"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking"
   ],
@@ -33441,7 +33690,9 @@
    "폴리",
    "폴리영어"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "eng_el_phonics",
    "eng_el_academy"
@@ -33586,7 +33837,9 @@
   "aliases": [
    "와이즈만"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -33732,7 +33985,9 @@
   "aliases": [
    "와이즈만"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [
    "math_el_thinking",
    "sci_el_lab",
@@ -33877,7 +34132,10 @@
   "aliases": [
    "대치과학"
   ],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle",
+   "high"
+  ],
   "stages": [
    "sci_mid_naesin",
    "sci_mid_preview",
@@ -34106,7 +34364,9 @@
   "lng": 127.1220268,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-424-0579",
@@ -34329,7 +34589,9 @@
   "lng": 127.1068893,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "010-2038-3320",
@@ -34663,7 +34925,9 @@
   "lng": 127.124887,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-000-0000",
@@ -35024,7 +35288,9 @@
   "lng": 127.0866823,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-424-0509",
@@ -35271,7 +35537,9 @@
   "lng": 127.1258901,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-422-0577",
@@ -35358,7 +35626,9 @@
   "lng": 127.1201299,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-424-9624",
@@ -35495,7 +35765,9 @@
   "lng": 127.1260928,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6415-2400",
@@ -36332,7 +36604,9 @@
   "lng": 127.1257583,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "010-8930-1736",
@@ -36418,7 +36692,9 @@
   "lng": 127.1245323,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-000-0000",
@@ -36555,7 +36831,9 @@
   "lng": 127.0870707,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-567-9964",
@@ -36641,7 +36919,9 @@
   "lng": 127.1265178,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-6951-5779",
@@ -37243,7 +37523,9 @@
   "lng": 127.0861952,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-421-3320",
@@ -37688,7 +37970,9 @@
   "lng": 127.1181397,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-2202-0166",
@@ -37884,7 +38168,9 @@
   "lng": 127.1255627,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "middle"
+  ],
   "stages": [],
   "flagship": [],
   "tel": null,
@@ -39869,7 +40155,9 @@
   "lng": 127.1254567,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-422-8280",
@@ -41301,7 +41589,9 @@
   "lng": 127.08901,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "elementary"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-420-0090",
@@ -42943,7 +43233,9 @@
   "lng": 127.1127386,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "010-2829-4073",
@@ -43080,7 +43372,9 @@
   "lng": 127.1018273,
   "brand": null,
   "aliases": [],
-  "schoolLevels": [],
+  "schoolLevels": [
+   "high"
+  ],
   "stages": [],
   "flagship": [],
   "tel": "02-422-7856",

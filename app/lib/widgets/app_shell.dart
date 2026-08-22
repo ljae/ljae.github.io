@@ -15,6 +15,7 @@ const _navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
   ('/tree', '테크트리', Icons.account_tree_outlined),
   ('/rank', '랭킹', Icons.leaderboard_outlined),
+  ('/board', '게시판', Icons.forum_outlined),
   ('/map', '학군지도', Icons.map_outlined),
   ('/method', '산식', Icons.calculate_outlined),
 ];

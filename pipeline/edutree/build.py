@@ -140,10 +140,54 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             row.setdefault("stages", [])
             row.setdefault("flagship", [])
             row.setdefault("subjects", _infer_subjects(row))
-        row.setdefault("school_levels", [])
+        # 학교급을 반드시 채운다. 비워 두면 헤더의 초·중·고 필터가 아무것도
+        # 거르지 못한다(실측에서 채점 대상 400곳이 전부 비어 있었다).
+        if not row.get("school_levels"):
+            row["school_levels"] = _levels_from_stages(row) or _infer_levels(row)
         row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
     print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨")
     return neis_rows
+
+
+# 이름·교습과정에서 학교급을 읽는다. 애매하면 여러 개를 넣는다 —
+# 하나도 없는 것보다 넓게 잡히는 편이 필터에서 덜 해롭다.
+_LEVEL_HINTS = {
+    "elementary": ("초등", "초교", "유아", "키즈", "어린이", "아동", "사고력",
+                   "초1", "초2", "초3", "초4", "초5", "초6"),
+    "middle": ("중등", "중학", "중1", "중2", "중3", "특목고", "영재고", "과학고",
+               "자사고", "고입", "KMO"),
+    # '입시'·'내신'·'논술' 은 뺐다. 분야구분이 대부분 '입시.검정 및 보습' 이라
+    # 이 낱말들을 쓰면 거의 모든 학원이 고등으로 잡힌다(319/400 이 그랬다).
+    "high": ("고등", "고교", "고1", "고2", "고3", "수능", "재수", "N수", "정시",
+             "수시", "대입", "의대", "재종", "수학의정석"),
+}
+
+
+def _levels_from_stages(row: dict) -> list[str]:
+    """큐레이션 단계에 매핑됐다면 그 트랙의 학교급을 그대로 쓴다."""
+    stages = row.get("stages") or []
+    if not stages:
+        return []
+    tree = config.techtree()
+    stage_level = {s["id"]: t["school_level"]
+                   for t in tree["tracks"] for s in t["stages"]}
+    out = []
+    for sid in stages:
+        lv = stage_level.get(sid)
+        if lv and lv not in out:
+            out.append(lv)
+    return out
+
+
+def _infer_levels(row: dict) -> list[str]:
+    # 분야구분(realm)은 쓰지 않는다. 전 학원이 같은 값이라 신호가 없다.
+    blob = " ".join(str(row.get(k) or "") for k in
+                    ("name", "le_crse_list_nm", "le_crse_nm"))
+    found = [lv for lv, hints in _LEVEL_HINTS.items()
+             if any(h in blob for h in hints)]
+    # 아무것도 안 잡히면 특정 학교급에 한정되지 않는 곳으로 본다.
+    # 빈 배열은 앱에서 '모든 학교급에 해당'으로 처리한다.
+    return found
 
 
 _SUBJECT_HINTS = {
