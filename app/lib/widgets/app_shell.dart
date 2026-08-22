@@ -27,7 +27,8 @@ class AppShell extends ConsumerWidget {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(meta?.isDemo == true ? 100 : 62),
+        preferredSize: Size.fromHeight(
+            _topBarHeight + (meta?.isDemo == true ? 38 : 0)),
         child: Column(children: [
           _TopBar(wide: wide),
           if (meta != null) DemoBanner(meta: meta),
@@ -49,7 +50,7 @@ class _TopBar extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      height: 62,
+      height: _topBarHeight,
       decoration: BoxDecoration(
         color: dark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
@@ -64,10 +65,10 @@ class _TopBar extends StatelessWidget {
               const _Logo(),
               const SizedBox(width: AppSpace.sm),
               Text(Brand.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w800)),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      letterSpacing: -0.6)),
             ]),
           ),
           const Spacer(),
@@ -92,15 +93,19 @@ class _TopBar extends StatelessWidget {
   }
 }
 
+/// 헤더 로고 크기. 상단 바 높이가 여기에 딸려 간다.
+const _logoSize = 69.0;
+const _topBarHeight = _logoSize + 23;   // 위아래 여백
+
 class _Logo extends StatelessWidget {
   const _Logo();
   @override
   Widget build(BuildContext context) => ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(_logoSize * 0.2),
         child: Image.asset(
           'assets/brand/mark.png',
-          width: 30,
-          height: 30,
+          width: _logoSize,
+          height: _logoSize,
           fit: BoxFit.cover,
           filterQuality: FilterQuality.medium,
         ),
