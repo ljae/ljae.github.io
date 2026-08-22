@@ -193,33 +193,31 @@
 
           // 첫 로드에서 타일이 안 그려지던 문제.
           //
-          // 원인은 크기가 아니었다(생성 시점에 컨테이너는 이미 1264×790 이었다).
-          // 플랫폼 뷰가 DOM 에 붙는 과정에서 지도가 타일 요청을 한 번 놓치고
-          // 그대로 멈춰 있었다. 마커는 좌표 기반이라 멀쩡히 보여서 더 헷갈렸다.
+          // 타일은 정상적으로 내려받아진다(45장 확인). 문제는 위치였다.
+          // 지도 컨테이너는 화면 y=282 에 있는데 타일은 y=0 부터 깔려 있었다.
+          // 지도가 원점을 잘못 잡은 상태로 굳은 것이다. 마커·폴리곤은 좌표
+          // 기반이라 멀쩡히 보여서 '타일만 안 나온다'로 보였다.
           //
-          // resize 이벤트만으로는 부족해 refresh(true) 로 전체 재렌더를 건다.
-          // tilesloaded 가 오면 정착한 것이므로 더 흔들지 않는다.
-          var settled = false;
-          naver.maps.Event.once(map, 'tilesloaded', function () { settled = true; });
-
-          var nudge = function () {
-            if (settled) return;
+          // 플러터는 플랫폼 뷰를 CSS transform 으로 옮긴다. 그래서 크기는
+          // 그대로인 채 위치만 바뀌고, ResizeObserver 로는 잡히지 않는다.
+          // 위치를 직접 감시해 바뀔 때마다 다시 그린다.
+          //
+          // tilesloaded 로 '정착'을 판단하던 이전 시도는 틀렸다. 잘못된
+          // 위치로 타일이 로드돼도 그 이벤트가 떠서, 보정을 스스로 막았다.
+          var lastBox = '';
+          var redraw = function () {
+            var r = el.getBoundingClientRect();
+            var box = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
+            if (box === lastBox || r.width === 0) return;
+            lastBox = box;
             naver.maps.Event.trigger(map, 'resize');
             if (typeof map.refresh === 'function') map.refresh(true);
           };
-          // 붙는 시점이 브라우저마다 달라 몇 구간에 나눠 시도한다.
-          [0, 80, 250, 600, 1200].forEach(function (ms) { setTimeout(nudge, ms); });
-
-          // 이후 크기 변화(필터 토글로 목록 높이가 바뀌는 등)도 따라간다.
-          if (window.ResizeObserver) {
-            var last = 0;
-            new ResizeObserver(function () {
-              var now = Date.now();
-              if (now - last < 120) return;   // 연속 호출 억제
-              last = now;
-              naver.maps.Event.trigger(map, 'resize');
-            }).observe(el);
-          }
+          redraw();
+          // 붙는 시점이 브라우저마다 달라 초반에 몇 번 더 확인한다.
+          [50, 150, 400, 900].forEach(function (ms) { setTimeout(redraw, ms); });
+          // 이후에도 스크롤·필터 변경으로 위치가 계속 바뀐다. 저빈도로 지켜본다.
+          map.__watch = setInterval(redraw, 250);
         } else {
           map.setCenter(new naver.maps.LatLng(lat, lng));
           map.setZoom(zoom);
