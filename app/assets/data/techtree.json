@@ -1,10 +1,9 @@
 {
  "tracks": [
   {
-   "id": "math_elementary",
+   "id": "math_elem_low",
    "subject": "math",
-   "school_level": "elementary",
-   "title": "초등 수학",
+   "title": "예비초~초3 수학",
    "summary": "연산에서 출발해 사고력을 거쳐 경시·심화 또는 중등 선행으로 갈라지는 구간. 4개 학군에서 경쟁이 가장 치열하다.",
    "sort_order": 0,
    "stages": [
@@ -15,11 +14,12 @@
      "goal": "학년 교과 개념을 빠짐없이, 연산 정확도 95% 이상",
      "exit_criteria": "학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상",
      "grade": [
-      1,
+      0,
       3
      ],
      "depth": 0,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "math_el_thinking",
@@ -32,7 +32,54 @@
       4
      ],
      "depth": 1,
-     "lane": 0
+     "lane": 0,
+     "inbound": false
+    }
+   ],
+   "edges": [
+    [
+     "math_el_basic",
+     "math_el_thinking",
+     "초1~2 시작이 일반적. 늦어도 초3 전.",
+     "standard"
+    ]
+   ],
+   "grade_band": "elem_low"
+  },
+  {
+   "id": "math_elem_high",
+   "subject": "math",
+   "title": "초4~초6 수학",
+   "summary": "연산에서 출발해 사고력을 거쳐 경시·심화 또는 중등 선행으로 갈라지는 구간. 4개 학군에서 경쟁이 가장 치열하다.",
+   "sort_order": 1,
+   "stages": [
+    {
+     "id": "math_el_basic",
+     "title": "연산 · 교과 기본",
+     "subtitle": "학교 진도 + 연산 숙련",
+     "goal": "학년 교과 개념을 빠짐없이, 연산 정확도 95% 이상",
+     "exit_criteria": "학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상",
+     "grade": [
+      0,
+      3
+     ],
+     "depth": 0,
+     "lane": 1,
+     "inbound": true
+    },
+    {
+     "id": "math_el_thinking",
+     "title": "사고력 · 창의수학",
+     "subtitle": "교구 · 퍼즐 · 서술형",
+     "goal": "비정형 문제에 접근하는 사고 습관과 서술 능력",
+     "exit_criteria": "사고력 교재 심화 단계 소화, 경시 입문 레벨테스트 통과",
+     "grade": [
+      1,
+      4
+     ],
+     "depth": 1,
+     "lane": 0,
+     "inbound": false
     },
     {
      "id": "math_el_competition",
@@ -45,7 +92,8 @@
       6
      ],
      "depth": 2,
-     "lane": 0
+     "lane": 0,
+     "inbound": false
     },
     {
      "id": "math_el_preview",
@@ -58,7 +106,8 @@
       6
      ],
      "depth": 3,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     }
    ],
    "edges": [
@@ -92,12 +141,12 @@
      "사고력 없이 연산·교과에서 바로 선행. 목동·잠실에서 흔함.",
      "alternative"
     ]
-   ]
+   ],
+   "grade_band": "elem_high"
   },
   {
    "id": "math_middle",
    "subject": "math",
-   "school_level": "middle",
    "title": "중등 수학",
    "summary": "내신·심화·고등선행 세 갈래가 동시에 돌아가는 구간. 영재고/과학고 지원 여부가 루트를 가른다.",
    "sort_order": 1,
@@ -180,12 +229,12 @@
      "경시 종료 후 선행 합류.",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "middle"
   },
   {
    "id": "math_high",
    "subject": "math",
-   "school_level": "high",
    "title": "고등 수학",
    "summary": "내신과 수능이 분리되는 구간. 의대·최상위 라인은 별도 트랙으로 관리된다.",
    "sort_order": 2,
@@ -268,15 +317,15 @@
      "",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "high"
   },
   {
-   "id": "english_elementary",
+   "id": "english_elem_low",
    "subject": "english",
-   "school_level": "elementary",
-   "title": "초등 영어",
+   "title": "예비초~초3 영어",
    "summary": "어학원 레벨 체계가 곧 테크트리. 레벨테스트 통과 시점이 이후 루트를 결정한다.",
-   "sort_order": 3,
+   "sort_order": 30,
    "stages": [
     {
      "id": "eng_el_phonics",
@@ -285,11 +334,12 @@
      "goal": "자기 수준 원서 독립 읽기",
      "exit_criteria": "AR 2점대 자력 독해",
      "grade": [
-      1,
+      0,
       3
      ],
      "depth": 0,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "eng_el_academy",
@@ -302,7 +352,54 @@
       6
      ],
      "depth": 1,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
+    }
+   ],
+   "edges": [
+    [
+     "eng_el_phonics",
+     "eng_el_academy",
+     "레벨테스트 통과가 관문.",
+     "standard"
+    ]
+   ],
+   "grade_band": "elem_low"
+  },
+  {
+   "id": "english_elem_high",
+   "subject": "english",
+   "title": "초4~초6 영어",
+   "summary": "어학원 레벨 체계가 곧 테크트리. 레벨테스트 통과 시점이 이후 루트를 결정한다.",
+   "sort_order": 31,
+   "stages": [
+    {
+     "id": "eng_el_phonics",
+     "title": "파닉스 · 리딩 기초",
+     "subtitle": "소리와 문자 결합",
+     "goal": "자기 수준 원서 독립 읽기",
+     "exit_criteria": "AR 2점대 자력 독해",
+     "grade": [
+      0,
+      3
+     ],
+     "depth": 0,
+     "lane": 1,
+     "inbound": true
+    },
+    {
+     "id": "eng_el_academy",
+     "title": "어학원 정규 과정",
+     "subtitle": "레벨 기반 정규반",
+     "goal": "4대 영역 균형 발달",
+     "exit_criteria": "어학원 중상위 레벨 진입",
+     "grade": [
+      2,
+      6
+     ],
+     "depth": 1,
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "eng_el_rw",
@@ -315,7 +412,8 @@
       6
      ],
      "depth": 2,
-     "lane": 0
+     "lane": 0,
+     "inbound": false
     },
     {
      "id": "eng_el_bridge",
@@ -328,7 +426,8 @@
       6
      ],
      "depth": 3,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     }
    ],
    "edges": [
@@ -356,12 +455,12 @@
      "심화 후 내신·시험 체제로 합류.",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "elem_high"
   },
   {
    "id": "english_middle",
    "subject": "english",
-   "school_level": "middle",
    "title": "중등 영어",
    "summary": "내신과 특목고 대비(토플·텝스)가 갈라지고, 중3에 수능형으로 수렴한다.",
    "sort_order": 4,
@@ -425,12 +524,12 @@
      "공인 성적 확보 후 수능형 전환.",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "middle"
   },
   {
    "id": "english_high",
    "subject": "english",
-   "school_level": "high",
    "title": "고등 영어",
    "summary": "절대평가 전환 이후 내신 비중이 커진 구간. 논술·심화는 최상위 라인에서만 유지된다.",
    "sort_order": 5,
@@ -488,15 +587,15 @@
      "지원 전형에 따라 선택.",
      "alternative"
     ]
-   ]
+   ],
+   "grade_band": "high"
   },
   {
-   "id": "korean_elementary",
+   "id": "korean_elem_low",
    "subject": "korean",
-   "school_level": "elementary",
-   "title": "초등 국어 · 논술",
+   "title": "예비초~초3 국어·논술",
    "summary": "독서에서 문해력으로, 다시 중등 선행으로. 성과가 늦게 드러나 이탈이 잦은 구간.",
-   "sort_order": 6,
+   "sort_order": 60,
    "stages": [
     {
      "id": "kor_el_reading",
@@ -505,11 +604,12 @@
      "goal": "읽기 습관과 요약 능력",
      "exit_criteria": "한 편 글의 주제 요약 가능",
      "grade": [
-      1,
+      0,
       4
      ],
      "depth": 0,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "kor_el_literacy",
@@ -522,7 +622,54 @@
       6
      ],
      "depth": 1,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
+    }
+   ],
+   "edges": [
+    [
+     "kor_el_reading",
+     "kor_el_literacy",
+     "",
+     "standard"
+    ]
+   ],
+   "grade_band": "elem_low"
+  },
+  {
+   "id": "korean_elem_high",
+   "subject": "korean",
+   "title": "초4~초6 국어·논술",
+   "summary": "독서에서 문해력으로, 다시 중등 선행으로. 성과가 늦게 드러나 이탈이 잦은 구간.",
+   "sort_order": 61,
+   "stages": [
+    {
+     "id": "kor_el_reading",
+     "title": "독서 · 논술 기초",
+     "subtitle": "읽고 말하고 쓰기",
+     "goal": "읽기 습관과 요약 능력",
+     "exit_criteria": "한 편 글의 주제 요약 가능",
+     "grade": [
+      0,
+      4
+     ],
+     "depth": 0,
+     "lane": 1,
+     "inbound": false
+    },
+    {
+     "id": "kor_el_literacy",
+     "title": "문해력 · 어휘",
+     "subtitle": "비문학 독해 입문",
+     "goal": "학년 이상 지문 독해",
+     "exit_criteria": "비문학 지문 정답률 80%",
+     "grade": [
+      3,
+      6
+     ],
+     "depth": 1,
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "kor_el_preview",
@@ -535,7 +682,8 @@
       6
      ],
      "depth": 2,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     }
    ],
    "edges": [
@@ -551,12 +699,12 @@
      "",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "elem_high"
   },
   {
    "id": "korean_middle",
    "subject": "korean",
-   "school_level": "middle",
    "title": "중등 국어",
    "summary": "내신에서 수능형 비문학으로 넘어가는 구간.",
    "sort_order": 7,
@@ -620,12 +768,12 @@
      "",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "middle"
   },
   {
    "id": "korean_high",
    "subject": "korean",
-   "school_level": "high",
    "title": "고등 국어 · 논술",
    "summary": "수능 국어가 최상위 변별 과목이 되면서 대치·목동 모두 투자 비중이 커진 구간.",
    "sort_order": 8,
@@ -683,15 +831,15 @@
      "논술 전형 지원 시.",
      "alternative"
     ]
-   ]
+   ],
+   "grade_band": "high"
   },
   {
-   "id": "science_elementary",
+   "id": "science_elem_low",
    "subject": "science",
-   "school_level": "elementary",
-   "title": "초등 과학",
+   "title": "예비초~초3 과학",
    "summary": "실험·탐구에서 영재원으로. 영재원 실적이 이후 영재고 루트의 출발점이 된다.",
-   "sort_order": 9,
+   "sort_order": 90,
    "stages": [
     {
      "id": "sci_el_lab",
@@ -700,11 +848,37 @@
      "goal": "과학적 호기심과 실험 설계 감각",
      "exit_criteria": "탐구보고서 자력 작성",
      "grade": [
-      1,
+      0,
       4
      ],
      "depth": 0,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
+    }
+   ],
+   "edges": [],
+   "grade_band": "elem_low"
+  },
+  {
+   "id": "science_elem_high",
+   "subject": "science",
+   "title": "초4~초6 과학",
+   "summary": "실험·탐구에서 영재원으로. 영재원 실적이 이후 영재고 루트의 출발점이 된다.",
+   "sort_order": 91,
+   "stages": [
+    {
+     "id": "sci_el_lab",
+     "title": "실험 · 탐구",
+     "subtitle": "체험형 과학",
+     "goal": "과학적 호기심과 실험 설계 감각",
+     "exit_criteria": "탐구보고서 자력 작성",
+     "grade": [
+      0,
+      4
+     ],
+     "depth": 0,
+     "lane": 1,
+     "inbound": false
     },
     {
      "id": "sci_el_gifted",
@@ -717,7 +891,8 @@
       6
      ],
      "depth": 1,
-     "lane": 0
+     "lane": 0,
+     "inbound": false
     },
     {
      "id": "sci_el_preview",
@@ -730,7 +905,8 @@
       6
      ],
      "depth": 2,
-     "lane": 1
+     "lane": 1,
+     "inbound": false
     }
    ],
    "edges": [
@@ -752,12 +928,12 @@
      "",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "elem_high"
   },
   {
    "id": "science_middle",
    "subject": "science",
-   "school_level": "middle",
    "title": "중등 과학",
    "summary": "영재고·과학고 지원 여부가 루트를 완전히 가른다. 중2가 분기점.",
    "sort_order": 10,
@@ -815,12 +991,12 @@
      "중2 분기. 수학 경시와 병행이 전제.",
      "standard"
     ]
-   ]
+   ],
+   "grade_band": "middle"
   },
   {
    "id": "science_high",
    "subject": "science",
-   "school_level": "high",
    "title": "고등 과학",
    "summary": "의대 라인에서 과탐 선택과 II과목 진입 여부가 핵심 변수.",
    "sort_order": 11,
@@ -878,7 +1054,8 @@
      "의대 · 최상위 지원 시.",
      "alternative"
     ]
-   ]
+   ],
+   "grade_band": "high"
   }
  ]
 }

@@ -30,7 +30,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         final ranked = data.ranking(
           regionId: sel.regionId,
           subject: _subject,
-          schoolLevel: sel.schoolLevel,   // 헤더 휠과 연동
+          gradeBand: sel.gradeBand,   // 헤더 선택기와 연동
         );
         final unranked = data.unranked(sel.regionId);
         final region = data.regionById[sel.regionId];

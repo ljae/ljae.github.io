@@ -193,7 +193,7 @@ def merge(rows: list[dict]) -> dict:
     base["estbl_ymd"] = min(dates) if dates else None          # 가장 이른 개설일
 
     # 과목·단계는 합집합. 관마다 담당 과정이 다르므로 합쳐야 실제 모습이 된다.
-    for field in ("subjects", "school_levels", "stages", "flagship", "aliases"):
+    for field in ("subjects", "grade_bands", "stages", "flagship", "aliases"):
         merged, seen = [], set()
         for r in rows:
             for v in r.get(field) or []:

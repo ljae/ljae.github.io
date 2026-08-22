@@ -102,6 +102,10 @@ class Stage {
   final int depth;
   final int lane;
 
+  /// 이 구간 밖이지만, 이 구간으로 들어오는 길의 출발점인 단계.
+  /// 빼면 '어디서 오는 길인지'가 사라져서 함께 보여 준다.
+  final bool inbound;
+
   const Stage({
     required this.id,
     required this.trackId,
@@ -113,6 +117,7 @@ class Stage {
     required this.gradeMax,
     required this.depth,
     required this.lane,
+    this.inbound = false,
   });
 
   factory Stage.fromJson(Map<String, dynamic> j, String trackId) {
@@ -128,6 +133,7 @@ class Stage {
       gradeMax: (grade[1] as num).toInt(),
       depth: (j['depth'] as num?)?.toInt() ?? 0,
       lane: (j['lane'] as num?)?.toInt() ?? 0,
+      inbound: j['inbound'] == true,
     );
   }
 
@@ -135,11 +141,26 @@ class Stage {
       ? gradeName(gradeMin)
       : '${gradeName(gradeMin)}~${gradeName(gradeMax)}';
 
+  /// 0 = 예비초. 초1 이전에 시작하는 단계가 실제로 있어서 별도 코드를 쓴다.
   static String gradeName(int g) {
+    if (g <= 0) return '예비초';
     if (g <= 6) return '초$g';
     if (g <= 9) return '중${g - 6}';
     return '고${g - 9}';
   }
+
+  /// 이 단계가 걸치는 학년 구간. 경계를 걸치면 양쪽 모두에 든다.
+  static const _bandRanges = <String, (int, int)>{
+    'elem_low': (0, 3),
+    'elem_high': (4, 6),
+    'middle': (7, 9),
+    'high': (10, 12),
+  };
+
+  List<String> get gradeBands => [
+        for (final MapEntry(key: band, value: (lo, hi)) in _bandRanges.entries)
+          if (gradeMin <= hi && gradeMax >= lo) band,
+      ];
 }
 
 enum EdgeType { standard, accelerated, alternative }
@@ -172,7 +193,7 @@ class StageEdge {
 class Track {
   final String id;
   final String subject;
-  final String schoolLevel;
+  final String gradeBand;
   final String title;
   final String summary;
   final List<Stage> stages;
@@ -181,7 +202,7 @@ class Track {
   const Track({
     required this.id,
     required this.subject,
-    required this.schoolLevel,
+    required this.gradeBand,
     required this.title,
     required this.summary,
     required this.stages,
@@ -193,7 +214,7 @@ class Track {
     return Track(
       id: id,
       subject: j['subject'] as String,
-      schoolLevel: j['school_level'] as String,
+      gradeBand: j['grade_band'] as String,
       title: j['title'] as String,
       summary: (j['summary'] ?? '') as String,
       stages: (j['stages'] as List)
@@ -313,7 +334,7 @@ class Academy {
   final List<String> aliases;
   final String regionId;
   final List<String> subjects;
-  final List<String> schoolLevels;
+  final List<String> gradeBands;
   final List<String> stages;
   final List<String> flagship;
   final String? address;
@@ -340,7 +361,7 @@ class Academy {
     required this.aliases,
     required this.regionId,
     required this.subjects,
-    required this.schoolLevels,
+    required this.gradeBands,
     required this.stages,
     required this.flagship,
     this.address,
@@ -367,7 +388,7 @@ class Academy {
         aliases: ((j['aliases'] as List?) ?? const []).cast<String>(),
         regionId: (j['regionId'] ?? '') as String,
         subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
-        schoolLevels: ((j['schoolLevels'] as List?) ?? const []).cast<String>(),
+        gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
         stages: ((j['stages'] as List?) ?? const []).cast<String>(),
         flagship: ((j['flagship'] as List?) ?? const []).cast<String>(),
         address: j['address'] as String?,
@@ -683,8 +704,11 @@ const subjectNames = <String, String>{
   'etc': '종합·보습',
 };
 
-const schoolLevelNames = <String, String>{
-  'elementary': '초등',
+/// 학원이 받는 학년대. 학교(초등학교·중학교·고등학교)와는 다른 축이다.
+/// 학교는 건물이고, 이건 '몇 학년을 받는 학원인가'다.
+const gradeBandNames = <String, String>{
+  'elem_low': '예비초~초3',
+  'elem_high': '초4~초6',
   'middle': '중등',
   'high': '고등',
 };

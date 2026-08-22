@@ -191,8 +191,12 @@ class _ByOperator extends StatelessWidget {
   }
 }
 
-const _levelOptions = <(String, String)>[
-  ('elementary', '초등'),
+/// 학원이 받는 학년대. 초등을 저·고학년으로 가른다 — 학원가에서
+/// 그 둘은 사실상 다른 시장이고, 한 덩어리로 두면 학부모가 자기
+/// 구간이 아닌 것을 계속 보게 된다.
+const _bandOptions = <(String, String)>[
+  ('elem_low', '예비초~초3'),
+  ('elem_high', '초4~초6'),
   ('middle', '중등'),
   ('high', '고등'),
 ];
@@ -231,11 +235,11 @@ class _HeaderFilters extends ConsumerWidget {
       ),
       const SizedBox(width: AppSpace.sm),
       WheelSelector<String>(
-        label: '학교급',
-        options: _levelOptions,
-        selected: sel.schoolLevel,
-        onChanged: notifier.setSchoolLevel,
-        width: 78,
+        label: '학년',
+        options: _bandOptions,
+        selected: sel.gradeBand,
+        onChanged: notifier.setGradeBand,
+        width: 104,
         compact: mode == FilterMode.dropdowns,
       ),
     ]);
@@ -256,9 +260,9 @@ class _FilterButton extends StatelessWidget {
         .firstWhere((r) => r.$1 == selection.regionId,
             orElse: () => ('all', '전체'))
         .$2;
-    final level = _levelOptions
-        .firstWhere((l) => l.$1 == selection.schoolLevel,
-            orElse: () => _levelOptions.first)
+    final level = _bandOptions
+        .firstWhere((l) => l.$1 == selection.gradeBand,
+            orElse: () => _bandOptions.first)
         .$2;
     return '$region · $level';
   }
@@ -268,7 +272,7 @@ class _FilterButton extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Semantics(
       button: true,
-      label: '학군과 학교급 고르기. 지금 ${_label()}',
+      label: '학군과 학년 고르기. 지금 ${_label()}',
       child: InkWell(
         borderRadius: BorderRadius.circular(AppRadius.sm),
         onTap: () => _open(context),
@@ -345,17 +349,17 @@ class _FilterSheet extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: AppSpace.lg),
-            Text('학교급', style: text.titleMedium),
+            Text('학년', style: text.titleMedium),
             const SizedBox(height: AppSpace.sm),
             Wrap(
               spacing: AppSpace.sm,
               runSpacing: AppSpace.sm,
               children: [
-                for (final (id, name) in _levelOptions)
+                for (final (id, name) in _bandOptions)
                   ChoiceChip(
                     label: Text(name),
-                    selected: sel.schoolLevel == id,
-                    onSelected: (_) => notifier.setSchoolLevel(id),
+                    selected: sel.gradeBand == id,
+                    onSelected: (_) => notifier.setGradeBand(id),
                   ),
               ],
             ),

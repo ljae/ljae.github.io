@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────
 # 에듀트리 테크트리 큐레이션 데이터
 #
-# 학년 코드: 초1=1 … 초6=6, 중1=7 … 중3=9, 고1=10 … 고3=12
+# 학년 코드: 예비초=0, 초1=1 … 초6=6, 중1=7 … 중3=9, 고1=10 … 고3=12
 # depth = 그래프 가로축(진행 순서), lane = 세로축(병렬 루트)
 #
 # ★ 편집 원칙
@@ -24,7 +24,7 @@ tracks:
         subtitle: 학교 진도 + 연산 숙련
         goal: 학년 교과 개념을 빠짐없이, 연산 정확도 95% 이상
         exit_criteria: 학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상
-        grade: [1, 3]
+        grade: [0, 3]
         depth: 0
         lane: 1
       - id: math_el_thinking
@@ -161,7 +161,7 @@ tracks:
         subtitle: 소리와 문자 결합
         goal: 자기 수준 원서 독립 읽기
         exit_criteria: AR 2점대 자력 독해
-        grade: [1, 3]
+        grade: [0, 3]
         depth: 0
         lane: 1
       - id: eng_el_academy
@@ -278,7 +278,7 @@ tracks:
         subtitle: 읽고 말하고 쓰기
         goal: 읽기 습관과 요약 능력
         exit_criteria: 한 편 글의 주제 요약 가능
-        grade: [1, 4]
+        grade: [0, 4]
         depth: 0
         lane: 1
       - id: kor_el_literacy
@@ -385,7 +385,7 @@ tracks:
         subtitle: 체험형 과학
         goal: 과학적 호기심과 실험 설계 감각
         exit_criteria: 탐구보고서 자력 작성
-        grade: [1, 4]
+        grade: [0, 4]
         depth: 0
         lane: 1
       - id: sci_el_gifted

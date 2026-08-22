@@ -62,7 +62,7 @@ def main() -> None:
     } for r in regions], on_conflict="id")
 
     upsert("tracks", [{
-        "id": t["id"], "subject": t["subject"], "school_level": t["school_level"],
+        "id": t["id"], "subject": t["subject"], "grade_band": t["grade_band"],
         "title": t["title"], "summary": t.get("summary"),
         "sort_order": t.get("sort_order", 0),
     } for t in tree["tracks"]], on_conflict="id")
@@ -100,7 +100,7 @@ def main() -> None:
         "road_address": a.get("address"),
         "tel": a.get("tel"),
         "subjects": a.get("subjects", []),
-        "school_levels": a.get("schoolLevels", []),
+        "grade_bands": a.get("gradeBands", []),
         "is_verified": a.get("isVerified", False),
     } for a in academies], on_conflict="aca_asnum")
 

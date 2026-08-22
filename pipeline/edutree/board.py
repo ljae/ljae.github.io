@@ -151,7 +151,7 @@ def stage_guides(tracks, academies) -> list[dict]:
             out.append({
                 "category": "guide",
                 "subject": t["subject"],
-                "school_level": t["school_level"],
+                "grade_band": t["grade_band"],
                 "title": f"[{t['title']}] {st['title']} — 언제 시작하고 언제 넘어가나",
                 "body": "\n".join(body),
                 "is_official": True,
@@ -163,14 +163,14 @@ def stage_guides(tracks, academies) -> list[dict]:
 
 # ── 시드 질문 ──────────────────────────────────────────────────
 SEED_QUESTIONS = [
-    ("math", "elementary", "초4 겨울, 경시를 더 갈지 선행으로 틀지 고민입니다",
+    ("math", "elem_high", "초4 겨울, 경시를 더 갈지 선행으로 틀지 고민입니다",
      "사고력 학원을 2년 다녔고 지금 초4입니다. 경시 준비를 계속할지, "
      "중등 선행으로 넘어갈지 결정해야 하는 시기라고들 하는데 실제로 겪어보신 분 "
      "이야기가 궁금합니다.\n\n특히 이런 게 알고 싶습니다.\n"
      "· 경시를 접고 선행으로 간 뒤 후회하신 적 있나요\n"
      "· 둘 다 병행하는 게 현실적으로 가능한 학년인가요\n"
      "· 결정할 때 무엇을 기준으로 보셨나요"),
-    ("english", "elementary", "어학원 레벨테스트, 몇 번까지 다시 보시나요",
+    ("english", "elem_low", "어학원 레벨테스트, 몇 번까지 다시 보시나요",
      "레벨테스트에서 원하는 반에 못 들어가면 다시 보게 하시는지 궁금합니다.\n\n"
      "· 재응시로 반이 올라간 경우가 실제로 있었나요\n"
      "· 낮은 반에서 시작해 올라가는 것과 처음부터 맞는 반에 들어가는 것, "
@@ -274,21 +274,21 @@ def seed_questions() -> list[dict]:
     return [{
         "category": "question",
         "subject": subject,
-        "school_level": level,
+        "grade_band": band,
         "title": title,
         "body": body + "\n\n―――\n학원실록이 먼저 여는 질문입니다. "
                        "댓글로 경험을 나눠 주세요.",
         "is_official": True,
         "official_kind": "seed_question",
         "academy_keys": [],
-    } for subject, level, title, body in SEED_QUESTIONS]
+    } for subject, band, title, body in SEED_QUESTIONS]
 
 
 # ── 업로드 ─────────────────────────────────────────────────────
 # PostgREST 는 배치 안의 객체 키가 전부 같아야 한다.
-# 리포트는 region_id 를, 해설은 subject/school_level 을 갖는 식으로 제각각이라
+# 리포트는 region_id 를, 해설은 subject/grade_band 를 갖는 식으로 제각각이라
 # 빠진 키를 None 으로 채워 모양을 맞춘다.
-_FIELDS = ("category", "region_id", "school_level", "subject", "title", "body",
+_FIELDS = ("category", "region_id", "grade_band", "subject", "title", "body",
            "is_official", "official_kind", "academy_keys")
 
 

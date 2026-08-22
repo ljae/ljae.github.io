@@ -56,7 +56,7 @@ def _prepare_live(rows: list[dict]) -> list[dict]:
 def _expand_seed() -> list[dict]:
     """브랜드 × 학군 조합을 학원 레코드로 펼친다."""
     regions = {r["id"]: r for r in config.regions()}
-    tree = config.techtree()
+    tree = config.banded_techtree()
     stage_track = {s["id"]: t for t in tree["tracks"] for s in t["stages"]}
 
     out: list[dict] = []
@@ -64,7 +64,9 @@ def _expand_seed() -> list[dict]:
         for region_id in brand["regions"]:
             region = regions[region_id]
             display = f"{region['name_ko']} {brand['name']}"
-            levels = sorted({stage_track[s]["school_level"] for s in brand["stages"]})
+            # 한 단계가 두 구간에 걸치면 둘 다 들어간다.
+            bands = {stage_track[s]["grade_band"] for s in brand["stages"]}
+            bands = [b for b in config.GRADE_BANDS if b in bands]
             rec = {
                 "aca_asnum": None,
                 "name": display,
@@ -75,7 +77,7 @@ def _expand_seed() -> list[dict]:
                 "aliases": brand.get("aliases", []),
                 "region_id": region_id,
                 "subjects": brand["subjects"],
-                "school_levels": levels,
+                "grade_bands": bands,
                 "stages": brand["stages"],
                 "flagship": brand.get("flagship", []),
                 "reg_stttus_nm": "정상",
@@ -142,18 +144,25 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             row.setdefault("subjects", _infer_subjects(row))
         # 학교급을 반드시 채운다. 비워 두면 헤더의 초·중·고 필터가 아무것도
         # 거르지 못한다(실측에서 채점 대상 400곳이 전부 비어 있었다).
-        if not row.get("school_levels"):
-            row["school_levels"] = _levels_from_stages(row) or _infer_levels(row)
+        if not row.get("grade_bands"):
+            row["grade_bands"] = _bands_from_stages(row) or _infer_bands(row)
         row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
     print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨")
     return neis_rows
 
 
-# 이름·교습과정에서 학교급을 읽는다. 애매하면 여러 개를 넣는다 —
+# 이름·교습과정에서 대상 학년대를 읽는다. 애매하면 여러 개를 넣는다 —
 # 하나도 없는 것보다 넓게 잡히는 편이 필터에서 덜 해롭다.
-_LEVEL_HINTS = {
-    "elementary": ("초등", "초교", "유아", "키즈", "어린이", "아동", "사고력",
-                   "초1", "초2", "초3", "초4", "초5", "초6"),
+#
+# 초등을 저·고학년으로 가르면서, 어느 쪽인지 분명한 낱말만 각각에 두고
+# 그냥 '초등'처럼 구간을 못 가르는 낱말은 양쪽에 넣는다. 억지로 한쪽에
+# 몰면 없는 정보를 만들어 내는 셈이다.
+_BAND_HINTS = {
+    "elem_low": ("예비초", "유아", "키즈", "어린이", "아동", "7세", "6세",
+                 "초1", "초2", "초3", "한글", "파닉스", "연산",
+                 "초등", "초교", "사고력"),
+    "elem_high": ("초4", "초5", "초6", "경시", "영재원", "초등부",
+                  "초등", "초교", "사고력"),
     "middle": ("중등", "중학", "중1", "중2", "중3", "특목고", "영재고", "과학고",
                "자사고", "고입", "KMO"),
     # '입시'·'내신'·'논술' 은 뺐다. 분야구분이 대부분 '입시.검정 및 보습' 이라
@@ -163,30 +172,37 @@ _LEVEL_HINTS = {
 }
 
 
-def _levels_from_stages(row: dict) -> list[str]:
-    """큐레이션 단계에 매핑됐다면 그 트랙의 학교급을 그대로 쓴다."""
+def _bands_from_stages(row: dict) -> list[str]:
+    """큐레이션 단계에 매핑됐다면 그 단계가 걸치는 학년 구간을 그대로 쓴다.
+
+    한 단계가 두 구간에 걸치면(사고력 초1~초4) 둘 다 들어간다.
+    실제로 두 구간 학부모가 같이 찾는 곳이라 한쪽으로 몰 이유가 없다.
+    """
     stages = row.get("stages") or []
     if not stages:
         return []
     tree = config.techtree()
-    stage_level = {s["id"]: t["school_level"]
+    stage_grade = {s["id"]: s["grade"]
                    for t in tree["tracks"] for s in t["stages"]}
-    out = []
+    out: list[str] = []
     for sid in stages:
-        lv = stage_level.get(sid)
-        if lv and lv not in out:
-            out.append(lv)
-    return out
+        grade = stage_grade.get(sid)
+        if not grade:
+            continue
+        for band in config.bands_for_range(grade[0], grade[1]):
+            if band not in out:
+                out.append(band)
+    return [b for b in config.GRADE_BANDS if b in out]
 
 
-def _infer_levels(row: dict) -> list[str]:
+def _infer_bands(row: dict) -> list[str]:
     # 분야구분(realm)은 쓰지 않는다. 전 학원이 같은 값이라 신호가 없다.
     blob = " ".join(str(row.get(k) or "") for k in
                     ("name", "le_crse_list_nm", "le_crse_nm"))
-    found = [lv for lv, hints in _LEVEL_HINTS.items()
+    found = [b for b, hints in _BAND_HINTS.items()
              if any(h in blob for h in hints)]
-    # 아무것도 안 잡히면 특정 학교급에 한정되지 않는 곳으로 본다.
-    # 빈 배열은 앱에서 '모든 학교급에 해당'으로 처리한다.
+    # 아무것도 안 잡히면 특정 구간에 한정되지 않는 곳으로 본다.
+    # 빈 배열은 앱에서 '모든 구간에 해당'으로 처리한다.
     return found
 
 
@@ -612,7 +628,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
         row.update({
             "brand": a.get("brand"),
             "aliases": a.get("aliases", []),
-            "schoolLevels": a.get("school_levels", []),
+            "gradeBands": a.get("grade_bands", []),
             "stages": a.get("stages", []),
             "flagship": a.get("flagship", []),
             "tel": a.get("tel"),
@@ -678,7 +694,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "lat": a.get("lat"), "lng": a.get("lng"),
             "zones": a.get("zones") or [],
         } for a in apt_rows if a.get("kaptCode")],
-        "techtree.json": tree,
+        "techtree.json": config.banded_techtree(),
         "academies.json": payload_academies,
         "registry.json": payload_registry,
         "meta.json": {

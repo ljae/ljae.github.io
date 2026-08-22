@@ -10,7 +10,7 @@ create table if not exists board_posts (
   category      text not null default 'talk',
     -- talk 수다 | question 질문 | review 후기 | report 리포트(자동) | guide 해설
   region_id     text references regions(id),
-  school_level  text,                      -- elementary | middle | high
+  grade_band    text,                      -- elem_low | elem_high | middle | high
   subject       text,                      -- math | english | korean | science
   title         text not null check (char_length(title) between 2 and 120),
   body          text not null check (char_length(body) between 5 and 20000),

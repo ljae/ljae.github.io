@@ -49,7 +49,7 @@ create table academies (
 
   -- 서비스 파생
   subjects            text[] default '{}',             -- ['math','english']
-  school_levels       text[] default '{}',             -- ['elementary','middle','high']
+  grade_bands         text[] default '{}',             -- ['elem_low','elem_high','middle','high']
   logo_url            text,
   is_verified         boolean not null default false,  -- NEIS 매칭 성공 여부
   is_listed           boolean not null default true,   -- 노출 여부 (정정요청 시 false 가능)
@@ -68,11 +68,11 @@ create index on academies (region_id, is_listed);
 create table tracks (
   id            text primary key,                      -- 'math_elementary'
   subject       text not null,                         -- math | english | korean | science
-  school_level  text not null,                         -- elementary | middle | high
+  grade_band    text not null,                         -- elem_low | elem_high | middle | high
   title         text not null,                         -- '초등 수학'
   summary       text,
   sort_order    int not null default 0,
-  unique (subject, school_level)
+  unique (subject, grade_band)
 );
 
 create table stages (

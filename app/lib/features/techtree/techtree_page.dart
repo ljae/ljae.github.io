@@ -26,7 +26,7 @@ class TechTreePage extends ConsumerWidget {
           const Divider(height: 1),
           Expanded(
             child: track == null
-                ? const Center(child: Text('해당 과목·학교급 트랙이 없습니다'))
+                ? const Center(child: Text('해당 과목·학년 구간 트랙이 없습니다'))
                 : _TrackBody(track: track, data: data, regionId: sel.regionId),
           ),
         ]);

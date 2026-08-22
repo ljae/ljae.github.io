@@ -80,15 +80,111 @@ SUBJECTS = {
     "korean": "국어·논술",
     "science": "과학",
 }
-SCHOOL_LEVELS = {
-    "elementary": "초등",
-    "middle": "중등",
-    "high": "고등",
+# 학원이 대상으로 하는 학년대.
+#
+# 학교(초등학교·중학교·고등학교)와는 다른 축이다. 학교는 건물이고,
+# 이건 '몇 학년을 받는 학원인가'다. 섞어 쓰다 헷갈려서 이름을 갈랐다.
+#
+# 초등을 둘로 나눈 이유: 학원가에서 저학년과 고학년은 사실상 다른 시장이다.
+# 예비초~초3 은 사고력·연산·파닉스가 중심이고, 초4~초6 은 경시·선행으로
+# 갈린다. 한 덩어리로 두면 학부모가 자기 구간이 아닌 것을 계속 보게 된다.
+#
+# 값은 (표시명, 최소학년, 최대학년). 예비초1 = 0, 초1 = 1 … 고3 = 12.
+GRADE_BANDS = {
+    "elem_low": ("예비초~초3", 0, 3),
+    "elem_high": ("초4~초6", 4, 6),
+    "middle": ("중등", 7, 9),
+    "high": ("고등", 10, 12),
 }
+
+GRADE_BAND_NAMES = {k: v[0] for k, v in GRADE_BANDS.items()}
+
+
+def band_for_grade(g: int) -> str:
+    """학년 하나가 어느 구간에 드는지."""
+    for key, (_, lo, hi) in GRADE_BANDS.items():
+        if lo <= g <= hi:
+            return key
+    return "high" if g > 12 else "elem_low"
+
+
+def bands_for_range(lo: int, hi: int) -> list[str]:
+    """학년 범위가 걸치는 구간 전부. 경계를 걸치는 단계는 양쪽에 든다."""
+    return [key for key, (_, blo, bhi) in GRADE_BANDS.items()
+            if lo <= bhi and hi >= blo]
+
+
+def banded_techtree() -> dict:
+    """테크트리를 학년 구간별 트랙으로 갈라 준다.
+
+    YAML 은 과목 × 학교급(초·중·고)으로 적혀 있다. 초등 한 덩어리가
+    예비초부터 초6까지라 그래프가 길고, 저학년 학부모에게는 절반이
+    남의 이야기다. 단계마다 적힌 학년 범위를 보고 구간별로 나눈다.
+
+    경계에 걸친 단계(예: 사고력 초1~초4)는 양쪽에 모두 든다. 실제로
+    두 구간에 걸쳐 다니는 단계라 어느 한쪽에서 빼면 길이 끊긴다.
+
+    구간 밖이지만 그 구간으로 들어오는 길의 출발점인 단계는 'inbound'
+    로 표시해 함께 남긴다. 빼면 '어디서 오는 길인지'가 사라진다.
+    """
+    tree = techtree()
+    out_tracks = []
+    for track in tree["tracks"]:
+        stages = track["stages"]
+        by_band: dict[str, list[dict]] = {}
+        for st in stages:
+            lo, hi = st["grade"]
+            for band in bands_for_range(lo, hi):
+                by_band.setdefault(band, []).append(st)
+
+        # 구간이 하나뿐이면 가르지 않는다. 이름만 새 축으로 바꾼다.
+        if len(by_band) <= 1:
+            band = next(iter(by_band), track.get("school_level", "high"))
+            out_tracks.append({**track, "id": f"{track['subject']}_{band}",
+                               "grade_band": band})
+            continue
+
+        for band in GRADE_BANDS:
+            kept = by_band.get(band)
+            if not kept:
+                continue
+            ids = {st["id"] for st in kept}
+            edges = [e for e in track["edges"] if e[1] in ids]
+            # 이 구간으로 들어오는 길의 출발점을 끌어온다.
+            inbound = {e[0] for e in edges} - ids
+            extra = [st for st in stages if st["id"] in inbound]
+            band_stages = [
+                {**st, "inbound": st["id"] in inbound}
+                for st in stages if st["id"] in ids | inbound
+            ]
+            # depth 를 0부터 다시 매긴다. 구간마다 그래프가 새로 시작한다.
+            depths = sorted({st["depth"] for st in band_stages})
+            remap = {d: i for i, d in enumerate(depths)}
+            for st in band_stages:
+                st["depth"] = remap[st["depth"]]
+
+            label = GRADE_BANDS[band][0]
+            out_tracks.append({
+                **track,
+                "id": f"{track['subject']}_{band}",
+                "grade_band": band,
+                "title": f"{label} {SUBJECTS[track['subject']]}",
+                "stages": band_stages,
+                "edges": [e for e in edges
+                          if e[0] in ids | inbound and e[1] in ids],
+                "sort_order": track["sort_order"] * 10
+                + list(GRADE_BANDS).index(band),
+            })
+            del extra
+    for t in out_tracks:
+        t.pop("school_level", None)
+    return {**tree, "tracks": out_tracks}
 
 
 def grade_label(g: int) -> str:
-    """1..12 → '초1'..'고3'."""
+    """0..12 → '예비초'..'고3'."""
+    if g <= 0:
+        return "예비초"
     if 1 <= g <= 6:
         return f"초{g}"
     if 7 <= g <= 9:

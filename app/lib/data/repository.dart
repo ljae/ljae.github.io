@@ -52,11 +52,11 @@ class EduTreeData {
     return list;
   }
 
-  List<Track> tracksFor({String? subject, String? schoolLevel}) {
+  List<Track> tracksFor({String? subject, String? gradeBand}) {
     return tracks
         .where((t) =>
             (subject == null || t.subject == subject) &&
-            (schoolLevel == null || t.schoolLevel == schoolLevel))
+            (gradeBand == null || t.gradeBand == gradeBand))
         .toList();
   }
 
@@ -64,18 +64,18 @@ class EduTreeData {
   List<Academy> ranking({
     required String regionId,
     String? subject,
-    String? schoolLevel,
+    String? gradeBand,
     bool includeUnranked = false,
   }) {
     final rows = academies.where((a) {
       if (!matchRegion(a.regionId, regionId)) return false;
       if (!includeUnranked && !a.score.isRanked) return false;
       if (subject != null && !a.subjects.contains(subject)) return false;
-      // 학교급이 비어 있는 학원은 특정 급에 한정되지 않는 곳으로 보고
+      // 구간이 비어 있는 학원은 특정 학년대에 한정되지 않는 곳으로 보고
       // 어떤 필터에도 걸리게 둔다. 걸러내면 종합·보습 학원이 통째로 사라진다.
-      if (schoolLevel != null &&
-          a.schoolLevels.isNotEmpty &&
-          !a.schoolLevels.contains(schoolLevel)) {
+      if (gradeBand != null &&
+          a.gradeBands.isNotEmpty &&
+          !a.gradeBands.contains(gradeBand)) {
         return false;
       }
       return true;
@@ -244,22 +244,22 @@ class Selection {
   /// 'all' | 'daechi' | 'mokdong' | 'banpo' | 'jamsil'
   final String regionId;
   final String subject;
-  final String schoolLevel;
+  final String gradeBand;
 
   const Selection({
     this.regionId = 'daechi',
     this.subject = 'math',
-    this.schoolLevel = 'elementary',
+    this.gradeBand = 'elem_low',
   });
 
-  Selection copyWith({String? regionId, String? subject, String? schoolLevel}) =>
+  Selection copyWith({String? regionId, String? subject, String? gradeBand}) =>
       Selection(
         regionId: regionId ?? this.regionId,
         subject: subject ?? this.subject,
-        schoolLevel: schoolLevel ?? this.schoolLevel,
+        gradeBand: gradeBand ?? this.gradeBand,
       );
 
-  String get trackId => '${subject}_$schoolLevel';
+  String get trackId => '${subject}_$gradeBand';
   bool get isAllRegions => regionId == 'all';
 
   // 값이 같으면 같은 상태다. 이게 없으면 리버팟이 매 갱신을 '바뀐 것'으로
@@ -270,10 +270,10 @@ class Selection {
       other is Selection &&
       other.regionId == regionId &&
       other.subject == subject &&
-      other.schoolLevel == schoolLevel;
+      other.gradeBand == gradeBand;
 
   @override
-  int get hashCode => Object.hash(regionId, subject, schoolLevel);
+  int get hashCode => Object.hash(regionId, subject, gradeBand);
 }
 
 class SelectionNotifier extends Notifier<Selection> {
@@ -282,7 +282,7 @@ class SelectionNotifier extends Notifier<Selection> {
 
   void setRegion(String id) => state = state.copyWith(regionId: id);
   void setSubject(String id) => state = state.copyWith(subject: id);
-  void setSchoolLevel(String id) => state = state.copyWith(schoolLevel: id);
+  void setGradeBand(String id) => state = state.copyWith(gradeBand: id);
 }
 
 final selectionProvider =

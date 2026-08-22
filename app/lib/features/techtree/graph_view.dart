@@ -228,7 +228,9 @@ class _StageNode extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 140),
           decoration: BoxDecoration(
-            color: dark ? AppColors.darkSurface : AppColors.surface,
+            color: stage.inbound
+                ? (dark ? AppColors.darkCanvas : AppColors.canvas)
+                : (dark ? AppColors.darkSurface : AppColors.surface),
             borderRadius: BorderRadius.circular(AppRadius.md),
             border: Border.all(
               color: hovered ? accent : (dark ? AppColors.darkLine : AppColors.line),
@@ -246,6 +248,18 @@ class _StageNode extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 이전 구간에서 이어져 들어온 단계. 이 구간의 단계가 아니라
+              // '어디서 오는 길인지'를 보여 주려고 남긴 것이라 표시해 준다.
+              if (stage.inbound) ...[
+                Row(children: [
+                  const Icon(Icons.subdirectory_arrow_right,
+                      size: 12, color: AppColors.mist),
+                  const SizedBox(width: 3),
+                  Text('이전 구간에서',
+                      style: text.bodySmall?.copyWith(fontSize: 10.5)),
+                ]),
+                const SizedBox(height: 4),
+              ],
               Row(children: [
                 Container(width: 3, height: 15, color: accent),
                 const SizedBox(width: 7),

@@ -10,7 +10,7 @@ select
   a.name,
   a.region_id,
   a.subjects,
-  a.school_levels,
+  a.grade_bands,
   a.tuition_monthly_krw,
   a.tofor_smtot        as capacity,
   a.reg_stttus_nm      as registration_status,
@@ -34,7 +34,7 @@ where a.is_listed = true and s.is_ranked = true;
 create or replace function ranking_for(
   p_region  text,
   p_subject text default null,
-  p_level   text default null,
+  p_band    text default null,
   p_limit   int  default 50
 )
 returns setof v_ranking
@@ -45,7 +45,7 @@ as $$
   from v_ranking
   where region_id = p_region
     and (p_subject is null or subjects @> array[p_subject])
-    and (p_level   is null or school_levels @> array[p_level])
+    and (p_band    is null or grade_bands @> array[p_band])
   order by total desc
   limit p_limit;
 $$;

@@ -32,7 +32,9 @@ SITE = "https://openedu4u.com"
 
 SUBJECTS = {"math": "수학", "english": "영어", "korean": "국어·논술",
             "science": "과학", "etc": "종합·보습"}
-LEVELS = {"elementary": "초등", "middle": "중등", "high": "고등"}
+# 학원이 받는 학년대. 학교(초등학교·중학교·고등학교)와는 다른 축이다.
+BANDS = {"elem_low": "예비초~초3", "elem_high": "초4~초6",
+         "middle": "중등", "high": "고등"}
 
 
 def esc(v) -> str:
@@ -314,8 +316,12 @@ def track_pages(out: Path, tracks, academies) -> list[str]:
     (out / "t").mkdir(parents=True, exist_ok=True)
     for t in tracks:
         tid = t["id"]
+        band = BANDS.get(t.get("grade_band"), "")
         title = f"{t['title']} 테크트리 — 학원 진학 경로 | 학원실록"
+        # 학년대를 설명에 박아 둔다. '초4 수학학원' 같은 검색어가 실제로 많다.
         desc = t.get("summary") or f"{t['title']} 진학 경로와 단계별 학원."
+        if band and band not in desc:
+            desc = f"{band} 구간. {desc}"
         body = [f"<h1>{esc(t['title'])} 테크트리</h1>",
                 f'<p class="sub">{esc(t.get("summary",""))}</p>']
         for st in t["stages"]:
