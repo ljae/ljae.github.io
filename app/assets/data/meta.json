@@ -1,0 +1,19 @@
+{
+ "mode": "demo",
+ "generatedAt": "2026-08-22T05:26:27.116997+00:00",
+ "academyCount": 83,
+ "mentionCount": 2245,
+ "weights": {
+  "reputation": 0.35,
+  "momentum": 0.2,
+  "transparency": 0.25,
+  "selectivity": 0.2
+ },
+ "minSampleForRank": 10,
+ "reputationPriorCount": 12,
+ "recencyHalflifeDays": 180,
+ "sources": {
+  "official": null,
+  "community": null
+ }
+}

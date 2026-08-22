@@ -1,0 +1,217 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../core/brand.dart';
+import '../core/theme.dart';
+import '../data/models.dart';
+import '../data/repository.dart';
+import 'common.dart';
+
+const _navItems = <(String path, String label, IconData icon)>[
+  ('/', '홈', Icons.home_outlined),
+  ('/tree', '테크트리', Icons.account_tree_outlined),
+  ('/rank', '랭킹', Icons.leaderboard_outlined),
+  ('/map', '학군지도', Icons.map_outlined),
+  ('/method', '산식', Icons.calculate_outlined),
+];
+
+class AppShell extends ConsumerWidget {
+  final Widget child;
+  const AppShell({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wide = MediaQuery.sizeOf(context).width >= 860;
+    final meta = ref.watch(dataProvider).value?.meta;
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(meta?.isDemo == true ? 100 : 62),
+        child: Column(children: [
+          _TopBar(wide: wide),
+          if (meta != null) DemoBanner(meta: meta),
+        ]),
+      ),
+      body: child,
+      bottomNavigationBar: wide ? null : _BottomBar(),
+    );
+  }
+}
+
+class _TopBar extends StatelessWidget {
+  final bool wide;
+  const _TopBar({required this.wide});
+
+  @override
+  Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri.path;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      height: 62,
+      decoration: BoxDecoration(
+        color: dark ? AppColors.darkSurface : AppColors.surface,
+        border: Border(
+            bottom:
+                BorderSide(color: dark ? AppColors.darkLine : AppColors.line)),
+      ),
+      child: ContentWidth(
+        child: Row(children: [
+          InkWell(
+            onTap: () => context.go('/'),
+            child: Row(children: [
+              const _Logo(),
+              const SizedBox(width: AppSpace.sm),
+              Text(Brand.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.w800)),
+            ]),
+          ),
+          const Spacer(),
+          if (wide)
+            for (final (path, label, _) in _navItems)
+              _NavLink(
+                  path: path,
+                  label: label,
+                  active: path == '/'
+                      ? location == '/'
+                      : location.startsWith(path)),
+          if (wide) const SizedBox(width: AppSpace.sm),
+          IconButton(
+            tooltip: '학원 검색',
+            onPressed: () => showSearch(
+                context: context, delegate: _AcademySearch()),
+            icon: const Icon(Icons.search, size: 21),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo();
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.evergreenBright, AppColors.evergreen],
+          ),
+          borderRadius: BorderRadius.circular(9),
+        ),
+        child: const Icon(Icons.account_tree_rounded,
+            size: 17, color: Colors.white),
+      );
+}
+
+class _NavLink extends StatelessWidget {
+  final String path;
+  final String label;
+  final bool active;
+  const _NavLink(
+      {required this.path, required this.label, required this.active});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => context.go(path),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        foregroundColor: active ? AppColors.evergreen : AppColors.slate,
+      ),
+      child: Text(label,
+          style: TextStyle(
+            fontFamily: 'Paperlogy',
+            fontSize: 14.5,
+            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+            letterSpacing: -0.2,
+          )),
+    );
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri.path;
+    var index = _navItems.indexWhere((i) =>
+        i.$1 == '/' ? location == '/' : location.startsWith(i.$1));
+    if (index < 0) index = 0;
+
+    return NavigationBar(
+      selectedIndex: index,
+      height: 64,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      onDestinationSelected: (i) => context.go(_navItems[i].$1),
+      destinations: [
+        for (final (_, label, icon) in _navItems)
+          NavigationDestination(icon: Icon(icon, size: 21), label: label),
+      ],
+    );
+  }
+}
+
+class _AcademySearch extends SearchDelegate<String> {
+  @override
+  String get searchFieldLabel => '학원명 · 별칭으로 검색';
+
+  @override
+  List<Widget> buildActions(BuildContext context) => [
+        IconButton(
+            onPressed: () => query = '', icon: const Icon(Icons.clear)),
+      ];
+
+  @override
+  Widget buildLeading(BuildContext context) => IconButton(
+      onPressed: () => close(context, ''), icon: const Icon(Icons.arrow_back));
+
+  @override
+  Widget buildResults(BuildContext context) => _results(context);
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _results(context);
+
+  Widget _results(BuildContext context) {
+    return Consumer(builder: (context, ref, _) {
+      final data = ref.watch(dataProvider).value;
+      if (data == null) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      final rows = data.search(query);
+      if (query.isEmpty) {
+        return const Center(
+            child: Text('학원명 또는 별칭을 입력하세요',
+                style: TextStyle(color: AppColors.mist)));
+      }
+      if (rows.isEmpty) {
+        return Center(child: Text("'$query' 검색 결과가 없습니다"));
+      }
+      return ListView.builder(
+        itemCount: rows.length,
+        itemBuilder: (context, i) {
+          final a = rows[i];
+          final region = data.regionById[a.regionId];
+          return ListTile(
+            title: Text(a.displayName),
+            subtitle: Text(
+                '${region?.nameKo ?? ''} · ${a.subjects.map((s) => subjectNames[s] ?? s).join(", ")}'),
+            trailing: Text(a.score.total.toStringAsFixed(0),
+                style: const TextStyle(
+                    fontFamily: 'Paperlogy', fontWeight: FontWeight.w700)),
+            onTap: () {
+              close(context, a.id);
+              context.go('/academy/${a.id}');
+            },
+          );
+        },
+      );
+    });
+  }
+}
