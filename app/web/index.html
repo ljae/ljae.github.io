@@ -113,6 +113,24 @@
       setTimeout(function () { boot.remove(); }, 500);
     });
   </script>
+  <script>
+    // 예전 배포에서 등록된 서비스워커가 낡은 main.dart.js 를 붙잡고 있어,
+    // 새로 배포해도 사용자는 바뀐 화면을 보지 못한다(로고를 키웠는데 그대로
+    // 보이던 원인). 빌드에서 서비스워커를 끄는 것만으로는 부족하다 —
+    // 이미 등록된 것은 브라우저에 남아 계속 캐시를 물고 있기 때문이다.
+    // 그래서 매 로드마다 등록을 해제하고 캐시를 비운다.
+    // 순위가 매일 갱신되는 서비스라 오프라인 캐시보다 최신성이 중요하다.
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then(function (rs) { rs.forEach(function (r) { r.unregister(); }); })
+        .catch(function () {});
+    }
+    if (window.caches && caches.keys) {
+      caches.keys()
+        .then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); })
+        .catch(function () {});
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

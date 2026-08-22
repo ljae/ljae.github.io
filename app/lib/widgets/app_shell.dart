@@ -28,7 +28,7 @@ class AppShell extends ConsumerWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-            _topBarHeight + (meta?.isDemo == true ? 38 : 0)),
+            topBarHeightFor(context) + (meta?.isDemo == true ? 38 : 0)),
         child: Column(children: [
           _TopBar(wide: wide),
           if (meta != null) DemoBanner(meta: meta),
@@ -50,7 +50,7 @@ class _TopBar extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      height: _topBarHeight,
+      height: topBarHeightFor(context),
       decoration: BoxDecoration(
         color: dark ? AppColors.darkSurface : AppColors.surface,
         border: Border(
@@ -67,7 +67,7 @@ class _TopBar extends StatelessWidget {
               Text(Brand.name,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w800,
-                      fontSize: 25,
+                      fontSize: wide ? 32 : 24,
                       letterSpacing: -0.6)),
             ]),
           ),
@@ -94,23 +94,33 @@ class _TopBar extends StatelessWidget {
 }
 
 /// 헤더 로고 크기. 상단 바 높이가 여기에 딸려 간다.
-const _logoSize = 69.0;
-const _topBarHeight = _logoSize + 23;   // 위아래 여백
+///
+/// 데스크톱은 크게 간다 — 브랜드가 눈에 들어와야 한다.
+/// 모바일은 조금 줄인다. 100px 로고 + 124px 바는 812px 화면의 15%를 먹는다.
+double logoSizeFor(BuildContext context) =>
+    MediaQuery.sizeOf(context).width >= 720 ? 100.0 : 72.0;
+
+double topBarHeightFor(BuildContext context) => logoSizeFor(context) + 24;
 
 class _Logo extends StatelessWidget {
   const _Logo();
+
   @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: BorderRadius.circular(_logoSize * 0.2),
-        child: Image.asset(
-          'assets/brand/mark.png',
-          width: _logoSize,
-          height: _logoSize,
-          fit: BoxFit.cover,
-          filterQuality: FilterQuality.medium,
-        ),
-      );
+  Widget build(BuildContext context) {
+    final size = logoSizeFor(context);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(size * 0.2),
+      child: Image.asset(
+        'assets/brand/mark.png',
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.high,
+      ),
+    );
+  }
 }
+
 
 class _NavLink extends StatelessWidget {
   final String path;

@@ -47,8 +47,12 @@ jobs:
           flutter test
 
       - name: 웹 빌드
+        # --pwa-strategy=none : 서비스워커를 만들지 않는다.
+        # 기본 설정은 예전 main.dart.js 를 캐시에 붙잡고 있어서, 새로 배포해도
+        # 사용자는 한참 뒤에야(혹은 강력 새로고침을 해야) 바뀐 화면을 본다.
+        # 순위가 매일 갱신되는 서비스라 오프라인 캐시보다 최신성이 중요하다.
         working-directory: app
-        run: flutter build web --release --base-href /
+        run: flutter build web --release --base-href / --pwa-strategy=none
 
       - name: 배포 산출물 조립
         run: |

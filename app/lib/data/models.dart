@@ -255,6 +255,9 @@ class Evidence {
 class Academy {
   final String id;
   final String name;
+  /// 화면에 찍는 이름. 파이프라인이 학군 내 중복을 없앤 뒤 내려준다.
+  /// 지점이 여럿이면 도로명이 붙는다: '씨앤씨 (목동서로 389)'
+  final String displayNameRaw;
   final String? brand;
   final List<String> aliases;
   final String regionId;
@@ -279,6 +282,7 @@ class Academy {
   const Academy({
     required this.id,
     required this.name,
+    required this.displayNameRaw,
     this.brand,
     required this.aliases,
     required this.regionId,
@@ -303,6 +307,7 @@ class Academy {
   factory Academy.fromJson(Map<String, dynamic> j) => Academy(
         id: j['id'] as String,
         name: j['name'] as String,
+        displayNameRaw: (j['displayName'] ?? j['name']) as String,
         brand: j['brand'] as String?,
         aliases: ((j['aliases'] as List?) ?? const []).cast<String>(),
         regionId: (j['regionId'] ?? '') as String,
@@ -326,7 +331,13 @@ class Academy {
             .toList(),
       );
 
-  String get displayName => brand ?? name;
+  /// 큐레이션 브랜드명(brand)을 표시에 쓰지 않는다. 브랜드는 지점을
+  /// 구분하지 못해서, 서로 다른 CMS 지점 두 곳이 같은 이름으로 나왔다.
+  String get displayName => displayNameRaw;
+
+  /// 브랜드가 실제 학원명과 다를 때만 의미가 있다 (예: 씨엠에스학원 → CMS영재교육)
+  String? get brandLabel =>
+      (brand != null && brand != name && !name.contains(brand!)) ? brand : null;
   bool isFlagshipOf(String stageId) => flagship.contains(stageId);
 }
 
@@ -376,6 +387,7 @@ class Meta {
 class RegistryEntry {
   final String id;
   final String name;
+  final String displayName;
   final String regionId;
   final String? dong;
   final List<String> subjects;
@@ -389,6 +401,7 @@ class RegistryEntry {
   const RegistryEntry({
     required this.id,
     required this.name,
+    required this.displayName,
     required this.regionId,
     this.dong,
     required this.subjects,
@@ -403,6 +416,7 @@ class RegistryEntry {
   factory RegistryEntry.fromJson(Map<String, dynamic> j) => RegistryEntry(
         id: j['id'] as String,
         name: j['name'] as String,
+        displayName: (j['displayName'] ?? j['name']) as String,
         regionId: (j['regionId'] ?? '') as String,
         dong: j['dong'] as String?,
         subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),

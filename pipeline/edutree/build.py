@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import random
+import re
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 
@@ -408,6 +409,63 @@ def _assign_ranks(academies: list[dict], scores: dict) -> None:
             scores[key]["region_ranked_count"] = len(rows)
 
 
+_ROAD = re.compile(r"([가-힣A-Za-z0-9]+(?:대?로|길))\s*([\d-]+)")
+
+
+def _road_short(address: str | None) -> str | None:
+    """'서울특별시 양천구 목동서로 389' → '목동서로 389'"""
+    m = _ROAD.search(address or "")
+    return f"{m.group(1)} {m.group(2)}" if m else None
+
+
+def assign_display_names(rows: list[dict]) -> dict[str, int]:
+    """화면에 찍을 이름을 정하고 중복을 없앤다.
+
+    카드가 오래 'brand ?? name' 을 찍고 있었다. 큐레이션 브랜드는 지점을
+    구분하지 않으므로, 목동서로 133 과 목동서로 349 의 서로 다른 CMS 지점이
+    똑같이 'CMS영재교육' 으로 나왔다. 학부모 눈에는 같은 학원이 두 번 뜬 것이다.
+
+    그래서 표시명의 뿌리는 항상 NEIS 실제 학원명으로 둔다. 그래도 같은 이름이
+    한 학군에 여럿이면(씨앤씨 5곳) 도로명을 붙여 갈라 준다. 지점이 다르다는
+    사실 자체가 학부모에게 필요한 정보다.
+    """
+    from collections import Counter, defaultdict
+
+    base = {r["id"]: (r.get("name") or "").strip() for r in rows}
+    counts = Counter((r.get("region_id"), base[r["id"]]) for r in rows)
+
+    stats = defaultdict(int)
+    for r in rows:
+        name = base[r["id"]]
+        if counts[(r.get("region_id"), name)] > 1:
+            road = _road_short(r.get("road_address"))
+            r["display_name"] = f"{name} ({road})" if road else f"{name} ({r['id']})"
+            stats["disambiguated"] += 1
+        else:
+            r["display_name"] = name
+
+    # 도로명까지 같으면(같은 건물) 마지막 수단으로 등록번호를 붙인다
+    final = Counter((r.get("region_id"), r["display_name"]) for r in rows)
+    for r in rows:
+        if final[(r.get("region_id"), r["display_name"])] > 1:
+            r["display_name"] = f"{r['display_name']} #{r['id']}"
+            stats["id_suffixed"] += 1
+    return dict(stats)
+
+
+def audit_uniqueness(rows: list[dict]) -> list[str]:
+    """전수 점검. 남아 있는 중복을 전부 문자열로 돌려준다."""
+    from collections import Counter
+
+    problems = []
+    for label, key in (("id", lambda r: r["id"]),
+                       ("표시명(학군내)", lambda r: (r.get("region_id"), r["display_name"]))):
+        dup = {k: v for k, v in Counter(key(r) for r in rows).items() if v > 1}
+        for k, v in sorted(dup.items(), key=lambda t: -t[1]):
+            problems.append(f"{label} 중복: {k} × {v}")
+    return problems
+
+
 def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
@@ -428,10 +486,25 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "credibility": m["credibility"],
             })
 
+    # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
+    # 따로 정하면 두 목록에 같은 이름이 남는다.
+    stats = assign_display_names(evaluated + registry_only)
+    if stats:
+        print(f"  표시명 중복 해소: 도로명 부기 {stats.get('disambiguated', 0)}곳"
+              + (f", 등록번호 부기 {stats['id_suffixed']}곳" if stats.get("id_suffixed") else ""))
+    problems = audit_uniqueness(evaluated + registry_only)
+    if problems:
+        print("  ! 남아 있는 중복:")
+        for p in problems[:10]:
+            print(f"      {p}")
+    else:
+        print(f"  전수 점검: {len(evaluated) + len(registry_only):,}곳 모두 고유 ✓")
+
     def base(a: dict) -> dict:
         return {
             "id": a["id"],
             "name": a["name"],
+            "displayName": a.get("display_name") or a["name"],
             "regionId": a.get("region_id"),
             "dong": a.get("dong"),
             "subjects": a.get("subjects", []),

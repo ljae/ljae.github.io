@@ -100,7 +100,10 @@ class EduTreeData {
       if (match) hits.add(SearchHit.scored(a));
     }
     for (final r in registry) {
-      if (r.name.toLowerCase().contains(q)) hits.add(SearchHit.listed(r));
+      if (r.name.toLowerCase().contains(q) ||
+          r.displayName.toLowerCase().contains(q)) {
+        hits.add(SearchHit.listed(r));
+      }
     }
     return hits.take(40).toList();
   }
@@ -162,7 +165,7 @@ class SearchHit {
 
   factory SearchHit.listed(RegistryEntry r) => SearchHit(
         id: r.id,
-        name: r.name,
+        name: r.displayName,
         regionId: r.regionId,
         subjects: r.subjects,
         evaluated: false,
