@@ -192,6 +192,64 @@ SEED_QUESTIONS = [
 ]
 
 
+def seoul_trend_report() -> list[dict]:
+    """서울 학교 지표 추이 리포트.
+
+    EDSS 자료는 학교가 익명화돼 있어 학교별 순위는 못 만들지만,
+    서울 전체 추이는 그대로 쓸모가 있다. 학급당 학생수가 10년 새 어떻게
+    변했는지는 학군을 고민할 때 실제로 필요한 맥락이다.
+    """
+    from . import edss
+    rows = edss.load()
+    if not rows:
+        return []
+
+    labels = {"elementary": "초등학교", "middle": "중학교", "high": "고등학교"}
+    body = ["서울 학교 지표가 10년 동안 어떻게 변했는지 정리했습니다. "
+            "교육부 학교알리미·에듀데이터 공시자료 기준입니다.", ""]
+
+    for lvl, label in labels.items():
+        picks = [r for r in rows if r["level"] == lvl
+                 and r["year"] in ("2015", "2020", "2025")]
+        if not picks:
+            continue
+        body.append(f"■ {label}")
+        for r in sorted(picks, key=lambda x: x["year"]):
+            parts = [f"{r['year']}년"]
+            if r.get("perClass"):
+                parts.append(f"학급당 {r['perClass']}명")
+            if r.get("perTeacher"):
+                parts.append(f"교원 1인당 {r['perTeacher']}명")
+            if r.get("netTransfer") is not None:
+                parts.append(f"순유입 {r['netTransfer']:+,}명")
+            body.append("  " + " · ".join(parts))
+        body.append("")
+
+    body += [
+        "■ 읽는 법",
+        "학급당 학생수가 줄어드는 것은 교육여건이 나아진 면도 있지만, "
+        "학령인구 감소가 더 큰 이유입니다. 서울 초등 학급당 학생수는 "
+        "2015년 24.0명에서 2025년 20.1명이 됐습니다.",
+        "",
+        "순유입은 전입에서 전출을 뺀 값입니다. 서울 초등은 2015년 -2,294명에서 "
+        "2025년 -188명으로 순유출이 거의 멎었습니다.",
+        "",
+        "―――",
+        "학교별 수치는 아직 공개하지 못합니다. 이 공시자료는 학교가 익명화돼 "
+        "있어(식별자만 있고 학교명이 없습니다) 어느 학교인지 알 수 없기 때문입니다. "
+        "추정으로 학교 이름을 붙이지 않겠습니다.",
+    ]
+
+    return [{
+        "category": "report",
+        "title": "[서울] 학교 지표 10년 추이 — 학급당 학생수와 전출입",
+        "body": "\n".join(body),
+        "is_official": True,
+        "official_kind": "trend_report",
+        "academy_keys": [],
+    }]
+
+
 def seed_questions() -> list[dict]:
     return [{
         "category": "question",
@@ -257,6 +315,7 @@ def run() -> dict:
 
     candidates = (weekly_reports(academies, regions)
                   + stage_guides(tracks, academies)
+                  + seoul_trend_report()
                   + seed_questions())
 
     seen = existing_titles()

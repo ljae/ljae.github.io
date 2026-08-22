@@ -82,6 +82,14 @@ python3 pipeline/run.py --from-cache     # 전수 점검 결과가 출력된다
   요청 형식과 확인된 apiType 은 `pipeline/edutree/schoolinfo.py` 상단 참고.
   (sidoCode 는 교육청코드 B10 이 아니라 행정표준코드 11 이다. 여기서 한참 헤맸다.)
 
+- **EDSS 대량자료는 학교가 익명화돼 있다.** 학교총개황·전출입및학업중단 등
+  일괄 다운로드 파일에는 학교명이 없고 식별자가 `개방ID`(10자리)뿐이다.
+  학교알리미 `SCHUL_CODE`(S로 시작)나 NEIS `SD_SCHUL_CODE` 와 맞지 않고
+  시군구 컬럼도 없다. EDSS 파일끼리는 같은 ID 체계라 조인되지만(서울 1,036개교
+  일치) 어느 학교인지는 알 수 없다.
+  → 학교별 순위는 이 자료로 불가. 서울 전체 추이까지가 한계.
+    학교명이 붙은 자료는 EDSS 맞춤형 신청·심사를 거쳐야 한다.
+
 - **data.go.kr 키는 서비스별로 활용신청해야 한다.** 키 하나로 모든 API 가
   열리지 않는다. 신청하지 않은 API 는 `SERVICE_KEY_IS_NOT_REGISTERED_ERROR`.
 
