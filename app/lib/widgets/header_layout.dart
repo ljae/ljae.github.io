@@ -17,7 +17,9 @@ class HeaderLayout {
   static const _filters = 158.0;   // 드롭다운 두 개 + 사이 간격
   static const _wheels = 186.0;    // 휠 두 개 + 사이 간격
   static const _byOperator = 96.0;
-  static const _nav = 430.0;       // 메뉴 6개
+  // 메뉴 6개. TextButton 최소 폭(64)이 홈·랭킹·산식에 걸려
+  // 글자 폭으로 계산한 값보다 넓다.
+  static const _nav = 450.0;
   static const _gap = 16.0;
 
   final double logo;

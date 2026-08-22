@@ -89,26 +89,35 @@ class _TopBar extends StatelessWidget {
           ],
           const SizedBox(width: AppSpace.md),
           _HeaderFilters(mode: layout.filterMode),
-          const Spacer(),
-          // 자리가 모자라면 잘리는 대신 가로로 밀린다.
-          // 예전에는 Row 가 그대로 넘쳐서 '산식'과 검색이 사라졌다.
-          if (layout.showNav)
-            Flexible(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                reverse: true,
-                child: Row(children: [
-                  for (final (path, label, _) in _navItems)
-                    _NavLink(
-                        path: path,
-                        label: label,
-                        active: path == '/'
-                            ? location == '/'
-                            : location.startsWith(path)),
-                  const SizedBox(width: AppSpace.xs),
-                ]),
-              ),
-            ),
+          // 남는 자리는 전부 메뉴 몫이다.
+          //
+          // 여기서 한 번 틀렸다. Spacer 와 Flexible 을 나란히 뒀더니 둘 다
+          // flex 자식이라 남은 폭을 반씩 나눠 가졌다. 메뉴는 필요한 만큼의
+          // 절반만 받고, reverse 로 오른쪽에 붙어 있던 탓에 '홈'과 '테크트리'가
+          // 왼쪽으로 밀려 사라졌다. 자리가 없어서가 아니라 안 준 것이었다.
+          //
+          // 지금은 Expanded 하나가 남는 폭을 다 받고, 그 안에서 오른쪽 정렬한다.
+          // 그래도 넘치면 잘리는 대신 왼쪽부터 보이며 가로로 밀린다.
+          Expanded(
+            child: layout.showNav
+                ? Align(
+                    alignment: Alignment.centerRight,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(children: [
+                        for (final (path, label, _) in _navItems)
+                          _NavLink(
+                              path: path,
+                              label: label,
+                              active: path == '/'
+                                  ? location == '/'
+                                  : location.startsWith(path)),
+                        const SizedBox(width: AppSpace.xs),
+                      ]),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
           IconButton(
             tooltip: '학원 검색',
             onPressed: () =>
