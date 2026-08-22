@@ -126,23 +126,44 @@ class _MethodNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final formula = '트리스코어 = '
+        '${meta.weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}';
+    // 좁은 화면에서는 한 줄에 산식과 버튼을 같이 두면 산식이 '20%·진 / 입난이도'
+    // 처럼 낱말 가운데서 끊긴다. 폭이 모자라면 아래로 내린다.
+    final narrow = MediaQuery.sizeOf(context).width < 640;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
-        child: Row(children: [
-          const Icon(Icons.calculate_outlined, size: 18, color: AppColors.slate),
-          const SizedBox(width: AppSpace.sm),
-          Expanded(
-            child: Text(
-              '트리스코어 = ${meta.weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}',
-              style: text.bodySmall,
-            ),
-          ),
-          TextButton(
-            onPressed: () => context.go('/method'),
-            child: const Text('산식 전체 보기'),
-          ),
-        ]),
+        child: narrow
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    const Icon(Icons.calculate_outlined,
+                        size: 18, color: AppColors.slate),
+                    const SizedBox(width: AppSpace.sm),
+                    Expanded(child: Text(formula, style: text.bodySmall)),
+                  ]),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.go('/method'),
+                      child: const Text('산식 전체 보기'),
+                    ),
+                  ),
+                ],
+              )
+            : Row(children: [
+                const Icon(Icons.calculate_outlined,
+                    size: 18, color: AppColors.slate),
+                const SizedBox(width: AppSpace.sm),
+                Expanded(child: Text(formula, style: text.bodySmall)),
+                TextButton(
+                  onPressed: () => context.go('/method'),
+                  child: const Text('산식 전체 보기'),
+                ),
+              ]),
       ),
     );
   }

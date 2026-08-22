@@ -87,10 +87,8 @@ class _TopBar extends StatelessWidget {
             const SizedBox(width: 9),
             const _ByOperator(),
           ],
-          if (layout.showFilters) ...[
-            const SizedBox(width: AppSpace.md),
-            _HeaderFilters(wheels: layout.useWheels),
-          ],
+          const SizedBox(width: AppSpace.md),
+          _HeaderFilters(mode: layout.filterMode),
           const Spacer(),
           // 자리가 모자라면 잘리는 대신 가로로 밀린다.
           // 예전에는 Row 가 그대로 넘쳐서 '산식'과 검색이 사라졌다.
@@ -184,10 +182,16 @@ class _ByOperator extends StatelessWidget {
   }
 }
 
+const _levelOptions = <(String, String)>[
+  ('elementary', '초등'),
+  ('middle', '중등'),
+  ('high', '고등'),
+];
+
 /// 학군·학교급 필터. 페이지마다 흩어 두지 않고 헤더에 한 번만 둔다.
 class _HeaderFilters extends ConsumerWidget {
-  final bool wheels;
-  const _HeaderFilters({required this.wheels});
+  final FilterMode mode;
+  const _HeaderFilters({required this.mode});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -203,6 +207,10 @@ class _HeaderFilters extends ConsumerWidget {
       for (final r in regionList) (r.id, r.nameKo),
     ];
 
+    if (mode == FilterMode.sheet) {
+      return _FilterButton(regions: regions, selection: sel);
+    }
+
     return Row(mainAxisSize: MainAxisSize.min, children: [
       WheelSelector<String>(
         label: '학군',
@@ -210,22 +218,142 @@ class _HeaderFilters extends ConsumerWidget {
         selected: sel.regionId,
         onChanged: notifier.setRegion,
         width: 92,
-        compact: !wheels,
+        compact: mode == FilterMode.dropdowns,
       ),
       const SizedBox(width: AppSpace.sm),
       WheelSelector<String>(
         label: '학교급',
-        options: const [
-          ('elementary', '초등'),
-          ('middle', '중등'),
-          ('high', '고등'),
-        ],
+        options: _levelOptions,
         selected: sel.schoolLevel,
         onChanged: notifier.setSchoolLevel,
         width: 78,
-        compact: !wheels,
+        compact: mode == FilterMode.dropdowns,
       ),
     ]);
+  }
+}
+
+/// 좁은 화면용. 두 선택을 한 덩어리로 접고, 누르면 시트로 펼친다.
+///
+/// 드롭다운 두 개를 억지로 밀어 넣는 것보다 낫다. 헤더에서는 지금 값이
+/// 뭔지만 보이면 되고, 고르는 일은 손가락이 닿는 넓은 곳에서 하는 편이 낫다.
+class _FilterButton extends StatelessWidget {
+  final List<(String, String)> regions;
+  final Selection selection;
+  const _FilterButton({required this.regions, required this.selection});
+
+  String _label() {
+    final region = regions
+        .firstWhere((r) => r.$1 == selection.regionId,
+            orElse: () => ('all', '전체'))
+        .$2;
+    final level = _levelOptions
+        .firstWhere((l) => l.$1 == selection.schoolLevel,
+            orElse: () => _levelOptions.first)
+        .$2;
+    return '$region · $level';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Semantics(
+      button: true,
+      label: '학군과 학교급 고르기. 지금 ${_label()}',
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        onTap: () => _open(context),
+        child: Container(
+          height: 38,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: dark ? AppColors.darkCanvas : AppColors.canvas,
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+            border:
+                Border.all(color: dark ? AppColors.darkLine : AppColors.line),
+          ),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(_label(),
+                style: TextStyle(
+                  fontFamily: 'Paperlogy',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: dark ? Colors.white : AppColors.navy,
+                )),
+            const SizedBox(width: 3),
+            Icon(Icons.expand_more,
+                size: 17, color: dark ? Colors.white70 : AppColors.slate),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  void _open(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (_) => const _FilterSheet(),
+    );
+  }
+}
+
+class _FilterSheet extends ConsumerWidget {
+  const _FilterSheet();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final regionList =
+        ref.watch(dataProvider.select((d) => d.value?.regions)) ??
+            const <Region>[];
+    final sel = ref.watch(selectionProvider);
+    final notifier = ref.read(selectionProvider.notifier);
+    final text = Theme.of(context).textTheme;
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+            AppSpace.md, 0, AppSpace.md, AppSpace.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('학군', style: text.titleMedium),
+            const SizedBox(height: AppSpace.sm),
+            Wrap(
+              spacing: AppSpace.sm,
+              runSpacing: AppSpace.sm,
+              children: [
+                for (final (id, name) in <(String, String)>[
+                  ('all', '전체'),
+                  for (final r in regionList) (r.id, r.nameKo),
+                ])
+                  ChoiceChip(
+                    label: Text(name),
+                    selected: sel.regionId == id,
+                    onSelected: (_) => notifier.setRegion(id),
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppSpace.lg),
+            Text('학교급', style: text.titleMedium),
+            const SizedBox(height: AppSpace.sm),
+            Wrap(
+              spacing: AppSpace.sm,
+              runSpacing: AppSpace.sm,
+              children: [
+                for (final (id, name) in _levelOptions)
+                  ChoiceChip(
+                    label: Text(name),
+                    selected: sel.schoolLevel == id,
+                    onSelected: (_) => notifier.setSchoolLevel(id),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
