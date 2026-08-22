@@ -17,7 +17,6 @@ class RankingPage extends ConsumerStatefulWidget {
 
 class _RankingPageState extends ConsumerState<RankingPage> {
   String? _subject;
-  String? _level;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +27,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('데이터를 불러오지 못했습니다\n$e')),
       data: (data) {
-        final ranked = data.ranking(
-            regionId: sel.regionId, subject: _subject, schoolLevel: _level);
+        final ranked = data.ranking(regionId: sel.regionId, subject: _subject);
         final unranked = data.unranked(sel.regionId);
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
@@ -44,37 +42,15 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
                       subtitle:
                           '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 순위에서 제외됩니다'),
-                  ChipRow<String>(
+                  ChipRow<String?>(
                     options: [
-                      for (final r in data.regions) (r.id, r.nameKo),
+                      (null, '전 과목'),
+                      for (final e in subjectNames.entries)
+                        if (e.key != 'etc') (e.key, e.value),
                     ],
-                    selected: sel.regionId,
-                    onChanged: ref.read(selectionProvider.notifier).setRegion,
+                    selected: _subject,
+                    onChanged: (v) => setState(() => _subject = v),
                   ),
-                  const SizedBox(height: AppSpace.sm),
-                  Row(children: [
-                    Expanded(
-                      child: ChipRow<String?>(
-                        options: [
-                          (null, '전 과목'),
-                          for (final e in subjectNames.entries)
-                            if (e.key != 'etc') (e.key, e.value),
-                        ],
-                        selected: _subject,
-                        onChanged: (v) => setState(() => _subject = v),
-                      ),
-                    ),
-                    const SizedBox(width: AppSpace.md),
-                    ChipRow<String?>(
-                      options: [
-                        (null, '전체'),
-                        for (final e in schoolLevelNames.entries)
-                          (e.key, e.value),
-                      ],
-                      selected: _level,
-                      onChanged: (v) => setState(() => _level = v),
-                    ),
-                  ]),
                   const SizedBox(height: AppSpace.lg),
                   _MethodNote(meta: data.meta),
                   const SizedBox(height: AppSpace.md),

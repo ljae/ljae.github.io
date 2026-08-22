@@ -54,12 +54,6 @@ class _MapPageState extends ConsumerState<MapPage> {
                   SectionHeader('${region?.nameKo ?? ''} 학군지도',
                       subtitle: '학군은 학원이 아니라 학교로 정해집니다. '
                           '초·중·고 위치를 보고, 필요하면 학원을 겹쳐 보세요.'),
-                  ChipRow<String>(
-                    options: [for (final r in data.regions) (r.id, r.nameKo)],
-                    selected: sel.regionId,
-                    onChanged: ref.read(selectionProvider.notifier).setRegion,
-                  ),
-                  const SizedBox(height: AppSpace.sm),
                   Row(children: [
                     Expanded(
                       child: ChipRow<String?>(
@@ -83,6 +77,8 @@ class _MapPageState extends ConsumerState<MapPage> {
                   const SizedBox(height: AppSpace.md),
                   _MapSurface(
                     region: region,
+                    allRegions: sel.isAllRegions,
+                    regions: data.regions,
                     schools: schools,
                     academies: academies,
                     data: data,
@@ -104,11 +100,15 @@ class _MapPageState extends ConsumerState<MapPage> {
 
 class _MapSurface extends StatelessWidget {
   final Region? region;
+  final bool allRegions;
+  final List<Region> regions;
   final List<School> schools;
   final List<Academy> academies;
   final EduTreeData data;
   const _MapSurface({
     required this.region,
+    this.allRegions = false,
+    this.regions = const [],
     required this.schools,
     required this.academies,
     required this.data,
@@ -151,9 +151,16 @@ class _MapSurface extends StatelessWidget {
         aspectRatio: 16 / 10,
         child: usable
             ? NaverMapView(
-                lat: region?.lat ?? 37.5,
-                lng: region?.lng ?? 127.0,
-                zoom: 15,
+                // '전체'일 때는 4개 학군 중심의 평균으로 잡고 한 단계 넓게 본다.
+                lat: allRegions && regions.isNotEmpty
+                    ? regions.map((r) => r.lat).reduce((a, b) => a + b) /
+                        regions.length
+                    : region?.lat ?? 37.5,
+                lng: allRegions && regions.isNotEmpty
+                    ? regions.map((r) => r.lng).reduce((a, b) => a + b) /
+                        regions.length
+                    : region?.lng ?? 127.0,
+                zoom: allRegions ? 12 : 15,
                 markersJson: _markers(),
               )
             : _Schematic(data: data, schools: schools),

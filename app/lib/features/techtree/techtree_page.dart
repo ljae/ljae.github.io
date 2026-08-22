@@ -51,39 +51,18 @@ class _Filters extends ConsumerWidget {
           : AppColors.surface,
       child: ContentWidth(
         max: 1400,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ChipRow<String>(
+        child: Row(children: [
+          Expanded(
+            child: ChipRow<String>(
               options: [
-                for (final r in data.regions) (r.id, r.nameKo),
+                for (final e in subjectNames.entries)
+                  if (e.key != 'etc') (e.key, e.value),
               ],
-              selected: sel.regionId,
-              onChanged: notifier.setRegion,
+              selected: sel.subject,
+              onChanged: notifier.setSubject,
             ),
-            const SizedBox(height: AppSpace.sm),
-            Row(children: [
-              Expanded(
-                child: ChipRow<String>(
-                  options: [
-                    for (final e in subjectNames.entries)
-                      if (e.key != 'etc') (e.key, e.value),
-                  ],
-                  selected: sel.subject,
-                  onChanged: notifier.setSubject,
-                ),
-              ),
-              const SizedBox(width: AppSpace.md),
-              ChipRow<String>(
-                options: [
-                  for (final e in schoolLevelNames.entries) (e.key, e.value),
-                ],
-                selected: sel.schoolLevel,
-                onChanged: notifier.setSchoolLevel,
-              ),
-            ]),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }

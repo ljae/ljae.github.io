@@ -38,11 +38,14 @@ class EduTreeData {
   };
   late final Map<String, Track> trackById = {for (final t in tracks) t.id: t};
 
+  /// 'all' 은 학군 전체를 뜻한다. 헤더 휠에서 '전체'를 고른 상태.
+  static bool matchRegion(String? rowRegion, String? selected) =>
+      selected == null || selected == 'all' || rowRegion == selected;
+
   /// 단계 → 그 단계를 담당하는 학원들 (지역 필터 적용 가능)
   List<Academy> academiesForStage(String stageId, {String? regionId}) {
     final rows = academies.where((a) =>
-        a.stages.contains(stageId) &&
-        (regionId == null || a.regionId == regionId));
+        a.stages.contains(stageId) && matchRegion(a.regionId, regionId));
     final list = rows.toList()
       ..sort((a, b) {
         final fa = a.isFlagshipOf(stageId) ? 1 : 0;
@@ -69,7 +72,7 @@ class EduTreeData {
     bool includeUnranked = false,
   }) {
     final rows = academies.where((a) {
-      if (a.regionId != regionId) return false;
+      if (!matchRegion(a.regionId, regionId)) return false;
       if (!includeUnranked && !a.score.isRanked) return false;
       if (subject != null && !a.subjects.contains(subject)) return false;
       if (schoolLevel != null && !a.schoolLevels.contains(schoolLevel)) {
@@ -83,8 +86,9 @@ class EduTreeData {
 
   /// 표본 부족으로 순위에서 빠진 학원들 — 별도 섹션에 보여준다.
   List<Academy> unranked(String regionId) {
-    final rows =
-        academies.where((a) => a.regionId == regionId && !a.score.isRanked).toList();
+    final rows = academies
+        .where((a) => matchRegion(a.regionId, regionId) && !a.score.isRanked)
+        .toList();
     rows.sort((a, b) => a.name.compareTo(b.name));
     return rows;
   }
@@ -114,7 +118,8 @@ class EduTreeData {
   /// 지도의 밀도는 '우리가 점수를 매긴 수'가 아니라 '실제로 있는 수'여야 한다.
   List<School> schoolsIn(String regionId, {String? level}) => schools
       .where((s) =>
-          s.regionId == regionId && (level == null || s.level == level))
+          matchRegion(s.regionId, regionId) &&
+          (level == null || s.level == level))
       .toList()
     ..sort((a, b) => a.name.compareTo(b.name));
 
@@ -225,6 +230,7 @@ final dataProvider = FutureProvider<EduTreeData>(
 
 /// 전역 선택 상태 — 지역 / 과목 / 학교급
 class Selection {
+  /// 'all' | 'daechi' | 'mokdong' | 'banpo' | 'jamsil'
   final String regionId;
   final String subject;
   final String schoolLevel;
@@ -243,6 +249,7 @@ class Selection {
       );
 
   String get trackId => '${subject}_$schoolLevel';
+  bool get isAllRegions => regionId == 'all';
 }
 
 class SelectionNotifier extends Notifier<Selection> {

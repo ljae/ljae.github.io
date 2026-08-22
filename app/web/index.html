@@ -36,9 +36,14 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="학원실록">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
 
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- 파비콘: 브라우저·검색봇이 요구하는 형식이 제각각이라 다 깔아 둔다.
+       /favicon.ico 는 명시 태그가 없어도 루트에서 자동으로 요청된다. -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="shortcut icon" href="favicon.ico">
   <link rel="manifest" href="manifest.json">
 
   <script type="application/ld+json">

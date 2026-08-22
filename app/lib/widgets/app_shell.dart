@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 import '../core/brand.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repository.dart';
 import 'common.dart';
+import 'wheel_selector.dart';
 
 const _navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
@@ -71,6 +74,10 @@ class _TopBar extends StatelessWidget {
                       letterSpacing: -0.6)),
             ]),
           ),
+          const SizedBox(width: 9),
+          const _ByOperator(),
+          const SizedBox(width: AppSpace.lg),
+          const _HeaderFilters(),
           const Spacer(),
           if (wide)
             for (final (path, label, _) in _navItems)
@@ -101,6 +108,84 @@ double logoSizeFor(BuildContext context) =>
     MediaQuery.sizeOf(context).width >= 720 ? 100.0 : 72.0;
 
 double topBarHeightFor(BuildContext context) => logoSizeFor(context) + 24;
+
+/// 운영사 표기. 제목 옆에 작게 붙이고 회사 소개로 연결한다.
+/// 브랜드를 가리지 않을 만큼만 — 크기와 색을 확실히 낮췄다.
+class _ByOperator extends StatelessWidget {
+  const _ByOperator();
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: '${Brand.operator} 회사 소개',
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        onTap: () => launchUrl(Uri.base.resolve('openedu/'),
+            webOnlyWindowName: '_blank'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Text('by ',
+                style: TextStyle(
+                    fontFamily: 'Paperlogy',
+                    fontSize: 12,
+                    color: AppColors.mist)),
+            Text(Brand.operator,
+                style: const TextStyle(
+                    fontFamily: 'Paperlogy',
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.gold)),
+            const SizedBox(width: 2),
+            const Icon(Icons.north_east, size: 9.5, color: AppColors.gold),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+/// 학군·학교급 필터. 페이지마다 흩어 두지 않고 헤더에 한 번만 둔다.
+class _HeaderFilters extends ConsumerWidget {
+  const _HeaderFilters();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(dataProvider).value;
+    final sel = ref.watch(selectionProvider);
+    final notifier = ref.read(selectionProvider.notifier);
+    final narrow = MediaQuery.sizeOf(context).width < 1180;
+
+    final regions = <(String, String)>[
+      ('all', '전체'),
+      for (final r in data?.regions ?? const <Region>[]) (r.id, r.nameKo),
+    ];
+
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      WheelSelector<String>(
+        label: '학군',
+        options: regions,
+        selected: sel.regionId,
+        onChanged: notifier.setRegion,
+        width: 92,
+        compact: narrow,
+      ),
+      const SizedBox(width: AppSpace.sm),
+      WheelSelector<String>(
+        label: '학교급',
+        options: const [
+          ('elementary', '초등'),
+          ('middle', '중등'),
+          ('high', '고등'),
+        ],
+        selected: sel.schoolLevel,
+        onChanged: notifier.setSchoolLevel,
+        width: 78,
+        compact: narrow,
+      ),
+    ]);
+  }
+}
 
 class _Logo extends StatelessWidget {
   const _Logo();
