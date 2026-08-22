@@ -274,6 +274,8 @@ class Academy {
   final String? establishedOn;
   final bool isVerified;
   final String dataSource;
+  final double? lat;
+  final double? lng;
   /// NEIS 등록 건수. 1보다 크면 여러 관/과정 등록을 하나로 묶은 것이다.
   final int registrationCount;
   final Score score;
@@ -299,6 +301,8 @@ class Academy {
     this.establishedOn,
     required this.isVerified,
     required this.dataSource,
+    this.lat,
+    this.lng,
     this.registrationCount = 1,
     required this.score,
     required this.evidence,
@@ -324,6 +328,8 @@ class Academy {
         establishedOn: j['establishedOn'] as String?,
         isVerified: (j['isVerified'] ?? false) as bool,
         dataSource: (j['dataSource'] ?? 'seed') as String,
+        lat: (j['lat'] as num?)?.toDouble(),
+        lng: (j['lng'] as num?)?.toDouble(),
         registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
         score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
         evidence: ((j['evidence'] as List?) ?? const [])
@@ -427,6 +433,63 @@ class RegistryEntry {
         isVerified: (j['isVerified'] ?? false) as bool,
       );
 }
+
+/// 학교. 학군지도의 주인공이다 — 어느 학교에 배정되느냐가 곧 학군이다.
+class School {
+  final String id;
+  final String name;
+  final String level;            // elementary | middle | high
+  final String levelLabel;       // 초등학교 | 중학교 | 고등학교
+  final String regionId;
+  final String? dong;
+  final String? foundation;      // 공립 | 사립
+  final String? coed;            // 남여공학 | 남 | 여
+  final String? highKind;        // 일반고 | 특목고 …
+  final String? address;
+  final String? homepage;
+  final double? lat;
+  final double? lng;
+
+  const School({
+    required this.id,
+    required this.name,
+    required this.level,
+    required this.levelLabel,
+    required this.regionId,
+    this.dong,
+    this.foundation,
+    this.coed,
+    this.highKind,
+    this.address,
+    this.homepage,
+    this.lat,
+    this.lng,
+  });
+
+  factory School.fromJson(Map<String, dynamic> j) => School(
+        id: '${j['id']}',
+        name: j['name'] as String,
+        level: (j['level'] ?? 'elementary') as String,
+        levelLabel: (j['levelLabel'] ?? '') as String,
+        regionId: (j['regionId'] ?? '') as String,
+        dong: j['dong'] as String?,
+        foundation: j['foundation'] as String?,
+        coed: j['coed'] as String?,
+        highKind: j['highKind'] as String?,
+        address: j['address'] as String?,
+        homepage: j['homepage'] as String?,
+        lat: (j['lat'] as num?)?.toDouble(),
+        lng: (j['lng'] as num?)?.toDouble(),
+      );
+
+  bool get hasLocation => lat != null && lng != null;
+}
+
+const schoolLevelColors = <String, int>{
+  'elementary': 0xFF2F7DD1,
+  'middle': 0xFF1E7A5A,
+  'high': 0xFFB4531E,
+};
 
 /// 과목 · 학교급 표시 이름
 const subjectNames = <String, String>{

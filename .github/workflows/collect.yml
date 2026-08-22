@@ -41,6 +41,8 @@ jobs:
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_MAP_CLIENT_ID: ${{ secrets.NAVER_MAP_CLIENT_ID }}
+          NAVER_MAP_CLIENT_SECRET: ${{ secrets.NAVER_MAP_CLIENT_SECRET }}
         run: python pipeline/run.py
 
       - name: Supabase 업로드 (키가 있을 때만)

@@ -499,8 +499,12 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
 
     # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
     # 따로 정하면 두 목록에 같은 이름이 남는다.
+    school_rows: list[dict] = []
     if mode == "live":
-        from . import geocode
+        from . import geocode, schools as school_mod
+        school_rows = school_mod.fetch_all()
+        if school_rows:
+            geocode.enrich(school_rows)
         got = geocode.enrich(evaluated + registry_only)
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
@@ -574,6 +578,14 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
 
     files = {
         "regions.json": regions,
+        "schools.json": [{
+            "id": s["id"], "name": s["name"], "level": s["level"],
+            "levelLabel": s["level_label"], "regionId": s["region_id"],
+            "dong": s["dong"], "foundation": s["foundation"], "coed": s["coed"],
+            "highKind": s["high_kind"], "address": s["road_address"],
+            "tel": s["tel"], "homepage": s["homepage"],
+            "lat": s.get("lat"), "lng": s.get("lng"),
+        } for s in school_rows],
         "techtree.json": tree,
         "academies.json": payload_academies,
         "registry.json": payload_registry,

@@ -15,6 +15,7 @@ class EduTreeData {
   final List<Track> tracks;
   final List<Academy> academies;
   final List<RegistryEntry> registry;
+  final List<School> schools;
 
   EduTreeData({
     required this.meta,
@@ -22,6 +23,7 @@ class EduTreeData {
     required this.tracks,
     required this.academies,
     this.registry = const [],
+    this.schools = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -110,6 +112,12 @@ class EduTreeData {
 
   /// 학군별 등록 학원 수 — 채점 대상뿐 아니라 등록부 전체를 센다.
   /// 지도의 밀도는 '우리가 점수를 매긴 수'가 아니라 '실제로 있는 수'여야 한다.
+  List<School> schoolsIn(String regionId, {String? level}) => schools
+      .where((s) =>
+          s.regionId == regionId && (level == null || s.level == level))
+      .toList()
+    ..sort((a, b) => a.name.compareTo(b.name));
+
   int academyCountIn(String regionId) =>
       academies.where((a) => a.regionId == regionId).length +
       registry.where((r) => r.regionId == regionId).length;
@@ -182,6 +190,7 @@ class EduTreeRepository {
       _json('assets/data/techtree.json'),
       _json('assets/data/academies.json'),
       _json('assets/data/registry.json'),
+      _json('assets/data/schools.json'),
     ]);
 
     return EduTreeData(
@@ -197,6 +206,9 @@ class EduTreeRepository {
           .toList(),
       registry: (results[4] as List)
           .map((e) => RegistryEntry.fromJson((e as Map).cast<String, dynamic>()))
+          .toList(),
+      schools: (results[5] as List)
+          .map((e) => School.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
     );
   }
