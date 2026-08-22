@@ -231,7 +231,6 @@ class _HeaderFilters extends ConsumerWidget {
         selected: sel.regionId,
         onChanged: notifier.setRegion,
         width: 92,
-        compact: mode == FilterMode.dropdowns,
       ),
       const SizedBox(width: AppSpace.sm),
       WheelSelector<String>(
@@ -239,8 +238,7 @@ class _HeaderFilters extends ConsumerWidget {
         options: _bandOptions,
         selected: sel.gradeBand,
         onChanged: notifier.setGradeBand,
-        width: 104,
-        compact: mode == FilterMode.dropdowns,
+        width: 112,
       ),
     ]);
   }

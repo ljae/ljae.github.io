@@ -13,9 +13,10 @@ import 'package:flutter/widgets.dart';
 class HeaderLayout {
   /// 요소별 최소 점유 폭. 실측해서 넣었다.
   static const _search = 44.0;
-  static const _sheet = 108.0;     // '대치·초등' 한 덩어리
-  static const _filters = 158.0;   // 드롭다운 두 개 + 사이 간격
-  static const _wheels = 186.0;    // 휠 두 개 + 사이 간격
+  // '대치 · 예비초~초3' 한 덩어리.
+  static const _sheet = 180.0;
+  // 휠 두 개 + 사이 간격. 학년 휠은 '예비초~초3' 이 들어가야 해서 넓다.
+  static const _wheels = 204.0;
   static const _byOperator = 96.0;
   // 메뉴 6개. TextButton 최소 폭(64)이 홈·랭킹·산식에 걸려
   // 글자 폭으로 계산한 값보다 넓다.
@@ -61,15 +62,8 @@ class HeaderLayout {
     // 사라지고 운영사 표기만 남았다. 남길 것과 버릴 것이 뒤바뀐 셈이다.
     final filterMode = used + _gap + _wheels <= available
         ? FilterMode.wheels
-        : used + _gap + _filters <= available
-            ? FilterMode.dropdowns
-            : FilterMode.sheet;
-    used += _gap +
-        switch (filterMode) {
-          FilterMode.wheels => _wheels,
-          FilterMode.dropdowns => _filters,
-          FilterMode.sheet => _sheet,
-        };
+        : FilterMode.sheet;
+    used += _gap + (filterMode == FilterMode.wheels ? _wheels : _sheet);
 
     // 내비는 좁은 화면에서 하단 바가 대신한다.
     final showNav = used + _gap + _nav <= available;
@@ -105,14 +99,15 @@ class HeaderLayout {
       Object.hash(logo, titleSize, showNav, showByOperator, filterMode);
 }
 
-/// 헤더 필터의 표시 형태. 좁아질수록 접힌다.
+/// 헤더 필터의 표시 형태.
+///
+/// 가운데에 '드롭다운 두 개' 단계를 뒀었는데, 학년 이름이 '예비초~초3' 으로
+/// 길어지면서 드롭다운이 휠보다 넓어졌다. 좁아질 때 더 넓은 것으로
+/// 물러나는 셈이라 없앴다.
 enum FilterMode {
   /// 휠 두 개. 자리가 넉넉할 때만 — 좁은 곳에서 굴리면 잘못 건드리기 쉽다.
   wheels,
 
-  /// 드롭다운 두 개.
-  dropdowns,
-
-  /// '대치 · 초등' 한 덩어리. 누르면 시트가 올라온다.
+  /// '대치 · 예비초~초3' 한 덩어리. 누르면 시트가 올라온다.
   sheet,
 }
