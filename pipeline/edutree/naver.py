@@ -10,9 +10,11 @@ from __future__ import annotations
 
 import hashlib
 import html
+import threading
 import json
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Iterable
 
@@ -57,6 +59,10 @@ TIMEOUT = 15
 SLEEP = 0.12          # 초당 ~8회. 공식 한도보다 넉넉히 낮게 유지한다.
 
 _resolved_mode: str | None = None
+# 애플리케이션에서 활성화되지 않은 소스. 한 번 확인하면 이후 호출을 건너뛴다.
+# (지식iN 처럼 콘솔에서 따로 켜야 하는 API가 있다. 400곳 × 5질의를 전부
+#  실패시키면 한도만 태우고 로그도 못 읽게 된다.)
+_disabled_sources: set[str] = set()
 
 _TAG = re.compile(r"<[^>]+>")
 
@@ -157,6 +163,9 @@ def _author_hash(item: dict) -> str | None:
 
 def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     """한 소스에서 질의어 하나를 페이지네이션하며 수집한다."""
+    if source in _disabled_sources:
+        return []
+
     mode = resolve_mode()
     endpoint = SOURCES[source]
     out: list[dict] = []
@@ -174,7 +183,14 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
             time.sleep(2.0)
             continue
         if resp.status_code != 200:
-            raise NaverError(f"{source} {resp.status_code}: {resp.text[:200]}")
+            body = resp.text[:200]
+            if resp.status_code in (401, 403) and "활성화" in body:
+                _disabled_sources.add(source)
+                print(f"    ! {source} 는 이 애플리케이션에서 활성화되어 있지 않습니다 "
+                      f"— 이번 실행에서 제외합니다.")
+                print(f"      콘솔에서 해당 API를 추가하면 다음 수집부터 반영됩니다.")
+                return out
+            raise NaverError(f"{source} {resp.status_code}: {body}")
 
         items = resp.json().get("items", [])
         if not items:
@@ -236,17 +252,50 @@ def collect_for_academy(academy: dict, region_name: str,
     return mentions
 
 
-def collect_all(academies: Iterable[dict], region_names: dict[str, str]) -> list[dict]:
+def collect_all(academies: Iterable[dict], region_names: dict[str, str],
+                workers: int = 3) -> list[dict]:
+    """학원별 수집을 병렬로 돌린다.
+
+    순차로 돌리면 학원 하나에 10~15회 요청 × 수백 곳이라 몇 시간이 걸린다.
+    동시성은 3으로 묶어 둔다 — 초당 20회 안쪽이라 한도에 여유가 있고,
+    그 이상 올리면 429를 유발해 오히려 느려진다.
+    """
+    academies = list(academies)
     all_mentions: list[dict] = []
-    for academy in academies:
+    lock = threading.Lock()
+    done = 0
+
+    def work(academy: dict) -> list[dict]:
         region_name = region_names.get(academy.get("region_id"), "")
         found = collect_for_academy(academy, region_name)
         for row in found:
-            row["academy_key"] = academy["name_normalized"]
+            row["academy_key"] = academy["id"]
             row["academy_name"] = academy["name"]
             row["region_id"] = academy.get("region_id")
-        print(f"  네이버 {academy['name']:<16} {len(found):>4}건")
-        all_mentions.extend(found)
+        return found
+
+    # 첫 학원은 혼자 돌린다. 여기서 모드 판별과 비활성 소스 감지가 끝나므로
+    # 나머지 스레드가 같은 실패를 반복하지 않는다.
+    if academies:
+        first = work(academies[0])
+        all_mentions.extend(first)
+        done = 1
+        print(f"  [{done}/{len(academies)}] {academies[0]['name']}: {len(first)}건")
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(work, a): a for a in academies[1:]}
+        for future in as_completed(futures):
+            academy = futures[future]
+            try:
+                found = future.result()
+            except Exception as exc:                      # noqa: BLE001
+                print(f"    ! {academy['name']} 수집 실패: {exc}")
+                found = []
+            with lock:
+                all_mentions.extend(found)
+                done += 1
+                if done % 20 == 0 or done == len(academies):
+                    print(f"  [{done}/{len(academies)}] 누적 {len(all_mentions)}건")
 
     cache = config.CACHE_DIR / "naver_mentions.json"
     cache.write_text(json.dumps(all_mentions, ensure_ascii=False, indent=2), encoding="utf-8")
