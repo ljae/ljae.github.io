@@ -17,6 +17,7 @@ class EduTreeData {
   final List<RegistryEntry> registry;
   final List<School> schools;
   final List<Apartment> apartments;
+  final List<dynamic> zoneFeatures;
 
   EduTreeData({
     required this.meta,
@@ -26,6 +27,7 @@ class EduTreeData {
     this.registry = const [],
     this.schools = const [],
     this.apartments = const [],
+    this.zoneFeatures = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -208,6 +210,7 @@ class EduTreeRepository {
       _json('assets/data/registry.json'),
       _json('assets/data/schools.json'),
       _json('assets/data/apartments.json'),
+      _json('assets/data/zones.geojson'),
     ]);
 
     return EduTreeData(
@@ -230,6 +233,8 @@ class EduTreeRepository {
       apartments: (results[6] as List)
           .map((e) => Apartment.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
+      zoneFeatures:
+          ((results[7] as Map)['features'] as List?) ?? const [],
     );
   }
 

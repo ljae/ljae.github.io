@@ -512,6 +512,8 @@ class Apartment {
   final int? buildings;
   final double? lat;
   final double? lng;
+  /// 이 단지가 속한 학교군들. 중·고는 추첨 배정이라 '배정'이 아니라 '소속'이다.
+  final List<ApartmentZone> zones;
 
   const Apartment({
     required this.id,
@@ -523,6 +525,7 @@ class Apartment {
     this.buildings,
     this.lat,
     this.lng,
+    this.zones = const [],
   });
 
   factory Apartment.fromJson(Map<String, dynamic> j) => Apartment(
@@ -535,9 +538,34 @@ class Apartment {
         buildings: (j['buildings'] as num?)?.toInt(),
         lat: (j['lat'] as num?)?.toDouble(),
         lng: (j['lng'] as num?)?.toDouble(),
+        zones: ((j['zones'] as List?) ?? const [])
+            .map((z) => ApartmentZone.fromJson((z as Map).cast<String, dynamic>()))
+            .toList(),
       );
 
   bool get hasLocation => lat != null && lng != null;
+}
+
+class ApartmentZone {
+  final String? zoneId;
+  final String? zoneName;
+  final String? level;
+  final List<String> schools;
+
+  const ApartmentZone({this.zoneId, this.zoneName, this.level, this.schools = const []});
+
+  factory ApartmentZone.fromJson(Map<String, dynamic> j) => ApartmentZone(
+        zoneId: j['zoneId'] as String?,
+        zoneName: j['zoneName'] as String?,
+        level: j['level'] as String?,
+        schools: ((j['schools'] as List?) ?? const []).cast<String>(),
+      );
+
+  String get levelLabel => switch (level) {
+        'middle' => '중학교',
+        'high' => '고등학교',
+        _ => '초등학교',
+      };
 }
 
 const schoolLevelColors = <String, int>{

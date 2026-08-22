@@ -213,8 +213,39 @@
           disableAnchor: true, pixelOffset: new naver.maps.Point(0, -8)
         });
 
-        var items = [];
-        try { items = JSON.parse(payload || '[]'); } catch (e) { return true; }
+        (map.__polys || []).forEach(function (p) { p.setMap(null); });
+        map.__polys = [];
+
+        var parsed = {};
+        try { parsed = JSON.parse(payload || '{}'); } catch (e) { return true; }
+        var items = parsed.markers || parsed || [];
+        var zones = parsed.zones || [];
+
+        // 학구 경계. 마커보다 아래에 깔린다.
+        zones.forEach(function (z) {
+          (z.rings || []).forEach(function (ring) {
+            var path = ring.map(function (c) {
+              return new naver.maps.LatLng(c[1], c[0]);
+            });
+            var poly = new naver.maps.Polygon({
+              map: map, paths: [path],
+              fillColor: z.color || '#182448', fillOpacity: 0.10,
+              strokeColor: z.color || '#182448', strokeOpacity: 0.75,
+              strokeWeight: 2, strokeStyle: 'shortdash', zIndex: 0
+            });
+            naver.maps.Event.addListener(poly, 'click', function (e) {
+              info.setContent(
+                '<div style="font-family:Paperlogy,-apple-system,sans-serif;' +
+                'background:#fff;border-radius:12px;padding:12px 14px;min-width:190px;' +
+                'box-shadow:0 8px 26px rgba(0,0,0,.20);border:1px solid #E2E7EA">' +
+                '<div style="font-size:14px;font-weight:800;color:#0B1020">' + z.name + '</div>' +
+                '<div style="font-size:11.5px;color:#5A6874;margin-top:3px">' + (z.subtitle || '') + '</div>' +
+                '</div>');
+              info.setPosition(e.coord); info.open(map);
+            });
+            map.__polys.push(poly);
+          });
+        });
 
         items.forEach(function (it) {
           var marker = new naver.maps.Marker({

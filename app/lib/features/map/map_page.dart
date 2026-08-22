@@ -95,6 +95,7 @@ class _MapPageState extends ConsumerState<MapPage> {
                     academies: academies,
                     apartments: apartments,
                     data: data,
+                    level: _level,
                   ),
                   const SizedBox(height: AppSpace.lg),
                   _SchoolList(schools: schools, region: region),
@@ -119,6 +120,7 @@ class _MapSurface extends StatelessWidget {
   final List<Academy> academies;
   final List<Apartment> apartments;
   final EduTreeData data;
+  final String? level;
   const _MapSurface({
     required this.region,
     this.allRegions = false,
@@ -127,6 +129,7 @@ class _MapSurface extends StatelessWidget {
     required this.academies,
     this.apartments = const [],
     required this.data,
+    this.level,
   });
 
   String _markers() {
@@ -167,7 +170,20 @@ class _MapSurface extends StatelessWidget {
         'z': 1,
       });
     }
-    return jsonEncode(items);
+    final zonePolys = <Map<String, dynamic>>[];
+    for (final f in data.zoneFeatures) {
+      final props = (f['properties'] as Map).cast<String, dynamic>();
+      if (level != null && props['level'] != level) continue;
+      final geom = (f['geometry'] as Map).cast<String, dynamic>();
+      zonePolys.add({
+        'name': props['zoneName'],
+        'subtitle': '${props['level'] == 'high' ? '고등학교' : '중학교'} 학교군 · '
+            '${props['eduOffice'] ?? ''}',
+        'color': props['level'] == 'high' ? '#B4531E' : '#1E7A5A',
+        'rings': geom['coordinates'],
+      });
+    }
+    return jsonEncode({'markers': items, 'zones': zonePolys});
   }
 
   @override

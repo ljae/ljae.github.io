@@ -559,6 +559,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
         if apt_cache.exists():
             apt_rows = json.loads(apt_cache.read_text(encoding="utf-8"))
             print(f"  아파트 캐시 {len(apt_rows):,}단지")
+            from . import zones as zone_mod
+            zone_mod.assign(apt_rows, school_rows)
         got = geocode.enrich(evaluated + registry_only)
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
@@ -654,6 +656,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "buildings": int(a["buildings"]) if str(a.get("buildings") or "").isdigit() else None,
             "usedDate": a.get("used_date"),
             "lat": a.get("lat"), "lng": a.get("lng"),
+            "zones": a.get("zones") or [],
         } for a in apt_rows if a.get("kaptCode")],
         "techtree.json": tree,
         "academies.json": payload_academies,
