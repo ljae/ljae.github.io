@@ -8,34 +8,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
 
-  <title>에듀트리 — 대치·목동·반포·잠실 학원 테크트리</title>
-  <meta name="description" content="학원 목록이 아니라 학원 사이의 길. 공공데이터로 검증하고 커뮤니티 신호로 읽는 대치·목동·반포·잠실 학군의 진학 경로와 학원 랭킹. 산식을 전부 공개합니다.">
+  <title>학원실록 — 대치·목동·반포·잠실 학원 테크트리</title>
+  <meta name="description" content="조선왕조실록이 사실을 남겼듯, 학원 정보를 검증된 기록으로. 공공데이터로 검증하고 커뮤니티 신호로 읽는 대치·목동·반포·잠실 학군의 진학 경로와 학원 랭킹. 산식을 전부 공개합니다.">
   <meta name="keywords" content="대치동학원, 목동학원, 반포학원, 잠실학원, 학원테크트리, 학원랭킹, 학원후기, 사고력수학, 어학원레벨, 학군, 선행, 레벨테스트">
   <meta name="author" content="Open Edu">
   <link rel="canonical" href="https://openedu4u.com/">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#12513F">
+  <meta name="theme-color" content="#182448">
 
   <!-- Open Graph / 카카오톡 · 페이스북 공유 -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="에듀트리">
+  <meta property="og:site_name" content="학원실록">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:url" content="https://openedu4u.com/">
-  <meta property="og:title" content="에듀트리 — 대치·목동·반포·잠실 학원 테크트리">
+  <meta property="og:title" content="학원실록 — 대치·목동·반포·잠실 학원 테크트리">
   <meta property="og:description" content="우리 아이는 지금 어디에 있고, 다음엔 어디로 가야 하나요? 4개 학군의 진학 경로를 한 장의 지도로.">
   <meta property="og:image" content="https://openedu4u.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="에듀트리 — 대치·목동·반포·잠실 학원 테크트리">
+  <meta name="twitter:title" content="학원실록 — 대치·목동·반포·잠실 학원 테크트리">
   <meta name="twitter:description" content="공공데이터로 검증하고 커뮤니티 신호로 읽는 학군별 진학 경로와 학원 랭킹.">
   <meta name="twitter:image" content="https://openedu4u.com/og-image.png">
 
   <!-- iOS -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="에듀트리">
+  <meta name="apple-mobile-web-app-title" content="학원실록">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <link rel="icon" type="image/png" href="favicon.png"/>
@@ -45,8 +45,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "에듀트리",
-    "alternateName": "EduTree",
+    "name": "학원실록",
+    "alternateName": "Hakwon Silok",
     "url": "https://openedu4u.com/",
     "description": "대치·목동·반포·잠실 학군의 학원 테크트리와 랭킹",
     "inLanguage": "ko-KR",
@@ -59,25 +59,25 @@
   </script>
 
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; background: #F5F7F6; }
-    @media (prefers-color-scheme: dark) { html, body { background: #0C1116; } }
+    html, body { margin: 0; padding: 0; height: 100%; background: #F7F4EE; }
+    @media (prefers-color-scheme: dark) { html, body { background: #0B1020; } }
 
     /* CanvasKit 로딩 동안 흰 화면 대신 브랜드 화면을 보여준다.
        Flutter 첫 프레임이 그려지면 스스로 사라진다. */
     #boot {
       position: fixed; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 18px;
-      background: linear-gradient(140deg, #0E3B2E, #12513F 55%, #0C1116);
+      background: linear-gradient(140deg, #1B2C55, #182448 55%, #0B1020);
       color: #fff; z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
       transition: opacity .45s ease; 
     }
     #boot.done { opacity: 0; pointer-events: none; }
     #boot .mark {
-      width: 46px; height: 46px; border-radius: 13px;
-      background: linear-gradient(135deg, #1E9E76, #12513F);
+      width: 60px; height: 60px; border-radius: 15px; overflow: hidden;
+      background: transparent;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 30px rgba(30,158,118,.35);
+      box-shadow: 0 10px 34px rgba(0,0,0,.45);
     }
     #boot .mark svg { width: 24px; height: 24px; fill: #fff; }
     #boot .name { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
@@ -88,7 +88,7 @@
     }
     #boot .bar i {
       display: block; width: 40%; height: 100%; border-radius: 2px;
-      background: #E8B33C; animation: slide 1.15s ease-in-out infinite;
+      background: #B08D57; animation: slide 1.15s ease-in-out infinite;
     }
     @keyframes slide {
       0%   { transform: translateX(-100%); }
@@ -98,10 +98,8 @@
 </head>
 <body>
   <div id="boot">
-    <div class="mark">
-      <svg viewBox="0 0 24 24"><path d="M3 3h6v4H3V3zm0 14h6v4H3v-4zm12-7h6v4h-6v-4zM9 5h3a3 3 0 013 3v.5M9 19h3a3 3 0 003-3v-.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
-    <div class="name">에듀트리</div>
+    <div class="mark"><img src="icons/Icon-192.png" alt="학원실록" width="60" height="60"></div>
+    <div class="name">학원실록</div>
     <div class="tag">대치 · 목동 · 반포 · 잠실 학원 테크트리</div>
     <div class="bar"><i></i></div>
   </div>

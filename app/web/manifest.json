@@ -1,11 +1,11 @@
 {
-  "name": "에듀트리 — 학원 테크트리",
-  "short_name": "에듀트리",
+  "name": "학원실록 — 학원 테크트리",
+  "short_name": "학원실록",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#12513F",
-  "theme_color": "#12513F",
-  "description": "대치·목동·반포·잠실 학군의 학원 테크트리와 랭킹. 공공데이터로 검증하고 커뮤니티 신호로 읽습니다.",
+  "background_color": "#182448",
+  "theme_color": "#182448",
+  "description": "조선왕조실록이 사실을 남겼듯, 대치·목동·반포·잠실 학원 정보를 검증된 기록으로.",
   "orientation": "any",
   "prefer_related_applications": false,
   "icons": [

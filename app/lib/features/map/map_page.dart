@@ -183,15 +183,15 @@ class _RegionBubble extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: active
-                  ? [AppColors.evergreenBright, AppColors.evergreen]
+                  ? [AppColors.navyBright, AppColors.navy]
                   : [
-                      AppColors.evergreen.withValues(alpha: 0.30),
-                      AppColors.evergreen.withValues(alpha: 0.50),
+                      AppColors.navy.withValues(alpha: 0.30),
+                      AppColors.navy.withValues(alpha: 0.50),
                     ],
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.evergreen.withValues(alpha: active ? 0.35 : 0.12),
+                color: AppColors.navy.withValues(alpha: active ? 0.35 : 0.12),
                 blurRadius: active ? 26 : 12,
               ),
             ],
@@ -245,7 +245,7 @@ class _RegionBreakdown extends StatelessWidget {
             const Spacer(),
             Text('$count곳', style: text.labelLarge),
             const SizedBox(width: 6),
-            Chip2('채점 $evaluated', color: AppColors.evergreen),
+            Chip2('채점 $evaluated', color: AppColors.navy),
           ]),
           const SizedBox(height: AppSpace.sm),
           ClipRRect(

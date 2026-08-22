@@ -6,24 +6,27 @@ import 'package:flutter/material.dart';
 /// 은유를 색으로 유지하면서, 교육 앱이 흔히 쓰는 채도 높은 파랑을 피해
 /// '신뢰할 만한 데이터 제품'으로 읽히게 하는 것이 목표.
 class AppColors {
-  // 브랜드
-  static const evergreen = Color(0xFF12513F);
-  static const evergreenBright = Color(0xFF1E9E76);
-  static const gold = Color(0xFFE8B33C);
+  // 브랜드 — 학원실록 로고에서 뽑았다.
+  // 남색은 실록의 표지, 금색은 테두리와 제목 글자.
+  static const navy = Color(0xFF182448);
+  static const navyBright = Color(0xFF2E4A7D);
+  static const gold = Color(0xFFB08D57);
+  static const goldLight = Color(0xFFD9BE92);
+  static const cream = Color(0xFFF5EFE3);
 
   // 잉크 / 표면
-  static const ink = Color(0xFF0C1116);
-  static const inkSoft = Color(0xFF1B242E);
+  static const ink = Color(0xFF0B1020);
+  static const inkSoft = Color(0xFF1B2540);
   static const slate = Color(0xFF5A6874);
   static const mist = Color(0xFF8D9AA6);
   static const line = Color(0xFFE2E7EA);
   static const surface = Color(0xFFFFFFFF);
-  static const canvas = Color(0xFFF5F7F6);
+  static const canvas = Color(0xFFF7F4EE);
 
   // 다크
-  static const darkCanvas = Color(0xFF0C1116);
-  static const darkSurface = Color(0xFF151D25);
-  static const darkLine = Color(0xFF26323C);
+  static const darkCanvas = Color(0xFF0B1020);
+  static const darkSurface = Color(0xFF141C33);
+  static const darkLine = Color(0xFF27314D);
 
   // 기둥별 색 (랭킹·상세 전반에서 일관되게 쓴다)
   static const reputation = Color(0xFF2F7DD1);
@@ -34,7 +37,7 @@ class AppColors {
   // 상태
   static const rising = Color(0xFFDC2626);   // 국내 관행: 상승=빨강
   static const falling = Color(0xFF2563EB);
-  static const verified = Color(0xFF1E9E76);
+  static const verified = Color(0xFF1E7A5A);
   static const estimated = Color(0xFFB45309);
 
   static const pillars = <String, Color>{
@@ -74,12 +77,12 @@ class AppRadius {
 ThemeData buildTheme({required bool dark}) {
   final scheme = dark
       ? const ColorScheme.dark(
-          primary: AppColors.evergreenBright,
+          primary: AppColors.navyBright,
           secondary: AppColors.gold,
           surface: AppColors.darkSurface,
         )
       : const ColorScheme.light(
-          primary: AppColors.evergreen,
+          primary: AppColors.navy,
           secondary: AppColors.gold,
           surface: AppColors.surface,
         );

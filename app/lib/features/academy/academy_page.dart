@@ -78,7 +78,7 @@ class _Body extends StatelessWidget {
                         const SizedBox(height: AppSpace.sm),
                         Wrap(spacing: 6, runSpacing: 6, children: [
                           if (region != null)
-                            Chip2(region.nameKo, color: AppColors.evergreen),
+                            Chip2(region.nameKo, color: AppColors.navy),
                           for (final s in academy.subjects)
                             Chip2(subjectNames[s] ?? s,
                                 color: AppColors.subjects[s] ?? AppColors.slate),
@@ -243,7 +243,7 @@ class _StageLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = AppColors.subjects[track.subject] ?? AppColors.evergreen;
+    final color = AppColors.subjects[track.subject] ?? AppColors.navy;
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.sm),
       onTap: () => context.go('/tree'),

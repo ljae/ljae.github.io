@@ -170,7 +170,7 @@ class _Legend extends StatelessWidget {
         );
 
     return Wrap(children: [
-      item(AppColors.evergreenBright, '일반 경로', false),
+      item(AppColors.navyBright, '일반 경로', false),
       item(AppColors.mist, '우회 경로', true),
       item(AppColors.gold, '속진', false),
     ]);
@@ -188,7 +188,7 @@ class _StageSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final track = data.trackById[stage.trackId]!;
-    final accent = AppColors.subjects[track.subject] ?? AppColors.evergreen;
+    final accent = AppColors.subjects[track.subject] ?? AppColors.navy;
     final academies = data.academiesForStage(stage.id, regionId: regionId);
     final incoming =
         track.edges.where((e) => e.to == stage.id && e.condition.isNotEmpty);

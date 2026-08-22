@@ -95,19 +95,15 @@ class _TopBar extends StatelessWidget {
 class _Logo extends StatelessWidget {
   const _Logo();
   @override
-  Widget build(BuildContext context) => Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.evergreenBright, AppColors.evergreen],
-          ),
-          borderRadius: BorderRadius.circular(9),
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.asset(
+          'assets/brand/mark.png',
+          width: 30,
+          height: 30,
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.medium,
         ),
-        child: const Icon(Icons.account_tree_rounded,
-            size: 17, color: Colors.white),
       );
 }
 
@@ -124,7 +120,7 @@ class _NavLink extends StatelessWidget {
       onPressed: () => context.go(path),
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        foregroundColor: active ? AppColors.evergreen : AppColors.slate,
+        foregroundColor: active ? AppColors.navy : AppColors.slate,
       ),
       child: Text(label,
           style: TextStyle(

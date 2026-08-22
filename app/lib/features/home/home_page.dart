@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/brand.dart';
 import '../../core/theme.dart';
@@ -49,7 +50,7 @@ class _Hero extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF0E3B2E), Color(0xFF12513F), Color(0xFF0C1116)],
+          colors: [Color(0xFF1B2C55), Color(0xFF182448), Color(0xFF0B1020)],
         ),
       ),
       child: ContentWidth(
@@ -84,13 +85,28 @@ class _Hero extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpace.lg),
+            Row(children: [
+              Container(
+                width: 3,
+                height: 34,
+                color: AppColors.gold.withValues(alpha: 0.7),
+                margin: const EdgeInsets.only(right: AppSpace.sm),
+              ),
+              Expanded(
+                child: Text(Brand.nameOrigin,
+                    style: text.bodySmall?.copyWith(
+                        color: AppColors.goldLight, height: 1.5)),
+              ),
+            ]),
+            const SizedBox(height: AppSpace.lg),
             Wrap(spacing: AppSpace.sm, runSpacing: AppSpace.sm, children: [
               FilledButton.icon(
                 onPressed: () => context.go('/tree'),
                 icon: const Icon(Icons.account_tree_outlined, size: 18),
                 label: const Text('테크트리 보기'),
                 style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.evergreenBright),
+                    backgroundColor: AppColors.gold,
+                    foregroundColor: const Color(0xFF1B2540)),
               ),
               OutlinedButton.icon(
                 onPressed: () => context.go('/rank'),
@@ -318,6 +334,12 @@ class _Spotlight extends ConsumerWidget {
 class _Footer extends StatelessWidget {
   const _Footer();
 
+  /// 기존 Open Edu 정적 사이트는 Flutter 라우터 바깥(/openedu/)에 있다.
+  /// Uri.base 로 풀면 로컬·운영 어디서든 같은 코드로 열린다.
+  void _openOperatorSite() {
+    launchUrl(Uri.base.resolve('openedu/'), webOnlyWindowName: '_blank');
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -333,9 +355,30 @@ class _Footer extends StatelessWidget {
           Text(Brand.description,
               style: text.bodyMedium?.copyWith(color: AppColors.mist)),
           const SizedBox(height: AppSpace.lg),
+
+          // 운영사 표기. 눈에는 들어오되 화면을 가져가지 않을 만큼만.
+          InkWell(
+            onTap: _openOperatorSite,
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Text('${Brand.name} 서비스 운영 · ',
+                    style: text.bodySmall?.copyWith(color: AppColors.mist)),
+                Text(Brand.operator,
+                    style: text.bodySmall?.copyWith(
+                      color: AppColors.goldLight,
+                      fontWeight: FontWeight.w700,
+                    )),
+                const SizedBox(width: 5),
+                const Icon(Icons.north_east, size: 11, color: AppColors.goldLight),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 6),
           Text(
-            '운영: ${Brand.operator} · ${Brand.domain}\n'
-            '${Brand.operator}는 영어 교육 사업을 함께 운영합니다. 영어 과목 항목에는 이해상충 가능성이 있어 이를 고지합니다.',
+            '${Brand.operator}는 1:1 원어민 영어 교육 사업을 함께 운영합니다. '
+            '영어 과목 항목에는 이해상충 가능성이 있어 이를 고지합니다.',
             style: text.bodySmall?.copyWith(color: AppColors.mist),
           ),
           const SizedBox(height: AppSpace.md),
@@ -346,7 +389,13 @@ class _Footer extends StatelessWidget {
             TextButton(
                 onPressed: () => context.go('/method'),
                 child: const Text('정정 요청')),
+            TextButton(
+                onPressed: _openOperatorSite,
+                child: const Text('Open Edu 회사 소개')),
           ]),
+          const SizedBox(height: AppSpace.md),
+          Text('© ${Brand.operator} · ${Brand.domain}',
+              style: text.bodySmall?.copyWith(color: AppColors.slate)),
         ]),
       ),
     );

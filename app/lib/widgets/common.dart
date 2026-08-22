@@ -163,7 +163,7 @@ class ScoreDial extends StatelessWidget {
   }
 
   static Color _colorFor(double v) {
-    if (v >= 70) return AppColors.evergreenBright;
+    if (v >= 70) return AppColors.navyBright;
     if (v >= 55) return AppColors.reputation;
     if (v >= 45) return AppColors.momentum;
     return AppColors.slate;
@@ -322,7 +322,7 @@ class _Pill extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Material(
       color: selected
-          ? AppColors.evergreen
+          ? AppColors.navy
           : (dark ? AppColors.darkSurface : AppColors.surface),
       borderRadius: BorderRadius.circular(AppRadius.pill),
       child: InkWell(
@@ -334,7 +334,7 @@ class _Pill extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.pill),
             border: Border.all(
                 color: selected
-                    ? AppColors.evergreen
+                    ? AppColors.navy
                     : (dark ? AppColors.darkLine : AppColors.line)),
           ),
           child: Text(label,

@@ -139,7 +139,7 @@ class _EdgePainter extends CustomPainter {
       final color = switch (edge.type) {
         EdgeType.accelerated => AppColors.gold,
         EdgeType.alternative => AppColors.mist,
-        EdgeType.standard => AppColors.evergreenBright,
+        EdgeType.standard => AppColors.navyBright,
       };
 
       final paint = Paint()
@@ -213,7 +213,7 @@ class _StageNode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final accent = AppColors.subjects[subject] ?? AppColors.evergreen;
+    final accent = AppColors.subjects[subject] ?? AppColors.navy;
     final text = Theme.of(context).textTheme;
     final flagship = academies.where((a) => a.isFlagshipOf(stage.id)).toList();
     final shown = [...flagship, ...academies.where((a) => !flagship.contains(a))]
