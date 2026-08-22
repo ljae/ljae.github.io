@@ -369,6 +369,17 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     mentions = [analyze.analyze(m) for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
+
+    # 학원실록 자체 후기를 같은 채점 로직에 태운다.
+    # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —
+    # 평판은 하나의 축이고 출처에 따라 가중치만 다르면 된다.
+    if config.HAS_SUPABASE:
+        from . import reviews as own_reviews
+        summaries = own_reviews.fetch_summaries()
+        extra = own_reviews.as_mentions(summaries)
+        if extra:
+            mentions.extend(extra)
+            print(f"  학원실록 후기 {len(extra):,}건 반영 ({len(summaries)}곳)")
     print(f"언급 {len(mentions)}건 분석 완료 "
           f"(스팸 배제 {sum(1 for m in mentions if m['is_excluded'])}건)")
 

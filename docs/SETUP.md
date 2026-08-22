@@ -270,15 +270,34 @@ python3 pipeline/run.py
 > 대부분 4번의 도메인 등록 누락입니다. 키가 없거나 인증에 실패하면 앱은
 > 기존 모식도 지도로 자동 전환되므로 화면이 깨지지는 않습니다.
 
-### 8-2. Supabase (게시판·로그인용)
+### 8-2. Supabase (자체 후기·로그인)
 
-6단계에서 프로젝트를 만들었다면 **Settings → API** 에서 `anon` 키를 가져옵니다.
-`service_role` 이 아닙니다 — 그건 RLS 를 우회하므로 앱에 들어가면 안 됩니다.
+6단계에서 프로젝트를 만들었다면 **Settings → API** 에서 `anon`(= publishable) 키를
+가져옵니다. `service_role` 이 아닙니다 — 그건 RLS 를 우회하므로 앱에 들어가면
+안 됩니다.
 
 ```ini
 SUPABASE_URL=https://xxxx.supabase.co
-SUPABASE_ANON_KEY=eyJ...
+SUPABASE_ANON_KEY=eyJ...        # 또는 sb_publishable_...
 ```
+
+SQL Editor 에서 후기용 스키마를 마저 실행합니다:
+
+```
+supabase/03_reviews.sql
+```
+
+**Authentication → Providers** 에서 **Email** 을 켜두세요. 후기 작성은 이메일
+링크 로그인만 씁니다(비밀번호를 만들지 않습니다). 카카오·구글은 나중에
+같은 화면에서 공급자를 추가하면 붙습니다.
+
+**Authentication → URL Configuration → Site URL** 에 `https://openedu4u.com`
+을 넣어야 로그인 링크가 제대로 돌아옵니다.
+
+자체 후기는 평판 점수에 함께 반영됩니다. 스크랩한 커뮤니티 글보다 신뢰도를
+높게(0.9) 주는데, 로그인·구조화된 별점·학원당 1인 1건이라는 조건이 붙어
+있기 때문입니다. 파이프라인은 후기 **본문을 가져가지 않고** 별점 평균과
+건수만 읽습니다(`v_review_summary`).
 
 ### 8-3. 로컬에서 실행
 

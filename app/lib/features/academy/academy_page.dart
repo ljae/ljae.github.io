@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
+import 'review_section.dart';
 
 /// 학원 상세.
 ///
@@ -161,6 +162,10 @@ class _Body extends StatelessWidget {
                 Text('표시할 근거가 없습니다.', style: text.bodyMedium)
               else
                 for (final e in academy.evidence) _EvidenceTile(evidence: e),
+
+              const SizedBox(height: AppSpace.xl),
+              ReviewSection(
+                  academyId: academy.id, academyName: academy.displayName),
 
               const SizedBox(height: AppSpace.xl),
               const _CorrectionNotice(),
