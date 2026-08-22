@@ -225,7 +225,93 @@ python3 pipeline/run.py --with-cafe
 
 ---
 
-## 8단계 — 모바일 앱 빌드
+## 8단계 (선택) — 네이버 지도 · Supabase 앱 연결
+
+여기서부터는 **브라우저에 노출되는 키**를 다룹니다. 앞의 키들과 성격이 다릅니다.
+
+| 키 | 어디에 두나 | 노출 | 무엇으로 보호하나 |
+|---|---|---|---|
+| `NEIS_API_KEY` | `.env` (서버) | ✗ | 노출 금지 |
+| `NAVER_CLIENT_SECRET` | `.env` (서버) | ✗ | 노출 금지 |
+| `SUPABASE_SERVICE_KEY` | `.env` (서버) | ✗ | **RLS 우회** — 절대 앱에 넣지 마세요 |
+| `NAVER_MAP_CLIENT_SECRET` | `.env` (서버) | ✗ | 지오코딩 전용 |
+| `NAVER_MAP_KEY_ID` | 앱 빌드 | **✓ 공개** | 콘솔 도메인 허용목록 |
+| `SUPABASE_ANON_KEY` | 앱 빌드 | **✓ 공개** | RLS 정책 |
+
+아래 두 개는 **공개돼도 되는 키**입니다. 숨길 수 없고, 숨길 필요도 없습니다.
+저장소에 커밋하지 않는 이유는 유출 방지가 아니라 키 교체 시 코드를 안 고치기
+위해서입니다.
+
+### 8-1. 네이버 지도
+
+1. https://console.ncloud.com → **Services → Application Services → Maps**
+2. **Application 등록**
+3. 사용 API에서 **Web Dynamic Map** 과 **Geocoding** 을 함께 선택
+   (지도 표시는 Dynamic Map, 학원 주소 → 좌표 변환은 Geocoding)
+4. **Web 서비스 URL** 에 도메인을 등록 — 여기 없는 도메인에서는 인증 실패합니다
+   ```
+   https://openedu4u.com
+   http://localhost:8080
+   ```
+5. 발급된 **Client ID / Client Secret** 을 `.env` 에
+
+```ini
+NAVER_MAP_CLIENT_ID=발급받은_ID
+NAVER_MAP_CLIENT_SECRET=발급받은_시크릿
+```
+
+좌표를 채웁니다(주소는 거의 안 바뀌므로 한 번만 오래 걸립니다):
+
+```bash
+python3 pipeline/run.py
+```
+
+> **지도가 안 뜬다면** 브라우저 콘솔에 `네이버 지도 인증 실패` 가 찍힙니다.
+> 대부분 4번의 도메인 등록 누락입니다. 키가 없거나 인증에 실패하면 앱은
+> 기존 모식도 지도로 자동 전환되므로 화면이 깨지지는 않습니다.
+
+### 8-2. Supabase (게시판·로그인용)
+
+6단계에서 프로젝트를 만들었다면 **Settings → API** 에서 `anon` 키를 가져옵니다.
+`service_role` 이 아닙니다 — 그건 RLS 를 우회하므로 앱에 들어가면 안 됩니다.
+
+```ini
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_ANON_KEY=eyJ...
+```
+
+### 8-3. 로컬에서 실행
+
+앱 키는 빌드 시점에 주입됩니다.
+
+```bash
+cd app
+flutter run -d chrome \
+  --dart-define=SUPABASE_URL=$SUPABASE_URL \
+  --dart-define=SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY \
+  --dart-define=NAVER_MAP_KEY_ID=$NAVER_MAP_CLIENT_ID
+```
+
+지도 SDK 키는 HTML 에 들어가야 해서 `--dart-define` 으로는 닿지 않습니다.
+로컬에서 지도까지 보려면 `app/web/index.html` 의 `__NAVER_MAP_KEY_ID__` 를
+잠시 실제 값으로 바꾸세요. **바꾼 채로 커밋하지 마세요.**
+
+### 8-4. 배포용 시크릿
+
+저장소 → Settings → Secrets and variables → Actions
+
+| Secret | 용도 |
+|---|---|
+| `NAVER_MAP_KEY_ID` | 지도 SDK (index.html 에 주입) |
+| `SUPABASE_URL` | 앱 |
+| `SUPABASE_ANON_KEY` | 앱 |
+
+배포 워크플로가 index.html 치환과 `--dart-define` 주입을 모두 처리합니다.
+시크릿이 없으면 지도는 모식도로, 게시판 기능은 꺼진 채로 배포됩니다.
+
+---
+
+## 9단계 — 모바일 앱 빌드
 
 ```bash
 cd app

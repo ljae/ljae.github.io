@@ -52,7 +52,22 @@ jobs:
         # 사용자는 한참 뒤에야(혹은 강력 새로고침을 해야) 바뀐 화면을 본다.
         # 순위가 매일 갱신되는 서비스라 오프라인 캐시보다 최신성이 중요하다.
         working-directory: app
-        run: flutter build web --release --base-href / --pwa-strategy=none
+        env:
+          NAVER_MAP_KEY_ID: ${{ secrets.NAVER_MAP_KEY_ID }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          # 지도 SDK 키는 HTML 에 들어가야 해서 dart-define 으로는 닿지 않는다.
+          if [ -n "$NAVER_MAP_KEY_ID" ]; then
+            sed -i "s|__NAVER_MAP_KEY_ID__'|$NAVER_MAP_KEY_ID'|" web/index.html
+            echo "네이버 지도 키 주입됨"
+          else
+            echo "네이버 지도 키 없음 — 모식도 지도로 동작"
+          fi
+          flutter build web --release --base-href / --pwa-strategy=none \
+            --dart-define=NAVER_MAP_KEY_ID="$NAVER_MAP_KEY_ID" \
+            --dart-define=SUPABASE_URL="$SUPABASE_URL" \
+            --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
 
       - name: 배포 산출물 조립
         run: |

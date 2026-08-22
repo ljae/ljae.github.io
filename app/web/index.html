@@ -131,6 +131,28 @@
         .catch(function () {});
     }
   </script>
+  <script>
+    // 네이버 지도 키. 배포 워크플로가 시크릿 값으로 치환한다.
+    // 치환되지 않았으면(로컬·키 미등록) 지도 SDK 를 아예 부르지 않고,
+    // 앱은 좌표 없이도 동작하는 모식도 지도로 떨어진다.
+    window.__NAVER_MAP_KEY_ID__ = '__NAVER_MAP_KEY_ID__';
+    window.__NAVER_MAP_READY__ = false;
+    (function () {
+      var key = window.__NAVER_MAP_KEY_ID__;
+      if (!key || key.indexOf('__') === 0) return;
+      // 인증 실패 시 네이버가 이 함수를 부른다. 조용히 실패하지 않도록 잡아 둔다.
+      window.navermap_authFailure = function () {
+        window.__NAVER_MAP_READY__ = false;
+        console.warn('네이버 지도 인증 실패 — 콘솔의 도메인 허용목록을 확인하세요.');
+      };
+      var s = document.createElement('script');
+      s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' +
+              encodeURIComponent(key);
+      s.async = true;
+      s.onload = function () { window.__NAVER_MAP_READY__ = true; };
+      document.head.appendChild(s);
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

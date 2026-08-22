@@ -488,6 +488,12 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
 
     # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
     # 따로 정하면 두 목록에 같은 이름이 남는다.
+    if mode == "live":
+        from . import geocode
+        got = geocode.enrich(evaluated + registry_only)
+        if got:
+            print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
+
     stats = assign_display_names(evaluated + registry_only)
     if stats:
         print(f"  표시명 중복 해소: 도로명 부기 {stats.get('disambiguated', 0)}곳"
@@ -514,6 +520,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "registrationStatus": a.get("reg_stttus_nm"),
             "isVerified": a.get("is_verified", False),
             "registrationCount": a.get("registration_count", 1),
+            "lat": a.get("lat"),
+            "lng": a.get("lng"),
         }
 
     payload_academies = []
