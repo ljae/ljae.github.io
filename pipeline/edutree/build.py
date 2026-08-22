@@ -544,11 +544,21 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
     # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
     # 따로 정하면 두 목록에 같은 이름이 남는다.
     school_rows: list[dict] = []
+    apt_rows: list[dict] = []
     if mode == "live":
         from . import geocode, schools as school_mod
         school_rows = school_mod.fetch_all()
         if school_rows:
             geocode.enrich(school_rows)
+            from . import schooldistrict
+            schooldistrict.fetch_all()
+            schooldistrict.attach_to_schools(school_rows)
+        # 아파트는 수집이 오래 걸려 캐시를 그대로 읽는다.
+        # (pipeline/edutree/apartments.py 를 따로 돌려 캐시를 만든다)
+        apt_cache = config.CACHE_DIR / "apartments.json"
+        if apt_cache.exists():
+            apt_rows = json.loads(apt_cache.read_text(encoding="utf-8"))
+            print(f"  아파트 캐시 {len(apt_rows):,}단지")
         got = geocode.enrich(evaluated + registry_only)
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
@@ -629,7 +639,21 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "highKind": s["high_kind"], "address": s["road_address"],
             "tel": s["tel"], "homepage": s["homepage"],
             "lat": s.get("lat"), "lng": s.get("lng"),
+            "zoneId": s.get("zone_id"), "eduOffice": s.get("edu_office"),
+            "zonePeers": s.get("zone_peers") or [],
+            "assignment": s.get("assignment"),
         } for s in school_rows],
+        "apartments.json": [{
+            "id": a.get("kaptCode"),
+            "name": a.get("name") or a.get("kaptName"),
+            "regionId": a.get("region_id"),
+            "dong": a.get("dong"),
+            "address": a.get("address"),
+            "households": int(float(a["households"])) if a.get("households") else None,
+            "buildings": int(a["buildings"]) if str(a.get("buildings") or "").isdigit() else None,
+            "usedDate": a.get("used_date"),
+            "lat": a.get("lat"), "lng": a.get("lng"),
+        } for a in apt_rows if a.get("kaptCode")],
         "techtree.json": tree,
         "academies.json": payload_academies,
         "registry.json": payload_registry,

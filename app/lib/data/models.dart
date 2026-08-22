@@ -449,6 +449,11 @@ class School {
   final String? homepage;
   final double? lat;
   final double? lng;
+  final String? zoneId;
+  final String? eduOffice;
+  final List<String> zonePeers;
+  /// '통학구역'(초등 1:1) 또는 '학교군 추첨'(중·고)
+  final String? assignment;
 
   const School({
     required this.id,
@@ -464,6 +469,10 @@ class School {
     this.homepage,
     this.lat,
     this.lng,
+    this.zoneId,
+    this.eduOffice,
+    this.zonePeers = const [],
+    this.assignment,
   });
 
   factory School.fromJson(Map<String, dynamic> j) => School(
@@ -478,6 +487,49 @@ class School {
         highKind: j['highKind'] as String?,
         address: j['address'] as String?,
         homepage: j['homepage'] as String?,
+        lat: (j['lat'] as num?)?.toDouble(),
+        lng: (j['lng'] as num?)?.toDouble(),
+        zoneId: j['zoneId'] as String?,
+        eduOffice: j['eduOffice'] as String?,
+        zonePeers: ((j['zonePeers'] as List?) ?? const []).cast<String>(),
+        assignment: j['assignment'] as String?,
+      );
+
+  bool get hasLocation => lat != null && lng != null;
+}
+
+/// 아파트 단지. 학군지도에서 '이 집은 어느 학교인가'를 잇는 고리.
+class Apartment {
+  final String id;
+  final String name;
+  final String regionId;
+  final String? dong;
+  final String? address;
+  final int? households;
+  final int? buildings;
+  final double? lat;
+  final double? lng;
+
+  const Apartment({
+    required this.id,
+    required this.name,
+    required this.regionId,
+    this.dong,
+    this.address,
+    this.households,
+    this.buildings,
+    this.lat,
+    this.lng,
+  });
+
+  factory Apartment.fromJson(Map<String, dynamic> j) => Apartment(
+        id: '${j['id']}',
+        name: (j['name'] ?? '') as String,
+        regionId: (j['regionId'] ?? '') as String,
+        dong: j['dong'] as String?,
+        address: j['address'] as String?,
+        households: (j['households'] as num?)?.toInt(),
+        buildings: (j['buildings'] as num?)?.toInt(),
         lat: (j['lat'] as num?)?.toDouble(),
         lng: (j['lng'] as num?)?.toDouble(),
       );

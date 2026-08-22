@@ -16,6 +16,7 @@ class EduTreeData {
   final List<Academy> academies;
   final List<RegistryEntry> registry;
   final List<School> schools;
+  final List<Apartment> apartments;
 
   EduTreeData({
     required this.meta,
@@ -24,6 +25,7 @@ class EduTreeData {
     required this.academies,
     this.registry = const [],
     this.schools = const [],
+    this.apartments = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -127,6 +129,11 @@ class EduTreeData {
       .toList()
     ..sort((a, b) => a.name.compareTo(b.name));
 
+  List<Apartment> apartmentsIn(String regionId) => apartments
+      .where((a) => matchRegion(a.regionId, regionId))
+      .toList()
+    ..sort((a, b) => (b.households ?? 0).compareTo(a.households ?? 0));
+
   int academyCountIn(String regionId) =>
       academies.where((a) => a.regionId == regionId).length +
       registry.where((r) => r.regionId == regionId).length;
@@ -200,6 +207,7 @@ class EduTreeRepository {
       _json('assets/data/academies.json'),
       _json('assets/data/registry.json'),
       _json('assets/data/schools.json'),
+      _json('assets/data/apartments.json'),
     ]);
 
     return EduTreeData(
@@ -218,6 +226,9 @@ class EduTreeRepository {
           .toList(),
       schools: (results[5] as List)
           .map((e) => School.fromJson((e as Map).cast<String, dynamic>()))
+          .toList(),
+      apartments: (results[6] as List)
+          .map((e) => Apartment.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
     );
   }

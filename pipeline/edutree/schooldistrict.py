@@ -93,6 +93,43 @@ def fetch_all(max_pages: int = 200) -> list[dict]:
     return out
 
 
+def attach_to_schools(schools: list[dict]) -> int:
+    """학교 목록에 학구 ID 를 붙인다.
+
+    중·고는 여러 학교가 같은 학구 ID 를 공유한다(학교군 추첨 배정).
+    초등만 1:1 통학구역이다. 화면에서 '배정'이라고 단정할 수 있는 것은
+    초등뿐이고, 중·고는 '이 학교군에 속함'으로 써야 한다.
+    """
+    path = config.CACHE_DIR / "school_district.json"
+    if not path.exists():
+        return 0
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    seoul = [r for r in rows if str(r.get("cddcCode")) == "7010000"]
+    by_name = {r.get("schulNm"): r for r in seoul}
+
+    # 학구 ID 하나에 학교가 몇 곳인지 — 추첨 배정 여부의 근거
+    per_zone: dict[str, list[str]] = {}
+    for r in seoul:
+        per_zone.setdefault(r.get("atndsklId"), []).append(r.get("schulNm"))
+
+    hit = 0
+    for s in schools:
+        r = by_name.get(s.get("name"))
+        if not r:
+            continue
+        zone = r.get("atndsklId")
+        peers = [n for n in per_zone.get(zone, []) if n != s.get("name")]
+        s["zone_id"] = zone
+        s["edu_office"] = r.get("edcSportNm")
+        s["zone_peers"] = peers
+        # 초등은 1:1 배정, 중·고는 학교군 추첨
+        s["assignment"] = "통학구역" if s.get("level") == "elementary" and not peers \
+            else ("학교군 추첨" if peers else "통학구역")
+        hit += 1
+    print(f"  학구 ID 매칭 {hit}/{len(schools)}곳")
+    return hit
+
+
 def status() -> str:
     """활용신청 상태를 한 줄로 알려준다."""
     if not HAS_KEY:

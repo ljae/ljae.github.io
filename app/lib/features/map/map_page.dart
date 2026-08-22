@@ -25,6 +25,7 @@ class MapPage extends ConsumerStatefulWidget {
 class _MapPageState extends ConsumerState<MapPage> {
   String? _level;          // null = 초·중·고 전체
   bool _showAcademies = false;
+  bool _showApartments = true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +40,14 @@ class _MapPageState extends ConsumerState<MapPage> {
         final schools = data.schoolsIn(sel.regionId, level: _level);
         final academies = _showAcademies
             ? data.academies
-                .where((a) => a.regionId == sel.regionId && a.lat != null)
+                .where((a) =>
+                    EduTreeData.matchRegion(a.regionId, sel.regionId) &&
+                    a.lat != null)
                 .toList()
             : <Academy>[];
+        final apartments = _showApartments
+            ? data.apartmentsIn(sel.regionId).where((a) => a.hasLocation).toList()
+            : <Apartment>[];
 
         return ListView(
           padding: const EdgeInsets.symmetric(vertical: AppSpace.lg),
@@ -69,7 +75,13 @@ class _MapPageState extends ConsumerState<MapPage> {
                     ),
                     const SizedBox(width: AppSpace.md),
                     FilterChip(
-                      label: const Text('학원 겹쳐 보기'),
+                      label: const Text('아파트'),
+                      selected: _showApartments,
+                      onSelected: (v) => setState(() => _showApartments = v),
+                    ),
+                    const SizedBox(width: AppSpace.sm),
+                    FilterChip(
+                      label: const Text('학원'),
                       selected: _showAcademies,
                       onSelected: (v) => setState(() => _showAcademies = v),
                     ),
@@ -81,6 +93,7 @@ class _MapPageState extends ConsumerState<MapPage> {
                     regions: data.regions,
                     schools: schools,
                     academies: academies,
+                    apartments: apartments,
                     data: data,
                   ),
                   const SizedBox(height: AppSpace.lg),
@@ -104,6 +117,7 @@ class _MapSurface extends StatelessWidget {
   final List<Region> regions;
   final List<School> schools;
   final List<Academy> academies;
+  final List<Apartment> apartments;
   final EduTreeData data;
   const _MapSurface({
     required this.region,
@@ -111,6 +125,7 @@ class _MapSurface extends StatelessWidget {
     this.regions = const [],
     required this.schools,
     required this.academies,
+    this.apartments = const [],
     required this.data,
   });
 
@@ -124,6 +139,19 @@ class _MapSurface extends StatelessWidget {
             .whereType<String>().where((x) => x.isNotEmpty).join(' · '),
         'color': '#${schoolLevelColors[s.level]!.toRadixString(16).substring(2)}',
         'z': 3,
+      });
+    }
+    for (final a in apartments) {
+      items.add({
+        'lat': a.lat, 'lng': a.lng, 'label': a.name,
+        'title': a.name,
+        'subtitle': [
+          a.dong,
+          if (a.households != null) '${a.households}세대',
+          if (a.buildings != null) '${a.buildings}개동',
+        ].whereType<String>().join(' · '),
+        'color': '#8B5CF6',
+        'z': 2,
       });
     }
     for (final a in academies) {
@@ -287,6 +315,13 @@ class _SchoolList extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text([s.foundation, s.coed].whereType<String>().join(' · '),
                       style: text.bodySmall?.copyWith(fontSize: 11)),
+                  if (s.assignment != null) ...[
+                    const SizedBox(width: 6),
+                    Chip2(s.assignment!,
+                        color: s.assignment == '통학구역'
+                            ? AppColors.verified
+                            : AppColors.estimated),
+                  ],
                 ]),
               ),
           ]),
@@ -313,9 +348,12 @@ class _PendingNotice extends StatelessWidget {
           ]),
           const SizedBox(height: 6),
           Text(
-            '통학구역 경계와 배정 아파트는 학구도 공공데이터(폴리곤)를 받아 얹을 예정입니다.\n'
-            '학교 순위는 학교알리미 공시의 졸업생 진로현황(특목고·자사고 진학 실적)을 '
-            '근거로 삼습니다. 별도 API 키가 필요합니다.',
+            '아파트 363단지와 학교 136곳의 위치는 지도에 표시됩니다. '
+            '다만 "이 아파트 → 이 학교" 를 잇는 구역 경계(폴리곤)는 아직입니다 — '
+            '학구도안내서비스의 SHP 파일이 필요합니다.\n\n'
+            '중요: 중·고등학교는 여러 학교가 같은 학구를 공유하는 "학교군 추첨" 방식이라 '
+            '배정 학교를 단정할 수 없습니다. 1:1 배정이 성립하는 것은 초등학교뿐입니다.\n\n'
+            '학교 순위는 학교알리미 OpenAPI 에 졸업생 진로현황이 없어 보류 중입니다.',
             style: text.bodyMedium,
           ),
         ]),

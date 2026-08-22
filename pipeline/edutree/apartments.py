@@ -72,10 +72,24 @@ def _get(url: str, retries: int = 2) -> dict:
 
 
 def _items(body: dict) -> list[dict]:
+    """응답에서 레코드 목록을 꺼낸다.
+
+    같은 기관의 API 인데도 봉투가 다르다.
+      목록(AptListService3)      → response.body.items = [ {...} ]
+      상세(AptBasisInfoServiceV4) → response.body.item  = {...}   (단수!)
+    이 차이 때문에 상세가 363건 전부 조용히 빈 결과로 처리됐다.
+    """
     inner = body.get("response", body).get("body", {})
-    items = inner.get("items") or []
+    items = inner.get("items")
+    if items is None:
+        items = inner.get("item")      # 단수형 봉투
+    if items is None:
+        return []
     if isinstance(items, dict):
-        items = items.get("item") or []
+        inner_item = items.get("item")
+        items = inner_item if inner_item is not None else items
+    if isinstance(items, dict):
+        return [items]
     return items if isinstance(items, list) else [items]
 
 
