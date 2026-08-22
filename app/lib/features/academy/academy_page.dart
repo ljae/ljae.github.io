@@ -120,6 +120,9 @@ class _Body extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpace.md),
                   child: Column(children: [
+                    if (academy.registrationCount > 1)
+                      _Row('등록 건수',
+                          '${academy.registrationCount}건 (관·과정별 등록을 한 학원으로 묶음)'),
                     _Row('등록상태', academy.registrationStatus ?? '—'),
                     _Row('교습비', academy.tuitionRaw ?? '미공개'),
                     _Row('정원', academy.capacity != null ? '${academy.capacity}명' : '—'),

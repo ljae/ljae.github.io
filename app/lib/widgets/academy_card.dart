@@ -72,6 +72,10 @@ class AcademyCard extends StatelessWidget {
                                       AppColors.slate),
                             VerifiedChip(verified: academy.isVerified),
                             ConfidenceChip(score: score),
+                            if (academy.registrationCount > 1)
+                              Chip2('${academy.registrationCount}개 등록 통합',
+                                  color: AppColors.slate,
+                                  icon: Icons.merge_type),
                           ],
                         ),
                       ],

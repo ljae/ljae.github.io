@@ -271,6 +271,8 @@ class Academy {
   final String? establishedOn;
   final bool isVerified;
   final String dataSource;
+  /// NEIS 등록 건수. 1보다 크면 여러 관/과정 등록을 하나로 묶은 것이다.
+  final int registrationCount;
   final Score score;
   final List<Evidence> evidence;
 
@@ -293,6 +295,7 @@ class Academy {
     this.establishedOn,
     required this.isVerified,
     required this.dataSource,
+    this.registrationCount = 1,
     required this.score,
     required this.evidence,
   });
@@ -316,6 +319,7 @@ class Academy {
         establishedOn: j['establishedOn'] as String?,
         isVerified: (j['isVerified'] ?? false) as bool,
         dataSource: (j['dataSource'] ?? 'seed') as String,
+        registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
         score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
         evidence: ((j['evidence'] as List?) ?? const [])
             .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
@@ -380,6 +384,7 @@ class RegistryEntry {
   final int? tuitionMonthly;
   final String? registrationStatus;
   final bool isVerified;
+  final int registrationCount;
 
   const RegistryEntry({
     required this.id,
@@ -392,6 +397,7 @@ class RegistryEntry {
     this.tuitionMonthly,
     this.registrationStatus,
     required this.isVerified,
+    this.registrationCount = 1,
   });
 
   factory RegistryEntry.fromJson(Map<String, dynamic> j) => RegistryEntry(

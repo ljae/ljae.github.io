@@ -26,17 +26,30 @@ def load_academies(from_cache: bool = False) -> tuple[list[dict], str]:
     if from_cache and cache.exists():
         rows = json.loads(cache.read_text(encoding="utf-8"))
         print(f"캐시에서 NEIS {len(rows)}곳 로드")
-        return _merge_seed_into_neis(rows), "live"
+        return _prepare_live(rows), "live"
 
     if config.HAS_NEIS:
         from . import neis
         print("NEIS 수집 중…")
         rows = neis.fetch_all()
-        merged = _merge_seed_into_neis(rows)
-        return merged, "live"
+        return _prepare_live(rows), "live"
 
+    # demo 모드는 통합하지 않는다. 시드 주소가 '강남구 대치동' 수준이라
+    # 주소 기준으로 묶으면 학군 전체가 한 학원이 된다.
     print("NEIS 키 없음 → 시드 학원으로 진행 (demo 모드)")
     return _expand_seed(), "demo"
+
+
+def _prepare_live(rows: list[dict]) -> list[dict]:
+    """NEIS 원본 → 큐레이션 매핑 → 중복 등록 통합."""
+    from . import dedupe
+    rows = _merge_seed_into_neis(rows)
+    merged, saved = dedupe.apply(rows)
+    if saved:
+        multi = sum(1 for m in merged if m.get("registration_count", 1) > 1)
+        print(f"  중복 등록 통합: {len(rows):,}곳 → {len(merged):,}곳 "
+              f"({multi}곳이 2건 이상, {saved:,}건 흡수)")
+    return merged
 
 
 def _expand_seed() -> list[dict]:
@@ -213,7 +226,21 @@ def load_mentions(academies: list[dict], mode: str,
     cache = config.CACHE_DIR / "naver_mentions.json"
     if from_cache and cache.exists():
         rows = json.loads(cache.read_text(encoding="utf-8"))
-        print(f"캐시에서 언급 {len(rows):,}건 로드 (API 호출 없음)")
+        # 통합으로 id 가 바뀐 학원의 언급을 대표 id 로 옮긴다.
+        # 옮기지 않으면 통합된 쪽 언급이 통째로 사라진다.
+        alias: dict[str, str] = {}
+        for a in academies:
+            for rid in a.get("registration_ids") or []:
+                if rid and rid != a["id"]:
+                    alias[str(rid)] = a["id"]
+        moved = 0
+        for r in rows:
+            new = alias.get(str(r.get("academy_key")))
+            if new:
+                r["academy_key"] = new
+                moved += 1
+        print(f"캐시에서 언급 {len(rows):,}건 로드 (API 호출 없음)"
+              + (f" · 통합에 따라 {moved:,}건 재귀속" if moved else ""))
         return rows
 
     if config.HAS_NAVER:
@@ -413,6 +440,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "tuitionMonthly": a.get("tuition_monthly_krw"),
             "registrationStatus": a.get("reg_stttus_nm"),
             "isVerified": a.get("is_verified", False),
+            "registrationCount": a.get("registration_count", 1),
         }
 
     payload_academies = []
