@@ -177,6 +177,17 @@
             zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT }
           });
           instances[id] = map;
+
+          // 플러터 플랫폼 뷰는 지도를 만든 직후에도 크기가 한 번 더 바뀐다.
+          // 그때 네이버에 알려주지 않으면 타일이 안 그려진 채로 남는다
+          // (마커만 뜨고 배경이 비어 보이던 원인).
+          var nudge = function () { naver.maps.Event.trigger(map, 'resize'); };
+          setTimeout(nudge, 60);
+          setTimeout(nudge, 400);
+          if (window.ResizeObserver) {
+            var ro = new ResizeObserver(function () { nudge(); });
+            ro.observe(el);
+          }
         } else {
           map.setCenter(new naver.maps.LatLng(lat, lng));
           map.setZoom(zoom);
