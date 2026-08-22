@@ -85,26 +85,36 @@ class _NaverMapViewState extends State<NaverMapView> {
     }
   }
 
-  /// 몇 번 다시 시도한다. 레이아웃이 잡히기 전에 부르면 네이버가 크기 0으로
-  /// 지도를 만들어 버려서, 성공(true)할 때까지 짧게 재시도하는 편이 안전하다.
+  /// 초기화를 타이머로 돌린다.
+  ///
+  /// 처음에는 addPostFrameCallback 을 썼는데 init 이 단 한 번도 호출되지
+  /// 않았다. 그 콜백은 '다음 프레임'에 실행되는데, 정적인 화면에서는 다음
+  /// 프레임이 예약되지 않아 영원히 오지 않는다. 타이머는 프레임과 무관하게
+  /// 반드시 발화한다.
+  ///
+  /// 재시도가 필요한 이유는 따로 있다. 레이아웃이 잡히기 전에 부르면
+  /// 네이버가 크기 0으로 지도를 만들어 버린다. 그래서 컨테이너에 실제
+  /// 크기가 생길 때까지 기다린다.
   void _draw({int attempt = 0}) {
     final id = _viewId;
     if (id == null || !mounted) return;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _retry?.cancel();
+    _retry = Timer(Duration(milliseconds: attempt == 0 ? 16 : 150 * attempt), () {
       if (!mounted) return;
+      final elementId = 'hakwon-map-$id';
       var ok = false;
       try {
-        ok = _init('hakwon-map-$id', widget.lat, widget.lng, widget.zoom,
-            widget.markersJson);
+        final el = web.document.getElementById(elementId) as web.HTMLElement?;
+        // 크기가 0이면 지도가 접힌 채로 만들어진다. 다음 시도로 미룬다.
+        if (el != null && el.clientWidth > 0 && el.clientHeight > 0) {
+          ok = _init(elementId, widget.lat, widget.lng, widget.zoom,
+              widget.markersJson);
+        }
       } catch (e) {
         if (kDebugMode) debugPrint('naver map init 실패: $e');
       }
-      if (!ok && attempt < 5) {
-        _retry?.cancel();
-        _retry = Timer(Duration(milliseconds: 120 * (attempt + 1)),
-            () => _draw(attempt: attempt + 1));
-      }
+      if (!ok && attempt < 8) _draw(attempt: attempt + 1);
     });
   }
 
