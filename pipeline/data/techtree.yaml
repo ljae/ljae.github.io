@@ -17,6 +17,9 @@ tracks:
     school_level: elementary
     title: 초등 수학
     summary: 연산에서 출발해 사고력을 거쳐 경시·심화 또는 중등 선행으로 갈라지는 구간. 4개 학군에서 경쟁이 가장 치열하다.
+    band_summaries:
+      elem_low: 연산과 교과 기본을 세우고, 사고력으로 넓히는 구간. 예비초에 연산부터 시작하는 것이 4개 학군의 표준이다.
+      elem_high: 사고력에서 경시·심화로 갈지, 중등 선행으로 틀지 갈라지는 구간. 초4 전후 레벨테스트가 분기점이다.
     sort_order: 0
     stages:
       - id: math_el_basic
@@ -154,6 +157,9 @@ tracks:
     school_level: elementary
     title: 초등 영어
     summary: 어학원 레벨 체계가 곧 테크트리. 레벨테스트 통과 시점이 이후 루트를 결정한다.
+    band_summaries:
+      elem_low: 파닉스로 소리와 문자를 붙이고 어학원 정규 과정에 진입하는 구간. 레벨테스트 첫 응시가 여기서 일어난다.
+      elem_high: 어학원 레벨 체계가 곧 테크트리. 리딩·라이팅 심화와 중등 내신 준비로 갈라진다.
     sort_order: 3
     stages:
       - id: eng_el_phonics
@@ -271,6 +277,9 @@ tracks:
     school_level: elementary
     title: 초등 국어 · 논술
     summary: 독서에서 문해력으로, 다시 중등 선행으로. 성과가 늦게 드러나 이탈이 잦은 구간.
+    band_summaries:
+      elem_low: 읽고 말하고 쓰는 습관을 들이는 구간. 성과가 늦게 드러나 이탈이 가장 잦다.
+      elem_high: 문해력·어휘에서 중등 선행으로. 비문학 독해가 본격적으로 갈리기 시작한다.
     sort_order: 6
     stages:
       - id: kor_el_reading
@@ -378,6 +387,9 @@ tracks:
     school_level: elementary
     title: 초등 과학
     summary: 실험·탐구에서 영재원으로. 영재원 실적이 이후 영재고 루트의 출발점이 된다.
+    band_summaries:
+      elem_low: 체험형 실험과 탐구로 호기심을 붙이는 구간. 아직 성적과 직접 이어지지 않는다.
+      elem_high: 탐구에서 영재원 대비로. 영재원 실적이 이후 영재고 루트의 출발점이 된다.
     sort_order: 9
     stages:
       - id: sci_el_lab

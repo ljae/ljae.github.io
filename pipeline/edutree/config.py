@@ -164,11 +164,15 @@ def banded_techtree() -> dict:
                 st["depth"] = remap[st["depth"]]
 
             label = GRADE_BANDS[band][0]
+            # 요약은 구간별로 따로 적은 것을 쓴다. 부모 요약을 물려주면
+            # 이 구간에 없는 단계(경시·선행 …)를 약속하게 된다.
+            summary = (track.get("band_summaries") or {}).get(band)
             out_tracks.append({
                 **track,
                 "id": f"{track['subject']}_{band}",
                 "grade_band": band,
                 "title": f"{label} {SUBJECTS[track['subject']]}",
+                "summary": summary or track["summary"],
                 "stages": band_stages,
                 "edges": [e for e in edges
                           if e[0] in ids | inbound and e[1] in ids],
@@ -178,6 +182,7 @@ def banded_techtree() -> dict:
             del extra
     for t in out_tracks:
         t.pop("school_level", None)
+        t.pop("band_summaries", None)
     return {**tree, "tracks": out_tracks}
 
 
