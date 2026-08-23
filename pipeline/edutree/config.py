@@ -44,12 +44,30 @@ HAS_NAVER = bool(NAVER_CLIENT_ID and NAVER_CLIENT_SECRET)
 HAS_SUPABASE = bool(SUPABASE_URL and SUPABASE_SERVICE_KEY)
 
 # ── 트리스코어 가중치 (docs/SPEC.md §4 와 반드시 일치) ──────────────
+# 기둥 가중치.
+#
+# 평판과 진입난이도를 가장 무겁게 둔다. 학부모가 실제로 묻는 것이
+# '평이 좋은가'와 '가고 싶어도 갈 수 있는가' 둘이기 때문이다. 들어가기
+# 어렵다는 사실 자체가 수요의 가장 정직한 표현이고, 자리가 남는 학원과
+# 대기를 거는 학원을 같은 저울에 놓으면 지금 학원가 현황이 안 보인다.
+#
+# 교습비는 뺐다. NEIS 는 금액만 주고 **교습시간을 주지 않는다.** 주2회
+# 26만원과 주5회 26만원이 같은 값으로 서 있으면 비교가 아니라 오해다.
+# 시세도 지역·과목마다 달라 금액 자체로는 순위에 쓸 수 없다.
 WEIGHTS = {
     "reputation": 0.35,
-    "momentum": 0.20,
-    "transparency": 0.25,
-    "selectivity": 0.20,
+    "selectivity": 0.35,
+    "momentum": 0.15,
+    "transparency": 0.15,
 }
+
+# 진입난이도의 축소 사전표본. 평판과 같은 이유다 — 가중치가 0.35 로
+# 올라간 만큼 적은 표본이 극단값을 만들면 안 된다.
+SELECTIVITY_PRIOR_COUNT = 10
+
+# 등급반별 난이도를 내보낼 최소 표본. 이 아래는 반 이름만 스쳤을 뿐
+# 난이도를 말할 수 있는 양이 아니다.
+MIN_SAMPLE_FOR_TIER = 5
 assert abs(sum(WEIGHTS.values()) - 1.0) < 1e-9, "가중치 합이 1이 아닙니다"
 
 # 평판 베이지안 축소 사전 표본수. 후기 소수 학원의 극단값을 막는다.

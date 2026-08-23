@@ -113,12 +113,9 @@ class AcademyCard extends StatelessWidget {
                 const SizedBox(height: AppSpace.md),
                 _PillarGrid(score: score, narrow: narrow),
               ],
-              if (academy.tuitionMonthly != null || academy.capacity != null) ...[
+              if (academy.capacity != null) ...[
                 const SizedBox(height: AppSpace.sm),
                 Row(children: [
-                  if (academy.tuitionMonthly != null)
-                    _Fact(Icons.payments_outlined,
-                        '월 ${_won(academy.tuitionMonthly!)}'),
                   if (academy.capacity != null)
                     _Fact(Icons.groups_outlined, '정원 ${academy.capacity}명'),
                 ]),
@@ -129,10 +126,6 @@ class AcademyCard extends StatelessWidget {
       ),
     );
   }
-
-  static String _won(int v) => v >= 10000
-      ? '${(v / 10000).toStringAsFixed(v % 10000 == 0 ? 0 : 1)}만원'
-      : '$v원';
 }
 
 class _PillarGrid extends StatelessWidget {

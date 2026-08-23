@@ -77,6 +77,71 @@ SELECTIVITY_WAIT = ("대기", "웨이팅", "마감", "자리없", "티오", "T.O
                     "등록전쟁", "오픈런", "결원")
 
 
+# 등급반(레벨반) 사다리. 위로 갈수록 들어가기 어렵다.
+#
+# 학원마다 반 이름이 제각각이라 표기를 티어로 묶는다. 정확한 반 이름을
+# 맞히려는 것이 아니라 '어느 층인가'만 본다 — 층은 학원이 달라도 통한다.
+CLASS_TIERS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("top", ("최상위", "탑반", "top반", "마스터", "올림피아드", "경시반",
+             "킬러반", "에이스")),
+    ("advanced", ("심화", "어드밴스", "인텐시브", "특목", "영재", "고급")),
+    ("regular", ("정규", "일반반", "내신반", "표준")),
+    ("basic", ("기초", "베이직", "입문", "파닉스", "초급")),
+)
+
+TIER_LABELS = {
+    "top": "최상위반", "advanced": "심화반",
+    "regular": "정규반", "basic": "기초반",
+}
+
+
+# 반 이름 주변에서 난이도 단어를 찾을 범위(글자). 한 글에 여러 반이
+# 나오면 '기초반에서 시작해 심화반 가기 어렵다' 처럼 난이도가 엉뚱한 반에
+# 붙는다. 반 이름 근처만 본다.
+TIER_WINDOW = 40
+
+
+def class_tier_signals(text: str, exclude: str = "") -> dict[str, dict]:
+    """등급반별 난이도 신호. {tier: {'hard': n, 'wait': n}}
+
+    [exclude] 로 학원 이름을 먼저 지운다. '최상위수학교습소' 같은 이름이
+    그대로 '최상위반' 신호로 잡히면 학원 이름이 곧 난이도가 되어 버린다.
+
+    난이도 단어는 **반 이름 주변에서만** 센다. 글 전체에서 세면 한 글에
+    여러 반이 나올 때 서로의 난이도를 훔쳐 간다 — 실제로 그렇게 짰다가
+    기초반이 최상위반보다 어렵다는 결과가 나왔다.
+    """
+    flat = _norm(text)
+    if exclude:
+        flat = flat.replace(_norm(exclude), " ")
+
+    out: dict[str, dict] = {}
+    for tier, kws in CLASS_TIERS:
+        windows: list[str] = []
+        for kw in kws:
+            k = _norm(kw)
+            start = 0
+            while True:
+                i = flat.find(k, start)
+                if i < 0:
+                    break
+                windows.append(flat[max(0, i - TIER_WINDOW): i + len(k) + TIER_WINDOW])
+                start = i + len(k)
+        if not windows:
+            continue
+        near = " ".join(windows)
+        out[tier] = {
+            "hard": sum(1 for w in SELECTIVITY_HARD if _norm(w) in near),
+            "wait": sum(1 for w in SELECTIVITY_WAIT if _norm(w) in near),
+        }
+    return out
+
+
+def class_tiers(text: str, exclude: str = "") -> list[str]:
+    """본문에서 언급된 등급반 티어."""
+    return list(class_tier_signals(text, exclude))
+
+
 def _windowed(text: str, term: str, before: int = 6) -> str:
     idx = text.find(term)
     return text[max(0, idx - before): idx] if idx >= 0 else ""
@@ -221,8 +286,13 @@ def is_relevant(mention: dict, candidates: set[str]) -> bool:
     return any(c in blob for c in candidates)
 
 
-def analyze(mention: dict) -> dict:
-    """언급 한 건을 분석해 필드를 채워 돌려준다."""
+def analyze(mention: dict, academy_name: str = "") -> dict:
+    """언급 한 건을 분석해 필드를 채워 돌려준다.
+
+    [academy_name] 은 등급반 추출에서 학원 이름을 지우는 데 쓴다.
+    '최상위수학교습소' 같은 이름이 그대로 '최상위반' 신호가 되면
+    학원 이름이 곧 난이도가 되어 버린다.
+    """
     text = mention.get("snippet", "")
     title = mention.get("title", "")
     blob = f"{title} {text}"
@@ -242,6 +312,7 @@ def analyze(mention: dict) -> dict:
         "credibility": round(credibility, 3),
         "is_excluded": spam >= SPAM_EXCLUDE_THRESHOLD,
         "selectivity": selectivity_signals(blob),
+        "class_tier_signals": class_tier_signals(blob, exclude=academy_name),
     })
     return mention
 

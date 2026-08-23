@@ -347,12 +347,6 @@ class Academy {
   final String? address;
   final String? tel;
   final int? capacity;
-  final int? tuitionMonthly;
-
-  /// 과목별 교습비. 대표값 하나로 뭉개면 '영어 하나에 26만'인지
-  /// '전 과목 26만'인지 알 수 없다.
-  final List<CourseFee> tuitionCourses;
-  final String? tuitionRaw;
   final String? registrationStatus;
   final String? establishedOn;
   final bool isVerified;
@@ -378,9 +372,6 @@ class Academy {
     this.address,
     this.tel,
     this.capacity,
-    this.tuitionMonthly,
-    this.tuitionCourses = const [],
-    this.tuitionRaw,
     this.registrationStatus,
     this.establishedOn,
     required this.isVerified,
@@ -406,11 +397,6 @@ class Academy {
         address: j['address'] as String?,
         tel: j['tel'] as String?,
         capacity: (j['capacity'] as num?)?.toInt(),
-        tuitionMonthly: (j['tuitionMonthly'] as num?)?.toInt(),
-        tuitionCourses: ((j['tuitionCourses'] as List?) ?? const [])
-            .map((e) => CourseFee.fromJson((e as Map).cast<String, dynamic>()))
-            .toList(),
-        tuitionRaw: j['tuitionRaw'] as String?,
         registrationStatus: j['registrationStatus'] as String?,
         establishedOn: j['establishedOn'] as String?,
         isVerified: (j['isVerified'] ?? false) as bool,
@@ -515,7 +501,6 @@ class RegistryEntry {
         subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
         address: j['address'] as String?,
         capacity: (j['capacity'] as num?)?.toInt(),
-        tuitionMonthly: (j['tuitionMonthly'] as num?)?.toInt(),
         registrationStatus: j['registrationStatus'] as String?,
         isVerified: (j['isVerified'] ?? false) as bool,
       );
@@ -739,22 +724,6 @@ class NearbySchool {
   /// 1km 미만은 m 로 보여준다. '0.4km' 보다 '400m' 가 걷는 거리로 읽힌다.
   String get distanceLabel =>
       km < 1 ? '${(km * 1000).round()}m' : '${km.toStringAsFixed(1)}km';
-}
-
-/// 과목 하나의 월 교습비.
-class CourseFee {
-  final String name;
-  final int amount;
-  const CourseFee({required this.name, required this.amount});
-
-  factory CourseFee.fromJson(Map<String, dynamic> j) => CourseFee(
-        name: (j['name'] ?? '') as String,
-        amount: (j['amount'] as num?)?.toInt() ?? 0,
-      );
-
-  String get amountLabel => amount >= 10000
-      ? '${(amount / 10000).toStringAsFixed(amount % 10000 == 0 ? 0 : 1)}만원'
-      : '$amount원';
 }
 
 const schoolLevelColors = <String, int>{

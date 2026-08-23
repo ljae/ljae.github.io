@@ -130,10 +130,6 @@ class _Body extends StatelessWidget {
                     if (academy.brandLabel != null)
                       _Row('브랜드', academy.brandLabel!),
                     _Row('등록상태', academy.registrationStatus ?? '—'),
-                    if (academy.tuitionCourses.isEmpty)
-                      _Row('교습비', academy.tuitionRaw ?? '미공개')
-                    else
-                      _CourseFees(courses: academy.tuitionCourses),
                     _Row('정원', academy.capacity != null ? '${academy.capacity}명' : '—'),
                     _Row('개설일', academy.establishedOn ?? '—'),
                     _Row('주소', academy.address ?? '—'),
@@ -145,8 +141,10 @@ class _Body extends StatelessWidget {
 
               // ── 테크트리 위치 ───────────────────────────────
               if (stages.isNotEmpty) ...[
-                const SectionHeader('테크트리에서의 위치',
-                    subtitle: '이 학원이 담당하는 단계입니다'),
+                const SectionHeader('단계별 진입 기준',
+                    subtitle: '이 학원이 담당하는 단계와, 각 단계를 넘어가려면 '
+                        '무엇이 필요한지입니다. 커뮤니티 추정이 아니라 '
+                        '큐레이션한 기준입니다.'),
                 Wrap(
                   spacing: AppSpace.sm,
                   runSpacing: AppSpace.sm,
@@ -158,6 +156,10 @@ class _Body extends StatelessWidget {
                           isFlagship: academy.isFlagshipOf(s.id)),
                   ],
                 ),
+                const SizedBox(height: AppSpace.md),
+                for (final s in stages)
+                  if (s.exitCriteria != null && s.exitCriteria!.isNotEmpty)
+                    _StageCriteria(stage: s),
                 const SizedBox(height: AppSpace.xl),
               ],
 
@@ -392,49 +394,40 @@ class _CorrectionNotice extends StatelessWidget {
 ///
 /// 로그인 없이 받는다. 항목은 최소한으로 — 무엇이 틀렸고(내용),
 /// 누구시고(성함·직함), 어디로 회신하면 되는지(연락처)면 충분하다.
-/// 과목별 교습비.
+/// 단계 하나의 진입·통과 기준.
 ///
-/// NEIS 공시 원문은 '문법 영어:268000, 리딩:268000, …' 형태다. 그대로
-/// 한 줄로 보여주면 읽히지 않고, 대표값 하나로 뭉개면 무엇이 26만원인지
-/// 알 수 없다. 과목과 금액을 짝지어 보여준다.
-///
-/// 금액순으로 세우지 않는다 — 공시된 순서가 보통 과정 순서(초→중→고)라
-/// 그쪽이 읽기 쉽다.
-class _CourseFees extends StatelessWidget {
-  final List<CourseFee> courses;
-  const _CourseFees({required this.courses});
+/// 등급반별 난이도를 커뮤니티 언급에서 만들어 보려 했지만 표본이
+/// 186건뿐이었고 광고글이 섞여 기초반이 최상위반보다 어렵게 나왔다.
+/// 대신 사람이 정리한 이 기준을 보여준다 — 무엇을 통과해야 하는지가
+/// 분명하고, 출처를 설명할 수 있다.
+class _StageCriteria extends StatelessWidget {
+  final Stage stage;
+  const _StageCriteria({required this.stage});
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final amounts = courses.map((c) => c.amount).toList()..sort();
-    final lo = amounts.first, hi = amounts.last;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(width: 96, child: Text('교습비', style: text.bodyMedium)),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              lo == hi
-                  ? '월 ${courses.first.amountLabel}'
-                  : '월 ${CourseFee(name: '', amount: lo).amountLabel}'
-                      ' ~ ${CourseFee(name: '', amount: hi).amountLabel}',
-              style: text.titleMedium,
-            ),
-            const SizedBox(height: 5),
-            Wrap(spacing: AppSpace.sm, runSpacing: 3, children: [
-              for (final c in courses)
-                Text('${c.name} ${c.amountLabel}',
-                    style: text.bodySmall?.copyWith(fontSize: 11.5)),
-            ]),
-            const SizedBox(height: 3),
-            Text('NEIS 공시 기준 · 교재비·특강은 포함되지 않을 수 있습니다',
-                style: text.bodySmall?.copyWith(fontSize: 10.5)),
+    return Card(
+      margin: const EdgeInsets.only(bottom: AppSpace.sm),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpace.md),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Container(width: 3, height: 14, color: AppColors.navyBright),
+            const SizedBox(width: 7),
+            Text(stage.title, style: text.titleMedium),
+            const SizedBox(width: 6),
+            Chip2(stage.gradeLabel, color: AppColors.slate),
           ]),
-        ),
-      ]),
+          if (stage.goal != null) ...[
+            const SizedBox(height: 5),
+            Text('목표 · ${stage.goal}', style: text.bodyMedium),
+          ],
+          const SizedBox(height: 3),
+          Text('다음 단계 기준 · ${stage.exitCriteria}',
+              style: text.bodyMedium?.copyWith(color: AppColors.navy)),
+        ]),
+      ),
     );
   }
 }
@@ -658,7 +651,7 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: '어떤 정보가 어떻게 잘못되었나요? *',
-                  helperText: '예: 교습비가 변경되었습니다. 현재 월 45만원입니다.',
+                  helperText: '예: 정원이 변경되었습니다. 현재 80명입니다.',
                 ),
               ),
               const SizedBox(height: AppSpace.sm),

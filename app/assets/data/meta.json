@@ -1,15 +1,15 @@
 {
  "mode": "live",
- "generatedAt": "2026-08-23T07:37:13.676058+00:00",
+ "generatedAt": "2026-08-23T08:03:56.906554+00:00",
  "evaluatedCount": 400,
  "registryCount": 4089,
  "mentionCount": 16272,
  "naverBudget": 400,
  "weights": {
   "reputation": 0.35,
-  "momentum": 0.2,
-  "transparency": 0.25,
-  "selectivity": 0.2
+  "selectivity": 0.35,
+  "momentum": 0.15,
+  "transparency": 0.15
  },
  "minSampleForRank": 10,
  "reputationPriorCount": 12,

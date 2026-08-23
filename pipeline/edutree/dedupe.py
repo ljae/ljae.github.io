@@ -186,8 +186,6 @@ def merge(rows: list[dict]) -> dict:
              if r.get("dtm_rcptn_ablty_nmpr_smtot")]
     base["dtm_rcptn_ablty_nmpr_smtot"] = sum(seats) if seats else None
 
-    fees = sorted(r["tuition_monthly_krw"] for r in rows if r.get("tuition_monthly_krw"))
-    base["tuition_monthly_krw"] = fees[len(fees) // 2] if fees else None
 
     dates = [r.get("estbl_ymd") for r in rows if r.get("estbl_ymd")]
     base["estbl_ymd"] = min(dates) if dates else None          # 가장 이른 개설일

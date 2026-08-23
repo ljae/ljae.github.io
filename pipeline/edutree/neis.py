@@ -33,11 +33,10 @@ FIELD_MAP = {
     "ESTBL_YMD": "estbl_ymd",               # 개설일자
     "TOFOR_SMTOT": "tofor_smtot",           # 정원합계
     "DTM_RCPTN_ABLTY_NMPR_SMTOT": "dtm_rcptn_ablty_nmpr_smtot",  # 동시수용인원합계
-    # 교습비. 실제 컬럼명은 PSNBY_THCC_CNTNT(인별교습비내용)다.
-    # THCC_CTNT 로 잘못 적혀 있어 전 학원의 교습비가 비어 있었고,
-    # 투명성 점수의 '교습비 공개' 25점을 아무도 못 받고 있었다.
-    "PSNBY_THCC_CNTNT": "thcc_ctnt",        # 인별교습비내용 (과목:금액, …)
-    "THCC_OTHBC_YN": "thcc_othbc_yn",       # 교습비 공개여부 (99% 가 Y — 신호 없음)
+    # 교습비(PSNBY_THCC_CNTNT)는 읽지 않는다. NEIS 가 금액만 주고
+    # **교습시간을 주지 않아** 주2회 26만원과 주5회 26만원이 같은 값으로
+    # 선다. 비교가 성립하지 않는 값을 화면에 올리면 그건 정보가 아니라
+    # 오해의 원인이다. 시세도 지역·과목마다 달라 금액만으로는 못 읽는다.
     "FA_RDNMA": "road_address",             # 도로명주소
     "FA_RDNDA": "address_detail",           # 상세주소 — 괄호 안에 법정동이 있다
     "FA_TELNO": "tel",                      # 전화번호
@@ -92,49 +91,6 @@ def _rows(payload: dict) -> tuple[list[dict], int]:
     return rows, total
 
 
-def parse_courses(thcc_ctnt: str | None) -> list[dict]:
-    """'문법 영어:268000, 리딩:268000' → [{'name','amount'}, …]
-
-    과목별로 얼마인지가 학부모가 실제로 묻는 형태다. 대표값 하나로
-    뭉개면 '영어 하나에 26만'인지 '전 과목 26만'인지 알 수 없다.
-    """
-    if not thcc_ctnt:
-        return []
-    out = []
-    for part in str(thcc_ctnt).split(","):
-        if ":" not in part:
-            continue
-        name, _, amt = part.rpartition(":")
-        digits = re.sub(r"[^\d]", "", amt)
-        if not digits:
-            continue
-        won = int(digits)
-        if not (10_000 <= won <= 5_000_000):
-            continue
-        out.append({"name": name.strip(), "amount": won})
-    return out
-
-
-def parse_tuition(thcc_ctnt: str | None) -> int | None:
-    """교습비 원문에서 월 교습비(원)를 추출한다.
-
-    NEIS 원문은 '월 350,000원', '1개월 350000', '주2회 280,000원' 등 형태가 제각각이다.
-    실패하면 None — 투명성 점수에서 '금액 미공개'로 처리된다.
-    """
-    if not thcc_ctnt:
-        return None
-    amounts = [int(m.replace(",", "")) for m in re.findall(r"\d{1,3}(?:,\d{3})+|\d{5,8}", thcc_ctnt)]
-    plausible = [a for a in amounts if 30_000 <= a <= 3_000_000]
-    if not plausible:
-        return None
-    # 여러 과정이 나열된 경우가 많다. 중앙값이 대표값으로 가장 안정적이다.
-    plausible.sort()
-    mid = len(plausible) // 2
-    if len(plausible) % 2:
-        return plausible[mid]
-    return (plausible[mid - 1] + plausible[mid]) // 2
-
-
 # 도로명주소에는 법정동이 없다. 대신 상세주소 끝 괄호에 들어 있다.
 #   ", 3층 301호 (개포동, 삼성빌딩)"  →  개포동
 # NEIS 4개 구 표본에서 99% 이상 추출된다.
@@ -164,8 +120,6 @@ def normalize(row: dict) -> dict:
         out["estbl_ymd"] = None
 
     out["dong"] = extract_dong(row)
-    out["tuition_monthly_krw"] = parse_tuition(out.get("thcc_ctnt"))
-    out["tuition_courses"] = parse_courses(out.get("thcc_ctnt"))
     out["name_normalized"] = normalize_name(out.get("name") or "")
     # 학원지정번호(ACA_ASNUM)를 고유 식별자로 쓴다.
     #

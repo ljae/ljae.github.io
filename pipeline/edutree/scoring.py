@@ -17,7 +17,7 @@ import statistics
 from collections import defaultdict
 from datetime import date, datetime, timezone
 
-from . import config
+from . import analyze, config
 
 TODAY = date.today()
 
@@ -52,10 +52,11 @@ def recency_weight(posted_at) -> float:
 
 
 # ── 기둥 1. 평판 (35%) ─────────────────────────────────────────────
-def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
+def reputation(mentions: list[dict], cohort_mean: float,
+               cohort_sd: float = 0.12) -> tuple[float, dict]:
     valid = [m for m in mentions if not m.get("is_excluded")]
     if not valid:
-        return _clamp((cohort_mean + 1) / 2 * 100), {
+        return 50.0, {
             "표본": 0, "설명": "유효 표본 없음 — 코호트 평균으로 대체",
         }
 
@@ -84,7 +85,17 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
 
     m0 = config.REPUTATION_PRIOR_COUNT
     shrunk = (num + m0 * cohort_mean) / (den + m0)      # 베이지안 축소
-    score = _clamp((shrunk + 1) / 2 * 100)              # [-1,1] → [0,100]
+
+    # 코호트 대비 z 점수로 옮긴다. [-1,1] 을 [0,100] 에 선형 매핑하면
+    # 실제 감성이 0.00~0.78 구간에만 살아서 점수가 53~65 로 눌린다.
+    # 가중치가 0.35 인데 순위를 거의 못 가르는 상태였다 — 가중치가
+    # 뜻하는 바와 실제 영향이 어긋나면 산식을 공개하는 의미가 없다.
+    #
+    # 화제성이 이미 같은 방식(코호트 z점수)을 쓴다. 기둥끼리 저울을
+    # 맞춰야 가중치가 곧 영향력이 된다.
+    sd = cohort_sd or 0.12
+    z = (shrunk - cohort_mean) / sd
+    score = _clamp(50 + 15 * z)
 
     excluded = len(mentions) - len(valid)
     return round(score, 1), {
@@ -95,6 +106,7 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
         "가중_감성합": round(num, 2),
         "가중치_총합": round(den, 2),
         "코호트_평균감성": round(cohort_mean, 3),
+        "코호트_감성표준편차": round(cohort_sd, 3),
         "축소_사전표본": m0,
         "설명": f"신뢰도·최신성 가중 감성 {round(num/den, 3) if den else 0} 를 "
                 f"코호트 평균 {round(cohort_mean, 3)} 쪽으로 {m0}건만큼 축소",
@@ -152,12 +164,14 @@ def _trend(mentions: list[dict]) -> tuple[float, str]:
 
 
 # ── 기둥 3. 투명성 (25%) ───────────────────────────────────────────
+# 교습비 공개(25점)를 뺐다. NEIS 가 교습시간을 주지 않아 금액만으로는
+# 비교가 성립하지 않고, 비교할 수 없는 값을 공개했다고 점수를 주면
+# 그 점수가 무엇을 뜻하는지 설명할 수 없다. 빠진 배점은 나머지에 나눈다.
 TRANSPARENCY_RUBRIC = (
-    ("등록상태 정상", 25),
-    ("교습비 공개", 25),
-    ("정원 공시", 15),
-    ("교습과정 상세", 15),
-    ("운영 지속기간", 20),
+    ("등록상태 정상", 30),
+    ("정원 공시", 20),
+    ("교습과정 상세", 25),
+    ("운영 지속기간", 25),
 )
 
 
@@ -166,28 +180,17 @@ def transparency(academy: dict) -> tuple[float, dict]:
     earned: dict[str, int] = {}
 
     status = (academy.get("reg_stttus_nm") or "").strip()
-    earned["등록상태 정상"] = 25 if status in ("정상", "운영중", "개원") else (
-        10 if status else 0)
+    earned["등록상태 정상"] = 30 if status in ("정상", "운영중", "개원") else (
+        12 if status else 0)
 
-    # NEIS 의 '교습비 공개여부'(THCC_OTHBC_YN)는 쓰지 않는다. 9,324곳 중
-    # 9,224곳이 'Y' 라 아무것도 가르지 못한다. 실제로 금액이 적혀 있는 곳은
-    # 1,836곳뿐이다. 신고 여부가 아니라 **실제 공개**를 점수로 친다.
-    tuition = academy.get("tuition_monthly_krw")
-    if tuition:
-        earned["교습비 공개"] = 25
-    elif academy.get("thcc_ctnt"):
-        earned["교습비 공개"] = 12          # 원문은 있으나 금액 파싱 실패
-    else:
-        earned["교습비 공개"] = 0
-
-    earned["정원 공시"] = 15 if academy.get("tofor_smtot") else 0
-    earned["교습과정 상세"] = 15 if (academy.get("le_crse_list_nm")
+    earned["정원 공시"] = 20 if academy.get("tofor_smtot") else 0
+    earned["교습과정 상세"] = 25 if (academy.get("le_crse_list_nm")
                                  or academy.get("le_ord_nm")) else 0
 
     estbl = _to_date(academy.get("estbl_ymd"))
     if estbl:
         years = (TODAY - estbl).days / 365.25
-        earned["운영 지속기간"] = round(_clamp(math.log1p(max(0, years)) / math.log(21) * 20, 0, 20))
+        earned["운영 지속기간"] = round(_clamp(math.log1p(max(0, years)) / math.log(21) * 25, 0, 25))
     else:
         earned["운영 지속기간"] = 0
 
@@ -201,32 +204,67 @@ def transparency(academy: dict) -> tuple[float, dict]:
 
 
 # ── 기둥 4. 진입난이도 (20%) ───────────────────────────────────────
-def selectivity(mentions: list[dict], academy: dict,
-                cohort_ratio_mean: float) -> tuple[float, dict]:
-    """커뮤니티 신호에서 추정. 네 기둥 중 신뢰도가 가장 낮아 UI에 '추정' 표기."""
-    valid = [m for m in mentions if not m.get("is_excluded")]
-    hard = sum(m.get("selectivity", {}).get("hard", 0) for m in valid)
-    wait = sum(m.get("selectivity", {}).get("wait", 0) for m in valid)
-
-    n = max(1, len(valid))
+def _selectivity_raw(rows: list[dict], capacity: int,
+                     cohort_ratio_mean: float) -> tuple[float, dict]:
+    """진입난이도의 알맹이. 학원 전체에도, 등급반 하나에도 같은 식을 쓴다."""
+    hard = sum(m.get("selectivity", {}).get("hard", 0) for m in rows)
+    wait = sum(m.get("selectivity", {}).get("wait", 0) for m in rows)
+    n = max(1, len(rows))
     hard_score = _clamp(math.tanh(hard / n * 2.2) * 100)
     wait_score = _clamp(math.tanh(wait / n * 2.2) * 100)
 
-    capacity = academy.get("tofor_smtot") or 0
-    if capacity > 0 and valid:
-        ratio = len(valid) / capacity
+    if capacity > 0 and rows:
+        ratio = len(rows) / capacity
         rel = ratio / cohort_ratio_mean if cohort_ratio_mean else 1.0
         demand_score = _clamp(50 + math.log1p(rel) * 30)
     else:
+        rel = None
         demand_score = 50.0
 
     score = 0.4 * hard_score + 0.3 * wait_score + 0.3 * demand_score
-    return round(score, 1), {
+    return score, {
         "난이도_언급": hard,
         "대기·마감_언급": wait,
+        "표본": len(rows),
+        "언급÷정원_상대값": round(rel, 3) if rel is not None else None,
+    }
+
+
+def selectivity(mentions: list[dict], academy: dict,
+                cohort_ratio_mean: float) -> tuple[float, dict]:
+    """커뮤니티 신호에서 추정. 공식 경쟁률이 아니므로 UI 에 '추정' 표기.
+
+    가중치가 0.35 로 올라가면서 축소(shrinkage)를 넣었다. 표본 12건짜리
+    학원이 '난이도 100' 으로 서면 그건 측정이 아니라 잡음이다. 표본이
+    적을수록 중앙(50)으로 끌어당긴다.
+
+    ★ 등급반별 점수는 만들지 않는다.
+      학부모가 실제로 묻는 것은 '그 학원 심화반 들어갈 수 있나'가 맞다.
+      그래서 반 이름 주변에서 난이도 단어를 세어 봤는데, 400곳 전체에서
+      반 이름과 난이도 단어가 함께 붙은 언급이 **186건**뿐이었고 그중
+      상당수가 키워드 나열형 광고였다('파주 … 심화반 난이도 음악 미술').
+      결과도 기초반이 최상위반보다 어렵게 나왔다.
+
+      숫자를 내면 정밀해 보이지만 잡음이다. 반별 난이도는 큐레이션
+      테크트리의 단계별 진입 기준(exit_criteria)으로 대신한다 — 그쪽은
+      사람이 적은 것이라 근거가 분명하다.
+    """
+    valid = [m for m in mentions if not m.get("is_excluded")]
+    capacity = academy.get("tofor_smtot") or 0
+    raw, detail = _selectivity_raw(valid, capacity, cohort_ratio_mean)
+
+    # 표본이 적으면 중앙으로 끌어당긴다. 평판의 베이지안 축소와 같은 이유.
+    m0 = config.SELECTIVITY_PRIOR_COUNT
+    n = len(valid)
+    score = (raw * n + 50.0 * m0) / (n + m0)
+
+    # ── 등급반별 ────────────────────────────────────────────────
+    return round(score, 1), {
+        **detail,
         "정원": capacity or None,
-        "언급÷정원_상대값": round(rel, 3) if capacity and valid else None,
-        "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30%",
+        "축소_사전표본": m0,
+        "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30%"
+                f" (표본 {n}건, 사전표본 {m0}건만큼 중앙으로 축소)",
         "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다.",
     }
 
@@ -241,7 +279,8 @@ def confidence_label(sample: int) -> str:
 
 
 def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
-    rep, rep_bd = reputation(mentions, cohort["mean_sentiment"])
+    rep, rep_bd = reputation(mentions, cohort["mean_sentiment"],
+                             cohort.get("sd_sentiment") or 0.12)
     mom, mom_bd, direction = momentum(mentions, cohort["volumes"])
     tra, tra_bd = transparency(academy)
     sel, sel_bd = selectivity(mentions, academy, cohort["mention_capacity_ratio"])
@@ -283,17 +322,25 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
     cohorts: dict[tuple, dict] = {}
     for key, members in groups.items():
         sentiments, volumes, ratios = [], [], []
+        per_academy: list[float] = []
         for a in members:
             ms = [m for m in mentions_by_key.get(a["id"], [])
                   if not m.get("is_excluded")]
             if ms:
                 sentiments.extend(float(m.get("sentiment", 0.0)) for m in ms)
+                # 학원 단위 평균도 따로 모은다. z 점수의 분모는 '학원끼리
+                # 얼마나 벌어지는가'여야 한다 — 언급 단위 편차를 쓰면
+                # 글마다의 잡음이 분모에 들어간다.
+                per_academy.append(
+                    statistics.mean(float(m.get("sentiment", 0.0)) for m in ms))
                 volumes.append(math.log1p(len(ms)))
                 cap = a.get("tofor_smtot") or 0
                 if cap:
                     ratios.append(len(ms) / cap)
         cohorts[key] = {
             "mean_sentiment": round(statistics.mean(sentiments), 4) if sentiments else 0.0,
+            "sd_sentiment": (round(statistics.pstdev(per_academy), 4)
+                             if len(per_academy) >= 3 else 0.12),
             "volumes": volumes,
             "mention_capacity_ratio": statistics.mean(ratios) if ratios else 1.0,
             "size": len(members),
@@ -304,5 +351,6 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
 def cohort_for(academy: dict, cohorts: dict) -> dict:
     subject = (academy.get("subjects") or ["etc"])[0]
     return cohorts.get((academy.get("region_id"), subject), {
-        "mean_sentiment": 0.0, "volumes": [], "mention_capacity_ratio": 1.0, "size": 0,
+        "mean_sentiment": 0.0, "sd_sentiment": 0.12,
+        "volumes": [], "mention_capacity_ratio": 1.0, "size": 0,
     })

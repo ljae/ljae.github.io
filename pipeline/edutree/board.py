@@ -62,7 +62,6 @@ def weekly_reports(academies, regions) -> list[dict]:
 
         rising = [a for a in rows if a["score"].get("momentumDirection") == "rising"]
         rising.sort(key=lambda a: -a["score"]["momentum"])
-        fees = sorted(a["tuitionMonthly"] for a in rows if a.get("tuitionMonthly"))
 
         body = [
             f"{name} 학군의 이번 주 지표입니다. 모든 수치는 NEIS 공시와 "
@@ -91,11 +90,16 @@ def weekly_reports(academies, regions) -> list[dict]:
                 "화제성은 최근 90일 언급량과 12개월 추세로 계산합니다. "
                 "좋다/나쁘다가 아니라 '지금 많이 이야기되는가'를 봅니다.")
 
-        if fees:
-            body += ["", "■ 월 교습비 분포 (공개된 곳 기준)",
-                     f"중앙값 {_won(int(statistics.median(fees)))} · "
-                     f"최저 {_won(fees[0])} · 최고 {_won(fees[-1])} "
-                     f"({len(fees)}곳 공시)"]
+        # 진입난이도 상위. 교습비 분포를 대신한다 — 학부모가 먼저 묻는 것은
+        # '얼마인가'보다 '갈 수 있는가'다.
+        hard = sorted(rows, key=lambda a: -a["score"]["selectivity"])[:5]
+        if hard:
+            body += ["", "■ 들어가기 어려운 곳 (진입난이도 추정)",
+                     "레벨테스트 난이도·대기·정원 대비 수요를 커뮤니티 "
+                     "언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."]
+            body += [f"{i}. {a.get('displayName') or a['name']} — "
+                     f"{a['score']['selectivity']:.0f}"
+                     for i, a in enumerate(hard, 1)]
 
         body += ["",
                  "―――",

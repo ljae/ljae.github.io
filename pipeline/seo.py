@@ -136,7 +136,6 @@ def academy_pages(out: Path, academies, registry, regions) -> list[str]:
 
         rows = [("학군", reg), ("분야", subs or "—"),
                 ("주소", a.get("address")), ("등록상태", a.get("registrationStatus")),
-                ("월 교습비", won(a.get("tuitionMonthly"))),
                 ("정원", f"{a['capacity']}명" if a.get("capacity") else "—")]
         if a.get("registrationCount", 1) > 1:
             rows.append(("등록 건수", f"{a['registrationCount']}건(관·과정별 등록 통합)"))

@@ -95,8 +95,6 @@ def main() -> None:
         "reg_stttus_nm": a.get("registrationStatus"),
         "estbl_ymd": a.get("establishedOn"),
         "tofor_smtot": a.get("capacity"),
-        "thcc_ctnt": a.get("tuitionRaw"),
-        "tuition_monthly_krw": a.get("tuitionMonthly"),
         "road_address": a.get("address"),
         "tel": a.get("tel"),
         "subjects": a.get("subjects", []),

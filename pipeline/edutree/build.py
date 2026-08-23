@@ -98,13 +98,6 @@ def _synthesize_official_fields(rec: dict) -> None:
     rng = _rng(rec["name"] + "|official")
     rec["tofor_smtot"] = rng.choice([60, 90, 120, 150, 180, 240, 300])
     rec["dtm_rcptn_ablty_nmpr_smtot"] = int(rec["tofor_smtot"] * rng.uniform(0.5, 0.8))
-    if rng.random() < 0.75:
-        amount = rng.choice([280_000, 320_000, 380_000, 420_000, 480_000, 550_000, 620_000])
-        rec["thcc_ctnt"] = f"월 {amount:,}원"
-        rec["tuition_monthly_krw"] = amount
-    else:
-        rec["thcc_ctnt"] = None
-        rec["tuition_monthly_krw"] = None
     year = rng.randint(2003, 2022)
     rec["estbl_ymd"] = f"{year}-{rng.randint(1, 12):02d}-01"
 
@@ -524,7 +517,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  관련성 게이트: {before:,}건 → {len(mentions):,}건 "
               f"(학원명 미등장 {dropped:,}건 제외, {dropped/before*100:.0f}%)")
 
-    mentions = [analyze.analyze(m) for m in mentions]
+    names = {a["id"]: a.get("name", "") for a in evaluated}
+    mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
+                for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
 
     # 학원실록 자체 후기를 같은 채점 로직에 태운다.
@@ -720,7 +715,6 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "subjects": a.get("subjects", []),
             "address": a.get("road_address"),
             "capacity": a.get("tofor_smtot"),
-            "tuitionMonthly": a.get("tuition_monthly_krw"),
             "registrationStatus": a.get("reg_stttus_nm"),
             "isVerified": a.get("is_verified", False),
             "registrationCount": a.get("registration_count", 1),
@@ -740,10 +734,6 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "stages": a.get("stages", []),
             "flagship": a.get("flagship", []),
             "tel": a.get("tel"),
-            "tuitionRaw": a.get("thcc_ctnt"),
-            # 과목별 교습비. 대표값 하나로 뭉개면 '영어 하나에 26만'인지
-            # '전 과목 26만'인지 알 수 없다.
-            "tuitionCourses": a.get("tuition_courses") or [],
             "establishedOn": a.get("estbl_ymd"),
             "dataSource": a.get("data_source", "seed"),
             "score": {
