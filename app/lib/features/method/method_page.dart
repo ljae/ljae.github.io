@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/brand.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../data/corrections.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
 
@@ -426,22 +427,30 @@ class _DoNotList extends StatelessWidget {
   }
 }
 
-class _CorrectionForm extends StatefulWidget {
+/// 정정 요청 폼.
+///
+/// 한동안 입력값을 받아 놓고 아무 데도 보내지 않았다. 화면에는
+/// '접수되었습니다' 라고 띄우면서 글은 버렸다. 창구가 있는 척하는 것은
+/// 창구가 없는 것보다 나쁘다 — 관계자는 답을 기다리게 되고 우리는
+/// 요청이 온 줄도 모른다.
+class _CorrectionForm extends ConsumerStatefulWidget {
   const _CorrectionForm();
 
   @override
-  State<_CorrectionForm> createState() => _CorrectionFormState();
+  ConsumerState<_CorrectionForm> createState() => _CorrectionFormState();
 }
 
-class _CorrectionFormState extends State<_CorrectionForm> {
+class _CorrectionFormState extends ConsumerState<_CorrectionForm> {
   final _academy = TextEditingController();
   final _body = TextEditingController();
   final _contact = TextEditingController();
-  String _type = 'factual_error';
+  String _type = 'fix';
   bool _sent = false;
+  bool _busy = false;
+  String? _error;
 
   static const types = [
-    ('factual_error', '사실과 다른 정보'),
+    ('fix', '사실과 다른 정보'),
     ('defamation', '명예훼손 소지'),
     ('closed', '폐원·휴원'),
     ('other', '기타'),
@@ -466,7 +475,9 @@ class _CorrectionFormState extends State<_CorrectionForm> {
           const SizedBox(height: 6),
           Text(
             '학원 운영자 또는 관계자가 사실과 다른 내용을 발견한 경우 정정을 요청할 수 있습니다. '
-            '접수되면 해당 항목에 "검토 중" 표시가 붙고, 7일 이내에 처리 결과를 회신합니다.',
+            '로그인은 필요 없습니다. 접수 내용은 공개되지 않으며 운영자가 직접 검토합니다. '
+            '자동으로 반영하지 않는 이유는, 창구가 곧 편집권이 되면 그것도 또 다른 왜곡이기 '
+            '때문입니다. 남겨 주신 연락처로 7일 이내에 처리 결과를 회신합니다.',
             style: text.bodyMedium,
           ),
           const SizedBox(height: AppSpace.md),
@@ -483,8 +494,8 @@ class _CorrectionFormState extends State<_CorrectionForm> {
                 const SizedBox(width: AppSpace.sm),
                 Expanded(
                   child: Text(
-                    '접수되었습니다. (백엔드 연결 전이므로 현재는 화면상 확인만 됩니다 — '
-                    'Supabase corrections 테이블 연결 후 실제 저장됩니다.)',
+                    '접수되었습니다. 남겨 주신 연락처로 7일 이내에 처리 결과를 '
+                    '회신드립니다.',
                     style: text.bodyMedium,
                   ),
                 ),
@@ -519,8 +530,13 @@ class _CorrectionFormState extends State<_CorrectionForm> {
                   border: OutlineInputBorder()),
             ),
             const SizedBox(height: AppSpace.md),
+            if (_error != null) ...[
+              Text(_error!,
+                  style: text.bodySmall?.copyWith(color: AppColors.rising)),
+              const SizedBox(height: AppSpace.sm),
+            ],
             FilledButton(
-              onPressed: () {
+              onPressed: _busy ? null : () async {
                 if (_academy.text.trim().isEmpty ||
                     _body.text.trim().isEmpty ||
                     _contact.text.trim().isEmpty) {
@@ -528,9 +544,32 @@ class _CorrectionFormState extends State<_CorrectionForm> {
                       const SnackBar(content: Text('모든 항목을 입력해 주세요')));
                   return;
                 }
-                setState(() => _sent = true);
+                setState(() { _busy = true; _error = null; });
+                try {
+                  await ref.read(correctionServiceProvider).submit(
+                        // 이 폼은 학원명을 손으로 받는다. 학원 상세의 폼과
+                        // 달리 어느 학원인지 특정할 수 없어, 검토 단계에서
+                        // 사람이 대조한다.
+                        academyKey: 'unmatched',
+                        academyName: _academy.text.trim(),
+                        requester: '미기재',
+                        contact: _contact.text.trim(),
+                        kind: _type,
+                        message: _body.text.trim(),
+                      );
+                } catch (_) {
+                  if (mounted) {
+                    setState(() {
+                      _busy = false;
+                      _error = '접수에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+                    });
+                  }
+                  return;
+                }
+                if (!mounted) return;
+                setState(() { _busy = false; _sent = true; });
               },
-              child: const Text('정정 요청 보내기'),
+              child: Text(_busy ? '보내는 중…' : '정정 요청 보내기'),
             ),
           ],
         ]),

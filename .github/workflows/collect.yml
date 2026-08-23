@@ -64,7 +64,9 @@ jobs:
           SCHOOLINFO_API_KEY: ${{ secrets.SCHOOLINFO_API_KEY }}
         run: python pipeline/run.py --careers
 
-      # 정정 요청이 쌓여 있으면 로그에 띄운다. 놓치면 창구가 없는 것과 같다.
+      # 정정 요청이 쌓여 있으면 이 단계를 실패시켜 깃허브 알림이 가게 한다.
+      # 로그에만 찍으면 아무도 안 본다 — 놓치면 창구가 없는 것과 같다.
+      # 다른 단계는 이미 끝난 뒤라 데이터 갱신에는 영향이 없다.
       - name: 미처리 정정 요청 확인
         continue-on-error: true
         env:
@@ -72,7 +74,7 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           if [ -n "$SUPABASE_URL" ]; then
-            python pipeline/corrections_report.py
+            python pipeline/corrections_report.py --fail-on-open
           fi
 
       - name: 변경분 커밋

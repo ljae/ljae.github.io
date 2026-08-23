@@ -63,19 +63,39 @@ def main() -> None:
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--done", metavar="ID")
     ap.add_argument("--note", default="")
+    ap.add_argument("--fail-on-open", action="store_true",
+                    help="미처리가 있으면 종료 코드 2 (CI 알림용)")
     a = ap.parse_args()
 
     if a.done:
-        rows = _req("PATCH", f"corrections?id=like.{a.done}*",
+        # id 가 uuid 라 like 를 못 쓴다. 앞자리로 찾아 전체 id 를 구한 뒤
+        # 정확히 지정한다. 실수로 여러 건을 한꺼번에 닫지 않도록 1건일
+        # 때만 처리한다.
+        # uuid 는 like 도, 범위 비교도 다루기 번거롭다. 목록을 받아
+        # 파이썬에서 앞자리를 맞춘다 — 미처리 건이 수천 건이 될 일은 없다.
+        found = [r for r in _req("GET", "corrections?select=id,academy_name")
+                 if str(r["id"]).startswith(a.done)]
+        if len(found) != 1:
+            sys.exit(f"'{a.done}' 로 {len(found)}건이 잡혔습니다. "
+                     "id 앞자리를 더 길게 주세요.")
+        rows = _req("PATCH", f"corrections?id=eq.{found[0]['id']}",
                     json={"status": "done", "resolution": a.note,
                           "resolved_at": "now()"})
-        print(f"처리 완료: {len(rows)}건")
+        print(f"처리 완료: {found[0].get('academy_name')} ({len(rows)}건)")
         return
 
     q = "corrections?select=*&order=created_at.desc"
     if not a.all:
-        q += "&status=eq.open"
-    show(_req("GET", q))
+        # 미처리 상태가 둘이다. 01_schema 의 기본값은 'received' 이고
+        # 06 에서 policy 를 손대며 'open' 을 썼다. 둘 다 미처리로 본다 —
+        # 한쪽만 보다가 접수된 요청을 통째로 못 봤다.
+        q += "&status=in.(received,open,reviewing)"
+    rows = _req("GET", q)
+    show(rows)
+    # 미처리가 있으면 0 이 아닌 코드로 끝낸다. 야간 작업이 실패로 표시되고
+    # 깃허브가 알림을 보낸다 — 로그에만 찍히면 아무도 안 본다.
+    if rows and a.fail_on_open:
+        sys.exit(2)
 
 
 if __name__ == "__main__":
