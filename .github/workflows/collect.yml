@@ -56,6 +56,25 @@ jobs:
             echo "Supabase 키 없음 — 건너뜀"
           fi
 
+      # 진로 공시는 학교알리미가 연속 호출을 막는다. 6초 간격이라
+      # 157곳이면 16분. 야간 작업에 얹어 두고 캐시로 이어받는다.
+      - name: 진로 공시 수집 (이어받기)
+        continue-on-error: true
+        env:
+          SCHOOLINFO_API_KEY: ${{ secrets.SCHOOLINFO_API_KEY }}
+        run: python pipeline/run.py --careers
+
+      # 정정 요청이 쌓여 있으면 로그에 띄운다. 놓치면 창구가 없는 것과 같다.
+      - name: 미처리 정정 요청 확인
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_URL" ]; then
+            python pipeline/corrections_report.py
+          fi
+
       - name: 변경분 커밋
         run: |
           git config user.name  "edutree-bot"

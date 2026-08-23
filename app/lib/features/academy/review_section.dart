@@ -12,6 +12,32 @@ import '../../widgets/common.dart';
 /// 커뮤니티에서 모은 '근거'와 구분해서 보여준다. 이쪽은 로그인한 학부모가
 /// 별점과 관점을 구조화해 남긴 것이고, 저쪽은 공개 글에서 신호만 뽑은 것이다.
 /// 둘을 같은 목록에 섞으면 어느 쪽이 검증된 것인지 알 수 없게 된다.
+/// 후기 목록에 걸린 필터. 화면을 벗어나면 사라지는 값이라 화면에 둔다.
+class ReviewFilter {
+  final String? band;
+  final String? subject;
+  const ReviewFilter({this.band, this.subject});
+
+  @override
+  bool operator ==(Object other) =>
+      other is ReviewFilter && other.band == band && other.subject == subject;
+
+  @override
+  int get hashCode => Object.hash(band, subject);
+}
+
+class ReviewFilterNotifier extends Notifier<ReviewFilter> {
+  @override
+  ReviewFilter build() => const ReviewFilter();
+
+  void setBand(String? v) => state = ReviewFilter(band: v, subject: state.subject);
+  void setSubject(String? v) => state = ReviewFilter(band: state.band, subject: v);
+}
+
+final reviewFilterProvider =
+    NotifierProvider<ReviewFilterNotifier, ReviewFilter>(
+        ReviewFilterNotifier.new);
+
 class ReviewSection extends ConsumerWidget {
   final String academyId;
   final String academyName;
@@ -60,7 +86,7 @@ class ReviewSection extends ConsumerWidget {
                     ]),
                   ),
                 )
-              : Column(children: [for (final r in rows) _ReviewTile(review: r)]),
+              : _FilteredReviews(rows: rows),
         ),
       ],
     );
@@ -77,12 +103,12 @@ class ReviewSection extends ConsumerWidget {
   }
 }
 
-class _ReviewTile extends StatelessWidget {
+class _ReviewTile extends ConsumerWidget {
   final UserReview review;
-  const _ReviewTile({required this.review});
+  const _ReviewTile({super.key, required this.review});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final text = Theme.of(context).textTheme;
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
@@ -95,9 +121,18 @@ class _ReviewTile extends StatelessWidget {
                   size: 16, color: AppColors.gold),
             const SizedBox(width: AppSpace.sm),
             Text(review.nickname, style: text.labelLarge),
+            if (review.verified) ...[
+              const SizedBox(width: 6),
+              const Chip2('재원 확인', color: AppColors.verified,
+                  icon: Icons.verified_rounded),
+            ],
             if (review.isMine) ...[
               const SizedBox(width: 6),
               const Chip2('내 후기', color: AppColors.navy),
+              if (!review.verified) ...[
+                const SizedBox(width: 6),
+                _VerifyButton(reviewId: review.id),
+              ],
             ],
             const Spacer(),
             Text('${review.createdAt.year}.${review.createdAt.month}.${review.createdAt.day}',
@@ -349,6 +384,110 @@ class _ReviewFormState extends ConsumerState<_ReviewForm> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// 학년·과목으로 후기를 걸러 본다.
+///
+/// 후기가 쌓이면 '우리 아이와 같은 구간' 글만 보고 싶어진다. 초6 학부모의
+/// 후기와 예비초 학부모의 후기는 같은 학원이라도 다른 이야기다.
+/// 후기가 적을 때 필터 줄이 먼저 보이면 허전하므로 4건부터 내놓는다.
+class _FilteredReviews extends ConsumerWidget {
+  final List<UserReview> rows;
+  const _FilteredReviews({required this.rows});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = Theme.of(context).textTheme;
+    final f = ref.watch(reviewFilterProvider);
+    final notifier = ref.read(reviewFilterProvider.notifier);
+
+    // 실제로 달린 값만 선택지로 내놓는다. 없는 구간을 눌러 빈 화면을
+    // 보게 만들 이유가 없다.
+    final bands = <String>{for (final r in rows) ?r.gradeBand};
+    final subjects = <String>{for (final r in rows) ?r.subject};
+    final showFilter = rows.length >= 4 && (bands.length > 1 || subjects.length > 1);
+
+    final shown = rows.where((r) =>
+        (f.band == null || r.gradeBand == f.band) &&
+        (f.subject == null || r.subject == f.subject)).toList();
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      if (showFilter) ...[
+        Wrap(spacing: 6, runSpacing: 6, children: [
+          for (final b in gradeBandNames.keys)
+            if (bands.contains(b))
+              FilterChip(
+                label: Text(gradeBandNames[b]!),
+                selected: f.band == b,
+                onSelected: (v) => notifier.setBand(v ? b : null),
+              ),
+          for (final sub in subjectNames.keys)
+            if (subjects.contains(sub))
+              FilterChip(
+                label: Text(subjectNames[sub]!),
+                selected: f.subject == sub,
+                onSelected: (v) => notifier.setSubject(v ? sub : null),
+              ),
+        ]),
+        const SizedBox(height: AppSpace.sm),
+      ],
+      if (shown.isEmpty)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpace.lg),
+          child: Text('이 조건에 맞는 후기가 아직 없습니다.',
+              style: text.bodyMedium),
+        )
+      else
+        for (final r in shown) _ReviewTile(key: ValueKey(r.id), review: r),
+    ]);
+  }
+}
+
+/// 내 후기에 붙는 재원 인증 요청 버튼.
+///
+/// 증빙 이미지는 받지 않는다 — 영수증에는 이름·연락처가 함께 찍히고,
+/// 확인이 끝나면 남길 이유가 없는 정보다. 요청만 남기고 운영자가
+/// 개별 연락으로 확인한다. 사진을 서버에 쌓아 두는 쪽이 더 쉬웠겠지만,
+/// 쌓아 둘 이유가 없는 개인정보는 애초에 받지 않는 편이 맞다.
+class _VerifyButton extends ConsumerStatefulWidget {
+  final String reviewId;
+  const _VerifyButton({required this.reviewId});
+
+  @override
+  ConsumerState<_VerifyButton> createState() => _VerifyButtonState();
+}
+
+class _VerifyButtonState extends ConsumerState<_VerifyButton> {
+  bool _sent = false;
+  bool _busy = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_sent) {
+      return const Chip2('인증 확인 중', color: AppColors.estimated);
+    }
+    return TextButton(
+      onPressed: _busy ? null : () async {
+        setState(() => _busy = true);
+        try {
+          await ref.read(reviewServiceProvider).requestVerification(widget.reviewId);
+          if (mounted) setState(() => _sent = true);
+        } catch (_) {
+          if (!context.mounted) return;
+          setState(() => _busy = false);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('요청에 실패했습니다. 잠시 후 다시 시도해 주세요.')));
+        }
+      },
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        textStyle: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600),
+      ),
+      child: Text(_busy ? '요청 중…' : '재원 인증 요청'),
     );
   }
 }

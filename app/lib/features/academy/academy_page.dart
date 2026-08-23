@@ -8,6 +8,7 @@ import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
 import '../../data/corrections.dart';
+import '../../data/leveltests.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -165,6 +166,8 @@ class _Body extends StatelessWidget {
                 for (final e in academy.evidence) _EvidenceTile(evidence: e),
 
               const SizedBox(height: AppSpace.xl),
+              _LevelTests(academyKey: academy.id),
+
               ReviewSection(
                   academyId: academy.id, academyName: academy.displayName),
 
@@ -382,6 +385,70 @@ class _CorrectionNotice extends StatelessWidget {
 ///
 /// 로그인 없이 받는다. 항목은 최소한으로 — 무엇이 틀렸고(내용),
 /// 누구시고(성함·직함), 어디로 회신하면 되는지(연락처)면 충분하다.
+/// 레벨테스트 일정.
+///
+/// 학원 공지와 학부모 제보를 구분해 표시한다 — 확실성이 다른 정보를
+/// 섞어 '일정'이라 부르면 헛걸음의 책임이 우리에게 온다.
+/// 일정이 없으면 섹션 자체를 내지 않는다. 빈 칸은 정보가 아니다.
+class _LevelTests extends ConsumerWidget {
+  final String academyKey;
+  const _LevelTests({required this.academyKey});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(levelTestsProvider(academyKey));
+    final rows = async.value ?? const [];
+    if (rows.isEmpty) return const SizedBox.shrink();
+    final text = Theme.of(context).textTheme;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SectionHeader('레벨테스트 일정',
+          subtitle: '학원 공지와 학부모 제보를 구분해 표시합니다. '
+              '제보는 확인 전이므로 방문 전 학원에 확인하세요.'),
+      for (final t in rows)
+        Card(
+          margin: const EdgeInsets.only(bottom: AppSpace.sm),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpace.md),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Icon(Icons.event_outlined, size: 18,
+                  color: t.official ? AppColors.verified : AppColors.estimated),
+              const SizedBox(width: AppSpace.sm),
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        Text(t.whenLabel, style: text.titleMedium),
+                        const SizedBox(width: 6),
+                        Chip2(t.official ? '학원 공지' : '학부모 제보',
+                            color: t.official
+                                ? AppColors.verified
+                                : AppColors.estimated),
+                      ]),
+                      if (t.targetBand != null || t.subject != null)
+                        Text([
+                          if (t.targetBand != null)
+                            gradeBandNames[t.targetBand] ?? '',
+                          if (t.subject != null) subjectNames[t.subject] ?? '',
+                        ].where((x) => x.isNotEmpty).join(' · '),
+                            style: text.bodySmall),
+                      if (t.detail != null && t.detail!.isNotEmpty)
+                        Text(t.detail!, style: text.bodyMedium),
+                      if (t.applyUntil != null)
+                        Text('접수 마감 ${t.applyUntil!.month}월 ${t.applyUntil!.day}일',
+                            style: text.bodySmall
+                                ?.copyWith(color: AppColors.rising)),
+                    ]),
+              ),
+            ]),
+          ),
+        ),
+      const SizedBox(height: AppSpace.xl),
+    ]);
+  }
+}
+
 class _CorrectionSheet extends ConsumerStatefulWidget {
   final String academyKey;
   final String academyName;

@@ -74,6 +74,20 @@ class MethodPage extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('후기마다 무게가 다릅니다'),
+                  const _Prose(
+                    '같은 한 줄이어도 누가 썼는지에 따라 점수에 실리는 무게가 다릅니다. '
+                    '세 단계로 나눕니다.\n\n'
+                    '커뮤니티에서 수집한 글은 가장 낮습니다. 작성자를 확인할 수 없고 광고가 섞이기 '
+                    '때문입니다. 학원실록에 로그인해 남긴 후기는 그보다 높습니다 — 학원당 1인 1건이고 '
+                    '별점과 관점이 구조화돼 있습니다. 재원 증빙이 확인된 후기가 가장 높습니다.\n\n'
+                    '재원 인증에 만점을 주지는 않습니다. 확인한 것은 "실제로 다녔다"이지 '
+                    '"이 평가가 옳다"가 아니기 때문입니다.\n\n'
+                    '인증 과정에서 증빙 이미지는 서버에 저장하지 않습니다. 영수증에는 이름과 연락처가 '
+                    '함께 찍히고, 확인이 끝나면 남길 이유가 없는 정보입니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
                   const SectionHeader('데이터는 어디서 오나요'),
                   const _SourceTable(),
 

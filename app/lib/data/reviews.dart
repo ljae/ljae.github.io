@@ -24,6 +24,9 @@ class UserReview {
   final String? subject;
   final List<String> tags;
 
+  /// 재원 증빙이 확인된 후기. 평판에서 더 높은 신뢰도를 받는다.
+  final bool verified;
+
   final DateTime createdAt;
   final bool isMine;
 
@@ -37,6 +40,7 @@ class UserReview {
     this.gradeBand,
     this.subject,
     this.tags = const [],
+    this.verified = false,
     required this.createdAt,
     this.isMine = false,
   });
@@ -51,6 +55,7 @@ class UserReview {
         gradeBand: r['grade_band'] as String?,
         subject: r['subject'] as String?,
         tags: ((r['tags'] as List?) ?? const []).cast<String>(),
+        verified: (r['verified'] ?? false) as bool,
         createdAt:
             DateTime.tryParse('${r['created_at']}') ?? DateTime.now(),
         isMine: myId != null && r['author_id'] == myId,
@@ -68,6 +73,7 @@ class ReviewService {
     final rows = await _db
         .from('user_reviews')
         .select('id, academy_key, rating, body, aspects, grade_band, subject, tags, '
+        'verified, '
         'created_at, author_id, '
             'profiles(nickname)')
         .eq('academy_key', academyId)
@@ -116,6 +122,19 @@ class ReviewService {
       'attended_from': attendedFrom?.toIso8601String().split('T').first,
       'attended_to': attendedTo?.toIso8601String().split('T').first,
     }, onConflict: 'academy_key,author_id');
+  }
+
+  /// 재원 인증 요청. 증빙 이미지는 서버에 저장하지 않는다 —
+  /// 영수증에는 이름·연락처가 함께 찍히고, 확인이 끝나면 남길 이유가 없다.
+  /// 운영자가 확인 후 판정만 남긴다.
+  Future<void> requestVerification(String reviewId, {String note = ''}) async {
+    final uid = currentUserId;
+    if (uid == null) throw StateError('로그인이 필요합니다');
+    await _db.from('review_verifications').upsert({
+      'review_id': reviewId,
+      'author_id': uid,
+      'note': note,
+    }, onConflict: 'review_id');
   }
 }
 

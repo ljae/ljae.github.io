@@ -15,6 +15,10 @@ from . import config
 # 로그인·구조화·1인1건이라는 조건이 붙어 있어서다.
 REVIEW_CREDIBILITY = 0.9
 
+# 재원 증빙이 확인된 후기. 여기가 우리가 가진 가장 단단한 근거다.
+# 1.0 을 주지 않는 이유: 확인한 것은 '다녔다'이지 '이 평가가 옳다'가 아니다.
+VERIFIED_CREDIBILITY = 0.96
+
 
 def fetch_summaries() -> dict[str, dict]:
     """학원별 후기 요약. {academy_key: {count, avg_rating}}"""
@@ -23,7 +27,8 @@ def fetch_summaries() -> dict[str, dict]:
     try:
         resp = requests.get(
             f"{config.SUPABASE_URL}/rest/v1/v_review_summary",
-            params={"select": "academy_key,review_count,avg_rating"},
+            params={"select": "academy_key,review_count,avg_rating,"
+                              "verified_count,verified_avg"},
             headers={
                 "apikey": config.SUPABASE_SERVICE_KEY,
                 "Authorization": f"Bearer {config.SUPABASE_SERVICE_KEY}",
@@ -51,22 +56,35 @@ def as_mentions(summaries: dict[str, dict]) -> list[dict]:
         avg = float(row.get("avg_rating") or 0)
         if not count:
             continue
-        # 1~5 별점을 -1~+1 감성으로 선형 변환
-        sentiment = (avg - 3.0) / 2.0
-        for i in range(count):
-            out.append({
-                "source": "edutree_review",
-                "source_url": f"internal://review/{key}/{i}",
-                "url_hash": f"rv{key}{i}",
-                "academy_key": key,
-                "title": "학원실록 후기",
-                "snippet": "",
-                "posted_at": None,
-                "sentiment": round(sentiment, 3),
-                "credibility": REVIEW_CREDIBILITY,
-                "spam_score": 0.0,
-                "is_excluded": False,
-                "aspects": {},
-                "selectivity": {"hard": 0, "wait": 0},
-            })
+        verified = int(row.get("verified_count") or 0)
+        v_avg = float(row.get("verified_avg") or avg)
+
+        def emit(n: int, mean: float, cred: float, tag: str) -> None:
+            # 1~5 별점을 -1~+1 감성으로 선형 변환
+            sentiment = round((mean - 3.0) / 2.0, 3)
+            for i in range(n):
+                out.append({
+                    "source": "edutree_review",
+                    "source_url": f"internal://review/{key}/{tag}{i}",
+                    "url_hash": f"rv{tag}{key}{i}",
+                    "academy_key": key,
+                    "title": "학원실록 후기",
+                    "snippet": "",
+                    "posted_at": None,
+                    "sentiment": sentiment,
+                    "credibility": cred,
+                    "spam_score": 0.0,
+                    "is_excluded": False,
+                    "aspects": {},
+                    "selectivity": {"hard": 0, "wait": 0},
+                })
+
+        # 인증분과 나머지를 나눠 싣는다. 신뢰도가 다르므로 한 덩어리로
+        # 평균 내면 인증의 의미가 사라진다.
+        emit(verified, v_avg, VERIFIED_CREDIBILITY, "v")
+        rest = count - verified
+        if rest > 0:
+            # 전체 평균에서 인증분을 빼 나머지 평균을 되돌린다.
+            rest_avg = ((avg * count) - (v_avg * verified)) / rest
+            emit(rest, rest_avg, REVIEW_CREDIBILITY, "u")
     return out

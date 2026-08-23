@@ -431,6 +431,7 @@ class _SchoolList extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SectionHeader('${region?.nameKo ?? ''} 학교 ${schools.length}곳',
           subtitle: 'NEIS 학교기본정보 공시 기준'),
+      _CareerRanking(schools: schools),
       for (final level in order)
         if ((byLevel[level] ?? []).isNotEmpty) ...[
           Padding(
@@ -485,6 +486,96 @@ class _SchoolList extends StatelessWidget {
   }
 }
 
+/// 진로 공시가 붙은 학교를 순위로 보여준다.
+///
+/// 중학교는 특목·자사고 진학률, 고등학교는 대학 진학률 기준이다.
+/// 공시가 붙은 학교가 3곳 미만이면 내놓지 않는다 — 두 곳을 세워 놓고
+/// '1위'라 부르는 것은 순위가 아니다.
+///
+/// 진학률로 학교를 줄 세우는 일이 거친 것은 안다. 그래서 값과 출처를
+/// 그대로 보여주고 가공 점수를 만들지 않는다.
+class _CareerRanking extends StatelessWidget {
+  final List<School> schools;
+  const _CareerRanking({required this.schools});
+
+  static const _minShown = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+
+    double? metric(School s) {
+      final c = s.careers;
+      if (c == null) return null;
+      if (s.level == 'middle') {
+        final a = (c['특수목적고'] as num?)?.toDouble();
+        final b = (c['자율고'] as num?)?.toDouble();
+        if (a == null && b == null) return null;
+        return (a ?? 0) + (b ?? 0);
+      }
+      return (c['대학'] as num?)?.toDouble();
+    }
+
+    Widget section(String level, String title, String unit) {
+      final rows = <(School, double)>[
+        for (final s in schools)
+          if (s.level == level && metric(s) != null) (s, metric(s)!),
+      ]..sort((a, b) => b.$2.compareTo(a.$2));
+      if (rows.length < _minShown) return const SizedBox.shrink();
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: AppSpace.md),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(title, style: text.titleMedium),
+          Text(unit, style: text.bodySmall),
+          const SizedBox(height: 6),
+          for (var i = 0; i < rows.length; i++)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Row(children: [
+                SizedBox(
+                  width: 22,
+                  child: Text('${i + 1}',
+                      style: text.labelMedium?.copyWith(
+                          fontWeight: FontWeight.w700)),
+                ),
+                Expanded(child: Text(rows[i].$1.name, style: text.bodyLarge)),
+                SizedBox(
+                  width: 120,
+                  child: LinearProgressIndicator(
+                    value: (rows[i].$2 / 100).clamp(0, 1),
+                    minHeight: 6,
+                    backgroundColor: AppColors.line,
+                    color: Color(schoolLevelColors[level]!),
+                  ),
+                ),
+                const SizedBox(width: AppSpace.sm),
+                SizedBox(
+                  width: 52,
+                  child: Text('${rows[i].$2.toStringAsFixed(1)}%',
+                      textAlign: TextAlign.right,
+                      style: text.titleMedium?.copyWith(fontSize: 14)),
+                ),
+              ]),
+            ),
+        ]),
+      );
+    }
+
+    final middle = section('middle', '중학교 · 특목·자사고 진학률',
+        '학교알리미 졸업생 진로 현황 공시. 진학률만 놓고 세운 순서입니다.');
+    final high = section('high', '고등학교 · 대학 진학률',
+        '학교알리미 졸업생 진로 현황 공시. 전문대·국외는 제외한 4년제 기준입니다.');
+    if (middle is SizedBox && high is SizedBox) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpace.lg),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          children: [middle, high]),
+    );
+  }
+}
+
 /// 학교 상세 — 배정 아파트를 보여준다.
 ///
 /// '이 집은 어느 학교냐' 만큼이나 '이 학교 보내려면 어디 살아야 하냐' 를
@@ -493,47 +584,64 @@ class _SchoolList extends StatelessWidget {
 ///
 /// 공시(학교알리미)와 수기 보완(서울대 등 외부 집계)을 한 패널에 두되
 /// 출처를 각각 명시한다. 두 숫자는 같은 자리에서 나온 값이 아니다.
+///
+/// 값은 전부 비율(%)이다. 학교알리미가 인원이 아니라 비율로 공시한다.
 class _CareersPanel extends StatelessWidget {
   final School school;
   const _CareersPanel({required this.school});
+
+  /// 학부모가 실제로 보는 순서. 중학교는 특목·자사가 먼저다.
+  static const _middle = ['특수목적고', '자율고', '일반고', '특성화고'];
+  static const _high = ['대학', '전문대학', '국외', '취업'];
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final c = school.careers;
     final ex = school.outcomesExtra;
-    // 중학교는 특목+자사 진학이 핵심 관심사, 고등학교는 대학 진학률.
-    final rows = <(String, String)>[];
-    if (c != null) {
-      for (final k in const [
-        '특수목적고', '자율고', '일반고', '특성화고', '대학', '전문대학', '진학률'
-      ]) {
-        final v = c[k];
-        if (v is num) {
-          rows.add((k, k == '진학률' ? '${v.toStringAsFixed(1)}%' : '${v.toInt()}명'));
-        }
-      }
-    }
+
+    final order = school.level == 'middle' ? _middle : _high;
+    final rows = <(String, double)>[
+      if (c != null)
+        for (final k in order)
+          if (c[k] is num) (k, (c[k] as num).toDouble()),
+    ];
     if (rows.isEmpty && ex == null) return const SizedBox.shrink();
+
+    // 중학교는 특목+자사를 합쳐서 한 번 더 보여준다 — 학부모가 묶어서 본다.
+    final headline = school.level == 'middle' && c != null
+        ? ((c['특수목적고'] as num?)?.toDouble() ?? 0) +
+            ((c['자율고'] as num?)?.toDouble() ?? 0)
+        : (c?['대학'] as num?)?.toDouble();
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('졸업생 진로', style: text.labelMedium),
       const SizedBox(height: 4),
+      if (headline != null) ...[
+        Text(
+          school.level == 'middle'
+              ? '특목·자사고 ${headline.toStringAsFixed(1)}%'
+              : '대학 진학 ${headline.toStringAsFixed(1)}%',
+          style: text.headlineMedium?.copyWith(fontSize: 21),
+        ),
+        const SizedBox(height: 6),
+      ],
       if (rows.isNotEmpty) ...[
         Wrap(spacing: AppSpace.md, runSpacing: 4, children: [
           for (final (k, v) in rows)
             Text.rich(TextSpan(children: [
               TextSpan(text: '$k ', style: text.bodyMedium),
               TextSpan(
-                  text: v,
+                  text: '${v.toStringAsFixed(1)}%',
                   style: text.titleMedium?.copyWith(fontSize: 14.5)),
             ])),
         ]),
-        Text('출처: 학교알리미 공시 ${c!['year'] ?? ''}',
+        const SizedBox(height: 2),
+        Text('출처: 학교알리미 ${c!['year'] ?? ''} 공시 · 졸업생 진로 현황',
             style: text.bodySmall?.copyWith(fontSize: 10.5)),
       ],
       if (ex != null && ex['snu_admits'] != null) ...[
-        const SizedBox(height: 4),
+        const SizedBox(height: 6),
         Text('서울대 ${ex['snu_admits']}명 (${ex['snu_year'] ?? ''})',
             style: text.titleMedium?.copyWith(fontSize: 14.5)),
         Text('출처: ${ex['source'] ?? '외부 집계'}',
