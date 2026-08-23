@@ -694,6 +694,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
 
+    # 오늘 자 랭킹 스냅샷. 과거 이력이 없으므로 오늘부터 쌓는다.
+    from . import history
+    history.record(evaluated, scores, school_rows)
+
     stats = assign_display_names(evaluated + registry_only)
     if stats:
         print(f"  표시명 중복 해소: 도로명 부기 {stats.get('disambiguated', 0)}곳"

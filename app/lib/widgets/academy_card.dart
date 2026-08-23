@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/theme.dart';
 import '../data/models.dart';
+import '../data/repository.dart';
 import 'common.dart';
 
 /// 랭킹 · 검색 · 단계 상세에서 공통으로 쓰는 학원 카드.
@@ -88,6 +90,9 @@ class AcademyCard extends StatelessWidget {
                       ScoreDial(score.total, size: narrow ? 52 : 60),
                       const SizedBox(height: 2),
                       MomentumArrow(score.momentumDirection),
+                      // 지난 집계 대비 순위 변동. 화살표(momentum)는 언급량
+                      // 추세라 다른 값이다 — 학부모가 궁금한 건 이쪽이다.
+                      _RankDelta(academyId: academy.id),
                       // 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
                       // '의견 낸 후기 중 긍정 N%' 는 그 자체로 읽힌다.
                       if (score.positiveRate != null) ...[
@@ -212,4 +217,36 @@ class _Fact extends StatelessWidget {
           Text(label, style: Theme.of(context).textTheme.bodySmall),
         ]),
       );
+}
+
+/// 지난 집계 대비 순위 변동. 이력이 하루뿐이면 아무것도 내지 않는다.
+class _RankDelta extends ConsumerWidget {
+  final String academyId;
+  const _RankDelta({required this.academyId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final hist = ref.watch(historyProvider).value;
+    final points = hist?.forAcademy(academyId) ?? const <RankPoint>[];
+    if (points.length < 2) return const SizedBox.shrink();
+    final prev = points[points.length - 2].rank;
+    final now = points.last.rank;
+    if (prev == null || now == null || prev == now) return const SizedBox.shrink();
+
+    final up = now < prev;                 // 숫자가 작아지면 순위가 오른 것
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(up ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+            size: 16, color: up ? AppColors.rising : AppColors.falling),
+        Text('${(prev - now).abs()}',
+            style: TextStyle(
+              fontFamily: 'Paperlogy',
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: up ? AppColors.rising : AppColors.falling,
+            )),
+      ]),
+    );
+  }
 }

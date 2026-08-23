@@ -203,6 +203,17 @@ class EduTreeRepository {
           .map((e) => RegistryEntry.fromJson((e as Map).cast<String, dynamic>()))
           .toList();
 
+  /// 랭킹 이력. 상세 화면에서만 쓰이므로 첫 화면에서 읽지 않는다.
+  Future<RankHistory> loadHistory() async {
+    try {
+      final j = await _json('assets/data/history.json');
+      return RankHistory.fromJson((j as Map).cast<String, dynamic>());
+    } on Exception {
+      // 아직 이력 파일이 없을 수 있다. 없으면 화면이 추이를 감춘다.
+      return const RankHistory();
+    }
+  }
+
   /// 지도 데이터 1.6MB. 학군지도에 들어갈 때만 필요하다.
   Future<MapData> loadMapData() async {
     final results = await Future.wait([
@@ -231,9 +242,83 @@ final repositoryProvider =
 final dataProvider = FutureProvider<EduTreeData>(
     (ref) => ref.watch(repositoryProvider).load());
 
+/// 랭킹 이력 한 점.
+class RankPoint {
+  final DateTime day;
+  final int? rank;
+  final double total;
+  final int sampleSize;
+  const RankPoint({
+    required this.day,
+    this.rank,
+    required this.total,
+    required this.sampleSize,
+  });
+}
+
+/// 랭킹 이력. 과거 자료가 없어 집계 시작일부터 쌓는다.
+///
+/// 지어낸 과거를 채워 넣지 않는다 — 비어 있는 편이 낫고, 화면도
+/// '집계 시작 이후'라고 그대로 말한다.
+class RankHistory {
+  final Map<String, List<RankPoint>> academies;
+  final Map<String, List<(DateTime, double)>> schools;
+  const RankHistory({this.academies = const {}, this.schools = const {}});
+
+  List<RankPoint> forAcademy(String id) => academies[id] ?? const [];
+  List<(DateTime, double)> forSchool(String id) => schools[id] ?? const [];
+
+  /// 집계 시작일. 화면이 '언제부터의 이야기인지' 밝히는 데 쓴다.
+  DateTime? get since {
+    DateTime? first;
+    for (final rows in academies.values) {
+      if (rows.isEmpty) continue;
+      if (first == null || rows.first.day.isBefore(first)) first = rows.first.day;
+    }
+    return first;
+  }
+
+  factory RankHistory.fromJson(Map<String, dynamic> j) {
+    final acad = <String, List<RankPoint>>{};
+    for (final e in ((j['academies'] as Map?) ?? const {}).entries) {
+      final rows = <RankPoint>[];
+      for (final d in ((e.value as Map).cast<String, dynamic>()).entries) {
+        final day = DateTime.tryParse(d.key);
+        final v = (d.value as Map).cast<String, dynamic>();
+        if (day == null) continue;
+        rows.add(RankPoint(
+          day: day,
+          rank: (v['r'] as num?)?.toInt(),
+          total: (v['t'] as num?)?.toDouble() ?? 0,
+          sampleSize: (v['n'] as num?)?.toInt() ?? 0,
+        ));
+      }
+      rows.sort((a, b) => a.day.compareTo(b.day));
+      acad[e.key as String] = rows;
+    }
+    final sch = <String, List<(DateTime, double)>>{};
+    for (final e in ((j['schools'] as Map?) ?? const {}).entries) {
+      final rows = <(DateTime, double)>[];
+      for (final d in ((e.value as Map).cast<String, dynamic>()).entries) {
+        final day = DateTime.tryParse(d.key);
+        final v = (d.value as Map).cast<String, dynamic>();
+        if (day == null) continue;
+        rows.add((day, (v['v'] as num?)?.toDouble() ?? 0));
+      }
+      rows.sort((a, b) => a.$1.compareTo(b.$1));
+      sch[e.key as String] = rows;
+    }
+    return RankHistory(academies: acad, schools: sch);
+  }
+}
+
 /// 등록부 — 검색이 열릴 때 처음 읽힌다. 한 번 읽으면 남는다.
 final registryProvider = FutureProvider<List<RegistryEntry>>(
     (ref) => ref.watch(repositoryProvider).loadRegistry());
+
+/// 랭킹 이력 — 상세 화면에서 처음 읽힌다.
+final historyProvider =
+    FutureProvider<RankHistory>((ref) => ref.watch(repositoryProvider).loadHistory());
 
 /// 지도 데이터 — 학군지도에 들어갈 때 처음 읽힌다.
 final mapDataProvider = FutureProvider<MapData>(

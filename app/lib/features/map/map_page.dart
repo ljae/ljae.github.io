@@ -576,6 +576,43 @@ class _CareerRanking extends StatelessWidget {
   }
 }
 
+/// 학교 진로 추이.
+///
+/// 진로 공시는 연 1회라 점이 드물게 찍힌다. 두 점이 모이기 전에는
+/// 아무것도 내지 않는다 — 한 점으로 추세를 말할 수는 없다.
+class _SchoolTrend extends ConsumerWidget {
+  final String schoolId;
+  final String level;
+  const _SchoolTrend({required this.schoolId, required this.level});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = Theme.of(context).textTheme;
+    final rows = ref.watch(historyProvider).value?.forSchool(schoolId) ?? const [];
+    if (rows.length < 2) return const SizedBox.shrink();
+
+    final first = rows.first.$2, last = rows.last.$2;
+    final diff = last - first;
+    final labelText =
+        level == 'middle' ? '특목·자사고 진학률' : '대학 진학률';
+
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpace.sm),
+      child: Row(children: [
+        Icon(diff >= 0 ? Icons.trending_up : Icons.trending_down,
+            size: 15,
+            color: diff >= 0 ? AppColors.rising : AppColors.falling),
+        const SizedBox(width: 4),
+        Text(
+          '$labelText ${diff >= 0 ? "+" : ""}${diff.toStringAsFixed(1)}%p '
+          '(${rows.first.$1.year} → ${rows.last.$1.year})',
+          style: text.bodySmall,
+        ),
+      ]),
+    );
+  }
+}
+
 /// 학교 상세 — 배정 아파트를 보여준다.
 ///
 /// '이 집은 어느 학교냐' 만큼이나 '이 학교 보내려면 어디 살아야 하냐' 를
@@ -693,6 +730,7 @@ class _SchoolSheet extends StatelessWidget {
 
           if (school.careers != null || school.outcomesExtra != null) ...[
             _CareersPanel(school: school),
+            _SchoolTrend(schoolId: school.id, level: school.level),
             const SizedBox(height: AppSpace.lg),
           ],
 

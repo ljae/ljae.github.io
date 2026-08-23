@@ -9,6 +9,7 @@ import '../../data/repository.dart';
 import '../../widgets/common.dart';
 import '../../data/corrections.dart';
 import '../../data/leveltests.dart';
+import '../../widgets/rank_history_chart.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -164,6 +165,9 @@ class _Body extends StatelessWidget {
                 Text('표시할 근거가 없습니다.', style: text.bodyMedium)
               else
                 for (final e in academy.evidence) _EvidenceTile(evidence: e),
+
+              const SizedBox(height: AppSpace.xl),
+              _RankTrend(academyId: academy.id, region: region?.nameKo ?? ''),
 
               const SizedBox(height: AppSpace.xl),
               _LevelTests(academyKey: academy.id),
@@ -385,6 +389,57 @@ class _CorrectionNotice extends StatelessWidget {
 ///
 /// 로그인 없이 받는다. 항목은 최소한으로 — 무엇이 틀렸고(내용),
 /// 누구시고(성함·직함), 어디로 회신하면 되는지(연락처)면 충분하다.
+/// 순위 추이.
+///
+/// 화면의 상승·보합 화살표는 언급량 추세일 뿐 순위 변동이 아니다.
+/// 학부모가 궁금해하는 '지난주보다 올랐나'는 이쪽이다.
+///
+/// 과거 이력이 없어 집계 시작일부터 쌓는다. 지어낸 과거를 채우지 않고,
+/// 언제부터의 이야기인지 화면에 그대로 밝힌다.
+class _RankTrend extends ConsumerWidget {
+  final String academyId;
+  final String region;
+  const _RankTrend({required this.academyId, required this.region});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = Theme.of(context).textTheme;
+    final hist = ref.watch(historyProvider).value;
+    if (hist == null) return const SizedBox.shrink();
+    final points = hist.forAcademy(academyId);
+    if (points.isEmpty) return const SizedBox.shrink();
+
+    final first = points.first, last = points.last;
+    final moved = (first.rank != null && last.rank != null)
+        ? first.rank! - last.rank!     // 양수면 순위가 올라간 것
+        : null;
+    final since = points.first.day;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SectionHeader('$region 순위 추이',
+          subtitle: '${since.year}.${since.month}.${since.day} 집계 시작 이후. '
+              '이전 기록은 없습니다 — 과거 순위를 만들어 넣지 않습니다.'),
+      if (moved != null && moved != 0)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Row(children: [
+            Icon(moved > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                size: 15,
+                color: moved > 0 ? AppColors.rising : AppColors.falling),
+            const SizedBox(width: 4),
+            Text('${moved.abs()}계단 ${moved > 0 ? "상승" : "하락"}',
+                style: text.titleMedium?.copyWith(
+                    color: moved > 0 ? AppColors.rising : AppColors.falling)),
+            const SizedBox(width: AppSpace.sm),
+            Text('현재 ${last.rank}위 · 트리스코어 ${last.total}',
+                style: text.bodyMedium),
+          ]),
+        ),
+      RankHistoryChart(points: points),
+    ]);
+  }
+}
+
 /// 레벨테스트 일정.
 ///
 /// 학원 공지와 학부모 제보를 구분해 표시한다 — 확실성이 다른 정보를
