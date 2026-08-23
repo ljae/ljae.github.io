@@ -741,6 +741,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "flagship": a.get("flagship", []),
             "tel": a.get("tel"),
             "tuitionRaw": a.get("thcc_ctnt"),
+            # 과목별 교습비. 대표값 하나로 뭉개면 '영어 하나에 26만'인지
+            # '전 과목 26만'인지 알 수 없다.
+            "tuitionCourses": a.get("tuition_courses") or [],
             "establishedOn": a.get("estbl_ymd"),
             "dataSource": a.get("data_source", "seed"),
             "score": {

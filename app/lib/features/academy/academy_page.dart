@@ -130,7 +130,10 @@ class _Body extends StatelessWidget {
                     if (academy.brandLabel != null)
                       _Row('브랜드', academy.brandLabel!),
                     _Row('등록상태', academy.registrationStatus ?? '—'),
-                    _Row('교습비', academy.tuitionRaw ?? '미공개'),
+                    if (academy.tuitionCourses.isEmpty)
+                      _Row('교습비', academy.tuitionRaw ?? '미공개')
+                    else
+                      _CourseFees(courses: academy.tuitionCourses),
                     _Row('정원', academy.capacity != null ? '${academy.capacity}명' : '—'),
                     _Row('개설일', academy.establishedOn ?? '—'),
                     _Row('주소', academy.address ?? '—'),
@@ -389,6 +392,53 @@ class _CorrectionNotice extends StatelessWidget {
 ///
 /// 로그인 없이 받는다. 항목은 최소한으로 — 무엇이 틀렸고(내용),
 /// 누구시고(성함·직함), 어디로 회신하면 되는지(연락처)면 충분하다.
+/// 과목별 교습비.
+///
+/// NEIS 공시 원문은 '문법 영어:268000, 리딩:268000, …' 형태다. 그대로
+/// 한 줄로 보여주면 읽히지 않고, 대표값 하나로 뭉개면 무엇이 26만원인지
+/// 알 수 없다. 과목과 금액을 짝지어 보여준다.
+///
+/// 금액순으로 세우지 않는다 — 공시된 순서가 보통 과정 순서(초→중→고)라
+/// 그쪽이 읽기 쉽다.
+class _CourseFees extends StatelessWidget {
+  final List<CourseFee> courses;
+  const _CourseFees({required this.courses});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final amounts = courses.map((c) => c.amount).toList()..sort();
+    final lo = amounts.first, hi = amounts.last;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SizedBox(width: 96, child: Text('교습비', style: text.bodyMedium)),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              lo == hi
+                  ? '월 ${courses.first.amountLabel}'
+                  : '월 ${CourseFee(name: '', amount: lo).amountLabel}'
+                      ' ~ ${CourseFee(name: '', amount: hi).amountLabel}',
+              style: text.titleMedium,
+            ),
+            const SizedBox(height: 5),
+            Wrap(spacing: AppSpace.sm, runSpacing: 3, children: [
+              for (final c in courses)
+                Text('${c.name} ${c.amountLabel}',
+                    style: text.bodySmall?.copyWith(fontSize: 11.5)),
+            ]),
+            const SizedBox(height: 3),
+            Text('NEIS 공시 기준 · 교재비·특강은 포함되지 않을 수 있습니다',
+                style: text.bodySmall?.copyWith(fontSize: 10.5)),
+          ]),
+        ),
+      ]),
+    );
+  }
+}
+
 /// 순위 추이.
 ///
 /// 화면의 상승·보합 화살표는 언급량 추세일 뿐 순위 변동이 아니다.

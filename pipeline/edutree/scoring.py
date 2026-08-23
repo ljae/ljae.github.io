@@ -169,6 +169,9 @@ def transparency(academy: dict) -> tuple[float, dict]:
     earned["등록상태 정상"] = 25 if status in ("정상", "운영중", "개원") else (
         10 if status else 0)
 
+    # NEIS 의 '교습비 공개여부'(THCC_OTHBC_YN)는 쓰지 않는다. 9,324곳 중
+    # 9,224곳이 'Y' 라 아무것도 가르지 못한다. 실제로 금액이 적혀 있는 곳은
+    # 1,836곳뿐이다. 신고 여부가 아니라 **실제 공개**를 점수로 친다.
     tuition = academy.get("tuition_monthly_krw")
     if tuition:
         earned["교습비 공개"] = 25

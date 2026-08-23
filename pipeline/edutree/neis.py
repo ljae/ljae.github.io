@@ -33,7 +33,11 @@ FIELD_MAP = {
     "ESTBL_YMD": "estbl_ymd",               # 개설일자
     "TOFOR_SMTOT": "tofor_smtot",           # 정원합계
     "DTM_RCPTN_ABLTY_NMPR_SMTOT": "dtm_rcptn_ablty_nmpr_smtot",  # 동시수용인원합계
-    "THCC_CTNT": "thcc_ctnt",               # 교습비내용
+    # 교습비. 실제 컬럼명은 PSNBY_THCC_CNTNT(인별교습비내용)다.
+    # THCC_CTNT 로 잘못 적혀 있어 전 학원의 교습비가 비어 있었고,
+    # 투명성 점수의 '교습비 공개' 25점을 아무도 못 받고 있었다.
+    "PSNBY_THCC_CNTNT": "thcc_ctnt",        # 인별교습비내용 (과목:금액, …)
+    "THCC_OTHBC_YN": "thcc_othbc_yn",       # 교습비 공개여부 (99% 가 Y — 신호 없음)
     "FA_RDNMA": "road_address",             # 도로명주소
     "FA_RDNDA": "address_detail",           # 상세주소 — 괄호 안에 법정동이 있다
     "FA_TELNO": "tel",                      # 전화번호
@@ -88,6 +92,29 @@ def _rows(payload: dict) -> tuple[list[dict], int]:
     return rows, total
 
 
+def parse_courses(thcc_ctnt: str | None) -> list[dict]:
+    """'문법 영어:268000, 리딩:268000' → [{'name','amount'}, …]
+
+    과목별로 얼마인지가 학부모가 실제로 묻는 형태다. 대표값 하나로
+    뭉개면 '영어 하나에 26만'인지 '전 과목 26만'인지 알 수 없다.
+    """
+    if not thcc_ctnt:
+        return []
+    out = []
+    for part in str(thcc_ctnt).split(","):
+        if ":" not in part:
+            continue
+        name, _, amt = part.rpartition(":")
+        digits = re.sub(r"[^\d]", "", amt)
+        if not digits:
+            continue
+        won = int(digits)
+        if not (10_000 <= won <= 5_000_000):
+            continue
+        out.append({"name": name.strip(), "amount": won})
+    return out
+
+
 def parse_tuition(thcc_ctnt: str | None) -> int | None:
     """교습비 원문에서 월 교습비(원)를 추출한다.
 
@@ -138,6 +165,7 @@ def normalize(row: dict) -> dict:
 
     out["dong"] = extract_dong(row)
     out["tuition_monthly_krw"] = parse_tuition(out.get("thcc_ctnt"))
+    out["tuition_courses"] = parse_courses(out.get("thcc_ctnt"))
     out["name_normalized"] = normalize_name(out.get("name") or "")
     # 학원지정번호(ACA_ASNUM)를 고유 식별자로 쓴다.
     #
@@ -263,6 +291,55 @@ def matches_brand(name: str, brand_key: str, strict: bool = False) -> str | None
     return None
 
 
+RAW_CACHE = config.CACHE_DIR / "neis_raw.json"
+
+
+def _filter_and_normalize(collected: list[dict], region: dict) -> list[dict]:
+    """법정동으로 거르고 정규화한다.
+
+    처음에는 도로명주소에 동 이름이 들어 있으리라 보고 부분 문자열로 걸렀는데
+    완전히 틀린 접근이었다. 도로명주소는 애초에 동 기반 주소를 대체한 체계라
+    동 이름이 없다. 그 결과 '반포'는 서초구 대부분에 헛매칭되고(1,812곳),
+    송파구는 도로명에 '잠실'이 없어 3곳만 남았다.
+    """
+    dongs = set(region["dong_list"])
+    out, unmatched = [], 0
+    for row in collected:
+        dong = extract_dong(row)
+        if dong is None:
+            unmatched += 1
+            continue
+        if dongs and dong not in dongs:
+            continue
+        rec = normalize(row)
+        rec["region_id"] = region["id"]
+        out.append(rec)
+    if unmatched:
+        print(f"    (법정동 미추출 {unmatched}곳 제외)")
+    return out
+
+
+def renormalize() -> list[dict]:
+    """원본 캐시에서 다시 정규화한다. API 를 부르지 않는다.
+
+    컬럼 매핑이 틀렸던 적이 있다(교습비를 THCC_CTNT 로 읽고 있었는데 실제
+    이름은 PSNBY_THCC_CNTNT 였다). 그럴 때 9,324건을 다시 받을 이유가 없다 —
+    원본은 그대로고 해석만 바뀌었을 뿐이다.
+    """
+    if not RAW_CACHE.exists():
+        raise NeisError("원본 캐시가 없습니다. 먼저 한 번 수집하세요.")
+    raw = json.loads(RAW_CACHE.read_text(encoding="utf-8"))
+    academies: list[dict] = []
+    for region in config.regions():
+        rows = raw.get(region["sigungu"]) or []
+        found = _filter_and_normalize(rows, region)
+        print(f"  재정규화 {region['name_ko']:>4}: {len(found)}곳 (원본 {len(rows)}건)")
+        academies.extend(found)
+    (config.CACHE_DIR / "neis_academies.json").write_text(
+        json.dumps(academies, ensure_ascii=False, indent=2), encoding="utf-8")
+    return academies
+
+
 def fetch_region(region: dict) -> list[dict]:
     """한 학군의 학원을 전부 수집한다. 행정구역(구) 단위로 받고 동으로 거른다."""
     if not config.HAS_NEIS:
@@ -281,27 +358,17 @@ def fetch_region(region: dict) -> list[dict]:
         page += 1
         time.sleep(0.2)
 
-    # 법정동 정확 일치로 거른다.
-    #
-    # 처음에는 도로명주소에 동 이름이 들어 있으리라 보고 부분 문자열로 걸렀는데
-    # 완전히 틀린 접근이었다. 도로명주소는 애초에 동 기반 주소를 대체한 체계라
-    # 동 이름이 없다. 그 결과 '반포'는 서초구 대부분에 헛매칭되고(1,812곳),
-    # 송파구는 도로명에 '잠실'이 없어 3곳만 남았다.
-    dongs = set(region["dong_list"])
-    out, unmatched = [], 0
-    for row in collected:
-        dong = extract_dong(row)
-        if dong is None:
-            unmatched += 1
-            continue
-        if dongs and dong not in dongs:
-            continue
-        rec = normalize(row)
-        rec["region_id"] = region["id"]
-        out.append(rec)
-    if unmatched:
-        print(f"    (법정동 미추출 {unmatched}곳 제외)")
-    return out
+    # 원본을 그대로 남긴다. 컬럼 매핑을 고칠 때 다시 받지 않아도 되도록.
+    raw = {}
+    if RAW_CACHE.exists():
+        try:
+            raw = json.loads(RAW_CACHE.read_text(encoding="utf-8"))
+        except ValueError:
+            raw = {}
+    raw[region["sigungu"]] = collected
+    RAW_CACHE.write_text(json.dumps(raw, ensure_ascii=False), encoding="utf-8")
+
+    return _filter_and_normalize(collected, region)
 
 
 def fetch_all() -> list[dict]:
