@@ -80,8 +80,13 @@ class _BoardPageState extends ConsumerState<BoardPage> {
                         child: Center(
                             child: Text('아직 글이 없습니다.', style: text.bodyMedium)),
                       )
-                    : Column(
-                        children: [for (final p in posts) _PostTile(post: p)]),
+                    // 글 50개 남짓이라 한 번에 만들어도 무겁지 않다.
+                    // 다만 분류를 바꿀 때 타일이 통째로 새로 만들어지지
+                    // 않도록 키는 붙인다.
+                    : Column(children: [
+                        for (final p in posts)
+                          _PostTile(key: ValueKey(p.id), post: p),
+                      ]),
               ),
               const SizedBox(height: AppSpace.xxl),
             ],
@@ -134,7 +139,7 @@ class _LoopNotice extends StatelessWidget {
 
 class _PostTile extends StatelessWidget {
   final BoardPost post;
-  const _PostTile({required this.post});
+  const _PostTile({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
