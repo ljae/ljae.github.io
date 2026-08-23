@@ -7,12 +7,25 @@ import '../../data/repository.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/common.dart';
 import 'graph_view.dart';
+import 'roadmap_view.dart';
 
-class TechTreePage extends ConsumerWidget {
+/// 테크트리 화면.
+///
+/// 기본 얼굴은 통합 로드맵이다 — 5세 영어 → 6세 수학 → 7세 국어 →
+/// 초4 재편으로 이어지는 전체 흐름을 먼저 보여주고, 과목을 고르면
+/// 그 과목·구간의 상세 트리로 들어간다. 전체를 먼저, 상세는 선택.
+class TechTreePage extends ConsumerStatefulWidget {
   const TechTreePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TechTreePage> createState() => _TechTreePageState();
+}
+
+class _TechTreePageState extends ConsumerState<TechTreePage> {
+  bool _showRoadmap = true;
+
+  @override
+  Widget build(BuildContext context) {
     final async = ref.watch(dataProvider);
     final sel = ref.watch(selectionProvider);
 
@@ -22,12 +35,21 @@ class TechTreePage extends ConsumerWidget {
       data: (data) {
         final track = data.trackById[sel.trackId];
         return Column(children: [
-          _Filters(data: data),
+          _Filters(
+            showRoadmap: _showRoadmap,
+            onChanged: (v) => setState(() => _showRoadmap = v),
+          ),
           const Divider(height: 1),
           Expanded(
-            child: track == null
-                ? const Center(child: Text('해당 과목·학년 구간 트랙이 없습니다'))
-                : _TrackBody(track: track, data: data, regionId: sel.regionId),
+            child: _showRoadmap
+                ? ContentWidth(
+                    max: 1400,
+                    child:
+                        RoadmapView(data: data, regionId: sel.regionId))
+                : track == null
+                    ? const Center(child: Text('해당 과목·학년 구간 트랙이 없습니다'))
+                    : _TrackBody(
+                        track: track, data: data, regionId: sel.regionId),
           ),
         ]);
       },
@@ -36,8 +58,9 @@ class TechTreePage extends ConsumerWidget {
 }
 
 class _Filters extends ConsumerWidget {
-  final EduTreeData data;
-  const _Filters({required this.data});
+  final bool showRoadmap;
+  final ValueChanged<bool> onChanged;
+  const _Filters({required this.showRoadmap, required this.onChanged});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,11 +78,19 @@ class _Filters extends ConsumerWidget {
           Expanded(
             child: ChipRow<String>(
               options: [
+                ('roadmap', '전체 로드맵'),
                 for (final e in subjectNames.entries)
                   if (e.key != 'etc') (e.key, e.value),
               ],
-              selected: sel.subject,
-              onChanged: notifier.setSubject,
+              selected: showRoadmap ? 'roadmap' : sel.subject,
+              onChanged: (v) {
+                if (v == 'roadmap') {
+                  onChanged(true);
+                } else {
+                  notifier.setSubject(v);
+                  onChanged(false);
+                }
+              },
             ),
           ),
         ]),
@@ -120,23 +151,26 @@ class _TrackBody extends StatelessWidget {
             track: track,
             data: data,
             regionId: regionId,
-            onStageTap: (stage) => _openStage(context, stage, data, regionId),
+            onStageTap: (stage) => showStageSheet(context, stage, data, regionId),
           ),
         ),
       ),
     ]);
   }
 
-  void _openStage(
-      BuildContext context, Stage stage, EduTreeData data, String regionId) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      constraints: const BoxConstraints(maxWidth: 720),
-      builder: (_) => _StageSheet(stage: stage, data: data, regionId: regionId),
-    );
-  }
+}
+
+/// 단계 상세 시트. 트리와 통합 로드맵이 같은 시트를 쓴다 —
+/// 같은 단계가 화면마다 다른 얼굴을 하면 사용자가 길을 잃는다.
+void showStageSheet(
+    BuildContext context, Stage stage, EduTreeData data, String regionId) {
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    constraints: const BoxConstraints(maxWidth: 720),
+    builder: (_) => _StageSheet(stage: stage, data: data, regionId: regionId),
+  );
 }
 
 class _Legend extends StatelessWidget {

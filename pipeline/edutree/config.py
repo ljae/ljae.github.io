@@ -108,6 +108,10 @@ SUBJECTS = {
 # 갈린다. 한 덩어리로 두면 학부모가 자기 구간이 아닌 것을 계속 보게 된다.
 #
 # 값은 (표시명, 최소학년, 최대학년). 예비초1 = 0, 초1 = 1 … 고3 = 12.
+# 학년 코드는 유아까지 내려간다(5세 = -2, 6세 = -1, 7세/예비초 = 0).
+# 단, 이것은 **테크트리 표시 전용**이다. 랭킹 구간(GRADE_BANDS)은 0부터
+# 시작한다 — 5~6세 영유·유아 사고력은 로드맵의 방향 안내일 뿐, 그 나이대
+# 학원을 순위에 세울 근거 데이터가 없다. 근거 없는 순위는 만들지 않는다.
 GRADE_BANDS = {
     "elem_low": ("예비초~초3", 0, 3),
     "elem_high": ("초4~초6", 4, 6),
@@ -151,6 +155,11 @@ def banded_techtree() -> dict:
         stages = track["stages"]
         by_band: dict[str, list[dict]] = {}
         for st in stages:
+            # 로드맵 전용 단계(영유 등)는 구간 트리에 넣지 않는다.
+            # 랭킹으로 이어지는 화면에 나타나는 순간 '순위 매길 대상'처럼
+            # 읽히는데, 그 나이대는 근거 데이터가 없다.
+            if st.get("roadmap_only"):
+                continue
             lo, hi = st["grade"]
             for band in bands_for_range(lo, hi):
                 by_band.setdefault(band, []).append(st)
@@ -204,9 +213,45 @@ def banded_techtree() -> dict:
     return {**tree, "tracks": out_tracks}
 
 
+def roadmap_payload() -> dict:
+    """통합 로드맵 — 과목·구간으로 가르지 않은 전체 그림.
+
+    구간별 트리는 '지금 내 아이 구간'을 보는 데 좋지만, 5세 영어 →
+    6세 수학 → 7세 국어 → 초4 재편으로 이어지는 전체 흐름은 과목을
+    나란히 놓아야 보인다. 여기서는 로드맵 전용 단계(영유)도 포함한다 —
+    방향 안내일 뿐 랭킹과 연결되지 않는다.
+    """
+    tree = techtree()
+    stages, edges = [], []
+    for track in tree["tracks"]:
+        for st in track["stages"]:
+            stages.append({
+                "id": st["id"],
+                "subject": track["subject"],
+                "title": st["title"],
+                "subtitle": st.get("subtitle"),
+                "goal": st.get("goal"),
+                "exit_criteria": st.get("exit_criteria"),
+                "grade": st["grade"],
+                "lane": st.get("lane", 0),
+                "roadmap_only": bool(st.get("roadmap_only")),
+            })
+        edges.extend(track["edges"])
+    return {
+        "milestones": tree.get("roadmap_milestones", []),
+        "subjects": list(SUBJECTS),
+        "stages": stages,
+        "edges": edges,
+    }
+
+
 def grade_label(g: int) -> str:
-    """0..12 → '예비초'..'고3'."""
-    if g <= 0:
+    """-2..12 → '5세'..'고3'."""
+    if g <= -2:
+        return "5세"
+    if g == -1:
+        return "6세"
+    if g == 0:
         return "예비초"
     if 1 <= g <= 6:
         return f"초{g}"

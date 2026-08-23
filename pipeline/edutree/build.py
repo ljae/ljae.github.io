@@ -805,7 +805,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             # 출처가 다르면 다르다고 적어 둔다.
             "source": a.get("source"),
         } for a in apt_rows if a.get("kaptCode")],
-        "techtree.json": config.banded_techtree(),
+        "techtree.json": {**config.banded_techtree(),
+                          "roadmap": config.roadmap_payload()},
         "academies.json": payload_academies,
         "registry.json": payload_registry,
         "meta.json": {

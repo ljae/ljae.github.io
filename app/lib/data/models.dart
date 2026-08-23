@@ -141,9 +141,11 @@ class Stage {
       ? gradeName(gradeMin)
       : '${gradeName(gradeMin)}~${gradeName(gradeMax)}';
 
-  /// 0 = 예비초. 초1 이전에 시작하는 단계가 실제로 있어서 별도 코드를 쓴다.
+  /// 0 = 예비초, -1 = 6세, -2 = 5세. 유아 구간은 로드맵 표시 전용이다.
   static String gradeName(int g) {
-    if (g <= 0) return '예비초';
+    if (g <= -2) return '5세';
+    if (g == -1) return '6세';
+    if (g == 0) return '예비초';
     if (g <= 6) return '초$g';
     if (g <= 9) return '중${g - 6}';
     return '고${g - 9}';
@@ -724,6 +726,94 @@ class NearbySchool {
   /// 1km 미만은 m 로 보여준다. '0.4km' 보다 '400m' 가 걷는 거리로 읽힌다.
   String get distanceLabel =>
       km < 1 ? '${(km * 1000).round()}m' : '${km.toStringAsFixed(1)}km';
+}
+
+/// 통합 로드맵 — 과목·구간으로 가르지 않은 전체 그림.
+///
+/// 5세 영어 → 6세 수학 → 7세 국어 → 초4 재편으로 이어지는 흐름은
+/// 과목을 나란히 놓아야 보인다. 유아 단계(roadmapOnly)는 방향 안내일
+/// 뿐 랭킹과 연결되지 않는다.
+class Roadmap {
+  final List<RoadmapMilestone> milestones;
+  final List<RoadmapStage> stages;
+  final List<StageEdge> edges;
+
+  const Roadmap({
+    this.milestones = const [],
+    this.stages = const [],
+    this.edges = const [],
+  });
+
+  bool get isEmpty => stages.isEmpty;
+
+  factory Roadmap.fromJson(Map<String, dynamic> j) => Roadmap(
+        milestones: ((j['milestones'] as List?) ?? const [])
+            .map((e) =>
+                RoadmapMilestone.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
+        stages: ((j['stages'] as List?) ?? const [])
+            .map((e) =>
+                RoadmapStage.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
+        edges: ((j['edges'] as List?) ?? const [])
+            .map((e) => StageEdge.fromList(e as List<dynamic>))
+            .toList(),
+      );
+}
+
+class RoadmapMilestone {
+  final int grade;
+  final String label;
+  final String note;
+  const RoadmapMilestone(
+      {required this.grade, required this.label, required this.note});
+
+  factory RoadmapMilestone.fromJson(Map<String, dynamic> j) =>
+      RoadmapMilestone(
+        grade: (j['grade'] as num).toInt(),
+        label: (j['label'] ?? '') as String,
+        note: (j['note'] ?? '') as String,
+      );
+}
+
+class RoadmapStage {
+  final String id;
+  final String subject;
+  final String title;
+  final String? subtitle;
+  final int gradeMin;
+  final int gradeMax;
+  final int lane;
+  final bool roadmapOnly;
+
+  const RoadmapStage({
+    required this.id,
+    required this.subject,
+    required this.title,
+    this.subtitle,
+    required this.gradeMin,
+    required this.gradeMax,
+    this.lane = 0,
+    this.roadmapOnly = false,
+  });
+
+  factory RoadmapStage.fromJson(Map<String, dynamic> j) {
+    final g = (j['grade'] as List?) ?? const [1, 12];
+    return RoadmapStage(
+      id: j['id'] as String,
+      subject: (j['subject'] ?? 'etc') as String,
+      title: (j['title'] ?? '') as String,
+      subtitle: j['subtitle'] as String?,
+      gradeMin: (g[0] as num).toInt(),
+      gradeMax: (g[1] as num).toInt(),
+      lane: (j['lane'] as num?)?.toInt() ?? 0,
+      roadmapOnly: j['roadmap_only'] == true,
+    );
+  }
+
+  String get gradeLabel => gradeMin == gradeMax
+      ? Stage.gradeName(gradeMin)
+      : '${Stage.gradeName(gradeMin)}~${Stage.gradeName(gradeMax)}';
 }
 
 const schoolLevelColors = <String, int>{

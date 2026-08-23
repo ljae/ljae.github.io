@@ -14,12 +14,14 @@ class EduTreeData {
   final List<Region> regions;
   final List<Track> tracks;
   final List<Academy> academies;
+  final Roadmap roadmap;
 
   EduTreeData({
     required this.meta,
     required this.regions,
     required this.tracks,
     required this.academies,
+    this.roadmap = const Roadmap(),
   });
 
   late final Map<String, Region> regionById = {
@@ -191,6 +193,10 @@ class EduTreeRepository {
       tracks: ((results[2] as Map)['tracks'] as List)
           .map((e) => Track.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
+      roadmap: (results[2] as Map)['roadmap'] is Map
+          ? Roadmap.fromJson(
+              ((results[2] as Map)['roadmap'] as Map).cast<String, dynamic>())
+          : const Roadmap(),
       academies: (results[3] as List)
           .map((e) => Academy.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),
