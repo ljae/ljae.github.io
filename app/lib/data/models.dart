@@ -240,9 +240,9 @@ class Score {
   final int? rankInRegion;
   final int? regionRankedCount;
 
-  /// 유효 후기 중 긍정이 차지하는 비율. 표본이 충분할 때만 값이 있다.
-  /// 점수 하나만으로는 무엇을 뜻하는지 읽히지 않아 함께 둔다.
-  final double? recommendRate;
+  /// 의견을 낸 후기 중 긍정 비율. 표본이 충분할 때만 값이 있다.
+  /// 중립 서술은 분모에서 뺀다 — 넣으면 어디나 25~40%로 몰려 변별이 안 된다.
+  final double? positiveRate;
 
   final Map<String, dynamic> breakdown;
 
@@ -258,7 +258,7 @@ class Score {
     required this.momentumDirection,
     this.rankInRegion,
     this.regionRankedCount,
-    this.recommendRate,
+    this.positiveRate,
     this.breakdown = const {},
   });
 
@@ -272,7 +272,7 @@ class Score {
         confidence: j['confidence'] as String,
         isRanked: j['isRanked'] as bool,
         momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
-        recommendRate: (j['recommendRate'] as num?)?.toDouble(),
+        positiveRate: (j['positiveRate'] as num?)?.toDouble(),
         rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
         regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
         breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},

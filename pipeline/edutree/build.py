@@ -742,10 +742,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "sampleSize": s["sample_size"],
                 "confidence": s["confidence"],
                 "isRanked": s["is_ranked"],
-                # 표본이 적으면 추천율을 내보내지 않는다. 3건으로 만든
-                # '추천율 67%' 는 숫자처럼 보이지만 아무것도 말하지 않는다.
-                "recommendRate": (
-                    (s.get("breakdown", {}).get("reputation", {}) or {}).get("추천율")
+                # 표본이 적으면 내보내지 않는다. 3건으로 만든 '긍정률 67%' 는
+                # 숫자처럼 보이지만 아무것도 말하지 않는다.
+                "positiveRate": (
+                    (s.get("breakdown", {}).get("reputation", {}) or {}).get("긍정률")
                     if s["sample_size"] >= config.MIN_SAMPLE_FOR_RANK else None),
                 "momentumDirection": s["momentum_direction"],
                 "rankInRegion": s.get("rank_in_region"),

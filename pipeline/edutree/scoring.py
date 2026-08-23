@@ -65,12 +65,22 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
         num += w * float(m.get("sentiment", 0.0))
         den += w
 
-    # 추천율 — 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
-    # '유효 후기 중 긍정이 몇 %인가'는 그 자체로 읽히고, 트리스코어가
-    # 어디서 왔는지 가늠하게 해 준다. 가중치는 평판과 같은 것을 쓴다.
-    pos = sum(float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
-              for m in valid if float(m.get("sentiment", 0.0)) > 0.05)
-    recommend = round(pos / den * 100, 1) if den else None
+    # 긍정률 — 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
+    # 트리스코어가 어디서 왔는지 가늠하게 해 주는 값을 함께 둔다.
+    #
+    # 분모는 **의견을 낸 후기**만 센다. 중립까지 넣으면 어디나 25~40%로
+    # 몰려 변별이 안 되고, 실제로는 좋게 말한 사람이 많은 곳도 '29%' 처럼
+    # 나빠 보인다. 국내 커뮤니티 글은 중립 서술이 많아 특히 그렇다.
+    pos = neg = 0.0
+    for m in valid:
+        w = float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+        sent = float(m.get("sentiment", 0.0))
+        if sent > 0.05:
+            pos += w
+        elif sent < -0.05:
+            neg += w
+    opinionated = pos + neg
+    recommend = round(pos / opinionated * 100, 1) if opinionated > 0 else None
 
     m0 = config.REPUTATION_PRIOR_COUNT
     shrunk = (num + m0 * cohort_mean) / (den + m0)      # 베이지안 축소
@@ -79,7 +89,8 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
     excluded = len(mentions) - len(valid)
     return round(score, 1), {
         "표본": len(valid),
-        "추천율": recommend,
+        "긍정률": recommend,
+        "의견_표명_가중치": round(opinionated, 2),
         "제외된_스팸": excluded,
         "가중_감성합": round(num, 2),
         "가중치_총합": round(den, 2),

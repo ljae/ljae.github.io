@@ -89,10 +89,10 @@ class AcademyCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       MomentumArrow(score.momentumDirection),
                       // 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
-                      // '후기 중 긍정 N%' 는 그 자체로 읽힌다.
-                      if (score.recommendRate != null) ...[
+                      // '의견 낸 후기 중 긍정 N%' 는 그 자체로 읽힌다.
+                      if (score.positiveRate != null) ...[
                         const SizedBox(height: 3),
-                        Text('추천 ${score.recommendRate!.round()}%',
+                        Text('긍정 ${score.positiveRate!.round()}%',
                             style: const TextStyle(
                               fontFamily: 'Paperlogy',
                               fontSize: 11,

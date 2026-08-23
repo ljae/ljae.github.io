@@ -60,6 +60,20 @@ class MethodPage extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('긍정률은 무엇인가요'),
+                  _Prose(
+                    '트리스코어 옆에 붙는 값입니다. 점수 하나만으로는 그것이 무엇을 뜻하는지 '
+                    '읽히지 않아서, 근거를 가늠할 수 있는 값을 함께 둡니다.\n\n'
+                    '분모는 의견을 낸 후기만 셉니다. 좋다고도 나쁘다고도 하지 않은 중립 서술은 '
+                    '빼고, 긍정과 부정을 표현한 글만 놓고 그중 긍정의 비율을 냅니다. 중립까지 넣으면 '
+                    '어디나 25~40%에 몰려 변별이 되지 않습니다 — 국내 커뮤니티 글에는 정보 전달 위주의 '
+                    '중립 서술이 많기 때문입니다.\n\n'
+                    '이 값도 신뢰도·최신성으로 가중합니다. 유효 후기가 ${meta.minSampleForRank}건 미만이면 '
+                    '표시하지 않습니다. 설문으로 받은 추천 의향이 아니라 공개된 글에서 읽어낸 값이므로, '
+                    '다른 서비스의 추천율과 같은 값이 아닙니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
                   const SectionHeader('데이터는 어디서 오나요'),
                   const _SourceTable(),
 
