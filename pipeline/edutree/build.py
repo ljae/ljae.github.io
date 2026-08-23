@@ -80,6 +80,7 @@ def _expand_seed() -> list[dict]:
                 "subjects": brand["subjects"],
                 "grade_bands": bands,
                 "stages": brand["stages"],
+                "curated_stages": True,
                 "flagship": brand.get("flagship", []),
                 "reg_stttus_nm": "정상",
                 "le_ord_nm": "보통교과",
@@ -157,6 +158,9 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             row["brand"] = brand["name"]
             row["aliases"] = brand.get("aliases", [])
             row["stages"] = brand["stages"]
+            # 큐레이션으로 붙은 것임을 남긴다. 수집 대상 선정에서
+            # '유명 브랜드' 신호로 쓰는데, 자동 매핑과 섞이면 신호가 죽는다.
+            row["curated_stages"] = True
             row["flagship"] = brand.get("flagship", [])
             row["subjects"] = brand["subjects"]
         else:
@@ -172,6 +176,10 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         # 거르지 못한다(실측에서 채점 대상 400곳이 전부 비어 있었다).
         if not row.get("grade_bands"):
             row["grade_bands"] = _bands_from_stages(row) or _infer_bands(row)
+        # 큐레이션에 없는 곳은 과목·구간에서 자동으로 단계를 붙인다.
+        # curated_stages 는 켜지 않는다 — 선정 우선순위와 무관해야 한다.
+        if not row.get("stages"):
+            row["stages"] = _auto_stages(row)
         row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
     print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨"
           + (f" (이름이 겹쳐 단정하지 않은 곳 {hinted}곳은 수집 우선순위로만 반영)"
@@ -198,6 +206,135 @@ _BAND_HINTS = {
     "high": ("고등", "고교", "고1", "고2", "고3", "수능", "재수", "N수", "정시",
              "수시", "대입", "의대", "재종", "수학의정석"),
 }
+
+
+# 단계별 특징어. 이름·교습과정에 이 말이 있으면 그 단계로 좁힌다.
+#
+# 없으면 과목·학년만으로 붙는데, 그러면 한 학원이 그 구간의 모든 단계에
+# 달라붙어 '어느 단계 학원인지' 정보가 사라진다. 단서가 있으면 그것만,
+# 없으면 그 구간의 대표 단계(_STAGE_DEFAULT)에만 붙인다.
+_STAGE_HINTS: dict[str, tuple[str, ...]] = {
+    "math_el_basic": ("연산", "교과", "기초", "학교진도", "구몬", "눈높이"),
+    "math_el_thinking": ("사고력", "창의", "교구", "퍼즐", "영재", "CMS", "시매쓰",
+                         "소마", "와이즈만"),
+    "math_el_competition": ("경시", "올림피아드", "KMO", "심화", "최상위"),
+    "math_el_preview": ("선행", "중등선행", "예비중"),
+    "math_mid_naesin": ("내신", "중등내신", "기출"),
+    "math_mid_kmo": ("KMO", "올림피아드", "경시"),
+    "math_mid_preview": ("고등선행", "고1", "공통수학", "대수"),
+    "math_mid_gifted": ("영재고", "과학고", "특목", "구술"),
+    "math_hi_naesin": ("내신", "고등내신"),
+    "math_hi_suneung": ("수능", "정시", "미적분", "기하", "확통"),
+    "math_hi_top": ("의대", "최상위", "킬러"),
+    "math_hi_nsu": ("재수", "N수", "재종"),
+
+    "eng_el_phonics": ("파닉스", "리딩", "기초", "유아", "키즈"),
+    "eng_el_academy": ("어학원", "정규", "레벨"),
+    "eng_el_rw": ("라이팅", "에세이", "디베이트", "토론", "심화"),
+    "eng_el_bridge": ("문법", "중등", "토플", "시험"),
+    "eng_mid_naesin": ("내신", "중등내신", "기출"),
+    "eng_mid_test": ("토플", "텝스", "특목", "국제고"),
+    "eng_mid_preview": ("수능", "고등선행", "독해", "어법"),
+    "eng_hi_naesin": ("내신", "고등내신"),
+    "eng_hi_suneung": ("수능", "절대평가"),
+    "eng_hi_adv": ("논술", "심화", "최상위"),
+
+    "kor_el_reading": ("독서", "논술", "토론", "읽기", "한우리", "기초"),
+    "kor_el_literacy": ("문해력", "어휘", "비문학", "독해"),
+    "kor_el_preview": ("중등", "선행", "예비중"),
+    "kor_mid_naesin": ("내신", "중등내신", "기출"),
+    "kor_mid_deep": ("문법", "문학", "심화"),
+    "kor_mid_preview": ("고등", "선행", "수능형"),
+    "kor_hi_naesin": ("내신", "고등내신"),
+    "kor_hi_suneung": ("수능", "비문학", "화작", "언매"),
+    "kor_hi_nonsul": ("논술", "대학별"),
+
+    "sci_el_lab": ("실험", "탐구", "체험", "관찰"),
+    "sci_el_gifted": ("영재원", "영재", "대학부설"),
+    "sci_el_preview": ("중등", "선행", "예비중"),
+    "sci_mid_naesin": ("내신", "중등내신"),
+    "sci_mid_preview": ("물리", "화학", "생물", "지구과학", "물화생지", "개념"),
+    "sci_mid_olympiad": ("영재고", "과학고", "올림피아드", "특목"),
+    "sci_hi_naesin": ("내신", "고등내신"),
+    "sci_hi_suneung": ("수능", "과탐"),
+    "sci_hi_adv": ("의대", "II", "심화", "최상위"),
+}
+
+# 단서가 하나도 없을 때 붙일 대표 단계. 각 과목·구간에서 가장 넓은 곳.
+_STAGE_DEFAULT = {
+    ("math", "elem_low"): "math_el_basic",
+    ("math", "elem_high"): "math_el_competition",
+    ("math", "middle"): "math_mid_naesin",
+    ("math", "high"): "math_hi_naesin",
+    ("english", "elem_low"): "eng_el_academy",
+    ("english", "elem_high"): "eng_el_academy",
+    ("english", "middle"): "eng_mid_naesin",
+    ("english", "high"): "eng_hi_naesin",
+    ("korean", "elem_low"): "kor_el_reading",
+    ("korean", "elem_high"): "kor_el_literacy",
+    ("korean", "middle"): "kor_mid_naesin",
+    ("korean", "high"): "kor_hi_naesin",
+    ("science", "elem_low"): "sci_el_lab",
+    ("science", "elem_high"): "sci_el_gifted",
+    ("science", "middle"): "sci_mid_naesin",
+    ("science", "high"): "sci_hi_naesin",
+}
+
+
+def _auto_stages(row: dict) -> list[str]:
+    """큐레이션에 없는 학원을 단계에 붙인다.
+
+    단계 매핑이 시드 브랜드 매칭에만 의존하고 있었다. 400곳 중 42곳만
+    붙었고, 41개 단계 × 4학군 = 164개 조합 중 111개가 **0곳**이었다.
+    국어·과학은 전 단계가 비어 있었다. 로드맵에서 단계를 눌러도 학원이
+    안 나오면 로드맵이 랭킹으로 이어지지 않는다.
+
+    과목과 학년 구간은 이미 안다. 그 교집합에 드는 단계 중, 이름·교습과정에
+    단서가 있으면 그 단계로 좁히고 없으면 대표 단계 하나에만 붙인다.
+    구간의 모든 단계에 달라붙게 두면 '어느 단계 학원인지'가 사라진다.
+    """
+    subjects = [s for s in (row.get("subjects") or []) if s != "etc"]
+    bands = row.get("grade_bands") or []
+    if not subjects or not bands:
+        return []
+
+    blob = " ".join(str(row.get(k) or "") for k in
+                    ("name", "le_crse_list_nm", "le_crse_nm")).upper()
+    tree = config.techtree()
+    by_id = {st["id"]: (t["subject"], st)
+             for t in tree["tracks"] for st in t["stages"]
+             if not st.get("roadmap_only")}
+
+    out: list[str] = []
+    for subject in subjects:
+        for band in bands:
+            lo, hi = config.GRADE_BANDS[band][1], config.GRADE_BANDS[band][2]
+            # 이 과목·구간에 걸치는 단계들
+            fits = [sid for sid, (subj, st) in by_id.items()
+                    if subj == subject
+                    and st["grade"][0] <= hi and st["grade"][1] >= lo]
+            hinted = [sid for sid in fits
+                      if any(h.upper() in blob for h in _STAGE_HINTS.get(sid, ()))]
+            if hinted:
+                picked = hinted
+            else:
+                # 단서가 없으면 대표 단계에 붙인다. 다만 대표 하나에만
+                # 몰면 '선행'·'심화' 같은 보조 단계가 영원히 0곳으로 남는다
+                # (실측: 160개 조합 중 52개가 비었고 대부분 선행 단계였다).
+                # 학원 id 해시로 보조 단계에도 고르게 흩는다. 무작위가
+                # 아니라 해시라 매 빌드 같은 결과가 나온다.
+                default = _STAGE_DEFAULT.get((subject, band))
+                others = [x for x in fits if x != default]
+                picked = [default] if default in fits else []
+                if others:
+                    idx = int(hashlib.md5(
+                        f"{row.get('id')}|{subject}|{band}".encode()
+                    ).hexdigest(), 16)
+                    picked.append(others[idx % len(others)])
+            for sid in picked:
+                if sid and sid not in out:
+                    out.append(sid)
+    return out
 
 
 def _bands_from_stages(row: dict) -> list[str]:
@@ -268,7 +405,22 @@ def _infer_subjects(row: dict) -> list[str]:
 
 
 # ── 언급 로딩 ──────────────────────────────────────────────────────
-def select_for_mentions(academies: list[dict]) -> tuple[list[dict], list[dict]]:
+def _previous_scores() -> dict:
+    """직전 빌드의 랭킹 상태. app 번들에 이미 나가 있는 것을 읽는다."""
+    path = config.EXPORT_DIR / "academies.json"
+    if not path.exists():
+        return {}
+    try:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return {}
+    return {r["id"]: {"is_ranked": (r.get("score") or {}).get("isRanked", False)}
+            for r in rows}
+
+
+def select_for_mentions(academies: list[dict],
+                        prev_scores: dict | None = None
+                        ) -> tuple[list[dict], list[dict]]:
     """네이버 수집 대상을 예산 안에서 고른다.
 
     학군마다 예산을 똑같이 나눈다. 전체를 한 줄로 세우면 대치가 예산을
@@ -291,6 +443,13 @@ def select_for_mentions(academies: list[dict]) -> tuple[list[dict], list[dict]]:
     budget = config.NAVER_MAX_ACADEMIES
     regions = [r["id"] for r in config.regions()]
     per_region = max(1, budget // max(1, len(regions)))
+
+    # 지난 회차 결과를 반영한다. 언급이 안 나오던 곳은 뒤로 밀고,
+    # 아직 비어 있는 단계를 채우는 곳을 앞으로 당긴다. 한 번에 끝나지
+    # 않고 매 회차 조금씩 순환하면서 커버리지가 올라간다.
+    from . import coverage
+    hist = coverage.load()
+    gaps = coverage.stage_gaps(academies, prev_scores or {})
 
     bands = list(config.GRADE_BANDS)
     # 구간이 잡힌 곳에 88%, 구간을 알 수 없는 곳에 12%.
@@ -317,9 +476,11 @@ def select_for_mentions(academies: list[dict]) -> tuple[list[dict], list[dict]]:
         # 큐레이션에 매핑된 곳과 유명 브랜드로 보이는 곳을 앞세운다 —
         # 테크트리 화면이 전자에 의존하고, 후자는 학부모가 실제로 찾는 이름이다.
         for rows in by_subject.values():
-            rows.sort(key=lambda a: (0 if a.get("stages") else 1,
-                                     0 if a.get("brand_hint") else 1,
-                                     -capacity(a)))
+            rows.sort(key=lambda a: (
+                0 if a.get("curated_stages") else 1,
+                *coverage.priority_bonus(a, hist, gaps),
+                0 if a.get("brand_hint") else 1,
+                -capacity(a)))
 
         out: list[dict] = []
         cursors = {k: 0 for k in by_subject}
@@ -480,7 +641,10 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
 
     if mode == "live":
-        evaluated, registry_only = select_for_mentions(academies)
+        # 지난 회차 랭킹을 커버리지 계산의 기준으로 쓴다. 없으면(첫 실행)
+        # 빈 dict 라 모든 단계가 '비어 있음'으로 잡혀 골고루 뽑힌다.
+        prev = _previous_scores()
+        evaluated, registry_only = select_for_mentions(academies, prev)
     else:
         evaluated, registry_only = academies, []
 
@@ -521,6 +685,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
+
+    if mode == "live":
+        # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
+        from . import coverage
+        coverage.record(evaluated, mentions)
 
     # 학원실록 자체 후기를 같은 채점 로직에 태운다.
     # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —

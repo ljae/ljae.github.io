@@ -23,7 +23,7 @@ class RoadmapView extends ConsumerWidget {
 
   static const _minGrade = -2; // 5세
   static const _maxGrade = 12; // 고3
-  static const _unitH = 62.0; // 학년 1칸 높이
+  static const _unitH = 72.0; // 학년 1칸 높이 (학원 3줄이 들어가야 한다)
   static const _axisW = 52.0;
   static const _gap = 10.0;
 
@@ -214,13 +214,20 @@ class _StageCard extends StatelessWidget {
 
     // 로드맵에서 랭킹으로 이어지는 고리 — 이 단계 담당 학원 중 상위.
     // 유아 단계는 랭킹과 연결하지 않는다.
-    final tops = stage.roadmapOnly
+    //
+    // 랭킹 진입(표본 10건 이상) 학원만 보이면 160개 조합 중 18개만
+    // 채워진다. 그래서 부족하면 아직 표본이 모자란 곳까지 이어 붙이되,
+    // 점수 대신 '표본 부족'이라 적는다 — 없는 점수를 있는 척하지 않으면서
+    // '이 단계에 어떤 학원이 있는가'는 답할 수 있다.
+    final all = stage.roadmapOnly
         ? const <Academy>[]
-        : data
-            .academiesForStage(stage.id, regionId: regionId)
-            .where((a) => a.score.isRanked)
-            .take(2)
-            .toList();
+        : data.academiesForStage(stage.id, regionId: regionId);
+    final ranked = all.where((a) => a.score.isRanked).toList();
+    final tops = [
+      ...ranked.take(3),
+      if (ranked.length < 3)
+        ...all.where((a) => !a.score.isRanked).take(3 - ranked.length),
+    ];
 
     final full = data.stageById[stage.id];
 
@@ -277,8 +284,14 @@ class _StageCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 1),
                         child: Row(children: [
-                          const Icon(Icons.star_rounded,
-                              size: 10, color: AppColors.gold),
+                          Icon(
+                              a.score.isRanked
+                                  ? Icons.star_rounded
+                                  : Icons.circle_outlined,
+                              size: 10,
+                              color: a.score.isRanked
+                                  ? AppColors.gold
+                                  : AppColors.mist),
                           const SizedBox(width: 3),
                           Expanded(
                             child: Text(a.displayName,
@@ -286,14 +299,24 @@ class _StageCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: text.bodySmall?.copyWith(
                                     fontSize: 10.5,
-                                    color: dark
-                                        ? Colors.white70
-                                        : AppColors.inkSoft)),
+                                    color: a.score.isRanked
+                                        ? (dark
+                                            ? Colors.white70
+                                            : AppColors.inkSoft)
+                                        : AppColors.mist)),
                           ),
-                          Text(a.score.total.toStringAsFixed(0),
+                          Text(
+                              a.score.isRanked
+                                  ? a.score.total.toStringAsFixed(0)
+                                  : '표본',
                               style: text.bodySmall?.copyWith(
                                   fontSize: 10.5,
-                                  fontWeight: FontWeight.w700)),
+                                  fontWeight: a.score.isRanked
+                                      ? FontWeight.w700
+                                      : FontWeight.w400,
+                                  color: a.score.isRanked
+                                      ? null
+                                      : AppColors.mist)),
                         ]),
                       ),
                   ],
