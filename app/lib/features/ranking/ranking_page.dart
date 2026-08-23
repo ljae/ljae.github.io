@@ -235,7 +235,6 @@ class _FilterBar extends StatelessWidget {
             ButtonSegment(value: _Sort.selectivity, label: Text('진입난이도')),
             ButtonSegment(value: _Sort.positive, label: Text('긍정률')),
             ButtonSegment(value: _Sort.sample, label: Text('표본 많은')),
-            ButtonSegment(value: _Sort.selectivity, label: Text('진입난이도')),
           ],
           selected: {sort},
           onSelectionChanged: (v) => onSort(v.first),

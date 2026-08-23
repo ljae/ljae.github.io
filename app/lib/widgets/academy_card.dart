@@ -128,43 +128,23 @@ class AcademyCard extends StatelessWidget {
   }
 }
 
-class _PillarGrid extends StatelessWidget {
+/// 카드의 기둥 막대. 가중치는 meta.json 에서 읽는다.
+///
+/// 예전에는 여기에 0.20/0.25 가 상수로 박혀 있었다. 산식을 0.35 로 바꾼
+/// 뒤에도 카드는 옛 값을 그대로 보여줬다 — 상세의 35%와 목록의 20%가
+/// 어긋나 있었던 이유다.
+class _PillarGrid extends ConsumerWidget {
   final Score score;
   final bool narrow;
   const _PillarGrid({required this.score, required this.narrow});
 
   @override
-  Widget build(BuildContext context) {
-    const weights = {
-      'reputation': 0.35,
-      'momentum': 0.20,
-      'transparency': 0.25,
-      'selectivity': 0.20,
-    };
-    final bars = [
-      for (final e in weights.entries)
-        PillarBar(
-            pillar: e.key,
-            value: score.pillar(e.key),
-            weight: e.value,
-            compact: true),
-    ];
-    if (narrow) {
-      return Column(
-        children: [
-          for (final b in bars)
-            Padding(padding: const EdgeInsets.only(bottom: 8), child: b),
-        ],
-      );
-    }
-    return Row(
-      children: [
-        for (var i = 0; i < bars.length; i++) ...[
-          Expanded(child: bars[i]),
-          if (i != bars.length - 1) const SizedBox(width: AppSpace.md),
-        ],
-      ],
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weights =
+        ref.watch(dataProvider).value?.meta.weights ?? const <String, double>{};
+    if (weights.isEmpty) return const SizedBox.shrink();
+    return PillarWeightBars(
+        score: score, weights: weights, stacked: narrow);
   }
 }
 

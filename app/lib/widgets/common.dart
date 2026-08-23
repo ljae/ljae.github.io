@@ -176,12 +176,19 @@ class PillarBar extends StatelessWidget {
   final double value;
   final double weight;
   final bool compact;
+
+  /// true 면 가중치를 숫자로 함께 적는다. 상세 화면처럼 한 번만
+  /// 나오는 곳에서만 켠다 — 목록에서는 카드마다 같은 %가 반복돼
+  /// 읽히지 않고, 폭이 이미 그 정보를 담고 있다.
+  final bool showWeight;
+
   const PillarBar({
     super.key,
     required this.pillar,
     required this.value,
     required this.weight,
     this.compact = false,
+    this.showWeight = false,
   });
 
   @override
@@ -195,12 +202,18 @@ class PillarBar extends StatelessWidget {
           children: [
             Icon(pillarIcons[pillar], size: compact ? 12 : 14, color: color),
             const SizedBox(width: 5),
-            Text(pillarNames[pillar] ?? pillar,
-                style: text.labelMedium?.copyWith(
-                    color: color, fontWeight: FontWeight.w600)),
-            const SizedBox(width: 5),
-            Text('${(weight * 100).toStringAsFixed(0)}%',
-                style: text.bodySmall?.copyWith(fontSize: 10.5)),
+            Flexible(
+              child: Text(pillarNames[pillar] ?? pillar,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: text.labelMedium?.copyWith(
+                      color: color, fontWeight: FontWeight.w600)),
+            ),
+            if (showWeight) ...[
+              const SizedBox(width: 5),
+              Text('${(weight * 100).toStringAsFixed(0)}%',
+                  style: text.bodySmall?.copyWith(fontSize: 10.5)),
+            ],
             const Spacer(),
             Text(value.toStringAsFixed(0),
                 style: text.labelLarge?.copyWith(fontSize: compact ? 12 : 13.5)),
@@ -218,6 +231,72 @@ class PillarBar extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+/// 네 기둥을 한 줄에 놓되, **각 칸의 폭이 곧 가중치**다.
+///
+/// 예전에는 네 칸을 같은 폭으로 두고 카드마다 '35%' 같은 숫자를 반복해
+/// 적었다. 같은 숫자가 카드 수만큼 반복되니 읽히지 않았고, 정작 어느
+/// 기둥이 무거운지는 눈에 들어오지 않았다. 폭으로 보여주면 한 번에 읽히고
+/// 반복 표기가 필요 없다.
+///
+/// 가중치는 meta.json 에서 온다. 화면에 상수로 박아 두면 산식을 바꿀 때마다
+/// 어긋난다 — 실제로 0.20/0.25 가 박혀 있어 0.35 로 바꾼 뒤에도 옛 값을
+/// 보여주고 있었다.
+class PillarWeightBars extends StatelessWidget {
+  final Score score;
+  final Map<String, double> weights;
+  final bool stacked;
+  final bool showWeight;
+
+  const PillarWeightBars({
+    super.key,
+    required this.score,
+    required this.weights,
+    this.stacked = false,
+    this.showWeight = false,
+  });
+
+  /// 표시 순서는 무거운 것부터. 화면이 곧 우선순위를 말한다.
+  List<MapEntry<String, double>> get _ordered {
+    final rows = weights.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    return rows;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = _ordered;
+    if (stacked) {
+      return Column(children: [
+        for (final e in rows)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: PillarBar(
+                pillar: e.key,
+                value: score.pillar(e.key),
+                weight: e.value,
+                compact: true,
+                showWeight: showWeight),
+          ),
+      ]);
+    }
+    // flex 를 가중치에 비례시킨다. 정수여야 해서 1000배해 반올림한다.
+    return Row(children: [
+      for (var i = 0; i < rows.length; i++) ...[
+        Expanded(
+          flex: (rows[i].value * 1000).round(),
+          child: PillarBar(
+              pillar: rows[i].key,
+              value: score.pillar(rows[i].key),
+              weight: rows[i].value,
+              compact: true,
+              showWeight: showWeight),
+        ),
+        if (i != rows.length - 1) const SizedBox(width: AppSpace.md),
+      ],
+    ]);
   }
 }
 

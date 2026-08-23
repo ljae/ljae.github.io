@@ -103,8 +103,12 @@ class _Body extends StatelessWidget {
 
               // ── 기둥별 점수 ─────────────────────────────────
               const SectionHeader('점수 구성',
-                  subtitle: '각 기둥의 계산 근거를 펼쳐 볼 수 있습니다'),
-              for (final key in pillarNames.keys)
+                  subtitle: '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
+                      '펼쳐 볼 수 있습니다.'),
+              // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
+              for (final key in (pillarNames.keys.toList()
+                    ..sort((a, b) => (data.meta.weights[b] ?? 0)
+                        .compareTo(data.meta.weights[a] ?? 0))))
                 _PillarPanel(
                   pillar: key,
                   value: score.pillar(key),
@@ -219,7 +223,9 @@ class _PillarPanel extends StatelessWidget {
           tilePadding: const EdgeInsets.symmetric(horizontal: AppSpace.md),
           childrenPadding: const EdgeInsets.fromLTRB(
               AppSpace.md, 0, AppSpace.md, AppSpace.md),
-          title: PillarBar(pillar: pillar, value: value, weight: weight),
+          // %는 여기서만 적는다. 목록 카드에서는 막대 폭이 그 정보를 담는다.
+          title: PillarBar(
+              pillar: pillar, value: value, weight: weight, showWeight: true),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 6),
             child: Row(children: [
