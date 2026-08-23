@@ -78,19 +78,33 @@ class _TrackBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    // 좁은 화면에서는 제목·설명 옆에 범례를 둘 자리가 없다. 예전에는
+    // 범례(Wrap)가 폭 제한 없이 옆에 붙어 설명 위로 겹쳐 그려졌다.
+    final narrow = MediaQuery.sizeOf(context).width < 720;
+    final heading = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('${data.regionById[regionId]?.nameKo ?? ""} · ${track.title}',
+            style: narrow
+                ? text.titleLarge?.copyWith(fontWeight: FontWeight.w800)
+                : text.headlineMedium),
+        const SizedBox(height: 3),
+        Text(track.summary, style: text.bodyMedium),
+      ],
+    );
+
     return Column(children: [
       Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: AppSpace.lg, vertical: AppSpace.md),
-        child: Row(children: [
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('${data.regionById[regionId]?.nameKo ?? ""} · ${track.title}',
-                  style: text.headlineMedium),
-              const SizedBox(height: 3),
-              Text(track.summary, style: text.bodyMedium),
-            ]),
-          ),
+        child: narrow
+            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                heading,
+                const SizedBox(height: AppSpace.sm),
+                const _Legend(),
+              ])
+            : Row(children: [
+          Expanded(child: heading),
           const _Legend(),
         ]),
       ),
