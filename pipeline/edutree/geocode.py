@@ -62,6 +62,35 @@ def lookup(address: str) -> tuple[float, float] | None:
         return None
 
 
+def fill_coords(rows: list[dict], workers: int = 4) -> int:
+    """주소만 있는 임의 레코드에 lat/lng 를 채운다.
+
+    [enrich] 는 학원 레코드(road_address)를 전제한다. 손으로 보완한
+    아파트처럼 address 만 있는 것에도 같은 캐시를 쓰려고 나눠 뒀다.
+    """
+    cache = _load()
+    todo = [r for r in rows
+            if not r.get("lat") and r.get("address")
+            and r["address"] not in cache]
+    if todo and HAS_GEOCODE:
+        for r in todo:
+            got = lookup(r["address"])
+            time.sleep(SLEEP)
+            if got:
+                cache[r["address"]] = {"lat": got[0], "lng": got[1]}
+        CACHE.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+
+    filled = 0
+    for r in rows:
+        if r.get("lat") or not r.get("address"):
+            continue
+        hit = cache.get(r["address"])
+        if hit:
+            r["lat"], r["lng"] = hit["lat"], hit["lng"]
+            filled += 1
+    return filled
+
+
 def enrich(academies: list[dict], workers: int = 4) -> int:
     """학원 목록에 lat/lng 를 채운다. 채운 건수를 돌려준다."""
     cache = _load()

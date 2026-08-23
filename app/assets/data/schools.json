@@ -1155,6 +1155,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -1209,7 +1215,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7010058",
@@ -2335,6 +2341,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -2509,7 +2521,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091421",
@@ -2958,6 +2970,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -3012,7 +3030,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7010060",
@@ -4138,6 +4156,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -4312,7 +4336,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091422",
@@ -5614,6 +5638,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -5668,7 +5698,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "1371661",
@@ -7096,6 +7126,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -7150,7 +7186,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7011186",
@@ -7622,6 +7658,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -7676,7 +7718,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7091427",
@@ -8125,6 +8167,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -8179,7 +8227,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7091428",
@@ -8628,6 +8676,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -8682,7 +8736,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7010744",
@@ -12095,6 +12149,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -12269,7 +12329,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091429",
@@ -16360,13 +16420,19 @@
     "certain": true
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": true
+   },
+   {
     "name": "타워팰리스1차",
     "dong": "도곡동",
     "households": null,
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4818
+  "apartmentHouseholds": 4896
  },
  {
   "id": "7091371",
@@ -17660,6 +17726,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -17834,7 +17906,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091367",
@@ -22571,6 +22643,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -22745,7 +22823,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091434",
@@ -25577,6 +25655,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -25751,7 +25835,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091437",
@@ -31891,6 +31975,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -32065,7 +32155,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7010208",
@@ -36676,6 +36766,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "서초3차e편한세상",
     "dong": "잠원동",
     "households": 77,
@@ -36850,7 +36946,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104602
+  "apartmentHouseholds": 104680
  },
  {
   "id": "7091454",
@@ -37299,6 +37395,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -37353,7 +37455,7 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  },
  {
   "id": "7010106",
@@ -41343,6 +41445,12 @@
     "certain": false
    },
    {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
     "name": "대치풍림아이원3.4차아파트",
     "dong": "대치동",
     "households": 75,
@@ -41397,6 +41505,6 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48732
+  "apartmentHouseholds": 48810
  }
 ]

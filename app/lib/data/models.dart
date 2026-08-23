@@ -239,6 +239,11 @@ class Score {
   final String momentumDirection;
   final int? rankInRegion;
   final int? regionRankedCount;
+
+  /// 유효 후기 중 긍정이 차지하는 비율. 표본이 충분할 때만 값이 있다.
+  /// 점수 하나만으로는 무엇을 뜻하는지 읽히지 않아 함께 둔다.
+  final double? recommendRate;
+
   final Map<String, dynamic> breakdown;
 
   const Score({
@@ -253,6 +258,7 @@ class Score {
     required this.momentumDirection,
     this.rankInRegion,
     this.regionRankedCount,
+    this.recommendRate,
     this.breakdown = const {},
   });
 
@@ -266,6 +272,7 @@ class Score {
         confidence: j['confidence'] as String,
         isRanked: j['isRanked'] as bool,
         momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
+        recommendRate: (j['recommendRate'] as num?)?.toDouble(),
         rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
         regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
         breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
@@ -658,12 +665,18 @@ class ApartmentZone {
   /// 초등 통학구역이면서 학교가 하나일 때만 true — '배정'이라 단정할 수 있다.
   final bool certain;
 
+  /// 중·고 학교군 안에서 집과 가까운 순. 추첨이지만 통학 편의가
+  /// 반영되므로 가까운 학교로 갈 확률이 높다. 확률로 환산하지는 않는다 —
+  /// 실제 배정 결과 자료가 없는 상태에서 퍼센트를 붙이면 근거 없는 숫자다.
+  final List<NearbySchool> nearby;
+
   const ApartmentZone({
     this.zoneId,
     this.zoneName,
     this.level,
     this.schools = const [],
     this.certain = false,
+    this.nearby = const [],
   });
 
   factory ApartmentZone.fromJson(Map<String, dynamic> j) => ApartmentZone(
@@ -672,6 +685,9 @@ class ApartmentZone {
         level: j['level'] as String?,
         schools: ((j['schools'] as List?) ?? const []).cast<String>(),
         certain: (j['certain'] ?? false) as bool,
+        nearby: ((j['nearby'] as List?) ?? const [])
+            .map((e) => NearbySchool.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
       );
 
   String get levelLabel => switch (level) {
@@ -687,6 +703,22 @@ class ApartmentZone {
     if (level == 'elementary') return '$zoneName (${schools.length}개교 공동)';
     return '$zoneName · ${schools.length}개교 중 추첨';
   }
+}
+
+/// 학교군 안에서 집과 가까운 학교 하나.
+class NearbySchool {
+  final String name;
+  final double km;
+  const NearbySchool({required this.name, required this.km});
+
+  factory NearbySchool.fromJson(Map<String, dynamic> j) => NearbySchool(
+        name: (j['name'] ?? '') as String,
+        km: (j['km'] as num?)?.toDouble() ?? 0,
+      );
+
+  /// 1km 미만은 m 로 보여준다. '0.4km' 보다 '400m' 가 걷는 거리로 읽힌다.
+  String get distanceLabel =>
+      km < 1 ? '${(km * 1000).round()}m' : '${km.toStringAsFixed(1)}km';
 }
 
 const schoolLevelColors = <String, int>{

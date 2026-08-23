@@ -65,6 +65,13 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
         num += w * float(m.get("sentiment", 0.0))
         den += w
 
+    # 추천율 — 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
+    # '유효 후기 중 긍정이 몇 %인가'는 그 자체로 읽히고, 트리스코어가
+    # 어디서 왔는지 가늠하게 해 준다. 가중치는 평판과 같은 것을 쓴다.
+    pos = sum(float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+              for m in valid if float(m.get("sentiment", 0.0)) > 0.05)
+    recommend = round(pos / den * 100, 1) if den else None
+
     m0 = config.REPUTATION_PRIOR_COUNT
     shrunk = (num + m0 * cohort_mean) / (den + m0)      # 베이지안 축소
     score = _clamp((shrunk + 1) / 2 * 100)              # [-1,1] → [0,100]
@@ -72,6 +79,7 @@ def reputation(mentions: list[dict], cohort_mean: float) -> tuple[float, dict]:
     excluded = len(mentions) - len(valid)
     return round(score, 1), {
         "표본": len(valid),
+        "추천율": recommend,
         "제외된_스팸": excluded,
         "가중_감성합": round(num, 2),
         "가중치_총합": round(den, 2),

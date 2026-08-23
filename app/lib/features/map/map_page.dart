@@ -336,7 +336,8 @@ class _ApartmentList extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SectionHeader('아파트별 배정 학교 (${apartments.length}단지)',
           subtitle: '초등학교는 통학구역이라 배정이 확정됩니다. '
-              '중·고등학교는 학교군 추첨이라 학교를 특정할 수 없습니다.'),
+              '중·고등학교는 학교군 추첨이라 학교를 특정할 수 없지만, '
+              '통학 편의가 반영되므로 가까운 학교일수록 갈 확률이 높습니다.'),
       for (final a in rows)
         Card(
           margin: const EdgeInsets.only(bottom: AppSpace.sm),
@@ -359,6 +360,8 @@ class _ApartmentList extends StatelessWidget {
                               : AppColors.estimated),
                       icon: z.certain ? Icons.verified_rounded : null),
               ]),
+              for (final z in a.zones)
+                if (z.nearby.isNotEmpty) _NearbyRow(zone: z),
             ]),
           ),
         ),
@@ -368,6 +371,46 @@ class _ApartmentList extends StatelessWidget {
           child: Text('외 ${apartments.length - rows.length}단지', style: text.bodySmall),
         ),
     ]);
+  }
+}
+
+/// 학교군 안에서 가까운 학교를 가까운 순으로 보여준다.
+///
+/// 추첨이라 '어디로 간다'고 말할 수는 없다. 그렇다고 아홉 개 학교를
+/// 나란히 늘어놓기만 하면 화면이 학부모보다 덜 아는 셈이 된다 —
+/// 실제로는 '추첨이지만 보통 저기 간다'는 감각이 있고, 그 근거는
+/// 배정에 반영되는 통학 편의다. 거리를 그대로 보여주는 선에서 멈춘다.
+/// 확률(%)로 바꾸지 않는 이유는 실제 배정 결과 자료가 없기 때문이다.
+class _NearbyRow extends StatelessWidget {
+  final ApartmentZone zone;
+  const _NearbyRow({required this.zone});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          const Icon(Icons.near_me_outlined,
+              size: 13, color: AppColors.mist),
+          const SizedBox(width: 4),
+          Text('${zone.levelLabel} 가까운 순 (추첨이지만 통학 편의 반영)',
+              style: text.bodySmall?.copyWith(fontSize: 11)),
+        ]),
+        const SizedBox(height: 3),
+        Wrap(spacing: 6, runSpacing: 4, children: [
+          for (var i = 0; i < zone.nearby.length; i++)
+            Text(
+              '${i + 1}. ${zone.nearby[i].name} ${zone.nearby[i].distanceLabel}',
+              style: text.bodySmall?.copyWith(
+                  fontSize: 11.5,
+                  fontWeight: i == 0 ? FontWeight.w700 : FontWeight.w400,
+                  color: i == 0 ? AppColors.navy : null),
+            ),
+        ]),
+      ]),
+    );
   }
 }
 

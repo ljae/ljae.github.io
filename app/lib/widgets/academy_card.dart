@@ -88,6 +88,18 @@ class AcademyCard extends StatelessWidget {
                       ScoreDial(score.total, size: narrow ? 52 : 60),
                       const SizedBox(height: 2),
                       MomentumArrow(score.momentumDirection),
+                      // 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
+                      // '후기 중 긍정 N%' 는 그 자체로 읽힌다.
+                      if (score.recommendRate != null) ...[
+                        const SizedBox(height: 3),
+                        Text('추천 ${score.recommendRate!.round()}%',
+                            style: const TextStyle(
+                              fontFamily: 'Paperlogy',
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.slate,
+                            )),
+                      ],
                     ],
                   ),
                 ],

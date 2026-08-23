@@ -193,6 +193,76 @@ def match_keys(name: str) -> set[str]:
     return {k for k in keys if k}
 
 
+# 이름 앞에 흔히 붙는 지역·관 번호. 브랜드 이름은 그 뒤에 온다.
+_LEAD_REGION = re.compile(
+    r"^(대치|목동|반포|잠실|서초|강남|송파|양천|개포|도곡|신정|잠원|방이|신천|"
+    r"은마|본원|본관)")
+_LEAD_NUM = re.compile(r"^\d+관?")
+
+
+def brand_stems(name: str) -> list[str]:
+    """이름 앞의 지역·관 번호를 한 겹씩 벗겨 낸 후보들.
+
+    '대치1관정상어학원' → 대치1관정상 / 1관정상 / 정상
+    브랜드는 보통 이 껍질 뒤에 온다.
+    """
+    stem = normalize_name(name)
+    out = [stem]
+    for _ in range(4):
+        nxt = _LEAD_NUM.sub("", _LEAD_REGION.sub("", stem))
+        if nxt == stem or len(nxt) < 2:
+            break
+        stem = nxt
+        out.append(stem)
+    return out
+
+
+# 브랜드 이름 뒤에 흔히 붙는 업종어. 여기까지 떼면 브랜드만 남는다.
+_TRADE_TAIL = re.compile(
+    r"(어학|영어|수학|국어|논술|과학|독서|교육|학습|스쿨|아카데미)+$")
+
+# 브랜드 뒤에 붙는 지점 표기. '청담어학원 대치브랜치2관' 처럼
+# 브랜드와 지점 사이에 지역이 끼기도 한다.
+_BRANCH = re.compile(r"(브랜치|캠퍼스|센터|지점|\d*관|\d+호점|점)")
+
+
+def matches_brand(name: str, brand_key: str, strict: bool = False) -> str | None:
+    """NEIS 학원명이 큐레이션 브랜드에 해당하는가.
+
+    확신의 강도를 둘로 나눈다. 이 구분이 필요한 이유가 있다.
+
+      strict — 지역·관 번호·업종어를 떼면 브랜드 이름만 남는다.
+               '대치청담어학학원' → 청담. 이때만 '이 학원은 그 브랜드다'
+               라고 **단정**하고 큐레이션 단계를 붙인다.
+
+      loose  — 접두로 시작하기는 한다. '폴리매그넷', '폴리박사' 처럼.
+               같은 브랜드일 수도, 이름만 겹칠 수도 있다. 단정하지 않고
+               '눈여겨볼 만한 곳' 표시만 남겨 수집 대상 선정에 쓴다.
+
+    예전에는 완전일치만 봤다. 그래서 '대치청담어학학원'이 청담어학원과
+    이어지지 않았고, 대치 저학년 영어의 대표 학원들이 통째로 수집 대상
+    밖에 있었다. 반대로 접두만 보면 '뮤엠영어**폴리**오국어논술'이
+    폴리어학원이 된다 — 그래서 접두는 맨 앞에서만 인정한다.
+    """
+    if len(brand_key) < 2:
+        return None
+    for stem in brand_stems(name):
+        if not stem.startswith(brand_key):
+            continue
+        if not strict:
+            return "loose"
+        rest = stem[len(brand_key):]
+        if stem == brand_key or _TRADE_TAIL.sub("", stem) == brand_key:
+            return "strict"
+        # 뒤가 지점 표기뿐이면 같은 브랜드로 본다.
+        if rest and _BRANCH.search(rest) and not _TRADE_TAIL.sub("", rest).strip(
+                "0123456789"):
+            return "strict"
+        if rest and _LEAD_REGION.match(rest) and _BRANCH.search(rest):
+            return "strict"
+    return None
+
+
 def fetch_region(region: dict) -> list[dict]:
     """한 학군의 학원을 전부 수집한다. 행정구역(구) 단위로 받고 동으로 거른다."""
     if not config.HAS_NEIS:

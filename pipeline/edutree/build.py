@@ -18,7 +18,8 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 
 from . import analyze, config, scoring
-from .neis import match_keys, normalize_name
+from . import neis
+from .neis import normalize_name
 
 
 # ── 학원 로딩 ──────────────────────────────────────────────────────
@@ -114,13 +115,39 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
     NEIS 는 어떤 학원이 어느 단계를 담당하는지 모른다. 그 지식은 큐레이션
     쪽에만 있으므로, 이름 매칭으로 연결한다.
     """
-    seed_by_key: dict[str, dict] = {}
+    # 브랜드 → 매칭 키. 이름과 별칭 모두에서 뽑는다.
+    seed_keys: list[tuple[str, dict]] = []
     for brand in config.seed_academies():
-        for key in match_keys(brand["name"]):
-            seed_by_key[key] = brand
-        for alias in brand.get("aliases", []):
-            for key in match_keys(alias):
-                seed_by_key.setdefault(key, brand)
+        for label in [brand["name"], *brand.get("aliases", [])]:
+            key = normalize_name(label)
+            if len(key) >= 2:
+                seed_keys.append((key, brand))
+    # 긴 키를 먼저 본다. '청담어학원'과 '청담'이 함께 있으면 긴 쪽이 맞다.
+    seed_keys.sort(key=lambda kv: -len(kv[0]))
+
+    def find_brand(row: dict) -> tuple[dict | None, bool]:
+        """브랜드를 찾는다. (브랜드, 단정해도 되는가)
+
+        과목이 어긋나면 버린다. 접두만으로는 '청담동수학학원'이
+        청담어학원(영어)이 된다 — 동 이름과 브랜드 이름이 같은 경우다.
+
+        strict 가 아니면 브랜드로 **단정하지 않는다.** '폴리매그넷',
+        '폴리박사' 는 폴리어학원일 수도 아닐 수도 있다. 확실하지 않은 것을
+        확실한 것처럼 적으면 그게 곧 거짓이고, 실명 사업자를 다루는
+        서비스에서는 특히 그렇다. 대신 '눈여겨볼 곳' 표시만 남긴다.
+        """
+        guess = set(_infer_subjects(row))
+        loose: dict | None = None
+        for key, brand in seed_keys:
+            kind = neis.matches_brand(row["name"], key)
+            if not kind:
+                continue
+            if guess and not (guess & set(brand["subjects"])):
+                continue
+            if neis.matches_brand(row["name"], key, strict=True):
+                return brand, True
+            loose = loose or brand
+        return loose, False
 
     before = len(neis_rows)
     neis_rows = [r for r in neis_rows
@@ -129,9 +156,10 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
           f"(예능·기예·독서실 등 {before - len(neis_rows)}곳 제외)")
 
     matched = 0
+    hinted = 0
     for row in neis_rows:
-        brand = next((seed_by_key[k] for k in match_keys(row["name"]) if k in seed_by_key), None)
-        if brand:
+        brand, certain = find_brand(row)
+        if brand and certain:
             matched += 1
             row["brand"] = brand["name"]
             row["aliases"] = brand.get("aliases", [])
@@ -139,6 +167,11 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             row["flagship"] = brand.get("flagship", [])
             row["subjects"] = brand["subjects"]
         else:
+            # 이름이 유명 브랜드로 시작하지만 단정할 수 없는 경우.
+            # 수집 대상 선정에서만 가산점으로 쓴다.
+            if brand:
+                row["brand_hint"] = True
+                hinted += 1
             row.setdefault("stages", [])
             row.setdefault("flagship", [])
             row.setdefault("subjects", _infer_subjects(row))
@@ -147,7 +180,9 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         if not row.get("grade_bands"):
             row["grade_bands"] = _bands_from_stages(row) or _infer_bands(row)
         row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
-    print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨")
+    print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨"
+          + (f" (이름이 겹쳐 단정하지 않은 곳 {hinted}곳은 수집 우선순위로만 반영)"
+             if hinted else ""))
     return neis_rows
 
 
@@ -240,41 +275,100 @@ def _infer_subjects(row: dict) -> list[str]:
 def select_for_mentions(academies: list[dict]) -> tuple[list[dict], list[dict]]:
     """네이버 수집 대상을 예산 안에서 고른다.
 
-    학군마다 예산을 똑같이 나눈다. 전체를 점수순으로 자르면 대치가 예산을
+    학군마다 예산을 똑같이 나눈다. 전체를 한 줄로 세우면 대치가 예산을
     독식해 다른 학군 랭킹이 비어버린다.
 
-    우선순위
-      1. 큐레이션 테크트리에 매핑된 학원 (테크트리 화면이 이들에 의존한다)
-      2. 과목이 특정된 학원 (종합·보습보다 커뮤니티 언급이 잡히기 쉽다)
-      3. 정원이 큰 학원 (규모가 클수록 언급이 많다는 대리 지표)
+    ★ 학군 안에서는 **학년 구간별로 다시 나눈다.**
 
-    고르지 못한 학원은 점수를 계산하지 않는다. 언급 0건으로 채점하면
-    '평가했는데 낮은 점수'처럼 보이지만 실제로는 '보지도 않은' 것이라
-    그렇게 표시하는 편이 정직하다.
+    예전에는 정원(수용인원) 순으로 한 줄 세웠다. 그랬더니 대치 100칸의
+    윗자리를 러셀 자습전용관(정원 54,361)·대찬·시대인재 같은 재수종합반이
+    통째로 가져갔다. 정원은 규모의 대리 지표로 보였지만 실은 **업종 편향**
+    이었다 — 재종반·자습실형은 수용인원이 수만이고 저학년 어학원은 72~158
+    명이다. 그 결과 대치 저학년 영어의 대표 학원(청담·폴리매그넷·정상·
+    리드101)이 한 곳도 수집되지 않았다. 랭킹에 없는 이유가 '평가해서 낮음'
+    이 아니라 '보지도 않음' 이었다.
+
+    지금은 구간마다 자리를 먼저 떼어 준 뒤, 그 안에서 과목을 번갈아 가며
+    정원 순으로 고른다. 정원 비교는 같은 구간·같은 과목끼리만 한다.
+    구간이 안 잡힌 곳(종합·보습·재종)은 남은 자리를 나눠 갖는다.
     """
     budget = config.NAVER_MAX_ACADEMIES
     regions = [r["id"] for r in config.regions()]
     per_region = max(1, budget // max(1, len(regions)))
 
-    def priority(a: dict):
-        return (
-            0 if a.get("stages") else 1,
-            0 if (a.get("subjects") or ["etc"]) != ["etc"] else 1,
-            -(a.get("tofor_smtot") or 0),
-        )
+    bands = list(config.GRADE_BANDS)
+    # 구간이 잡힌 곳에 88%, 구간을 알 수 없는 곳에 12%.
+    # 구간 미상은 대부분 종합·보습·재종이라 구간별 화면에 쓰이지 않는다.
+    per_band = max(1, int(per_region * 0.88) // len(bands))
+
+    def capacity(a: dict) -> float:
+        try:
+            return float(a.get("tofor_smtot") or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    def take(pool: list[dict], quota: int, chosen: set[str]) -> list[dict]:
+        """과목을 번갈아 가며 정원 순으로 고른다.
+
+        한 과목이 자리를 쓸어 가지 않게 한다. 대치 영어처럼 후보가 많은
+        과목이 있으면 라운드로빈이 없을 때 수학이 통째로 밀린다.
+        """
+        by_subject: dict[str, list[dict]] = {}
+        for a in pool:
+            for sub in (a.get("subjects") or ["etc"]):
+                by_subject.setdefault(sub, []).append(a)
+        # 같은 구간·같은 과목 안에서만 정원을 비교한다.
+        # 큐레이션에 매핑된 곳과 유명 브랜드로 보이는 곳을 앞세운다 —
+        # 테크트리 화면이 전자에 의존하고, 후자는 학부모가 실제로 찾는 이름이다.
+        for rows in by_subject.values():
+            rows.sort(key=lambda a: (0 if a.get("stages") else 1,
+                                     0 if a.get("brand_hint") else 1,
+                                     -capacity(a)))
+
+        out: list[dict] = []
+        cursors = {k: 0 for k in by_subject}
+        while len(out) < quota and any(
+                cursors[k] < len(by_subject[k]) for k in by_subject):
+            for sub in sorted(by_subject):
+                if len(out) >= quota:
+                    break
+                rows, i = by_subject[sub], cursors[sub]
+                while i < len(rows) and rows[i]["id"] in chosen:
+                    i += 1
+                cursors[sub] = i
+                if i < len(rows):
+                    chosen.add(rows[i]["id"])
+                    out.append(rows[i])
+                    cursors[sub] = i + 1
+        return out
 
     selected, skipped = [], []
+    band_counts: dict[str, int] = {}
     for region_id in regions:
         rows = [a for a in academies if a.get("region_id") == region_id]
-        rows.sort(key=priority)
-        selected.extend(rows[:per_region])
-        skipped.extend(rows[per_region:])
+        chosen: set[str] = set()
+        picked: list[dict] = []
+
+        for band in bands:
+            pool = [a for a in rows if band in (a.get("grade_bands") or [])]
+            got = take(pool, per_band, chosen)
+            picked += got
+            band_counts[band] = band_counts.get(band, 0) + len(got)
+
+        # 구간 미상(종합·보습·재종) + 위에서 후보가 모자라 남은 자리
+        rest = [a for a in rows if a["id"] not in chosen]
+        picked += take(rest, per_region - len(picked), chosen)
+
+        selected.extend(picked)
+        skipped.extend(a for a in rows if a["id"] not in chosen)
 
     other = [a for a in academies if a.get("region_id") not in regions]
     skipped.extend(other)
 
     print(f"  네이버 수집 대상 {len(selected)}곳 선별 "
-          f"(학군당 {per_region}곳, 예산 {budget})")
+          f"(학군당 {per_region}곳, 구간당 {per_band}곳, 예산 {budget})")
+    print("    구간별: " + " · ".join(
+        f"{config.GRADE_BANDS[b][0]} {band_counts.get(b, 0)}" for b in bands))
     print(f"  미수집 {len(skipped)}곳은 등록부에만 남기고 점수를 매기지 않습니다")
     return selected, skipped
 
@@ -583,6 +677,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
         if apt_cache.exists():
             apt_rows = json.loads(apt_cache.read_text(encoding="utf-8"))
             print(f"  아파트 캐시 {len(apt_rows):,}단지")
+            # 의무관리대상이 아니라 API 에 없는 소규모 단지를 얹는다.
+            from . import apartments as apt_mod
+            apt_rows = apt_mod.merge_extra(apt_rows)
+            geocode.fill_coords(apt_rows)
             from . import zones as zone_mod
             zone_mod.assign(apt_rows, school_rows)
             zone_mod.attach_apartments(school_rows, apt_rows)
@@ -644,6 +742,11 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "sampleSize": s["sample_size"],
                 "confidence": s["confidence"],
                 "isRanked": s["is_ranked"],
+                # 표본이 적으면 추천율을 내보내지 않는다. 3건으로 만든
+                # '추천율 67%' 는 숫자처럼 보이지만 아무것도 말하지 않는다.
+                "recommendRate": (
+                    (s.get("breakdown", {}).get("reputation", {}) or {}).get("추천율")
+                    if s["sample_size"] >= config.MIN_SAMPLE_FOR_RANK else None),
                 "momentumDirection": s["momentum_direction"],
                 "rankInRegion": s.get("rank_in_region"),
                 "regionRankedCount": s.get("region_ranked_count"),
@@ -693,6 +796,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "usedDate": a.get("used_date"),
             "lat": a.get("lat"), "lng": a.get("lng"),
             "zones": a.get("zones") or [],
+            # 'manual' 은 공동주택 API 밖에서 손으로 넣은 단지.
+            # 출처가 다르면 다르다고 적어 둔다.
+            "source": a.get("source"),
         } for a in apt_rows if a.get("kaptCode")],
         "techtree.json": config.banded_techtree(),
         "academies.json": payload_academies,

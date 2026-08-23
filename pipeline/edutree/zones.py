@@ -10,6 +10,8 @@
 """
 from __future__ import annotations
 
+import math
+
 import json
 
 from . import config
@@ -64,6 +66,45 @@ def locate(lon: float, lat: float, features: list[dict],
     return out
 
 
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    r = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = (math.sin(dp / 2) ** 2
+         + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2)
+    return 2 * r * math.asin(math.sqrt(a))
+
+
+def _likely(apartment: dict, schools_in: list[dict]) -> list[dict]:
+    """중·고 학교군 안에서 배정 가능성이 높은 순으로 세운다.
+
+    서울 중학교는 학교군 안 추첨이고 고등학교도 단계별 추첨이라 '어디로
+    간다'고 말할 수 없다. 하지만 완전한 제비뽑기도 아니다. 두 경우 모두
+    **통학 편의(근거리)** 가 배정에 반영되므로, 같은 학교군이라도 집에서
+    가까운 학교로 갈 확률이 눈에 띄게 높다.
+
+    학부모가 실제로 아는 것도 그 감각이다. '추첨이지만 보통 저기 간다'.
+    그걸 숨기면 화면이 현실보다 덜 알려 주는 셈이고, 반대로 단정하면
+    거짓이 된다. 그래서 **거리순과 거리값을 그대로** 보여주고, 확률로
+    환산하지는 않는다. 실제 배정 결과 데이터가 없는 상태에서 퍼센트를
+    붙이면 근거 없는 숫자가 되기 때문이다.
+    """
+    lat, lng = apartment.get("lat"), apartment.get("lng")
+    if not (lat and lng):
+        return []
+    rows = []
+    for s in schools_in:
+        if not (s.get("lat") and s.get("lng")):
+            continue
+        rows.append({
+            "name": s["name"],
+            "km": round(_haversine_km(lat, lng, s["lat"], s["lng"]), 2),
+        })
+    rows.sort(key=lambda r: r["km"])
+    return rows
+
+
 def assign(apartments: list[dict], schools: list[dict]) -> dict:
     """아파트에 학교군을, 학교군에 소속 학교를 붙인다."""
     features = load()
@@ -88,12 +129,16 @@ def assign(apartments: list[dict], schools: list[dict]) -> dict:
         assigned += 1
         entries = []
         for z in zones:
-            schools_in = [s["name"] for s in by_zone.get(z.get("zoneId"), [])]
+            rows_in = by_zone.get(z.get("zoneId"), [])
+            schools_in = [s["name"] for s in rows_in]
+            nearby = _likely(a, rows_in) if z.get("level") != "elementary" else []
             entries.append({
                 "zoneId": z.get("zoneId"),
                 "zoneName": z.get("zoneName"),
                 "level": z.get("level"),
                 "schools": schools_in,
+                # 추첨이지만 근거리가 반영된다 — 가까운 순으로만 알려 준다.
+                "nearby": nearby[:5],
                 # 초등 통학구역은 학교 하나에 구역 하나다 → '배정'이라 말할 수 있다.
                 # 중·고 학교군은 여러 학교가 묶여 추첨이므로 '소속'이 정확하다.
                 "certain": z.get("level") == "elementary" and len(schools_in) == 1,

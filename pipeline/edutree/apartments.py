@@ -169,6 +169,54 @@ def fetch_all() -> list[dict]:
     return out
 
 
+def load_extra() -> list[dict]:
+    """API 가 담지 못한 단지를 손으로 보완한 목록.
+
+    공동주택 API 는 의무관리대상(대체로 300세대 이상)만 준다. 그 아래
+    소규모 단지는 조회할 방법 자체가 없어, 아는 것을 적어 두고 합친다.
+
+    좌표는 여기서 채우지 않는다. 주소만 두고 파이프라인의 지오코딩이
+    맡는다 — 다음에 단지를 추가할 때 좌표를 손으로 찾지 않아도 되게.
+    """
+    try:
+        rows = (config.load_yaml("apartments_extra.yaml") or {}).get("apartments") or []
+    except FileNotFoundError:
+        return []
+    out = []
+    for r in rows:
+        name = (r.get("name") or "").strip()
+        if not name:
+            continue
+        out.append({
+            # API 단지와 섞이므로 출처를 알 수 있는 키를 쓴다.
+            "kaptCode": f"manual-{name.replace(' ', '')}",
+            "name": name,
+            "kaptName": name,
+            "region_id": r.get("region_id"),
+            "dong": r.get("dong"),
+            "address": r.get("address"),
+            "households": r.get("households"),
+            "buildings": r.get("buildings"),
+            "used_date": r.get("used_date"),
+            "lat": r.get("lat"),
+            "lng": r.get("lng"),
+            "source": "manual",
+        })
+    return out
+
+
+def merge_extra(rows: list[dict]) -> list[dict]:
+    """수집분에 보완 목록을 얹는다. 이름이 겹치면 수집분을 남긴다."""
+    seen = {(a.get("name") or "").replace(" ", "") for a in rows}
+    added = [a for a in load_extra()
+             if (a["name"] or "").replace(" ", "") not in seen]
+    if added:
+        print(f"  API 밖 단지 {len(added)}곳 보완: "
+              + ", ".join(a["name"] for a in added[:5])
+              + ("…" if len(added) > 5 else ""))
+    return rows + added
+
+
 def status() -> str:
     if not HAS_KEY:
         return "키 없음"
