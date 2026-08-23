@@ -44,7 +44,10 @@ class MethodPage extends ConsumerWidget {
                   _Formula(meta: meta),
                   const SizedBox(height: AppSpace.xl),
 
-                  for (final key in pillarNames.keys)
+                  // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
+                  for (final key in (pillarNames.keys.toList()
+                    ..sort((a, b) => (meta.weights[b] ?? 0)
+                        .compareTo(meta.weights[a] ?? 0))))
                     _PillarDetail(pillar: key, weight: meta.weights[key] ?? 0),
 
                   const SizedBox(height: AppSpace.xl),
@@ -71,6 +74,31 @@ class MethodPage extends ConsumerWidget {
                     '이 값도 신뢰도·최신성으로 가중합니다. 유효 후기가 ${meta.minSampleForRank}건 미만이면 '
                     '표시하지 않습니다. 설문으로 받은 추천 의향이 아니라 공개된 글에서 읽어낸 값이므로, '
                     '다른 서비스의 추천율과 같은 값이 아닙니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('무엇을 가장 무겁게 보나요'),
+                  const _Prose(
+                    '평판과 진입난이도를 각각 35%로, 가장 무겁게 둡니다. 학부모가 실제로 묻는 것이 '
+                    '"평이 좋은가"와 "가고 싶어도 갈 수 있는가" 둘이기 때문입니다. 들어가기 어렵다는 '
+                    '사실 자체가 수요의 가장 정직한 표현이고, 자리가 남는 학원과 대기를 거는 학원을 '
+                    '같은 저울에 놓으면 지금 학원가의 현황이 보이지 않습니다.\n\n'
+                    '화제성과 투명성은 각각 15%입니다. 화제성은 좋고 나쁨이 아니라 "지금 많이 '
+                    '이야기되는가"일 뿐이고, 투명성은 공시를 성실히 했는지를 볼 뿐 수업의 질과는 '
+                    '다른 이야기이기 때문입니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('가중치가 곧 영향력이 되도록'),
+                  const _Prose(
+                    '가중치를 35%로 올리는 것만으로는 부족했습니다. 가중치가 같아도 점수가 좁은 '
+                    '구간에만 몰려 있으면 순위를 거의 가르지 못합니다.\n\n'
+                    '실제로 그랬습니다. 평판은 감성값 -1~+1을 0~100에 그대로 옮겼는데, 실제 감성이 '
+                    '0.00~0.78 구간에만 살아서 점수가 53~65에 눌려 있었습니다. 가중치는 35%인데 '
+                    '순위에 미치는 영향은 네 기둥 중 가장 작았습니다.\n\n'
+                    '그래서 평판도 화제성이 쓰던 방식(코호트 z점수)으로 통일했습니다. 같은 지역·과목 '
+                    '학원들 사이에서 몇 표준편차만큼 앞서는지를 봅니다. 가중치가 뜻하는 바와 실제 '
+                    '영향이 어긋나면, 산식을 공개하는 의미가 없습니다.',
                   ),
 
                   const SizedBox(height: AppSpace.xl),
@@ -129,6 +157,16 @@ class MethodPage extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('순위 이력은 언제부터인가요'),
+                  const _Prose(
+                    '2026년 8월 23일부터 매 수집마다 순위를 기록합니다. 그 이전 기록은 없습니다 — '
+                    '저희 산식의 과거 순위는 어디에도 존재하지 않으므로 만들어 넣지 않습니다.\n\n'
+                    '학원 상세의 추이 그래프와 랭킹 목록의 상승·하락 표시는 이 기록에서 나옵니다. '
+                    '점수 옆의 상승·보합 화살표는 다른 값입니다 — 그쪽은 언급량 추세이고, 순위 변동이 '
+                    '아닙니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
                   const SectionHeader('무엇을 하지 않나요'),
                   const _DoNotList(),
 
@@ -178,6 +216,10 @@ class _Formula extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
+    // 무거운 기둥부터. 마지막 항목 뒤에는 '+' 를 붙이지 않는다.
+    final sorted = pillarNames.keys.toList()
+      ..sort((a, b) =>
+          (meta.weights[b] ?? 0).compareTo(meta.weights[a] ?? 0));
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpace.lg),
@@ -194,8 +236,9 @@ class _Formula extends StatelessWidget {
         const SizedBox(height: AppSpace.sm),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
+          runSpacing: 4,
           children: [
-            for (final key in pillarNames.keys) ...[
+            for (final key in sorted) ...[
               Text('${(meta.weights[key]! * 100).toStringAsFixed(0)}%',
                   style: TextStyle(
                     fontFamily: 'Paperlogy',
@@ -209,7 +252,7 @@ class _Formula extends StatelessWidget {
                       fontFamily: 'Paperlogy',
                       fontSize: 17,
                       color: Colors.white)),
-              if (key != pillarNames.keys.last)
+              if (key != sorted.last)
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Text('+',
@@ -243,7 +286,9 @@ class _PillarDetail extends StatelessWidget {
       '커뮤니티 게시물마다 감성 점수(-1 ~ +1)를 매깁니다.',
       '각 글의 가중치 = 신뢰도 × 최신성. 최신성은 반감기 180일 지수 감쇠입니다.',
       '신뢰도는 글 길이, 구체적 수치(학년·개월·등급), 1인칭 경험 서술, 실제 수강 이력 언급으로 매깁니다.',
-      '가중 평균을 코호트 평균 쪽으로 축소한 뒤 0–100으로 환산합니다.',
+      '가중 평균을 코호트 평균 쪽으로 축소합니다(베이지안 축소).',
+      '축소한 값을 같은 지역·과목 코호트의 z점수로 옮깁니다 — 50 + 15z. '
+          '아래 "가중치가 곧 영향력이 되도록"을 보세요.',
     ],
     'momentum': [
       '최근 90일 언급량을 로그 스케일로 잡고, 같은 지역·과목 코호트 안에서 z점수로 표준화합니다 (60%).',
@@ -259,8 +304,8 @@ class _PillarDetail extends StatelessWidget {
     ],
     'selectivity': [
       '레벨테스트 난이도 언급 40% · 대기/마감 언급 30% · 정원 대비 언급량 30%.',
-      '표본이 적으면 중앙(50)으로 끌어당깁니다 — 12건으로 "난이도 100"은 '
-          '측정이 아니라 잡음이기 때문입니다.',
+      '표본이 적으면 중앙(50)으로 끌어당깁니다(사전표본 10건) — 12건으로 '
+          '"난이도 100"은 측정이 아니라 잡음이기 때문입니다.',
       '공식 경쟁률이 아니라 커뮤니티 언급에서 추정한 값입니다. '
           '화면에 "추정" 표시를 답니다.',
       '등급반(심화반·최상위반)별 난이도는 내놓지 않습니다 — 아래를 보세요.',
@@ -355,6 +400,11 @@ class _DoNotList extends StatelessWidget {
     '광고비를 받고 순위를 바꾸지 않습니다. 광고를 싣게 되면 순위와 분리해 표시합니다.',
     '표본이 부족한 학원에 순위를 붙이지 않습니다.',
     '"최악의 학원" 같은 하위 랭킹을 만들지 않습니다.',
+    '수집을 거부한 사이트의 글을 가져오지 않습니다. robots.txt 와 '
+        '콘텐츠 신호를 먼저 확인하고, 도구를 바꿔 우회하지 않습니다.',
+    '근거가 모자란 지표를 만들어 내지 않습니다. 교습비와 등급반별 난이도가 '
+        '그래서 빠져 있습니다.',
+    '추천 이유를 설명할 수 없는 개인화 추천을 하지 않습니다.',
   ];
 
   @override
