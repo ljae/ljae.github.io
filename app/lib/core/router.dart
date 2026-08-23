@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/academy/academy_page.dart';
 import '../features/board/board_page.dart';
+import '../features/board/post_page.dart';
 import '../features/home/home_page.dart';
 import '../features/map/map_page.dart';
 import '../features/method/method_page.dart';
@@ -61,6 +62,11 @@ final router = GoRouter(
             path: '/method',
             pageBuilder: (context, state) => _fade(const MethodPage())),
 
+        GoRoute(
+          path: '/board/:id',
+          pageBuilder: (_, state) =>
+              _fade(BoardPostPage(postId: state.pathParameters['id']!)),
+        ),
         GoRoute(
           path: '/academy/:id',
           pageBuilder: (_, state) =>

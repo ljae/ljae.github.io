@@ -109,6 +109,22 @@ class BoardService {
         .toList();
   }
 
+  /// 글 하나. 상세 화면이 쓴다.
+  ///
+  /// 목록에서 넘겨받지 않고 다시 읽는 이유: 링크로 바로 들어오는 경우가
+  /// 있다. 목록을 거치지 않았는데 본문이 없으면 화면이 빈다.
+  Future<BoardPost?> post(String id) async {
+    final rows = await _db
+        .from('board_posts')
+        .select(_postSelect)
+        .eq('id', id)
+        .eq('status', 'published')
+        .limit(1);
+    final list = rows as List;
+    if (list.isEmpty) return null;
+    return BoardPost.fromRow((list.first as Map).cast<String, dynamic>());
+  }
+
   /// 특정 학원을 언급한 글. 학원 상세에서 '이 학원 이야기'로 보여준다.
   Future<List<BoardPost>> forAcademy(String academyId) async {
     final rows = await _db
@@ -175,6 +191,12 @@ final boardListProvider = FutureProvider.family<List<BoardPost>, (String?, Strin
     (ref, key) async {
   if (!Env.hasSupabase) return const [];
   return ref.watch(boardServiceProvider).list(regionId: key.$1, category: key.$2);
+});
+
+final boardPostProvider =
+    FutureProvider.family<BoardPost?, String>((ref, id) async {
+  if (!Env.hasSupabase) return null;
+  return ref.watch(boardServiceProvider).post(id);
 });
 
 final boardCommentsProvider =
