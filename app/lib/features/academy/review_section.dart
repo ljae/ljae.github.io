@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/env.dart';
 import '../../core/theme.dart';
+import '../../data/models.dart';
 import '../../data/reviews.dart';
 import '../../widgets/common.dart';
 
@@ -104,6 +105,21 @@ class _ReviewTile extends StatelessWidget {
           ]),
           const SizedBox(height: AppSpace.sm),
           Text(review.body, style: text.bodyLarge),
+          if (review.gradeBand != null ||
+              review.subject != null ||
+              review.tags.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Wrap(spacing: 5, runSpacing: 5, children: [
+              if (review.gradeBand != null)
+                Chip2(gradeBandNames[review.gradeBand] ?? review.gradeBand!,
+                    color: AppColors.navyBright),
+              if (review.subject != null)
+                Chip2(subjectNames[review.subject] ?? review.subject!,
+                    color: AppColors.transparency),
+              for (final t in review.tags)
+                Chip2(t.replaceAll('_', ' '), color: AppColors.mist),
+            ]),
+          ],
           if (review.aspects.isNotEmpty) ...[
             const SizedBox(height: AppSpace.sm),
             Wrap(spacing: 6, runSpacing: 6, children: [
@@ -132,10 +148,21 @@ class _ReviewFormState extends ConsumerState<_ReviewForm> {
   final _email = TextEditingController();
   int _rating = 5;
   final _aspects = <String, int>{};
+  String? _gradeBand;
+  String? _subject;
+  final _tags = <String>{};
   bool _busy = false;
   String? _notice;
 
   static const aspectKeys = ['강사', '관리', '커리큘럼', '가격', '숙제량'];
+
+  // supabase/06 의 valid_review_tags 어휘와 같아야 한다.
+  // 자유 태그를 받지 않는 이유: 곧바로 스팸·홍보 통로가 된다.
+  static const tagKeys = [
+    '숙제량_많음', '숙제량_적음', '관리_꼼꼼', '피드백_빠름', '레테_어려움',
+    '분위기_엄격', '분위기_자유로움', '시설_좋음', '셔틀_운행', '상담_친절',
+    '교재_자체', '선행_위주', '내신_위주', '소수정예', '대형강의',
+  ];
 
   @override
   void dispose() {
@@ -172,6 +199,9 @@ class _ReviewFormState extends ConsumerState<_ReviewForm> {
             rating: _rating,
             body: _body.text.trim(),
             aspects: _aspects,
+            gradeBand: _gradeBand,
+            subject: _subject,
+            tags: _tags.toList(),
           );
       ref.invalidate(reviewsProvider(widget.academyId));
       if (mounted) Navigator.of(context).pop();
@@ -227,6 +257,49 @@ class _ReviewFormState extends ConsumerState<_ReviewForm> {
                   ),
                 const SizedBox(width: AppSpace.sm),
                 Text('$_rating점', style: text.titleMedium),
+              ]),
+              const SizedBox(height: AppSpace.sm),
+              // 학년·과목을 붙이면 나중에 '초2 수학 후기'만 걸러 볼 수 있다.
+              Text('자녀 학년 (선택)', style: text.labelMedium),
+              const SizedBox(height: 6),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                for (final e in gradeBandNames.entries)
+                  ChoiceChip(
+                    label: Text(e.value),
+                    selected: _gradeBand == e.key,
+                    onSelected: (v) =>
+                        setState(() => _gradeBand = v ? e.key : null),
+                  ),
+              ]),
+              const SizedBox(height: AppSpace.sm),
+              Text('과목 (선택)', style: text.labelMedium),
+              const SizedBox(height: 6),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                for (final e in subjectNames.entries)
+                  if (e.key != 'etc')
+                    ChoiceChip(
+                      label: Text(e.value),
+                      selected: _subject == e.key,
+                      onSelected: (v) =>
+                          setState(() => _subject = v ? e.key : null),
+                    ),
+              ]),
+              const SizedBox(height: AppSpace.sm),
+              Text('키워드 (최대 5개)', style: text.labelMedium),
+              const SizedBox(height: 6),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                for (final k in tagKeys)
+                  FilterChip(
+                    label: Text(k.replaceAll('_', ' ')),
+                    selected: _tags.contains(k),
+                    onSelected: (v) => setState(() {
+                      if (v && _tags.length < 5) {
+                        _tags.add(k);
+                      } else {
+                        _tags.remove(k);
+                      }
+                    }),
+                  ),
               ]),
               const SizedBox(height: AppSpace.sm),
               Text('관점별 평가 (선택)', style: text.labelMedium),

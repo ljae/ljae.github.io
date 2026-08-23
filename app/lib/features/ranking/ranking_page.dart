@@ -15,8 +15,14 @@ class RankingPage extends ConsumerStatefulWidget {
   ConsumerState<RankingPage> createState() => _RankingPageState();
 }
 
+/// 정렬 기준. 트리스코어가 기본이고, 나머지는 보조 축이다.
+enum _Sort { score, positive, sample, tuition }
+
 class _RankingPageState extends ConsumerState<RankingPage> {
   String _subject = 'math';
+  _Sort _sort = _Sort.score;
+  bool _onlyTuition = false;   // 교습비 공개 학원만
+  bool _onlyVerified = false;  // 공식 검증(NEIS 대조) 학원만
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +33,35 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('데이터를 불러오지 못했습니다\n$e')),
       data: (data) {
-        final ranked = data.ranking(
+        var ranked = data.ranking(
           regionId: sel.regionId,
           subject: _subject,
           gradeBand: sel.gradeBand,   // 헤더 선택기와 연동
         );
+        // 상세 필터. 정렬을 바꿔도 순위 숫자는 트리스코어 순위 그대로다 —
+        // 정렬은 보는 방법이지 등수를 다시 매기는 것이 아니다.
+        if (_onlyTuition) {
+          ranked = ranked.where((a) => a.tuitionMonthly != null).toList();
+        }
+        if (_onlyVerified) {
+          ranked = ranked.where((a) => a.isVerified).toList();
+        }
+        final rankOf = {
+          for (var i = 0; i < ranked.length; i++) ranked[i].id: i + 1,
+        };
+        switch (_sort) {
+          case _Sort.score:
+            break;
+          case _Sort.positive:
+            ranked.sort((a, b) => (b.score.positiveRate ?? -1)
+                .compareTo(a.score.positiveRate ?? -1));
+          case _Sort.sample:
+            ranked.sort(
+                (a, b) => b.score.sampleSize.compareTo(a.score.sampleSize));
+          case _Sort.tuition:
+            ranked.sort((a, b) => (a.tuitionMonthly ?? 1 << 30)
+                .compareTo(b.tuitionMonthly ?? 1 << 30));
+        }
         final unranked = data.unranked(sel.regionId);
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
@@ -58,7 +88,16 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         selected: _subject,
                         onChanged: (v) => setState(() => _subject = v),
                       ),
-                      const SizedBox(height: AppSpace.lg),
+                      const SizedBox(height: AppSpace.sm),
+                      _FilterBar(
+                        sort: _sort,
+                        onlyTuition: _onlyTuition,
+                        onlyVerified: _onlyVerified,
+                        onSort: (v) => setState(() => _sort = v),
+                        onTuition: (v) => setState(() => _onlyTuition = v),
+                        onVerified: (v) => setState(() => _onlyVerified = v),
+                      ),
+                      const SizedBox(height: AppSpace.md),
                       _MethodNote(meta: data.meta),
                       const SizedBox(height: AppSpace.md),
                     ],
@@ -82,7 +121,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   child: AcademyCard(
                       key: ValueKey(ranked[i].id),
                       academy: ranked[i],
-                      rank: i + 1),
+                      rank: rankOf[ranked[i].id] ?? i + 1),
                 ),
               ),
             if (unranked.isNotEmpty)
@@ -165,6 +204,62 @@ class _MethodNote extends StatelessWidget {
                 ),
               ]),
       ),
+    );
+  }
+}
+
+/// 상세 필터 줄. 데이터가 실제로 있는 축만 내놓는다 —
+/// 시설·셔틀 같은 항목은 수집원(NEIS)에 없으므로 필터로 만들지 않는다.
+/// 없는 데이터로 필터를 만들면 빈 화면만 남는다.
+class _FilterBar extends StatelessWidget {
+  final _Sort sort;
+  final bool onlyTuition;
+  final bool onlyVerified;
+  final ValueChanged<_Sort> onSort;
+  final ValueChanged<bool> onTuition;
+  final ValueChanged<bool> onVerified;
+  const _FilterBar({
+    required this.sort,
+    required this.onlyTuition,
+    required this.onlyVerified,
+    required this.onSort,
+    required this.onTuition,
+    required this.onVerified,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: AppSpace.sm,
+      runSpacing: AppSpace.sm,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        SegmentedButton<_Sort>(
+          showSelectedIcon: false,
+          style: const ButtonStyle(
+            visualDensity: VisualDensity.compact,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          segments: const [
+            ButtonSegment(value: _Sort.score, label: Text('트리스코어')),
+            ButtonSegment(value: _Sort.positive, label: Text('긍정률')),
+            ButtonSegment(value: _Sort.sample, label: Text('표본 많은')),
+            ButtonSegment(value: _Sort.tuition, label: Text('교습비 낮은')),
+          ],
+          selected: {sort},
+          onSelectionChanged: (v) => onSort(v.first),
+        ),
+        FilterChip(
+          label: const Text('교습비 공개만'),
+          selected: onlyTuition,
+          onSelected: onTuition,
+        ),
+        FilterChip(
+          label: const Text('공식 검증만'),
+          selected: onlyVerified,
+          onSelected: onVerified,
+        ),
+      ],
     );
   }
 }

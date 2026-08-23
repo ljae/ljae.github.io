@@ -243,7 +243,10 @@ def _infer_bands(row: dict) -> list[str]:
 
 _SUBJECT_HINTS = {
     "math": ("수학", "산수", "사고력", "매쓰", "MATH", "Math"),
-    "english": ("영어", "어학", "English", "ENGLISH", "잉글리시", "어학원"),
+    # '잉글리쉬'(쉬)와 '잉글리시'(시)가 둘 다 실존한다 — 알파잉글리쉬학원이
+    # '쉬' 표기 하나 때문에 국어 학원으로 추론돼 브랜드 매칭에서 튕겼다.
+    "english": ("영어", "어학", "English", "ENGLISH", "잉글리시", "잉글리쉬",
+                "어학원"),
     "korean": ("국어", "논술", "독서", "문해", "언어"),
     "science": ("과학", "물리", "화학", "생물", "지구과학"),
 }
@@ -684,6 +687,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             from . import zones as zone_mod
             zone_mod.assign(apt_rows, school_rows)
             zone_mod.attach_apartments(school_rows, apt_rows)
+        # 진로 공시(캐시가 있을 때만)와 수기 보완을 학교에 붙인다.
+        from . import careers
+        careers.attach(school_rows)
         got = geocode.enrich(evaluated + registry_only)
         if got:
             print(f"  좌표 확보 {got:,}곳 / {len(evaluated) + len(registry_only):,}곳")
@@ -784,6 +790,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "assignment": s.get("assignment"),
             "apartments": s.get("apartments") or [],
             "apartmentHouseholds": s.get("apartment_households"),
+            "careers": s.get("careers"),
+            "outcomesExtra": s.get("outcomes_extra"),
         } for s in school_rows],
         "apartments.json": [{
             "id": a.get("kaptCode"),

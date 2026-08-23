@@ -113,6 +113,11 @@ if __name__ == "__main__":
         test_keys()
     elif "--check" in sys.argv:
         check()
+    elif "--careers" in sys.argv:
+        # 학교알리미 진로 공시 수집. 차단에 민감해 본 수집과 분리해 둔다.
+        # 2초 간격, 75곳 — 몇 분이면 끝나고 캐시에 이어받는다.
+        from edutree import careers
+        careers.collect()
     else:
         from edutree.build import run
         check()

@@ -17,6 +17,13 @@ class UserReview {
   final int rating;
   final String body;
   final Map<String, dynamic> aspects;
+
+  /// 구조화 태그 — 학년·과목·키워드. '초2 학부모의 수학 후기'만 걸러
+  /// 보는 일이 가능해지는 축이다.
+  final String? gradeBand;
+  final String? subject;
+  final List<String> tags;
+
   final DateTime createdAt;
   final bool isMine;
 
@@ -27,6 +34,9 @@ class UserReview {
     required this.rating,
     required this.body,
     required this.aspects,
+    this.gradeBand,
+    this.subject,
+    this.tags = const [],
     required this.createdAt,
     this.isMine = false,
   });
@@ -38,6 +48,9 @@ class UserReview {
         rating: (r['rating'] as num).toInt(),
         body: (r['body'] ?? '') as String,
         aspects: (r['aspects'] as Map?)?.cast<String, dynamic>() ?? const {},
+        gradeBand: r['grade_band'] as String?,
+        subject: r['subject'] as String?,
+        tags: ((r['tags'] as List?) ?? const []).cast<String>(),
         createdAt:
             DateTime.tryParse('${r['created_at']}') ?? DateTime.now(),
         isMine: myId != null && r['author_id'] == myId,
@@ -54,7 +67,8 @@ class ReviewService {
   Future<List<UserReview>> forAcademy(String academyId) async {
     final rows = await _db
         .from('user_reviews')
-        .select('id, academy_key, rating, body, aspects, created_at, author_id, '
+        .select('id, academy_key, rating, body, aspects, grade_band, subject, tags, '
+        'created_at, author_id, '
             'profiles(nickname)')
         .eq('academy_key', academyId)
         .eq('status', 'published')
@@ -80,6 +94,9 @@ class ReviewService {
     required int rating,
     required String body,
     Map<String, int> aspects = const {},
+    String? gradeBand,
+    String? subject,
+    List<String> tags = const [],
     DateTime? attendedFrom,
     DateTime? attendedTo,
   }) async {
@@ -93,6 +110,9 @@ class ReviewService {
       'rating': rating,
       'body': body,
       'aspects': aspects,
+      'grade_band': gradeBand,
+      'subject': subject,
+      'tags': tags,
       'attended_from': attendedFrom?.toIso8601String().split('T').first,
       'attended_to': attendedTo?.toIso8601String().split('T').first,
     }, onConflict: 'academy_key,author_id');

@@ -539,6 +539,14 @@ class School {
   /// 배정 아파트 세대수 합계. 공시 학생수와 달리 '앞으로 들어올 수요'를 보여준다.
   final int? apartmentHouseholds;
 
+  /// 졸업생 진로 공시(학교알리미). {'year','일반고','특수목적고','자율고','진학률'…}
+  /// 항목은 학교급에 따라 다르다. 없으면 아직 수집 전이다.
+  final Map<String, dynamic>? careers;
+
+  /// 공시 밖 수기 보완(서울대 진학자 등). 반드시 source 가 함께 있다 —
+  /// 출처 없는 값은 파이프라인이 받지 않는다.
+  final Map<String, dynamic>? outcomesExtra;
+
   const School({
     required this.id,
     required this.name,
@@ -560,6 +568,8 @@ class School {
     this.assignment,
     this.apartments = const [],
     this.apartmentHouseholds,
+    this.careers,
+    this.outcomesExtra,
   });
 
   factory School.fromJson(Map<String, dynamic> j) => School(
@@ -585,6 +595,8 @@ class School {
             .map((a) => ZonedApartment.fromJson((a as Map).cast<String, dynamic>()))
             .toList(),
         apartmentHouseholds: (j['apartmentHouseholds'] as num?)?.toInt(),
+        careers: (j['careers'] as Map?)?.cast<String, dynamic>(),
+        outcomesExtra: (j['outcomesExtra'] as Map?)?.cast<String, dynamic>(),
       );
 
   bool get hasLocation => lat != null && lng != null;

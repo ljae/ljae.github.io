@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
+import '../../data/corrections.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -168,7 +169,9 @@ class _Body extends StatelessWidget {
                   academyId: academy.id, academyName: academy.displayName),
 
               const SizedBox(height: AppSpace.xl),
-              const _CorrectionNotice(),
+              _CorrectionNotice(
+                  academyKey: academy.id,
+                  academyName: academy.displayName),
               const SizedBox(height: AppSpace.xxl),
             ],
           ),
@@ -330,7 +333,10 @@ class _EvidenceTile extends StatelessWidget {
 }
 
 class _CorrectionNotice extends StatelessWidget {
-  const _CorrectionNotice();
+  final String academyKey;
+  final String academyName;
+  const _CorrectionNotice(
+      {required this.academyKey, required this.academyName});
 
   @override
   Widget build(BuildContext context) {
@@ -353,13 +359,169 @@ class _CorrectionNotice extends StatelessWidget {
               ),
               const SizedBox(height: AppSpace.sm),
               OutlinedButton.icon(
-                onPressed: () => context.go('/method#correction'),
+                onPressed: () => showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  showDragHandle: true,
+                  constraints: const BoxConstraints(maxWidth: 640),
+                  builder: (_) => _CorrectionSheet(
+                      academyKey: academyKey, academyName: academyName),
+                ),
                 icon: const Icon(Icons.edit_note, size: 16),
                 label: const Text('정정 요청하기'),
               ),
             ]),
           ),
         ]),
+      ),
+    );
+  }
+}
+
+/// 정정 요청 접수 시트.
+///
+/// 로그인 없이 받는다. 항목은 최소한으로 — 무엇이 틀렸고(내용),
+/// 누구시고(성함·직함), 어디로 회신하면 되는지(연락처)면 충분하다.
+class _CorrectionSheet extends ConsumerStatefulWidget {
+  final String academyKey;
+  final String academyName;
+  const _CorrectionSheet(
+      {required this.academyKey, required this.academyName});
+
+  @override
+  ConsumerState<_CorrectionSheet> createState() => _CorrectionSheetState();
+}
+
+class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
+  final _requester = TextEditingController();
+  final _contact = TextEditingController();
+  final _message = TextEditingController();
+  String _kind = 'fix';
+  bool _sending = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _requester.dispose();
+    _contact.dispose();
+    _message.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final service = ref.read(correctionServiceProvider);
+    if (_message.text.trim().length < 10) {
+      setState(() => _error = '정정하실 내용을 10자 이상 적어 주세요.');
+      return;
+    }
+    if (_contact.text.trim().length < 5) {
+      setState(() => _error = '회신받으실 연락처를 입력해 주세요.');
+      return;
+    }
+    setState(() { _sending = true; _error = null; });
+    try {
+      await service.submit(
+        academyKey: widget.academyKey,
+        academyName: widget.academyName,
+        requester: _requester.text.trim().isEmpty
+            ? '미기재' : _requester.text.trim(),
+        contact: _contact.text.trim(),
+        kind: _kind,
+        message: _message.text.trim(),
+      );
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('접수되었습니다. 검토 후 연락처로 회신드립니다.')));
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _sending = false;
+          _error = '접수에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final enabled = ref.watch(correctionServiceProvider).enabled;
+
+    return Padding(
+      padding: EdgeInsets.only(
+          left: AppSpace.md, right: AppSpace.md,
+          bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpace.lg),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${widget.academyName} — 정보 정정 요청',
+                style: text.titleLarge),
+            const SizedBox(height: 4),
+            Text('접수 내용은 공개되지 않으며, 운영자 검토 후 데이터에 반영됩니다.',
+                style: text.bodySmall),
+            const SizedBox(height: AppSpace.md),
+            if (!enabled)
+              Text('현재 접수 기능을 사용할 수 없습니다.', style: text.bodyMedium)
+            else ...[
+              Wrap(spacing: AppSpace.sm, children: [
+                for (final (v, label) in const [
+                  ('fix', '정보가 틀렸어요'),
+                  ('claim', '학원 관계자입니다'),
+                  ('remove', '삭제를 요청합니다'),
+                ])
+                  ChoiceChip(
+                    label: Text(label),
+                    selected: _kind == v,
+                    onSelected: (_) => setState(() => _kind = v),
+                  ),
+              ]),
+              const SizedBox(height: AppSpace.md),
+              TextField(
+                controller: _message,
+                maxLines: 4,
+                maxLength: 4000,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '어떤 정보가 어떻게 잘못되었나요? *',
+                  helperText: '예: 교습비가 변경되었습니다. 현재 월 45만원입니다.',
+                ),
+              ),
+              const SizedBox(height: AppSpace.sm),
+              TextField(
+                controller: _requester,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '성함 · 직함 (선택)',
+                ),
+              ),
+              const SizedBox(height: AppSpace.sm),
+              TextField(
+                controller: _contact,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '회신받으실 연락처 (이메일 또는 전화) *',
+                ),
+              ),
+              if (_error != null) ...[
+                const SizedBox(height: AppSpace.sm),
+                Text(_error!,
+                    style: text.bodySmall
+                        ?.copyWith(color: AppColors.rising)),
+              ],
+              const SizedBox(height: AppSpace.md),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: _sending ? null : _submit,
+                  child: Text(_sending ? '접수 중…' : '정정 요청 접수'),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

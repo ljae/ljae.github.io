@@ -145,6 +145,55 @@ academies:
     stages: [eng_mid_naesin, eng_mid_preview, eng_hi_naesin, eng_hi_suneung, eng_hi_adv]
     flagship: [eng_hi_adv]
 
+  # 초저학년(예비초~초3) 영어 강세 학원들. 이용자 제보로 추가 —
+  # 정원 기반 선정에서 밀려 수집조차 안 되던 곳들이다. 순위는 시드가
+  # 정하지 않는다. 수집 대상에 넣을 뿐, 점수는 언급 데이터가 정한다.
+  - name: 에디센어학원
+    aliases: [에디센]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+    flagship: [eng_el_phonics]
+  - name: 렉스김어학원
+    # NEIS 등록명은 '렉스김', 통용 표기는 '렉스킴'
+    aliases: [렉스킴, 렉스김]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+  - name: 알파잉글리쉬학원
+    # '알파' 단독은 알파관하이원·알파아카데미 등과 충돌해 키로 쓰지 않는다
+    aliases: [알파잉글리쉬, 알파영어]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+  - name: 피아이어학원
+    # PEAI (Practical English Application Institute), 대치동 977-16
+    aliases: [PEAI, 피아이]
+    regions: [daechi, banpo]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy, eng_el_rw]
+  - name: 아이엔어학원
+    aliases: [아이엔]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+  - name: 트윈클어학원
+    aliases: [트윈클]
+    regions: [daechi, mokdong]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+  - name: 아이엘이
+    aliases: [ILE, 아이엘이어학원]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw]
+  - name: 띵킹어학원
+    # Think-Eng. '띵크앤리드'와는 다른 곳 — 접두가 달라 충돌하지 않는다
+    aliases: [띵킹]
+    regions: [daechi, banpo]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+
   # ─── 국어 · 논술 ───
   - name: 한우리독서토론논술
     aliases: [한우리, 한우리논술]

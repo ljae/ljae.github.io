@@ -489,6 +489,60 @@ class _SchoolList extends StatelessWidget {
 ///
 /// '이 집은 어느 학교냐' 만큼이나 '이 학교 보내려면 어디 살아야 하냐' 를
 /// 많이 찾는다. 같은 데이터를 양방향으로 볼 수 있어야 한다.
+/// 졸업생 진로 공시 표시.
+///
+/// 공시(학교알리미)와 수기 보완(서울대 등 외부 집계)을 한 패널에 두되
+/// 출처를 각각 명시한다. 두 숫자는 같은 자리에서 나온 값이 아니다.
+class _CareersPanel extends StatelessWidget {
+  final School school;
+  const _CareersPanel({required this.school});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final c = school.careers;
+    final ex = school.outcomesExtra;
+    // 중학교는 특목+자사 진학이 핵심 관심사, 고등학교는 대학 진학률.
+    final rows = <(String, String)>[];
+    if (c != null) {
+      for (final k in const [
+        '특수목적고', '자율고', '일반고', '특성화고', '대학', '전문대학', '진학률'
+      ]) {
+        final v = c[k];
+        if (v is num) {
+          rows.add((k, k == '진학률' ? '${v.toStringAsFixed(1)}%' : '${v.toInt()}명'));
+        }
+      }
+    }
+    if (rows.isEmpty && ex == null) return const SizedBox.shrink();
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('졸업생 진로', style: text.labelMedium),
+      const SizedBox(height: 4),
+      if (rows.isNotEmpty) ...[
+        Wrap(spacing: AppSpace.md, runSpacing: 4, children: [
+          for (final (k, v) in rows)
+            Text.rich(TextSpan(children: [
+              TextSpan(text: '$k ', style: text.bodyMedium),
+              TextSpan(
+                  text: v,
+                  style: text.titleMedium?.copyWith(fontSize: 14.5)),
+            ])),
+        ]),
+        Text('출처: 학교알리미 공시 ${c!['year'] ?? ''}',
+            style: text.bodySmall?.copyWith(fontSize: 10.5)),
+      ],
+      if (ex != null && ex['snu_admits'] != null) ...[
+        const SizedBox(height: 4),
+        Text('서울대 ${ex['snu_admits']}명 (${ex['snu_year'] ?? ''})',
+            style: text.titleMedium?.copyWith(fontSize: 14.5)),
+        Text('출처: ${ex['source'] ?? '외부 집계'}',
+            style: text.bodySmall?.copyWith(fontSize: 10.5)),
+      ],
+    ]);
+  }
+}
+
 class _SchoolSheet extends StatelessWidget {
   final School school;
   const _SchoolSheet({required this.school});
@@ -528,6 +582,11 @@ class _SchoolSheet extends StatelessWidget {
           if (school.address != null)
             Text(school.address!, style: text.bodyMedium),
           const SizedBox(height: AppSpace.lg),
+
+          if (school.careers != null || school.outcomesExtra != null) ...[
+            _CareersPanel(school: school),
+            const SizedBox(height: AppSpace.lg),
+          ],
 
           if (school.zoneName != null) ...[
             Text('학구', style: text.labelMedium),

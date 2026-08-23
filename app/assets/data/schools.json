@@ -706,7 +706,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091420",
@@ -1215,7 +1217,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010058",
@@ -2521,7 +2525,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091421",
@@ -3030,7 +3036,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010060",
@@ -4336,7 +4344,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091422",
@@ -5166,7 +5176,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091368",
@@ -5189,7 +5201,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091423",
@@ -5698,7 +5712,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "1371661",
@@ -5721,7 +5737,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010071",
@@ -6430,7 +6448,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081488",
@@ -6631,7 +6651,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 14941
+  "apartmentHouseholds": 14941,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010137",
@@ -6654,7 +6676,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091449",
@@ -6677,7 +6701,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091424",
@@ -7186,7 +7212,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7011186",
@@ -7209,7 +7237,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091426",
@@ -7718,7 +7748,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091427",
@@ -8227,7 +8259,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091428",
@@ -8736,7 +8770,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010744",
@@ -9445,7 +9481,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081491",
@@ -9971,7 +10009,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081492",
@@ -10497,7 +10537,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081493",
@@ -11023,7 +11065,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010080",
@@ -12329,7 +12373,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091429",
@@ -12352,7 +12398,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091430",
@@ -13182,7 +13230,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010590",
@@ -13490,7 +13540,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130178",
@@ -13669,7 +13721,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130179",
@@ -13848,7 +13902,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010172",
@@ -14557,7 +14613,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010173",
@@ -14865,7 +14923,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130182",
@@ -14902,7 +14962,9 @@
   ],
   "assignment": "학교군 추첨",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081520",
@@ -15428,7 +15490,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091432",
@@ -16258,7 +16322,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081420",
@@ -16294,7 +16360,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 2633
+  "apartmentHouseholds": 2633,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091369",
@@ -16324,7 +16392,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091370",
@@ -16432,7 +16502,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4896
+  "apartmentHouseholds": 4896,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091371",
@@ -16468,7 +16540,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4695
+  "apartmentHouseholds": 4695,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091496",
@@ -16498,7 +16572,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1957
+  "apartmentHouseholds": 1957,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081425",
@@ -16564,7 +16640,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3965
+  "apartmentHouseholds": 3965,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081426",
@@ -16600,7 +16678,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3455
+  "apartmentHouseholds": 3455,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010083",
@@ -17906,7 +17986,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091367",
@@ -17929,7 +18011,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091372",
@@ -17983,7 +18067,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1945
+  "apartmentHouseholds": 1945,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081429",
@@ -18031,7 +18117,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 2201
+  "apartmentHouseholds": 2201,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091374",
@@ -18067,7 +18155,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 6860
+  "apartmentHouseholds": 6860,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091375",
@@ -18105,7 +18195,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 912
+  "apartmentHouseholds": 912,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091378",
@@ -18153,7 +18245,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4410
+  "apartmentHouseholds": 4410,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091380",
@@ -18207,7 +18301,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3841
+  "apartmentHouseholds": 3841,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091381",
@@ -18297,7 +18393,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3221
+  "apartmentHouseholds": 3221,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091382",
@@ -18335,7 +18433,34 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 912
+  "apartmentHouseholds": 912,
+  "careers": null,
+  "outcomesExtra": null
+ },
+ {
+  "id": "7091383",
+  "name": "서울도성초등학교",
+  "level": "elementary",
+  "levelLabel": "초등학교",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "foundation": "공립",
+  "coed": "남여공학",
+  "highKind": null,
+  "address": "서울특별시 강남구 역삼로 313",
+  "tel": "02-567-0039",
+  "homepage": "http://seouldoseong.sen.es.kr",
+  "lat": 37.5012417,
+  "lng": 127.0489999,
+  "zoneId": "Z000100399",
+  "zoneName": "서울도성초통학구역",
+  "eduOffice": "서울특별시강남서초교육지원청",
+  "zonePeers": [],
+  "assignment": "통학구역",
+  "apartments": [],
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081438",
@@ -18437,7 +18562,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5108
+  "apartmentHouseholds": 5108,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081439",
@@ -18503,7 +18630,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1941
+  "apartmentHouseholds": 1941,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081440",
@@ -18533,7 +18662,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1512
+  "apartmentHouseholds": 1512,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091385",
@@ -18571,7 +18702,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 1101
+  "apartmentHouseholds": 1101,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091386",
@@ -18594,7 +18727,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130127",
@@ -18617,7 +18752,9 @@
   "zonePeers": [],
   "assignment": "통학구역",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130128",
@@ -18640,7 +18777,9 @@
   "zonePeers": [],
   "assignment": "통학구역",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130129",
@@ -18670,7 +18809,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3696
+  "apartmentHouseholds": 3696,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091393",
@@ -18754,7 +18895,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5745
+  "apartmentHouseholds": 5745,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091394",
@@ -18786,7 +18929,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55
+  "apartmentHouseholds": 55,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091395",
@@ -18818,7 +18963,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55
+  "apartmentHouseholds": 55,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081445",
@@ -18872,7 +19019,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4410
+  "apartmentHouseholds": 4410,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091396",
@@ -18980,7 +19129,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4955
+  "apartmentHouseholds": 4955,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130137",
@@ -19003,7 +19154,9 @@
   "zonePeers": [],
   "assignment": "통학구역",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130139",
@@ -19028,7 +19181,9 @@
   ],
   "assignment": "학교군 추첨",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081451",
@@ -19082,7 +19237,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3438
+  "apartmentHouseholds": 3438,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091399",
@@ -19226,7 +19383,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5865
+  "apartmentHouseholds": 5865,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081453",
@@ -19304,7 +19463,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5499
+  "apartmentHouseholds": 5499,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081482",
@@ -19364,7 +19525,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3559
+  "apartmentHouseholds": 3559,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091400",
@@ -19514,7 +19677,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 2821
+  "apartmentHouseholds": 2821,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130144",
@@ -19544,7 +19709,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3930
+  "apartmentHouseholds": 3930,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130145",
@@ -19580,7 +19747,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3198
+  "apartmentHouseholds": 3198,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081459",
@@ -19610,7 +19779,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 125
+  "apartmentHouseholds": 125,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081460",
@@ -19640,7 +19811,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1081
+  "apartmentHouseholds": 1081,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081461",
@@ -19663,7 +19836,9 @@
   "zonePeers": [],
   "assignment": "통학구역",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081464",
@@ -19711,7 +19886,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1099
+  "apartmentHouseholds": 1099,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091406",
@@ -19831,7 +20008,34 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4652
+  "apartmentHouseholds": 4652,
+  "careers": null,
+  "outcomesExtra": null
+ },
+ {
+  "id": "7091407",
+  "name": "서울역삼초등학교",
+  "level": "elementary",
+  "levelLabel": "초등학교",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "foundation": "공립",
+  "coed": "남여공학",
+  "highKind": null,
+  "address": "서울특별시 강남구 강남대로66길 21",
+  "tel": "02-563-9168",
+  "homepage": "http://yeoksam.sen.es.kr",
+  "lat": 37.4931733,
+  "lng": 127.0326026,
+  "zoneId": "Z000100424",
+  "zoneName": "서울역삼초통학구역",
+  "eduOffice": "서울특별시강남서초교육지원청",
+  "zonePeers": [],
+  "assignment": "통학구역",
+  "apartments": [],
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081469",
@@ -19879,7 +20083,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3802
+  "apartmentHouseholds": 3802,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010795",
@@ -19902,7 +20108,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130148",
@@ -19925,7 +20133,9 @@
   "zonePeers": [],
   "assignment": "통학구역",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091411",
@@ -19973,7 +20183,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 4436
+  "apartmentHouseholds": 4436,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091412",
@@ -20011,7 +20223,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 1101
+  "apartmentHouseholds": 1101,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081472",
@@ -20053,7 +20267,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3854
+  "apartmentHouseholds": 3854,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130150",
@@ -20131,7 +20347,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 7260
+  "apartmentHouseholds": 7260,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130151",
@@ -20161,7 +20379,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5563
+  "apartmentHouseholds": 5563,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130152",
@@ -20191,7 +20411,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 2678
+  "apartmentHouseholds": 2678,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091415",
@@ -20281,7 +20503,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 9215
+  "apartmentHouseholds": 9215,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130153",
@@ -20311,7 +20535,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 5678
+  "apartmentHouseholds": 5678,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130154",
@@ -20365,7 +20591,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1502
+  "apartmentHouseholds": 1502,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130155",
@@ -20395,7 +20623,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 6864
+  "apartmentHouseholds": 6864,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081474",
@@ -20449,7 +20679,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1785
+  "apartmentHouseholds": 1785,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081476",
@@ -20539,7 +20771,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 1732
+  "apartmentHouseholds": 1732,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081477",
@@ -20605,7 +20839,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 3833
+  "apartmentHouseholds": 3833,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010086",
@@ -20628,7 +20864,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130185",
@@ -20651,7 +20889,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091417",
@@ -20687,7 +20927,9 @@
     "certain": true
    }
   ],
-  "apartmentHouseholds": 2566
+  "apartmentHouseholds": 2566,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091433",
@@ -21517,7 +21759,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010087",
@@ -22823,7 +23067,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091434",
@@ -23653,7 +23899,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010197",
@@ -23676,7 +23924,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091452",
@@ -24506,7 +24756,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010346",
@@ -24529,7 +24781,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010201",
@@ -25835,7 +26089,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091437",
@@ -26665,7 +26921,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010093",
@@ -27374,7 +27632,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081502",
@@ -27900,7 +28160,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091438",
@@ -28730,7 +28992,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010765",
@@ -29439,7 +29703,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081503",
@@ -29965,7 +30231,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130194",
@@ -30144,7 +30412,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130195",
@@ -30323,7 +30593,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081508",
@@ -30849,7 +31121,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010094",
@@ -32155,7 +32429,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010208",
@@ -32178,7 +32454,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081522",
@@ -32704,7 +32982,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010209",
@@ -33413,7 +33693,520 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
+ },
+ {
+  "id": "7091444",
+  "name": "역삼중학교",
+  "level": "middle",
+  "levelLabel": "중학교",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "foundation": "공립",
+  "coed": "남여공학",
+  "highKind": null,
+  "address": "서울특별시 강남구 도곡로43길 10",
+  "tel": "02-558-1501",
+  "homepage": "http://yeoksam.sen.ms.kr",
+  "lat": 37.4960669,
+  "lng": 127.0491184,
+  "zoneId": "Z000200034",
+  "zoneName": "강남서초2학교군",
+  "eduOffice": "서울특별시강남서초교육지원청",
+  "zonePeers": [
+   "단국대학교사범대학부",
+   "은성중학교",
+   "휘문중학교",
+   "숙명여자중학교",
+   "개원중학교",
+   "수서중학교",
+   "대왕중학교",
+   "개포중학교",
+   "대명중학교",
+   "도곡중학교",
+   "세곡중학교",
+   "중동중학교",
+   "대치중학교",
+   "대청중학교",
+   "구룡중학교",
+   "진선여자중학교"
+  ],
+  "assignment": "학교군 추첨",
+  "apartments": [
+   {
+    "name": "은마",
+    "dong": "대치동",
+    "households": 4424,
+    "certain": false
+   },
+   {
+    "name": "개포자이프레지던스",
+    "dong": "개포동",
+    "households": 3375,
+    "certain": false
+   },
+   {
+    "name": "도곡렉슬",
+    "dong": "도곡동",
+    "households": 3002,
+    "certain": false
+   },
+   {
+    "name": "대치미도맨션",
+    "dong": "대치동",
+    "households": 2436,
+    "certain": false
+   },
+   {
+    "name": "개포래미안포레스트",
+    "dong": "개포동",
+    "households": 2296,
+    "certain": false
+   },
+   {
+    "name": "래미안블레스티지",
+    "dong": "개포동",
+    "households": 1957,
+    "certain": false
+   },
+   {
+    "name": "개포대치2단지",
+    "dong": "개포동",
+    "households": 1753,
+    "certain": false
+   },
+   {
+    "name": "SH공사대치1단지",
+    "dong": "개포동",
+    "households": 1623,
+    "certain": false
+   },
+   {
+    "name": "래미안 대치 팰리스",
+    "dong": "대치동",
+    "households": 1608,
+    "certain": false
+   },
+   {
+    "name": "디에이치 아너힐즈",
+    "dong": "개포동",
+    "households": 1320,
+    "certain": false
+   },
+   {
+    "name": "역삼럭키",
+    "dong": "도곡동",
+    "households": 1094,
+    "certain": false
+   },
+   {
+    "name": "개포주공6단지",
+    "dong": "개포동",
+    "households": 1060,
+    "certain": false
+   },
+   {
+    "name": "대치선경",
+    "dong": "대치동",
+    "households": 1034,
+    "certain": false
+   },
+   {
+    "name": "대치삼성",
+    "dong": "대치동",
+    "households": 960,
+    "certain": false
+   },
+   {
+    "name": "개포주공5단지",
+    "dong": "개포동",
+    "households": 940,
+    "certain": false
+   },
+   {
+    "name": "개포주공7단지",
+    "dong": "개포동",
+    "households": 900,
+    "certain": false
+   },
+   {
+    "name": "대청",
+    "dong": "개포동",
+    "households": 822,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스2차",
+    "dong": "도곡동",
+    "households": 813,
+    "certain": false
+   },
+   {
+    "name": "대치동부센트레빌",
+    "dong": "대치동",
+    "households": 805,
+    "certain": false
+   },
+   {
+    "name": "대치아이파크",
+    "dong": "대치동",
+    "households": 768,
+    "certain": false
+   },
+   {
+    "name": "도곡삼성래미안",
+    "dong": "도곡동",
+    "households": 732,
+    "certain": false
+   },
+   {
+    "name": "개포경남아파트",
+    "dong": "개포동",
+    "households": 678,
+    "certain": false
+   },
+   {
+    "name": "쌍용대치1차",
+    "dong": "대치동",
+    "households": 630,
+    "certain": false
+   },
+   {
+    "name": "대치현대",
+    "dong": "대치동",
+    "households": 630,
+    "certain": false
+   },
+   {
+    "name": "도곡개포한신아파트",
+    "dong": "도곡동",
+    "households": 620,
+    "certain": false
+   },
+   {
+    "name": "개포2차 현대아파트",
+    "dong": "개포동",
+    "households": 558,
+    "certain": false
+   },
+   {
+    "name": "도곡대림아크로빌",
+    "dong": "도곡동",
+    "households": 490,
+    "certain": false
+   },
+   {
+    "name": "대치푸르지오써밋",
+    "dong": "대치동",
+    "households": 489,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스G동",
+    "dong": "도곡동",
+    "households": 480,
+    "certain": false
+   },
+   {
+    "name": "대치우성1차아파트",
+    "dong": "대치동",
+    "households": 476,
+    "certain": false
+   },
+   {
+    "name": "개포4차우성",
+    "dong": "도곡동",
+    "households": 459,
+    "certain": false
+   },
+   {
+    "name": "도곡한신",
+    "dong": "도곡동",
+    "households": 421,
+    "certain": false
+   },
+   {
+    "name": "개포현대1차",
+    "dong": "개포동",
+    "households": 416,
+    "certain": false
+   },
+   {
+    "name": "아카데미스위트",
+    "dong": "도곡동",
+    "households": 414,
+    "certain": false
+   },
+   {
+    "name": "개포우성3차",
+    "dong": "개포동",
+    "households": 405,
+    "certain": false
+   },
+   {
+    "name": "래미안도곡카운티",
+    "dong": "도곡동",
+    "households": 397,
+    "certain": false
+   },
+   {
+    "name": "도곡우성아파트",
+    "dong": "도곡동",
+    "households": 390,
+    "certain": false
+   },
+   {
+    "name": "도곡쌍용예가",
+    "dong": "도곡동",
+    "households": 384,
+    "certain": false
+   },
+   {
+    "name": "테헤란로대우아이빌",
+    "dong": "대치동",
+    "households": 372,
+    "certain": false
+   },
+   {
+    "name": "대치쌍용2차",
+    "dong": "대치동",
+    "households": 364,
+    "certain": false
+   },
+   {
+    "name": "래미안대치하이스턴",
+    "dong": "대치동",
+    "households": 354,
+    "certain": false
+   },
+   {
+    "name": "도곡경남",
+    "dong": "도곡동",
+    "households": 348,
+    "certain": false
+   },
+   {
+    "name": "도곡1차아이파크",
+    "dong": "도곡동",
+    "households": 321,
+    "certain": false
+   },
+   {
+    "name": "대치포스코더샵",
+    "dong": "대치동",
+    "households": 276,
+    "certain": false
+   },
+   {
+    "name": "개포6차우성아파트",
+    "dong": "개포동",
+    "households": 270,
+    "certain": false
+   },
+   {
+    "name": "개포우성8차",
+    "dong": "개포동",
+    "households": 261,
+    "certain": false
+   },
+   {
+    "name": "역삼삼익",
+    "dong": "도곡동",
+    "households": 247,
+    "certain": false
+   },
+   {
+    "name": "대치SK VIEW",
+    "dong": "대치동",
+    "households": 239,
+    "certain": false
+   },
+   {
+    "name": "현대비전21",
+    "dong": "도곡동",
+    "households": 232,
+    "certain": false
+   },
+   {
+    "name": "개포더샵트리에",
+    "dong": "개포동",
+    "households": 232,
+    "certain": false
+   },
+   {
+    "name": "도곡삼성",
+    "dong": "도곡동",
+    "households": 231,
+    "certain": false
+   },
+   {
+    "name": "개포자이아파트",
+    "dong": "개포동",
+    "households": 212,
+    "certain": false
+   },
+   {
+    "name": "도곡현대",
+    "dong": "도곡동",
+    "households": 211,
+    "certain": false
+   },
+   {
+    "name": "대치대우아이빌4차",
+    "dong": "대치동",
+    "households": 210,
+    "certain": false
+   },
+   {
+    "name": "우성캐릭터199 아파트",
+    "dong": "도곡동",
+    "households": 199,
+    "certain": false
+   },
+   {
+    "name": "개포현대3차",
+    "dong": "개포동",
+    "households": 198,
+    "certain": false
+   },
+   {
+    "name": "도곡대림",
+    "dong": "도곡동",
+    "households": 197,
+    "certain": false
+   },
+   {
+    "name": "개포우성5차",
+    "dong": "도곡동",
+    "households": 180,
+    "certain": false
+   },
+   {
+    "name": "양재SK허브프리모",
+    "dong": "도곡동",
+    "households": 176,
+    "certain": false
+   },
+   {
+    "name": "도곡현대그린",
+    "dong": "도곡동",
+    "households": 171,
+    "certain": false
+   },
+   {
+    "name": "도곡동양재디오빌",
+    "dong": "도곡동",
+    "households": 155,
+    "certain": false
+   },
+   {
+    "name": "롯데캐슬리베아파트",
+    "dong": "대치동",
+    "households": 144,
+    "certain": false
+   },
+   {
+    "name": "대치롯데캐슬아파트",
+    "dong": "대치동",
+    "households": 142,
+    "certain": false
+   },
+   {
+    "name": "매봉삼성아파트",
+    "dong": "도곡동",
+    "households": 132,
+    "certain": false
+   },
+   {
+    "name": "개포럭키아파트",
+    "dong": "도곡동",
+    "households": 128,
+    "certain": false
+   },
+   {
+    "name": "대치1차현대아파트",
+    "dong": "대치동",
+    "households": 120,
+    "certain": false
+   },
+   {
+    "name": "도곡한라비발디아파트",
+    "dong": "도곡동",
+    "households": 110,
+    "certain": false
+   },
+   {
+    "name": "대치효성",
+    "dong": "대치동",
+    "households": 83,
+    "certain": false
+   },
+   {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
+    "name": "대치풍림아이원3.4차아파트",
+    "dong": "대치동",
+    "households": 75,
+    "certain": false
+   },
+   {
+    "name": "도곡동 포스코트 아파트",
+    "dong": "도곡동",
+    "households": 64,
+    "certain": false
+   },
+   {
+    "name": "대치풍림아이원아파트 1.2단지",
+    "dong": "대치동",
+    "households": 19,
+    "certain": false
+   },
+   {
+    "name": "현대썬앤빌테헤란",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "디에이치 대치 에델루이아파트",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "대치르엘",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "개포1차2차우성",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스1차",
+    "dong": "도곡동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "디에이치퍼스티어아이파크",
+    "dong": "개포동",
+    "households": null,
+    "certain": false
+   }
+  ],
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081523",
@@ -33939,7 +34732,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010712",
@@ -34247,7 +35042,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130198",
@@ -34284,7 +35081,9 @@
   ],
   "assignment": "학교군 추첨",
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091446",
@@ -35114,7 +35913,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 55870
+  "apartmentHouseholds": 55870,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7081513",
@@ -35640,7 +36441,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 52628
+  "apartmentHouseholds": 52628,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010226",
@@ -36946,7 +37749,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 104680
+  "apartmentHouseholds": 104680,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091454",
@@ -37455,7 +38260,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010106",
@@ -37763,7 +38570,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130201",
@@ -37942,7 +38751,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010107",
@@ -38250,7 +39061,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130202",
@@ -38429,7 +39242,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7011112",
@@ -38737,7 +39552,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010236",
@@ -39045,7 +39862,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7130203",
@@ -39224,7 +40043,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 43788
+  "apartmentHouseholds": 43788,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010241",
@@ -39247,7 +40068,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010244",
@@ -39956,7 +40779,520 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
+ },
+ {
+  "id": "7091456",
+  "name": "진선여자중학교",
+  "level": "middle",
+  "levelLabel": "중학교",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "foundation": "사립",
+  "coed": "여",
+  "highKind": null,
+  "address": "서울특별시 강남구 선릉로85길 27",
+  "tel": "02-2185-4300",
+  "homepage": "http://jinseon.sen.ms.kr",
+  "lat": 37.5023367,
+  "lng": 127.0481789,
+  "zoneId": "Z000200034",
+  "zoneName": "강남서초2학교군",
+  "eduOffice": "서울특별시강남서초교육지원청",
+  "zonePeers": [
+   "단국대학교사범대학부",
+   "은성중학교",
+   "역삼중학교",
+   "휘문중학교",
+   "숙명여자중학교",
+   "개원중학교",
+   "수서중학교",
+   "대왕중학교",
+   "개포중학교",
+   "대명중학교",
+   "도곡중학교",
+   "세곡중학교",
+   "중동중학교",
+   "대치중학교",
+   "대청중학교",
+   "구룡중학교"
+  ],
+  "assignment": "학교군 추첨",
+  "apartments": [
+   {
+    "name": "은마",
+    "dong": "대치동",
+    "households": 4424,
+    "certain": false
+   },
+   {
+    "name": "개포자이프레지던스",
+    "dong": "개포동",
+    "households": 3375,
+    "certain": false
+   },
+   {
+    "name": "도곡렉슬",
+    "dong": "도곡동",
+    "households": 3002,
+    "certain": false
+   },
+   {
+    "name": "대치미도맨션",
+    "dong": "대치동",
+    "households": 2436,
+    "certain": false
+   },
+   {
+    "name": "개포래미안포레스트",
+    "dong": "개포동",
+    "households": 2296,
+    "certain": false
+   },
+   {
+    "name": "래미안블레스티지",
+    "dong": "개포동",
+    "households": 1957,
+    "certain": false
+   },
+   {
+    "name": "개포대치2단지",
+    "dong": "개포동",
+    "households": 1753,
+    "certain": false
+   },
+   {
+    "name": "SH공사대치1단지",
+    "dong": "개포동",
+    "households": 1623,
+    "certain": false
+   },
+   {
+    "name": "래미안 대치 팰리스",
+    "dong": "대치동",
+    "households": 1608,
+    "certain": false
+   },
+   {
+    "name": "디에이치 아너힐즈",
+    "dong": "개포동",
+    "households": 1320,
+    "certain": false
+   },
+   {
+    "name": "역삼럭키",
+    "dong": "도곡동",
+    "households": 1094,
+    "certain": false
+   },
+   {
+    "name": "개포주공6단지",
+    "dong": "개포동",
+    "households": 1060,
+    "certain": false
+   },
+   {
+    "name": "대치선경",
+    "dong": "대치동",
+    "households": 1034,
+    "certain": false
+   },
+   {
+    "name": "대치삼성",
+    "dong": "대치동",
+    "households": 960,
+    "certain": false
+   },
+   {
+    "name": "개포주공5단지",
+    "dong": "개포동",
+    "households": 940,
+    "certain": false
+   },
+   {
+    "name": "개포주공7단지",
+    "dong": "개포동",
+    "households": 900,
+    "certain": false
+   },
+   {
+    "name": "대청",
+    "dong": "개포동",
+    "households": 822,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스2차",
+    "dong": "도곡동",
+    "households": 813,
+    "certain": false
+   },
+   {
+    "name": "대치동부센트레빌",
+    "dong": "대치동",
+    "households": 805,
+    "certain": false
+   },
+   {
+    "name": "대치아이파크",
+    "dong": "대치동",
+    "households": 768,
+    "certain": false
+   },
+   {
+    "name": "도곡삼성래미안",
+    "dong": "도곡동",
+    "households": 732,
+    "certain": false
+   },
+   {
+    "name": "개포경남아파트",
+    "dong": "개포동",
+    "households": 678,
+    "certain": false
+   },
+   {
+    "name": "쌍용대치1차",
+    "dong": "대치동",
+    "households": 630,
+    "certain": false
+   },
+   {
+    "name": "대치현대",
+    "dong": "대치동",
+    "households": 630,
+    "certain": false
+   },
+   {
+    "name": "도곡개포한신아파트",
+    "dong": "도곡동",
+    "households": 620,
+    "certain": false
+   },
+   {
+    "name": "개포2차 현대아파트",
+    "dong": "개포동",
+    "households": 558,
+    "certain": false
+   },
+   {
+    "name": "도곡대림아크로빌",
+    "dong": "도곡동",
+    "households": 490,
+    "certain": false
+   },
+   {
+    "name": "대치푸르지오써밋",
+    "dong": "대치동",
+    "households": 489,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스G동",
+    "dong": "도곡동",
+    "households": 480,
+    "certain": false
+   },
+   {
+    "name": "대치우성1차아파트",
+    "dong": "대치동",
+    "households": 476,
+    "certain": false
+   },
+   {
+    "name": "개포4차우성",
+    "dong": "도곡동",
+    "households": 459,
+    "certain": false
+   },
+   {
+    "name": "도곡한신",
+    "dong": "도곡동",
+    "households": 421,
+    "certain": false
+   },
+   {
+    "name": "개포현대1차",
+    "dong": "개포동",
+    "households": 416,
+    "certain": false
+   },
+   {
+    "name": "아카데미스위트",
+    "dong": "도곡동",
+    "households": 414,
+    "certain": false
+   },
+   {
+    "name": "개포우성3차",
+    "dong": "개포동",
+    "households": 405,
+    "certain": false
+   },
+   {
+    "name": "래미안도곡카운티",
+    "dong": "도곡동",
+    "households": 397,
+    "certain": false
+   },
+   {
+    "name": "도곡우성아파트",
+    "dong": "도곡동",
+    "households": 390,
+    "certain": false
+   },
+   {
+    "name": "도곡쌍용예가",
+    "dong": "도곡동",
+    "households": 384,
+    "certain": false
+   },
+   {
+    "name": "테헤란로대우아이빌",
+    "dong": "대치동",
+    "households": 372,
+    "certain": false
+   },
+   {
+    "name": "대치쌍용2차",
+    "dong": "대치동",
+    "households": 364,
+    "certain": false
+   },
+   {
+    "name": "래미안대치하이스턴",
+    "dong": "대치동",
+    "households": 354,
+    "certain": false
+   },
+   {
+    "name": "도곡경남",
+    "dong": "도곡동",
+    "households": 348,
+    "certain": false
+   },
+   {
+    "name": "도곡1차아이파크",
+    "dong": "도곡동",
+    "households": 321,
+    "certain": false
+   },
+   {
+    "name": "대치포스코더샵",
+    "dong": "대치동",
+    "households": 276,
+    "certain": false
+   },
+   {
+    "name": "개포6차우성아파트",
+    "dong": "개포동",
+    "households": 270,
+    "certain": false
+   },
+   {
+    "name": "개포우성8차",
+    "dong": "개포동",
+    "households": 261,
+    "certain": false
+   },
+   {
+    "name": "역삼삼익",
+    "dong": "도곡동",
+    "households": 247,
+    "certain": false
+   },
+   {
+    "name": "대치SK VIEW",
+    "dong": "대치동",
+    "households": 239,
+    "certain": false
+   },
+   {
+    "name": "현대비전21",
+    "dong": "도곡동",
+    "households": 232,
+    "certain": false
+   },
+   {
+    "name": "개포더샵트리에",
+    "dong": "개포동",
+    "households": 232,
+    "certain": false
+   },
+   {
+    "name": "도곡삼성",
+    "dong": "도곡동",
+    "households": 231,
+    "certain": false
+   },
+   {
+    "name": "개포자이아파트",
+    "dong": "개포동",
+    "households": 212,
+    "certain": false
+   },
+   {
+    "name": "도곡현대",
+    "dong": "도곡동",
+    "households": 211,
+    "certain": false
+   },
+   {
+    "name": "대치대우아이빌4차",
+    "dong": "대치동",
+    "households": 210,
+    "certain": false
+   },
+   {
+    "name": "우성캐릭터199 아파트",
+    "dong": "도곡동",
+    "households": 199,
+    "certain": false
+   },
+   {
+    "name": "개포현대3차",
+    "dong": "개포동",
+    "households": 198,
+    "certain": false
+   },
+   {
+    "name": "도곡대림",
+    "dong": "도곡동",
+    "households": 197,
+    "certain": false
+   },
+   {
+    "name": "개포우성5차",
+    "dong": "도곡동",
+    "households": 180,
+    "certain": false
+   },
+   {
+    "name": "양재SK허브프리모",
+    "dong": "도곡동",
+    "households": 176,
+    "certain": false
+   },
+   {
+    "name": "도곡현대그린",
+    "dong": "도곡동",
+    "households": 171,
+    "certain": false
+   },
+   {
+    "name": "도곡동양재디오빌",
+    "dong": "도곡동",
+    "households": 155,
+    "certain": false
+   },
+   {
+    "name": "롯데캐슬리베아파트",
+    "dong": "대치동",
+    "households": 144,
+    "certain": false
+   },
+   {
+    "name": "대치롯데캐슬아파트",
+    "dong": "대치동",
+    "households": 142,
+    "certain": false
+   },
+   {
+    "name": "매봉삼성아파트",
+    "dong": "도곡동",
+    "households": 132,
+    "certain": false
+   },
+   {
+    "name": "개포럭키아파트",
+    "dong": "도곡동",
+    "households": 128,
+    "certain": false
+   },
+   {
+    "name": "대치1차현대아파트",
+    "dong": "대치동",
+    "households": 120,
+    "certain": false
+   },
+   {
+    "name": "도곡한라비발디아파트",
+    "dong": "도곡동",
+    "households": 110,
+    "certain": false
+   },
+   {
+    "name": "대치효성",
+    "dong": "대치동",
+    "households": 83,
+    "certain": false
+   },
+   {
+    "name": "대치 푸르지오 발라드",
+    "dong": "개포동",
+    "households": 78,
+    "certain": false
+   },
+   {
+    "name": "대치풍림아이원3.4차아파트",
+    "dong": "대치동",
+    "households": 75,
+    "certain": false
+   },
+   {
+    "name": "도곡동 포스코트 아파트",
+    "dong": "도곡동",
+    "households": 64,
+    "certain": false
+   },
+   {
+    "name": "대치풍림아이원아파트 1.2단지",
+    "dong": "대치동",
+    "households": 19,
+    "certain": false
+   },
+   {
+    "name": "현대썬앤빌테헤란",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "디에이치 대치 에델루이아파트",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "대치르엘",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "개포1차2차우성",
+    "dong": "대치동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "타워팰리스1차",
+    "dong": "도곡동",
+    "households": null,
+    "certain": false
+   },
+   {
+    "name": "디에이치퍼스티어아이파크",
+    "dong": "개포동",
+    "households": null,
+    "certain": false
+   }
+  ],
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010110",
@@ -40264,7 +41600,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 50430
+  "apartmentHouseholds": 50430,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010250",
@@ -40973,7 +42311,9 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 67569
+  "apartmentHouseholds": 67569,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7010268",
@@ -40996,7 +42336,9 @@
   "zonePeers": [],
   "assignment": null,
   "apartments": [],
-  "apartmentHouseholds": null
+  "apartmentHouseholds": null,
+  "careers": null,
+  "outcomesExtra": null
  },
  {
   "id": "7091457",
@@ -41505,6 +42847,8 @@
     "certain": false
    }
   ],
-  "apartmentHouseholds": 48810
+  "apartmentHouseholds": 48810,
+  "careers": null,
+  "outcomesExtra": null
  }
 ]

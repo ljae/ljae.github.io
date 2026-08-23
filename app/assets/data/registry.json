@@ -488,6 +488,42 @@
   "lng": 127.0591362
  },
  {
+  "id": "3000041017",
+  "name": "가나국어교습소",
+  "displayName": "가나국어교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로 315",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5005552,
+  "lng": 127.0503146
+ },
+ {
+  "id": "3000021381",
+  "name": "도성해법수학교습소",
+  "displayName": "도성해법수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로 315",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5005552,
+  "lng": 127.0503146
+ },
+ {
   "id": "3000025167",
   "name": "가온수학교습소",
   "displayName": "가온수학교습소",
@@ -848,6 +884,24 @@
   "lng": 127.0650701
  },
  {
+  "id": "3000016946",
+  "name": "애슐리코칭영어교습소",
+  "displayName": "애슐리코칭영어교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 삼성로 212",
+  "capacity": 52,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4977414,
+  "lng": 127.0650701
+ },
+ {
   "id": "31230",
   "name": "원리영어교습소",
   "displayName": "원리영어교습소",
@@ -1057,6 +1111,24 @@
   ],
   "address": "서울특별시 강남구 삼성로 212",
   "capacity": 112,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4977414,
+  "lng": 127.0650701
+ },
+ {
+  "id": "3000037937",
+  "name": "대치이지영어학원",
+  "displayName": "대치이지영어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 삼성로 212",
+  "capacity": 102,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -1690,6 +1762,24 @@
   ],
   "address": "서울특별시 강남구 선릉로 225",
   "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4953009,
+  "lng": 127.0527051
+ },
+ {
+  "id": "3000027526",
+  "name": "와이케이에스(YKS)양경숙영어교습소",
+  "displayName": "와이케이에스(YKS)양경숙영어교습소",
+  "regionId": "daechi",
+  "dong": "도곡동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 선릉로 225",
+  "capacity": 28,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -2672,6 +2762,24 @@
   "lng": 127.053317
  },
  {
+  "id": "3000016790",
+  "name": "긍정영어교습소",
+  "displayName": "긍정영어교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로 413",
+  "capacity": 18,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4975765,
+  "lng": 127.0557518
+ },
+ {
   "id": "3000031344",
   "name": "대치박기호입시컨설팅교습소",
   "displayName": "대치박기호입시컨설팅교습소",
@@ -3212,6 +3320,24 @@
   "lng": 127.059201
  },
  {
+  "id": "1000035271",
+  "name": "디와이비최선어학원",
+  "displayName": "디와이비최선어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 남부순환로 2917",
+  "capacity": 144,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4931523,
+  "lng": 127.059201
+ },
+ {
   "id": "3000040103",
   "name": "지니쌤독서논술학원",
   "displayName": "지니쌤독서논술학원",
@@ -3376,6 +3502,24 @@
   "lng": 127.0645223
  },
  {
+  "id": "3000027408",
+  "name": "아폴론교육학원",
+  "displayName": "아폴론교육학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로93길 9",
+  "capacity": 2600,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5008453,
+  "lng": 127.0645223
+ },
+ {
   "id": "1000036635",
   "name": "인사이트영재학원",
   "displayName": "인사이트영재학원",
@@ -3458,6 +3602,24 @@
   ],
   "address": "서울특별시 강남구 남부순환로 2927",
   "capacity": 8,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4936881,
+  "lng": 127.0603918
+ },
+ {
+  "id": "28618",
+  "name": "내가키우는나무논술교습소",
+  "displayName": "내가키우는나무논술교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 남부순환로 2927",
+  "capacity": 4,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -3914,6 +4076,24 @@
   "registrationCount": 1,
   "lat": 37.498407,
   "lng": 127.0694633
+ },
+ {
+  "id": "3000034978",
+  "name": "논술플로우논술교습소",
+  "displayName": "논술플로우논술교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 삼성로67길 47",
+  "capacity": 8,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5000411,
+  "lng": 127.0558362
  },
  {
   "id": "12498",
@@ -4553,7 +4733,7 @@
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
-   "korean"
+   "english"
   ],
   "address": "서울특별시 강남구 선릉로64길 15-13",
   "capacity": 0,
@@ -4943,6 +5123,24 @@
   "lng": 127.0626942
  },
  {
+  "id": "3000042872",
+  "name": "케이엔에스(KNS)초등",
+  "displayName": "케이엔에스(KNS)초등",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로 515",
+  "capacity": 830,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 3,
+  "lat": 37.4997818,
+  "lng": 127.0626942
+ },
+ {
   "id": "3000033478",
   "name": "탁월한수학학원",
   "displayName": "탁월한수학학원",
@@ -4977,6 +5175,24 @@
   "registrationCount": 1,
   "lat": 37.4997818,
   "lng": 127.0626942
+ },
+ {
+  "id": "3000048984",
+  "name": "대한논리정독속독논술교습소",
+  "displayName": "대한논리정독속독논술교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 선릉로63길 13",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4970909,
+  "lng": 127.0511327
  },
  {
   "id": "3000048774",
@@ -5121,6 +5337,132 @@
   "registrationCount": 1,
   "lat": 37.4868794,
   "lng": 127.0394693
+ },
+ {
+  "id": "3000040683",
+  "name": "레몬트리영어교습소",
+  "displayName": "레몬트리영어교습소",
+  "regionId": "daechi",
+  "dong": "도곡동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 남부순환로365길 22",
+  "capacity": 72,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4868794,
+  "lng": 127.0394693
+ },
+ {
+  "id": "3000051769",
+  "name": "도성최상위수학교습소",
+  "displayName": "도성최상위수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
+ },
+ {
+  "id": "17844",
+  "name": "영재해법수학교습소",
+  "displayName": "영재해법수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
+ },
+ {
+  "id": "28018",
+  "name": "원리과학교습소",
+  "displayName": "원리과학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "science"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 4,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
+ },
+ {
+  "id": "3000022001",
+  "name": "원포인수학교습소",
+  "displayName": "원포인수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 9,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
+ },
+ {
+  "id": "30620",
+  "name": "지이엠(GEM)학원",
+  "displayName": "지이엠(GEM)학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
+ },
+ {
+  "id": "3000053002",
+  "name": "플레이팩토대치학원",
+  "displayName": "플레이팩토대치학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로 306",
+  "capacity": 438,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4984403,
+  "lng": 127.0461336
  },
  {
   "id": "3000050928",
@@ -5297,24 +5639,6 @@
   ],
   "address": "서울특별시 강남구 선릉로64길 15-8",
   "capacity": 284,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4985764,
-  "lng": 127.0534806
- },
- {
-  "id": "3000030170",
-  "name": "띵킹(Think-Eng)어학원",
-  "displayName": "띵킹(Think-Eng)어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 선릉로64길 15-8",
-  "capacity": 392,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -5736,6 +6060,114 @@
   "registrationCount": 1,
   "lat": 37.4851086,
   "lng": 127.0716058
+ },
+ {
+  "id": "18555",
+  "name": "리드인역삼독서논술교습소",
+  "displayName": "리드인역삼독서논술교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 6,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
+ },
+ {
+  "id": "27228",
+  "name": "매쓰피아수학교습소",
+  "displayName": "매쓰피아수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
+ },
+ {
+  "id": "3000039889",
+  "name": "리딩가든영어학원",
+  "displayName": "리딩가든영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 180,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
+ },
+ {
+  "id": "3000022869",
+  "name": "아이큐브학원",
+  "displayName": "아이큐브학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 40,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
+ },
+ {
+  "id": "3000039777",
+  "name": "예스탑수학학원",
+  "displayName": "예스탑수학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 80,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
+ },
+ {
+  "id": "3000051341",
+  "name": "책나무도성초점학원",
+  "displayName": "책나무도성초점학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로52길 14",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985105,
+  "lng": 127.0480048
  },
  {
   "id": "3000050760",
@@ -6657,6 +7089,24 @@
   "lng": 127.0629614
  },
  {
+  "id": "3000054696",
+  "name": "문풀수학교습소",
+  "displayName": "문풀수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 논현로63길 16",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.493009,
+  "lng": 127.0391373
+ },
+ {
   "id": "3000029483",
   "name": "박선명과학논술교습소",
   "displayName": "박선명과학논술교습소",
@@ -6872,6 +7322,24 @@
   "registrationCount": 1,
   "lat": 37.4976271,
   "lng": 127.0593317
+ },
+ {
+  "id": "3000034915",
+  "name": "블루에듀수학교습소",
+  "displayName": "블루에듀수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 테헤란로28길 48",
+  "capacity": 5,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4980128,
+  "lng": 127.0397584
  },
  {
   "id": "3000035965",
@@ -7720,6 +8188,78 @@
   "registrationCount": 1,
   "lat": 37.4865213,
   "lng": 127.0359134
+ },
+ {
+  "id": "3000056218",
+  "name": "신재원영어교습소",
+  "displayName": "신재원영어교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 언주로 314",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958621,
+  "lng": 127.0464838
+ },
+ {
+  "id": "3000038422",
+  "name": "스와트(SWAT)어학원",
+  "displayName": "스와트(SWAT)어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 언주로 314",
+  "capacity": 74,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958621,
+  "lng": 127.0464838
+ },
+ {
+  "id": "3000050900",
+  "name": "아이브레인아카데미학원",
+  "displayName": "아이브레인아카데미학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 언주로 314",
+  "capacity": 370,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958621,
+  "lng": 127.0464838
+ },
+ {
+  "id": "3000011461",
+  "name": "역삼해법수학학원",
+  "displayName": "역삼해법수학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 언주로 314",
+  "capacity": 24,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958621,
+  "lng": 127.0464838
  },
  {
   "id": "3000042684",
@@ -8643,6 +9183,42 @@
   "lng": 127.0576884
  },
  {
+  "id": "3000052544",
+  "name": "온플라이에듀진학상담지도교습소",
+  "displayName": "온플라이에듀진학상담지도교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 6",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4976709,
+  "lng": 127.029341
+ },
+ {
+  "id": "3000043109",
+  "name": "심화랑수학원격학원",
+  "displayName": "심화랑수학원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 6",
+  "capacity": 198,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4976709,
+  "lng": 127.029341
+ },
+ {
   "id": "3000052395",
   "name": "옵타티오진로연구진학상담지도교습소",
   "displayName": "옵타티오진로연구진학상담지도교습소",
@@ -9472,6 +10048,24 @@
   "lng": 127.0533471
  },
  {
+  "id": "3000013731",
+  "name": "장호진수학교습소",
+  "displayName": "장호진수학교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 개포로 506",
+  "capacity": 35,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4891542,
+  "lng": 127.0675366
+ },
+ {
   "id": "3000052847",
   "name": "전기가오리",
   "displayName": "전기가오리",
@@ -9506,6 +10100,24 @@
   "registrationCount": 1,
   "lat": 37.4987112,
   "lng": 127.0539822
+ },
+ {
+  "id": "3000032164",
+  "name": "정인수학교습소",
+  "displayName": "정인수학교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 논현로79길 63",
+  "capacity": 45,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4959974,
+  "lng": 127.0339873
  },
  {
   "id": "3000041112",
@@ -10030,6 +10642,60 @@
   "lng": 127.0677705
  },
  {
+  "id": "27630",
+  "name": "참바른글씨국어교습소",
+  "displayName": "참바른글씨국어교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로 322",
+  "capacity": 5,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5032509,
+  "lng": 127.046588
+ },
+ {
+  "id": "3000052056",
+  "name": "영누프라임원격학원",
+  "displayName": "영누프라임원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로 322",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5032509,
+  "lng": 127.046588
+ },
+ {
+  "id": "3000048929",
+  "name": "첸첸중국어교습소",
+  "displayName": "첸첸중국어교습소",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 논현로66길 26-5",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4942698,
+  "lng": 127.0427011
+ },
+ {
   "id": "3000046283",
   "name": "칸관리형진학지도교습소",
   "displayName": "칸관리형진학지도교습소",
@@ -10210,25 +10876,6 @@
   "lng": 127.0614205
  },
  {
-  "id": "3000033586",
-  "name": "아이엘이",
-  "displayName": "아이엘이",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "korean",
-   "english"
-  ],
-  "address": "서울특별시 강남구 삼성로 238",
-  "capacity": 989,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.4986392,
-  "lng": 127.0614205
- },
- {
   "id": "22479",
   "name": "태백수학교습소",
   "displayName": "태백수학교습소",
@@ -10281,6 +10928,24 @@
   "registrationCount": 1,
   "lat": 37.5037927,
   "lng": 127.0602754
+ },
+ {
+  "id": "17096",
+  "name": "프라임해법영어교습소",
+  "displayName": "프라임해법영어교습소",
+  "regionId": "daechi",
+  "dong": "도곡동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 남부순환로365길 51",
+  "capacity": 36,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4887039,
+  "lng": 127.0400543
  },
  {
   "id": "3000050776",
@@ -11005,24 +11670,6 @@
   "lng": 127.0619463
  },
  {
-  "id": "26427",
-  "name": "알파잉글리쉬학원",
-  "displayName": "알파잉글리쉬학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 강남구 남부순환로 2941",
-  "capacity": 44,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4942695,
-  "lng": 127.0619463
- },
- {
   "id": "3000019029",
   "name": "영어나무학원",
   "displayName": "영어나무학원",
@@ -11311,6 +11958,114 @@
   "lng": 127.0530095
  },
  {
+  "id": "3000052593",
+  "name": "강남대성원격학원",
+  "displayName": "강남대성원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 38-4",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4959745,
+  "lng": 127.0302905
+ },
+ {
+  "id": "3000030857",
+  "name": "김승국통역학원",
+  "displayName": "김승국통역학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 38-4",
+  "capacity": 52,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4959745,
+  "lng": 127.0302905
+ },
+ {
+  "id": "3000050162",
+  "name": "두각대성원격학원",
+  "displayName": "두각대성원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 38-4",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4959745,
+  "lng": 127.0302905
+ },
+ {
+  "id": "3000050204",
+  "name": "강남대치관러닝어취브학원",
+  "displayName": "강남대치관러닝어취브학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 언주로 313",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4956365,
+  "lng": 127.0456644
+ },
+ {
+  "id": "3000050669",
+  "name": "프랩학원",
+  "displayName": "프랩학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 언주로 313",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4956365,
+  "lng": 127.0456644
+ },
+ {
+  "id": "3000051617",
+  "name": "강남라라영어원격학원",
+  "displayName": "강남라라영어원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 선릉로 529",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5066733,
+  "lng": 127.0472576
+ },
+ {
   "id": "3000012202",
   "name": "강남멘토학원",
   "displayName": "강남멘토학원",
@@ -11455,6 +12210,115 @@
   "lng": 127.0530618
  },
  {
+  "id": "3000048264",
+  "name": "강남삼성학원",
+  "displayName": "강남삼성학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로69길 7",
+  "capacity": 400,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.498439,
+  "lng": 127.0511818
+ },
+ {
+  "id": "3000034048",
+  "name": "이미주수학전문학원",
+  "displayName": "이미주수학전문학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 선릉로69길 7",
+  "capacity": 165,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.498439,
+  "lng": 127.0511818
+ },
+ {
+  "id": "3000049005",
+  "name": "입시위키스터디센터입시학원",
+  "displayName": "입시위키스터디센터입시학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로69길 7",
+  "capacity": 172,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.498439,
+  "lng": 127.0511818
+ },
+ {
+  "id": "1000036309",
+  "name": "강남아이지에스(IGS)통역학원",
+  "displayName": "강남아이지에스(IGS)통역학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로98길 9",
+  "capacity": 50,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5007336,
+  "lng": 127.0273407
+ },
+ {
+  "id": "1000034986",
+  "name": "와이비엠어학원",
+  "displayName": "와이비엠어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로 408",
+  "capacity": 11366,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.4992268,
+  "lng": 127.0275554
+ },
+ {
+  "id": "10556",
+  "name": "강남중국어학원",
+  "displayName": "강남중국어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english",
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로5길 18",
+  "capacity": 7884,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5000503,
+  "lng": 127.0292341
+ },
+ {
   "id": "3000051224",
   "name": "강남킹스키즈어학원",
   "displayName": "강남킹스키즈어학원",
@@ -11473,6 +12337,78 @@
   "lng": 127.0562623
  },
  {
+  "id": "3000041376",
+  "name": "강남하이탑학원",
+  "displayName": "강남하이탑학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로8길 32",
+  "capacity": 100,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4967234,
+  "lng": 127.0318998
+ },
+ {
+  "id": "3000033374",
+  "name": "강남하이퍼의대관학원",
+  "displayName": "강남하이퍼의대관학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 33",
+  "capacity": 571,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4995248,
+  "lng": 127.0301123
+ },
+ {
+  "id": "1000036776",
+  "name": "강남하이퍼학원",
+  "displayName": "강남하이퍼학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 35",
+  "capacity": 251,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4995805,
+  "lng": 127.0302863
+ },
+ {
+  "id": "25184",
+  "name": "강남합격의법학원",
+  "displayName": "강남합격의법학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 71",
+  "capacity": 2335,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5009774,
+  "lng": 127.0330003
+ },
+ {
   "id": "3000040516",
   "name": "강안교육학원",
   "displayName": "강안교육학원",
@@ -11489,6 +12425,60 @@
   "registrationCount": 1,
   "lat": 37.5073897,
   "lng": 127.0616436
+ },
+ {
+  "id": "3000043750",
+  "name": "관우쌤과세상을품은교육(세품교)입시컨설팅원격학원",
+  "displayName": "관우쌤과세상을품은교육(세품교)입시컨설팅원격학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 영동대로85길 20-7",
+  "capacity": 2800,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5073897,
+  "lng": 127.0616436
+ },
+ {
+  "id": "3000019447",
+  "name": "강의하는아이들대치학원",
+  "displayName": "강의하는아이들대치학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 319",
+  "capacity": 599,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4980448,
+  "lng": 127.0517705
+ },
+ {
+  "id": "3000020002",
+  "name": "달공사이버원격학원",
+  "displayName": "달공사이버원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 319",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4980448,
+  "lng": 127.0517705
  },
  {
   "id": "6577",
@@ -11618,6 +12608,42 @@
   "lng": 127.0562652
  },
  {
+  "id": "3000014980",
+  "name": "개념원리원격학원",
+  "displayName": "개념원리원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로8길 37",
+  "capacity": 16800,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965617,
+  "lng": 127.0325294
+ },
+ {
+  "id": "3000046448",
+  "name": "에그릿원격학원",
+  "displayName": "에그릿원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로8길 37",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965617,
+  "lng": 127.0325294
+ },
+ {
   "id": "3000034734",
   "name": "삼보어학원",
   "displayName": "삼보어학원",
@@ -11725,6 +12751,42 @@
   "registrationCount": 1,
   "lat": 37.5042912,
   "lng": 127.0628797
+ },
+ {
+  "id": "3000013464",
+  "name": "게이트대치어학학원",
+  "displayName": "게이트대치어학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로 313",
+  "capacity": 1550,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4956673,
+  "lng": 127.0501625
+ },
+ {
+  "id": "3000042970",
+  "name": "결국이루는학원",
+  "displayName": "결국이루는학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 논현로71길 21",
+  "capacity": 750,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4945471,
+  "lng": 127.0378737
  },
  {
   "id": "3000026793",
@@ -12124,6 +13186,42 @@
   "lng": 127.0574387
  },
  {
+  "id": "3000041028",
+  "name": "교사에관하여원격학원",
+  "displayName": "교사에관하여원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로84길 23",
+  "capacity": 11,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4971584,
+  "lng": 127.0304025
+ },
+ {
+  "id": "3000051079",
+  "name": "영인에듀일본입시연구소원격학원",
+  "displayName": "영인에듀일본입시연구소원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로84길 23",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4971584,
+  "lng": 127.0304025
+ },
+ {
   "id": "3000034878",
   "name": "권미나국어학원",
   "displayName": "권미나국어학원",
@@ -12177,6 +13275,42 @@
   "registrationCount": 1,
   "lat": 37.4984363,
   "lng": 127.0535658
+ },
+ {
+  "id": "3000040222",
+  "name": "그래머랩스영어학원",
+  "displayName": "그래머랩스영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로 317",
+  "capacity": 600,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958677,
+  "lng": 127.0506459
+ },
+ {
+  "id": "3000039488",
+  "name": "예설라대치직영원2관학원",
+  "displayName": "예설라대치직영원2관학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 317",
+  "capacity": 84,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4958677,
+  "lng": 127.0506459
  },
  {
   "id": "3000029274",
@@ -12279,24 +13413,6 @@
   ],
   "address": "서울특별시 강남구 도곡로 519",
   "capacity": 100,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4999068,
-  "lng": 127.0631158
- },
- {
-  "id": "1000036573",
-  "name": "렉스김어학원",
-  "displayName": "렉스김어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 도곡로 519",
-  "capacity": 60,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -12809,6 +13925,60 @@
   "lng": 127.0535807
  },
  {
+  "id": "3000054882",
+  "name": "기적의대입논술원격학원",
+  "displayName": "기적의대입논술원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 31",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4994572,
+  "lng": 127.0299066
+ },
+ {
+  "id": "3000054022",
+  "name": "기적의대입컨설팅원격학원",
+  "displayName": "기적의대입컨설팅원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 31",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4994572,
+  "lng": 127.0299066
+ },
+ {
+  "id": "3000052709",
+  "name": "크리스스파르타토플어학원",
+  "displayName": "크리스스파르타토플어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 31",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4994572,
+  "lng": 127.0299066
+ },
+ {
   "id": "5279",
   "name": "기파랑문해원대치본원학원",
   "displayName": "기파랑문해원대치본원학원",
@@ -13188,6 +14358,24 @@
   "lng": 127.0597696
  },
  {
+  "id": "3000011585",
+  "name": "김범식독일어학원",
+  "displayName": "김범식독일어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 17",
+  "capacity": 400,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4991155,
+  "lng": 127.0288057
+ },
+ {
   "id": "3000042126",
   "name": "김신홍학원",
   "displayName": "김신홍학원",
@@ -13240,6 +14428,79 @@
   "registrationCount": 1,
   "lat": 37.5020947,
   "lng": 127.0581514
+ },
+ {
+  "id": "3000017272",
+  "name": "김영일교육컨설팅학원",
+  "displayName": "김영일교육컨설팅학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로 155",
+  "capacity": 30,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.491429,
+  "lng": 127.0368406
+ },
+ {
+  "id": "3000010022",
+  "name": "김영편입강남단과",
+  "displayName": "김영편입강남단과",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english",
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 8",
+  "capacity": 2792,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.4946991,
+  "lng": 127.0300978
+ },
+ {
+  "id": "3000054992",
+  "name": "김영편입강남단과자연계전문관학원",
+  "displayName": "김영편입강남단과자연계전문관학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 8",
+  "capacity": 664,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4946991,
+  "lng": 127.0300978
+ },
+ {
+  "id": "3000040596",
+  "name": "스타프랩어학원",
+  "displayName": "스타프랩어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 8",
+  "capacity": 180,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4946991,
+  "lng": 127.0300978
  },
  {
   "id": "3000027199",
@@ -13802,6 +15063,24 @@
   "lng": 127.0596321
  },
  {
+  "id": "1000035093",
+  "name": "남서울알리앙스프랑세즈어학원",
+  "displayName": "남서울알리앙스프랑세즈어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 27-15",
+  "capacity": 823,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5006551,
+  "lng": 127.0291376
+ },
+ {
   "id": "25165",
   "name": "내가하는수학수학하마학원",
   "displayName": "내가하는수학수학하마학원",
@@ -13928,6 +15207,24 @@
   "lng": 127.0574089
  },
  {
+  "id": "3000052402",
+  "name": "노벨학원",
+  "displayName": "노벨학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로 404",
+  "capacity": 207,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4962334,
+  "lng": 127.0394369
+ },
+ {
   "id": "3000032963",
   "name": "논술보다학원",
   "displayName": "논술보다학원",
@@ -14034,6 +15331,42 @@
   "registrationCount": 2,
   "lat": 37.4978174,
   "lng": 127.0535566
+ },
+ {
+  "id": "3000052388",
+  "name": "누보영어원격학원",
+  "displayName": "누보영어원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로 354",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4946625,
+  "lng": 127.0297456
+ },
+ {
+  "id": "3000033079",
+  "name": "토토로하우스어학원",
+  "displayName": "토토로하우스어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로 354",
+  "capacity": 185,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4946625,
+  "lng": 127.0297456
  },
  {
   "id": "3000026832",
@@ -14306,6 +15639,42 @@
   "registrationCount": 1,
   "lat": 37.4992471,
   "lng": 127.0591416
+ },
+ {
+  "id": "3000051200",
+  "name": "다즐영재교육학원",
+  "displayName": "다즐영재교육학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 331",
+  "capacity": 145,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4964821,
+  "lng": 127.0522146
+ },
+ {
+  "id": "3000048230",
+  "name": "대치투에스에듀학원",
+  "displayName": "대치투에스에듀학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 331",
+  "capacity": 399,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4964821,
+  "lng": 127.0522146
  },
  {
   "id": "3000022473",
@@ -16707,24 +18076,6 @@
   "lng": 127.0639142
  },
  {
-  "id": "3000027930",
-  "name": "아이엔어학원",
-  "displayName": "아이엔어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 도곡로 526",
-  "capacity": 650,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.499578,
-  "lng": 127.0639142
- },
- {
   "id": "3000053923",
   "name": "대치위더스에스(S)관학원",
   "displayName": "대치위더스에스(S)관학원",
@@ -17430,6 +18781,24 @@
   "lng": 127.0573085
  },
  {
+  "id": "3000043382",
+  "name": "대치폴리매그넷어학원",
+  "displayName": "대치폴리매그넷어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 영동대로 318",
+  "capacity": 72,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5030296,
+  "lng": 127.0669743
+ },
+ {
   "id": "3000042667",
   "name": "대치프라이드제이어학원",
   "displayName": "대치프라이드제이어학원",
@@ -17791,6 +19160,24 @@
   "lng": 127.0589507
  },
  {
+  "id": "3000030091",
+  "name": "더킹고등수학전문학원",
+  "displayName": "더킹고등수학전문학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 역삼로 415",
+  "capacity": 612,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5012813,
+  "lng": 127.0524213
+ },
+ {
   "id": "3000013817",
   "name": "에듀모스트어학학원",
   "displayName": "에듀모스트어학학원",
@@ -17933,6 +19320,42 @@
   "registrationCount": 1,
   "lat": 37.5009714,
   "lng": 127.0526302
+ },
+ {
+  "id": "3000039298",
+  "name": "동제편입학원",
+  "displayName": "동제편입학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로1길 18",
+  "capacity": 640,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4944418,
+  "lng": 127.0306538
+ },
+ {
+  "id": "3000013969",
+  "name": "서울사진영상IT학원",
+  "displayName": "서울사진영상IT학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로1길 18",
+  "capacity": 266,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4944418,
+  "lng": 127.0306538
  },
  {
   "id": "3000039171",
@@ -18350,6 +19773,60 @@
   "lng": 127.0524634
  },
  {
+  "id": "3000032058",
+  "name": "띵크앤리드대치영어학원",
+  "displayName": "띵크앤리드대치영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 선릉로 317",
+  "capacity": 9890,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4978781,
+  "lng": 127.0518634
+ },
+ {
+  "id": "3000032260",
+  "name": "이미주수학학원",
+  "displayName": "이미주수학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 선릉로 317",
+  "capacity": 170,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4978781,
+  "lng": 127.0518634
+ },
+ {
+  "id": "3000027995",
+  "name": "띵크앤리드도곡영어학원",
+  "displayName": "띵크앤리드도곡영어학원",
+  "regionId": "daechi",
+  "dong": "도곡동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 남부순환로365길 39",
+  "capacity": 9478,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4880191,
+  "lng": 127.0397921
+ },
+ {
   "id": "3000046503",
   "name": "메타에듀(METAEDU)학원",
   "displayName": "메타에듀(METAEDU)학원",
@@ -18459,6 +19936,60 @@
   "lng": 127.0499351
  },
  {
+  "id": "3000056239",
+  "name": "라온교육학원",
+  "displayName": "라온교육학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 309",
+  "capacity": 142,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4971888,
+  "lng": 127.0521782
+ },
+ {
+  "id": "3000054305",
+  "name": "리딩오션독서논술강남직영학원",
+  "displayName": "리딩오션독서논술강남직영학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 선릉로 309",
+  "capacity": 355,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4971888,
+  "lng": 127.0521782
+ },
+ {
+  "id": "1000035722",
+  "name": "라이즈프리머스강남어학원",
+  "displayName": "라이즈프리머스강남어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로37길 5",
+  "capacity": 308,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4941442,
+  "lng": 127.0446799
+ },
+ {
   "id": "30633",
   "name": "라트학원",
   "displayName": "라트학원",
@@ -18493,6 +20024,42 @@
   "registrationCount": 1,
   "lat": 37.5021892,
   "lng": 127.0554227
+ },
+ {
+  "id": "928",
+  "name": "랭귀지큐브역삼어학학원",
+  "displayName": "랭귀지큐브역삼어학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 역삼로17길 64",
+  "capacity": 3,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4988038,
+  "lng": 127.0366283
+ },
+ {
+  "id": "3000027078",
+  "name": "러닝스푼즈학원",
+  "displayName": "러닝스푼즈학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 15",
+  "capacity": 960,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.499664,
+  "lng": 127.0285899
  },
  {
   "id": "16804",
@@ -18619,6 +20186,60 @@
   "registrationCount": 1,
   "lat": 37.5021104,
   "lng": 127.0561926
+ },
+ {
+  "id": "3000033316",
+  "name": "리더스법률인사총무학원",
+  "displayName": "리더스법률인사총무학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로96길 19",
+  "capacity": 327,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5001738,
+  "lng": 127.0285825
+ },
+ {
+  "id": "26426",
+  "name": "리더스아카데미어학원",
+  "displayName": "리더스아카데미어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 언주로 311",
+  "capacity": 190,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4953023,
+  "lng": 127.0457716
+ },
+ {
+  "id": "3000039506",
+  "name": "에듀포인트학원",
+  "displayName": "에듀포인트학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 언주로 311",
+  "capacity": 140,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4953023,
+  "lng": 127.0457716
  },
  {
   "id": "3000058110",
@@ -18837,6 +20458,24 @@
   "lng": 127.0597838
  },
  {
+  "id": "3000037041",
+  "name": "매쓰몽한티센터학원",
+  "displayName": "매쓰몽한티센터학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 도곡로 325",
+  "capacity": 120,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4961788,
+  "lng": 127.0515361
+ },
+ {
   "id": "3000028312",
   "name": "맨투맨권수학학원",
   "displayName": "맨투맨권수학학원",
@@ -18891,6 +20530,24 @@
   "lng": 127.037778
  },
  {
+  "id": "12813",
+  "name": "맨하탄어학원",
+  "displayName": "맨하탄어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 11",
+  "capacity": 10,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4995598,
+  "lng": 127.0282643
+ },
+ {
   "id": "3000033437",
   "name": "맹모지교학원",
   "displayName": "맹모지교학원",
@@ -18925,6 +20582,79 @@
   "registrationCount": 1,
   "lat": 37.5029033,
   "lng": 127.0595917
+ },
+ {
+  "id": "3000041030",
+  "name": "메가스터디SW입시센터학원",
+  "displayName": "메가스터디SW입시센터학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로1길 16",
+  "capacity": 128,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4994567,
+  "lng": 127.0279258
+ },
+ {
+  "id": "30226",
+  "name": "메가스터디뷰티아카데미강남학원",
+  "displayName": "메가스터디뷰티아카데미강남학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 14",
+  "capacity": 3526,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4992975,
+  "lng": 127.0285866
+ },
+ {
+  "id": "3000034695",
+  "name": "메가스터디아이티(IT)아카데미학원",
+  "displayName": "메가스터디아이티(IT)아카데미학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 13",
+  "capacity": 4980,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4996089,
+  "lng": 127.0284297
+ },
+ {
+  "id": "17427",
+  "name": "메릭스수학영어학원",
+  "displayName": "메릭스수학영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math",
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로66길 32",
+  "capacity": 30,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4922928,
+  "lng": 127.0334288
  },
  {
   "id": "3000027904",
@@ -19125,6 +20855,79 @@
   "lng": 127.0523898
  },
  {
+  "id": "3000039716",
+  "name": "멘토랑학원",
+  "displayName": "멘토랑학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 323",
+  "capacity": 222,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4961216,
+  "lng": 127.0513447
+ },
+ {
+  "id": "3000040582",
+  "name": "서정국어학원",
+  "displayName": "서정국어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english",
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 323",
+  "capacity": 30,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4961216,
+  "lng": 127.0513447
+ },
+ {
+  "id": "3000037646",
+  "name": "수준영재수학학원",
+  "displayName": "수준영재수학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 도곡로 323",
+  "capacity": 112,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4961216,
+  "lng": 127.0513447
+ },
+ {
+  "id": "3000035796",
+  "name": "아이스피크어학원",
+  "displayName": "아이스피크어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로 323",
+  "capacity": 142,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4961216,
+  "lng": 127.0513447
+ },
+ {
   "id": "3000037803",
   "name": "멘토스학원2관학원",
   "displayName": "멘토스학원2관학원",
@@ -19213,6 +21016,24 @@
   "registrationCount": 1,
   "lat": 37.5011762,
   "lng": 127.0593375
+ },
+ {
+  "id": "3000010228",
+  "name": "모닝에듀",
+  "displayName": "모닝에듀",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 36",
+  "capacity": 3204,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.4998294,
+  "lng": 127.0302291
  },
  {
   "id": "3000038218",
@@ -19468,6 +21289,24 @@
   "registrationCount": 1,
   "lat": 37.5028939,
   "lng": 127.0594423
+ },
+ {
+  "id": "3000035751",
+  "name": "미래인재컨설팅학원",
+  "displayName": "미래인재컨설팅학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 선릉로 311",
+  "capacity": 590,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4973384,
+  "lng": 127.052077
  },
  {
   "id": "16474",
@@ -19741,24 +21580,6 @@
   "lng": 127.0601322
  },
  {
-  "id": "23598",
-  "name": "아이엘이(별관)어학원",
-  "displayName": "아이엘이(별관)어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 도곡로 454",
-  "capacity": 882,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4982613,
-  "lng": 127.0601322
- },
- {
   "id": "3000031147",
   "name": "바른법률에이치알(HR)학원",
   "displayName": "바른법률에이치알(HR)학원",
@@ -19866,6 +21687,24 @@
   "registrationCount": 1,
   "lat": 37.4975571,
   "lng": 127.0559748
+ },
+ {
+  "id": "3000038018",
+  "name": "박코치강남어학원",
+  "displayName": "박코치강남어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로5길 11",
+  "capacity": 950,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4995047,
+  "lng": 127.0292786
  },
  {
   "id": "3000031567",
@@ -19976,6 +21815,42 @@
   "lng": 127.053463
  },
  {
+  "id": "3000041246",
+  "name": "변리사스쿨원격학원",
+  "displayName": "변리사스쿨원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 51-10",
+  "capacity": 1,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5010343,
+  "lng": 127.031244
+ },
+ {
+  "id": "3000038357",
+  "name": "변리사스쿨학원",
+  "displayName": "변리사스쿨학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 55-4",
+  "capacity": 4200,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5007597,
+  "lng": 127.0318469
+ },
+ {
   "id": "22645",
   "name": "보람과학수학학원",
   "displayName": "보람과학수학학원",
@@ -20047,6 +21922,78 @@
   "registrationCount": 1,
   "lat": 37.5029532,
   "lng": 127.0566288
+ },
+ {
+  "id": "3000048763",
+  "name": "브라운편입학원",
+  "displayName": "브라운편입학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 28",
+  "capacity": 501,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965334,
+  "lng": 127.0301212
+ },
+ {
+  "id": "1000035603",
+  "name": "역삼시사일본어학원",
+  "displayName": "역삼시사일본어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 28",
+  "capacity": 1275,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965334,
+  "lng": 127.0301212
+ },
+ {
+  "id": "1000036324",
+  "name": "이제이유플랜(EJUplan)시사일본어학원",
+  "displayName": "이제이유플랜(EJUplan)시사일본어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 28",
+  "capacity": 2630,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965334,
+  "lng": 127.0301212
+ },
+ {
+  "id": "3000013686",
+  "name": "이창용어학원",
+  "displayName": "이창용어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로4길 28",
+  "capacity": 452,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965334,
+  "lng": 127.0301212
  },
  {
   "id": "3000043543",
@@ -20193,6 +22140,24 @@
   "lng": 127.0600886
  },
  {
+  "id": "3000012168",
+  "name": "브리티시어학원",
+  "displayName": "브리티시어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로5길 31",
+  "capacity": 120,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5006882,
+  "lng": 127.0287408
+ },
+ {
   "id": "5455",
   "name": "블루스카이학원",
   "displayName": "블루스카이학원",
@@ -20209,6 +22174,60 @@
   "registrationCount": 1,
   "lat": 37.5039445,
   "lng": 127.0618826
+ },
+ {
+  "id": "3000038193",
+  "name": "블루스톤어학원",
+  "displayName": "블루스톤어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로57길 9",
+  "capacity": 450,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4963607,
+  "lng": 127.0508268
+ },
+ {
+  "id": "3000054255",
+  "name": "알펜글로우어학원",
+  "displayName": "알펜글로우어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 도곡로57길 9",
+  "capacity": 292,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4963607,
+  "lng": 127.0508268
+ },
+ {
+  "id": "3000053269",
+  "name": "블리스(BLIS)편입",
+  "displayName": "블리스(BLIS)편입",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로 140",
+  "capacity": 156,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.4943324,
+  "lng": 127.0348963
  },
  {
   "id": "3000031984",
@@ -20245,6 +22264,78 @@
   "registrationCount": 1,
   "lat": 37.5046487,
   "lng": 127.0639267
+ },
+ {
+  "id": "3000035125",
+  "name": "비이케이세컨더리(BEKSECONDARY)학원",
+  "displayName": "비이케이세컨더리(BEKSECONDARY)학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 187",
+  "capacity": 327,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4923715,
+  "lng": 127.0398001
+ },
+ {
+  "id": "3000053105",
+  "name": "엘리지안(Elysian)학원",
+  "displayName": "엘리지안(Elysian)학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로 187",
+  "capacity": 129,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4923715,
+  "lng": 127.0398001
+ },
+ {
+  "id": "3000046175",
+  "name": "비이케이프렙비(BEK PREP-B)학원",
+  "displayName": "비이케이프렙비(BEK PREP-B)학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로 248",
+  "capacity": 261,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4976727,
+  "lng": 127.0433003
+ },
+ {
+  "id": "3000029957",
+  "name": "비이케이프렙에이(BEK PREP-A)학원",
+  "displayName": "비이케이프렙에이(BEK PREP-A)학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로 244",
+  "capacity": 304,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4974456,
+  "lng": 127.043036
  },
  {
   "id": "3000014585",
@@ -20753,6 +22844,42 @@
   "lng": 127.0573581
  },
  {
+  "id": "3000054772",
+  "name": "샬롬차이나중국어원격학원",
+  "displayName": "샬롬차이나중국어원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로 114",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4932204,
+  "lng": 127.0316718
+ },
+ {
+  "id": "3000052656",
+  "name": "에스알피(SRP)에듀원격학원",
+  "displayName": "에스알피(SRP)에듀원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로 114",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4932204,
+  "lng": 127.0316718
+ },
+ {
   "id": "3000039362",
   "name": "서울아카데미고등부학원",
   "displayName": "서울아카데미고등부학원",
@@ -21077,6 +23204,24 @@
   "lng": 127.0619768
  },
  {
+  "id": "3000051274",
+  "name": "수만휘스파르타강남역삼점학원",
+  "displayName": "수만휘스파르타강남역삼점학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 언주로 325",
+  "capacity": 296,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4969226,
+  "lng": 127.0450001
+ },
+ {
   "id": "31276",
   "name": "수미사대치학원",
   "displayName": "수미사대치학원",
@@ -21129,6 +23274,24 @@
   "registrationCount": 1,
   "lat": 37.5003417,
   "lng": 127.0597593
+ },
+ {
+  "id": "3000054918",
+  "name": "클래스데이원격학원",
+  "displayName": "클래스데이원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로1길 10",
+  "capacity": 100,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4905758,
+  "lng": 127.0324639
  },
  {
   "id": "3000053883",
@@ -21527,6 +23690,24 @@
   "lng": 127.0527047
  },
  {
+  "id": "3000024397",
+  "name": "스카이에듀원격학원",
+  "displayName": "스카이에듀원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로 388",
+  "capacity": 594,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4974539,
+  "lng": 127.0284206
+ },
+ {
   "id": "3000031415",
   "name": "스터디브릭스",
   "displayName": "스터디브릭스",
@@ -21779,6 +23960,60 @@
   "registrationCount": 1,
   "lat": 37.5016864,
   "lng": 127.059012
+ },
+ {
+  "id": "3000053763",
+  "name": "시대인재리트(LEET)2학원",
+  "displayName": "시대인재리트(LEET)2학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로2길 27",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965038,
+  "lng": 127.0297218
+ },
+ {
+  "id": "3000035208",
+  "name": "에듀윌공인중개사&행정사강남학원",
+  "displayName": "에듀윌공인중개사&행정사강남학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로2길 27",
+  "capacity": 314,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965038,
+  "lng": 127.0297218
+ },
+ {
+  "id": "3000042942",
+  "name": "에듀윌편입강남학원",
+  "displayName": "에듀윌편입강남학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로2길 27",
+  "capacity": 764,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4965038,
+  "lng": 127.0297218
  },
  {
   "id": "3000021828",
@@ -22142,6 +24377,24 @@
   "lng": 127.0536958
  },
  {
+  "id": "3000038608",
+  "name": "씨이씨(CEC)아카데미어학원",
+  "displayName": "씨이씨(CEC)아카데미어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 논현로 411",
+  "capacity": 24,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4967973,
+  "lng": 127.0385328
+ },
+ {
   "id": "3000046181",
   "name": "아미영어리드에이아이(AI)학원",
   "displayName": "아미영어리드에이아이(AI)학원",
@@ -22250,6 +24503,42 @@
   "lng": 127.0540321
  },
  {
+  "id": "3000031978",
+  "name": "아이비더탑학원",
+  "displayName": "아이비더탑학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 34",
+  "capacity": 160,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4997581,
+  "lng": 127.0300304
+ },
+ {
+  "id": "3000036331",
+  "name": "아이엠아트랩학원",
+  "displayName": "아이엠아트랩학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로1길 23",
+  "capacity": 360,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4914591,
+  "lng": 127.0316816
+ },
+ {
   "id": "3000048144",
   "name": "아이작입시전문원격학원",
   "displayName": "아이작입시전문원격학원",
@@ -22340,6 +24629,24 @@
   "lng": 127.0660351
  },
  {
+  "id": "3000038278",
+  "name": "아크메아카데미(ACME ACADEMY)어학원",
+  "displayName": "아크메아카데미(ACME ACADEMY)어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 역삼로 128",
+  "capacity": 240,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4939945,
+  "lng": 127.0337328
+ },
+ {
   "id": "14789",
   "name": "알아이에스키즈어학원(Ris Kids Academy)",
   "displayName": "알아이에스키즈어학원(Ris Kids Academy)",
@@ -22392,6 +24699,24 @@
   "registrationCount": 1,
   "lat": 37.5028636,
   "lng": 127.0591708
+ },
+ {
+  "id": "24355",
+  "name": "애로우잉글리시번역학원",
+  "displayName": "애로우잉글리시번역학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로96길 17",
+  "capacity": 219,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5001243,
+  "lng": 127.0284145
  },
  {
   "id": "17493",
@@ -22448,6 +24773,24 @@
   "lng": 127.0446083
  },
  {
+  "id": "3000041187",
+  "name": "얼라이언스원격학원",
+  "displayName": "얼라이언스원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로98길 11",
+  "capacity": 1,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5008553,
+  "lng": 127.0275081
+ },
+ {
   "id": "3000042433",
   "name": "업하이(UPHI)수학학원",
   "displayName": "업하이(UPHI)수학학원",
@@ -22502,6 +24845,24 @@
   "lng": 127.0522187
  },
  {
+  "id": "3000039094",
+  "name": "에듀아고라",
+  "displayName": "에듀아고라",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로84길 8",
+  "capacity": 4163,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.496481,
+  "lng": 127.0293382
+ },
+ {
   "id": "3000028342",
   "name": "에듀플렉스에듀코치대치한티학원",
   "displayName": "에듀플렉스에듀코치대치한티학원",
@@ -22518,6 +24879,24 @@
   "registrationCount": 1,
   "lat": 37.4982338,
   "lng": 127.0532172
+ },
+ {
+  "id": "3000052718",
+  "name": "에스알피(SRP)에듀학원",
+  "displayName": "에스알피(SRP)에듀학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로96길 16",
+  "capacity": 408,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4998238,
+  "lng": 127.0283172
  },
  {
   "id": "3000053094",
@@ -22610,6 +24989,24 @@
   "lng": 127.0520964
  },
  {
+  "id": "3000032708",
+  "name": "에스엠원격교습학원",
+  "displayName": "에스엠원격교습학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 역삼로 153",
+  "capacity": 50,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4950585,
+  "lng": 127.0359902
+ },
+ {
   "id": "3000043455",
   "name": "에스엠유니버스학원",
   "displayName": "에스엠유니버스학원",
@@ -22662,6 +25059,24 @@
   "registrationCount": 1,
   "lat": 37.504321,
   "lng": 127.0631009
+ },
+ {
+  "id": "3000017030",
+  "name": "에스이(SE)원격학원",
+  "displayName": "에스이(SE)원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 71-9",
+  "capacity": 8000,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5012079,
+  "lng": 127.0327853
  },
  {
   "id": "14098",
@@ -22772,6 +25187,24 @@
   "lng": 127.0595256
  },
  {
+  "id": "3000021512",
+  "name": "에스플러스학원",
+  "displayName": "에스플러스학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로6길 48",
+  "capacity": 20,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4955411,
+  "lng": 127.0316296
+ },
+ {
   "id": "3000015717",
   "name": "에이매쓰학원",
   "displayName": "에이매쓰학원",
@@ -22788,6 +25221,24 @@
   "registrationCount": 1,
   "lat": 37.4872723,
   "lng": 127.0515994
+ },
+ {
+  "id": "3000048427",
+  "name": "에이에이에이(AAA)유학원격학원",
+  "displayName": "에이에이에이(AAA)유학원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로 438",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5016424,
+  "lng": 127.0263372
  },
  {
   "id": "3000042406",
@@ -22825,6 +25276,24 @@
   "registrationCount": 1,
   "lat": 37.5014689,
   "lng": 127.0570456
+ },
+ {
+  "id": "3000013399",
+  "name": "에이지아이(AGI)어학원",
+  "displayName": "에이지아이(AGI)어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 봉은사로26길 11",
+  "capacity": 36,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5061886,
+  "lng": 127.033376
  },
  {
   "id": "3000036675",
@@ -23006,6 +25475,96 @@
   "registrationCount": 1,
   "lat": 37.4981919,
   "lng": 127.0555837
+ },
+ {
+  "id": "3000053439",
+  "name": "엠버영어학원",
+  "displayName": "엠버영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 선릉로 309-1",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4970697,
+  "lng": 127.0522478
+ },
+ {
+  "id": "3000052950",
+  "name": "잇셀프수학학원",
+  "displayName": "잇셀프수학학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 선릉로 309-1",
+  "capacity": 144,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4970697,
+  "lng": 127.0522478
+ },
+ {
+  "id": "3000027903",
+  "name": "엠비씨아카데미연극학원",
+  "displayName": "엠비씨아카데미연극학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로86길 29",
+  "capacity": 128,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5005442,
+  "lng": 127.039801
+ },
+ {
+  "id": "14967",
+  "name": "엠아이어학원",
+  "displayName": "엠아이어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 선릉로 305",
+  "capacity": 16,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4966558,
+  "lng": 127.0524141
+ },
+ {
+  "id": "3000042640",
+  "name": "클러스(CLUS)원격학원",
+  "displayName": "클러스(CLUS)원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 305",
+  "capacity": 135,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4966558,
+  "lng": 127.0524141
  },
  {
   "id": "3000015117",
@@ -23225,6 +25784,24 @@
   "lng": 127.0576716
  },
  {
+  "id": "3000043108",
+  "name": "오대교수능연구소입시학원",
+  "displayName": "오대교수능연구소입시학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로 541",
+  "capacity": 207,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5009871,
+  "lng": 127.0665992
+ },
+ {
   "id": "3000027541",
   "name": "오른수학학원",
   "displayName": "오른수학학원",
@@ -23243,6 +25820,24 @@
   "lng": 127.0634753
  },
  {
+  "id": "3000025977",
+  "name": "오티피(OTP)영어학원",
+  "displayName": "오티피(OTP)영어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로8길 26",
+  "capacity": 12,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4972012,
+  "lng": 127.0317338
+ },
+ {
   "id": "3000051062",
   "name": "올바른인재학원",
   "displayName": "올바른인재학원",
@@ -23259,6 +25854,42 @@
   "registrationCount": 1,
   "lat": 37.4778564,
   "lng": 127.0581414
+ },
+ {
+  "id": "16590",
+  "name": "와세다에듀학원",
+  "displayName": "와세다에듀학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 27",
+  "capacity": 16,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4998645,
+  "lng": 127.029522
+ },
+ {
+  "id": "3000025194",
+  "name": "용감한컴퍼니원격학원",
+  "displayName": "용감한컴퍼니원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로 146",
+  "capacity": 3366,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5000225,
+  "lng": 127.0355043
  },
  {
   "id": "3000052820",
@@ -23316,6 +25947,42 @@
   "lng": 127.0534815
  },
  {
+  "id": "3000044205",
+  "name": "월스트리트잉글리시강남어학원",
+  "displayName": "월스트리트잉글리시강남어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로84길 16",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4966992,
+  "lng": 127.0300404
+ },
+ {
+  "id": "3000046205",
+  "name": "웨스턴미시건항공교육원학원",
+  "displayName": "웨스턴미시건항공교육원학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로84길 36",
+  "capacity": 207,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4971318,
+  "lng": 127.031526
+ },
+ {
   "id": "1000035973",
   "name": "웹타임컴퓨터학원",
   "displayName": "웹타임컴퓨터학원",
@@ -23368,6 +26035,42 @@
   "registrationCount": 1,
   "lat": 37.5040187,
   "lng": 127.0608861
+ },
+ {
+  "id": "3000052541",
+  "name": "윌비스한림법학원",
+  "displayName": "윌비스한림법학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로19길 20",
+  "capacity": 738,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5013785,
+  "lng": 127.0334171
+ },
+ {
+  "id": "3000042021",
+  "name": "유니패스원격학원",
+  "displayName": "유니패스원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로79길 62",
+  "capacity": 3,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4962936,
+  "lng": 127.0339729
  },
  {
   "id": "3000026939",
@@ -23458,6 +26161,42 @@
   "registrationCount": 1,
   "lat": 37.5053445,
   "lng": 127.0549763
+ },
+ {
+  "id": "3000050641",
+  "name": "이디비(EDB)어학원",
+  "displayName": "이디비(EDB)어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로92길 13",
+  "capacity": 2528,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4990463,
+  "lng": 127.0284634
+ },
+ {
+  "id": "3000053453",
+  "name": "이로하학원",
+  "displayName": "이로하학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로95길 14",
+  "capacity": 142,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5023784,
+  "lng": 127.0346752
  },
  {
   "id": "3000036464",
@@ -23604,6 +26343,42 @@
   "lng": 127.0529713
  },
  {
+  "id": "4731",
+  "name": "이알피어학원",
+  "displayName": "이알피어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로1길 19",
+  "capacity": 190,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.499613,
+  "lng": 127.0275463
+ },
+ {
+  "id": "3000010748",
+  "name": "이제헌아이엘츠어학원",
+  "displayName": "이제헌아이엘츠어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 27-11",
+  "capacity": 80,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5004434,
+  "lng": 127.0292724
+ },
+ {
   "id": "3000025503",
   "name": "이투스247대치학원",
   "displayName": "이투스247대치학원",
@@ -23620,6 +26395,60 @@
   "registrationCount": 1,
   "lat": 37.5014536,
   "lng": 127.054341
+ },
+ {
+  "id": "3000012233",
+  "name": "이화엔클렉스학원",
+  "displayName": "이화엔클렉스학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로1길 28-14 ",
+  "capacity": 20,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5003712,
+  "lng": 127.0285393
+ },
+ {
+  "id": "3000044252",
+  "name": "일공이클래스원격학원 ",
+  "displayName": "일공이클래스원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로 368",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4957384,
+  "lng": 127.0292751
+ },
+ {
+  "id": "3000018899",
+  "name": "일공학원",
+  "displayName": "일공학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로 368",
+  "capacity": 808,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4957384,
+  "lng": 127.0292751
  },
  {
   "id": "18758",
@@ -23658,6 +26487,60 @@
   "lng": 127.0555744
  },
  {
+  "id": "3000031580",
+  "name": "입사미미술학원",
+  "displayName": "입사미미술학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 565",
+  "capacity": 249,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5089667,
+  "lng": 127.044126
+ },
+ {
+  "id": "3000052936",
+  "name": "잇올몰입관강남독학재수학원",
+  "displayName": "잇올몰입관강남독학재수학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 12",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4948886,
+  "lng": 127.0303768
+ },
+ {
+  "id": "3000031637",
+  "name": "잇올스파르타독학재수학원",
+  "displayName": "잇올스파르타독학재수학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 12",
+  "capacity": 120,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4948886,
+  "lng": 127.0303768
+ },
+ {
   "id": "3000032758",
   "name": "잇올스파르타대치",
   "displayName": "잇올스파르타대치",
@@ -23682,7 +26565,7 @@
   "regionId": "daechi",
   "dong": "도곡동",
   "subjects": [
-   "etc"
+   "english"
   ],
   "address": "서울특별시 강남구 강남대로44길 7",
   "capacity": 2,
@@ -23802,6 +26685,24 @@
   "lng": 127.0641329
  },
  {
+  "id": "3000051109",
+  "name": "전강아카데미원격학원",
+  "displayName": "전강아카데미원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 언주로98길 37",
+  "capacity": 99,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5047361,
+  "lng": 127.0448435
+ },
+ {
   "id": "3000034761",
   "name": "전일학원",
   "displayName": "전일학원",
@@ -23890,6 +26791,60 @@
   "registrationCount": 1,
   "lat": 37.4750918,
   "lng": 127.0528505
+ },
+ {
+  "id": "3000038736",
+  "name": "제4한빛변리사학원",
+  "displayName": "제4한빛변리사학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 87",
+  "capacity": 750,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5009124,
+  "lng": 127.034255
+ },
+ {
+  "id": "3000043016",
+  "name": "제시잉글리쉬스쿨원격학원",
+  "displayName": "제시잉글리쉬스쿨원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로6길 33",
+  "capacity": 4,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4964383,
+  "lng": 127.0314432
+ },
+ {
+  "id": "3000025240",
+  "name": "제이민아트스터디예술대학입시종합학원",
+  "displayName": "제이민아트스터디예술대학입시종합학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로6길 46",
+  "capacity": 30,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4956827,
+  "lng": 127.0314578
  },
  {
   "id": "3000054210",
@@ -24072,6 +27027,24 @@
   "lng": 127.0613534
  },
  {
+  "id": "3000028040",
+  "name": "창의적열정교육연구소학원",
+  "displayName": "창의적열정교육연구소학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 선릉로 325",
+  "capacity": 10,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4986012,
+  "lng": 127.0515812
+ },
+ {
   "id": "3000050815",
   "name": "책나무대치개포독서논술학원",
   "displayName": "책나무대치개포독서논술학원",
@@ -24160,6 +27133,42 @@
   "registrationCount": 2,
   "lat": 37.4998815,
   "lng": 127.062943
+ },
+ {
+  "id": "3000056220",
+  "name": "케이와이지외식경영아카데미학원",
+  "displayName": "케이와이지외식경영아카데미학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로98길 6",
+  "capacity": 348,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5034193,
+  "lng": 127.0363271
+ },
+ {
+  "id": "3000021066",
+  "name": "케이티케이(KTK)아카데미학원",
+  "displayName": "케이티케이(KTK)아카데미학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로34길 19",
+  "capacity": 180,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5002845,
+  "lng": 127.0407164
  },
  {
   "id": "3000035802",
@@ -24324,24 +27333,6 @@
   "lng": 127.0704418
  },
  {
-  "id": "3000019569",
-  "name": "트윈클어학원",
-  "displayName": "트윈클어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 도곡로63길 29",
-  "capacity": 24,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4989105,
-  "lng": 127.0535474
- },
- {
   "id": "24878",
   "name": "티비티(TBT)학원",
   "displayName": "티비티(TBT)학원",
@@ -24378,6 +27369,42 @@
   "lng": 127.0597718
  },
  {
+  "id": "3000043338",
+  "name": "혜기에듀원격학원",
+  "displayName": "혜기에듀원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 강남대로 364",
+  "capacity": 4,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4955498,
+  "lng": 127.0292939
+ },
+ {
+  "id": "30192",
+  "name": "퍼스널잉글리쉬어학원",
+  "displayName": "퍼스널잉글리쉬어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 테헤란로1길 10",
+  "capacity": 24,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4989623,
+  "lng": 127.0282179
+ },
+ {
   "id": "3000052336",
   "name": "퍼스러너학원",
   "displayName": "퍼스러너학원",
@@ -24394,6 +27421,42 @@
   "registrationCount": 1,
   "lat": 37.4832688,
   "lng": 127.0617549
+ },
+ {
+  "id": "3000028249",
+  "name": "펀웨이어학원",
+  "displayName": "펀웨이어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 논현로63길 62",
+  "capacity": 24,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4916009,
+  "lng": 127.0359904
+ },
+ {
+  "id": "3000012711",
+  "name": "페디아플러스(paedea plus)역삼학원",
+  "displayName": "페디아플러스(paedea plus)역삼학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로 310",
+  "capacity": 70,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4992883,
+  "lng": 127.0484325
  },
  {
   "id": "3000053689",
@@ -24486,6 +27549,60 @@
   "lng": 127.0641164
  },
  {
+  "id": "3000054552",
+  "name": "프리미어에듀학원",
+  "displayName": "프리미어에듀학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 도곡로7길 17",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4917615,
+  "lng": 127.0343268
+ },
+ {
+  "id": "3000050156",
+  "name": "하이스카이학원",
+  "displayName": "하이스카이학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로7길 17",
+  "capacity": 282,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4917615,
+  "lng": 127.0343268
+ },
+ {
+  "id": "3000010515",
+  "name": "프린서플어학원",
+  "displayName": "프린서플어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 19",
+  "capacity": 3546,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4996935,
+  "lng": 127.0287701
+ },
+ {
   "id": "3000048522",
   "name": "플라즈마고등",
   "displayName": "플라즈마고등",
@@ -24522,6 +27639,24 @@
   "lng": 127.0525447
  },
  {
+  "id": "3000036728",
+  "name": "피씨에이코리아학원",
+  "displayName": "피씨에이코리아학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로34길 26",
+  "capacity": 274,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4998888,
+  "lng": 127.0405147
+ },
+ {
   "id": "3000022179",
   "name": "피아이국제관학원",
   "displayName": "피아이국제관학원",
@@ -24532,24 +27667,6 @@
   ],
   "address": "서울특별시 강남구 삼성로64길 51",
   "capacity": 478,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5011151,
-  "lng": 127.064482
- },
- {
-  "id": "14212",
-  "name": "피아이어학원",
-  "displayName": "피아이어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 삼성로64길 51",
-  "capacity": 396,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -24612,6 +27729,24 @@
   "lng": 127.0525821
  },
  {
+  "id": "3000010334",
+  "name": "하비(havy)실용음악학원",
+  "displayName": "하비(havy)실용음악학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로102길 12 ",
+  "capacity": 480,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5049154,
+  "lng": 127.0361355
+ },
+ {
   "id": "3000054182",
   "name": "하이엠수학학원",
   "displayName": "하이엠수학학원",
@@ -24666,6 +27801,60 @@
   "lng": 127.0624069
  },
  {
+  "id": "3000017884",
+  "name": "한국국제어학원",
+  "displayName": "한국국제어학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 역삼로9길 21",
+  "capacity": 495,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4954464,
+  "lng": 127.0336647
+ },
+ {
+  "id": "3000041524",
+  "name": "한미ibt원격학원",
+  "displayName": "한미ibt원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 테헤란로 142",
+  "capacity": 30,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4997343,
+  "lng": 127.0349637
+ },
+ {
+  "id": "1000035769",
+  "name": "한빛변리사학원",
+  "displayName": "한빛변리사학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 논현로95길 29-14",
+  "capacity": 3260,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5011119,
+  "lng": 127.0339249
+ },
+ {
   "id": "1000036721",
   "name": "한솔건축토목학원",
   "displayName": "한솔건축토목학원",
@@ -24700,6 +27889,24 @@
   "registrationCount": 1,
   "lat": 37.4855234,
   "lng": 127.0351552
+ },
+ {
+  "id": "3000053048",
+  "name": "한영인온라인원격학원",
+  "displayName": "한영인온라인원격학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 테헤란로52길 17",
+  "capacity": 0,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5030092,
+  "lng": 127.0481773
  },
  {
   "id": "3000042860",
@@ -24755,6 +27962,24 @@
   "registrationCount": 1,
   "lat": 37.4748429,
   "lng": 127.0511689
+ },
+ {
+  "id": "3000014912",
+  "name": "해커스로스쿨학원",
+  "displayName": "해커스로스쿨학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로 428",
+  "capacity": 410,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5008145,
+  "lng": 127.026849
  },
  {
   "id": "3000034536",
@@ -28101,24 +31326,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 349",
   "capacity": 30,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5174204,
-  "lng": 126.8653309
- },
- {
-  "id": "3000035683",
-  "name": "(주)트윈클어학원",
-  "displayName": "(주)트윈클어학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동서로 349",
-  "capacity": 56,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -41293,6 +44500,24 @@
   "lng": 126.8788616
  },
  {
+  "id": "3000016569",
+  "name": "아이티씨하이어학원",
+  "displayName": "아이티씨하이어학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동동로 377",
+  "capacity": 300,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5353221,
+  "lng": 126.8788616
+ },
+ {
   "id": "1000034757",
   "name": "글맥3관학원",
   "displayName": "글맥3관학원",
@@ -50877,24 +54102,6 @@
   "lng": 127.0104331
  },
  {
-  "id": "3000053235",
-  "name": "띵킹(Think-Eng)2호점학원",
-  "displayName": "띵킹(Think-Eng)2호점학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 서초구 고무래로10길 17",
-  "capacity": 304,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5011797,
-  "lng": 127.0104331
- },
- {
   "id": "3000016039",
   "name": "에듀플렉스에듀코치개별지도서초학원",
   "displayName": "에듀플렉스에듀코치개별지도서초학원",
@@ -52608,24 +55815,6 @@
   "lng": 127.0113023
  },
  {
-  "id": "23899",
-  "name": "피아이서초어학원",
-  "displayName": "피아이서초어학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 서초구 서초중앙로31길 6-3",
-  "capacity": 64,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5000657,
-  "lng": 127.0113023
- },
- {
   "id": "3000027383",
   "name": "해법수학교실반포학원",
   "displayName": "해법수학교실반포학원",
@@ -53552,7 +56741,7 @@
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
-   "etc"
+   "english"
   ],
   "address": "서울특별시 서초구 남부순환로339길 63",
   "capacity": 96,
@@ -54538,6 +57727,24 @@
   "lng": 127.0247319
  },
  {
+  "id": "20187",
+  "name": "해커스어학원강남제1별관학원",
+  "displayName": "해커스어학원강남제1별관학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 서초구 강남대로61길 19",
+  "capacity": 36339,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985316,
+  "lng": 127.0247319
+ },
+ {
   "id": "1000035564",
   "name": "박정어학원",
   "displayName": "박정어학원",
@@ -55269,7 +58476,7 @@
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
-   "korean"
+   "english"
   ],
   "address": "서울특별시 서초구 효령로 398",
   "capacity": 34,
@@ -55363,24 +58570,6 @@
   ],
   "address": "서울특별시 서초구 효령로 183",
   "capacity": 50,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.482917,
-  "lng": 127.0041212
- },
- {
-  "id": "3000011151",
-  "name": "피아이에프(PIF)서초관영어학원",
-  "displayName": "피아이에프(PIF)서초관영어학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 서초구 효령로 183",
-  "capacity": 190,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -57462,6 +60651,24 @@
   "lng": 127.0142237
  },
  {
+  "id": "1000035791",
+  "name": "피에스에이서초어학학원",
+  "displayName": "피에스에이서초어학학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 서초구 효령로 231",
+  "capacity": 2250,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4839745,
+  "lng": 127.0094759
+ },
+ {
   "id": "3000053531",
   "name": "피오크학원",
   "displayName": "피오크학원",
@@ -57580,6 +60787,24 @@
   ],
   "address": "서울특별시 서초구 서초대로73길 12",
   "capacity": 3180,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4985581,
+  "lng": 127.0257556
+ },
+ {
+  "id": "24484",
+  "name": "해커스어학원강남제3별관학원",
+  "displayName": "해커스어학원강남제3별관학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 서초구 서초대로73길 12",
+  "capacity": 36339,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
@@ -59964,6 +63189,24 @@
   "lng": 127.0866823
  },
  {
+  "id": "3000022204",
+  "name": "씨게이트잠실어학학원",
+  "displayName": "씨게이트잠실어학학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 송파구 석촌호수로 88",
+  "capacity": 657,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5085112,
+  "lng": 127.0866823
+ },
+ {
   "id": "18578",
   "name": "DL영어학원",
   "displayName": "DL영어학원",
@@ -60994,24 +64237,6 @@
   "lng": 127.0886754
  },
  {
-  "id": "1000029338",
-  "name": "피아이에프영어학원",
-  "displayName": "피아이에프영어학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 송파구 석촌호수로 106",
-  "capacity": 30,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5076913,
-  "lng": 127.0886754
- },
- {
   "id": "3000052109",
   "name": "하이니티영어2관학원",
   "displayName": "하이니티영어2관학원",
@@ -61486,7 +64711,7 @@
   "regionId": "jamsil",
   "dong": "신천동",
   "subjects": [
-   "etc"
+   "english"
   ],
   "address": "서울특별시 송파구 올림픽로 435",
   "capacity": 112,
@@ -62836,6 +66061,24 @@
   "lng": 127.078853
  },
  {
+  "id": "3000054381",
+  "name": "잠실르엘심슨어학원",
+  "displayName": "잠실르엘심슨어학원",
+  "regionId": "jamsil",
+  "dong": "신천동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 송파구 올림픽로 329",
+  "capacity": 807,
+  "tuitionMonthly": null,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5161072,
+  "lng": 127.1068893
+ },
+ {
   "id": "14551",
   "name": "잠실시그마수학학원",
   "displayName": "잠실시그마수학학원",
@@ -62846,24 +66089,6 @@
   ],
   "address": "서울특별시 송파구 석촌호수로 112",
   "capacity": 60,
-  "tuitionMonthly": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5075718,
-  "lng": 127.0893471
- },
- {
-  "id": "3000033049",
-  "name": "피아이에프영어잠실2관학원",
-  "displayName": "피아이에프영어잠실2관학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 송파구 석촌호수로 112",
-  "capacity": 300,
   "tuitionMonthly": null,
   "registrationStatus": "개원",
   "isVerified": true,
