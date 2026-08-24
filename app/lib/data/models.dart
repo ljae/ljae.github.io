@@ -317,6 +317,11 @@ class Evidence {
   final double sentiment;
   final double credibility;
 
+  /// 이 글이 이 지점의 근거가 된 이유.
+  /// 'region' = 글이 이 권역을 밝혔다. 'brand' = 지역을 밝히지 않아
+  /// 같은 브랜드의 여러 지점에 함께 반영됐다.
+  final String? branchBasis;
+
   const Evidence({
     required this.source,
     required this.url,
@@ -325,6 +330,7 @@ class Evidence {
     this.postedAt,
     required this.sentiment,
     required this.credibility,
+    this.branchBasis,
   });
 
   factory Evidence.fromJson(Map<String, dynamic> j) => Evidence(
@@ -335,7 +341,11 @@ class Evidence {
         postedAt: j['posted_at'] as String?,
         sentiment: (j['sentiment'] as num?)?.toDouble() ?? 0,
         credibility: (j['credibility'] as num?)?.toDouble() ?? 0,
+        branchBasis: j['branch_basis'] as String?,
       );
+
+  /// 지점이 특정되지 않은 글인가.
+  bool get isBrandWide => branchBasis == 'brand';
 
   String get sourceLabel => switch (source) {
         'naver_cafe' => '네이버 카페',

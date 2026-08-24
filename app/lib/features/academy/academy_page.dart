@@ -363,6 +363,10 @@ class _EvidenceTile extends StatelessWidget {
                   color: positive ? AppColors.verified : AppColors.momentum),
               Chip2('신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
                   color: AppColors.reputation),
+              // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
+              // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
+              if (evidence.isBrandWide)
+                const Chip2('지점 불명 · 브랜드 공통', color: AppColors.mist),
             ]),
           ],
         ),

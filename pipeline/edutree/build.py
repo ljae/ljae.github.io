@@ -758,6 +758,17 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  관련성 게이트: {before:,}건 → {len(mentions):,}건 "
               f"(학원명 미등장 {dropped:,}건 제외, {dropped/before*100:.0f}%)")
 
+    # 지점 게이트 — 유명 브랜드는 전국에 지점이 있다. 글이 지역을 밝히면
+    # 그 권역 지점만, 안 밝히면 걸리는 지점 전부의 근거로 삼는다.
+    from . import branches
+    mentions, bstat = branches.apply(mentions, evaluated,
+                                     candidates, generic, rival_names)
+    if bstat["branches"]:
+        print(f"  지점 게이트: 다권역 지점 {bstat['branches']}곳 · "
+              f"타권역 지점 글 {bstat['elsewhere']:,}건 · "
+              f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
+              f"지역 불명 {bstat['shared']:,}건은 지점 공유")
+
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
     # 동명이인·광고를 사람이 판정한 결과가 여기서 되먹여진다.
@@ -917,6 +928,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "posted_at": m["posted_at"],
                 "sentiment": m["sentiment"],
                 "credibility": m["credibility"],
+                # 지역을 밝히지 않은 글은 같은 브랜드의 여러 지점에 함께
+                # 붙는다. 그 사실을 화면에서 밝혀야 '중복'으로 읽히지 않는다.
+                "branch_basis": m.get("branch_basis"),
             })
 
     # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
