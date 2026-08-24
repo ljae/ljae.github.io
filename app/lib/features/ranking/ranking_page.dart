@@ -62,7 +62,13 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             ranked.sort((a, b) => (b.score.selectivity ?? -1)
                 .compareTo(a.score.selectivity ?? -1));
         }
-        final unranked = data.unranked(sel.regionId);
+        // 지금 보고 있는 랭킹과 같은 조건으로 뽑는다 — 영어 랭킹 아래에
+        // 미술 학원이 늘어서면 그 목록이 무엇인지 읽히지 않는다.
+        final unranked = data.unranked(
+          sel.regionId,
+          subject: _subject,
+          gradeBand: sel.gradeBand,
+        );
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
 

@@ -62,6 +62,25 @@ class EduTreeData {
         .toList();
   }
 
+  /// 지역·과목·학년 구간 필터. 랭킹과 '표본 부족' 목록이 함께 쓴다.
+  bool _matchesFilters(
+    Academy a, {
+    required String regionId,
+    String? subject,
+    String? gradeBand,
+  }) {
+    if (!matchRegion(a.regionId, regionId)) return false;
+    if (subject != null && !a.subjects.contains(subject)) return false;
+    // 구간이 비어 있는 학원은 특정 학년대에 한정되지 않는 곳으로 보고
+    // 어떤 필터에도 걸리게 둔다. 걸러내면 종합·보습 학원이 통째로 사라진다.
+    if (gradeBand != null &&
+        a.gradeBands.isNotEmpty &&
+        !a.gradeBands.contains(gradeBand)) {
+      return false;
+    }
+    return true;
+  }
+
   /// 지역 랭킹. 표본 부족 학원은 제외한다(제품 정책).
   List<Academy> ranking({
     required String regionId,
@@ -69,27 +88,32 @@ class EduTreeData {
     String? gradeBand,
     bool includeUnranked = false,
   }) {
-    final rows = academies.where((a) {
-      if (!matchRegion(a.regionId, regionId)) return false;
-      if (!includeUnranked && !a.score.isRanked) return false;
-      if (subject != null && !a.subjects.contains(subject)) return false;
-      // 구간이 비어 있는 학원은 특정 학년대에 한정되지 않는 곳으로 보고
-      // 어떤 필터에도 걸리게 둔다. 걸러내면 종합·보습 학원이 통째로 사라진다.
-      if (gradeBand != null &&
-          a.gradeBands.isNotEmpty &&
-          !a.gradeBands.contains(gradeBand)) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final rows = academies
+        .where((a) =>
+            (includeUnranked || a.score.isRanked) &&
+            _matchesFilters(a,
+                regionId: regionId, subject: subject, gradeBand: gradeBand))
+        .toList();
     rows.sort((a, b) => b.score.total.compareTo(a.score.total));
     return rows;
   }
 
   /// 표본 부족으로 순위에서 빠진 학원들 — 별도 섹션에 보여준다.
-  List<Academy> unranked(String regionId) {
+  ///
+  /// **랭킹과 같은 조건으로 걸러야 한다.** 지역만 보고 뽑으면 영어 랭킹
+  /// 아래에 미술·수학 학원까지 늘어서서, 그 목록이 무엇의 목록인지
+  /// 읽히지 않는다. 순위에서 빠진 이유가 표본이지 과목이 아니므로,
+  /// 지금 보고 있는 과목·학년 구간 안의 학원만 열거한다.
+  List<Academy> unranked(
+    String regionId, {
+    String? subject,
+    String? gradeBand,
+  }) {
     final rows = academies
-        .where((a) => matchRegion(a.regionId, regionId) && !a.score.isRanked)
+        .where((a) =>
+            !a.score.isRanked &&
+            _matchesFilters(a,
+                regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();
     rows.sort((a, b) => a.name.compareTo(b.name));
     return rows;
