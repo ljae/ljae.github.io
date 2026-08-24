@@ -295,16 +295,34 @@ def is_generic_name(name: str) -> bool:
     return core in {_norm(g) for g in GENERIC_NAME_PARTS}
 
 
+# 이름 끝에 붙는 업종어. 짧은 것부터, 끝에서만 뗀다.
+_TRADE_SUFFIX = re.compile(
+    r"(학원|교습소|어학원|아카데미|에듀|스쿨|캠퍼스|센터|연구소)+$")
+
+
 def name_candidates(academy: dict) -> set[str]:
-    """이 학원을 가리킬 수 있는 표기들."""
+    """이 학원을 가리킬 수 있는 표기들.
+
+    ★ 업종어를 뗀 형태를 반드시 넣는다.
+      사람들은 '지엘피아카데미학원' 이라고 쓰지 않고 '지엘피' 라고 쓴다.
+      전체 이름만 후보로 두면 본문의 '지엘피' 와 매칭되지 않아, 그 글이
+      다른 학원(피아이) 근거로 넘어간다 — 실제로 그렇게 잘못 분류됐다.
+    """
     raw = [academy.get("brand"), academy.get("name"), *(academy.get("aliases") or [])]
     out: set[str] = set()
     for n in raw:
         if not n:
             continue
-        out.add(_norm(n))
-        # '대치 생각하는황소학원' 처럼 지역 접두어가 붙은 형태도 뗀 걸 넣는다
-        out.add(_norm(re.sub(r"^(대치|목동|반포|잠실|서울)\s*", "", n)))
+        flat = _norm(n)
+        out.add(flat)
+        # 지역 접두어를 뗀 형태
+        stripped = _norm(re.sub(r"^(대치|목동|반포|잠실|서울)\s*", "", n))
+        out.add(stripped)
+        # 업종어를 뗀 알맹이. 너무 짧아지면(2자 미만) 오매칭이 나므로 버린다.
+        for base in (flat, stripped):
+            core = _TRADE_SUFFIX.sub("", base)
+            if len(core) >= 3:
+                out.add(core)
     return {c for c in out if len(c) >= 2}
 
 
@@ -312,6 +330,11 @@ def _mention_position(blob: str, candidates: set[str]) -> int:
     """이름이 처음 나오는 위치. 없으면 -1."""
     hits = [blob.find(c) for c in candidates if c in blob]
     return min(hits) if hits else -1
+
+
+# 한 글에 이만큼 많은 학원이 나오면 특정 학원의 후기가 아니라
+# 비교글·목록글·광고로 본다.
+RIVAL_CROWD = 3
 
 
 def is_relevant(mention: dict, candidates: set[str],
@@ -348,6 +371,32 @@ def is_relevant(mention: dict, candidates: set[str],
         mine_in_title = any(c in title for c in candidates)
         if rival_in_title and not mine_in_title:
             return False
+
+    # 여러 학원을 늘어놓은 글은 어느 한 곳의 근거가 아니다.
+    #
+    # 제보받은 예: '대치 빅3의 프로그램! 피아이 해빛나인 지엘피 잉글리쉬'
+    # — 지엘피 후기인데 피아이 근거로 잡혔다. 비교글·학원 목록글·광고가
+    # 다 여기 해당한다.
+    if rivals:
+        def strangers(text: str) -> set[str]:
+            return {r for r in rivals
+                    if r in text
+                    and not any(r in c or c in r for c in candidates)}
+
+        mine_in_title = any(c in title for c in candidates)
+
+        # 1) 제목이 곧 나열인 경우. 내 이름이 제목에 없으면 곁다리다.
+        #    ('대치 깊은생각 레벨테스트 후기' 처럼 내 이름이 제목에 있으면
+        #     다른 학원이 함께 언급돼도 이 학원 글이 맞다)
+        if not mine_in_title and len(strangers(title)) >= 2:
+            return False
+
+        # 2) 본문에 학원이 잔뜩 나오는데 내 이름은 스치듯 한 번뿐인 경우.
+        #    '에이프릴 vs 청담' 처럼 두 곳을 실제로 다루는 글은 남긴다 —
+        #    그때는 내 이름도 여러 번 나온다.
+        if len(strangers(blob)) >= RIVAL_CROWD:
+            if sum(blob.count(c) for c in candidates) <= 1:
+                return False
     return True
 
 

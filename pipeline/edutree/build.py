@@ -714,9 +714,13 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     generic = {a["id"]: analyze.is_generic_name(a.get("name") or "")
                for a in evaluated}
 
-    # 다른 학원 이름 후보. 일상어 이름을 가진 학원에서만 쓴다 —
-    # 제목의 주인공이 다른 학원이면 그 글은 이쪽 근거가 아니다.
-    # 등록부까지 넣는다. 제목에 나오는 학원이 채점 대상이 아닐 수 있다.
+    # 다른 학원 이름 후보. 모든 학원에 쓴다.
+    #
+    # 두 가지를 판별한다.
+    #  - 일상어 이름('책읽기')일 때: 제목의 주인공이 다른 학원인가
+    #  - 모든 학원: 여러 학원을 늘어놓은 비교글·목록글·광고인가
+    #
+    # 등록부까지 넣는다. 글에 나오는 학원이 채점 대상이 아닐 수 있다.
     rival_names: set[str] = set()
     for a in evaluated + registry_only:
         if analyze.is_generic_name(a.get("name") or ""):
@@ -731,7 +735,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                     m,
                     candidates.get(m["academy_key"], set()),
                     generic.get(m["academy_key"], False),
-                    rival_names if generic.get(m["academy_key"]) else frozenset())]
+                    rival_names)]
     dropped = before - len(mentions)
     if before:
         print(f"  관련성 게이트: {before:,}건 → {len(mentions):,}건 "
