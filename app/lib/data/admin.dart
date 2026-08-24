@@ -150,13 +150,19 @@ class AdminService {
   }
 
   Future<void> judge(String urlHash, String verdict,
+      {String? reason, String? note}) =>
+      judgeMany([urlHash], verdict, reason: reason, note: note);
+
+  /// 같은 글에 걸린 여러 학원을 한 번에 판정한다.
+  Future<void> judgeMany(List<String> urlHashes, String verdict,
       {String? reason, String? note}) async {
+    if (urlHashes.isEmpty) return;
     await _db!.from('mention_reviews').update({
       'verdict': verdict,
       'reject_reason': reason,
       'note': note,
       'reviewed_at': DateTime.now().toIso8601String(),
-    }).eq('url_hash', urlHash);
+    }).inFilter('url_hash', urlHashes);
   }
 
   Future<List<CrawlRule>> rules() async {
@@ -200,6 +206,58 @@ final adminServiceProvider = Provider<AdminService>(
 
 final isAdminProvider =
     FutureProvider<bool>((ref) => ref.watch(adminServiceProvider).isAdmin());
+
+/// 같은 글을 하나로 묶은 검수 단위.
+///
+/// 한 글이 여러 학원을 언급하면 판정은 학원별로 나뉘어야 하지만
+/// (한쪽에서 오검출이어도 다른 쪽에서는 정상 근거일 수 있다), 화면에서
+/// 같은 글을 네 번 읽게 하는 것은 낭비다. 읽기는 한 번, 판정은 학원별로.
+class ReviewGroup {
+  final String title;
+  final String snippet;
+  final String source;
+  final String? sourceUrl;
+  final DateTime? postedAt;
+  final List<MentionReview> items;
+
+  const ReviewGroup({
+    required this.title,
+    required this.snippet,
+    required this.source,
+    this.sourceUrl,
+    this.postedAt,
+    required this.items,
+  });
+
+  List<String> get academyNames => [
+        for (final i in items)
+          i.academyName.isEmpty ? i.academyKey : i.academyName,
+      ];
+
+  String get sourceLabel => items.first.sourceLabel;
+
+  /// 같은 원문끼리 묶는다. URL 이 없으면 제목으로 대신한다.
+  static List<ReviewGroup> from(List<MentionReview> rows) {
+    final byKey = <String, List<MentionReview>>{};
+    for (final r in rows) {
+      final key = (r.sourceUrl == null || r.sourceUrl!.isEmpty)
+          ? 'title:${r.title}'
+          : 'url:${r.sourceUrl}';
+      byKey.putIfAbsent(key, () => []).add(r);
+    }
+    return [
+      for (final items in byKey.values)
+        ReviewGroup(
+          title: items.first.title,
+          snippet: items.first.snippet,
+          source: items.first.source,
+          sourceUrl: items.first.sourceUrl,
+          postedAt: items.first.postedAt,
+          items: items,
+        ),
+    ];
+  }
+}
 
 final pendingReviewsProvider =
     FutureProvider.family<List<MentionReview>, String?>((ref, academyKey) =>

@@ -157,50 +157,69 @@ class _PendingList extends ConsumerWidget {
         child: Center(child: CircularProgressIndicator()),
       ),
       error: (e, _) => Text('불러오지 못했습니다: $e', style: text.bodyMedium),
-      data: (rows) => rows.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
-              child: Text(
-                  '검수 대기 글이 없습니다. 다음 수집에서 새 글이 올라옵니다.',
-                  style: text.bodyMedium),
-            )
-          : Column(children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpace.sm),
-                child: Row(children: [
-                  Text('${rows.length}건 대기', style: text.labelLarge),
-                  const Spacer(),
-                  Flexible(
-                    child: Text('신뢰도가 높은 글부터 — 점수에 영향이 큰 순서입니다',
-                        textAlign: TextAlign.right, style: text.bodySmall),
-                  ),
-                ]),
+      data: (rows) {
+        // 같은 글이 여러 학원에 걸리면 화면에서는 하나로 묶는다.
+        // 읽기는 한 번, 판정은 학원별로.
+        final groups = ReviewGroup.from(rows);
+        if (groups.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
+            child: Text(
+                '검수 대기 글이 없습니다. 다음 수집에서 새 글이 올라옵니다.',
+                style: text.bodyMedium),
+          );
+        }
+        return Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpace.sm),
+            child: Row(children: [
+              Text('글 ${groups.length}건 · 판정 ${rows.length}건',
+                  style: text.labelLarge),
+              const Spacer(),
+              Flexible(
+                child: Text('신뢰도가 높은 글부터 — 점수에 영향이 큰 순서입니다',
+                    textAlign: TextAlign.right, style: text.bodySmall),
               ),
-              for (final r in rows) _ReviewTile(key: ValueKey(r.urlHash), row: r),
             ]),
+          ),
+          for (final g in groups)
+            _ReviewTile(key: ValueKey(g.items.first.urlHash), group: g),
+        ]);
+      },
     );
   }
 }
 
 class _ReviewTile extends ConsumerStatefulWidget {
-  final MentionReview row;
-  const _ReviewTile({super.key, required this.row});
+  final ReviewGroup group;
+  const _ReviewTile({super.key, required this.group});
 
   @override
   ConsumerState<_ReviewTile> createState() => _ReviewTileState();
 }
 
 class _ReviewTileState extends ConsumerState<_ReviewTile> {
-  bool _done = false;
+  /// 이미 판정한 항목. 학원별로 따로 눌렀을 때를 위해 남긴다.
+  final _judged = <String>{};
   bool _busy = false;
 
-  Future<bool> _judge(String verdict, {String? reason}) async {
+  bool get _done => _judged.length >= widget.group.items.length;
+
+  Future<bool> _judge(String verdict,
+      {String? reason, List<String>? only}) async {
+    final targets = only ??
+        [for (final i in widget.group.items) i.urlHash];
     setState(() => _busy = true);
     try {
       await ref
           .read(adminServiceProvider)
-          .judge(widget.row.urlHash, verdict, reason: reason);
-      if (mounted) setState(() => _done = true);
+          .judgeMany(targets, verdict, reason: reason);
+      if (mounted) {
+        setState(() {
+          _judged.addAll(targets);
+          _busy = false;
+        });
+      }
       return true;
     } catch (_) {
       if (!mounted) return false;
@@ -227,7 +246,7 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
         isScrollControlled: true,
         showDragHandle: true,
         constraints: const BoxConstraints(maxWidth: 640),
-        builder: (_) => _RuleSheet(row: widget.row),
+        builder: (_) => _RuleSheet(group: widget.group),
       );
       if (made == true) ref.invalidate(crawlRulesProvider);
     }
@@ -237,7 +256,9 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
   Widget build(BuildContext context) {
     if (_done) return const SizedBox.shrink();
     final text = Theme.of(context).textTheme;
-    final r = widget.row;
+    final g = widget.group;
+    final remaining =
+        g.items.where((i) => !_judged.contains(i.urlHash)).toList();
 
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
@@ -245,27 +266,53 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
         padding: const EdgeInsets.all(AppSpace.md),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Wrap(spacing: 6, runSpacing: 4, children: [
-            Chip2(r.academyName.isEmpty ? r.academyKey : r.academyName,
-                color: AppColors.navy),
-            Chip2(r.sourceLabel, color: AppColors.slate),
-            if (r.postedAt != null)
-              Text('${r.postedAt!.year}.${r.postedAt!.month}.${r.postedAt!.day}',
+            Chip2(g.sourceLabel, color: AppColors.slate),
+            if (g.postedAt != null)
+              Text('${g.postedAt!.year}.${g.postedAt!.month}.${g.postedAt!.day}',
                   style: text.bodySmall),
           ]),
           const SizedBox(height: 6),
-          Text(r.title, style: text.titleMedium),
-          if (r.snippet.isNotEmpty) ...[
+          Text(g.title, style: text.titleMedium),
+          if (g.snippet.isNotEmpty) ...[
             const SizedBox(height: 3),
-            Text(r.snippet,
+            Text(g.snippet,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: text.bodyMedium),
           ],
           const SizedBox(height: AppSpace.sm),
+
+          // 이 글이 근거로 붙은 학원들. 한 글이 여러 학원을 언급하면
+          // 판정은 학원별이어야 한다 — 한쪽에서 오검출이어도 다른 쪽에서는
+          // 정상 근거일 수 있다. 개별로 빼려면 칩의 × 를 누른다.
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('근거로 붙은 학원 ${remaining.length}곳',
+                style: text.bodySmall),
+            const SizedBox(width: AppSpace.sm),
+            Expanded(
+              child: Wrap(spacing: 5, runSpacing: 5, children: [
+                for (final i in remaining)
+                  InputChip(
+                    label: Text(
+                        i.academyName.isEmpty ? i.academyKey : i.academyName,
+                        style: const TextStyle(fontSize: 11.5)),
+                    visualDensity: VisualDensity.compact,
+                    onDeleted: _busy
+                        ? null
+                        : () => _judge('rejected',
+                            reason: 'different_academy', only: [i.urlHash]),
+                    deleteIcon: const Icon(Icons.close, size: 14),
+                    tooltip: '이 학원에서만 제외',
+                  ),
+              ]),
+            ),
+          ]),
+
+          const SizedBox(height: AppSpace.sm),
           Row(children: [
-            if (r.sourceUrl != null)
+            if (g.sourceUrl != null)
               TextButton.icon(
-                onPressed: () => launchUrl(Uri.parse(r.sourceUrl!),
+                onPressed: () => launchUrl(Uri.parse(g.sourceUrl!),
                     webOnlyWindowName: '_blank'),
                 icon: const Icon(Icons.open_in_new, size: 14),
                 label: const Text('원문'),
@@ -275,12 +322,12 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
               onPressed: _busy ? null : _reject,
               style:
                   OutlinedButton.styleFrom(foregroundColor: AppColors.rising),
-              child: const Text('반려'),
+              child: const Text('전체 반려'),
             ),
             const SizedBox(width: AppSpace.sm),
             FilledButton(
               onPressed: _busy ? null : () => _judge('confirmed'),
-              child: const Text('확인'),
+              child: const Text('전체 확인'),
             ),
           ]),
         ]),
@@ -320,8 +367,8 @@ class _ReasonSheet extends StatelessWidget {
 
 /// 반려를 규칙으로 굳히는 시트.
 class _RuleSheet extends ConsumerStatefulWidget {
-  final MentionReview row;
-  const _RuleSheet({required this.row});
+  final ReviewGroup group;
+  const _RuleSheet({required this.group});
 
   @override
   ConsumerState<_RuleSheet> createState() => _RuleSheetState();
@@ -366,9 +413,9 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
                 segments: [
                   ButtonSegment(
                       value: 'academy',
-                      label: Text(widget.row.academyName.isEmpty
-                          ? '이 학원에만'
-                          : '${widget.row.academyName}에만')),
+                      label: Text(widget.group.items.length > 1
+                          ? '이 학원들에만'
+                          : '${widget.group.academyNames.first}에만')),
                   const ButtonSegment(value: 'global', label: Text('전체에')),
                 ],
                 selected: {_scope},
@@ -409,13 +456,23 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
                           }
                           setState(() => _busy = true);
                           try {
-                            await ref.read(adminServiceProvider).addRule(
-                                  kind: 'exclude_keyword',
-                                  pattern: _pattern.text.trim(),
-                                  reason: _reason.text.trim(),
-                                  scope: _scope,
-                                  academyKey: widget.row.academyKey,
-                                );
+                            // 학원 범위면 이 글에 걸린 학원 전부에 건다.
+                            // 동명이인 오검출은 대개 그 학원 하나의 문제지만,
+                            // 한 글이 여러 학원에 걸렸다면 같은 이유로
+                            // 전부 잘못 붙은 것이다.
+                            for (final key in _scope == 'academy'
+                                ? widget.group.items
+                                    .map((i) => i.academyKey)
+                                    .toSet()
+                                : {null}) {
+                              await ref.read(adminServiceProvider).addRule(
+                                    kind: 'exclude_keyword',
+                                    pattern: _pattern.text.trim(),
+                                    reason: _reason.text.trim(),
+                                    scope: _scope,
+                                    academyKey: key,
+                                  );
+                            }
                             if (context.mounted) {
                               Navigator.of(context).pop(true);
                             }

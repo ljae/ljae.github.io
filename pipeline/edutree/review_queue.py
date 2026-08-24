@@ -25,8 +25,10 @@ import requests
 
 from . import config
 
-# 검수 대기로 올릴 최대 건수. 한 번에 수천 건을 올리면 사람이 못 본다.
-QUEUE_LIMIT = 300
+# 검수 대기로 올릴 최대 **글** 수. 한 글이 여러 학원에 걸리면 판정은
+# 학원별로 여러 건이 되지만, 사람이 읽는 것은 글 하나다. 판정 수로 세면
+# 실제로 보는 글이 절반도 안 된다(실측: 292건 → 231글).
+QUEUE_LIMIT = 200
 
 REJECT_REASONS = {
     "person": "동명이인 (사람 이름)",
@@ -143,7 +145,19 @@ def enqueue(mentions: list[dict], academies: list[dict],
     todo = [m for m in mentions
             if not m.get("is_excluded") and _key(m) not in verdicts]
     todo.sort(key=lambda m: -float(m.get("credibility", 0)))
-    todo = todo[:QUEUE_LIMIT]
+
+    # 글 단위로 세어 상한을 건다. 같은 글에 걸린 학원은 함께 올린다 —
+    # 화면에서 한 번에 판정하므로 쪼개 올리면 다음 회차에 나머지가
+    # 또 올라와 같은 글을 두 번 보게 된다.
+    picked, seen = [], set()
+    for m in todo:
+        doc = m.get("source_url") or m.get("url_hash")
+        if doc not in seen:
+            if len(seen) >= QUEUE_LIMIT:
+                continue
+            seen.add(doc)
+        picked.append(m)
+    todo = picked
     if not todo:
         return 0
 
