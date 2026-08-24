@@ -739,12 +739,23 @@ class ApartmentZone {
 class NearbySchool {
   final String name;
   final double km;
-  const NearbySchool({required this.name, required this.km});
+  /// '남' · '여' · '남여공학'. 남고·여고를 밝히지 않으면 목록이 거짓이 된다 —
+  /// 아들만 있는 집에 '1순위 여고'라고 적어 놓는 셈이다.
+  final String? coed;
+  const NearbySchool({required this.name, required this.km, this.coed});
 
   factory NearbySchool.fromJson(Map<String, dynamic> j) => NearbySchool(
         name: (j['name'] ?? '') as String,
         km: (j['km'] as num?)?.toDouble() ?? 0,
+        coed: j['coed'] as String?,
       );
+
+  /// 공학이 아닐 때만 붙인다. 대부분이 공학이라 매번 적으면 읽히지 않는다.
+  String get coedTag => switch (coed) {
+        '남' => ' (남)',
+        '여' => ' (여)',
+        _ => '',
+      };
 
   /// 1km 미만은 m 로 보여준다. '0.4km' 보다 '400m' 가 걷는 거리로 읽힌다.
   String get distanceLabel =>

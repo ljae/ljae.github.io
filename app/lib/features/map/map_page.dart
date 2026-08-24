@@ -149,6 +149,25 @@ class _MapSurface extends StatelessWidget {
     this.level,
   });
 
+  /// 마커 정보창의 학교급 한 줄.
+  ///
+  /// 중·고는 학교군 안 추첨이라 '여기로 간다'고 말할 수 없다. 그렇다고
+  /// 11개교를 늘어놓기만 하면 화면이 학부모보다 덜 아는 셈이다 — 배정에
+  /// 통학 편의가 반영되므로 가까운 학교로 갈 확률이 실제로 높고, 학부모도
+  /// 그렇게 안다. 가까운 순 세 곳을 거리와 함께 보여주는 선에서 멈춘다.
+  /// 확률(%)로 바꾸지 않는다 — 실제 배정 결과 자료가 없다.
+  static String _zoneLine(ApartmentZone z) {
+    final head = '${z.levelLabel} ${z.assignmentText}';
+    if (z.level == 'elementary' || z.nearby.isEmpty) return head;
+    final top = z.nearby.take(3).toList();
+    final names = [
+      for (var i = 0; i < top.length; i++)
+        '${i + 1}. ${top[i].name} ${top[i].distanceLabel}${top[i].coedTag}',
+    ].join(' · ');
+    return '$head<br>'
+        '<span style="color:#0B1020">가까운 순 $names</span>';
+  }
+
   String _markers() {
     final items = <Map<String, dynamic>>[];
     for (final s in schools.where((s) => s.hasLocation)) {
@@ -173,7 +192,7 @@ class _MapSurface extends StatelessWidget {
             a.dong,
             if (a.households != null) '${a.households}세대',
           ].whereType<String>().join(' · '),
-          ...a.zones.map((z) => '${z.levelLabel} ${z.assignmentText}'),
+          ...a.zones.map(_zoneLine),
         ].where((x) => x.isNotEmpty).join('<br>'),
         'color': '#8B5CF6',
         'z': 2,
@@ -395,14 +414,17 @@ class _NearbyRow extends StatelessWidget {
           const Icon(Icons.near_me_outlined,
               size: 13, color: AppColors.mist),
           const SizedBox(width: 4),
-          Text('${zone.levelLabel} 가까운 순 (추첨이지만 통학 편의 반영)',
+          Text('${zone.levelLabel} 배정 가능성 높은 순 (추첨이지만 통학 편의 반영)',
               style: text.bodySmall?.copyWith(fontSize: 11)),
         ]),
         const SizedBox(height: 3),
+        // 지도 마커와 같은 세 곳을 보여준다. 화면마다 개수가 다르면
+        // 같은 값을 두 번 읽어야 한다.
         Wrap(spacing: 6, runSpacing: 4, children: [
-          for (var i = 0; i < zone.nearby.length; i++)
+          for (var i = 0; i < zone.nearby.take(3).length; i++)
             Text(
-              '${i + 1}. ${zone.nearby[i].name} ${zone.nearby[i].distanceLabel}',
+              '${i + 1}. ${zone.nearby[i].name} '
+              '${zone.nearby[i].distanceLabel}${zone.nearby[i].coedTag}',
               style: text.bodySmall?.copyWith(
                   fontSize: 11.5,
                   fontWeight: i == 0 ? FontWeight.w700 : FontWeight.w400,
@@ -819,6 +841,12 @@ class _PendingNotice extends StatelessWidget {
             '초등학교는 통학구역이 1:1 이라 배정 학교를 확정할 수 있습니다. '
             '중·고등학교는 여러 학교가 한 학교군에 묶여 추첨으로 정해지므로 '
             '학교를 특정하지 않고 "N개교 중 추첨" 으로 표시합니다.\n\n'
+            '다만 추첨에 통학 편의가 반영되어 가까운 학교로 갈 확률이 높습니다. '
+            '그래서 단지를 선택하면 가까운 순으로 세 곳을 거리와 함께 보여줍니다. '
+            '남고·여고는 이름 뒤에 (남)·(여)로 표시했습니다 — 자녀 성별에 따라 '
+            '실제 후보가 달라지기 때문입니다. '
+            '확률(%)로 바꾸지 않는 이유는 실제 배정 결과 자료가 공개되어 있지 '
+            '않기 때문입니다 — 근거 없는 숫자를 붙이지 않으려는 것입니다.\n\n'
             '배정은 해마다 바뀔 수 있습니다. 실제 배정은 관할 교육지원청 공고를 '
             '확인해 주세요.\n\n'
             '학교 순위는 학교알리미 OpenAPI 에 졸업생 진로현황이 없어 보류 중입니다.',

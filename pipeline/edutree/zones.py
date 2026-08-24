@@ -100,6 +100,9 @@ def _likely(apartment: dict, schools_in: list[dict]) -> list[dict]:
         rows.append({
             "name": s["name"],
             "km": round(_haversine_km(lat, lng, s["lat"], s["lng"]), 2),
+            # 남고·여고를 안 밝히면 목록이 거짓말이 된다. 아들만 있는
+            # 집에 '1순위 숙명여고' 라고 적어 놓는 셈이다.
+            "coed": s.get("coed"),
         })
     rows.sort(key=lambda r: r["km"])
     return rows
