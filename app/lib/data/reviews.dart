@@ -91,7 +91,7 @@ class ReviewService {
 
   /// 이메일 링크 로그인. 카카오·구글은 콘솔에서 공급자를 붙인 뒤 확장한다.
   Future<void> signInWithEmail(String email) =>
-      _db.auth.signInWithOtp(email: email, emailRedirectTo: Uri.base.origin);
+      _db.auth.signInWithOtp(email: email, emailRedirectTo: '${Uri.base.origin}/');
 
   Future<void> signOut() => _db.auth.signOut();
 

@@ -33,8 +33,20 @@ CustomTransitionPage<void> _fade(Widget child) => CustomTransitionPage<void>(
       },
     );
 
+/// 로그인 링크로 돌아왔을 때 갈 곳.
+///
+/// Supabase 는 redirect_to 의 해시를 떼어 버려서 /#/admin 으로 되돌릴 수
+/// 없다. 대신 ?next=admin 을 붙여 보내고 여기서 읽는다.
+String _initialLocation() {
+  final next = Uri.base.queryParameters['next'];
+  return switch (next) {
+    'admin' => '/admin',
+    _ => '/',
+  };
+}
+
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: _initialLocation(),
   routes: [
     ShellRoute(
       builder: (context, state, child) => AppShell(child: child),

@@ -131,11 +131,12 @@ class AdminService {
 
   /// 로그인 링크. 후기와 같은 방식(비밀번호 없음)을 쓴다.
   ///
-  /// 돌아올 곳을 관리자 화면으로 못 박는다. origin 만 주면 홈으로 떨어져
-  /// 사용자가 다시 /#/admin 을 찾아 들어가야 한다.
+  /// 돌아올 곳에 해시(#/admin)를 넣을 수 없다. Supabase 가 redirect_to 에서
+  /// fragment 를 떼어 버리기 때문이다 — 허용 목록에 넣어도 잘린다.
+  /// 대신 쿼리로 표시하고, 앱이 뜰 때 그 표시를 보고 관리자 화면으로 옮긴다.
   Future<void> signIn(String email) => _db!.auth.signInWithOtp(
         email: email,
-        emailRedirectTo: '${Uri.base.origin}/#/admin',
+        emailRedirectTo: '${Uri.base.origin}/?next=admin',
       );
 
   Future<List<MentionReview>> pending({String? academyKey}) async {
