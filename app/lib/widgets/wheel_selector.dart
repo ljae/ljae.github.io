@@ -36,26 +36,44 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
   FixedExtentScrollController? _controller;
   Timer? _settle;
 
-  int get _index =>
-      widget.options.indexWhere((o) => o.$1 == widget.selected).clamp(0, 1 << 30);
+  /// 선택값이 목록 어디에 있는가. 없으면 -1.
+  ///
+  /// 못 찾았을 때 0 으로 뭉개면 안 된다. 그러면 '목록이 아직 안 왔다'와
+  /// '첫 칸이 선택됐다'가 같은 값이 되어, 아래 didUpdateWidget 이
+  /// 바로잡아야 할 상황을 알아채지 못한다.
+  int get _index => widget.options.indexWhere((o) => o.$1 == widget.selected);
 
   @override
   void initState() {
     super.initState();
-    _controller = FixedExtentScrollController(initialItem: _index);
+    _controller = FixedExtentScrollController(initialItem: _index.clamp(0, 1 << 30));
   }
 
   @override
   void didUpdateWidget(covariant WheelSelector<T> old) {
     super.didUpdateWidget(old);
-    if (old.selected != widget.selected && _controller!.hasClients) {
-      final target = _index;
-      if (_controller!.selectedItem != target) {
-        // 밖에서 값이 바뀐 경우다. 툭 끊기지 않게 굴려서 옮긴다.
-        _controller!.animateToItem(target,
-            duration: const Duration(milliseconds: 220),
-            curve: Curves.easeOutCubic);
-      }
+    final target = _index;
+    if (target < 0 || !_controller!.hasClients) return;
+    if (_controller!.selectedItem == target) return;
+
+    // ★ 목록이 늦게 오는 경우를 반드시 함께 본다.
+    //   학군 목록은 데이터가 도착해야 채워진다. 첫 빌드에서는 ['전체']
+    //   하나뿐이라 'daechi' 를 못 찾고 휠이 0번 칸('전체')에 섰다.
+    //   그 뒤 목록이 채워져도 selected 는 그대로라, 값이 바뀐 경우만
+    //   보던 예전 코드는 아무것도 하지 않았다. 그래서 **화면은 '전체',
+    //   실제 선택은 '대치'** 인 상태로 굳었다.
+    if (old.options.length != widget.options.length) {
+      // 사용자가 굴린 것이 아니라 목록이 도착한 것이다. 굴리지 않고 맞춘다.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _controller!.hasClients) _controller!.jumpToItem(target);
+      });
+      return;
+    }
+    if (old.selected != widget.selected) {
+      // 밖에서 값이 바뀐 경우다. 툭 끊기지 않게 굴려서 옮긴다.
+      _controller!.animateToItem(target,
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic);
     }
   }
 

@@ -83,7 +83,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
+                      SectionHeader('${region?.nameKo ?? "전체 학군"} 학원 랭킹',
                           subtitle: _isAcademic(_subject)
                               ? '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 '
                                   '순위에서 제외됩니다'

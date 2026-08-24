@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edutree/data/models.dart';
 import 'package:edutree/data/repository.dart';
+import 'package:edutree/widgets/wheel_selector.dart';
 
 void main() {
   test('Score.pillar 는 각 기둥 값을 그대로 돌려준다', () {
@@ -74,5 +75,38 @@ void main() {
       child: MaterialApp(home: Scaffold(body: Text('에듀트리'))),
     ));
     expect(find.text('에듀트리'), findsOneWidget);
+  });
+
+  testWidgets('목록이 늦게 도착해도 휠이 선택값을 가리킨다', (tester) async {
+    // 학군 목록은 데이터가 도착해야 채워진다. 첫 빌드에는 '전체' 하나뿐이라
+    // 'daechi' 를 못 찾고 휠이 0번 칸에 선다. 그 뒤 목록이 채워져도
+    // selected 는 그대로라, 값 변화만 보던 예전 코드는 아무것도 하지 않았다.
+    // 결과는 화면에 '전체', 실제 선택은 '대치' 였다.
+    Widget wheel(List<(String, String)> options) => MaterialApp(
+          home: Scaffold(
+            body: WheelSelector<String>(
+              label: '학군',
+              options: options,
+              selected: 'daechi',
+              onChanged: (_) {},
+            ),
+          ),
+        );
+
+    await tester.pumpWidget(wheel(const [('all', '전체')]));
+    await tester.pumpWidget(wheel(const [
+      ('all', '전체'),
+      ('daechi', '대치'),
+      ('mokdong', '목동'),
+    ]));
+    await tester.pumpAndSettle();
+
+    final controller = tester
+        .state<State<WheelSelector<String>>>(find.byType(WheelSelector<String>));
+    // 굴림 위치가 '대치'(1번 칸)여야 한다.
+    final wheelView = tester.widget<ListWheelScrollView>(
+        find.byType(ListWheelScrollView));
+    expect((wheelView.controller as FixedExtentScrollController).selectedItem, 1);
+    expect(controller.mounted, isTrue);
   });
 }
