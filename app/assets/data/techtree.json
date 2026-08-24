@@ -1165,7 +1165,9 @@
    "math",
    "english",
    "korean",
-   "science"
+   "science",
+   "arts",
+   "etc"
   ],
   "stages": [
    {

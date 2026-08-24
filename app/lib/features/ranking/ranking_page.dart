@@ -20,6 +20,10 @@ enum _Sort { score, selectivity, positive, sample }
 
 class _RankingPageState extends ConsumerState<RankingPage> {
   String _subject = 'math';
+
+  /// 학술 과목인가. 예체능·기타는 만족도·화제성만 본다.
+  static bool _isAcademic(String s) =>
+      const {'math', 'english', 'korean', 'science'}.contains(s);
   _Sort _sort = _Sort.score;
   bool _onlyVerified = false;  // 공식 검증(NEIS 대조) 학원만
 
@@ -55,8 +59,8 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             ranked.sort(
                 (a, b) => b.score.sampleSize.compareTo(a.score.sampleSize));
           case _Sort.selectivity:
-            ranked.sort((a, b) =>
-                b.score.selectivity.compareTo(a.score.selectivity));
+            ranked.sort((a, b) => (b.score.selectivity ?? -1)
+                .compareTo(a.score.selectivity ?? -1));
         }
         final unranked = data.unranked(sel.regionId);
         final region = data.regionById[sel.regionId];
@@ -76,23 +80,34 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                       SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
                           subtitle:
                               '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 순위에서 제외됩니다'),
+                      // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
+                      // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
+                      // 무엇을 뜻하는지 설명할 수 없다.
                       ChipRow<String>(
                         options: [
-                          for (final e in subjectNames.entries)
-                            if (e.key != 'etc') (e.key, e.value),
+                          for (final e in subjectNames.entries) (e.key, e.value),
                         ],
                         selected: _subject,
-                        onChanged: (v) => setState(() => _subject = v),
+                        onChanged: (v) => setState(() {
+                          _subject = v;
+                          // 비학술 과목에는 없는 정렬이라 기본으로 되돌린다.
+                          if (!_isAcademic(v) &&
+                              (_sort == _Sort.selectivity)) {
+                            _sort = _Sort.score;
+                          }
+                        }),
                       ),
                       const SizedBox(height: AppSpace.sm),
                       _FilterBar(
+                        academic: _isAcademic(_subject),
                         sort: _sort,
                         onlyVerified: _onlyVerified,
                         onSort: (v) => setState(() => _sort = v),
                         onVerified: (v) => setState(() => _onlyVerified = v),
                       ),
                       const SizedBox(height: AppSpace.md),
-                      _MethodNote(meta: data.meta),
+                      _MethodNote(
+                          meta: data.meta, academic: _isAcademic(_subject)),
                       const SizedBox(height: AppSpace.md),
                     ],
                   ),
@@ -154,13 +169,20 @@ class _RankingPageState extends ConsumerState<RankingPage> {
 
 class _MethodNote extends StatelessWidget {
   final Meta meta;
-  const _MethodNote({required this.meta});
+  final bool academic;
+  const _MethodNote({required this.meta, required this.academic});
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    // 예체능·기타는 만족도와 화제성만 본다. 진학 경로가 없고 공시로
+    // 확인할 것도 적어, 네 기둥을 다 적용하면 없는 차이를 만들어 낸다.
+    final weights = academic
+        ? meta.weights
+        : const {'reputation': 0.6, 'momentum': 0.4};
     final formula = '트리스코어 = '
-        '${meta.weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}';
+        '${weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}'
+        '${academic ? '' : '  (예체능·기타는 만족도·화제성만)'}';
     // 좁은 화면에서는 한 줄에 산식과 버튼을 같이 두면 산식이 '20%·진 / 입난이도'
     // 처럼 낱말 가운데서 끊긴다. 폭이 모자라면 아래로 내린다.
     final narrow = MediaQuery.sizeOf(context).width < 640;
@@ -206,11 +228,13 @@ class _MethodNote extends StatelessWidget {
 /// 시설·셔틀 같은 항목은 수집원(NEIS)에 없으므로 필터로 만들지 않는다.
 /// 없는 데이터로 필터를 만들면 빈 화면만 남는다.
 class _FilterBar extends StatelessWidget {
+  final bool academic;
   final _Sort sort;
   final bool onlyVerified;
   final ValueChanged<_Sort> onSort;
   final ValueChanged<bool> onVerified;
   const _FilterBar({
+    required this.academic,
     required this.sort,
     required this.onlyVerified,
     required this.onSort,
@@ -230,11 +254,13 @@ class _FilterBar extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          segments: const [
-            ButtonSegment(value: _Sort.score, label: Text('트리스코어')),
-            ButtonSegment(value: _Sort.selectivity, label: Text('진입난이도')),
-            ButtonSegment(value: _Sort.positive, label: Text('긍정률')),
-            ButtonSegment(value: _Sort.sample, label: Text('표본 많은')),
+          segments: [
+            const ButtonSegment(value: _Sort.score, label: Text('트리스코어')),
+            if (academic)
+              const ButtonSegment(
+                  value: _Sort.selectivity, label: Text('진입난이도')),
+            const ButtonSegment(value: _Sort.positive, label: Text('긍정률')),
+            const ButtonSegment(value: _Sort.sample, label: Text('표본 많은')),
           ],
           selected: {sort},
           onSelectionChanged: (v) => onSort(v.first),

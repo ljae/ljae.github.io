@@ -118,8 +118,11 @@ def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, 
     valid = [m for m in mentions if not m.get("is_excluded")]
     recent = [m for m in valid
               if (d := _to_date(m.get("posted_at"))) and (TODAY - d).days <= 90]
-    # 날짜 없는 글은 최근 90일 분자에서 빠지지만 전체 볼륨에는 남는다.
-    volume = math.log1p(len(recent) if recent else len(valid) * 0.4)
+    # 90일 창은 경계가 딱딱하다 — 91일 된 글이 0이 되고 89일 된 글이 1이 된다.
+    # 최신성 가중 합을 함께 써서 경계를 부드럽게 한다. 날짜 없는 글은
+    # 여전히 0.6 으로 들어가므로 전체가 0 이 되지는 않는다.
+    weighted = sum(recency_weight(m.get("posted_at")) for m in valid)
+    volume = math.log1p(max(len(recent), weighted))
 
     if len(cohort_volumes) >= 3:
         mu = statistics.mean(cohort_volumes)
@@ -135,6 +138,7 @@ def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, 
     score = 0.6 * volume_score + 0.4 * slope_score
     return round(score, 1), {
         "최근90일_언급": len(recent),
+        "최신성_가중합": round(weighted, 1),
         "전체_유효언급": len(valid),
         "코호트_z점수": round(z, 2),
         "월별_추세기울기": round(slope, 3),
@@ -206,9 +210,16 @@ def transparency(academy: dict) -> tuple[float, dict]:
 # ── 기둥 4. 진입난이도 (20%) ───────────────────────────────────────
 def _selectivity_raw(rows: list[dict], capacity: int,
                      cohort_ratio_mean: float) -> tuple[float, dict]:
-    """진입난이도의 알맹이. 학원 전체에도, 등급반 하나에도 같은 식을 쓴다."""
-    hard = sum(m.get("selectivity", {}).get("hard", 0) for m in rows)
-    wait = sum(m.get("selectivity", {}).get("wait", 0) for m in rows)
+    """진입난이도의 알맹이. 학원 전체에도, 등급반 하나에도 같은 식을 쓴다.
+
+    난이도·대기 신호에도 최신성을 건다. 3년 전 '대기 걸렸다'와 지난달
+    '대기 걸렸다'가 같은 무게일 이유가 없다 — 진입난이도야말로 지금
+    상황을 말해야 하는 값이다.
+    """
+    hard = sum(m.get("selectivity", {}).get("hard", 0)
+               * recency_weight(m.get("posted_at")) for m in rows)
+    wait = sum(m.get("selectivity", {}).get("wait", 0)
+               * recency_weight(m.get("posted_at")) for m in rows)
     n = max(1, len(rows))
     hard_score = _clamp(math.tanh(hard / n * 2.2) * 100)
     wait_score = _clamp(math.tanh(wait / n * 2.2) * 100)
@@ -223,8 +234,8 @@ def _selectivity_raw(rows: list[dict], capacity: int,
 
     score = 0.4 * hard_score + 0.3 * wait_score + 0.3 * demand_score
     return score, {
-        "난이도_언급": hard,
-        "대기·마감_언급": wait,
+        "난이도_언급": round(hard, 1),
+        "대기·마감_언급": round(wait, 1),
         "표본": len(rows),
         "언급÷정원_상대값": round(rel, 3) if rel is not None else None,
     }
@@ -278,20 +289,47 @@ def confidence_label(sample: int) -> str:
     return "low"
 
 
+def primary_subject(academy: dict) -> str:
+    """이 학원을 어느 과목으로 볼 것인가. 코호트와 산식이 이걸 따른다."""
+    subjects = academy.get("subjects") or ["etc"]
+    for s in subjects:
+        if s in config.ACADEMIC_SUBJECTS:
+            return s
+    return "arts" if "arts" in subjects else "etc"
+
+
 def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
     rep, rep_bd = reputation(mentions, cohort["mean_sentiment"],
                              cohort.get("sd_sentiment") or 0.12)
     mom, mom_bd, direction = momentum(mentions, cohort["volumes"])
-    tra, tra_bd = transparency(academy)
-    sel, sel_bd = selectivity(mentions, academy, cohort["mention_capacity_ratio"])
 
-    w = config.WEIGHTS
-    total = (w["reputation"] * rep + w["momentum"] * mom
-             + w["transparency"] * tra + w["selectivity"] * sel)
+    # 예체능·기타는 만족도와 화제성만 본다.
+    #
+    # 투명성은 공시가 '미술' 한 줄인 경우가 많아 상세도를 재면 실제 차이가
+    # 아니라 공시 습관을 재게 된다. 진입난이도는 레벨테스트·대기 개념이
+    # 없는 곳이 대부분이라 신호가 안 잡히고, 없는 것을 0점으로 치면
+    # 그게 곧 왜곡이다.
+    subject = primary_subject(academy)
+    academic = subject in config.ACADEMIC_SUBJECTS
+
+    if academic:
+        tra, tra_bd = transparency(academy)
+        sel, sel_bd = selectivity(mentions, academy,
+                                  cohort["mention_capacity_ratio"])
+        w = config.WEIGHTS
+        total = (w["reputation"] * rep + w["momentum"] * mom
+                 + w["transparency"] * tra + w["selectivity"] * sel)
+    else:
+        tra, sel = None, None
+        tra_bd = {"설명": "예체능·기타는 투명성을 채점하지 않습니다."}
+        sel_bd = {"설명": "예체능·기타는 진입난이도를 채점하지 않습니다."}
+        w = config.NON_ACADEMIC_WEIGHTS
+        total = w["reputation"] * rep + w["momentum"] * mom
 
     sample = len([m for m in mentions if not m.get("is_excluded")])
     return {
         "academy_key": academy["id"],
+        "subject_group": "academic" if academic else "non_academic",
         "total": round(total, 1),
         "reputation": rep,
         "momentum": mom,
@@ -316,8 +354,9 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
     """코호트 = 지역 × 대표과목. 이 안에서 상대 평가한다."""
     groups: dict[tuple, list[dict]] = defaultdict(list)
     for a in academies:
-        subject = (a.get("subjects") or ["etc"])[0]
-        groups[(a.get("region_id"), subject)].append(a)
+        # compute() 와 같은 기준을 써야 한다. 다르면 예체능 학원이
+        # 수학 코호트에서 상대평가되는 일이 생긴다.
+        groups[(a.get("region_id"), primary_subject(a))].append(a)
 
     cohorts: dict[tuple, dict] = {}
     for key, members in groups.items():

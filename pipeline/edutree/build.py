@@ -144,10 +144,11 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         return loose, False
 
     before = len(neis_rows)
-    neis_rows = [r for r in neis_rows
-                 if (r.get("realm_sc_nm") or "") in config.ACADEMIC_REALMS]
-    print(f"  학술 분야 필터: {before}곳 → {len(neis_rows)}곳 "
-          f"(예능·기예·독서실 등 {before - len(neis_rows)}곳 제외)")
+    # 예체능·기타까지 받는다. 독서실만 계속 제외한다 — 학원이 아니다.
+    keep = (config.ACADEMIC_REALMS | config.ARTS_REALMS | config.OTHER_REALMS)
+    neis_rows = [r for r in neis_rows if (r.get("realm_sc_nm") or "") in keep]
+    print(f"  분야 필터: {before}곳 → {len(neis_rows)}곳 "
+          f"(독서실 등 {before - len(neis_rows)}곳 제외)")
 
     matched = 0
     hinted = 0
@@ -371,6 +372,11 @@ def _infer_bands(row: dict) -> list[str]:
     return found
 
 
+# 예체능 세부. 표시는 '예체능' 하나로 묶되, 추론에는 쓴다.
+_ARTS_HINTS = ("미술", "피아노", "바이올린", "첼로", "음악", "무용", "발레",
+               "태권도", "체육", "축구", "수영", "댄스", "보컬", "실용음악",
+               "드럼", "기타(악기)", "만화", "웹툰", "디자인", "사진", "연기")
+
 _SUBJECT_HINTS = {
     "math": ("수학", "산수", "사고력", "매쓰", "MATH", "Math"),
     # '잉글리쉬'(쉬)와 '잉글리시'(시)가 둘 다 실존한다 — 알파잉글리쉬학원이
@@ -382,6 +388,18 @@ _SUBJECT_HINTS = {
 }
 
 
+def _subject_from_realm(row: dict) -> str | None:
+    """분야구분으로 정해지는 과목. 이름 추론보다 우선한다 —
+    공시가 '예능(대)'이라고 말하는데 이름에 '수학'이 있다고
+    수학 학원으로 볼 이유가 없다."""
+    realm = (row.get("realm_sc_nm") or "").strip()
+    if realm in config.ARTS_REALMS:
+        return "arts"
+    if realm in config.OTHER_REALMS:
+        return "etc"
+    return None
+
+
 def _infer_subjects(row: dict) -> list[str]:
     """과목 추론.
 
@@ -389,7 +407,16 @@ def _infer_subjects(row: dict) -> list[str]:
     과목을 특정하지 않는 값이 많아 보조로만 쓴다. 아무것도 안 잡히면
     'etc'(종합·보습)로 둔다 — 억지로 배정하지 않는다.
     """
+    # 공시 분야가 예체능·기타라고 말하면 그것을 따른다. 이름에 '수학'이
+    # 들어 있어도 '예능(대)' 로 등록된 곳을 수학 학원으로 볼 이유가 없다.
+    by_realm = _subject_from_realm(row)
+    if by_realm:
+        return [by_realm]
+
     name = str(row.get("name") or "")
+    if any(h in name for h in _ARTS_HINTS):
+        return ["arts"]
+
     found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in name for h in hints)]
     if found:
         return found
@@ -452,9 +479,13 @@ def select_for_mentions(academies: list[dict],
     gaps = coverage.stage_gaps(academies, prev_scores or {})
 
     bands = list(config.GRADE_BANDS)
-    # 구간이 잡힌 곳에 88%, 구간을 알 수 없는 곳에 12%.
-    # 구간 미상은 대부분 종합·보습·재종이라 구간별 화면에 쓰이지 않는다.
-    per_band = max(1, int(per_region * 0.88) // len(bands))
+    # 학년 구간에 76%, 예체능·기타에 12%, 구간 미상에 12%.
+    #
+    # 예체능은 별도 몫을 떼어 준다. 학년 구간으로만 나누면 학년 단서가
+    # 약한 예체능이 매번 뒤로 밀려 랭킹에 한 곳도 못 든다(실측: 90곳을
+    # 뽑았는데 언급이 잡힌 곳은 2곳뿐이었다).
+    per_band = max(1, int(per_region * 0.76) // len(bands))
+    per_arts = max(1, int(per_region * 0.12))
 
     def capacity(a: dict) -> float:
         try:
@@ -511,6 +542,12 @@ def select_for_mentions(academies: list[dict],
             got = take(pool, per_band, chosen)
             picked += got
             band_counts[band] = band_counts.get(band, 0) + len(got)
+
+        # 예체능·기타 몫. 이들은 학년 구간 신호가 약해 위에서 잘 안 뽑힌다.
+        arts = [a for a in rows
+                if a["id"] not in chosen
+                and not (set(a.get("subjects") or []) & set(config.ACADEMIC_SUBJECTS))]
+        picked += take(arts, per_arts, chosen)
 
         # 구간 미상(종합·보습·재종) + 위에서 후보가 모자라 남은 자리
         rest = [a for a in rows if a["id"] not in chosen]
@@ -930,6 +967,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "sampleSize": s["sample_size"],
                 "confidence": s["confidence"],
                 "isRanked": s["is_ranked"],
+                # academic | non_academic. 예체능·기타는 만족도·화제성만 본다.
+                "subjectGroup": s.get("subject_group", "academic"),
                 # 표본이 적으면 내보내지 않는다. 3건으로 만든 '긍정률 67%' 는
                 # 숫자처럼 보이지만 아무것도 말하지 않는다.
                 "positiveRate": (

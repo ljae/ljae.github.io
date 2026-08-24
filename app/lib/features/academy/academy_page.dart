@@ -106,17 +106,22 @@ class _Body extends StatelessWidget {
                   subtitle: '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
                       '펼쳐 볼 수 있습니다.'),
               // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
+              // 예체능·기타는 채점하지 않은 기둥을 아예 내지 않는다 —
+              // 0 으로 그리면 '점수가 나쁘다'로 읽힌다.
               for (final key in (pillarNames.keys.toList()
                     ..sort((a, b) => (data.meta.weights[b] ?? 0)
                         .compareTo(data.meta.weights[a] ?? 0))))
-                _PillarPanel(
-                  pillar: key,
-                  value: score.pillar(key),
-                  weight: data.meta.weights[key] ?? 0,
-                  breakdown: (score.breakdown[key] as Map?)
-                          ?.cast<String, dynamic>() ??
-                      const {},
-                ),
+                if (score.pillarOrNull(key) != null)
+                  _PillarPanel(
+                    pillar: key,
+                    value: score.pillar(key),
+                    weight: score.subjectGroup == 'academic'
+                        ? (data.meta.weights[key] ?? 0)
+                        : (key == 'reputation' ? 0.6 : 0.4),
+                    breakdown: (score.breakdown[key] as Map?)
+                            ?.cast<String, dynamic>() ??
+                        const {},
+                  ),
               const SizedBox(height: AppSpace.xl),
 
               // ── 공식 정보 ──────────────────────────────────

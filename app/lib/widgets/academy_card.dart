@@ -140,9 +140,14 @@ class _PillarGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weights =
+    var weights =
         ref.watch(dataProvider).value?.meta.weights ?? const <String, double>{};
     if (weights.isEmpty) return const SizedBox.shrink();
+    // 예체능·기타는 투명성·진입난이도를 채점하지 않는다. 값이 없는
+    // 기둥을 0으로 그리면 '점수가 나쁘다'로 읽힌다.
+    if (score.subjectGroup != 'academic') {
+      weights = const {'reputation': 0.6, 'momentum': 0.4};
+    }
     return PillarWeightBars(
         score: score, weights: weights, stacked: narrow);
   }

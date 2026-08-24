@@ -233,8 +233,13 @@ class Score {
   final double total;
   final double reputation;
   final double momentum;
-  final double transparency;
-  final double selectivity;
+  /// 예체능·기타는 채점하지 않아 null 이다. 0 으로 두면 '점수가 나쁘다'로
+  /// 읽히므로, 없는 것은 없다고 표시한다.
+  final double? transparency;
+  final double? selectivity;
+
+  /// academic | non_academic
+  final String subjectGroup;
   final int sampleSize;
   final String confidence;
   final bool isRanked;
@@ -252,8 +257,9 @@ class Score {
     required this.total,
     required this.reputation,
     required this.momentum,
-    required this.transparency,
-    required this.selectivity,
+    this.transparency,
+    this.selectivity,
+    this.subjectGroup = 'academic',
     required this.sampleSize,
     required this.confidence,
     required this.isRanked,
@@ -268,8 +274,9 @@ class Score {
         total: (j['total'] as num).toDouble(),
         reputation: (j['reputation'] as num).toDouble(),
         momentum: (j['momentum'] as num).toDouble(),
-        transparency: (j['transparency'] as num).toDouble(),
-        selectivity: (j['selectivity'] as num).toDouble(),
+        transparency: (j['transparency'] as num?)?.toDouble(),
+        selectivity: (j['selectivity'] as num?)?.toDouble(),
+        subjectGroup: (j['subjectGroup'] ?? 'academic') as String,
         sampleSize: (j['sampleSize'] as num).toInt(),
         confidence: j['confidence'] as String,
         isRanked: j['isRanked'] as bool,
@@ -280,7 +287,11 @@ class Score {
         breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
       );
 
-  double pillar(String key) => switch (key) {
+  /// 값이 없는 기둥(예체능의 투명성·진입난이도)은 0 을 돌려준다.
+  /// 화면은 [subjectGroup] 으로 그릴지 말지 먼저 정한다.
+  double pillar(String key) => pillarOrNull(key) ?? 0;
+
+  double? pillarOrNull(String key) => switch (key) {
         'reputation' => reputation,
         'momentum' => momentum,
         'transparency' => transparency,
@@ -828,7 +839,10 @@ const subjectNames = <String, String>{
   'english': '영어',
   'korean': '국어·논술',
   'science': '과학',
-  'etc': '종합·보습',
+  // 예체능·기타는 만족도와 화제성만으로 순위를 낸다.
+  // 진학 경로가 없고 공시로 확인할 것도 적기 때문이다.
+  'arts': '예체능',
+  'etc': '기타',
 };
 
 /// 학원이 받는 학년대. 학교(초등학교·중학교·고등학교)와는 다른 축이다.

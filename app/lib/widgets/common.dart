@@ -370,22 +370,38 @@ class ChipRow<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final (value, label) in options)
+    final pills = [
+      for (final (value, label) in options)
+        _Pill(
+          label: label,
+          selected: value == selected,
+          onTap: () => onChanged(value),
+        ),
+    ];
+
+    // 과목이 여섯 개가 되면서 한 줄에 안 들어간다. 가로 스크롤만 두면
+    // 잘린 칩이 있다는 것 자체가 안 보여 '예체능' 탭을 못 찾는다.
+    // 좁은 화면에서는 줄을 바꿔 전부 내놓는다.
+    return LayoutBuilder(builder: (context, c) {
+      final tight = c.maxWidth < 560 || options.length > 5;
+      if (tight) {
+        return Wrap(
+          spacing: AppSpace.sm,
+          runSpacing: AppSpace.sm,
+          children: pills,
+        );
+      }
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(children: [
+          for (final p in pills)
             Padding(
               padding: const EdgeInsets.only(right: AppSpace.sm),
-              child: _Pill(
-                label: label,
-                selected: value == selected,
-                onTap: () => onChanged(value),
-              ),
+              child: p,
             ),
-        ],
-      ),
-    );
+        ]),
+      );
+    });
   }
 }
 
