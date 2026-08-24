@@ -80,3 +80,38 @@ create policy admins_self on admins
 -- 운영자 등록은 SQL 로만 한다(화면에서 스스로 올릴 수 없어야 한다):
 --   insert into admins (user_id, email)
 --   select id, email from auth.users where email = 'you@example.com';
+
+-- ── 운영자 예약 등록 ─────────────────────────────────────────────
+--
+-- 첫 로그인 전에는 auth.users 에 행이 없어 admins 에 넣을 user_id 가 없다.
+-- 이메일만 먼저 적어 두고, 가입하는 순간 트리거가 잇는다.
+create table if not exists admin_invites (
+  email    text primary key,
+  added_at timestamptz not null default now()
+);
+alter table admin_invites enable row level security;
+-- 정책 없음 = 아무도 못 읽는다. service_role 로만 관리한다.
+
+create or replace function link_admin_invite()
+returns trigger language plpgsql security definer as $$
+begin
+  if exists (select 1 from admin_invites where email = new.email) then
+    insert into admins (user_id, email) values (new.id, new.email)
+    on conflict (user_id) do nothing;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_admin on auth.users;
+create trigger on_auth_user_admin
+  after insert on auth.users
+  for each row execute function link_admin_invite();
+
+-- ★ security definer 함수에는 search_path 를 반드시 못 박는다.
+--   호출자(auth 서비스)의 search_path 에는 public 이 없다. 그대로 두면
+--   함수가 'profiles' 를 못 찾고, 그 실패가 회원가입 500 으로 나온다.
+--   실제로 이것 때문에 로그인 링크 발송이 통째로 막혔다.
+alter function handle_new_user()   set search_path = public, auth;
+alter function link_admin_invite() set search_path = public, auth;
+alter function is_admin()          set search_path = public, auth;
