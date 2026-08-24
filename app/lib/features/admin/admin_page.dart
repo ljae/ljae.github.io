@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme.dart';
 import '../../data/admin.dart';
+import '../../data/repository.dart';
 import '../../widgets/common.dart';
 
 /// 참조 글 검수 관리자 화면.
@@ -230,6 +231,38 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
     }
   }
 
+  /// 재분류 — 버리지 않고 옮긴다.
+  ///
+  /// 네 학원을 비교하는 글이 한 곳에만 붙는 일이 있다. 반려밖에 없으면
+  /// 멀쩡한 글이 통째로 사라지고, 어느 학원 글인지 사람이 아는 정보도
+  /// 함께 사라진다.
+  Future<void> _reclassify() async {
+    final result = await showModalBottomSheet<_Reassignment>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      constraints: const BoxConstraints(maxWidth: 640),
+      builder: (_) => _ReclassifySheet(group: widget.group),
+    );
+    if (result == null || !mounted) return;
+
+    setState(() => _busy = true);
+    try {
+      await ref.read(adminServiceProvider).reassign(
+            widget.group.items.map((i) => i.urlHash).toList(),
+            keep: result.keep,
+            targets: result.targets,
+          );
+      if (!mounted) return;
+      // 이 글은 다 처리됐다. _done 은 판정한 항목 수로 정해진다.
+      setState(() =>
+          _judged.addAll(widget.group.items.map((i) => i.urlHash)));
+      ref.invalidate(pendingReviewsProvider);
+    } catch (e) {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   /// 반려하면 사유를 묻고, 이어서 규칙으로 굳힐지 묻는다.
   /// 여기서 규칙이 안 생기면 사람이 같은 글을 영원히 누르게 된다.
   Future<void> _reject() async {
@@ -321,6 +354,11 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
                 label: const Text('원문'),
               ),
             const Spacer(),
+            TextButton(
+              onPressed: _busy ? null : _reclassify,
+              child: const Text('재분류'),
+            ),
+            const SizedBox(width: AppSpace.sm),
             OutlinedButton(
               onPressed: _busy ? null : _reject,
               style:
@@ -334,6 +372,158 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
             ),
           ]),
         ]),
+      ),
+    );
+  }
+}
+
+/// 재분류 결과. 남길 학원(검수 키)과 새로 붙일 학원(id)은 별개다 —
+/// 넷 중 하나는 맞고 셋이 틀린 경우가 있다.
+class _Reassignment {
+  final List<String> keep;
+  final List<String> targets;
+  const _Reassignment({required this.keep, required this.targets});
+}
+
+class _ReclassifySheet extends ConsumerStatefulWidget {
+  final ReviewGroup group;
+  const _ReclassifySheet({required this.group});
+
+  @override
+  ConsumerState<_ReclassifySheet> createState() => _ReclassifySheetState();
+}
+
+class _ReclassifySheetState extends ConsumerState<_ReclassifySheet> {
+  final _query = TextEditingController();
+  late final Set<String> _keep = {};      // 검수 키 (url_hash)
+  final Set<String> _targets = {};        // 학원 id
+  final Map<String, String> _targetNames = {};
+
+  @override
+  void dispose() {
+    _query.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final data = ref.watch(dataProvider).value;
+    final q = _query.text.trim();
+    final hits = (data == null || q.length < 2)
+        ? const <SearchHit>[]
+        : data.search(q).take(8).toList();
+
+    return Padding(
+      padding: EdgeInsets.only(
+          left: AppSpace.md,
+          right: AppSpace.md,
+          bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpace.lg),
+      child: SingleChildScrollView(
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('어느 학원 글인가요', style: text.titleLarge),
+              const SizedBox(height: 4),
+              Text(
+                '반려는 글을 버리지만 재분류는 옮깁니다. 여러 학원을 비교하는 '
+                '글이 한 곳에만 붙었을 때, 맞는 학원을 지목하면 다음 수집부터 '
+                '그 학원의 근거가 됩니다.',
+                style: text.bodySmall,
+              ),
+              const SizedBox(height: AppSpace.md),
+
+              Text('지금 붙어 있는 학원 — 맞는 것만 남기세요',
+                  style: text.labelLarge),
+              const SizedBox(height: 6),
+              Wrap(spacing: 6, runSpacing: 6, children: [
+                for (final i in widget.group.items)
+                  FilterChip(
+                    label: Text(
+                        i.academyName.isEmpty ? i.academyKey : i.academyName,
+                        style: const TextStyle(fontSize: 12)),
+                    selected: _keep.contains(i.urlHash),
+                    onSelected: (on) => setState(() =>
+                        on ? _keep.add(i.urlHash) : _keep.remove(i.urlHash)),
+                  ),
+              ]),
+              const SizedBox(height: AppSpace.md),
+
+              Text('이 글의 주인공 학원 찾기', style: text.labelLarge),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _query,
+                onChanged: (_) => setState(() {}),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  prefixIcon: Icon(Icons.search, size: 18),
+                  hintText: '학원 이름 (두 글자 이상)',
+                ),
+              ),
+              if (hits.isNotEmpty)
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 220),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      for (final h in hits)
+                        ListTile(
+                          dense: true,
+                          title: Text(h.name),
+                          subtitle: Text(
+                              data?.regionById[h.regionId]?.nameKo ??
+                                  h.regionId),
+                          trailing: Icon(
+                            _targets.contains(h.id)
+                                ? Icons.check_circle
+                                : Icons.add_circle_outline,
+                            size: 18,
+                          ),
+                          onTap: () => setState(() {
+                            if (!_targets.remove(h.id)) {
+                              _targets.add(h.id);
+                              _targetNames[h.id] = h.name;
+                            }
+                          }),
+                        ),
+                    ],
+                  ),
+                ),
+              if (_targets.isNotEmpty) ...[
+                const SizedBox(height: AppSpace.sm),
+                Wrap(spacing: 6, runSpacing: 6, children: [
+                  for (final id in _targets)
+                    InputChip(
+                      label: Text(_targetNames[id] ?? id,
+                          style: const TextStyle(fontSize: 12)),
+                      onDeleted: () => setState(() => _targets.remove(id)),
+                      deleteIcon: const Icon(Icons.close, size: 14),
+                    ),
+                ]),
+              ],
+
+              const SizedBox(height: AppSpace.md),
+              Row(children: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('취소'),
+                ),
+                const Spacer(),
+                FilledButton(
+                  // 아무것도 안 고르면 전체 반려와 같아진다. 그건 반려
+                  // 버튼이 할 일이므로 여기서는 막는다.
+                  onPressed: (_keep.isEmpty && _targets.isEmpty)
+                      ? null
+                      : () => Navigator.of(context).pop(_Reassignment(
+                            keep: _keep.toList(),
+                            targets: _targets.toList(),
+                          )),
+                  child: const Text('재분류'),
+                ),
+              ]),
+            ]),
       ),
     );
   }

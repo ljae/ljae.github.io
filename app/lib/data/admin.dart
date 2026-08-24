@@ -169,6 +169,45 @@ class AdminService {
     }).inFilter('url_hash', urlHashes);
   }
 
+  /// 재분류 — '이 글은 저 학원 글이다'.
+  ///
+  /// 반려와 다르다. 반려는 글을 버리지만 재분류는 **옮긴다.** 네 학원을
+  /// 비교하는 글이 한 곳에만 붙었을 때, 버리면 멀쩡한 근거가 사라지고
+  /// 어느 학원 글인지 사람이 아는 정보도 함께 사라진다.
+  ///
+  /// [keep] 은 그대로 둘 학원의 검수 키, [targets] 는 새로 붙일 학원 id.
+  /// 넷 중 하나는 맞고 셋이 틀린 경우가 있어 둘을 따로 받는다.
+  Future<void> reassign(
+    List<String> urlHashes, {
+    required List<String> keep,
+    required List<String> targets,
+  }) async {
+    if (_db == null || urlHashes.isEmpty) return;
+    final now = DateTime.now().toIso8601String();
+    final drop = urlHashes.where((h) => !keep.contains(h)).toList();
+
+    if (drop.isNotEmpty) {
+      await _db.from('mention_reviews').update({
+        'verdict': 'reclassified',
+        'reject_reason': 'different_academy',
+        'reviewed_at': now,
+      }).inFilter('url_hash', drop);
+    }
+    if (keep.isNotEmpty) {
+      await _db.from('mention_reviews').update({
+        'verdict': 'confirmed',
+        'reviewed_at': now,
+      }).inFilter('url_hash', keep);
+    }
+    if (targets.isNotEmpty) {
+      // 목적지는 글 단위다. 어느 행에 적혀 있든 파이프라인은 앞자리
+      // (url_hash)만 보므로, 이 글의 모든 행에 같이 적어 둔다.
+      await _db.from('mention_reviews').update({
+        'reassign_to': targets,
+      }).inFilter('url_hash', urlHashes);
+    }
+  }
+
   Future<List<CrawlRule>> rules() async {
     if (_db == null) return const [];
     final rows = await _db

@@ -281,11 +281,20 @@ SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_ANON_KEY=eyJ...        # 또는 sb_publishable_...
 ```
 
-SQL Editor 에서 후기용 스키마를 마저 실행합니다:
+SQL Editor 에서 나머지 스키마를 번호 순서대로 실행합니다:
 
 ```
-supabase/03_reviews.sql
+supabase/03_reviews.sql       후기
+supabase/04_board.sql         게시판
+supabase/05_grade_bands.sql   학년 구간
+supabase/06_corrections_tags.sql  정정 요청 · 후기 태그
+supabase/07_verified_reviews.sql  인증 후기
+supabase/08_leveltests.sql    레벨테스트 일정
+supabase/09_admin_review.sql  검수 큐 · 크롤 규칙 · 운영자
+supabase/10_reclassify.sql    검수 재분류(reassign_to)
 ```
+
+**번호는 순서다.** 뒤 파일이 앞 파일의 표를 고치므로 건너뛰면 실패한다.
 
 **Authentication → Providers** 에서 **Email** 을 켜두세요. 후기 작성은 이메일
 링크 로그인만 씁니다(비밀번호를 만들지 않습니다). 카카오·구글은 나중에

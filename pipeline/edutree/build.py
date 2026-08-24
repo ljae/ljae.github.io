@@ -777,8 +777,16 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     mentions, by_rule = review_queue.apply_rules(mentions, rules)
     verdicts = review_queue.load_verdicts()
     mentions, by_verdict = review_queue.apply_verdicts(mentions, verdicts)
-    if by_rule or by_verdict:
-        print(f"  운영자 검수 반영: 규칙 {by_rule:,}건 · 반려 {by_verdict:,}건 제외")
+    # 재분류 — '이 글은 사실 저 학원 글' 이라는 판정을 근거로 되돌린다.
+    # 반려만 가능하던 때는 네 학원 비교글이 통째로 버려졌다.
+    moved = 0
+    reassign = review_queue.load_reassignments()
+    if reassign:
+        mentions, moved = review_queue.apply_reassignments(
+            mentions, reassign, evaluated)
+    if by_rule or by_verdict or moved:
+        print(f"  운영자 검수 반영: 규칙 {by_rule:,}건 · 반려 {by_verdict:,}건 제외"
+              f"{f' · 재분류 {moved:,}건 추가' if moved else ''}")
 
     mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
                 for m in mentions]

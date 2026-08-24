@@ -34,6 +34,7 @@ REJECT_REASONS = {
     "person": "동명이인 (사람 이름)",
     "different_academy": "다른 학원",
     "other_region": "다른 지역 지점",
+    "reclassified": "다른 학원 글로 재분류",
     "ad": "광고·홍보글",
     "sale": "판매·중고거래",
     "irrelevant": "학원과 무관",
@@ -129,11 +130,86 @@ def apply_verdicts(mentions: list[dict], verdicts: dict[str, str]) -> tuple[list
         return mentions, 0
     out, dropped = [], 0
     for m in mentions:
-        if verdicts.get(_key(m)) == "rejected":
+        # reclassified 는 '이 학원의 근거는 아니다' — 여기서는 반려와 같다.
+        # '대신 어느 학원의 근거인가'는 apply_reassignments 가 따로 붙인다.
+        if verdicts.get(_key(m)) in ("rejected", "reclassified"):
             dropped += 1
             continue
         out.append(m)
     return out, dropped
+
+
+# ── 재분류 ──────────────────────────────────────────────────────
+def load_reassignments() -> dict[str, list[str]]:
+    """{url_hash: [학원 id, ...]}.
+
+    네 학원을 비교하는 글이 한 곳에만 붙는 일이 있다. 반려만 가능하면
+    글은 멀쩡한데 통째로 버려진다 — 어느 학원 글인지 사람이 아는데도
+    그 정보를 못 남기는 것이다.
+    """
+    if not config.HAS_SUPABASE:
+        return {}
+    try:
+        r = requests.get(f"{config.SUPABASE_URL}/rest/v1/mention_reviews",
+                         params={"select": "url_hash,reassign_to",
+                                 "reassign_to": "not.is.null"},
+                         headers=_headers(), timeout=20)
+        if r.status_code != 200:
+            return {}
+    except requests.RequestException:
+        return {}
+
+    out: dict[str, list[str]] = {}
+    for row in r.json():
+        # 검수 키는 'url_hash|academy_key' 다. 재분류는 글 단위이므로
+        # 앞자리만 쓴다.
+        doc = str(row.get("url_hash") or "").split("|")[0]
+        targets = row.get("reassign_to") or []
+        if not doc or not targets:
+            continue
+        seen = out.setdefault(doc, [])
+        for t in targets:
+            if t not in seen:
+                seen.append(t)
+    return out
+
+
+def apply_reassignments(mentions: list[dict], targets: dict[str, list[str]],
+                        academies: list[dict]) -> tuple[list[dict], int]:
+    """사람이 지목한 학원에 그 글을 근거로 붙인다.
+
+    원문은 이미 수집돼 있으므로 복제만 하면 된다. 그 학원으로 수집된
+    적이 없어도 붙는다 — 그게 재분류의 목적이다.
+    """
+    if not targets:
+        return mentions, 0
+
+    by_id = {a["id"]: a for a in academies}
+    have = {(m.get("url_hash"), m.get("academy_key")) for m in mentions}
+    # 복제의 원본은 그 글이면 아무거나 좋다. 제목·본문은 같다.
+    source: dict[str, dict] = {}
+    for m in mentions:
+        source.setdefault(m.get("url_hash"), m)
+
+    added = 0
+    out = list(mentions)
+    for doc, keys in targets.items():
+        base = source.get(doc)
+        if base is None:
+            continue          # 이번 회차에 그 글이 안 잡혔다
+        for key in keys:
+            academy = by_id.get(key)
+            if academy is None or (doc, key) in have:
+                continue
+            copy = dict(base)
+            copy["academy_key"] = key
+            copy["academy_name"] = academy.get("name")
+            copy["region_id"] = academy.get("region_id")
+            copy["branch_basis"] = "reclassified"
+            out.append(copy)
+            have.add((doc, key))
+            added += 1
+    return out, added
 
 
 # ── 큐 적재 ─────────────────────────────────────────────────────
