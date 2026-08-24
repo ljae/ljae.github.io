@@ -62,6 +62,9 @@ class MentionReview {
 const rejectReasons = <String, String>{
   'person': '동명이인 (사람 이름)',
   'different_academy': '다른 학원',
+  // 브랜드는 맞지만 다른 지역 지점 이야기. 파이프라인의 지점 게이트가
+  // 이미 대부분을 거르지만, 지역명을 안 쓰고 쓴 글은 사람만 알아본다.
+  'other_region': '다른 지역 지점',
   'ad': '광고·홍보글',
   'sale': '판매·중고거래',
   'irrelevant': '학원과 무관',
@@ -106,6 +109,7 @@ class CrawlRule {
         'exclude_keyword' => '이 말이 있으면 제외',
         'require_keyword' => '이 말이 없으면 제외',
         'exclude_domain' => '이 도메인 제외',
+        'exclude_region' => '제목에 이 지역이 나오면 제외',
         _ => kind,
       };
 }

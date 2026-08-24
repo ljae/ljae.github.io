@@ -240,13 +240,16 @@ class _ReviewTileState extends ConsumerState<_ReviewTile> {
     if (reason == null || !mounted) return;
     final ok = await _judge('rejected', reason: reason);
     if (!ok || !mounted) return;
-    if (reason == 'person' || reason == 'irrelevant' || reason == 'sale') {
+    if (reason == 'person' ||
+        reason == 'irrelevant' ||
+        reason == 'sale' ||
+        reason == 'other_region') {
       final made = await showModalBottomSheet<bool>(
         context: context,
         isScrollControlled: true,
         showDragHandle: true,
         constraints: const BoxConstraints(maxWidth: 640),
-        builder: (_) => _RuleSheet(group: widget.group),
+        builder: (_) => _RuleSheet(group: widget.group, reason: reason),
       );
       if (made == true) ref.invalidate(crawlRulesProvider);
     }
@@ -365,10 +368,27 @@ class _ReasonSheet extends StatelessWidget {
   }
 }
 
+/// 우리 4개 권역 밖의 지역어. 반려 사유가 '다른 지역 지점' 일 때
+/// 제목에서 찾아 규칙 초안으로 채운다.
+///
+/// 파이프라인에도 같은 목록이 있지만(analyze.OTHER_REGION_WORDS) 여기 것은
+/// **초안을 채우기 위한 것**일 뿐이다. 실제로 거는 규칙은 사람이 확인한
+/// 문자열이고, 목록에 없는 지역은 직접 적으면 된다.
+const _otherRegionHints = <String>[
+  '분당', '평촌', '일산', '동탄', '수지', '판교', '광교', '중계', '노원',
+  '부산', '대구', '광주', '대전', '울산', '천안', '세종', '청주', '전주',
+  '김포', '용인', '안양', '산본', '화성', '청라', '송도', '인천', '수원',
+  '군포', '안산', '시흥', '부천', '광명', '하남', '강동', '도봉', '금천',
+  '중랑', '광진', '성동', '용산', '은평', '마포', '성북', '강서', '구로',
+  '관악', '동작', '성남', '위례', '고양', '파주', '제주', '창원',
+];
+
 /// 반려를 규칙으로 굳히는 시트.
 class _RuleSheet extends ConsumerStatefulWidget {
   final ReviewGroup group;
-  const _RuleSheet({required this.group});
+  /// 반려 사유. 사유마다 걸어야 할 규칙의 종류가 다르다.
+  final String reason;
+  const _RuleSheet({required this.group, this.reason = 'person'});
 
   @override
   ConsumerState<_RuleSheet> createState() => _RuleSheetState();
@@ -379,6 +399,23 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
   final _reason = TextEditingController();
   String _scope = 'academy';
   bool _busy = false;
+
+  bool get _isRegion => widget.reason == 'other_region';
+  String get _kind => _isRegion ? 'exclude_region' : 'exclude_keyword';
+
+  @override
+  void initState() {
+    super.initState();
+    if (!_isRegion) return;
+    // 제목에 실제로 나온 지역어만 초안으로 넣는다. 목록 전체를 넣으면
+    // 사람이 읽지 않고 저장하게 되고, 그러면 규칙이 아니라 사고가 된다.
+    final titles = widget.group.items.map((i) => i.title).join(' ');
+    final found = _otherRegionHints.where(titles.contains).toList();
+    if (found.isNotEmpty) {
+      _pattern.text = found.join('|');
+      _reason.text = '${found.first} 지점 글이라 이 학원의 근거가 아님';
+    }
+  }
 
   @override
   void dispose() {
@@ -403,8 +440,12 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
               Text('같은 글이 다시 안 올라오게 할까요', style: text.titleLarge),
               const SizedBox(height: 4),
               Text(
-                '이 글에서 걸러야 할 낱말을 적으면 다음 수집부터 제외합니다. '
-                '예: 뮤지컬 배우와 이름이 겹칠 때 "뮤지컬|공연|배우".',
+                _isRegion
+                    ? '제목에 이 지역이 나오는 글을 다음 수집부터 제외합니다. '
+                      '본문이 아니라 제목만 봅니다 — 본문의 지역명은 대개 '
+                      '함께 언급된 다른 학원의 상호입니다.'
+                    : '이 글에서 걸러야 할 낱말을 적으면 다음 수집부터 제외합니다. '
+                      '예: 뮤지컬 배우와 이름이 겹칠 때 "뮤지컬|공연|배우".',
                 style: text.bodySmall,
               ),
               const SizedBox(height: AppSpace.md),
@@ -424,19 +465,23 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
               const SizedBox(height: AppSpace.md),
               TextField(
                 controller: _pattern,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '제외할 낱말 (여러 개는 | 로 구분) *',
-                  hintText: '뮤지컬|공연|배우|커튼콜',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: _isRegion
+                      ? '제외할 지역 (여러 개는 | 로 구분) *'
+                      : '제외할 낱말 (여러 개는 | 로 구분) *',
+                  hintText: _isRegion ? '분당|평촌|일산' : '뮤지컬|공연|배우|커튼콜',
                 ),
               ),
               const SizedBox(height: AppSpace.sm),
               TextField(
                 controller: _reason,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   labelText: '이유 * — 나중에 이 규칙을 지울지 판단하는 근거',
-                  hintText: '뮤지컬 배우 윤도영과 학원명이 같아 오검출',
+                  hintText: _isRegion
+                      ? '분당 지점 글이라 이 학원의 근거가 아님'
+                      : '뮤지컬 배우 윤도영과 학원명이 같아 오검출',
                 ),
               ),
               const SizedBox(height: AppSpace.md),
@@ -466,7 +511,7 @@ class _RuleSheetState extends ConsumerState<_RuleSheet> {
                                     .toSet()
                                 : {null}) {
                               await ref.read(adminServiceProvider).addRule(
-                                    kind: 'exclude_keyword',
+                                    kind: _kind,
                                     pattern: _pattern.text.trim(),
                                     reason: _reason.text.trim(),
                                     scope: _scope,

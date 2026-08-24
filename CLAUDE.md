@@ -345,8 +345,13 @@ robots.txt 가 `User-agent: ClaudeBot / Disallow: /` 와
   - 반려하면 사유를 묻고, 사유가 동명이인·무관·판매면 **규칙으로 굳힐지**
     이어서 묻는다. 여기서 규칙이 안 생기면 사람이 같은 글을 영원히 누른다.
   - 규칙은 `scope=academy|global`, `kind=exclude_keyword|require_keyword|
-    exclude_domain`. 반드시 `reason` 을 받는다 — 이유 모르는 규칙은
-    나중에 지우지도 못하고 남는다.
+    exclude_domain|exclude_region`. 반드시 `reason` 을 받는다 — 이유 모르는
+    규칙은 나중에 지우지도 못하고 남는다.
+  - `exclude_region` 은 **제목만** 본다(다른 종류는 제목+본문). 본문의
+    지역명은 대개 함께 언급된 남의 상호라 본문까지 보면 멀쩡한 근거가
+    날아간다 — `branches.py` 에서 같은 함정에 두 번 빠졌다.
+    사유가 '다른 지역 지점' 이면 제목에 실제로 나온 지역어만 초안으로
+    채운다. 목록 전체를 채워 주면 사람이 읽지 않고 저장한다.
   - 파이프라인이 매 수집에서 규칙 → 판정 순으로 적용한다
     (`review_queue.apply_rules` → `apply_verdicts`).
   - 검수 키는 `url_hash|academy_key` 다. 같은 글이 여러 학원에 걸릴 수

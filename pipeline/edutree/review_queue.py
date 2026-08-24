@@ -33,6 +33,7 @@ QUEUE_LIMIT = 200
 REJECT_REASONS = {
     "person": "동명이인 (사람 이름)",
     "different_academy": "다른 학원",
+    "other_region": "다른 지역 지점",
     "ad": "광고·홍보글",
     "sale": "판매·중고거래",
     "irrelevant": "학원과 무관",
@@ -75,6 +76,7 @@ def apply_rules(mentions: list[dict], rules: list[dict]) -> tuple[list[dict], in
     out, dropped = [], 0
     for m in mentions:
         blob = f"{m.get('title', '')} {m.get('snippet', '')}"
+        title = m.get("title", "") or ""
         url = m.get("source_url") or ""
         key = m.get("academy_key")
         drop = False
@@ -90,6 +92,11 @@ def apply_rules(mentions: list[dict], rules: list[dict]) -> tuple[list[dict], in
             elif kind == "exclude_domain" and pat.lower() in url.lower():
                 drop = True
             elif kind == "require_keyword" and not re.search(pat, blob, re.I):
+                drop = True
+            elif kind == "exclude_region" and re.search(pat, title, re.I):
+                # 지역 규칙은 **제목만** 본다. 본문의 지역명은 대개 남의
+                # 상호다 — '세종 엄마표영어' 글이 본문의 '대치M수학' 때문에
+                # 대치 근거가 됐던 것과 같은 함정이다(branches.py 참고).
                 drop = True
             if drop:
                 break
