@@ -69,6 +69,32 @@ def sibling_map(academies: list[dict]) -> dict[str, list[dict]]:
     return out
 
 
+# 구(區) 이름은 변별어가 못 된다. 반포동·방배동이 모두 서초구라,
+# '서초 시매쓰' 라는 글을 방배점 것으로만 치면 반포점 근거가 통째로
+# 날아간다(실측 135건 → 62건). 동네 이름만 쓴다.
+BROAD_WORDS = frozenset({"강남", "서초", "송파", "양천", "강남구"})
+
+
+def locality_words(academy: dict) -> set[str]:
+    """이 지점을 가리키는 동네 말. 법정동과 이름에서 뽑는다.
+
+    같은 학군 안에도 지점이 둘 이상인 브랜드가 있다. 시매쓰는 반포점과
+    방배점이 모두 '반포' 학군이라 권역만으로는 갈리지 않는다.
+    실측: 방배점 수집분 415건 중 120건이 제목에 '반포' 가 든 반포점 글이었다.
+    """
+    words: set[str] = set()
+    vocab = [w for ws in analyze.REGION_WORDS.values() for w in ws
+             if w not in BROAD_WORDS]
+    dong = (academy.get("dong") or "").rstrip("동")
+    if dong and dong not in BROAD_WORDS:
+        words.add(dong)
+    name = academy.get("name") or ""
+    for w in vocab:
+        if w in name:
+            words.add(w)
+    return words
+
+
 def apply(mentions: list[dict], academies: list[dict],
           candidates: dict[str, set[str]],
           generic: dict[str, bool],
@@ -78,9 +104,29 @@ def apply(mentions: list[dict], academies: list[dict],
     siblings = sibling_map(academies)
     by_id = {a["id"]: a for a in academies}
 
+    # 같은 학군 안 형제 지점 — 권역 판별로는 갈리지 않는다. 동네 말로 가른다.
+    local: dict[str, set[str]] = {}
+    same_region: dict[str, list[dict]] = defaultdict(list)
+    for a in academies:
+        key = sibling_key(a)
+        if key:
+            same_region[(key, a.get("region_id"))].append(a)
+    for rows in same_region.values():
+        if len(rows) < 2:
+            continue
+        mine = {a["id"]: locality_words(a) for a in rows}
+        for a in rows:
+            others: set[str] = set()
+            for b in rows:
+                if b["id"] != a["id"]:
+                    others |= mine[b["id"]]
+            # 형제만 가진 말이 곧 '나는 아니다' 의 신호다.
+            local[a["id"]] = others - mine[a["id"]]
+
     kept: list[dict] = []
     seen: set[tuple[str, str]] = set()
-    stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "branches": len(siblings)}
+    stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "sibling": 0,
+             "branches": len(siblings)}
 
     for m in mentions:
         key = m.get("academy_key")
@@ -108,6 +154,14 @@ def apply(mentions: list[dict], academies: list[dict],
             ours, other = analyze.region_hints(
                 f"{m.get('title', '')} {m.get('snippet', '')}")
         mine = home.get(key)
+
+        # 같은 학군 안 형제 지점의 동네 이름이 제목에 있으면 그쪽 글이다.
+        theirs = local.get(key or "")
+        if theirs:
+            title = analyze._norm(m.get("title", ""))
+            if any(analyze._norm(w) in title for w in theirs):
+                stats["sibling"] += 1
+                continue
 
         if ours:
             # 지역을 밝힌 글. 내 권역이 아니면 내 근거가 아니다.

@@ -767,7 +767,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  지점 게이트: 다권역 지점 {bstat['branches']}곳 · "
               f"타권역 지점 글 {bstat['elsewhere']:,}건 · "
               f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
-              f"지역 불명 {bstat['shared']:,}건은 지점 공유")
+              f"지역 불명 {bstat['shared']:,}건은 지점 공유"
+              + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
+                 if bstat.get("sibling") else ""))
 
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
