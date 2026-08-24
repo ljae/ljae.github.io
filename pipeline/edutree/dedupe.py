@@ -154,6 +154,13 @@ def representative_name(names: list[str]) -> str:
 
     가장 짧은 이름을 쓰면 '씨엠에스(CMS)중등1관학원' 처럼 특정 관 이름이
     다섯 관을 대표하게 된다. 이름들의 공통 접두사가 있으면 그쪽이 브랜드다.
+
+    ★ 접두사가 **너무 많이 깎이면 쓰지 않는다.**
+      '책읽기독서논술교습소' 와 '책읽기와글쓰기리딩엠역삼…' 의 공통 접두사는
+      '책읽기' 다. 3자라 조건은 통과하지만 이건 브랜드가 아니라 그냥
+      일상어이고, 실제로 이 이름 때문에 온갖 독서 관련 글이 이 학원의
+      근거로 잡혔다. 원래 이름의 절반도 안 남으면 접두사가 아니라
+      우연히 겹친 낱말로 본다.
     """
     names = [n for n in names if n]
     if not names:
@@ -163,9 +170,13 @@ def representative_name(names: list[str]) -> str:
         while prefix and not n.startswith(prefix):
             prefix = prefix[:-1]
     prefix = re.sub(r"[\s(（]+$", "", prefix).strip()
-    if len(prefix) >= 3:
+
+    shortest = min(names, key=lambda n: (len(n), n))
+    # 업종어를 뗀 알맹이 기준으로 견준다. '교습소'·'학원' 은 어차피 공통이다.
+    core = re.sub(r"(학원|교습소|어학원)$", "", shortest)
+    if len(prefix) >= 3 and len(prefix) * 2 >= len(core):
         return prefix
-    return min(names, key=lambda n: (len(n), n))
+    return shortest
 
 
 def merge(rows: list[dict]) -> dict:

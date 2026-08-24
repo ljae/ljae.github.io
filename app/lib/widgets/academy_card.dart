@@ -87,7 +87,21 @@ class AcademyCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      ScoreDial(score.total, size: narrow ? 52 : 60),
+                      // 근거가 없으면 점수를 숫자로 내지 않는다.
+                      if (score.sampleSize == 0)
+                        SizedBox(
+                          width: narrow ? 52 : 60,
+                          height: narrow ? 52 : 60,
+                          child: Center(
+                            child: Text('—',
+                                style: TextStyle(
+                                    fontFamily: 'Paperlogy',
+                                    fontSize: narrow ? 22 : 26,
+                                    color: AppColors.mist)),
+                          ),
+                        )
+                      else
+                        ScoreDial(score.total, size: narrow ? 52 : 60),
                       const SizedBox(height: 2),
                       MomentumArrow(score.momentumDirection),
                       // 지난 집계 대비 순위 변동. 화살표(momentum)는 언급량
@@ -95,7 +109,13 @@ class AcademyCard extends StatelessWidget {
                       _RankDelta(academyId: academy.id),
                       // 점수 하나만으로는 무엇을 뜻하는지 읽히지 않는다.
                       // '의견 낸 후기 중 긍정 N%' 는 그 자체로 읽힌다.
-                      if (score.positiveRate != null) ...[
+                      if (score.sampleSize == 0)
+                        const Text('근거 없음',
+                            style: TextStyle(
+                                fontFamily: 'Paperlogy',
+                                fontSize: 11,
+                                color: AppColors.mist))
+                      else if (score.positiveRate != null) ...[
                         const SizedBox(height: 3),
                         Text('긍정 ${score.positiveRate!.round()}%',
                             style: const TextStyle(

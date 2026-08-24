@@ -102,6 +102,28 @@ class _Body extends StatelessWidget {
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
+              // 근거가 한 건도 없으면 점수를 내지 않는다. 코호트 평균으로
+              // 채운 50점이 '평가 결과' 처럼 읽히면 그게 곧 거짓이다.
+              if (score.sampleSize == 0)
+                Card(
+                  color: AppColors.estimated.withValues(alpha: 0.07),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpace.md),
+                    child: Row(children: [
+                      const Icon(Icons.info_outline,
+                          size: 18, color: AppColors.estimated),
+                      const SizedBox(width: AppSpace.sm),
+                      Expanded(
+                        child: Text(
+                          '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 매기지 '
+                          '않았으며, 공식 등록 정보만 보여드립니다.',
+                          style: text.bodyMedium,
+                        ),
+                      ),
+                    ]),
+                  ),
+                )
+              else ...[
               const SectionHeader('점수 구성',
                   subtitle: '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
                       '펼쳐 볼 수 있습니다.'),
@@ -122,6 +144,7 @@ class _Body extends StatelessWidget {
                             ?.cast<String, dynamic>() ??
                         const {},
                   ),
+              ],
               const SizedBox(height: AppSpace.xl),
 
               // ── 공식 정보 ──────────────────────────────────

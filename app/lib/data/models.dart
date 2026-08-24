@@ -299,10 +299,12 @@ class Score {
         _ => 0,
       };
 
+  /// 표본 0 은 '적다' 가 아니라 '아직 근거가 없다' 다. 둘을 같은 말로
+  /// 적으면 50점이 평가 결과처럼 읽힌다.
   String get confidenceLabel => switch (confidence) {
         'high' => '표본 충분',
         'medium' => '표본 보통',
-        _ => '표본 부족',
+        _ => sampleSize == 0 ? '근거 없음' : '표본 부족',
       };
 }
 
