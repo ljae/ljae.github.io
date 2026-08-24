@@ -130,8 +130,13 @@ class AdminService {
   }
 
   /// 로그인 링크. 후기와 같은 방식(비밀번호 없음)을 쓴다.
-  Future<void> signIn(String email) =>
-      _db!.auth.signInWithOtp(email: email, emailRedirectTo: Uri.base.origin);
+  ///
+  /// 돌아올 곳을 관리자 화면으로 못 박는다. origin 만 주면 홈으로 떨어져
+  /// 사용자가 다시 /#/admin 을 찾아 들어가야 한다.
+  Future<void> signIn(String email) => _db!.auth.signInWithOtp(
+        email: email,
+        emailRedirectTo: '${Uri.base.origin}/#/admin',
+      );
 
   Future<List<MentionReview>> pending({String? academyKey}) async {
     if (_db == null) return const [];

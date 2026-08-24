@@ -18,6 +18,13 @@ Future<void> main() async {
       // Supabase 가 anon key → publishable key 로 이름을 바꿨다.
       // 값의 성격은 같다: 공개돼도 되는 키이고 RLS 가 보호한다.
       publishableKey: Env.supabaseAnonKey,
+      // PKCE 를 쓴다. 기본값(implicit)은 토큰을 URL 해시에 담아 보내는데,
+      // 이 앱은 해시 라우팅(/#/admin)을 쓰므로 두 해시가 충돌해
+      // 'otp_expired' 처럼 보이는 실패가 난다. PKCE 는 ?code= 쿼리로
+      // 오기 때문에 라우팅과 부딪히지 않는다.
+      authOptions: const FlutterAuthClientOptions(
+        authFlowType: AuthFlowType.pkce,
+      ),
     );
   }
   runApp(const ProviderScope(child: EduTreeApp()));
