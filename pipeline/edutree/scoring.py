@@ -291,11 +291,16 @@ def confidence_label(sample: int) -> str:
 
 def primary_subject(academy: dict) -> str:
     """이 학원을 어느 과목으로 볼 것인가. 코호트와 산식이 이걸 따른다."""
-    subjects = academy.get("subjects") or ["etc"]
+    subjects = academy.get("subjects") or [config.UNRANKED_SUBJECT]
     for s in subjects:
         if s in config.ACADEMIC_SUBJECTS:
             return s
-    return "arts" if "arts" in subjects else "etc"
+    if "arts" in subjects:
+        return "arts"
+    if "etc" in subjects:
+        return "etc"
+    # 종합·보습처럼 과목을 정할 수 없는 곳. 순위를 매기지 않는다.
+    return config.UNRANKED_SUBJECT
 
 
 def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
@@ -311,6 +316,7 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
     # 그게 곧 왜곡이다.
     subject = primary_subject(academy)
     academic = subject in config.ACADEMIC_SUBJECTS
+    rankable = subject != config.UNRANKED_SUBJECT
 
     if academic:
         tra, tra_bd = transparency(academy)
@@ -337,7 +343,9 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
         "selectivity": sel,
         "sample_size": sample,
         "confidence": confidence_label(sample),
-        "is_ranked": sample >= config.MIN_SAMPLE_FOR_RANK,
+        # 과목을 정할 수 없는 곳은 순위에서 뺀다. 어느 과목으로 견줄지
+        # 정할 수 없으면 등수도 매길 수 없다.
+        "is_ranked": rankable and sample >= config.MIN_SAMPLE_FOR_RANK,
         "momentum_direction": direction,
         "breakdown": {
             "weights": w,

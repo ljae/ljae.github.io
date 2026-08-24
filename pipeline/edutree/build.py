@@ -414,12 +414,20 @@ def _infer_subjects(row: dict) -> list[str]:
         return [by_realm]
 
     name = str(row.get("name") or "")
-    if any(h in name for h in _ARTS_HINTS):
-        return ["arts"]
 
+    # 학술 과목이 먼저다. 공시 분야가 '입시.검정 및 보습' 인 곳에서
+    # 이름의 낱말만 보고 예체능으로 넘기면 안 된다 — '수영수학교습소' 가
+    # '수영' 때문에 예체능이 됐다.
     found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in name for h in hints)]
     if found:
         return found
+
+    # 학술 신호가 없을 때만 예체능 힌트를 본다. 그마저도 공시 분야가
+    # 학술이면 쓰지 않는다 — 공시가 '보습' 이라는데 이름의 한 낱말로
+    # 뒤집을 근거가 없다.
+    realm = (row.get("realm_sc_nm") or "").strip()
+    if realm not in config.ACADEMIC_REALMS and any(h in name for h in _ARTS_HINTS):
+        return ["arts"]
 
     course = " ".join(str(row.get(k) or "") for k in ("le_crse_list_nm", "le_crse_nm"))
     found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in course for h in hints)]
@@ -428,6 +436,15 @@ def _infer_subjects(row: dict) -> list[str]:
 
     if (row.get("realm_sc_nm") or "") == "국제화" or "외국어" in course:
         return ["english"]
+
+    # 과목을 특정하지 못했다. 분야에 따라 다르게 둔다.
+    #
+    # 학술 분야(입시·보습·국제화 등)인데 과목이 안 잡히는 곳은 종합·보습
+    # 학원이다. 이들을 'etc' 로 두면 예체능·기타 랭킹에 섞인다 —
+    # '대치수능선배2관학원' 이 기타 랭킹에 뜨는 식이다.
+    # 'general'(종합·보습)로 따로 둬서 어느 과목 랭킹에도 넣지 않는다.
+    if (row.get("realm_sc_nm") or "").strip() in config.ACADEMIC_REALMS:
+        return ["general"]
     return ["etc"]
 
 

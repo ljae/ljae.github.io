@@ -78,8 +78,12 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SectionHeader('${region?.nameKo ?? ""} 학원 랭킹',
-                          subtitle:
-                              '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 순위에서 제외됩니다'),
+                          subtitle: _isAcademic(_subject)
+                              ? '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 '
+                                  '순위에서 제외됩니다'
+                              : '만족도·화제성 기준 · 표본 ${data.meta.minSampleForRank}건 '
+                                  '미만은 순위에서 제외됩니다. 국·영·수·과학 학원은 '
+                                  '각 과목 랭킹에서 보세요.'),
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
                       // 무엇을 뜻하는지 설명할 수 없다.
