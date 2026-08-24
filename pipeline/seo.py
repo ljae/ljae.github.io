@@ -145,9 +145,16 @@ def academy_pages(out: Path, academies, registry, regions) -> list[str]:
         if score:
             body.append(
                 f"<p><strong>트리스코어 {score['total']:.0f}점</strong> "
-                f"(평판 {score['reputation']:.0f} · 화제성 {score['momentum']:.0f} · "
-                f"투명성 {score['transparency']:.0f} · 진입난이도 {score['selectivity']:.0f}) "
-                f"— 유효 표본 {score['sampleSize']}건</p>")
+                # 예체능·기타는 투명성·진입난이도를 채점하지 않아 None 이다.
+                # 0 으로 적으면 '점수가 나쁘다'로 읽히므로 항목 자체를 뺀다.
+                + " (" + " · ".join(
+                    f"{label} {score[key]:.0f}"
+                    for key, label in (("reputation", "평판"),
+                                       ("momentum", "화제성"),
+                                       ("transparency", "투명성"),
+                                       ("selectivity", "진입난이도"))
+                    if score.get(key) is not None) + ") "
+                + f"— 유효 표본 {score['sampleSize']}건</p>")
         else:
             body.append("<p>아직 커뮤니티 신호를 수집하지 않은 학원입니다. "
                         "공시 정보만 표시합니다.</p>")
