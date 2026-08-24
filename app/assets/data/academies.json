@@ -4114,39 +4114,45 @@
   "evidence": []
  },
  {
-  "id": "3000053933",
-  "name": "유니크수학교습소",
-  "displayName": "유니크수학교습소",
+  "id": "3000031714",
+  "name": "스토리수학교습소",
+  "displayName": "스토리수학교습소",
   "regionId": "daechi",
-  "dong": "대치동",
+  "dong": "도곡동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 강남구 역삼로74길 23",
-  "capacity": 0,
+  "address": "서울특별시 강남구 선릉로 225",
+  "capacity": 15,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5002945,
-  "lng": 127.0551877,
+  "lat": 37.4953009,
+  "lng": 127.0527051,
   "brand": null,
   "aliases": [],
   "gradeBands": [
    "elem_low",
-   "elem_high"
+   "elem_high",
+   "middle"
   ],
   "stages": [
-   "math_el_thinking"
+   "math_el_basic",
+   "math_el_thinking",
+   "math_el_competition",
+   "math_el_preview",
+   "math_mid_naesin",
+   "math_mid_preview"
   ],
   "flagship": [],
-  "tel": "010-4618-6220",
-  "establishedOn": "2026-01-08",
+  "tel": "02-575-5644",
+  "establishedOn": "2018-05-02",
   "dataSource": "neis",
   "score": {
-   "total": 48.5,
+   "total": 53.6,
    "reputation": 50.0,
    "momentum": 31.2,
-   "transparency": 59.0,
+   "transparency": 93.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -4178,9 +4184,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 0,
+      "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 4
+      "운영 지속기간": 18
      },
      "만점": {
       "등록상태 정상": 30,
@@ -4196,7 +4202,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": null,
+     "정원": 15,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -5968,45 +5974,39 @@
   ]
  },
  {
-  "id": "3000031714",
-  "name": "스토리수학교습소",
-  "displayName": "스토리수학교습소",
+  "id": "3000037455",
+  "name": "해솔수학교습소",
+  "displayName": "해솔수학교습소",
   "regionId": "daechi",
-  "dong": "도곡동",
+  "dong": "대치동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 강남구 선릉로 225",
-  "capacity": 15,
+  "address": "서울특별시 강남구 선릉로 320",
+  "capacity": 42,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4953009,
-  "lng": 127.0527051,
+  "lat": 37.4982857,
+  "lng": 127.0522104,
   "brand": null,
   "aliases": [],
   "gradeBands": [
-   "elem_low",
-   "elem_high",
    "middle"
   ],
   "stages": [
-   "math_el_basic",
-   "math_el_thinking",
-   "math_el_competition",
-   "math_el_preview",
    "math_mid_naesin",
-   "math_mid_preview"
+   "math_mid_yeongjae"
   ],
   "flagship": [],
-  "tel": "02-575-5644",
-  "establishedOn": "2018-05-02",
+  "tel": "02-539-3390",
+  "establishedOn": "2020-09-03",
   "dataSource": "neis",
   "score": {
-   "total": 53.6,
+   "total": 53.3,
    "reputation": 50.0,
    "momentum": 31.2,
-   "transparency": 93.0,
+   "transparency": 91.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -6040,7 +6040,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 18
+      "운영 지속기간": 16
      },
      "만점": {
       "등록상태 정상": 30,
@@ -6056,7 +6056,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 15,
+     "정원": 42,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -6420,21 +6420,21 @@
   ]
  },
  {
-  "id": "3000037455",
-  "name": "해솔수학교습소",
-  "displayName": "해솔수학교습소",
+  "id": "9084",
+  "name": "이관우수학연구소수학교습소",
+  "displayName": "이관우수학연구소수학교습소",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 강남구 선릉로 320",
-  "capacity": 42,
+  "address": "서울특별시 강남구 삼성로57길 35",
+  "capacity": 30,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4982857,
-  "lng": 127.0522104,
+  "lat": 37.4973137,
+  "lng": 127.0582492,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -6442,17 +6442,17 @@
   ],
   "stages": [
    "math_mid_naesin",
-   "math_mid_yeongjae"
+   "math_mid_kmo"
   ],
   "flagship": [],
-  "tel": "02-539-3390",
-  "establishedOn": "2020-09-03",
+  "tel": "02-556-6018",
+  "establishedOn": "2005-04-01",
   "dataSource": "neis",
   "score": {
-   "total": 53.3,
+   "total": 54.7,
    "reputation": 50.0,
    "momentum": 31.2,
-   "transparency": 91.0,
+   "transparency": 100.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -6486,7 +6486,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 16
+      "운영 지속기간": 25
      },
      "만점": {
       "등록상태 정상": 30,
@@ -6502,7 +6502,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 42,
+     "정원": 30,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -9084,28 +9084,28 @@
   ]
  },
  {
-  "id": "3000054050",
-  "name": "스토리헤롯강남원놀이학원",
-  "displayName": "스토리헤롯강남원놀이학원",
+  "id": "3000050257",
+  "name": "엔캠프(ncamp)학원",
+  "displayName": "엔캠프(ncamp)학원",
   "regionId": "daechi",
   "dong": "역삼동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 역삼로37길 7",
-  "capacity": 350,
+  "address": "서울특별시 강남구 강남대로94길 20",
+  "capacity": 240,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4982861,
-  "lng": 127.0430287,
+  "lat": 37.4994379,
+  "lng": 127.029039,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
   "tel": null,
-  "establishedOn": "2026-01-26",
+  "establishedOn": "2024-04-22",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -9317,28 +9317,28 @@
   ]
  },
  {
-  "id": "3000031577",
-  "name": "한국정보보호교육학원",
-  "displayName": "한국정보보호교육학원",
+  "id": "1000035247",
+  "name": "제일정보처리학원",
+  "displayName": "제일정보처리학원",
   "regionId": "daechi",
-  "dong": "도곡동",
+  "dong": "개포동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 남부순환로 2645",
-  "capacity": 344,
+  "address": "서울특별시 강남구 삼성로 38",
+  "capacity": 240,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4855909,
-  "lng": 127.0391614,
+  "lat": 37.4886965,
+  "lng": 127.0668591,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-921-1465",
-  "establishedOn": "2010-07-14",
+  "tel": "02-451-8850",
+  "establishedOn": "1988-03-12",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -9630,28 +9630,28 @@
   ]
  },
  {
-  "id": "3000048750",
-  "name": "디앤에이댄스스튜디오학원",
-  "displayName": "디앤에이댄스스튜디오학원",
+  "id": "3000054217",
+  "name": "일루젼연기학원",
+  "displayName": "일루젼연기학원",
   "regionId": "daechi",
   "dong": "역삼동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 봉은사로30길 70",
-  "capacity": 340,
+  "address": "서울특별시 강남구 역삼로 149",
+  "capacity": 236,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5029779,
-  "lng": 127.0367304,
+  "lat": 37.4949035,
+  "lng": 127.0354794,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2024-02-02",
+  "tel": null,
+  "establishedOn": "2026-02-20",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -9819,28 +9819,28 @@
   ]
  },
  {
-  "id": "3000024342",
-  "name": "미도한뜻음악학원",
-  "displayName": "미도한뜻음악학원",
+  "id": "3000028590",
+  "name": "티앤엠(T&M)미술학원",
+  "displayName": "티앤엠(T&M)미술학원",
   "regionId": "daechi",
-  "dong": "대치동",
+  "dong": "역삼동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 강남구 삼성로 150",
-  "capacity": 550,
+  "address": "서울특별시 강남구 테헤란로4길 29",
+  "capacity": 440,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4947911,
-  "lng": 127.0664816,
+  "lat": 37.4965676,
+  "lng": 127.0305552,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-567-3549",
-  "establishedOn": "2015-10-15",
+  "tel": "02-000-0000",
+  "establishedOn": "2017-03-02",
   "dataSource": "neis",
   "score": {
    "total": 38.7,
@@ -9884,28 +9884,28 @@
   "evidence": []
  },
  {
-  "id": "31132",
-  "name": "장인희네일아카데미학원",
-  "displayName": "장인희네일아카데미학원",
+  "id": "3000032323",
+  "name": "게임캔버스학원",
+  "displayName": "게임캔버스학원",
   "regionId": "daechi",
   "dong": "역삼동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 테헤란로1길 28-14",
-  "capacity": 338,
+  "address": "서울특별시 강남구 강남대로96길 17",
+  "capacity": 235,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5003712,
-  "lng": 127.0285393,
+  "lat": 37.5001243,
+  "lng": 127.0284145,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-554-2007",
-  "establishedOn": "2011-01-24",
+  "tel": "02-588-5993",
+  "establishedOn": "2018-07-30",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -9949,28 +9949,28 @@
   "evidence": []
  },
  {
-  "id": "3000042942",
-  "name": "에듀윌편입강남학원",
-  "displayName": "에듀윌편입강남학원",
+  "id": "3000052541",
+  "name": "윌비스한림법학원",
+  "displayName": "윌비스한림법학원",
   "regionId": "daechi",
   "dong": "역삼동",
   "subjects": [
    "general"
   ],
-  "address": "서울특별시 강남구 테헤란로2길 27",
-  "capacity": 764,
+  "address": "서울특별시 강남구 테헤란로19길 20",
+  "capacity": 738,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4965038,
-  "lng": 127.0297218,
+  "lat": 37.5013785,
+  "lng": 127.0334171,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": null,
-  "establishedOn": "2022-12-14",
+  "tel": "010-5798-7800",
+  "establishedOn": "2025-03-14",
   "dataSource": "neis",
   "score": {
    "total": 44.0,
@@ -10014,28 +10014,28 @@
   "evidence": []
  },
  {
-  "id": "3000034064",
-  "name": "모던스테이지현대무용학원",
-  "displayName": "모던스테이지현대무용학원",
+  "id": "3000051611",
+  "name": "푸른숲음악학원",
+  "displayName": "푸른숲음악학원",
   "regionId": "daechi",
-  "dong": "대치동",
+  "dong": "개포동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 강남구 역삼로 550",
-  "capacity": 550,
+  "address": "서울특별시 강남구 선릉로 50",
+  "capacity": 440,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5043563,
-  "lng": 127.0632708,
+  "lat": 37.4837714,
+  "lng": 127.0595565,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-557-2340",
-  "establishedOn": "2026-03-01",
+  "tel": "02-529-3233",
+  "establishedOn": "2024-12-16",
   "dataSource": "neis",
   "score": {
    "total": 38.7,
@@ -10235,28 +10235,28 @@
   ]
  },
  {
-  "id": "3000051256",
-  "name": "플로르연기학원",
-  "displayName": "플로르연기학원",
+  "id": "3000050288",
+  "name": "아이티런교육학원",
+  "displayName": "아이티런교육학원",
   "regionId": "daechi",
-  "dong": "역삼동",
+  "dong": "도곡동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 테헤란로27길 8",
-  "capacity": 315,
+  "address": "서울특별시 강남구 강남대로44길 21",
+  "capacity": 234,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5019587,
-  "lng": 127.0382753,
+  "lat": 37.4862686,
+  "lng": 127.0352859,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "010-3825-1712",
-  "establishedOn": "2024-10-15",
+  "tel": "070-7510-8311",
+  "establishedOn": "2017-10-16",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -10837,28 +10837,28 @@
   ]
  },
  {
-  "id": "3000048167",
-  "name": "코리아엔터아카데미학원",
-  "displayName": "코리아엔터아카데미학원",
+  "id": "3000033042",
+  "name": "강남씨앤씨미술학원",
+  "displayName": "강남씨앤씨미술학원",
   "regionId": "daechi",
   "dong": "역삼동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 강남구 강남대로94길 20",
-  "capacity": 540,
+  "address": "서울특별시 강남구 선릉로 311",
+  "capacity": 435,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4994379,
-  "lng": 127.029039,
+  "lat": 37.4973384,
+  "lng": 127.052077,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2023-11-14",
+  "tel": "02-554-2855",
+  "establishedOn": "2018-11-20",
   "dataSource": "neis",
   "score": {
    "total": 38.7,
@@ -11057,28 +11057,28 @@
   ]
  },
  {
-  "id": "3000053643",
-  "name": "그릿(GRIT)모델학원",
-  "displayName": "그릿(GRIT)모델학원",
+  "id": "3000036854",
+  "name": "이바우펫애견미용학원",
+  "displayName": "이바우펫애견미용학원",
   "regionId": "daechi",
-  "dong": "역삼동",
+  "dong": "대치동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 강남구 도곡로 191",
-  "capacity": 304,
+  "address": "서울특별시 강남구 선릉로86길 39",
+  "capacity": 222,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4924859,
-  "lng": 127.0402346,
+  "lat": 37.5041139,
+  "lng": 127.0529009,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "010-3449-5235",
-  "establishedOn": "2025-12-02",
+  "tel": "02-0000-0000",
+  "establishedOn": "2020-05-06",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -11122,50 +11122,47 @@
   "evidence": []
  },
  {
-  "id": "3000023527",
-  "name": "세정스카이",
-  "displayName": "세정스카이",
+  "id": "3000056138",
+  "name": "두각에스엠(SM)학원",
+  "displayName": "두각에스엠(SM)학원",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
-   "general",
-   "korean"
+   "general"
   ],
-  "address": "서울특별시 강남구 도곡로 446",
-  "capacity": 780,
+  "address": "서울특별시 강남구 도곡로 501",
+  "capacity": 736,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.4980728,
-  "lng": 127.059396,
+  "registrationCount": 1,
+  "lat": 37.4993323,
+  "lng": 127.0611383,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-567-0606",
-  "establishedOn": "2013-10-31",
+  "tel": "02-556-2700",
+  "establishedOn": "2026-07-09",
   "dataSource": "neis",
   "score": {
-   "total": 54.8,
+   "total": 44.0,
    "reputation": 50.0,
    "momentum": 35.1,
-   "transparency": 97.0,
-   "selectivity": 50.0,
+   "transparency": null,
+   "selectivity": null,
    "sampleSize": 0,
    "confidence": "low",
    "isRanked": false,
-   "subjectGroup": "academic",
+   "subjectGroup": "non_academic",
    "positiveRate": null,
    "momentumDirection": "stable",
    "rankInRegion": null,
    "regionRankedCount": null,
    "breakdown": {
     "weights": {
-     "reputation": 0.35,
-     "selectivity": 0.35,
-     "momentum": 0.15,
-     "transparency": 0.15
+     "reputation": 0.6,
+     "momentum": 0.4
     },
     "reputation": {
      "표본": 0,
@@ -11180,69 +11177,48 @@
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
     "transparency": {
-     "항목별": {
-      "등록상태 정상": 30,
-      "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 22
-     },
-     "만점": {
-      "등록상태 정상": 30,
-      "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 25
-     },
-     "검증여부": true,
-     "설명": "NEIS 학원교습소정보 공시 항목 기반 규칙 채점"
+     "설명": "예체능·기타는 투명성을 채점하지 않습니다."
     },
     "selectivity": {
-     "난이도_언급": 0,
-     "대기·마감_언급": 0,
-     "표본": 0,
-     "언급÷정원_상대값": null,
-     "정원": 780,
-     "축소_사전표본": 10,
-     "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
-     "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
+     "설명": "예체능·기타는 진입난이도를 채점하지 않습니다."
     }
    }
   },
   "evidence": []
  },
  {
-  "id": "3000027782",
-  "name": "미립국어교습소",
-  "displayName": "미립국어교습소",
+  "id": "3000038081",
+  "name": "햇살정원의대관학원",
+  "displayName": "햇살정원의대관학원",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 강남구 도곡로 510",
-  "capacity": 24,
+  "address": "서울특별시 강남구 삼성로64길 5",
+  "capacity": 1085,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4990264,
-  "lng": 127.0621981,
+  "lat": 37.5008929,
+  "lng": 127.06104,
   "brand": null,
   "aliases": [],
   "gradeBands": [
-   "middle"
+   "high"
   ],
   "stages": [
-   "kor_mid_naesin",
-   "kor_mid_preview"
+   "kor_hi_nonsul"
   ],
   "flagship": [],
-  "tel": "02-563-0877",
-  "establishedOn": "2016-11-16",
+  "tel": "02-552-1125",
+  "establishedOn": "2020-12-18",
   "dataSource": "neis",
   "score": {
-   "total": 53.7,
+   "total": 53.1,
    "reputation": 50.0,
    "momentum": 29.9,
-   "transparency": 95.0,
+   "transparency": 91.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -11276,7 +11252,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 20
+      "운영 지속기간": 16
      },
      "만점": {
       "등록상태 정상": 30,
@@ -11292,7 +11268,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 24,
+     "정원": 1085,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -12998,30 +12974,31 @@
   ]
  },
  {
-  "id": "3000053782",
-  "name": "김안나키즈싱어4호점음악교습소",
-  "displayName": "김안나키즈싱어4호점음악교습소",
+  "id": "25159",
+  "name": "아음음악학원",
+  "displayName": "아음음악학원",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 목동동로 202",
-  "capacity": 0,
+  "address": "서울특별시 양천구 목동중앙북로16가길 10",
+  "capacity": 87,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5237708,
-  "lng": 126.871844,
+  "registrationCount": 2,
+  "lat": 37.5444854,
+  "lng": 126.8741494,
   "brand": null,
   "aliases": [],
   "gradeBands": [
-   "elem_low"
+   "elem_low",
+   "elem_high"
   ],
   "stages": [],
   "flagship": [],
-  "tel": null,
-  "establishedOn": "2025-12-22",
+  "tel": "02-2646-7852",
+  "establishedOn": "2009-08-24",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -13506,21 +13483,21 @@
   ]
  },
  {
-  "id": "25159",
-  "name": "아음음악학원",
-  "displayName": "아음음악학원",
+  "id": "3000017154",
+  "name": "라팔레트미술교습소",
+  "displayName": "라팔레트미술교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 목동중앙북로16가길 10",
-  "capacity": 87,
+  "address": "서울특별시 양천구 목동동로12길 17",
+  "capacity": 54,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.5444854,
-  "lng": 126.8741494,
+  "registrationCount": 1,
+  "lat": 37.5229258,
+  "lng": 126.8732025,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -13529,8 +13506,8 @@
   ],
   "stages": [],
   "flagship": [],
-  "tel": "02-2646-7852",
-  "establishedOn": "2009-08-24",
+  "tel": "070-8725-9102",
+  "establishedOn": "2013-05-02",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -14136,21 +14113,21 @@
   ]
  },
  {
-  "id": "3000017154",
-  "name": "라팔레트미술교습소",
-  "displayName": "라팔레트미술교습소",
+  "id": "21228",
+  "name": "이앤에이",
+  "displayName": "이앤에이",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 목동동로12길 17",
-  "capacity": 54,
+  "address": "서울특별시 양천구 신정로11길 64",
+  "capacity": 42,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5229258,
-  "lng": 126.8732025,
+  "registrationCount": 2,
+  "lat": 37.5122554,
+  "lng": 126.8375049,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14159,8 +14136,8 @@
   ],
   "stages": [],
   "flagship": [],
-  "tel": "070-8725-9102",
-  "establishedOn": "2013-05-02",
+  "tel": "02-2616-2443",
+  "establishedOn": "2008-07-11",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -14204,21 +14181,21 @@
   "evidence": []
  },
  {
-  "id": "3000050235",
-  "name": "양뉴영어교습소",
-  "displayName": "양뉴영어교습소",
+  "id": "3000040088",
+  "name": "목동꼼꼼영어교습소",
+  "displayName": "목동꼼꼼영어교습소",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 양천구 신정로11길 50-15",
-  "capacity": 0,
+  "address": "서울특별시 양천구 등촌로 142",
+  "capacity": 48,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.512278,
-  "lng": 126.8383836,
+  "lat": 37.5427305,
+  "lng": 126.8631374,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14226,19 +14203,19 @@
    "elem_high"
   ],
   "stages": [
-   "eng_el_phonics",
    "eng_el_academy",
-   "eng_el_bridge"
+   "eng_el_phonics",
+   "eng_el_rw"
   ],
   "flagship": [],
   "tel": null,
-  "establishedOn": "2024-04-17",
+  "establishedOn": "2021-11-05",
   "dataSource": "neis",
   "score": {
-   "total": 47.8,
+   "total": 51.4,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 65.0,
+   "transparency": 89.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -14270,9 +14247,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 0,
+      "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 10
+      "운영 지속기간": 14
      },
      "만점": {
       "등록상태 정상": 30,
@@ -14288,7 +14265,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": null,
+     "정원": 48,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -14298,21 +14275,21 @@
   "evidence": []
  },
  {
-  "id": "3000027339",
-  "name": "리틀독서논술교습소",
-  "displayName": "리틀독서논술교습소",
+  "id": "3000056100",
+  "name": "글숲산책독서토론논술교습소",
+  "displayName": "글숲산책독서토론논술교습소",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 6,
+  "address": "서울특별시 양천구 중앙로36길 15",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539,
+  "lat": 37.52032,
+  "lng": 126.8561713,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14323,14 +14300,14 @@
    "kor_el_reading"
   ],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2016-10-27",
+  "tel": null,
+  "establishedOn": "2026-07-08",
   "dataSource": "neis",
   "score": {
-   "total": 54.0,
+   "total": 48.2,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 95.0,
+   "transparency": 56.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -14362,9 +14339,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 20
+      "운영 지속기간": 1
      },
      "만점": {
       "등록상태 정상": 30,
@@ -14380,7 +14357,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 6,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -14598,21 +14575,21 @@
   "evidence": []
  },
  {
-  "id": "21228",
-  "name": "이앤에이",
-  "displayName": "이앤에이",
+  "id": "3000034779",
+  "name": "이화드림미술교습소",
+  "displayName": "이화드림미술교습소",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 신정로11길 64",
-  "capacity": 42,
+  "address": "서울특별시 양천구 목동남로4길 62",
+  "capacity": 36,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.5122554,
-  "lng": 126.8375049,
+  "registrationCount": 1,
+  "lat": 37.5093075,
+  "lng": 126.8676956,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14621,8 +14598,8 @@
   ],
   "stages": [],
   "flagship": [],
-  "tel": "02-2616-2443",
-  "establishedOn": "2008-07-11",
+  "tel": "02-0000-0000",
+  "establishedOn": "2019-07-10",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -14666,21 +14643,21 @@
   "evidence": []
  },
  {
-  "id": "3000051475",
-  "name": "양목초삼성영어교습소",
-  "displayName": "양목초삼성영어교습소",
+  "id": "9888",
+  "name": "제니퍼잉글리쉬영어교습소",
+  "displayName": "제니퍼잉글리쉬영어교습소",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 양천구 목동로17길 30",
-  "capacity": 0,
+  "address": "서울특별시 양천구 목동중앙남로13길 1",
+  "capacity": 45,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5243284,
-  "lng": 126.8607495,
+  "lat": 37.5402369,
+  "lng": 126.8654459,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14688,19 +14665,19 @@
    "elem_high"
   ],
   "stages": [
-   "eng_el_phonics",
    "eng_el_academy",
-   "eng_el_bridge"
+   "eng_el_phonics",
+   "eng_el_rw"
   ],
   "flagship": [],
-  "tel": null,
-  "establishedOn": "2024-11-25",
+  "tel": "02-2652-1530",
+  "establishedOn": "2005-03-09",
   "dataSource": "neis",
   "score": {
-   "total": 47.5,
+   "total": 53.0,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 63.0,
+   "transparency": 100.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -14732,9 +14709,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 0,
+      "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 8
+      "운영 지속기간": 25
      },
      "만점": {
       "등록상태 정상": 30,
@@ -14750,7 +14727,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": null,
+     "정원": 45,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -14760,21 +14737,21 @@
   "evidence": []
  },
  {
-  "id": "30364",
-  "name": "목동마중물독서논술교습소",
-  "displayName": "목동마중물독서논술교습소",
+  "id": "3000048654",
+  "name": "목동7단지책통클럽독서논술교습소",
+  "displayName": "목동7단지책통클럽독서논술교습소",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동서로 400",
-  "capacity": 6,
+  "address": "서울특별시 양천구 목동로 212",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5177155,
-  "lng": 126.8588626,
+  "lat": 37.5279188,
+  "lng": 126.8672567,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14785,14 +14762,14 @@
    "kor_el_reading"
   ],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2010-11-09",
+  "tel": null,
+  "establishedOn": "2024-01-25",
   "dataSource": "neis",
   "score": {
-   "total": 54.5,
+   "total": 49.5,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 98.0,
+   "transparency": 65.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -14824,9 +14801,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 23
+      "운영 지속기간": 10
      },
      "만점": {
       "등록상태 정상": 30,
@@ -14842,7 +14819,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 6,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -14852,21 +14829,21 @@
   "evidence": []
  },
  {
-  "id": "3000048925",
-  "name": "포커스수학교습소",
-  "displayName": "포커스수학교습소",
+  "id": "3000051887",
+  "name": "딱맞춤수학교습소",
+  "displayName": "딱맞춤수학교습소",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 양천구 목동동로 130",
+  "address": "서울특별시 양천구 목동동로 202",
   "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5147094,
-  "lng": 126.8732757,
+  "lat": 37.5237708,
+  "lng": 126.871844,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -14881,13 +14858,13 @@
   ],
   "flagship": [],
   "tel": null,
-  "establishedOn": "2024-03-08",
+  "establishedOn": "2025-01-31",
   "dataSource": "neis",
   "score": {
-   "total": 50.4,
+   "total": 50.1,
    "reputation": 50.0,
    "momentum": 37.4,
-   "transparency": 65.0,
+   "transparency": 63.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -14921,7 +14898,7 @@
       "등록상태 정상": 30,
       "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 10
+      "운영 지속기간": 8
      },
      "만점": {
       "등록상태 정상": 30,
@@ -15041,21 +15018,21 @@
   "evidence": []
  },
  {
-  "id": "3000034779",
-  "name": "이화드림미술교습소",
-  "displayName": "이화드림미술교습소",
+  "id": "2000009104",
+  "name": "그린미술교습소",
+  "displayName": "그린미술교습소",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 목동남로4길 62",
-  "capacity": 36,
+  "address": "서울특별시 양천구 목동서로 340",
+  "capacity": 27,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5093075,
-  "lng": 126.8676956,
+  "lat": 37.5197024,
+  "lng": 126.8640477,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -15064,8 +15041,8 @@
   ],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2019-07-10",
+  "tel": "02-654-0687",
+  "establishedOn": "1993-06-24",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -15109,21 +15086,21 @@
   "evidence": []
  },
  {
-  "id": "3000043488",
-  "name": "뮤엠영어목동아델리체영어교습소",
-  "displayName": "뮤엠영어목동아델리체영어교습소",
+  "id": "3000031973",
+  "name": "듀크(DUKE)목동13단지영어교습소",
+  "displayName": "듀크(DUKE)목동13단지영어교습소",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 양천구 중앙로43길 14",
-  "capacity": 117,
+  "address": "서울특별시 양천구 목동동로 100",
+  "capacity": 40,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5186675,
-  "lng": 126.8519475,
+  "lat": 37.5145149,
+  "lng": 126.8666297,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -15137,13 +15114,13 @@
   ],
   "flagship": [],
   "tel": "02-0000-0000",
-  "establishedOn": "2023-03-10",
+  "establishedOn": "2018-06-11",
   "dataSource": "neis",
   "score": {
-   "total": 51.0,
+   "total": 52.0,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 87.0,
+   "transparency": 93.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -15177,7 +15154,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 12
+      "운영 지속기간": 18
      },
      "만점": {
       "등록상태 정상": 30,
@@ -15193,7 +15170,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 117,
+     "정원": 40,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -15203,21 +15180,21 @@
   "evidence": []
  },
  {
-  "id": "9887",
-  "name": "책으로꿈꾸는아이들국어교습소",
-  "displayName": "책으로꿈꾸는아이들국어교습소",
+  "id": "3000048508",
+  "name": "양천1단지독서교실논술교습소",
+  "displayName": "양천1단지독서교실논술교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동서로 100",
-  "capacity": 4,
+  "address": "서울특별시 양천구 목동서로 38",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5340616,
-  "lng": 126.8735909,
+  "lat": 37.5392044,
+  "lng": 126.8805609,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -15228,14 +15205,14 @@
    "kor_el_reading"
   ],
   "flagship": [],
-  "tel": "02-6342-7800",
-  "establishedOn": "2005-03-08",
+  "tel": null,
+  "establishedOn": "2024-01-03",
   "dataSource": "neis",
   "score": {
-   "total": 54.8,
+   "total": 49.7,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 100.0,
+   "transparency": 66.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -15267,9 +15244,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 25
+      "운영 지속기간": 11
      },
      "만점": {
       "등록상태 정상": 30,
@@ -15285,7 +15262,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 4,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -17046,21 +17023,21 @@
   "evidence": []
  },
  {
-  "id": "25606",
-  "name": "팍스수학교습소",
-  "displayName": "팍스수학교습소",
+  "id": "3000028588",
+  "name": "꿀수학교습소",
+  "displayName": "꿀수학교습소",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 양천구 신목로 7",
-  "capacity": 10,
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 9,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5159439,
-  "lng": 126.8765736,
+  "lat": 37.5359472,
+  "lng": 126.8780787,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -17068,17 +17045,17 @@
   ],
   "stages": [
    "math_mid_naesin",
-   "math_mid_preview"
+   "math_mid_kmo"
   ],
   "flagship": [],
-  "tel": "02-2648-3569",
-  "establishedOn": "2009-09-17",
+  "tel": "02-0000-0000",
+  "establishedOn": "2017-03-15",
   "dataSource": "neis",
   "score": {
-   "total": 55.5,
+   "total": 54.7,
    "reputation": 50.0,
    "momentum": 37.4,
-   "transparency": 99.0,
+   "transparency": 94.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -17112,7 +17089,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 24
+      "운영 지속기간": 19
      },
      "만점": {
       "등록상태 정상": 30,
@@ -17128,7 +17105,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 10,
+     "정원": 9,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -18490,39 +18467,38 @@
   ]
  },
  {
-  "id": "3000038015",
-  "name": "감옥수학교습소",
-  "displayName": "감옥수학교습소",
+  "id": "3000014221",
+  "name": "대치영재수학학원",
+  "displayName": "대치영재수학학원",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 8,
+  "address": "서울특별시 양천구 목동서로 349",
+  "capacity": 192,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787,
+  "lat": 37.5174204,
+  "lng": 126.8653309,
   "brand": null,
   "aliases": [],
   "gradeBands": [
    "high"
   ],
   "stages": [
-   "math_hi_naesin",
-   "math_hi_suneung"
+   "math_hi_nsu"
   ],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2020-12-08",
+  "tel": "02-2650-8980",
+  "establishedOn": "2012-05-29",
   "dataSource": "neis",
   "score": {
-   "total": 54.3,
+   "total": 55.2,
    "reputation": 50.0,
    "momentum": 37.4,
-   "transparency": 91.0,
+   "transparency": 97.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -18556,7 +18532,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 16
+      "운영 지속기간": 22
      },
      "만점": {
       "등록상태 정상": 30,
@@ -18572,7 +18548,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 8,
+     "정원": 192,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -18833,21 +18809,21 @@
   "evidence": []
  },
  {
-  "id": "3000012849",
-  "name": "참글논술국어교습소",
-  "displayName": "참글논술국어교습소",
+  "id": "3000046202",
+  "name": "루브릭아카데미논술교습소",
+  "displayName": "루브릭아카데미논술교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 6,
+  "address": "서울특별시 양천구 목동서로 57",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787,
+  "lat": 37.5366423,
+  "lng": 126.8798539,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -18857,14 +18833,14 @@
    "kor_hi_nonsul"
   ],
   "flagship": [],
-  "tel": "02-6741-6027",
-  "establishedOn": "2011-12-20",
+  "tel": null,
+  "establishedOn": "2023-08-17",
   "dataSource": "neis",
   "score": {
-   "total": 54.5,
+   "total": 49.7,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 98.0,
+   "transparency": 66.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -18896,9 +18872,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 23
+      "운영 지속기간": 11
      },
      "만점": {
       "등록상태 정상": 30,
@@ -18914,7 +18890,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 6,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -18924,39 +18900,38 @@
   "evidence": []
  },
  {
-  "id": "3000031920",
-  "name": "와우에이아이(AI)수학교습소",
-  "displayName": "와우에이아이(AI)수학교습소",
+  "id": "3000053749",
+  "name": "디랩독학재수학원",
+  "displayName": "디랩독학재수학원",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 양천구 목동중앙남로 42",
-  "capacity": 7,
+  "address": "서울특별시 양천구 목동동로 233-1",
+  "capacity": 108,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5375366,
-  "lng": 126.8668418,
+  "lat": 37.5275117,
+  "lng": 126.8715493,
   "brand": null,
   "aliases": [],
   "gradeBands": [
    "high"
   ],
   "stages": [
-   "math_hi_naesin",
    "math_hi_nsu"
   ],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2018-06-04",
+  "tel": null,
+  "establishedOn": "2025-12-17",
   "dataSource": "neis",
   "score": {
-   "total": 54.6,
+   "total": 48.7,
    "reputation": 50.0,
    "momentum": 37.4,
-   "transparency": 93.0,
+   "transparency": 54.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -18989,8 +18964,8 @@
      "항목별": {
       "등록상태 정상": 30,
       "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 18
+      "교습과정 상세": 0,
+      "운영 지속기간": 4
      },
      "만점": {
       "등록상태 정상": 30,
@@ -19006,7 +18981,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 7,
+     "정원": 108,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -19948,28 +19923,28 @@
   ]
  },
  {
-  "id": "19632",
-  "name": "예일뮤직아카데미실용음악보컬학원",
-  "displayName": "예일뮤직아카데미실용음악보컬학원",
+  "id": "3000034411",
+  "name": "아담리즈수학목동센터기타학원",
+  "displayName": "아담리즈수학목동센터기타학원",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 양천구 목동로 213",
-  "capacity": 129,
+  "address": "서울특별시 양천구 목동동로 65",
+  "capacity": 72,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5274766,
-  "lng": 126.8638405,
+  "lat": 37.5155786,
+  "lng": 126.8621824,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2607-2133",
-  "establishedOn": "2008-02-15",
+  "tel": "02-2646-7535",
+  "establishedOn": "2019-05-14",
   "dataSource": "neis",
   "score": {
    "total": 43.6,
@@ -20221,28 +20196,28 @@
   ]
  },
  {
-  "id": "3000019440",
-  "name": "유닛소프트코딩학원",
-  "displayName": "유닛소프트코딩학원",
+  "id": "3000031061",
+  "name": "더브릴리언트영어뮤지컬학원",
+  "displayName": "더브릴리언트영어뮤지컬학원",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 양천구 목동서로 213",
-  "capacity": 128,
+  "address": "서울특별시 양천구 목동동로12길 26",
+  "capacity": 70,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5280187,
-  "lng": 126.8706302,
+  "lat": 37.5225795,
+  "lng": 126.874102,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2645-3705",
-  "establishedOn": "2014-02-26",
+  "tel": "02-2648-4778",
+  "establishedOn": "2018-02-09",
   "dataSource": "neis",
   "score": {
    "total": 43.6,
@@ -20286,28 +20261,28 @@
   "evidence": []
  },
  {
-  "id": "3000042559",
-  "name": "씨앤씨16관학원",
-  "displayName": "씨앤씨16관학원",
+  "id": "3000011901",
+  "name": "깊은생각목동학원",
+  "displayName": "깊은생각목동학원",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "general"
   ],
-  "address": "서울특별시 양천구 목동동로 196",
-  "capacity": 360,
+  "address": "서울특별시 양천구 오목로 279",
+  "capacity": 359,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5229137,
-  "lng": 126.8714397,
+  "lat": 37.5259191,
+  "lng": 126.8684017,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2643-2025",
-  "establishedOn": "2022-11-03",
+  "tel": "02-2652-4070",
+  "establishedOn": "2011-08-29",
   "dataSource": "neis",
   "score": {
    "total": 44.0,
@@ -20435,21 +20410,21 @@
   ]
  },
  {
-  "id": "3000033707",
-  "name": "함성영어교습소",
-  "displayName": "함성영어교습소",
+  "id": "3000027336",
+  "name": "브릭스목동영어교습소",
+  "displayName": "브릭스목동영어교습소",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 양천구 신정로11길 20",
-  "capacity": 117,
+  "address": "서울특별시 양천구 중앙로36길 15",
+  "capacity": 32,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.512099,
-  "lng": 126.8390507,
+  "lat": 37.52032,
+  "lng": 126.8561713,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -20462,14 +20437,14 @@
    "eng_el_rw"
   ],
   "flagship": [],
-  "tel": "02-2611-0579",
-  "establishedOn": "2019-02-18",
+  "tel": "02-0000-0000",
+  "establishedOn": "2016-10-27",
   "dataSource": "neis",
   "score": {
-   "total": 52.0,
+   "total": 52.2,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 93.0,
+   "transparency": 95.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -20503,7 +20478,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 18
+      "운영 지속기간": 20
      },
      "만점": {
       "등록상태 정상": 30,
@@ -20519,7 +20494,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 117,
+     "정원": 32,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -20529,28 +20504,28 @@
   "evidence": []
  },
  {
-  "id": "3000032295",
-  "name": "중앙요리학원",
-  "displayName": "중앙요리학원",
+  "id": "3000037069",
+  "name": "암산마스터주산교습소",
+  "displayName": "암산마스터주산교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 양천구 등촌로 80",
-  "capacity": 112,
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 64,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5371636,
-  "lng": 126.8638856,
+  "lat": 37.5359472,
+  "lng": 126.8780787,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-6956-5555",
-  "establishedOn": "2018-07-25",
+  "tel": "02-0000-0000",
+  "establishedOn": "2019-07-05",
   "dataSource": "neis",
   "score": {
    "total": 43.6,
@@ -20741,38 +20716,38 @@
   ]
  },
  {
-  "id": "17028",
-  "name": "목동리딩키즈학원",
-  "displayName": "목동리딩키즈학원",
+  "id": "3000036935",
+  "name": "정신과시간의방독학관리고3엔수전용학원",
+  "displayName": "정신과시간의방독학관리고3엔수전용학원",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동동로 59",
-  "capacity": 15,
+  "address": "서울특별시 양천구 오목로 280",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5150376,
-  "lng": 126.8616218,
+  "lat": 37.525221,
+  "lng": 126.8682551,
   "brand": null,
   "aliases": [],
   "gradeBands": [
-   "elem_low"
+   "high"
   ],
   "stages": [
-   "kor_el_reading"
+   "kor_hi_nonsul"
   ],
   "flagship": [],
-  "tel": "02-6083-8897",
-  "establishedOn": "2007-04-19",
+  "tel": "02-0000-0000",
+  "establishedOn": "2020-05-26",
   "dataSource": "neis",
   "score": {
-   "total": 54.8,
+   "total": 50.4,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 100.0,
+   "transparency": 71.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -20804,9 +20779,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 25
+      "운영 지속기간": 16
      },
      "만점": {
       "등록상태 정상": 30,
@@ -20822,7 +20797,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 15,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -20832,21 +20807,21 @@
   "evidence": []
  },
  {
-  "id": "3000050914",
-  "name": "퍼스트수학교습소",
-  "displayName": "퍼스트수학교습소",
+  "id": "3000048114",
+  "name": "달리자수학교습소",
+  "displayName": "달리자수학교습소",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "math"
   ],
-  "address": "서울특별시 양천구 목동서로 57",
+  "address": "서울특별시 양천구 목동동로8길 13",
   "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539,
+  "lat": 37.5176392,
+  "lng": 126.8709101,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -20861,13 +20836,13 @@
   ],
   "flagship": [],
   "tel": null,
-  "establishedOn": "2024-08-06",
+  "establishedOn": "2023-11-08",
   "dataSource": "neis",
   "score": {
-   "total": 50.2,
+   "total": 50.5,
    "reputation": 50.0,
    "momentum": 37.4,
-   "transparency": 64.0,
+   "transparency": 66.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -20901,7 +20876,7 @@
       "등록상태 정상": 30,
       "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 9
+      "운영 지속기간": 11
      },
      "만점": {
       "등록상태 정상": 30,
@@ -21075,28 +21050,28 @@
   ]
  },
  {
-  "id": "3000040864",
-  "name": "브포댄스아카데미(BPO DANCE ACADEMY)학원",
-  "displayName": "브포댄스아카데미(BPO DANCE ACADEMY)학원",
+  "id": "3000039037",
+  "name": "목동바른아트센터학원",
+  "displayName": "목동바른아트센터학원",
   "regionId": "mokdong",
-  "dong": "신정동",
+  "dong": "목동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 양천구 오목로 202",
-  "capacity": 210,
+  "address": "서울특별시 양천구 오목로 279",
+  "capacity": 180,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5253738,
-  "lng": 126.8598729,
+  "lat": 37.5259191,
+  "lng": 126.8684017,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2022-02-16",
+  "tel": "02-000-0000",
+  "establishedOn": "2021-05-18",
   "dataSource": "neis",
   "score": {
    "total": 44.3,
@@ -21140,21 +21115,21 @@
   "evidence": []
  },
  {
-  "id": "3000031742",
-  "name": "아이탑영어교습소",
-  "displayName": "아이탑영어교습소",
+  "id": "3000025265",
+  "name": "에이스잉글리쉬(Ace English)영어교습소",
+  "displayName": "에이스잉글리쉬(Ace English)영어교습소",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 양천구 오목로46길 1",
-  "capacity": 91,
+  "address": "서울특별시 양천구 목동동로 100",
+  "capacity": 30,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5253505,
-  "lng": 126.861735,
+  "lat": 37.5145149,
+  "lng": 126.8666297,
   "brand": null,
   "aliases": [],
   "gradeBands": [
@@ -21167,14 +21142,14 @@
    "eng_el_rw"
   ],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2018-05-09",
+  "tel": "02-2653-0509",
+  "establishedOn": "2016-01-28",
   "dataSource": "neis",
   "score": {
-   "total": 52.0,
+   "total": 52.2,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 93.0,
+   "transparency": 95.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -21208,7 +21183,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 18
+      "운영 지속기간": 20
      },
      "만점": {
       "등록상태 정상": 30,
@@ -21224,7 +21199,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 91,
+     "정원": 30,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -21234,28 +21209,28 @@
   "evidence": []
  },
  {
-  "id": "3000029380",
-  "name": "소엔코딩학원",
-  "displayName": "소엔코딩학원",
+  "id": "1000034886",
+  "name": "꿈나무바둑학원",
+  "displayName": "꿈나무바둑학원",
   "regionId": "mokdong",
   "dong": "신정동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 양천구 목동서로 349",
-  "capacity": 85,
+  "address": "서울특별시 양천구 목동동로8길 25",
+  "capacity": 50,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5174204,
-  "lng": 126.8653309,
+  "lat": 37.5165934,
+  "lng": 126.8716451,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2650-8299",
-  "establishedOn": "2017-07-03",
+  "tel": "02-654-4597",
+  "establishedOn": "2002-05-02",
   "dataSource": "neis",
   "score": {
    "total": 43.6,
@@ -21446,38 +21421,39 @@
   ]
  },
  {
-  "id": "19180",
-  "name": "청섭골양훈장국어교습소",
-  "displayName": "청섭골양훈장국어교습소",
+  "id": "3000054567",
+  "name": "와이즈위클리독서논술교습소",
+  "displayName": "와이즈위클리독서논술교습소",
   "regionId": "mokdong",
-  "dong": "목동",
+  "dong": "신정동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 4,
+  "address": "서울특별시 양천구 신목로 58-17",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539,
+  "lat": 37.5204208,
+  "lng": 126.8743795,
   "brand": null,
   "aliases": [],
   "gradeBands": [
-   "high"
+   "elem_low",
+   "elem_high"
   ],
   "stages": [
-   "kor_hi_suneung"
+   "kor_el_reading"
   ],
   "flagship": [],
-  "tel": "070-7551-5400",
-  "establishedOn": "2007-12-28",
+  "tel": null,
+  "establishedOn": "2026-04-15",
   "dataSource": "neis",
   "score": {
-   "total": 54.6,
+   "total": 48.5,
    "reputation": 50.0,
    "momentum": 31.7,
-   "transparency": 99.0,
+   "transparency": 58.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -21509,9 +21485,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
+      "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 24
+      "운영 지속기간": 3
      },
      "만점": {
       "등록상태 정상": 30,
@@ -21527,7 +21503,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 4,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -23611,7 +23587,7 @@
  {
   "id": "22162",
   "name": "시매쓰학원",
-  "displayName": "시매쓰학원",
+  "displayName": "시매쓰학원 (서초동)",
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
@@ -30256,28 +30232,28 @@
   ]
  },
  {
-  "id": "3000040489",
-  "name": "퍼스트액터스학원",
-  "displayName": "퍼스트액터스학원",
+  "id": "3000052328",
+  "name": "서초미래간호학원",
+  "displayName": "서초미래간호학원",
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 서초구 효령로 304",
-  "capacity": 393,
+  "address": "서울특별시 서초구 강남대로45길 20",
+  "capacity": 288,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4847435,
-  "lng": 127.0178182,
+  "lat": 37.4881464,
+  "lng": 127.0308937,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-521-1059",
-  "establishedOn": "2021-12-17",
+  "tel": "02-579-7742",
+  "establishedOn": "2024-01-24",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -30445,28 +30421,28 @@
   ]
  },
  {
-  "id": "3000041639",
-  "name": "왕연기아카데미학원",
-  "displayName": "왕연기아카데미학원",
+  "id": "3000027618",
+  "name": "이후미술학원",
+  "displayName": "이후미술학원",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "반포동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 서초구 나루터로12길 19",
-  "capacity": 236,
+  "address": "서울특별시 서초구 고무래로10길 23",
+  "capacity": 210,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5145689,
-  "lng": 127.0178029,
+  "lat": 37.5006311,
+  "lng": 127.0102127,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-6257-8000",
-  "establishedOn": "2022-06-14",
+  "tel": "02-595-1122",
+  "establishedOn": "2016-11-29",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -30510,28 +30486,28 @@
   "evidence": []
  },
  {
-  "id": "3000046599",
-  "name": "배우앤배움입시센터학원",
-  "displayName": "배우앤배움입시센터학원",
+  "id": "3000038105",
+  "name": "조아라엘셋전문학원",
+  "displayName": "조아라엘셋전문학원",
   "regionId": "banpo",
-  "dong": "반포동",
+  "dong": "서초동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 서초구 사평대로53길 107",
-  "capacity": 362,
+  "address": "서울특별시 서초구 강남대로43길 11",
+  "capacity": 273,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.508872,
-  "lng": 127.0197342,
+  "lat": 37.487414,
+  "lng": 127.0316685,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-540-3507",
-  "establishedOn": "2023-11-01",
+  "tel": "02-552-2634",
+  "establishedOn": "2020-11-30",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -30699,28 +30675,28 @@
   ]
  },
  {
-  "id": "3000048186",
-  "name": "더트리니티발레아카데미학원",
-  "displayName": "더트리니티발레아카데미학원",
+  "id": "3000054540",
+  "name": "분트쿤스트슐레미술학원",
+  "displayName": "분트쿤스트슐레미술학원",
   "regionId": "banpo",
-  "dong": "반포동",
+  "dong": "서초동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 서초구 고무래로 8",
-  "capacity": 230,
+  "address": "서울특별시 서초구 서운로11길 28",
+  "capacity": 208,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5036665,
-  "lng": 127.0100534,
+  "lat": 37.4876249,
+  "lng": 127.026953,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2023-11-14",
+  "tel": "010-2827-5405",
+  "establishedOn": "2026-04-08",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -30764,28 +30740,28 @@
   "evidence": []
  },
  {
-  "id": "3000033957",
-  "name": "주액터스연기학원",
-  "displayName": "주액터스연기학원",
+  "id": "27951",
+  "name": "비너세움아카데미학원",
+  "displayName": "비너세움아카데미학원",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "서초동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 서초구 강남대로97길 23",
-  "capacity": 354,
+  "address": "서울특별시 서초구 강남대로 243",
+  "capacity": 267,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5144684,
-  "lng": 127.0184872,
+  "lat": 37.4851454,
+  "lng": 127.0333062,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-512-5585",
-  "establishedOn": "2019-03-14",
+  "tel": "02-562-4567",
+  "establishedOn": "2010-03-16",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -30829,28 +30805,28 @@
   "evidence": []
  },
  {
-  "id": "4677",
-  "name": "송림학원",
-  "displayName": "송림학원",
+  "id": "3000054970",
+  "name": "김영플러스자연계전문관학원",
+  "displayName": "김영플러스자연계전문관학원",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "서초동",
   "subjects": [
    "general"
   ],
-  "address": "서울특별시 서초구 반포대로 300-3",
-  "capacity": 936,
+  "address": "서울특별시 서초구 강남대로 419",
+  "capacity": 768,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5057869,
-  "lng": 127.0012667,
+  "lat": 37.4998135,
+  "lng": 127.0262296,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-508-1245",
-  "establishedOn": "2002-03-26",
+  "tel": "02-567-7033",
+  "establishedOn": "2026-06-29",
   "dataSource": "neis",
   "score": {
    "total": 43.2,
@@ -30894,28 +30870,28 @@
   "evidence": []
  },
  {
-  "id": "3000048965",
-  "name": "연세스트링아카데미학원",
-  "displayName": "연세스트링아카데미학원",
+  "id": "3000054183",
+  "name": "연세스트링아카데미2관학원",
+  "displayName": "연세스트링아카데미2관학원",
   "regionId": "banpo",
   "dong": "반포동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 서초구 서초중앙로31길 14-11",
-  "capacity": 230,
+  "address": "서울특별시 서초구 서초중앙로 229",
+  "capacity": 198,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5004786,
-  "lng": 127.0104587,
+  "lat": 37.5021206,
+  "lng": 127.0113916,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
   "tel": "02-595-3770",
-  "establishedOn": "2024-03-13",
+  "establishedOn": "2026-02-12",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -31110,28 +31086,28 @@
   ]
  },
  {
-  "id": "3000048482",
-  "name": "티아이액터스연기학원",
-  "displayName": "티아이액터스연기학원",
+  "id": "1000035181",
+  "name": "국제컴퓨터학원",
+  "displayName": "국제컴퓨터학원",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "서초동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 서초구 나루터로15길 6",
-  "capacity": 342,
+  "address": "서울특별시 서초구 서초대로73길 54",
+  "capacity": 240,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5161799,
-  "lng": 127.0186367,
+  "lat": 37.5020272,
+  "lng": 127.024118,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-0000-0000",
-  "establishedOn": "2023-12-28",
+  "tel": "02-535-9951",
+  "establishedOn": "1987-09-21",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -31322,34 +31298,34 @@
   ]
  },
  {
-  "id": "3000031581",
-  "name": "이투스ECI원격학원",
-  "displayName": "이투스ECI원격학원",
+  "id": "3000050844",
+  "name": "한우리신중독서토론논술교습소",
+  "displayName": "한우리신중독서토론논술교습소",
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 서초구 남부순환로 2547",
-  "capacity": 3,
+  "address": "서울특별시 서초구 명달로4길 4",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4842509,
-  "lng": 127.029114,
+  "lat": 37.4798573,
+  "lng": 127.0061058,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-414-9001",
-  "establishedOn": "2018-04-10",
+  "tel": "02-000-0000",
+  "establishedOn": "2024-07-25",
   "dataSource": "neis",
   "score": {
-   "total": 54.2,
+   "total": 46.1,
    "reputation": 50.0,
    "momentum": 35.0,
-   "transparency": 93.0,
+   "transparency": 39.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -31381,9 +31357,9 @@
     "transparency": {
      "항목별": {
       "등록상태 정상": 30,
-      "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 18
+      "정원 공시": 0,
+      "교습과정 상세": 0,
+      "운영 지속기간": 9
      },
      "만점": {
       "등록상태 정상": 30,
@@ -31399,7 +31375,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 3,
+     "정원": null,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -31522,34 +31498,34 @@
   ]
  },
  {
-  "id": "3000043794",
-  "name": "애플과학학원",
-  "displayName": "애플과학학원",
+  "id": "2361",
+  "name": "김수희과학보습학원",
+  "displayName": "김수희과학보습학원",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "반포동",
   "subjects": [
    "science"
   ],
-  "address": "서울특별시 서초구 신반포로 189",
-  "capacity": 10,
+  "address": "서울특별시 서초구 사평대로 126",
+  "capacity": 5,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5065445,
-  "lng": 127.0048933,
+  "lat": 37.4997778,
+  "lng": 126.9983537,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-000-0000",
-  "establishedOn": "2023-04-20",
+  "tel": "02-599-0477",
+  "establishedOn": "2002-10-19",
   "dataSource": "neis",
   "score": {
-   "total": 55.5,
+   "total": 57.5,
    "reputation": 50.0,
    "momentum": 50.0,
-   "transparency": 87.0,
+   "transparency": 100.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -31583,7 +31559,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 12
+      "운영 지속기간": 25
      },
      "만점": {
       "등록상태 정상": 30,
@@ -31599,7 +31575,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 10,
+     "정원": 5,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -31609,28 +31585,28 @@
   "evidence": []
  },
  {
-  "id": "3000054501",
-  "name": "탑클래스뮤직아카데미학원",
-  "displayName": "탑클래스뮤직아카데미학원",
+  "id": "3000052806",
+  "name": "봉프앙프렌치아틀리에미술학원",
+  "displayName": "봉프앙프렌치아틀리에미술학원",
   "regionId": "banpo",
-  "dong": "서초동",
+  "dong": "반포동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 서초구 서초대로55길 15",
-  "capacity": 230,
+  "address": "서울특별시 서초구 반포대로 291",
+  "capacity": 196,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4960937,
-  "lng": 127.0152538,
+  "lat": 37.5049309,
+  "lng": 126.9995048,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": null,
-  "establishedOn": "2026-04-03",
+  "tel": "02-591-2911",
+  "establishedOn": "2025-07-02",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -31674,38 +31650,39 @@
   "evidence": []
  },
  {
-  "id": "16448",
-  "name": "애플트리서초어학학원",
-  "displayName": "애플트리서초어학학원",
+  "id": "3000041876",
+  "name": "서초크라센2관어학원",
+  "displayName": "서초크라센2관어학원",
   "regionId": "banpo",
-  "dong": "서초동",
+  "dong": "반포동",
   "subjects": [
    "english"
   ],
-  "address": "서울특별시 서초구 사임당로 102-5",
-  "capacity": 2210,
+  "address": "서울특별시 서초구 서초중앙로31길 6-3",
+  "capacity": 2130,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4901885,
-  "lng": 127.0212251,
+  "lat": 37.5000657,
+  "lng": 127.0113023,
   "brand": null,
   "aliases": [],
   "gradeBands": [
    "elem_low"
   ],
   "stages": [
-   "eng_el_phonics"
+   "eng_el_phonics",
+   "eng_el_academy"
   ],
   "flagship": [],
-  "tel": "02-516-0509",
-  "establishedOn": "2007-02-28",
+  "tel": "02-6261-8280",
+  "establishedOn": "2022-07-15",
   "dataSource": "neis",
   "score": {
-   "total": 55.3,
+   "total": 53.5,
    "reputation": 50.0,
    "momentum": 35.1,
-   "transparency": 100.0,
+   "transparency": 88.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -31739,7 +31716,7 @@
       "등록상태 정상": 30,
       "정원 공시": 20,
       "교습과정 상세": 25,
-      "운영 지속기간": 25
+      "운영 지속기간": 13
      },
      "만점": {
       "등록상태 정상": 30,
@@ -31755,7 +31732,7 @@
      "대기·마감_언급": 0,
      "표본": 0,
      "언급÷정원_상대값": null,
-     "정원": 2210,
+     "정원": 2130,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
      "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
@@ -31765,28 +31742,28 @@
   "evidence": []
  },
  {
-  "id": "30224",
-  "name": "시드학원",
-  "displayName": "시드학원",
+  "id": "3000018722",
+  "name": "꼭시넬그림책학원",
+  "displayName": "꼭시넬그림책학원",
   "regionId": "banpo",
-  "dong": "서초동",
+  "dong": "반포동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 서초구 서초중앙로20길 40",
-  "capacity": 335,
+  "address": "서울특별시 서초구 서래로2길 27",
+  "capacity": 230,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4923227,
-  "lng": 127.0164209,
+  "lat": 37.4961178,
+  "lng": 126.9997608,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-585-5226",
-  "establishedOn": "2010-10-28",
+  "tel": "010-3104-0083",
+  "establishedOn": "2013-12-03",
   "dataSource": "neis",
   "score": {
    "total": 38.0,
@@ -31830,28 +31807,28 @@
   "evidence": []
  },
  {
-  "id": "3000039396",
-  "name": "스마트해법서초플래그십학원",
-  "displayName": "스마트해법서초플래그십학원",
+  "id": "3000010730",
+  "name": "반포새움",
+  "displayName": "반포새움",
   "regionId": "banpo",
-  "dong": "서초동",
+  "dong": "잠원동",
   "subjects": [
    "general"
   ],
-  "address": "서울특별시 서초구 사임당로 158",
-  "capacity": 934,
+  "address": "서울특별시 서초구 신반포로 195",
+  "capacity": 729,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4918503,
-  "lng": 127.0271768,
+  "registrationCount": 2,
+  "lat": 37.5067411,
+  "lng": 127.0055386,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-3474-2090",
-  "establishedOn": "2021-07-14",
+  "tel": "02-535-8561",
+  "establishedOn": "2011-04-22",
   "dataSource": "neis",
   "score": {
    "total": 43.2,
@@ -31895,34 +31872,34 @@
   "evidence": []
  },
  {
-  "id": "3000048580",
-  "name": "한우리독서토론논술자이교습소",
-  "displayName": "한우리독서토론논술자이교습소",
+  "id": "3000051248",
+  "name": "한우리서초남독서논술교습소",
+  "displayName": "한우리서초남독서논술교습소",
   "regionId": "banpo",
-  "dong": "잠원동",
+  "dong": "서초동",
   "subjects": [
    "korean"
   ],
-  "address": "서울특별시 서초구 신반포로 219",
+  "address": "서울특별시 서초구 서초대로53길 21",
   "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5075097,
-  "lng": 127.0080778,
+  "lat": 37.4960527,
+  "lng": 127.0144001,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
   "tel": "02-0000-0000",
-  "establishedOn": "2024-01-12",
+  "establishedOn": "2024-10-15",
   "dataSource": "neis",
   "score": {
-   "total": 46.4,
+   "total": 46.1,
    "reputation": 50.0,
    "momentum": 35.0,
-   "transparency": 41.0,
+   "transparency": 39.0,
    "selectivity": 50.0,
    "sampleSize": 0,
    "confidence": "low",
@@ -31956,7 +31933,7 @@
       "등록상태 정상": 30,
       "정원 공시": 0,
       "교습과정 상세": 0,
-      "운영 지속기간": 11
+      "운영 지속기간": 9
      },
      "만점": {
       "등록상태 정상": 30,
@@ -32106,11 +32083,11 @@
   "establishedOn": "2005-05-25",
   "dataSource": "neis",
   "score": {
-   "total": 54.2,
-   "reputation": 52.2,
-   "momentum": 81.6,
+   "total": 54.1,
+   "reputation": 51.5,
+   "momentum": 82.2,
    "transparency": 100.0,
-   "selectivity": 24.7,
+   "selectivity": 24.9,
    "sampleSize": 392,
    "confidence": "high",
    "isRanked": true,
@@ -32118,7 +32095,7 @@
    "positiveRate": 77.4,
    "momentumDirection": "rising",
    "rankInRegion": 3,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -32133,16 +32110,16 @@
      "제외된_스팸": 7,
      "가중_감성합": 8.22,
      "가중치_총합": 65.65,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.125 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.125 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 99,
      "최신성_가중합": 258.3,
      "전체_유효언급": 392,
-     "코호트_z점수": 1.08,
+     "코호트_z점수": 1.13,
      "월별_추세기울기": 8.107,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -32166,7 +32143,7 @@
      "난이도_언급": 32.2,
      "대기·마감_언급": 2.1,
      "표본": 392,
-     "언급÷정원_상대값": 0.18,
+     "언급÷정원_상대값": 0.215,
      "정원": 2276,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 392건, 사전표본 10건만큼 중앙으로 축소)",
@@ -32578,7 +32555,7 @@
    "positiveRate": 100.0,
    "momentumDirection": "stable",
    "rankInRegion": 8,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -32901,11 +32878,11 @@
   "establishedOn": "2008-01-16",
   "dataSource": "neis",
   "score": {
-   "total": 50.2,
+   "total": 50.6,
    "reputation": 35.1,
-   "momentum": 79.7,
+   "momentum": 80.3,
    "transparency": 99.0,
-   "selectivity": 31.7,
+   "selectivity": 32.7,
    "sampleSize": 216,
    "confidence": "high",
    "isRanked": true,
@@ -32913,7 +32890,7 @@
    "positiveRate": 65.8,
    "momentumDirection": "rising",
    "rankInRegion": 9,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -32928,16 +32905,16 @@
      "제외된_스팸": 18,
      "가중_감성합": 2.13,
      "가중치_총합": 58.34,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.036 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.036 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 146,
      "최신성_가중합": 174.6,
      "전체_유효언급": 216,
-     "코호트_z점수": 0.9,
+     "코호트_z점수": 0.95,
      "월별_추세기울기": 11.595,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -32961,7 +32938,7 @@
      "난이도_언급": 12.1,
      "대기·마감_언급": 3.3,
      "표본": 216,
-     "언급÷정원_상대값": 2.02,
+     "언급÷정원_상대값": 2.403,
      "정원": 112,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 216건, 사전표본 10건만큼 중앙으로 축소)",
@@ -33607,11 +33584,11 @@
   "establishedOn": "2009-08-06",
   "dataSource": "neis",
   "score": {
-   "total": 51.3,
-   "reputation": 37.6,
-   "momentum": 80.4,
+   "total": 51.8,
+   "reputation": 37.5,
+   "momentum": 80.9,
    "transparency": 99.0,
-   "selectivity": 32.2,
+   "selectivity": 33.3,
    "sampleSize": 245,
    "confidence": "high",
    "isRanked": true,
@@ -33619,7 +33596,7 @@
    "positiveRate": 73.9,
    "momentumDirection": "rising",
    "rankInRegion": 7,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -33634,16 +33611,16 @@
      "제외된_스팸": 18,
      "가중_감성합": 3.29,
      "가중치_총합": 64.79,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.051 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.051 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 167,
      "최신성_가중합": 200.2,
      "전체_유효언급": 245,
-     "코호트_z점수": 0.96,
+     "코호트_z점수": 1.01,
      "월별_추세기울기": 13.345,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -33667,7 +33644,7 @@
      "난이도_언급": 13.1,
      "대기·마감_언급": 3.3,
      "표본": 245,
-     "언급÷정원_상대값": 2.377,
+     "언급÷정원_상대값": 2.826,
      "정원": 108,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 245건, 사전표본 10건만큼 중앙으로 축소)",
@@ -34126,9 +34103,9 @@
   "establishedOn": "2013-08-19",
   "dataSource": "neis",
   "score": {
-   "total": 59.0,
-   "reputation": 60.5,
-   "momentum": 68.1,
+   "total": 58.8,
+   "reputation": 59.5,
+   "momentum": 68.7,
    "transparency": 97.0,
    "selectivity": 37.4,
    "sampleSize": 250,
@@ -34138,7 +34115,7 @@
    "positiveRate": 78.8,
    "momentumDirection": "rising",
    "rankInRegion": 1,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -34153,16 +34130,16 @@
      "제외된_스팸": 32,
      "가중_감성합": 6.1,
      "가중치_총합": 34.95,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.174 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.174 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 42,
      "최신성_가중합": 144.3,
      "전체_유효언급": 250,
-     "코호트_z점수": 0.81,
+     "코호트_z점수": 0.87,
      "월별_추세기울기": 1.939,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -34186,7 +34163,7 @@
      "난이도_언급": 15.8,
      "대기·마감_언급": 5.3,
      "표본": 250,
-     "언급÷정원_상대값": 4.365,
+     "언급÷정원_상대값": 5.191,
      "정원": 60,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 250건, 사전표본 10건만큼 중앙으로 축소)",
@@ -34384,7 +34361,7 @@
    "positiveRate": 100.0,
    "momentumDirection": "stable",
    "rankInRegion": 2,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -34525,9 +34502,9 @@
   "establishedOn": "2011-05-04",
   "dataSource": "neis",
   "score": {
-   "total": 54.0,
+   "total": 54.1,
    "reputation": 49.2,
-   "momentum": 37.7,
+   "momentum": 38.6,
    "transparency": 98.0,
    "selectivity": 46.9,
    "sampleSize": 1,
@@ -34552,16 +34529,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.0,
      "가중치_총합": 0.39,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 1,
      "최신성_가중합": 1.0,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.14,
+     "코호트_z점수": -1.06,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -34585,7 +34562,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 1,
-     "언급÷정원_상대값": 0.087,
+     "언급÷정원_상대값": 0.104,
      "정원": 12,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 1건, 사전표본 10건만큼 중앙으로 축소)",
@@ -34852,9 +34829,9 @@
   "establishedOn": "2015-12-17",
   "dataSource": "neis",
   "score": {
-   "total": 54.4,
+   "total": 54.5,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 95.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -34880,7 +34857,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -35136,9 +35113,9 @@
   "establishedOn": "2022-07-15",
   "dataSource": "neis",
   "score": {
-   "total": 53.3,
+   "total": 53.5,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 88.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -35164,7 +35141,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -35419,9 +35396,9 @@
   "establishedOn": "2024-07-15",
   "dataSource": "neis",
   "score": {
-   "total": 49.7,
+   "total": 49.9,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 64.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -35447,7 +35424,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -35700,9 +35677,9 @@
   "establishedOn": "2025-05-15",
   "dataSource": "neis",
   "score": {
-   "total": 49.4,
+   "total": 49.6,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 62.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -35728,7 +35705,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -36046,9 +36023,9 @@
   "establishedOn": "2016-03-16",
   "dataSource": "neis",
   "score": {
-   "total": 53.4,
+   "total": 53.6,
    "reputation": 49.5,
-   "momentum": 36.6,
+   "momentum": 37.5,
    "transparency": 95.0,
    "selectivity": 46.8,
    "sampleSize": 1,
@@ -36073,16 +36050,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.0,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.24,
+     "코호트_z점수": -1.16,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -36106,7 +36083,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 1,
-     "언급÷정원_상대값": 0.01,
+     "언급÷정원_상대값": 0.012,
      "정원": 108,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 1건, 사전표본 10건만큼 중앙으로 축소)",
@@ -36567,9 +36544,9 @@
   "establishedOn": "2019-01-02",
   "dataSource": "neis",
   "score": {
-   "total": 53.1,
+   "total": 53.3,
    "reputation": 49.5,
-   "momentum": 36.6,
+   "momentum": 37.5,
    "transparency": 93.0,
    "selectivity": 46.8,
    "sampleSize": 1,
@@ -36594,16 +36571,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.0,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.24,
+     "코호트_z점수": -1.16,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -36627,7 +36604,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 1,
-     "언급÷정원_상대값": 0.029,
+     "언급÷정원_상대값": 0.035,
      "정원": 36,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 1건, 사전표본 10건만큼 중앙으로 축소)",
@@ -36789,9 +36766,9 @@
   "establishedOn": "2020-01-20",
   "dataSource": "neis",
   "score": {
-   "total": 53.0,
+   "total": 53.2,
    "reputation": 49.5,
-   "momentum": 36.6,
+   "momentum": 37.5,
    "transparency": 92.0,
    "selectivity": 46.9,
    "sampleSize": 1,
@@ -36816,16 +36793,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.0,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.24,
+     "코호트_z점수": -1.16,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -36849,7 +36826,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 1,
-     "언급÷정원_상대값": 0.042,
+     "언급÷정원_상대값": 0.05,
      "정원": 25,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 1건, 사전표본 10건만큼 중앙으로 축소)",
@@ -37011,9 +36988,9 @@
   "establishedOn": "2016-02-26",
   "dataSource": "neis",
   "score": {
-   "total": 54.4,
+   "total": 54.5,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 95.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -37039,7 +37016,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -37224,9 +37201,9 @@
   "establishedOn": "2013-05-01",
   "dataSource": "neis",
   "score": {
-   "total": 54.7,
+   "total": 54.8,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 97.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -37252,7 +37229,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -37427,9 +37404,9 @@
   "establishedOn": "2026-04-24",
   "dataSource": "neis",
   "score": {
-   "total": 48.7,
+   "total": 48.8,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 57.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -37455,7 +37432,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -37887,9 +37864,9 @@
   "establishedOn": "2020-01-20",
   "dataSource": "neis",
   "score": {
-   "total": 53.9,
+   "total": 54.1,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 92.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -37915,7 +37892,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -37992,7 +37969,7 @@
    "positiveRate": 83.1,
    "momentumDirection": "stable",
    "rankInRegion": 5,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -38334,9 +38311,9 @@
   "establishedOn": "2024-02-26",
   "dataSource": "neis",
   "score": {
-   "total": 52.9,
+   "total": 53.0,
    "reputation": 50.0,
-   "momentum": 34.3,
+   "momentum": 35.2,
    "transparency": 85.0,
    "selectivity": 50.0,
    "sampleSize": 0,
@@ -38362,7 +38339,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.46,
+     "코호트_z점수": -1.37,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -38436,7 +38413,7 @@
    "positiveRate": 67.9,
    "momentumDirection": "rising",
    "rankInRegion": 4,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -40025,28 +40002,28 @@
   ]
  },
  {
-  "id": "3000037784",
-  "name": "궁중국악교습소",
-  "displayName": "궁중국악교습소",
+  "id": "3000031617",
+  "name": "에코아틀리에게임스튜디오학원",
+  "displayName": "에코아틀리에게임스튜디오학원",
   "regionId": "jamsil",
   "dong": "잠실동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 송파구 백제고분로 139",
-  "capacity": 63,
+  "address": "서울특별시 송파구 올림픽로8길 13",
+  "capacity": 10,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5061211,
-  "lng": 127.0826787,
+  "lat": 37.510616,
+  "lng": 127.0803782,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-425-0824",
-  "establishedOn": "2020-11-02",
+  "tel": "02-0000-0000",
+  "establishedOn": "2018-04-17",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -40174,28 +40151,28 @@
   ]
  },
  {
-  "id": "3000014005",
-  "name": "발레포러스무용학원",
-  "displayName": "발레포러스무용학원",
+  "id": "1000028284",
+  "name": "클래식음악",
+  "displayName": "클래식음악",
   "regionId": "jamsil",
-  "dong": "잠실동",
+  "dong": "방이동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 송파구 올림픽로12길 4",
-  "capacity": 130,
+  "address": "서울특별시 송파구 양재대로 1222",
+  "capacity": 100,
   "registrationStatus": "개원",
   "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5112815,
-  "lng": 127.082789,
+  "registrationCount": 2,
+  "lat": 37.515729,
+  "lng": 127.1310643,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2203-3636",
-  "establishedOn": "2012-04-18",
+  "tel": "02-401-5229",
+  "establishedOn": "1989-06-30",
   "dataSource": "neis",
   "score": {
    "total": 40.6,
@@ -40239,28 +40216,28 @@
   "evidence": []
  },
  {
-  "id": "3000048491",
-  "name": "최일경건축설비기술학원",
-  "displayName": "최일경건축설비기술학원",
+  "id": "6295",
+  "name": "속독교습소",
+  "displayName": "속독교습소",
   "regionId": "jamsil",
   "dong": "잠실동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 송파구 백제고분로7길 32-33",
-  "capacity": 61,
+  "address": "서울특별시 송파구 한가람로 ",
+  "capacity": 9,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5093442,
-  "lng": 127.082985,
+  "lat": null,
+  "lng": null,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-561-8114",
-  "establishedOn": "2007-08-09",
+  "tel": "02-000-0000",
+  "establishedOn": "1982-05-26",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -40428,28 +40405,28 @@
   ]
  },
  {
-  "id": "3000035776",
-  "name": "오하운폴댄스학원",
-  "displayName": "오하운폴댄스학원",
+  "id": "3000050348",
+  "name": "꿈의선미술학원",
+  "displayName": "꿈의선미술학원",
   "regionId": "jamsil",
-  "dong": "잠실동",
+  "dong": "방이동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 송파구 백제고분로7길 15-5",
-  "capacity": 130,
+  "address": "서울특별시 송파구 위례성대로18길 33",
+  "capacity": 100,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5108104,
-  "lng": 127.0804757,
+  "lat": 37.5094662,
+  "lng": 127.1249669,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-474-8285",
-  "establishedOn": "2019-12-02",
+  "tel": "02-0000-0000",
+  "establishedOn": "2024-05-07",
   "dataSource": "neis",
   "score": {
    "total": 40.6,
@@ -40493,28 +40470,28 @@
   "evidence": []
  },
  {
-  "id": "3000028695",
-  "name": "예일인테리어스쿨학원",
-  "displayName": "예일인테리어스쿨학원",
+  "id": "3640",
+  "name": "홍선생컴퓨터교습소",
+  "displayName": "홍선생컴퓨터교습소",
   "regionId": "jamsil",
-  "dong": "잠실동",
+  "dong": "신천동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 송파구 백제고분로 135",
-  "capacity": 30,
+  "address": "서울특별시 송파구 올림픽로35길 124",
+  "capacity": 6,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5062995,
-  "lng": 127.0820279,
+  "lat": 37.5173527,
+  "lng": 127.1007382,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-415-0415",
-  "establishedOn": "2017-03-29",
+  "tel": "02-413-0048",
+  "establishedOn": "2003-10-31",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -40672,28 +40649,28 @@
   ]
  },
  {
-  "id": "1000022971",
-  "name": "서울라이프음악학원",
-  "displayName": "서울라이프음악학원",
+  "id": "3000040780",
+  "name": "잠실피아노학원",
+  "displayName": "잠실피아노학원",
   "regionId": "jamsil",
   "dong": "신천동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 송파구 올림픽로35길 112",
-  "capacity": 120,
+  "address": "서울특별시 송파구 올림픽로35길 10",
+  "capacity": 100,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5178933,
-  "lng": 127.1018273,
+  "lat": 37.5203138,
+  "lng": 127.1132814,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-416-0228",
-  "establishedOn": "1986-03-15",
+  "tel": "02-412-5743",
+  "establishedOn": "2022-02-03",
   "dataSource": "neis",
   "score": {
    "total": 40.6,
@@ -40767,10 +40744,10 @@
   "dataSource": "neis",
   "score": {
    "total": 49.9,
-   "reputation": 55.8,
-   "momentum": 56.7,
+   "reputation": 55.1,
+   "momentum": 57.3,
    "transparency": 98.0,
-   "selectivity": 20.6,
+   "selectivity": 20.8,
    "sampleSize": 121,
    "confidence": "high",
    "isRanked": true,
@@ -40778,7 +40755,7 @@
    "positiveRate": 88.0,
    "momentumDirection": "stable",
    "rankInRegion": 10,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -40793,16 +40770,16 @@
      "제외된_스팸": 8,
      "가중_감성합": 2.32,
      "가중치_총합": 14.58,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.159 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.159 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 64,
      "최신성_가중합": 94.1,
      "전체_유효언급": 121,
-     "코호트_z점수": 0.62,
+     "코호트_z점수": 0.68,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -40826,7 +40803,7 @@
      "난이도_언급": 2.5,
      "대기·마감_언급": 0.6,
      "표본": 121,
-     "언급÷정원_상대값": 0.125,
+     "언급÷정원_상대값": 0.148,
      "정원": 1016,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 121건, 사전표본 10건만큼 중앙으로 축소)",
@@ -40888,28 +40865,28 @@
   ]
  },
  {
-  "id": "3000027234",
-  "name": "바둑의신바둑교습소",
-  "displayName": "바둑의신바둑교습소",
+  "id": "3000031074",
+  "name": "조성은면접스피치웅변교습소",
+  "displayName": "조성은면접스피치웅변교습소",
   "regionId": "jamsil",
-  "dong": "방이동",
+  "dong": "신천동",
   "subjects": [
    "etc"
   ],
-  "address": "서울특별시 송파구 백제고분로48길 13",
-  "capacity": 28,
+  "address": "서울특별시 송파구 올림픽로35길 112",
+  "capacity": 6,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5114503,
-  "lng": 127.1148772,
+  "lat": 37.5178933,
+  "lng": 127.1018273,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-2038-2619",
-  "establishedOn": "2016-10-10",
+  "tel": "02-421-9600",
+  "establishedOn": "2018-02-13",
   "dataSource": "neis",
   "score": {
    "total": 50.0,
@@ -40953,28 +40930,28 @@
   "evidence": []
  },
  {
-  "id": "3000054760",
-  "name": "방이로고스3관학원",
-  "displayName": "방이로고스3관학원",
+  "id": "3000051138",
+  "name": "GLP아카데미학원",
+  "displayName": "GLP아카데미학원",
   "regionId": "jamsil",
-  "dong": "방이동",
+  "dong": "잠실동",
   "subjects": [
    "general"
   ],
-  "address": "서울특별시 송파구 양재대로71길 16-28",
-  "capacity": 243,
+  "address": "서울특별시 송파구 석촌호수로 61",
+  "capacity": 240,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5118505,
-  "lng": 127.1259673,
+  "lat": 37.5107806,
+  "lng": 127.0861952,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "010-9348-6836",
-  "establishedOn": "2026-05-19",
+  "tel": "010-5269-8687",
+  "establishedOn": "2024-09-25",
   "dataSource": "neis",
   "score": {
    "total": 42.2,
@@ -41043,9 +41020,9 @@
   "establishedOn": "2024-05-03",
   "dataSource": "neis",
   "score": {
-   "total": 49.5,
-   "reputation": 47.7,
-   "momentum": 40.3,
+   "total": 49.7,
+   "reputation": 47.8,
+   "momentum": 41.2,
    "transparency": 85.0,
    "selectivity": 40.0,
    "sampleSize": 4,
@@ -41070,16 +41047,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.0,
      "가중치_총합": 1.12,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.0 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 2.4,
      "전체_유효언급": 4,
-     "코호트_z점수": -0.9,
+     "코호트_z점수": -0.82,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -41103,7 +41080,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 4,
-     "언급÷정원_상대값": 0.006,
+     "언급÷정원_상대값": 0.007,
      "정원": 756,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 4건, 사전표본 10건만큼 중앙으로 축소)",
@@ -41191,7 +41168,7 @@
    "positiveRate": 84.9,
    "momentumDirection": "falling",
    "rankInRegion": 6,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,
@@ -41427,28 +41404,28 @@
   ]
  },
  {
-  "id": "17111",
-  "name": "Hart미술학원",
-  "displayName": "Hart미술학원",
+  "id": "24443",
+  "name": "와우아뜰리에미술학원",
+  "displayName": "와우아뜰리에미술학원",
   "regionId": "jamsil",
-  "dong": "방이동",
+  "dong": "잠실동",
   "subjects": [
    "arts"
   ],
-  "address": "서울특별시 송파구 오금로31길 17",
-  "capacity": 120,
+  "address": "서울특별시 송파구 올림픽로 119",
+  "capacity": 87,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5074986,
-  "lng": 127.1218749,
+  "lat": 37.5120894,
+  "lng": 127.0842018,
   "brand": null,
   "aliases": [],
   "gradeBands": [],
   "stages": [],
   "flagship": [],
-  "tel": "02-413-5491",
-  "establishedOn": "2007-05-03",
+  "tel": "02-420-3160",
+  "establishedOn": "2009-06-30",
   "dataSource": "neis",
   "score": {
    "total": 40.6,
@@ -41492,287 +41469,6 @@
   "evidence": []
  },
  {
-  "id": "18108",
-  "name": "리틀팍스어학원",
-  "displayName": "리틀팍스어학원",
-  "regionId": "jamsil",
-  "dong": "신천동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 송파구 올림픽로35길 112",
-  "capacity": 48,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5178933,
-  "lng": 127.1018273,
-  "brand": null,
-  "aliases": [],
-  "gradeBands": [
-   "elem_low"
-  ],
-  "stages": [
-   "eng_el_phonics",
-   "eng_el_academy"
-  ],
-  "flagship": [],
-  "tel": "02-413-8000",
-  "establishedOn": "2007-04-17",
-  "dataSource": "neis",
-  "score": {
-   "total": 49.1,
-   "reputation": 43.4,
-   "momentum": 57.7,
-   "transparency": 100.0,
-   "selectivity": 29.2,
-   "sampleSize": 126,
-   "confidence": "high",
-   "isRanked": true,
-   "subjectGroup": "academic",
-   "positiveRate": 75.7,
-   "momentumDirection": "stable",
-   "rankInRegion": 12,
-   "regionRankedCount": 12,
-   "breakdown": {
-    "weights": {
-     "reputation": 0.35,
-     "selectivity": 0.35,
-     "momentum": 0.15,
-     "transparency": 0.15
-    },
-    "reputation": {
-     "표본": 126,
-     "긍정률": 75.7,
-     "의견_표명_가중치": 9.92,
-     "제외된_스팸": 6,
-     "가중_감성합": 2.3,
-     "가중치_총합": 30.82,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
-     "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.075 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
-    },
-    "momentum": {
-     "최근90일_언급": 109,
-     "최신성_가중합": 115.1,
-     "전체_유효언급": 126,
-     "코호트_z점수": 0.71,
-     "월별_추세기울기": 0.0,
-     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
-    },
-    "transparency": {
-     "항목별": {
-      "등록상태 정상": 30,
-      "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 25
-     },
-     "만점": {
-      "등록상태 정상": 30,
-      "정원 공시": 20,
-      "교습과정 상세": 25,
-      "운영 지속기간": 25
-     },
-     "검증여부": true,
-     "설명": "NEIS 학원교습소정보 공시 항목 기반 규칙 채점"
-    },
-    "selectivity": {
-     "난이도_언급": 0.0,
-     "대기·마감_언급": 1.2,
-     "표본": 126,
-     "언급÷정원_상대값": 2.75,
-     "정원": 48,
-     "축소_사전표본": 10,
-     "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 126건, 사전표본 10건만큼 중앙으로 축소)",
-     "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
-    }
-   }
-  },
-  "evidence": [
-   {
-    "source": "naver_blog",
-    "url": "https://blog.naver.com/a4910/222628059041",
-    "title": "예비초1 리틀팍스 어학원 레벨테스트 후기. c4단계",
-    "snippet": "저희 아이는 집에서 리틀팍스를 보고있는데요,\n아이가 다닐 학교에 리틀팍스 어학원 차량이 들어온다는 소식에 레벨테스트 겸 상담을 다녀왔습니다.\n레테비용은 2만원이었고 결과지를 출력해주진 않는다고 하셨습니다. 2만원이면",
-    "posted_at": "2022-01-21",
-    "sentiment": 0.565,
-    "credibility": 0.9,
-    "branch_basis": "brand"
-   },
-   {
-    "source": "naver_blog",
-    "url": "https://blog.naver.com/zn2023/223769498243",
-    "title": "[6세] 리틀팍스 어학원 테스트 후기 (C1레벨)",
-    "snippet": "​ \n ​ \n 윤이와 함께 리틀팍스 어학원에 다녀왔다. \n ​ \n 24년 12월 쯤에 3월 신학기를 위한 \n 리틀팍스 어학원 설명회에 다녀왔었는데, \n 2월쯤 연락하면 된다고 해서 기억만 하고 있었다. \n ​ \n ​",
-    "posted_at": "2025-02-22",
-    "sentiment": 0.0,
-    "credibility": 0.8,
-    "branch_basis": "brand"
-   },
-   {
-    "source": "naver_cafe",
-    "url": "https://cafe.naver.com/superdad/8071",
-    "title": "리틀팍스로 오로지 듣기만한 아이의 놀라운 실력! (우수활용수기 공유)",
-    "snippet": "올해로 3년차 리틀팍스를 즐기는 초등2학년 엄마입니다. 저희 아이는 리틀팍스를... 영어학원을 보냈습니다. 집앞에 리틀팍스 어학원이 있어서 고민안하고 보냈어요. 레벨테스트를 받고 1년다닌 아이들과 같은 반에...",
-    "posted_at": "2026-08-24",
-    "sentiment": 0.273,
-    "credibility": 0.745,
-    "branch_basis": "brand"
-   },
-   {
-    "source": "naver_blog",
-    "url": "https://blog.naver.com/momssam15/223462571361",
-    "title": "리틀팍스 어학원 초등 3학년 레벨테스트 후기",
-    "snippet": "​ \n ​ \n ​ \n ​ \n ​ \n 집에서 엄마표로만 영어 공부를 해오다 \n 이제 영어 학원을 가기로 합니다. \n ​ \n 이제는 가야할 때...! \n ㅎㅎ \n ​ \n ​ \n ​ \n ​ \n ​ \n ​ \n ​ \n ​ \n",
-    "posted_at": "2024-05-29",
-    "sentiment": 0.243,
-    "credibility": 0.656,
-    "branch_basis": "brand"
-   },
-   {
-    "source": "naver_blog",
-    "url": "https://blog.naver.com/ohdumak/222168138785",
-    "title": "라이브최선 (추가) / 리틀팍스어학원  레벨테스트 후기",
-    "snippet": "​ \n ​ \n ​ \n 라이브최선 레벨테스트 후기 \n ​ \n 2022 라이브최선 온라인설명회 \n ​ \n ​ \n 작년기준(2021'학년도)입니다. \n 줌으로 감독관이 계시고 몇명이 아이들이 함께 접속해 감시 또는 시험 ",
-    "posted_at": "2020-12-09",
-    "sentiment": 0.31,
-    "credibility": 0.65,
-    "branch_basis": "brand"
-   }
-  ]
- },
- {
-  "id": "3000016162",
-  "name": "트윈스놀이학원",
-  "displayName": "트윈스놀이학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 송파구 올림픽로 145",
-  "capacity": 20,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5119828,
-  "lng": 127.0870707,
-  "brand": null,
-  "aliases": [],
-  "gradeBands": [],
-  "stages": [],
-  "flagship": [],
-  "tel": "070-7612-1100",
-  "establishedOn": "2013-01-16",
-  "dataSource": "neis",
-  "score": {
-   "total": 50.0,
-   "reputation": 50.0,
-   "momentum": 50.0,
-   "transparency": null,
-   "selectivity": null,
-   "sampleSize": 0,
-   "confidence": "low",
-   "isRanked": false,
-   "subjectGroup": "non_academic",
-   "positiveRate": null,
-   "momentumDirection": "stable",
-   "rankInRegion": null,
-   "regionRankedCount": null,
-   "breakdown": {
-    "weights": {
-     "reputation": 0.6,
-     "momentum": 0.4
-    },
-    "reputation": {
-     "표본": 0,
-     "설명": "유효 표본 없음 — 코호트 평균으로 대체"
-    },
-    "momentum": {
-     "최근90일_언급": 0,
-     "최신성_가중합": 0,
-     "전체_유효언급": 0,
-     "코호트_z점수": 0.0,
-     "월별_추세기울기": 0.0,
-     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
-    },
-    "transparency": {
-     "설명": "예체능·기타는 투명성을 채점하지 않습니다."
-    },
-    "selectivity": {
-     "설명": "예체능·기타는 진입난이도를 채점하지 않습니다."
-    }
-   }
-  },
-  "evidence": []
- },
- {
-  "id": "3000021331",
-  "name": "비상사성학원",
-  "displayName": "비상사성학원",
-  "regionId": "jamsil",
-  "dong": "방이동",
-  "subjects": [
-   "general"
-  ],
-  "address": "서울특별시 송파구 오금로 247",
-  "capacity": 242,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5063635,
-  "lng": 127.1208949,
-  "brand": null,
-  "aliases": [],
-  "gradeBands": [],
-  "stages": [],
-  "flagship": [],
-  "tel": "02-412-1223",
-  "establishedOn": "2014-10-22",
-  "dataSource": "neis",
-  "score": {
-   "total": 42.2,
-   "reputation": 50.0,
-   "momentum": 30.5,
-   "transparency": null,
-   "selectivity": null,
-   "sampleSize": 0,
-   "confidence": "low",
-   "isRanked": false,
-   "subjectGroup": "non_academic",
-   "positiveRate": null,
-   "momentumDirection": "stable",
-   "rankInRegion": null,
-   "regionRankedCount": null,
-   "breakdown": {
-    "weights": {
-     "reputation": 0.6,
-     "momentum": 0.4
-    },
-    "reputation": {
-     "표본": 0,
-     "설명": "유효 표본 없음 — 코호트 평균으로 대체"
-    },
-    "momentum": {
-     "최근90일_언급": 0,
-     "최신성_가중합": 0,
-     "전체_유효언급": 0,
-     "코호트_z점수": -1.8,
-     "월별_추세기울기": 0.0,
-     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
-    },
-    "transparency": {
-     "설명": "예체능·기타는 투명성을 채점하지 않습니다."
-    },
-    "selectivity": {
-     "설명": "예체능·기타는 진입난이도를 채점하지 않습니다."
-    }
-   }
-  },
-  "evidence": []
- },
- {
   "id": "3000031980",
   "name": "고스에듀국어",
   "displayName": "고스에듀국어",
@@ -41798,9 +41494,9 @@
   "establishedOn": "2011-12-06",
   "dataSource": "neis",
   "score": {
-   "total": 51.2,
-   "reputation": 49.5,
-   "momentum": 41.8,
+   "total": 51.3,
+   "reputation": 49.4,
+   "momentum": 42.6,
    "transparency": 98.0,
    "selectivity": 36.9,
    "sampleSize": 6,
@@ -41825,16 +41521,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.12,
      "가중치_총합": 1.36,
-     "코호트_평균감성": 0.114,
-     "코호트_감성표준편차": 0.065,
+     "코호트_평균감성": 0.117,
+     "코호트_감성표준편차": 0.067,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.091 를 코호트 평균 0.114 쪽으로 12건만큼 축소"
+     "설명": "신뢰도·최신성 가중 감성 0.091 를 코호트 평균 0.117 쪽으로 12건만큼 축소"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 3.6,
      "전체_유효언급": 6,
-     "코호트_z점수": -0.76,
+     "코호트_z점수": -0.68,
      "월별_추세기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
     },
@@ -41858,7 +41554,7 @@
      "난이도_언급": 0.0,
      "대기·마감_언급": 0.0,
      "표본": 6,
-     "언급÷정원_상대값": 0.009,
+     "언급÷정원_상대값": 0.01,
      "정원": 718,
      "축소_사전표본": 10,
      "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 6건, 사전표본 10건만큼 중앙으로 축소)",
@@ -41920,6 +41616,223 @@
   ]
  },
  {
+  "id": "3000034391",
+  "name": "별란연구소감정교육학원",
+  "displayName": "별란연구소감정교육학원",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 송파구 오금로 175",
+  "capacity": 6,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.509529,
+  "lng": 127.114138,
+  "brand": null,
+  "aliases": [],
+  "gradeBands": [],
+  "stages": [],
+  "flagship": [],
+  "tel": "02-000-0000",
+  "establishedOn": "2019-05-13",
+  "dataSource": "neis",
+  "score": {
+   "total": 50.0,
+   "reputation": 50.0,
+   "momentum": 50.0,
+   "transparency": null,
+   "selectivity": null,
+   "sampleSize": 0,
+   "confidence": "low",
+   "isRanked": false,
+   "subjectGroup": "non_academic",
+   "positiveRate": null,
+   "momentumDirection": "stable",
+   "rankInRegion": null,
+   "regionRankedCount": null,
+   "breakdown": {
+    "weights": {
+     "reputation": 0.6,
+     "momentum": 0.4
+    },
+    "reputation": {
+     "표본": 0,
+     "설명": "유효 표본 없음 — 코호트 평균으로 대체"
+    },
+    "momentum": {
+     "최근90일_언급": 0,
+     "최신성_가중합": 0,
+     "전체_유효언급": 0,
+     "코호트_z점수": 0.0,
+     "월별_추세기울기": 0.0,
+     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
+    },
+    "transparency": {
+     "설명": "예체능·기타는 투명성을 채점하지 않습니다."
+    },
+    "selectivity": {
+     "설명": "예체능·기타는 진입난이도를 채점하지 않습니다."
+    }
+   }
+  },
+  "evidence": []
+ },
+ {
+  "id": "3000017654",
+  "name": "아너리티학원",
+  "displayName": "아너리티학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "general"
+  ],
+  "address": "서울특별시 송파구 올림픽로 145",
+  "capacity": 240,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5119828,
+  "lng": 127.0870707,
+  "brand": null,
+  "aliases": [],
+  "gradeBands": [],
+  "stages": [],
+  "flagship": [],
+  "tel": "02-418-7109",
+  "establishedOn": "2013-07-11",
+  "dataSource": "neis",
+  "score": {
+   "total": 42.2,
+   "reputation": 50.0,
+   "momentum": 30.5,
+   "transparency": null,
+   "selectivity": null,
+   "sampleSize": 0,
+   "confidence": "low",
+   "isRanked": false,
+   "subjectGroup": "non_academic",
+   "positiveRate": null,
+   "momentumDirection": "stable",
+   "rankInRegion": null,
+   "regionRankedCount": null,
+   "breakdown": {
+    "weights": {
+     "reputation": 0.6,
+     "momentum": 0.4
+    },
+    "reputation": {
+     "표본": 0,
+     "설명": "유효 표본 없음 — 코호트 평균으로 대체"
+    },
+    "momentum": {
+     "최근90일_언급": 0,
+     "최신성_가중합": 0,
+     "전체_유효언급": 0,
+     "코호트_z점수": -1.8,
+     "월별_추세기울기": 0.0,
+     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
+    },
+    "transparency": {
+     "설명": "예체능·기타는 투명성을 채점하지 않습니다."
+    },
+    "selectivity": {
+     "설명": "예체능·기타는 진입난이도를 채점하지 않습니다."
+    }
+   }
+  },
+  "evidence": []
+ },
+ {
+  "id": "3000051458",
+  "name": "책나무잠실독서논술학원",
+  "displayName": "책나무잠실독서논술학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 송파구 올림픽로 119",
+  "capacity": 546,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5120894,
+  "lng": 127.0842018,
+  "brand": null,
+  "aliases": [],
+  "gradeBands": [],
+  "stages": [],
+  "flagship": [],
+  "tel": "010-6712-6298",
+  "establishedOn": "2024-11-21",
+  "dataSource": "neis",
+  "score": {
+   "total": 52.2,
+   "reputation": 50.0,
+   "momentum": 31.8,
+   "transparency": 83.0,
+   "selectivity": 50.0,
+   "sampleSize": 0,
+   "confidence": "low",
+   "isRanked": false,
+   "subjectGroup": "academic",
+   "positiveRate": null,
+   "momentumDirection": "stable",
+   "rankInRegion": null,
+   "regionRankedCount": null,
+   "breakdown": {
+    "weights": {
+     "reputation": 0.35,
+     "selectivity": 0.35,
+     "momentum": 0.15,
+     "transparency": 0.15
+    },
+    "reputation": {
+     "표본": 0,
+     "설명": "유효 표본 없음 — 코호트 평균으로 대체"
+    },
+    "momentum": {
+     "최근90일_언급": 0,
+     "최신성_가중합": 0,
+     "전체_유효언급": 0,
+     "코호트_z점수": -1.69,
+     "월별_추세기울기": 0.0,
+     "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%"
+    },
+    "transparency": {
+     "항목별": {
+      "등록상태 정상": 30,
+      "정원 공시": 20,
+      "교습과정 상세": 25,
+      "운영 지속기간": 8
+     },
+     "만점": {
+      "등록상태 정상": 30,
+      "정원 공시": 20,
+      "교습과정 상세": 25,
+      "운영 지속기간": 25
+     },
+     "검증여부": true,
+     "설명": "NEIS 학원교습소정보 공시 항목 기반 규칙 채점"
+    },
+    "selectivity": {
+     "난이도_언급": 0,
+     "대기·마감_언급": 0,
+     "표본": 0,
+     "언급÷정원_상대값": null,
+     "정원": 546,
+     "축소_사전표본": 10,
+     "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30% (표본 0건, 사전표본 10건만큼 중앙으로 축소)",
+     "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다."
+    }
+   }
+  },
+  "evidence": []
+ },
+ {
   "id": "15129",
   "name": "늘푸른수학원",
   "displayName": "늘푸른수학원",
@@ -41956,7 +41869,7 @@
    "positiveRate": 85.9,
    "momentumDirection": "stable",
    "rankInRegion": 11,
-   "regionRankedCount": 12,
+   "regionRankedCount": 11,
    "breakdown": {
     "weights": {
      "reputation": 0.35,

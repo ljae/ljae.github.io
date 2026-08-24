@@ -81,6 +81,18 @@ def _strip(name: str, words) -> str:
     return _strip_suffix(s)
 
 
+def core_name(name: str) -> str:
+    """업종어만 뗀 알맹이. 지역·지점 수식어는 남긴다.
+
+    '시매쓰학원' → 시매쓰 / '반포시매쓰학원' → 반포시매쓰.
+    브랜드 토큰과 견주면 '이름에 지점 단서가 있는가'를 알 수 있다.
+    brand_token_light 는 지역어까지 떼므로 이 판단에 쓸 수 없다.
+    """
+    s = re.sub(r"[（(].*?[)）]", "", name or "")
+    s = _NUM.sub("", _NON.sub("", s).lower())
+    return _strip_suffix(s)
+
+
 def brand_token(name: str) -> str:
     """강한 정리 — 일반 낱말을 최대한 걷어낸 브랜드 부분."""
     return _strip(name, STOPWORDS)

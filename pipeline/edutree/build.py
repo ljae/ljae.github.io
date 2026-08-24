@@ -854,6 +854,13 @@ def _road_short(address: str | None) -> str | None:
     return f"{m.group(1)} {m.group(2)}" if m else None
 
 
+# 지점 이름에 붙는 지역어. '반포시매쓰' 의 '반포' 같은 것들이다.
+_LOCALITY = (
+    "대치", "도곡", "개포", "역삼", "목동", "신정", "양천",
+    "반포", "잠원", "서초", "방배", "잠실", "신천", "방이", "송파", "강남",
+)
+
+
 def assign_display_names(rows: list[dict]) -> dict[str, int]:
     """화면에 찍을 이름을 정하고 중복을 없앤다.
 
@@ -868,6 +875,57 @@ def assign_display_names(rows: list[dict]) -> dict[str, int]:
     from collections import Counter, defaultdict
 
     base = {r["id"]: (r.get("name") or "").strip() for r in rows}
+
+    # ★ 이름이 겹치지 않아도 헷갈리는 경우가 있다.
+    #   '시매쓰학원'(서초 방배점) 과 '반포시매쓰학원'(서초 반포점) 은 서로
+    #   다른 지점인데, 앞의 것은 이름에 지점 단서가 없어 브랜드 본점처럼
+    #   읽힌다. 같은 학군에 같은 브랜드가 또 있는데 내 이름에 지점 단서가
+    #   없으면, 동 이름을 붙여 어느 지점인지 말해 준다.
+    from . import dedupe as _dd
+
+    def _bare_brand(name: str) -> str | None:
+        """지점 단서가 없는 브랜드 이름이면 그 브랜드 토큰을 돌려준다."""
+        token = _dd.brand_token(name)
+        if len(token) < 2:
+            return None
+        # 업종어만 뗀 알맹이로 견준다. brand_token_light 는 지역어까지
+        # 떼므로 '반포시매쓰학원' 도 단서 없음으로 잘못 잡힌다.
+        return token if _dd.core_name(name) == token else None
+
+    by_brand = defaultdict(list)
+    for r in rows:
+        token = _dd.brand_token(base[r["id"]])
+        if len(token) >= 2:
+            by_brand[(r.get("region_id"), token)].append(r)
+
+    for r in rows:
+        token = _bare_brand(base[r["id"]])
+        dong = (r.get("dong") or "").strip()
+        if not token or not dong:
+            continue
+        # ★ 동이 형제와 다를 때만 붙인다.
+        #   같은 브랜드의 여러 관은 대개 같은 동에 있다('깊은생각'과
+        #   '깊은생각256학원'은 둘 다 대치동). 거기에 '(대치동)' 을 붙이면
+        #   구분은 안 되고 이름만 길어진다. 동이 실제로 갈릴 때만 정보다.
+        others = [x for x in by_brand[(r.get("region_id"), token)]
+                  if x["id"] != r["id"]]
+        dongs = {(x.get("dong") or "").strip() for x in others} - {""}
+        if not dongs or dong in dongs:
+            continue
+        # ★ 헷갈리는 꼴은 하나뿐이다: 형제가 '지역명+브랜드' 인데
+        #   내 이름은 맨 브랜드인 경우. '반포시매쓰학원' 옆의 '시매쓰학원'
+        #   은 다른 지점(방배점)인데 브랜드 본점처럼 읽힌다.
+        #
+        #   브랜드 토큰만 같으면 붙이도록 두면 우연히 겹친 것까지 잡힌다
+        #   ('폴리어학원'과 '폴리어수학학원'은 다른 학원이다). 여기서
+        #   한 번 틀려 26곳이 엉뚱하게 갈렸다.
+        core = _dd.core_name(base[r["id"]])
+        if not any(_dd.core_name(x.get("name") or "") in
+                   {f"{w}{core}", f"{core}{w}"} for x in others
+                   for w in _LOCALITY):
+            continue
+        base[r["id"]] = f"{base[r['id']]} ({dong})"
+
     counts = Counter((r.get("region_id"), base[r["id"]]) for r in rows)
 
     stats = defaultdict(int)
