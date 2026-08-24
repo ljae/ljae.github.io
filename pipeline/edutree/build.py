@@ -710,9 +710,28 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     # 관련성 게이트 — 학원명이 실제로 등장하는 글만 근거로 인정한다.
     candidates = {a["id"]: analyze.name_candidates(a) for a in evaluated}
+    # 이름이 그 자체로 일상어인 학원('책읽기')은 학원 표지를 함께 요구한다.
+    generic = {a["id"]: analyze.is_generic_name(a.get("name") or "")
+               for a in evaluated}
+
+    # 다른 학원 이름 후보. 일상어 이름을 가진 학원에서만 쓴다 —
+    # 제목의 주인공이 다른 학원이면 그 글은 이쪽 근거가 아니다.
+    # 등록부까지 넣는다. 제목에 나오는 학원이 채점 대상이 아닐 수 있다.
+    rival_names: set[str] = set()
+    for a in evaluated + registry_only:
+        if analyze.is_generic_name(a.get("name") or ""):
+            continue
+        for c in analyze.name_candidates(a):
+            if len(c) >= 3:          # 짧은 이름은 우연히 겹친다
+                rival_names.add(c)
+
     before = len(mentions)
     mentions = [m for m in mentions
-                if analyze.is_relevant(m, candidates.get(m["academy_key"], set()))]
+                if analyze.is_relevant(
+                    m,
+                    candidates.get(m["academy_key"], set()),
+                    generic.get(m["academy_key"], False),
+                    rival_names if generic.get(m["academy_key"]) else frozenset())]
     dropped = before - len(mentions)
     if before:
         print(f"  관련성 게이트: {before:,}건 → {len(mentions):,}건 "

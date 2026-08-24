@@ -259,6 +259,42 @@ def _norm(text: str) -> str:
     return _NORM.sub("", text or "").lower()
 
 
+# 학원명이 일반 낱말과 겹칠 때, 본문에 함께 있어야 하는 표지.
+# 하나라도 있으면 '학원 이야기'로 본다.
+_ACADEMY_MARKERS = (
+    "학원", "교습소", "어학원", "레테", "레벨테스트", "입반", "수강", "등원",
+    "원장", "선생님", "셔틀", "설명회", "상담", "반편성", "커리큘럼", "교재비",
+    "학원비", "수업료", "퇴원", "재원", "결석", "숙제", "분원", "지점",
+)
+
+# 학원명이지만 일상어로도 흔히 쓰이는 말.
+#
+# '책읽기' 학원이 실제로 있는데, 이 말은 그냥 동사구이기도 하다. 그래서
+# '아이 책읽기 습관' 같은 육아 글이 전부 그 학원의 근거로 잡혔다
+# (382건 중 학원 맥락이 있는 것은 64%, 나머지는 일상 글).
+#
+# 동명이인(윤도영)과는 다른 문제다. 그쪽은 '뮤지컬' 같은 제외어로 막히지만,
+# 일반 명사는 제외할 낱말을 특정할 수 없다 — 대신 **학원 표지를 요구**한다.
+GENERIC_NAME_PARTS = (
+    "책읽기", "책읽는", "독서", "생각", "공부", "배움", "나눔", "우리",
+    "함께", "성장", "미래", "희망", "사랑", "행복", "지혜", "열정",
+)
+
+
+def is_generic_name(name: str) -> bool:
+    """학원명이 그 자체로 일상어인가.
+
+    **이름 전체가 일상어일 때만** 해당한다. 부분 일치로 보면
+    '생각하는황소' 처럼 고유한 이름까지 걸려 정상 근거가 사라진다.
+    실제로 그렇게 짰다가 황소·깊은생각이 함께 잡혔다.
+    """
+    flat = _norm(name)
+    # 지역 접두어와 업종어를 뗀 알맹이로 판단한다.
+    core = re.sub(r"^(대치|목동|반포|잠실|서울)", "", flat)
+    core = re.sub(r"(학원|교습소|어학원)$", "", core)
+    return core in {_norm(g) for g in GENERIC_NAME_PARTS}
+
+
 def name_candidates(academy: dict) -> set[str]:
     """이 학원을 가리킬 수 있는 표기들."""
     raw = [academy.get("brand"), academy.get("name"), *(academy.get("aliases") or [])]
@@ -272,7 +308,15 @@ def name_candidates(academy: dict) -> set[str]:
     return {c for c in out if len(c) >= 2}
 
 
-def is_relevant(mention: dict, candidates: set[str]) -> bool:
+def _mention_position(blob: str, candidates: set[str]) -> int:
+    """이름이 처음 나오는 위치. 없으면 -1."""
+    hits = [blob.find(c) for c in candidates if c in blob]
+    return min(hits) if hits else -1
+
+
+def is_relevant(mention: dict, candidates: set[str],
+                generic: bool = False,
+                rivals: set[str] = frozenset()) -> bool:
     """이 글이 정말 그 학원에 대한 글인가.
 
     네이버 검색은 질의와 느슨하게 관련된 결과를 폭넓게 돌려준다.
@@ -281,9 +325,30 @@ def is_relevant(mention: dict, candidates: set[str]) -> bool:
 
     학원명이 제목이나 본문에 실제로 등장하지 않으면 그 학원에 대한 근거가
     아니므로 버린다. 가중치를 낮추는 정도로는 부족하다 — 애초에 증거가 아니다.
+
+    [generic] 이면 이름만으로는 부족하다. '책읽기' 처럼 일상어와 겹치는
+    이름은 육아 글·독서 후기가 전부 걸리므로, 학원 표지가 함께 있어야
+    근거로 인정한다.
     """
+    title = _norm(mention.get("title", ""))
     blob = _norm(f"{mention.get('title', '')} {mention.get('snippet', '')}")
-    return any(c in blob for c in candidates)
+    if not any(c in blob for c in candidates):
+        return False
+    if generic and not any(_norm(k) in blob for k in _ACADEMY_MARKERS):
+        return False
+
+    # 이름이 일상어인 학원은 '다른 학원이 주인공인 글'까지 걸린다.
+    # 제보받은 예: '기파랑 레벨테스트를 치고' — 본문의 "책읽기를 좋아하고"
+    # 때문에 책읽기 학원 근거가 됐다.
+    #
+    # 제목에 다른 학원 이름이 있는데 이 학원 이름은 제목에 없다면,
+    # 그 글의 주인공은 그쪽이다.
+    if generic and rivals:
+        rival_in_title = any(r in title for r in rivals)
+        mine_in_title = any(c in title for c in candidates)
+        if rival_in_title and not mine_in_title:
+            return False
+    return True
 
 
 def analyze(mention: dict, academy_name: str = "") -> dict:

@@ -461,23 +461,6 @@
   "lng": 127.0591362
  },
  {
-  "id": "3000034708",
-  "name": "멘토스플러스진학상담지도교습소",
-  "displayName": "멘토스플러스진학상담지도교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 강남구 삼성로67길 3",
-  "capacity": 6,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5011117,
-  "lng": 127.0591362
- },
- {
   "id": "3000018436",
   "name": "백년대계수학교습소",
   "displayName": "백년대계수학교습소",
@@ -2124,24 +2107,6 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.4977414,
-  "lng": 127.0650701
- },
- {
-  "id": "3000052905",
-  "name": "에듀플렉스에듀코치개별지도대치",
-  "displayName": "에듀플렉스에듀코치개별지도대치",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "etc",
-   "korean"
-  ],
-  "address": "서울특별시 강남구 삼성로 212",
-  "capacity": 2382,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 3,
   "lat": 37.4977414,
   "lng": 127.0650701
  },
@@ -4241,6 +4206,23 @@
   "lng": 127.0510515
  },
  {
+  "id": "6972",
+  "name": "어린이바하피아노교습소",
+  "displayName": "어린이바하피아노교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 언주로 107",
+  "capacity": 10,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4827754,
+  "lng": 127.0510515
+ },
+ {
   "id": "3000015226",
   "name": "극수학교습소",
   "displayName": "극수학교습소",
@@ -4625,6 +4607,23 @@
   ],
   "address": "서울특별시 강남구 삼성로 324",
   "capacity": 5,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5008405,
+  "lng": 127.0601417
+ },
+ {
+  "id": "3000037682",
+  "name": "아람수학교습소",
+  "displayName": "아람수학교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 삼성로 324",
+  "capacity": 9,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -5086,6 +5085,23 @@
   ],
   "address": "서울특별시 강남구 도곡로93길 9",
   "capacity": 60,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5008453,
+  "lng": 127.0645223
+ },
+ {
+  "id": "3000027408",
+  "name": "아폴론교육학원",
+  "displayName": "아폴론교육학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 도곡로93길 9",
+  "capacity": 2600,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -7969,23 +7985,6 @@
   "lng": 127.0377798
  },
  {
-  "id": "3000050109",
-  "name": "한우리독서토론강남언주논술교습소",
-  "displayName": "한우리독서토론강남언주논술교습소",
-  "regionId": "daechi",
-  "dong": "도곡동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 강남구 남부순환로363길 15",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4862797,
-  "lng": 127.0377798
- },
- {
   "id": "3000051861",
   "name": "루트메이커스영어교습소",
   "displayName": "루트메이커스영어교습소",
@@ -9069,23 +9068,6 @@
   ],
   "address": "서울특별시 강남구 삼성로 155",
   "capacity": 330,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4938697,
-  "lng": 127.0629614
- },
- {
-  "id": "3000056158",
-  "name": "러셀대치별관학원",
-  "displayName": "러셀대치별관학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 강남구 삼성로 155",
-  "capacity": 1584,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -10423,23 +10405,6 @@
   "lng": 127.0514679
  },
  {
-  "id": "3000033065",
-  "name": "강남그린섬본원학원",
-  "displayName": "강남그린섬본원학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 강남구 선릉로 340",
-  "capacity": 960,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 3,
-  "lat": 37.5002261,
-  "lng": 127.0514679
- },
- {
   "id": "3000024990",
   "name": "강남엔(N)플러스학원",
   "displayName": "강남엔(N)플러스학원",
@@ -10705,6 +10670,23 @@
   ],
   "address": "서울특별시 강남구 삼성로 308",
   "capacity": 18,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.499676,
+  "lng": 127.0608448
+ },
+ {
+  "id": "13855",
+  "name": "미래탐구초등학원",
+  "displayName": "미래탐구초등학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 강남구 삼성로 308",
+  "capacity": 2620,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -11103,21 +11085,21 @@
   "lng": 127.0677705
  },
  {
-  "id": "28536",
-  "name": "아트블랑미술교습소",
-  "displayName": "아트블랑미술교습소",
+  "id": "3000043446",
+  "name": "수시컨설팅바른학원",
+  "displayName": "수시컨설팅바른학원",
   "regionId": "daechi",
-  "dong": "도곡동",
+  "dong": "개포동",
   "subjects": [
-   "arts"
+   "etc"
   ],
-  "address": "서울특별시 강남구 남부순환로359길 30",
-  "capacity": 5,
+  "address": "서울특별시 강남구 개포로82길 13-9",
+  "capacity": 25,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.486695,
-  "lng": 127.036009
+  "lat": 37.4886683,
+  "lng": 127.0677705
  },
  {
   "id": "3000050515",
@@ -12383,23 +12365,6 @@
   "lng": 127.0609247
  },
  {
-  "id": "3000048413",
-  "name": "깊은생각수학의원리3관학원",
-  "displayName": "깊은생각수학의원리3관학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 강남구 삼성로 233",
-  "capacity": 507,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4980642,
-  "lng": 127.0609247
- },
- {
   "id": "3000028669",
   "name": "시대인재농협관학원",
   "displayName": "시대인재농협관학원",
@@ -12449,23 +12414,6 @@
   "registrationCount": 1,
   "lat": 37.4980642,
   "lng": 127.0609247
- },
- {
-  "id": "3000034288",
-  "name": "리미트제로독학재수&수학학원",
-  "displayName": "리미트제로독학재수&수학학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 강남구 도곡로 449",
-  "capacity": 231,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4988443,
-  "lng": 127.0595805
  },
  {
   "id": "3000018255",
@@ -15122,23 +15070,6 @@
   "lng": 127.0519796
  },
  {
-  "id": "1000035883",
-  "name": "가온미술학원",
-  "displayName": "가온미술학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 강남구 선릉로86길 10",
-  "capacity": 960,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5030707,
-  "lng": 127.0507037
- },
- {
   "id": "3000017482",
   "name": "안테나미술학원",
   "displayName": "안테나미술학원",
@@ -15149,23 +15080,6 @@
   ],
   "address": "서울특별시 강남구 선릉로86길 10",
   "capacity": 9120,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5030707,
-  "lng": 127.0507037
- },
- {
-  "id": "3000010044",
-  "name": "헤라클레스미술학원",
-  "displayName": "헤라클레스미술학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 강남구 선릉로86길 10",
-  "capacity": 720,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -15581,23 +15495,6 @@
   "lng": 127.0530618
  },
  {
-  "id": "3000041575",
-  "name": "은지호영감수학수능2관학원",
-  "displayName": "은지호영감수학수능2관학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 강남구 선릉로62길 5",
-  "capacity": 305,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4973827,
-  "lng": 127.0530618
- },
- {
   "id": "3000036590",
   "name": "한울수학학원",
   "displayName": "한울수학학원",
@@ -15819,23 +15716,6 @@
   "lng": 127.0275554
  },
  {
-  "id": "3000050409",
-  "name": "강남잉크미술학원",
-  "displayName": "강남잉크미술학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 강남구 역삼로 423",
-  "capacity": 765,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.5015208,
-  "lng": 127.0532661
- },
- {
   "id": "3000034955",
   "name": "상승수학학원",
   "displayName": "상승수학학원",
@@ -16041,6 +15921,23 @@
   "lng": 127.0302863
  },
  {
+  "id": "25184",
+  "name": "강남합격의법학원",
+  "displayName": "강남합격의법학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로94길 71",
+  "capacity": 2335,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5009774,
+  "lng": 127.0330003
+ },
+ {
   "id": "3000040516",
   "name": "강안교육학원",
   "displayName": "강안교육학원",
@@ -16051,6 +15948,23 @@
   ],
   "address": "서울특별시 강남구 영동대로85길 20-7",
   "capacity": 1080,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5073897,
+  "lng": 127.0616436
+ },
+ {
+  "id": "3000043750",
+  "name": "관우쌤과세상을품은교육(세품교)입시컨설팅원격학원",
+  "displayName": "관우쌤과세상을품은교육(세품교)입시컨설팅원격학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 영동대로85길 20-7",
+  "capacity": 2800,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -18119,16 +18033,16 @@
   "lng": 127.0536883
  },
  {
-  "id": "3000022130",
-  "name": "기파랑문해원대치원중등관학원",
-  "displayName": "기파랑문해원대치원중등관학원",
+  "id": "3000025581",
+  "name": "미래탐구중등학원",
+  "displayName": "미래탐구중등학원",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
    "korean"
   ],
   "address": "서울특별시 강남구 선릉로64길 5",
-  "capacity": 96,
+  "capacity": 378,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -18305,6 +18219,24 @@
   "registrationCount": 1,
   "lat": 37.491429,
   "lng": 127.0368406
+ },
+ {
+  "id": "3000010022",
+  "name": "김영편입강남단과",
+  "displayName": "김영편입강남단과",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "english",
+   "etc"
+  ],
+  "address": "서울특별시 강남구 강남대로78길 8",
+  "capacity": 2792,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.4946991,
+  "lng": 127.0300978
  },
  {
   "id": "3000054992",
@@ -18557,6 +18489,23 @@
   ],
   "address": "서울특별시 강남구 삼성로58길 9",
   "capacity": 298,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4987391,
+  "lng": 127.0620226
+ },
+ {
+  "id": "3000030984",
+  "name": "시대인재수학스쿨2관학원",
+  "displayName": "시대인재수학스쿨2관학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 삼성로58길 9",
+  "capacity": 10530,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -19023,6 +18972,23 @@
   "lng": 127.0345351
  },
  {
+  "id": "3000030813",
+  "name": "네오캣(NEO CAT)디자인관미술학원",
+  "displayName": "네오캣(NEO CAT)디자인관미술학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 역삼로63길 5",
+  "capacity": 1000,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5015153,
+  "lng": 127.0522791
+ },
+ {
   "id": "3000052364",
   "name": "미술탐구학원",
   "displayName": "미술탐구학원",
@@ -19038,6 +19004,23 @@
   "registrationCount": 1,
   "lat": 37.5015153,
   "lng": 127.0522791
+ },
+ {
+  "id": "3000030024",
+  "name": "네오캣(NEO CAT)미술학원",
+  "displayName": "네오캣(NEO CAT)미술학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 선릉로 422",
+  "capacity": 1080,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.502691,
+  "lng": 127.0501624
  },
  {
   "id": "3000019763",
@@ -20022,6 +20005,23 @@
   ],
   "address": "서울특별시 강남구 선릉로62길 15",
   "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4976626,
+  "lng": 127.0537582
+ },
+ {
+  "id": "3000038201",
+  "name": "대치720재수학원",
+  "displayName": "대치720재수학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 선릉로62길 15",
+  "capacity": 1880,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -23675,6 +23675,23 @@
   "lng": 127.0359355
  },
  {
+  "id": "3000014288",
+  "name": "데프댄스(DEF DANCE)학원",
+  "displayName": "데프댄스(DEF DANCE)학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 역삼로65길 25",
+  "capacity": 1058,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5028503,
+  "lng": 127.0521682
+ },
+ {
   "id": "30293",
   "name": "데프실용음악학원",
   "displayName": "데프실용음악학원",
@@ -25445,23 +25462,6 @@
   "lng": 127.0279258
  },
  {
-  "id": "3000053040",
-  "name": "메가스터디뷰티미용",
-  "displayName": "메가스터디뷰티미용",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 강남구 테헤란로1길 10",
-  "capacity": 2260,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.4989623,
-  "lng": 127.0282179
- },
- {
   "id": "30192",
   "name": "퍼스널잉글리쉬어학원",
   "displayName": "퍼스널잉글리쉬어학원",
@@ -26589,6 +26589,23 @@
   "lng": 127.0579733
  },
  {
+  "id": "3000028067",
+  "name": "시대인재수학스쿨별관",
+  "displayName": "시대인재수학스쿨별관",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 도곡로 434",
+  "capacity": 21372,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 3,
+  "lat": 37.4976097,
+  "lng": 127.0579733
+ },
+ {
   "id": "1000036288",
   "name": "미래탐구학원",
   "displayName": "미래탐구학원",
@@ -27455,23 +27472,6 @@
   "registrationCount": 1,
   "lat": 37.5006882,
   "lng": 127.0287408
- },
- {
-  "id": "3000028128",
-  "name": "블랙칸댄스학원",
-  "displayName": "블랙칸댄스학원",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 강남구 테헤란로14길 25",
-  "capacity": 960,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4977212,
-  "lng": 127.0337837
  },
  {
   "id": "5455",
@@ -30320,6 +30320,23 @@
   "lng": 127.0414652
  },
  {
+  "id": "3000033697",
+  "name": "아트아뜰리에강남점성인취미미술학원",
+  "displayName": "아트아뜰리에강남점성인취미미술학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 봉은사로4길 36",
+  "capacity": 1560,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.502481,
+  "lng": 127.0268652
+ },
+ {
   "id": "3000043936",
   "name": "아티브학원",
   "displayName": "아티브학원",
@@ -32909,23 +32926,6 @@
   "lng": 127.0303768
  },
  {
-  "id": "3000032758",
-  "name": "잇올스파르타대치",
-  "displayName": "잇올스파르타대치",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 강남구 역삼로 428",
-  "capacity": 432,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "lat": 37.5013348,
-  "lng": 127.0539453
- },
- {
   "id": "3000043076",
   "name": "잉글리쉬웰원격학원",
   "displayName": "잉글리쉬웰원격학원",
@@ -34167,6 +34167,23 @@
   "lng": 127.0518121
  },
  {
+  "id": "3000039237",
+  "name": "폴러스폴댄스학원",
+  "displayName": "폴러스폴댄스학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 강남구 논현로 515",
+  "capacity": 1620,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5025727,
+  "lng": 127.0357987
+ },
+ {
   "id": "3000019573",
   "name": "폴아카데미어학학원",
   "displayName": "폴아카데미어학학원",
@@ -34643,23 +34660,6 @@
   "lng": 127.0351552
  },
  {
-  "id": "3000017376",
-  "name": "한솔전기학원",
-  "displayName": "한솔전기학원",
-  "regionId": "daechi",
-  "dong": "도곡동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 강남구 강남대로42길 13",
-  "capacity": 1761,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4855234,
-  "lng": 127.0351552
- },
- {
   "id": "3000053048",
   "name": "한영인온라인원격학원",
   "displayName": "한영인온라인원격학원",
@@ -34881,23 +34881,6 @@
   "lng": 127.0304396
  },
  {
-  "id": "3000033310",
-  "name": "1318영어교습소",
-  "displayName": "1318영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동동로 385",
-  "capacity": 6,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359071,
-  "lng": 126.8795377
- },
- {
   "id": "3000027053",
   "name": "마인드맵국어교습소",
   "displayName": "마인드맵국어교습소",
@@ -35061,23 +35044,6 @@
   ],
   "address": "서울특별시 양천구 목동동로 385",
   "capacity": 33,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359071,
-  "lng": 126.8795377
- },
- {
-  "id": "3000038187",
-  "name": "아이락영어교습소",
-  "displayName": "아이락영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동동로 385",
-  "capacity": 15,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -35630,6 +35596,23 @@
   "lng": 126.8666297
  },
  {
+  "id": "3000037261",
+  "name": "올리비아잉글리쉬영어교습소",
+  "displayName": "올리비아잉글리쉬영어교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동동로 100",
+  "capacity": 18,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5145149,
+  "lng": 126.8666297
+ },
+ {
   "id": "3000044264",
   "name": "유니팝목동1센터미술교습소",
   "displayName": "유니팝목동1센터미술교습소",
@@ -35886,6 +35869,23 @@
   "lng": 126.8815819
  },
  {
+  "id": "7894",
+  "name": "해이몬학원",
+  "displayName": "해이몬학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동서로2길 22",
+  "capacity": 108,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5416219,
+  "lng": 126.8815819
+ },
+ {
   "id": "3000035737",
   "name": "90점수학교습소",
   "displayName": "90점수학교습소",
@@ -35988,23 +35988,6 @@
   "lng": 126.8780787
  },
  {
-  "id": "3000026554",
-  "name": "김선미써밋영어교습소",
-  "displayName": "김선미써밋영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 15,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787
- },
- {
   "id": "26890",
   "name": "김영호수학교습소",
   "displayName": "김영호수학교습소",
@@ -36032,23 +36015,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 77",
   "capacity": 35,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787
- },
- {
-  "id": "3000035102",
-  "name": "김진영영어교습소",
-  "displayName": "김진영영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 16,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -36117,23 +36083,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 77",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787
- },
- {
-  "id": "3000034142",
-  "name": "닥터최(Dr CHOI)입시영어교습소",
-  "displayName": "닥터최(Dr CHOI)입시영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 6,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -36396,6 +36345,23 @@
   "lng": 126.8780787
  },
  {
+  "id": "3000050899",
+  "name": "민사이언스과학교습소",
+  "displayName": "민사이언스과학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "science"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
   "id": "3000051440",
   "name": "바른개념창수학교습소",
   "displayName": "바른개념창수학교습소",
@@ -36474,6 +36440,23 @@
   ],
   "address": "서울특별시 양천구 목동서로 77",
   "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
+  "id": "24731",
+  "name": "비타민수학교습소",
+  "displayName": "비타민수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 12,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -36668,6 +36651,23 @@
   "lng": 126.8780787
  },
  {
+  "id": "3000021025",
+  "name": "수학의힘수학교습소",
+  "displayName": "수학의힘수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 12,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
   "id": "3000054665",
   "name": "수학전문아르케수학교습소",
   "displayName": "수학전문아르케수학교습소",
@@ -36746,6 +36746,23 @@
   ],
   "address": "서울특별시 양천구 목동서로 77",
   "capacity": 40,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
+  "id": "3000019588",
+  "name": "썬영어교습소",
+  "displayName": "썬영어교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 8,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -36974,6 +36991,23 @@
   "lng": 126.8780787
  },
  {
+  "id": "3000031974",
+  "name": "와이즈영어교습소",
+  "displayName": "와이즈영어교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 8,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
   "id": "3000014571",
   "name": "운현사회교습소",
   "displayName": "운현사회교습소",
@@ -37093,23 +37127,6 @@
   "lng": 126.8780787
  },
  {
-  "id": "3000027645",
-  "name": "이지(easy)민국어교습소",
-  "displayName": "이지(easy)민국어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 15,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5359472,
-  "lng": 126.8780787
- },
- {
   "id": "3000024458",
   "name": "이탁(ETAK)영어교습소",
   "displayName": "이탁(ETAK)영어교습소",
@@ -37195,16 +37212,16 @@
   "lng": 126.8780787
  },
  {
-  "id": "3000038902",
-  "name": "제이수학교습소",
-  "displayName": "제이수학교습소",
+  "id": "3000038185",
+  "name": "지안국어교습소",
+  "displayName": "지안국어교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
-   "math"
+   "korean"
   ],
   "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 12,
+  "capacity": 30,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -38217,6 +38234,23 @@
   "lng": 126.8653309
  },
  {
+  "id": "3000033249",
+  "name": "스캐폴딩수학교습소",
+  "displayName": "스캐폴딩수학교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 349",
+  "capacity": 18,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5174204,
+  "lng": 126.8653309
+ },
+ {
   "id": "3000039764",
   "name": "신우스터디수학교습소",
   "displayName": "신우스터디수학교습소",
@@ -38261,23 +38295,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 349",
   "capacity": 60,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5174204,
-  "lng": 126.8653309
- },
- {
-  "id": "3000034869",
-  "name": "전설의사탐사회교습소",
-  "displayName": "전설의사탐사회교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 양천구 목동서로 349",
-  "capacity": 42,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -38367,6 +38384,23 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
+  "lat": 37.5174204,
+  "lng": 126.8653309
+ },
+ {
+  "id": "3000038264",
+  "name": "금비미술",
+  "displayName": "금비미술",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동서로 349",
+  "capacity": 308,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
   "lat": 37.5174204,
   "lng": 126.8653309
  },
@@ -39601,40 +39635,6 @@
   "lng": 126.8640477
  },
  {
-  "id": "3000019289",
-  "name": "목동오름수학교습소",
-  "displayName": "목동오름수학교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동서로 340",
-  "capacity": 12,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5197024,
-  "lng": 126.8640477
- },
- {
-  "id": "3000032596",
-  "name": "목동하이매쓰수학교습소",
-  "displayName": "목동하이매쓰수학교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동서로 340",
-  "capacity": 12,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5197024,
-  "lng": 126.8640477
- },
- {
   "id": "3000054133",
   "name": "미라클영어교습소",
   "displayName": "미라클영어교습소",
@@ -39832,6 +39832,23 @@
   ],
   "address": "서울특별시 양천구 목동서로 340",
   "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5197024,
+  "lng": 126.8640477
+ },
+ {
+  "id": "8417",
+  "name": "조인선수학교습소",
+  "displayName": "조인선수학교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 340",
+  "capacity": 18,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -40213,23 +40230,6 @@
   "lng": 126.8732757
  },
  {
-  "id": "3000043100",
-  "name": "책통클럽독서논술교습소",
-  "displayName": "책통클럽독서논술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 목동동로 130",
-  "capacity": 24,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5147094,
-  "lng": 126.8732757
- },
- {
   "id": "28540",
   "name": "최강조선생영어교습소",
   "displayName": "최강조선생영어교습소",
@@ -40240,6 +40240,23 @@
   ],
   "address": "서울특별시 양천구 목동동로 130 ",
   "capacity": 9,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5147094,
+  "lng": 126.8732757
+ },
+ {
+  "id": "3000044025",
+  "name": "토브(TOV)영어교습소",
+  "displayName": "토브(TOV)영어교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동동로 130",
+  "capacity": 8,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -40274,6 +40291,23 @@
   ],
   "address": "서울특별시 양천구 목동동로 130",
   "capacity": 16,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5147094,
+  "lng": 126.8732757
+ },
+ {
+  "id": "10394",
+  "name": "한음음악교습소",
+  "displayName": "한음음악교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동동로 130",
+  "capacity": 25,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -41132,23 +41166,6 @@
   "lng": 126.8798539
  },
  {
-  "id": "3000033469",
-  "name": "디베이트프렌즈논술교습소",
-  "displayName": "디베이트프렌즈논술교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 15,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539
- },
- {
   "id": "3000030068",
   "name": "라플라스수학교습소",
   "displayName": "라플라스수학교습소",
@@ -41227,23 +41244,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 57",
   "capacity": 6,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539
- },
- {
-  "id": "3000039608",
-  "name": "모비치수학교습소",
-  "displayName": "모비치수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 12,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -41387,6 +41387,23 @@
   "lng": 126.8798539
  },
  {
+  "id": "7577",
+  "name": "박성지수학교습소",
+  "displayName": "박성지수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 57",
+  "capacity": 24,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5366423,
+  "lng": 126.8798539
+ },
+ {
   "id": "3000033471",
   "name": "빅(Vic)쌤몰입영어교습소",
   "displayName": "빅(Vic)쌤몰입영어교습소",
@@ -41411,6 +41428,23 @@
   "dong": "목동",
   "subjects": [
    "korean"
+  ],
+  "address": "서울특별시 양천구 목동서로 57",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5366423,
+  "lng": 126.8798539
+ },
+ {
+  "id": "3000052179",
+  "name": "사탐의신사회교습소",
+  "displayName": "사탐의신사회교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "etc"
   ],
   "address": "서울특별시 양천구 목동서로 57",
   "capacity": 0,
@@ -41727,23 +41761,6 @@
   "lng": 126.8798539
  },
  {
-  "id": "3000030543",
-  "name": "잇팀독서논술교습소",
-  "displayName": "잇팀독서논술교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 24,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5366423,
-  "lng": 126.8798539
- },
- {
   "id": "3000043610",
   "name": "정태호과학교습소",
   "displayName": "정태호과학교습소",
@@ -41931,16 +41948,16 @@
   "lng": 126.8798539
  },
  {
-  "id": "3000056256",
-  "name": "플라톤독서논술카이로스랩논술교습소",
-  "displayName": "플라톤독서논술카이로스랩논술교습소",
+  "id": "3000029351",
+  "name": "프리미엄(Premium English)영어교습소",
+  "displayName": "프리미엄(Premium English)영어교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
-   "korean"
+   "english"
   ],
   "address": "서울특별시 양천구 목동서로 57",
-  "capacity": 0,
+  "capacity": 18,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -41948,13 +41965,13 @@
   "lng": 126.8798539
  },
  {
-  "id": "3000052003",
-  "name": "피노과학교습소",
-  "displayName": "피노과학교습소",
+  "id": "3000056256",
+  "name": "플라톤독서논술카이로스랩논술교습소",
+  "displayName": "플라톤독서논술카이로스랩논술교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
-   "science"
+   "korean"
   ],
   "address": "서울특별시 양천구 목동서로 57",
   "capacity": 0,
@@ -42628,6 +42645,23 @@
   "lng": 126.885085
  },
  {
+  "id": "21523",
+  "name": "솔루니독서포럼논술교습소",
+  "displayName": "솔루니독서포럼논술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동동로 430",
+  "capacity": 43,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5350632,
+  "lng": 126.885085
+ },
+ {
   "id": "3000025917",
   "name": "이지수학교습소",
   "displayName": "이지수학교습소",
@@ -42917,23 +42951,6 @@
   "lng": 126.8561713
  },
  {
-  "id": "3000028041",
-  "name": "날개수학목동수학교습소",
-  "displayName": "날개수학목동수학교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 중앙로36길 15",
-  "capacity": 18,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.52032,
-  "lng": 126.8561713
- },
- {
   "id": "3000032751",
   "name": "라라발레교습소",
   "displayName": "라라발레교습소",
@@ -43087,23 +43104,6 @@
   "registrationCount": 1,
   "lat": 37.5093565,
   "lng": 126.8672288
- },
- {
-  "id": "2000008391",
-  "name": "공간미술교습소",
-  "displayName": "공간미술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 중앙로29길 46",
-  "capacity": 18,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5162585,
-  "lng": 126.849228
  },
  {
   "id": "3000043491",
@@ -43548,23 +43548,6 @@
   "lng": 126.8588626
  },
  {
-  "id": "3000040693",
-  "name": "아트그라운드이화미술교습소",
-  "displayName": "아트그라운드이화미술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동서로 400",
-  "capacity": 21,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5177155,
-  "lng": 126.8588626
- },
- {
   "id": "3000021337",
   "name": "아트앤미술교습소",
   "displayName": "아트앤미술교습소",
@@ -43990,23 +43973,6 @@
   "lng": 126.8672567
  },
  {
-  "id": "3000026801",
-  "name": "국어짱독서논술교습소",
-  "displayName": "국어짱독서논술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 중앙로32길 55",
-  "capacity": 24,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5198144,
-  "lng": 126.8597467
- },
- {
   "id": "3000031919",
   "name": "브레이닝수학교습소",
   "displayName": "브레이닝수학교습소",
@@ -44313,6 +44279,23 @@
   "lng": 126.8802779
  },
  {
+  "id": "3000038752",
+  "name": "올에이스영어교습소",
+  "displayName": "올에이스영어교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동동로 391",
+  "capacity": 8,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5358666,
+  "lng": 126.8802779
+ },
+ {
   "id": "3000021593",
   "name": "이지와이영어교습소",
   "displayName": "이지와이영어교습소",
@@ -44347,9 +44330,9 @@
   "lng": 126.8802779
  },
  {
-  "id": "3000050785",
-  "name": "탐앤탐구사회교습소",
-  "displayName": "탐앤탐구사회교습소",
+  "id": "3000053737",
+  "name": "청출어람3사회교습소",
+  "displayName": "청출어람3사회교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
@@ -45385,23 +45368,6 @@
   "lng": 126.8757791
  },
  {
-  "id": "3000038188",
-  "name": "이화연수학교습소",
-  "displayName": "이화연수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동서로 70",
-  "capacity": 24,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5375332,
-  "lng": 126.8757791
- },
- {
   "id": "2000007456",
   "name": "한빛피아노교습소",
   "displayName": "한빛피아노교습소",
@@ -45480,6 +45446,23 @@
   ],
   "address": "서울특별시 양천구 목동서로 70",
   "capacity": 30,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5375332,
+  "lng": 126.8757791
+ },
+ {
+  "id": "3000035915",
+  "name": "피아노스토리음악학원",
+  "displayName": "피아노스토리음악학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동서로 70",
+  "capacity": 300,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -45844,6 +45827,23 @@
   "lng": 126.8613625
  },
  {
+  "id": "3000030758",
+  "name": "수1수학교습소",
+  "displayName": "수1수학교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동동로 50",
+  "capacity": 16,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5132243,
+  "lng": 126.8613625
+ },
+ {
   "id": "3000048655",
   "name": "아이다움미술교습소",
   "displayName": "아이다움미술교습소",
@@ -45871,23 +45871,6 @@
   ],
   "address": "서울특별시 양천구 목동동로 50",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5132243,
-  "lng": 126.8613625
- },
- {
-  "id": "3000019625",
-  "name": "즐거운스케치미술교습소",
-  "displayName": "즐거운스케치미술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동동로 50",
-  "capacity": 15,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -47410,23 +47393,6 @@
   "lng": 126.8623249
  },
  {
-  "id": "3000028526",
-  "name": "연필가득미술교습소",
-  "displayName": "연필가득미술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동동로 63",
-  "capacity": 18,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5153184,
-  "lng": 126.8623249
- },
- {
   "id": "21957",
   "name": "제이드영어교습소",
   "displayName": "제이드영어교습소",
@@ -47614,6 +47580,23 @@
   "lng": 126.8637411
  },
  {
+  "id": "3000027890",
+  "name": "모네의집미술교습소",
+  "displayName": "모네의집미술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동중앙남로 100",
+  "capacity": 15,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5427806,
+  "lng": 126.8637411
+ },
+ {
   "id": "3000015941",
   "name": "목동아름드리미술교습소",
   "displayName": "목동아름드리미술교습소",
@@ -47675,6 +47658,23 @@
   ],
   "address": "서울특별시 양천구 목동중앙남로 100",
   "capacity": 168,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5427806,
+  "lng": 126.8637411
+ },
+ {
+  "id": "3000042666",
+  "name": "창조국어교습소",
+  "displayName": "창조국어교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동중앙남로 100",
+  "capacity": 45,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -48722,23 +48722,6 @@
   "lng": 126.8710622
  },
  {
-  "id": "3000034224",
-  "name": "예원아트미술교습소",
-  "displayName": "예원아트미술교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동서로 130",
-  "capacity": 16,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5320244,
-  "lng": 126.8710622
- },
- {
   "id": "3000017696",
   "name": "이화꿈꾸는그림숲미술교습소",
   "displayName": "이화꿈꾸는그림숲미술교습소",
@@ -49198,23 +49181,6 @@
   "lng": 126.8377308
  },
  {
-  "id": "3000013367",
-  "name": "마수리잉글리쉬영어교습소",
-  "displayName": "마수리잉글리쉬영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동서로 246",
-  "capacity": 5,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5257534,
-  "lng": 126.8695431
- },
- {
   "id": "3000046543",
   "name": "아톰영어교습소",
   "displayName": "아톰영어교습소",
@@ -49293,6 +49259,23 @@
   ],
   "address": "서울특별시 양천구 목동동로 59",
   "capacity": 27,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5150376,
+  "lng": 126.8616218
+ },
+ {
+  "id": "3000030022",
+  "name": "엠제이(MJ)수학교습소",
+  "displayName": "엠제이(MJ)수학교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동동로 59",
+  "capacity": 15,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -49401,23 +49384,6 @@
   "registrationCount": 1,
   "lat": 37.5339877,
   "lng": 126.8650545
- },
- {
-  "id": "22326",
-  "name": "매쓰21수학교습소",
-  "displayName": "매쓰21수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동중앙남로11길 4",
-  "capacity": 18,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5394884,
-  "lng": 126.8657753
  },
  {
   "id": "3000039185",
@@ -49775,6 +49741,23 @@
   "registrationCount": 1,
   "lat": 37.5340616,
   "lng": 126.8735909
+ },
+ {
+  "id": "3000042803",
+  "name": "명랑아트미술교습소",
+  "displayName": "명랑아트미술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동중앙본로30길 10",
+  "capacity": 20,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5440835,
+  "lng": 126.8710563
  },
  {
   "id": "3000031929",
@@ -50212,23 +50195,6 @@
   ],
   "address": "서울특별시 양천구 목동동로 379",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5356163,
-  "lng": 126.8787218
- },
- {
-  "id": "3000033743",
-  "name": "연경수학교습소",
-  "displayName": "연경수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동동로 379",
-  "capacity": 24,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -50678,6 +50644,23 @@
   "lng": 126.8631053
  },
  {
+  "id": "3000034500",
+  "name": "목동해법독서논술교습소",
+  "displayName": "목동해법독서논술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동중앙로 85",
+  "capacity": 42,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5370101,
+  "lng": 126.8714888
+ },
+ {
   "id": "3000016845",
   "name": "헙스영어교습소",
   "displayName": "헙스영어교습소",
@@ -50865,6 +50848,23 @@
   "lng": 126.8530425
  },
  {
+  "id": "3000022316",
+  "name": "예일티오피실용음악교습소",
+  "displayName": "예일티오피실용음악교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 신정로 290",
+  "capacity": 4,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5119316,
+  "lng": 126.8530425
+ },
+ {
   "id": "14456",
   "name": "튼튼영어마스터클럽양천신기초영어교습소",
   "displayName": "튼튼영어마스터클럽양천신기초영어교습소",
@@ -50982,23 +50982,6 @@
   "registrationCount": 1,
   "lat": 37.5251547,
   "lng": 126.8560139
- },
- {
-  "id": "3000022892",
-  "name": "민스영어교습소",
-  "displayName": "민스영어교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 양천구 목동동로8길 25",
-  "capacity": 8,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5165934,
-  "lng": 126.8716451
  },
  {
   "id": "1000034886",
@@ -51563,23 +51546,6 @@
   "lng": 126.8748262
  },
  {
-  "id": "3000033199",
-  "name": "봄바이올린교습소",
-  "displayName": "봄바이올린교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 오목로50길 25",
-  "capacity": 18,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5237323,
-  "lng": 126.864458
- },
- {
   "id": "3000011868",
   "name": "브니엘피아노교습소",
   "displayName": "브니엘피아노교습소",
@@ -51680,23 +51646,6 @@
   "registrationCount": 1,
   "lat": 37.5202096,
   "lng": 126.859586
- },
- {
-  "id": "3000029964",
-  "name": "빈센트미술교습소",
-  "displayName": "빈센트미술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동동로12길 48-1",
-  "capacity": 15,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5222835,
-  "lng": 126.8765365
  },
  {
   "id": "3000014596",
@@ -52414,21 +52363,38 @@
   "lng": 126.8723111
  },
  {
-  "id": "3000042769",
-  "name": "솔루션영어교습소",
-  "displayName": "솔루션영어교습소",
+  "id": "3000039154",
+  "name": "송바이올린교습소",
+  "displayName": "송바이올린교습소",
   "regionId": "mokdong",
   "dong": "목동",
   "subjects": [
-   "english"
+   "arts"
   ],
-  "address": "서울특별시 양천구 오목로54길 9",
-  "capacity": 15,
+  "address": "서울특별시 양천구 목동중앙로 131-1",
+  "capacity": 21,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5238002,
-  "lng": 126.873453
+  "lat": 37.5401388,
+  "lng": 126.8749403
+ },
+ {
+  "id": "24242",
+  "name": "윤아트미술교습소",
+  "displayName": "윤아트미술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동중앙로 131-1",
+  "capacity": 27,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5401388,
+  "lng": 126.8749403
  },
  {
   "id": "3000028601",
@@ -52891,6 +52857,23 @@
   "lng": 126.8602304
  },
  {
+  "id": "3000015175",
+  "name": "신정시사영어교습소",
+  "displayName": "신정시사영어교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동남로4길 60",
+  "capacity": 27,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5092305,
+  "lng": 126.8676073
+ },
+ {
   "id": "16050",
   "name": "수코어수학학원",
   "displayName": "수코어수학학원",
@@ -52959,6 +52942,23 @@
   "lng": 126.8733782
  },
  {
+  "id": "3000026305",
+  "name": "아라미술교습소",
+  "displayName": "아라미술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 목동중앙북로16길 43",
+  "capacity": 24,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5441734,
+  "lng": 126.8739887
+ },
+ {
   "id": "3000026056",
   "name": "크리에이티브영어교습소",
   "displayName": "크리에이티브영어교습소",
@@ -53020,6 +53020,23 @@
   ],
   "address": "서울특별시 양천구 목동중앙로 89",
   "capacity": 154,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5373138,
+  "lng": 126.8719758
+ },
+ {
+  "id": "3000042638",
+  "name": "뉴에스학원",
+  "displayName": "뉴에스학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 양천구 목동중앙로 89",
+  "capacity": 360,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -53300,6 +53317,23 @@
   "lng": 126.8819587
  },
  {
+  "id": "3000031481",
+  "name": "타이거매쓰수학교습소",
+  "displayName": "타이거매쓰수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로2길 20",
+  "capacity": 28,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5398948,
+  "lng": 126.8819587
+ },
+ {
   "id": "1000034599",
   "name": "에이엠에스어학원",
   "displayName": "에이엠에스어학원",
@@ -53470,6 +53504,23 @@
   "lng": 126.8607495
  },
  {
+  "id": "2000008696",
+  "name": "양승미뮤직스토리음악교습소",
+  "displayName": "양승미뮤직스토리음악교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 양천구 신정로14길 1",
+  "capacity": 24,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5096434,
+  "lng": 126.8450018
+ },
+ {
   "id": "15833",
   "name": "양화사과나무미술교습소",
   "displayName": "양화사과나무미술교습소",
@@ -53497,6 +53548,23 @@
   ],
   "address": "서울특별시 양천구 목동서로 260-1",
   "capacity": 12,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5242842,
+  "lng": 126.8691312
+ },
+ {
+  "id": "3000041912",
+  "name": "현독서논술교습소",
+  "displayName": "현독서논술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동서로 260-1",
+  "capacity": 30,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -53964,23 +54032,6 @@
   "lng": 126.8693597
  },
  {
-  "id": "15820",
-  "name": "윤도현홍익미술교습소",
-  "displayName": "윤도현홍익미술교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동중앙본로 94",
-  "capacity": 28,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5440249,
-  "lng": 126.87067
- },
- {
   "id": "3000050544",
   "name": "율피아노교습소",
   "displayName": "율피아노교습소",
@@ -54042,6 +54093,23 @@
   ],
   "address": "서울특별시 양천구 목동동로 65",
   "capacity": 36,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5155786,
+  "lng": 126.8621824
+ },
+ {
+  "id": "3000040113",
+  "name": "채움영어교습소",
+  "displayName": "채움영어교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 양천구 목동동로 65",
+  "capacity": 27,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -56485,23 +56553,6 @@
   "lng": 126.8795025
  },
  {
-  "id": "3000051075",
-  "name": "국어하기좋은날수능관학원",
-  "displayName": "국어하기좋은날수능관학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 목동서로 61",
-  "capacity": 172,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5363763,
-  "lng": 126.8795025
- },
- {
   "id": "3000030794",
   "name": "수만휘스파르타목동2관학원",
   "displayName": "수만휘스파르타목동2관학원",
@@ -56549,23 +56600,6 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 2,
-  "lat": 37.5363763,
-  "lng": 126.8795025
- },
- {
-  "id": "3000024080",
-  "name": "주식회사 더퍼스트씨앤씨학원",
-  "displayName": "주식회사 더퍼스트씨앤씨학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 양천구 목동서로 61",
-  "capacity": 360,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
   "lat": 37.5363763,
   "lng": 126.8795025
  },
@@ -59146,23 +59180,6 @@
   "lng": 126.86416
  },
  {
-  "id": "3000029496",
-  "name": "맵스터디학원",
-  "displayName": "맵스터디학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 양천구 신월로38길 13",
-  "capacity": 84,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5207624,
-  "lng": 126.861413
- },
- {
   "id": "464",
   "name": "목동캠퍼스현재어학원",
   "displayName": "목동캠퍼스현재어학원",
@@ -59707,6 +59724,24 @@
   "registrationCount": 1,
   "lat": 37.5249699,
   "lng": 126.8572221
+ },
+ {
+  "id": "3000024356",
+  "name": "목동애니톡학원",
+  "displayName": "목동애니톡학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts",
+   "etc"
+  ],
+  "address": "서울특별시 양천구 목동로 201",
+  "capacity": 300,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
+  "lat": 37.5264605,
+  "lng": 126.8639466
  },
  {
   "id": "3000053702",
@@ -60866,23 +60901,6 @@
   "lng": 126.8816669
  },
  {
-  "id": "4572",
-  "name": "세종대조영주무용연구소학원",
-  "displayName": "세종대조영주무용연구소학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 목동중앙서로 43",
-  "capacity": 255,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5332004,
-  "lng": 126.8687242
- },
- {
   "id": "3000012061",
   "name": "세종조영주댄스아카데미학원",
   "displayName": "세종조영주댄스아카데미학원",
@@ -61156,6 +61174,23 @@
   "lng": 126.8722551
  },
  {
+  "id": "3000041315",
+  "name": "씨앤씨0.1%의대관학원",
+  "displayName": "씨앤씨0.1%의대관학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동서로 256",
+  "capacity": 191,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5246017,
+  "lng": 126.8692937
+ },
+ {
   "id": "3000035680",
   "name": "씨앤씨",
   "displayName": "씨앤씨 (오목로 286)",
@@ -61252,23 +61287,6 @@
   ],
   "address": "서울특별시 양천구 오목로 287",
   "capacity": 60,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5256428,
-  "lng": 126.8694275
- },
- {
-  "id": "3000043506",
-  "name": "전원주니어예중예고미술학원",
-  "displayName": "전원주니어예중예고미술학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 오목로 287",
-  "capacity": 232,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -61888,23 +61906,6 @@
   "registrationCount": 1,
   "lat": 37.5493089,
   "lng": 126.8671658
- },
- {
-  "id": "3000042861",
-  "name": "온앤온무용아카데미학원",
-  "displayName": "온앤온무용아카데미학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 공항대로 596",
-  "capacity": 240,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5472967,
-  "lng": 126.87092
  },
  {
   "id": "3000028430",
@@ -63522,6 +63523,23 @@
   "lng": 127.0034174
  },
  {
+  "id": "24989",
+  "name": "와일본어교육원일본어교습소",
+  "displayName": "와일본어교육원일본어교습소",
+  "regionId": "banpo",
+  "dong": "잠원동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 서초구 신반포로 177",
+  "capacity": 3,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5060987,
+  "lng": 127.0034174
+ },
+ {
   "id": "3000013687",
   "name": "이화성악교습소",
   "displayName": "이화성악교습소",
@@ -64781,6 +64799,23 @@
   "lng": 127.0271768
  },
  {
+  "id": "3000038271",
+  "name": "블리스발레아카데미(BLISS Ballet Academy)학원",
+  "displayName": "블리스발레아카데미(BLISS Ballet Academy)학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 사임당로 158",
+  "capacity": 455,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4918503,
+  "lng": 127.0271768
+ },
+ {
   "id": "3000039396",
   "name": "스마트해법서초플래그십학원",
   "displayName": "스마트해법서초플래그십학원",
@@ -64791,6 +64826,23 @@
   ],
   "address": "서울특별시 서초구 사임당로 158",
   "capacity": 934,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4918503,
+  "lng": 127.0271768
+ },
+ {
+  "id": "3000037877",
+  "name": "이화뮤직스프링서초음악학원",
+  "displayName": "이화뮤직스프링서초음악학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 사임당로 158",
+  "capacity": 510,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -65206,6 +65258,23 @@
   "lng": 127.0010992
  },
  {
+  "id": "3000025454",
+  "name": "전원주니어미술학원",
+  "displayName": "전원주니어미술학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 반포대로 287",
+  "capacity": 411,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5043414,
+  "lng": 127.0010992
+ },
+ {
   "id": "3000030090",
   "name": "제이디엠영어학원",
   "displayName": "제이디엠영어학원",
@@ -65539,6 +65608,23 @@
   ],
   "address": "서울특별시 서초구 사임당로 151",
   "capacity": 2,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4920742,
+  "lng": 127.0257084
+ },
+ {
+  "id": "3000041274",
+  "name": "서이하연과학교습소",
+  "displayName": "서이하연과학교습소",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "science"
+  ],
+  "address": "서울특별시 서초구 사임당로 151",
+  "capacity": 49,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -69935,23 +70021,6 @@
   "lng": 127.013948
  },
  {
-  "id": "3000030627",
-  "name": "르네드뮤제학원",
-  "displayName": "르네드뮤제학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 사평대로45길 10-25",
-  "capacity": 306,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.506631,
-  "lng": 127.013948
- },
- {
   "id": "3000039418",
   "name": "에그본학원",
   "displayName": "에그본학원",
@@ -70491,23 +70560,6 @@
   ],
   "address": "서울특별시 서초구 고무래로10길 17",
   "capacity": 6,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5011797,
-  "lng": 127.0104331
- },
- {
-  "id": "3000035509",
-  "name": "깊은생각서초2관학원",
-  "displayName": "깊은생각서초2관학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 서초구 고무래로10길 17",
-  "capacity": 150,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -71209,23 +71261,6 @@
   ],
   "address": "서울특별시 서초구 반포대로 291",
   "capacity": 345,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5049309,
-  "lng": 126.9995048
- },
- {
-  "id": "3000046483",
-  "name": "원베일리비발디음악학원",
-  "displayName": "원베일리비발디음악학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 반포대로 291",
-  "capacity": 390,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -71998,23 +72033,6 @@
   "registrationCount": 1,
   "lat": 37.4935427,
   "lng": 127.0174592
- },
- {
-  "id": "3000050443",
-  "name": "(주)제이원액터스튜디오학원",
-  "displayName": "(주)제이원액터스튜디오학원",
-  "regionId": "banpo",
-  "dong": "잠원동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 신반포로47길 61",
-  "capacity": 306,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.513064,
-  "lng": 127.0181668
  },
  {
   "id": "3000043478",
@@ -73107,23 +73125,6 @@
   "lng": 127.0011225
  },
  {
-  "id": "3000020197",
-  "name": "반포세정2관학원",
-  "displayName": "반포세정2관학원",
-  "regionId": "banpo",
-  "dong": "잠원동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 서초구 반포대로 300",
-  "capacity": 1600,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5059326,
-  "lng": 127.0011225
- },
- {
   "id": "3000011577",
   "name": "반포세정덕성6층학원",
   "displayName": "반포세정덕성6층학원",
@@ -73327,23 +73328,6 @@
   "registrationCount": 1,
   "lat": 37.488171,
   "lng": 127.0116063
- },
- {
-  "id": "3000013937",
-  "name": "그룹티아이연기학원",
-  "displayName": "그룹티아이연기학원",
-  "regionId": "banpo",
-  "dong": "잠원동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 나루터로15길 6",
-  "capacity": 362,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5161799,
-  "lng": 127.0186367
  },
  {
   "id": "3000048482",
@@ -73805,23 +73789,6 @@
   "lng": 127.0077622
  },
  {
-  "id": "3000032411",
-  "name": "네온댄스학원",
-  "displayName": "네온댄스학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 서초구 강남대로 545-21",
-  "capacity": 1622,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5101039,
-  "lng": 127.02026
- },
- {
   "id": "3000051190",
   "name": "넥서스보컬아카데미학원",
   "displayName": "넥서스보컬아카데미학원",
@@ -73920,23 +73887,6 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.5006072,
-  "lng": 127.0096492
- },
- {
-  "id": "3000030617",
-  "name": "생각하는황소서초",
-  "displayName": "생각하는황소서초",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 서초구 고무래로10길 26",
-  "capacity": 150,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
   "lat": 37.5006072,
   "lng": 127.0096492
  },
@@ -74570,23 +74520,6 @@
   "lng": 127.0087448
  },
  {
-  "id": "3000025863",
-  "name": "디자인쌤미술학원",
-  "displayName": "디자인쌤미술학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 서초중앙로20길 24",
-  "capacity": 300,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4922463,
-  "lng": 127.0154317
- },
- {
   "id": "3000053168",
   "name": "디티에이(DTA)원격학원",
   "displayName": "디티에이(DTA)원격학원",
@@ -74594,6 +74527,23 @@
   "dong": "서초동",
   "subjects": [
    "etc"
+  ],
+  "address": "서울특별시 서초구 사임당로8길 13",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4879195,
+  "lng": 127.0156656
+ },
+ {
+  "id": "3000050506",
+  "name": "러닝랩원격학원",
+  "displayName": "러닝랩원격학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "korean"
   ],
   "address": "서울특별시 서초구 사임당로8길 13",
   "capacity": 0,
@@ -74648,6 +74598,23 @@
   ],
   "address": "서울특별시 서초구 서초대로78길 26",
   "capacity": 42,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4953668,
+  "lng": 127.027729
+ },
+ {
+  "id": "3000018821",
+  "name": "코리아항공운항과학원",
+  "displayName": "코리아항공운항과학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 서초구 서초대로78길 26",
+  "capacity": 2420,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -75422,6 +75389,23 @@
   "lng": 127.0191855
  },
  {
+  "id": "3000050853",
+  "name": "모던스테이지서초점현대무용학원",
+  "displayName": "모던스테이지서초점현대무용학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 서초중앙로22길 108",
+  "capacity": 426,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4943873,
+  "lng": 127.0198359
+ },
+ {
   "id": "11521",
   "name": "아이파경영학원",
   "displayName": "아이파경영학원",
@@ -75539,23 +75523,6 @@
   "registrationCount": 1,
   "lat": 37.4812463,
   "lng": 127.0131977
- },
- {
-  "id": "3000011211",
-  "name": "미키어학원",
-  "displayName": "미키어학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 서초구 서초대로50길 62-11",
-  "capacity": 5101,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.490331,
-  "lng": 127.0129173
  },
  {
   "id": "3000037573",
@@ -75964,6 +75931,41 @@
   "registrationCount": 1,
   "lat": 37.5006914,
   "lng": 127.0117389
+ },
+ {
+  "id": "3000053061",
+  "name": "에스피피에스(SPPS)학원",
+  "displayName": "에스피피에스(SPPS)학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 서초구 서초중앙로 215",
+  "capacity": 520,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5006914,
+  "lng": 127.0117389
+ },
+ {
+  "id": "3000038030",
+  "name": "반포제이케이(JK)수학과학학원",
+  "displayName": "반포제이케이(JK)수학과학학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "math",
+   "science"
+  ],
+  "address": "서울특별시 서초구 고무래로8길 5",
+  "capacity": 48,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5022938,
+  "lng": 127.0104839
  },
  {
   "id": "3000018514",
@@ -76681,6 +76683,23 @@
   "lng": 127.0136749
  },
  {
+  "id": "3000037624",
+  "name": "산연기학원",
+  "displayName": "산연기학원",
+  "regionId": "banpo",
+  "dong": "잠원동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 서초구 강남대로97길 26",
+  "capacity": 2664,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5146468,
+  "lng": 127.0183102
+ },
+ {
   "id": "3000042871",
   "name": "새봄국어원격학원",
   "displayName": "새봄국어원격학원",
@@ -76934,23 +76953,6 @@
   "registrationCount": 1,
   "lat": 37.4825458,
   "lng": 127.0048188
- },
- {
-  "id": "3000025706",
-  "name": "서정음악학원",
-  "displayName": "서정음악학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 서초구 서래로8길 7",
-  "capacity": 330,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4987278,
-  "lng": 126.9989511
  },
  {
   "id": "3000027557",
@@ -77498,24 +77500,6 @@
   "lng": 127.0315267
  },
  {
-  "id": "3000021854",
-  "name": "수학과학의미학원",
-  "displayName": "수학과학의미학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "math",
-   "science"
-  ],
-  "address": "서울특별시 서초구 서초대로 355",
-  "capacity": 46,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.4960317,
-  "lng": 127.0201586
- },
- {
   "id": "3000025620",
   "name": "수학에미친사람들서초",
   "displayName": "수학에미친사람들서초",
@@ -77529,23 +77513,6 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 2,
-  "lat": 37.4830989,
-  "lng": 127.0075439
- },
- {
-  "id": "3000029414",
-  "name": "에듀코치개별지도서초2학원",
-  "displayName": "에듀코치개별지도서초2학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 서초구 남부순환로315길 104",
-  "capacity": 280,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
   "lat": 37.4830989,
   "lng": 127.0075439
  },
@@ -77975,6 +77942,23 @@
   "lng": 127.0261436
  },
  {
+  "id": "3000043259",
+  "name": "아이비뮤직댄스아카데미실용음악학원",
+  "displayName": "아이비뮤직댄스아카데미실용음악학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 서운로 220",
+  "capacity": 500,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5027161,
+  "lng": 127.0217872
+ },
+ {
   "id": "4065",
   "name": "한뉘수학학원",
   "displayName": "한뉘수학학원",
@@ -78296,23 +78280,6 @@
   "registrationCount": 1,
   "lat": 37.4869726,
   "lng": 127.0291931
- },
- {
-  "id": "3000027044",
-  "name": "에스비에스(SBS)아카데미게임학원",
-  "displayName": "에스비에스(SBS)아카데미게임학원",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 서초구 강남대로69길 8",
-  "capacity": 1866,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5018539,
-  "lng": 127.0246411
  },
  {
   "id": "3000017568",
@@ -79422,6 +79389,23 @@
   "lng": 127.0059855
  },
  {
+  "id": "3000054881",
+  "name": "초이클래식음악학원",
+  "displayName": "초이클래식음악학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 서초구 반포대로13길 33",
+  "capacity": 444,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.4844535,
+  "lng": 127.009108
+ },
+ {
   "id": "3000018133",
   "name": "최상위영수학원",
   "displayName": "최상위영수학원",
@@ -79762,6 +79746,23 @@
   "lng": 127.0082093
  },
  {
+  "id": "3000043394",
+  "name": "패트릭에듀원격학원",
+  "displayName": "패트릭에듀원격학원",
+  "regionId": "banpo",
+  "dong": "잠원동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 서초구 신반포로47길 30",
+  "capacity": 1998,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5121155,
+  "lng": 127.0192485
+ },
+ {
   "id": "3000039987",
   "name": "퍼스트바리스타제과제빵학원",
   "displayName": "퍼스트바리스타제과제빵학원",
@@ -80051,23 +80052,6 @@
   "lng": 127.0094759
  },
  {
-  "id": "3000022326",
-  "name": "하우투스터디과학학원",
-  "displayName": "하우투스터디과학학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "science"
-  ],
-  "address": "서울특별시 서초구 고무래로8길 13",
-  "capacity": 44,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5017994,
-  "lng": 127.0101379
- },
- {
   "id": "21447",
   "name": "한국공급관리교육학원",
   "displayName": "한국공급관리교육학원",
@@ -80236,6 +80220,23 @@
   "registrationCount": 1,
   "lat": 37.4989021,
   "lng": 127.0255752
+ },
+ {
+  "id": "3000037664",
+  "name": "해커스어학원강남제4별관학원",
+  "displayName": "해커스어학원강남제4별관학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 서초구 서초대로77길 27",
+  "capacity": 36339,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.500125,
+  "lng": 127.0255028
  },
  {
   "id": "7744",
@@ -80595,6 +80596,23 @@
   "lng": 127.1007382
  },
  {
+  "id": "3000053060",
+  "name": "첼로빌(Celloville)첼로교습소",
+  "displayName": "첼로빌(Celloville)첼로교습소",
+  "regionId": "jamsil",
+  "dong": "신천동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 올림픽로35길 124",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5173527,
+  "lng": 127.1007382
+ },
+ {
   "id": "3000044294",
   "name": "페리아트스튜디오미술교습소",
   "displayName": "페리아트스튜디오미술교습소",
@@ -80945,6 +80963,23 @@
   ],
   "address": "서울특별시 송파구 양재대로 1222",
   "capacity": 1000,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.515729,
+  "lng": 127.1310643
+ },
+ {
+  "id": "3000052972",
+  "name": "모뮤음악학원",
+  "displayName": "모뮤음악학원",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 양재대로 1222",
+  "capacity": 264,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -81336,23 +81371,6 @@
   ],
   "address": "서울특별시 송파구 올림픽로35길 112",
   "capacity": 25,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5178933,
-  "lng": 127.1018273
- },
- {
-  "id": "3000017722",
-  "name": "한우리독서토론논술장미점국어교습소",
-  "displayName": "한우리독서토론논술장미점국어교습소",
-  "regionId": "jamsil",
-  "dong": "신천동",
-  "subjects": [
-   "korean"
-  ],
-  "address": "서울특별시 송파구 올림픽로35길 112",
-  "capacity": 6,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -82193,23 +82211,6 @@
   "lng": 127.0842018
  },
  {
-  "id": "3000040558",
-  "name": "JS뮤직학원",
-  "displayName": "JS뮤직학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로 119",
-  "capacity": 200,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5120894,
-  "lng": 127.0842018
- },
- {
   "id": "3000034081",
   "name": "리드101엘스학원",
   "displayName": "리드101엘스학원",
@@ -82278,23 +82279,6 @@
   "lng": 127.0842018
  },
  {
-  "id": "3000052625",
-  "name": "발자국소리가큰아이들ATOI미술학원",
-  "displayName": "발자국소리가큰아이들ATOI미술학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로 119",
-  "capacity": 204,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5120894,
-  "lng": 127.0842018
- },
- {
   "id": "24439",
   "name": "비상교육잉글리시아이학원",
   "displayName": "비상교육잉글리시아이학원",
@@ -82339,23 +82323,6 @@
   ],
   "address": "서울특별시 송파구 올림픽로 119",
   "capacity": 16,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5120894,
-  "lng": 127.0842018
- },
- {
-  "id": "3000042466",
-  "name": "엘스미뉴엣음악학원",
-  "displayName": "엘스미뉴엣음악학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로 119",
-  "capacity": 200,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -82560,6 +82527,23 @@
   ],
   "address": "서울특별시 송파구 석촌호수로 135",
   "capacity": 40,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5075719,
+  "lng": 127.0923856
+ },
+ {
+  "id": "3000056173",
+  "name": "대치올스터디잠실학원",
+  "displayName": "대치올스터디잠실학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 송파구 석촌호수로 135",
+  "capacity": 515,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -83859,6 +83843,23 @@
   "lng": 127.0933434
  },
  {
+  "id": "3000042688",
+  "name": "노량진플러스임용미술학원",
+  "displayName": "노량진플러스임용미술학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 올림픽로 203",
+  "capacity": 240,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5124982,
+  "lng": 127.0933434
+ },
+ {
   "id": "3000027234",
   "name": "바둑의신바둑교습소",
   "displayName": "바둑의신바둑교습소",
@@ -83891,6 +83892,23 @@
   "registrationCount": 1,
   "lat": 37.5114503,
   "lng": 127.1148772
+ },
+ {
+  "id": "3000012599",
+  "name": "방이피카소미술교습소",
+  "displayName": "방이피카소미술교습소",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 백제고분로50길 41",
+  "capacity": 6,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5130015,
+  "lng": 127.1192061
  },
  {
   "id": "3000012659",
@@ -84175,23 +84193,6 @@
   ],
   "address": "서울특별시 송파구 가락로 266",
   "capacity": 7,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5116414,
-  "lng": 127.1193477
- },
- {
-  "id": "3000023614",
-  "name": "필슈파스음악교습소",
-  "displayName": "필슈파스음악교습소",
-  "regionId": "jamsil",
-  "dong": "방이동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 가락로 266",
-  "capacity": 24,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -84794,23 +84795,6 @@
   "lng": 127.1132814
  },
  {
-  "id": "3000042378",
-  "name": "관인핑거비이지음악학원",
-  "displayName": "관인핑거비이지음악학원",
-  "regionId": "jamsil",
-  "dong": "신천동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로35길 10",
-  "capacity": 210,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5203138,
-  "lng": 127.1132814
- },
- {
   "id": "3000031926",
   "name": "대치메카수학학원",
   "displayName": "대치메카수학학원",
@@ -84965,6 +84949,23 @@
   "lng": 127.1132814
  },
  {
+  "id": "3000051051",
+  "name": "봄봄아트미술학원",
+  "displayName": "봄봄아트미술학원",
+  "regionId": "jamsil",
+  "dong": "신천동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 올림픽로35길 10",
+  "capacity": 250,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5203138,
+  "lng": 127.1132814
+ },
+ {
   "id": "30068",
   "name": "브레인봄창의학원",
   "displayName": "브레인봄창의학원",
@@ -85094,6 +85095,23 @@
   ],
   "address": "서울특별시 송파구 올림픽로35길 10",
   "capacity": 100,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5203138,
+  "lng": 127.1132814
+ },
+ {
+  "id": "3000040838",
+  "name": "조이바이올린첼로음악학원",
+  "displayName": "조이바이올린첼로음악학원",
+  "regionId": "jamsil",
+  "dong": "신천동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 올림픽로35길 10",
+  "capacity": 270,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -85349,23 +85367,6 @@
   ],
   "address": "서울특별시 송파구 올림픽로35길 45",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5191414,
-  "lng": 127.1094233
- },
- {
-  "id": "3000054455",
-  "name": "리틀쇼팽잠래아음악학원",
-  "displayName": "리틀쇼팽잠래아음악학원",
-  "regionId": "jamsil",
-  "dong": "신천동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로35길 45",
-  "capacity": 225,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -85641,6 +85642,23 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
+  "lat": 37.5107705,
+  "lng": 127.1264395
+ },
+ {
+  "id": "3000046500",
+  "name": "청어람수다빈치",
+  "displayName": "청어람수다빈치",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 송파구 양재대로71길 4-12",
+  "capacity": 474,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 2,
   "lat": 37.5107705,
   "lng": 127.1264395
  },
@@ -86634,23 +86652,6 @@
   "lng": 127.1258901
  },
  {
-  "id": "3000034365",
-  "name": "청어람수다빈치6관학원",
-  "displayName": "청어람수다빈치6관학원",
-  "regionId": "jamsil",
-  "dong": "방이동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 송파구 양재대로71길 8",
-  "capacity": 360,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.510552,
-  "lng": 127.1258901
- },
- {
   "id": "3000033272",
   "name": "동행위드(with)찰스영어서우수학학원",
   "displayName": "동행위드(with)찰스영어서우수학학원",
@@ -86735,6 +86736,23 @@
   "registrationCount": 1,
   "lat": 37.5073385,
   "lng": 127.0874267
+ },
+ {
+  "id": "3000052116",
+  "name": "라이브아미(LIVEARMY)학원",
+  "displayName": "라이브아미(LIVEARMY)학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 삼전로1길 2",
+  "capacity": 270,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5023457,
+  "lng": 127.0859735
  },
  {
   "id": "3000050294",
@@ -86871,23 +86889,6 @@
   "registrationCount": 1,
   "lat": 37.5084125,
   "lng": 127.0818139
- },
- {
-  "id": "3000026181",
-  "name": "리틀바하음악학원",
-  "displayName": "리틀바하음악학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 올림픽로12길 48",
-  "capacity": 240,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5074326,
-  "lng": 127.0834868
  },
  {
   "id": "3000011075",
@@ -87333,6 +87334,23 @@
   "registrationCount": 1,
   "lat": 37.509877,
   "lng": 127.1255551
+ },
+ {
+  "id": "9035",
+  "name": "방이알프레드음악학원",
+  "displayName": "방이알프레드음악학원",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 가락로 252",
+  "capacity": 252,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5103992,
+  "lng": 127.1185911
  },
  {
   "id": "3000034391",
@@ -87948,23 +87966,6 @@
   "lng": 127.1222976
  },
  {
-  "id": "3000054860",
-  "name": "아이원아카데미본원학원",
-  "displayName": "아이원아카데미본원학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 송파구 백제고분로9길 53",
-  "capacity": 399,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5102725,
-  "lng": 127.0850534
- },
- {
   "id": "3000023203",
   "name": "아이콩아트스튜디오미술학원",
   "displayName": "아이콩아트스튜디오미술학원",
@@ -87975,6 +87976,23 @@
   ],
   "address": "서울특별시 송파구 양재대로71길 20-29",
   "capacity": 120,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5120832,
+  "lng": 127.1254095
+ },
+ {
+  "id": "3000027547",
+  "name": "이권보습학원",
+  "displayName": "이권보습학원",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 송파구 양재대로71길 20-29",
+  "capacity": 471,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -88322,6 +88340,23 @@
   "lng": 127.0832361
  },
  {
+  "id": "1000022564",
+  "name": "피아니스트의꿈음악학원",
+  "displayName": "피아니스트의꿈음악학원",
+  "regionId": "jamsil",
+  "dong": "잠실동",
+  "subjects": [
+   "arts"
+  ],
+  "address": "서울특별시 송파구 올림픽로12길 54",
+  "capacity": 300,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "lat": 37.5068347,
+  "lng": 127.0832361
+ },
+ {
   "id": "1000026086",
   "name": "엠비씨방송아카데미학원",
   "displayName": "엠비씨방송아카데미학원",
@@ -88505,23 +88540,6 @@
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
-  "lat": 37.515803,
-  "lng": 127.1160418
- },
- {
-  "id": "22514",
-  "name": "청어람수",
-  "displayName": "청어람수 (위례성대로 34)",
-  "regionId": "jamsil",
-  "dong": "방이동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 송파구 위례성대로 34",
-  "capacity": 450,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
   "lat": 37.515803,
   "lng": 127.1160418
  },
@@ -89242,23 +89260,6 @@
   "registrationCount": 1,
   "lat": 37.5054126,
   "lng": 127.0864706
- },
- {
-  "id": "3000052710",
-  "name": "팀그레이스연기학원",
-  "displayName": "팀그레이스연기학원",
-  "regionId": "jamsil",
-  "dong": "잠실동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 송파구 도곡로62길 11",
-  "capacity": 228,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "lat": 37.5042055,
-  "lng": 127.0776806
  },
  {
   "id": "3000030117",
