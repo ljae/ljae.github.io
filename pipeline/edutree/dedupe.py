@@ -45,8 +45,14 @@ def address_key(address: str | None) -> str | None:
 
 
 # 업종·지점 수식어만 떼는 최소 정리. 브랜드에 과목명이 들어간 경우를 지킨다.
+#
+# 관(館) 수식어를 여기 둔 이유: '신관씨앤씨학원' 과 '씨앤씨16관학원' 은
+# 같은 주소(목동동로 196)의 같은 학원인데 안 묶였다. 강한 정리는 낱말
+# '관' 을 **이름 가운데서도** 지워 '신관씨앤씨' 를 '신씨앤씨' 로 만들어
+# 버려서, 접두사 비교가 어긋났다. 관 수식어는 통째로 떼야 한다.
 _LIGHT = (
     "제",
+    "신관", "본관", "별관", "분관", "구관",
     "대치", "도곡", "개포", "목동", "신정", "반포", "잠원", "서초", "잠실", "신천",
     "방이", "강남", "송파", "양천", "서울",
 )
@@ -161,6 +167,89 @@ def group(records: list[dict]) -> dict[str, list[dict]]:
     return groups
 
 
+# 관(館) 표기. 한 학원이 건물을 나눠 쓸 때 붙는 말이다.
+# ★ 지역어는 여기 넣지 않는다. '책나무대치' 와 '책나무개포' 는 서로 다른
+#   지점이고, 지역어까지 지우면 그 둘이 한 학원이 된다. 실측에서 약(light)
+#   토큰으로 묶었더니 리드101 도곡·대치·개포가 한 곳이 됐다.
+_HALL = ("신관", "본관", "별관", "분관", "구관", "관")
+_HALL_MARK = re.compile(r"(제?\d+관|신관|본관|별관|분관|구관)")
+
+
+def hall_key(name: str) -> str:
+    """관 표기만 지운 이름. 지역·과목·브랜드는 그대로 남긴다."""
+    s = re.sub(r"[（(].*?[)）]", "", name or "")
+    s = _NUM.sub("", _NON.sub("", s).lower())
+    s = _strip_suffix(s)
+    for w in _HALL:
+        s = s.replace(w, "")
+    return _strip_suffix(s)
+
+
+def has_hall_mark(name: str) -> bool:
+    """'3관'·'신관'처럼 한 학원이 건물을 나눠 쓴다는 표시가 있는가."""
+    return bool(_HALL_MARK.search(_NON.sub("", name or "")))
+
+
+def _strip_hall_mark(name: str) -> str:
+    """이름에서 관 번호만 뗀다. '길벗제2관보습학원' → '길벗보습학원'."""
+    out = _HALL_MARK.sub("", name or "").strip()
+    return out or name
+
+
+def merge_same_name(groups: dict[str, list[dict]]) -> dict[str, list[dict]]:
+    """같은 학군에서 **대표명이 완전히 같은** 묶음끼리 다시 합친다.
+
+    주소가 다르면 안 묶는 것이 기본이다. 한 건물에 수십 곳이 들어 있는
+    동네라 주소만으로 묶으면 남남이 한 학원이 된다. 그런데 그 반대도 있다 —
+    목동 씨앤씨는 대표명이 그냥 '씨앤씨' 인 묶음이 서로 다른 다섯 주소에
+    흩어져 있었다. 한 학원의 여러 관이지 다섯 학원이 아니다.
+
+    **이름이 글자 하나까지 같고 학군도 같다**면 같은 학원으로 본다.
+    지점이 다르면 이름에 단서가 붙는다('반포시매쓰학원' vs '시매쓰학원').
+    실측에서 이 조건에 걸린 것은 9묶음 21건이고 전부 유명 브랜드의 여러
+    관이었다(씨앤씨·시대인재·대치파인만·플라즈마·시리우스…).
+
+    ★ 원본 이름이 아니라 **대표명**으로 견준다. '씨앤씨' 라는 등록은
+      NEIS 에 하나도 없다 — 그 이름은 '씨앤씨3관학원'·'씨앤씨5관학원' 의
+      공통 접두사로 이 단계에서 만들어진다. 원본 이름으로 보면 아무것도
+      안 걸린다(여기서 한 번 헛돌았다).
+    """
+    by_name: dict[tuple, list[str]] = defaultdict(list)
+    by_hall: dict[tuple, list[str]] = defaultdict(list)
+    marked: set[str] = set()
+    for key, rows in groups.items():
+        names = [r.get("name", "") for r in rows]
+        rep = representative_name(names).strip()
+        region = rows[0].get("region_id")
+        if rep:
+            by_name[(region, rep)].append(key)
+        hall = hall_key(rep)
+        if len(hall) >= 3:
+            by_hall[(region, hall)].append(key)
+        if any(has_hall_mark(n) for n in names):
+            marked.add(key)
+
+    # 관 표기가 붙은 묶음이 하나라도 있을 때만 관 기준으로 합친다.
+    # '피아노교습소' 와 '피아노교습소(김옥선)' 은 이름이 비슷할 뿐
+    # 한 학원이 아니다 — 그런 곳에는 관 표기가 없다.
+    plans = [ks for ks in by_hall.values()
+             if len(ks) > 1 and any(k in marked for k in ks)]
+
+    out = dict(groups)
+    for keys in plans:
+        keys = [k for k in keys if k in out]
+        if len(keys) < 2:
+            continue
+        merged: list[dict] = []
+        for k in keys:
+            merged.extend(out.pop(k))
+        # 대표 레코드(주소·좌표)는 정원이 가장 큰 관으로 둔다. 아무거나
+        # 고르면 지도에 본관이 아니라 별관이 찍힌다.
+        merged.sort(key=lambda r: -(r.get("tofor_smtot") or 0))
+        out[keys[0]] = merged
+    return out
+
+
 def representative_name(names: list[str]) -> str:
     """묶음의 대표 이름.
 
@@ -201,7 +290,14 @@ def merge(rows: list[dict]) -> dict:
 
     rows = sorted(rows, key=lambda r: (len(r.get("name", "")), r.get("name", "")))
     base = dict(rows[0])
-    base["name"] = representative_name([r.get("name", "") for r in rows])
+    names = [r.get("name", "") for r in rows]
+    rep = representative_name(names)
+    # 통합체의 이름에 관 번호가 남으면 안 된다. '길벗제2관보습학원' 은
+    # 5개 관을 합친 곳의 이름으로 읽히지 않는다 — 2관만 가리키는 말이다.
+    if has_hall_mark(rep):
+        plain = [n for n in names if not has_hall_mark(n)]
+        rep = representative_name(plain) if plain else _strip_hall_mark(rep)
+    base["name"] = rep
 
     caps = [r.get("tofor_smtot") for r in rows if r.get("tofor_smtot")]
     base["tofor_smtot"] = sum(caps) if caps else None          # 정원은 합산
@@ -234,6 +330,6 @@ def merge(rows: list[dict]) -> dict:
 
 def apply(records: list[dict]) -> tuple[list[dict], int]:
     """전체에 적용. (합쳐진 목록, 줄어든 건수) 를 돌려준다."""
-    groups = group(records)
+    groups = merge_same_name(group(records))
     out = [merge(rows) for rows in groups.values()]
     return out, len(records) - len(out)
