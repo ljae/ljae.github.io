@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/academy/academy_page.dart';
 import '../features/board/board_page.dart';
+import '../features/admin/admin_page.dart';
 import '../features/board/post_page.dart';
 import '../features/home/home_page.dart';
 import '../features/map/map_page.dart';
@@ -62,6 +63,11 @@ final router = GoRouter(
             path: '/method',
             pageBuilder: (context, state) => _fade(const MethodPage())),
 
+        // 관리자 화면. 메뉴에 두지 않는다 — 주소를 아는 사람만 들어온다.
+        // 데이터를 바꾸는 것은 service_role 이 필요하므로 RLS 가 막는다.
+        GoRoute(
+            path: '/admin',
+            pageBuilder: (context, state) => _fade(const AdminPage())),
         GoRoute(
           path: '/board/:id',
           pageBuilder: (_, state) =>

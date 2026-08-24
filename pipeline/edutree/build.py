@@ -682,6 +682,16 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               f"(학원명 미등장 {dropped:,}건 제외, {dropped/before*100:.0f}%)")
 
     names = {a["id"]: a.get("name", "") for a in evaluated}
+    # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
+    # 동명이인·광고를 사람이 판정한 결과가 여기서 되먹여진다.
+    from . import review_queue
+    rules = review_queue.load_rules()
+    mentions, by_rule = review_queue.apply_rules(mentions, rules)
+    verdicts = review_queue.load_verdicts()
+    mentions, by_verdict = review_queue.apply_verdicts(mentions, verdicts)
+    if by_rule or by_verdict:
+        print(f"  운영자 검수 반영: 규칙 {by_rule:,}건 · 반려 {by_verdict:,}건 제외")
+
     mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
@@ -690,6 +700,12 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
         from . import coverage
         coverage.record(evaluated, mentions)
+
+        # 검수 대기 큐에 올린다. 신뢰도 높은 글부터 — 점수에 영향이 큰
+        # 글을 먼저 봐야 검수 한 번의 값어치가 크다.
+        queued = review_queue.enqueue(mentions, evaluated, verdicts)
+        if queued:
+            print(f"  검수 큐: {queued:,}건 대기")
 
     # 학원실록 자체 후기를 같은 채점 로직에 태운다.
     # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —
