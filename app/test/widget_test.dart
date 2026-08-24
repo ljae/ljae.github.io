@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edutree/data/models.dart';
 import 'package:edutree/data/repository.dart';
 import 'package:edutree/widgets/wheel_selector.dart';
+import 'package:edutree/features/techtree/roadmap_view.dart';
 
 void main() {
   test('Score.pillar 는 각 기둥 값을 그대로 돌려준다', () {
@@ -108,5 +109,62 @@ void main() {
         find.byType(ListWheelScrollView));
     expect((wheelView.controller as FixedExtentScrollController).selectedItem, 1);
     expect(controller.mounted, isTrue);
+  });
+
+  testWidgets('좁은 화면에서는 로드맵이 한 과목씩 넘어간다', (tester) async {
+    // 모바일에서 네 과목을 가로 스크롤로 밀게 하면 세로·가로 두 방향을
+    // 오가게 된다. 한 과목만 펴고 전환은 스와이프에 맡긴다.
+    final roadmap = Roadmap(
+      stages: [
+        for (final s in ['english', 'math', 'korean'])
+          RoadmapStage(
+            id: '\$s-1',
+            subject: s,
+            title: '\$s 시작',
+            gradeMin: 0,
+            gradeMax: 2,
+          ),
+      ],
+    );
+    final data = EduTreeData(
+      meta: const Meta(
+        mode: 'test',
+        generatedAt: '',
+        evaluatedCount: 0,
+        registryCount: 0,
+        mentionCount: 0,
+        weights: {},
+        minSampleForRank: 10,
+        reputationPriorCount: 12,
+        recencyHalflifeDays: 180,
+      ),
+      regions: const [],
+      tracks: const [],
+      academies: const [],
+      roadmap: roadmap,
+    );
+
+    Future<void> pumpAt(double width) async {
+      tester.view.physicalSize = Size(width, 900);
+      tester.view.devicePixelRatio = 1.0;
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: ProviderScope(
+            child: RoadmapView(data: data, regionId: 'daechi'),
+          ),
+        ),
+      ));
+      await tester.pump();
+    }
+
+    addTearDown(tester.view.reset);
+
+    await pumpAt(375);
+    expect(find.byType(PageView), findsOneWidget,
+        reason: '휴대폰 폭에서는 과목별 페이지로 넘긴다');
+
+    await pumpAt(1200);
+    expect(find.byType(PageView), findsNothing,
+        reason: '넓은 화면에서는 네 과목을 나란히 둔다');
   });
 }
