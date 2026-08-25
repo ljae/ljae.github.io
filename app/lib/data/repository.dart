@@ -92,13 +92,16 @@ class EduTreeData {
     String? gradeBand,
     bool includeUnranked = false,
   }) {
+    // ★ 과목 랭킹은 그 과목의 점수로 거르고 세운다. 대표 점수를 쓰면
+    //   수학 후기가 많은 종합학원이 과학 랭킹 상위를 차지한다.
     final rows = academies
         .where((a) =>
-            (includeUnranked || a.score.isRanked) &&
+            (includeUnranked || a.scoreFor(subject).isRanked) &&
             _matchesFilters(a,
                 regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();
-    rows.sort((a, b) => b.score.total.compareTo(a.score.total));
+    rows.sort((a, b) =>
+        b.scoreFor(subject).total.compareTo(a.scoreFor(subject).total));
     return rows;
   }
 
@@ -115,7 +118,7 @@ class EduTreeData {
   }) {
     final rows = academies
         .where((a) =>
-            !a.score.isRanked &&
+            !a.scoreFor(subject).isRanked &&
             _matchesFilters(a,
                 regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();

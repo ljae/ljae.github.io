@@ -386,6 +386,12 @@ class Academy {
   final List<String> registrationIds;
 
   final Score score;
+
+  /// 과목별 점수. 한 학원이 여러 과목을 가르쳐도 **근거는 과목마다
+  /// 다르다** — 수학 후기 496건짜리 종합학원이 그 점수를 그대로 들고
+  /// 과학 랭킹에 오르면 그 순위는 '과학이 좋다'가 아니라 '유명하다'를
+  /// 뜻하게 된다. 과목 랭킹은 반드시 이 값을 본다.
+  final Map<String, Score> subjectScores;
   final List<Evidence> evidence;
 
   const Academy({
@@ -411,6 +417,7 @@ class Academy {
     this.registrationCount = 1,
     this.registrationIds = const [],
     required this.score,
+    this.subjectScores = const {},
     required this.evidence,
   });
 
@@ -438,6 +445,11 @@ class Academy {
         registrationIds:
             ((j['registrationIds'] as List?) ?? const []).cast<String>(),
         score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
+        subjectScores: {
+          for (final e in ((j['subjectScores'] as Map?) ?? const {}).entries)
+            e.key as String:
+                Score.fromJson((e.value as Map).cast<String, dynamic>()),
+        },
         evidence: ((j['evidence'] as List?) ?? const [])
             .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
             .toList(),
@@ -451,6 +463,11 @@ class Academy {
   String? get brandLabel =>
       (brand != null && brand != name && !name.contains(brand!)) ? brand : null;
   bool isFlagshipOf(String stageId) => flagship.contains(stageId);
+
+  /// 그 과목의 점수. 과목을 안 주면 대표 점수.
+  /// 과목별 점수가 없는 곳(옛 데이터·종합학원)은 대표 점수로 물러난다.
+  Score scoreFor(String? subject) =>
+      subject == null ? score : (subjectScores[subject] ?? score);
 }
 
 class Meta {

@@ -53,14 +53,16 @@ class _RankingPageState extends ConsumerState<RankingPage> {
           case _Sort.score:
             break;
           case _Sort.positive:
-            ranked.sort((a, b) => (b.score.positiveRate ?? -1)
-                .compareTo(a.score.positiveRate ?? -1));
+            ranked.sort((a, b) => (b.scoreFor(_subject).positiveRate ?? -1)
+                .compareTo(a.scoreFor(_subject).positiveRate ?? -1));
           case _Sort.sample:
-            ranked.sort(
-                (a, b) => b.score.sampleSize.compareTo(a.score.sampleSize));
+            ranked.sort((a, b) => b
+                .scoreFor(_subject)
+                .sampleSize
+                .compareTo(a.scoreFor(_subject).sampleSize));
           case _Sort.selectivity:
-            ranked.sort((a, b) => (b.score.selectivity ?? -1)
-                .compareTo(a.score.selectivity ?? -1));
+            ranked.sort((a, b) => (b.scoreFor(_subject).selectivity ?? -1)
+                .compareTo(a.scoreFor(_subject).selectivity ?? -1));
         }
         // 지금 보고 있는 랭킹과 같은 조건으로 뽑는다 — 영어 랭킹 아래에
         // 미술 학원이 늘어서면 그 목록이 무엇인지 읽히지 않는다.
@@ -140,6 +142,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   child: AcademyCard(
                       key: ValueKey(ranked[i].id),
                       academy: ranked[i],
+                      subject: _subject,
                       rank: rankOf[ranked[i].id] ?? i + 1),
                 ),
               ),

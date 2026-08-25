@@ -378,6 +378,61 @@ def region_hints(text: str) -> tuple[set[str], bool]:
     return ours, other
 
 
+# 글이 어느 과목을 말하고 있는가. 한 학원이 여러 과목을 가르쳐도
+# **근거는 과목별로 갈려야 한다** — 수학 후기가 잔뜩 있는 종합학원이
+# 과학 랭킹 상위에 오르면 그 순위는 아무것도 뜻하지 않는다.
+SUBJECT_WORDS = {
+    "math": ("수학", "미적분", "기하", "확률과통계", "확통", "수1", "수2",
+             "사고력수학", "연산", "경시", "올림피아드", "매쓰", "math"),
+    "english": ("영어", "어학", "리딩", "리스닝", "파닉스", "토플", "토익",
+                "텝스", "회화", "원서", "english"),
+    "korean": ("국어", "논술", "독서", "문학", "비문학", "언매", "화작",
+               "문해", "글쓰기", "독해"),
+    "science": ("과학", "물리", "화학", "생명과학", "생물", "지구과학",
+                "통합과학", "물화생지"),
+}
+
+
+# 학원 이름에서 이만큼 떨어진 과목어는 그 학원 이야기로 보지 않는다.
+SUBJECT_WINDOW = 45
+
+
+def subjects_in(text: str) -> set[str]:
+    """글 어디에든 나온 과목들. 창(窓) 없이 통째로 본다."""
+    flat = _norm(text)
+    return {sub for sub, words in SUBJECT_WORDS.items()
+            if any(_norm(w) in flat for w in words)}
+
+
+def subjects_near(text: str, names: set[str]) -> set[str]:
+    """**학원 이름 근처**의 과목어만.
+
+    글 전체에서 과목어를 찾으면 대치동 잡담이 전부 과학 근거가 된다.
+    실측: 시대인재의 '과학' 태그 31건을 열어 보니 '대치동 부동산 가격
+    형성요인', '목동 러셀 윈터스쿨 후기' 같은 글이 섞여 있었고, 실제로
+    그 학원의 과학을 말한 글은 소수였다.
+
+    branches.py 가 '본문의 지역명은 대개 남의 상호' 라는 것을 배운 것과
+    같은 함정이다 — 낱말이 있다는 것과 그 학원 이야기라는 것은 다르다.
+    """
+    flat = _norm(text)
+    spots: list[int] = []
+    for name in names:
+        n = _norm(name)
+        if len(n) < 2:
+            continue
+        i = flat.find(n)
+        while i >= 0:
+            spots.append(i)
+            i = flat.find(n, i + 1)
+    if not spots:
+        return set()
+    windows = " ".join(
+        flat[max(0, i - SUBJECT_WINDOW): i + SUBJECT_WINDOW] for i in spots)
+    return {sub for sub, words in SUBJECT_WORDS.items()
+            if any(_norm(w) in windows for w in words)}
+
+
 def is_relevant(mention: dict, candidates: set[str],
                 generic: bool = False,
                 rivals: set[str] = frozenset()) -> bool:
@@ -441,7 +496,8 @@ def is_relevant(mention: dict, candidates: set[str],
     return True
 
 
-def analyze(mention: dict, academy_name: str = "") -> dict:
+def analyze(mention: dict, academy_name: str = "",
+            names: set[str] | None = None) -> dict:
     """언급 한 건을 분석해 필드를 채워 돌려준다.
 
     [academy_name] 은 등급반 추출에서 학원 이름을 지우는 데 쓴다.
@@ -468,6 +524,8 @@ def analyze(mention: dict, academy_name: str = "") -> dict:
         "is_excluded": spam >= SPAM_EXCLUDE_THRESHOLD,
         "selectivity": selectivity_signals(blob),
         "class_tier_signals": class_tier_signals(blob, exclude=academy_name),
+        # 이 글이 **이 학원에 대해** 말하는 과목. 이름 근처만 본다.
+        "subjects": sorted(subjects_near(blob, names or {academy_name})),
     })
     return mention
 

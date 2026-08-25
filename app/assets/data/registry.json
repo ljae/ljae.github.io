@@ -9487,24 +9487,6 @@
   "lng": 127.0610027
  },
  {
-  "id": "3000021369",
-  "name": "수현과학교습소",
-  "displayName": "수현과학교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "science"
-  ],
-  "address": "서울특별시 강남구 삼성로57길 33",
-  "capacity": 4,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4973307,
-  "lng": 127.0583866
- },
- {
   "id": "3000033143",
   "name": "시스템클리닉영어교습소",
   "displayName": "시스템클리닉영어교습소",
@@ -27174,6 +27156,27 @@
   "registrationCount": 2,
   "registrationIds": [
    "3000026919"
+  ],
+  "lat": 37.4976097,
+  "lng": 127.0579733
+ },
+ {
+  "id": "10013",
+  "name": "시대인재수학스쿨",
+  "displayName": "시대인재수학스쿨 (도곡로 434)",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 강남구 도곡로 434",
+  "capacity": 21372,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 3,
+  "registrationIds": [
+   "3000026504",
+   "3000028067"
   ],
   "lat": 37.4976097,
   "lng": 127.0579733

@@ -163,7 +163,19 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             # '유명 브랜드' 신호로 쓰는데, 자동 매핑과 섞이면 신호가 죽는다.
             row["curated_stages"] = True
             row["flagship"] = brand.get("flagship", [])
-            row["subjects"] = brand["subjects"]
+            # ★ 시드 과목을 그대로 물려주면 안 된다. '시대인재수학스쿨' 은
+            #   시드 '시대인재'(국영수과)로 단정되어 과학 랭킹 3위에
+            #   올랐다 — 이름이 수학 전문이라고 말하는데도. 이름에 과목이
+            #   박혀 있으면 그쪽이 더 구체적인 사실이다.
+            own = _subjects_from_name(row)
+            narrowed = [s for s in brand["subjects"] if s in own] if own else []
+            row["subjects"] = narrowed or brand["subjects"]
+            if narrowed:
+                # 과목을 좁혔으면 단계도 그 과목 것만 남긴다.
+                keep = _stages_for_subjects(narrowed)
+                row["stages"] = [s for s in row["stages"] if s in keep] \
+                    or row["stages"]
+                row["flagship"] = [s for s in row["flagship"] if s in keep]
         else:
             # 이름이 유명 브랜드로 시작하지만 단정할 수 없는 경우.
             # 수집 대상 선정에서만 가산점으로 쓴다.
@@ -398,6 +410,28 @@ def _subject_from_realm(row: dict) -> str | None:
     if realm in config.OTHER_REALMS:
         return "etc"
     return None
+
+
+def _stages_for_subjects(subjects: list[str]) -> set[str]:
+    """이 과목들에 속한 단계 id. 테크트리 트랙의 과목을 따른다."""
+    tree = config.techtree()
+    return {s["id"] for t in tree["tracks"] if t.get("subject") in subjects
+            for s in t["stages"]}
+
+
+def _subjects_from_name(row: dict) -> list[str]:
+    """**이름에만** 나오는 과목 신호.
+
+    교습과정('보습·논술')은 쓰지 않는다 — 종합학원 대부분이 그 값이라
+    신호가 아니라 잡음이다. 이름은 다르다: 학원이 스스로를 뭐라고
+    부르는지이고, '시대인재수학스쿨' 은 수학 전문이라고 말하고 있다.
+    """
+    name = row.get("name") or ""
+    if _subject_from_realm(row):
+        return []
+    found = [sub for sub, hints in _SUBJECT_HINTS.items()
+             if any(h in name for h in hints)]
+    return [s for s in config.ACADEMIC_SUBJECTS if s in found]
 
 
 def _infer_subjects(row: dict) -> list[str]:
@@ -880,7 +914,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  운영자 검수 반영: 규칙 {by_rule:,}건 · 반려 {by_verdict:,}건 제외"
               f"{f' · 재분류 {moved:,}건 추가' if moved else ''}")
 
-    mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
+    mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""),
+                                candidates.get(m.get("academy_key")))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
     # 비교 질문의 답 — 두 글의 신뢰도만 ±20% 보정한다. 산식은 안 흔든다.
@@ -936,14 +971,17 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         by_key[m["academy_key"]].append(m)
 
     cohorts = scoring.build_cohorts(evaluated, by_key)
-    scores = {}
+    scores, subject_scores = {}, {}
     for a in evaluated:
-        s = scoring.compute(a, by_key.get(a["id"], []),
-                            scoring.cohort_for(a, cohorts))
-        scores[a["id"]] = s
+        main, per_subject = scoring.compute_all(a, by_key.get(a["id"], []),
+                                                cohorts)
+        scores[a["id"]] = main
+        subject_scores[a["id"]] = per_subject
 
     _assign_ranks(evaluated, scores)
-    export(evaluated, registry_only, mentions, scores, cohorts, mode)
+    _assign_subject_ranks(evaluated, subject_scores)
+    export(evaluated, registry_only, mentions, scores, cohorts, mode,
+           subject_scores)
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -1105,7 +1143,23 @@ def _district_trends() -> list[dict]:
         return []
 
 
-def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
+def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
+    """과목별·학군별 등수. 같은 학원이라도 과목마다 등수가 다르다."""
+    from collections import defaultdict as _dd
+    pools: dict[tuple, list[tuple[str, dict]]] = _dd(list)
+    for a in academies:
+        for sub, sc in (subject_scores.get(a["id"]) or {}).items():
+            if sc.get("is_ranked"):
+                pools[(a.get("region_id"), sub)].append((a["id"], sc))
+    for rows in pools.values():
+        rows.sort(key=lambda t: -t[1]["total"])
+        for i, (_, sc) in enumerate(rows, 1):
+            sc["rank_in_region"] = i
+            sc["region_ranked_count"] = len(rows)
+
+
+def export(evaluated, registry_only, mentions, scores, cohorts, mode,
+           subject_scores=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -1232,6 +1286,31 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
                 "rankInRegion": s.get("rank_in_region"),
                 "regionRankedCount": s.get("region_ranked_count"),
                 "breakdown": s["breakdown"],
+            },
+            # ★ 과목별 점수. 같은 학원이라도 과목마다 표본·등수가 다르다.
+            #   과목 랭킹은 반드시 이 값을 본다 — 대표 점수를 그대로
+            #   쓰면 수학 후기 496건짜리 종합학원이 과학 3위가 된다.
+            "subjectScores": {
+                sub: {
+                    "total": v["total"],
+                    "reputation": v["reputation"],
+                    "momentum": v["momentum"],
+                    "transparency": v["transparency"],
+                    "selectivity": v["selectivity"],
+                    "sampleSize": v["sample_size"],
+                    "confidence": v["confidence"],
+                    "isRanked": v["is_ranked"],
+                    "subjectGroup": v.get("subject_group", "academic"),
+                    "positiveRate": (
+                        (v.get("breakdown", {}).get("reputation", {}) or {})
+                        .get("긍정률")
+                        if v["sample_size"] >= config.MIN_SAMPLE_FOR_RANK
+                        else None),
+                    "momentumDirection": v["momentum_direction"],
+                    "rankInRegion": v.get("rank_in_region"),
+                    "regionRankedCount": v.get("region_ranked_count"),
+                }
+                for sub, v in ((subject_scores or {}).get(key) or {}).items()
             },
             "evidence": top_evidence.get(key, []),
         })

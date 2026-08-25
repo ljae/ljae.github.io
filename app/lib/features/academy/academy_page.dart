@@ -145,6 +145,10 @@ class _Body extends StatelessWidget {
                         const {},
                   ),
               ],
+              if (academy.subjectScores.length > 1) ...[
+                const SizedBox(height: AppSpace.lg),
+                _SubjectScores(academy: academy),
+              ],
               const SizedBox(height: AppSpace.xl),
 
               // ── 공식 정보 ──────────────────────────────────
@@ -222,6 +226,60 @@ class _Body extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+
+/// 과목별 점수 — 여러 과목을 가르치는 학원에만 보인다.
+///
+/// 한 학원이 여러 과목을 가르치는 것은 정상이지만, **근거는 과목마다
+/// 다르다.** 수학 후기가 496건이고 과학 후기가 30건이라면 그 둘을 한
+/// 점수로 합쳐 보여줄 수 없다 — 과학 순위가 수학의 명성으로 올라간다.
+class _SubjectScores extends StatelessWidget {
+  final Academy academy;
+  const _SubjectScores({required this.academy});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final rows = academy.subjectScores.entries.toList()
+      ..sort((a, b) => b.value.sampleSize.compareTo(a.value.sampleSize));
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SectionHeader('과목별 점수',
+          subtitle: '랭킹은 과목마다 따로 매깁니다. 그 과목을 말한 후기만 '
+              '그 과목의 근거로 씁니다.'),
+      for (final e in rows)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Row(children: [
+            SizedBox(
+              width: 74,
+              child: Chip2(subjectNames[e.key] ?? e.key,
+                  color: AppColors.subjects[e.key] ?? AppColors.slate),
+            ),
+            const SizedBox(width: AppSpace.sm),
+            SizedBox(
+              width: 52,
+              child: Text(
+                e.value.sampleSize == 0
+                    ? '—'
+                    : e.value.total.toStringAsFixed(1),
+                style: text.titleMedium,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                e.value.sampleSize == 0
+                    ? '근거 없음'
+                    : '후기 ${e.value.sampleSize}건'
+                        '${e.value.isRanked ? " · 학군 ${e.value.rankInRegion}위" : " · 표본 부족으로 순위 제외"}',
+                style: text.bodySmall,
+              ),
+            ),
+          ]),
+        ),
+    ]);
   }
 }
 

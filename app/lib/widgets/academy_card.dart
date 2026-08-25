@@ -14,18 +14,24 @@ class AcademyCard extends StatelessWidget {
   final bool showPillars;
   final String? stageContext;
 
+  /// 과목 랭킹에서 보여줄 때의 과목. 같은 학원이라도 과목마다 표본과
+  /// 점수가 다르므로, 어느 과목의 순위를 보고 있는지가 곧 어떤 점수를
+  /// 보여줄지를 정한다.
+  final String? subject;
+
   const AcademyCard({
     super.key,
     required this.academy,
     this.rank,
     this.showPillars = true,
     this.stageContext,
+    this.subject,
   });
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final score = academy.score;
+    final score = academy.scoreFor(subject);
     final narrow = MediaQuery.sizeOf(context).width < 560;
 
     return Card(

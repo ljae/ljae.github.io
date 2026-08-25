@@ -303,7 +303,45 @@ def primary_subject(academy: dict) -> str:
     return config.UNRANKED_SUBJECT
 
 
-def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
+def ranked_subjects(academy: dict) -> list[str]:
+    """이 학원이 랭킹에 오를 수 있는 과목들.
+
+    한 학원이 여러 과목을 가르치는 것은 정상이다. 하지만 **랭킹은 과목별
+    로 따로** 매겨야 한다 — 수학 후기가 496건인 종합학원이 그 점수를
+    그대로 들고 과학 랭킹 3위에 오르면, 그 순위는 '이 학원의 과학이
+    좋다'가 아니라 '이 학원이 유명하다'를 뜻하게 된다.
+    """
+    subs = [s for s in (academy.get("subjects") or [])
+            if s in config.ACADEMIC_SUBJECTS or s in ("arts", "etc")]
+    return subs or []
+
+
+def subject_mentions(academy: dict, mentions: list[dict],
+                     subject: str) -> list[dict]:
+    """그 과목의 근거로 쓸 수 있는 글만.
+
+    - 과목이 하나인 학원: 모든 글이 그 과목 이야기다.
+    - 여러 과목인 학원: **글이 그 과목을 명시해야** 근거로 친다.
+      과목을 밝히지 않은 글은 대표 과목에만 넣는다 — '시대인재수학스쿨
+      좋아요' 는 수학 이야기로 보는 것이 가장 그럴듯하고, 과학 근거로
+      치는 것은 근거 없는 확대다.
+    """
+    subs = ranked_subjects(academy)
+    if len(subs) <= 1:
+        return mentions
+    primary = primary_subject(academy)
+    out = []
+    for m in mentions:
+        tagged = set(m.get("subjects") or [])
+        if subject in tagged:
+            out.append(m)
+        elif not (tagged & set(subs)) and subject == primary:
+            out.append(m)          # 과목 불명 → 대표 과목에만
+    return out
+
+
+def compute(academy: dict, mentions: list[dict], cohort: dict,
+            subject: str | None = None) -> dict:
     rep, rep_bd = reputation(mentions, cohort["mean_sentiment"],
                              cohort.get("sd_sentiment") or 0.12)
     mom, mom_bd, direction = momentum(mentions, cohort["volumes"])
@@ -314,7 +352,7 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
     # 아니라 공시 습관을 재게 된다. 진입난이도는 레벨테스트·대기 개념이
     # 없는 곳이 대부분이라 신호가 안 잡히고, 없는 것을 0점으로 치면
     # 그게 곧 왜곡이다.
-    subject = primary_subject(academy)
+    subject = subject or primary_subject(academy)
     academic = subject in config.ACADEMIC_SUBJECTS
     rankable = subject != config.UNRANKED_SUBJECT
 
@@ -335,6 +373,7 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
     sample = len([m for m in mentions if not m.get("is_excluded")])
     return {
         "academy_key": academy["id"],
+        "subject": subject,
         "subject_group": "academic" if academic else "non_academic",
         "total": round(total, 1),
         "reputation": rep,
@@ -358,20 +397,46 @@ def compute(academy: dict, mentions: list[dict], cohort: dict) -> dict:
     }
 
 
+def compute_all(academy: dict, mentions: list[dict],
+                cohorts: dict) -> tuple[dict, dict]:
+    """(대표 점수, {과목: 점수}).
+
+    대표 점수는 학원 카드·상세의 기본 얼굴이고, 과목별 점수가 각 과목
+    랭킹의 근거다. 같은 학원이라도 과목마다 표본과 등수가 다르다.
+    """
+    subs = ranked_subjects(academy)
+    primary = primary_subject(academy)
+    by_subject: dict[str, dict] = {}
+    for sub in subs:
+        ms = subject_mentions(academy, mentions, sub)
+        by_subject[sub] = compute(academy, ms, cohort_for(academy, cohorts, sub),
+                                  subject=sub)
+    main = by_subject.get(primary)
+    if main is None:
+        # 과목을 정할 수 없는 곳(종합·보습). 순위는 안 매기지만 상세는 보인다.
+        main = compute(academy, mentions, cohort_for(academy, cohorts, primary),
+                       subject=primary)
+    return main, by_subject
+
+
 def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
     """코호트 = 지역 × 대표과목. 이 안에서 상대 평가한다."""
     groups: dict[tuple, list[dict]] = defaultdict(list)
     for a in academies:
-        # compute() 와 같은 기준을 써야 한다. 다르면 예체능 학원이
-        # 수학 코호트에서 상대평가되는 일이 생긴다.
-        groups[(a.get("region_id"), primary_subject(a))].append(a)
+        # 학원은 가르치는 과목 수만큼의 코호트에 든다. 상대평가는 언제나
+        # **같은 과목끼리** 여야 한다 — 수학 코호트에 든 학원의 과학
+        # 점수를 과학 코호트 평균과 견주면 그 z 점수는 뜻이 없다.
+        for sub in ranked_subjects(a) or [primary_subject(a)]:
+            groups[(a.get("region_id"), sub)].append(a)
 
     cohorts: dict[tuple, dict] = {}
     for key, members in groups.items():
         sentiments, volumes, ratios = [], [], []
         per_academy: list[float] = []
+        subject = key[1]
         for a in members:
-            ms = [m for m in mentions_by_key.get(a["id"], [])
+            ms = [m for m in subject_mentions(
+                      a, mentions_by_key.get(a["id"], []), subject)
                   if not m.get("is_excluded")]
             if ms:
                 sentiments.extend(float(m.get("sentiment", 0.0)) for m in ms)
@@ -395,8 +460,11 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
     return cohorts
 
 
-def cohort_for(academy: dict, cohorts: dict) -> dict:
-    subject = (academy.get("subjects") or ["etc"])[0]
+def cohort_for(academy: dict, cohorts: dict, subject: str | None = None) -> dict:
+    """★ build_cohorts 와 같은 기준을 써야 한다. 예전에는 여기서
+    subjects[0] 을, 저기서 primary_subject() 를 써서 예체능 학원이
+    수학 코호트에서 상대평가될 수 있었다."""
+    subject = subject or primary_subject(academy)
     return cohorts.get((academy.get("region_id"), subject), {
         "mean_sentiment": 0.0, "sd_sentiment": 0.12,
         "volumes": [], "mention_capacity_ratio": 1.0, "size": 0,
