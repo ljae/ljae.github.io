@@ -795,9 +795,22 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
     # 동명이인·광고를 사람이 판정한 결과가 여기서 되먹여진다.
     from . import review_queue
+    # 흡수된 등록 id → 현재 학원 id. 언급 재귀속과 같은 지도를 판정·규칙·
+    # 재분류에도 적용한다. 통합으로 id 가 바뀌어도 운영자의 판단이 고아가
+    # 되면 안 된다 — 같은 글을 사람이 두 번 심사하게 된다.
+    id_alias = {str(rid): a["id"] for a in evaluated
+                for rid in a.get("registration_ids") or []
+                if str(rid) != a["id"]}
     rules = review_queue.load_rules()
+    for r in rules:
+        if str(r.get("academy_key")) in id_alias:
+            r["academy_key"] = id_alias[str(r["academy_key"])]
     mentions, by_rule = review_queue.apply_rules(mentions, rules)
     verdicts = review_queue.load_verdicts()
+    for key in list(verdicts):
+        url, _, aid = key.partition("|")
+        if aid in id_alias:
+            verdicts.setdefault(f"{url}|{id_alias[aid]}", verdicts[key])
     mentions, by_wiki = wiki_mod.apply_gate(mentions, wiki_hints)
     if by_wiki:
         print(f"  위키 게이트: {by_wiki:,}건 제외")
@@ -806,6 +819,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 반려만 가능하던 때는 네 학원 비교글이 통째로 버려졌다.
     moved = 0
     reassign = review_queue.load_reassignments()
+    reassign = {doc: [id_alias.get(str(t), t) for t in targets]
+                for doc, targets in reassign.items()}
     if reassign:
         mentions, moved = review_queue.apply_reassignments(
             mentions, reassign, evaluated)
@@ -864,6 +879,10 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     except Exception as exc:                                  # noqa: BLE001
         # 위키는 부산물이다. 위키가 깨져도 데이터 빌드는 나가야 한다.
         print(f"  ! 위키 갱신 실패: {exc}")
+
+    # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
+    from . import graph
+    graph.audit(evaluated, [m for m in mentions if not m.get("is_excluded")])
     return {
         "mode": mode,
         "evaluated": len(evaluated),
@@ -1096,6 +1115,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             "registrationStatus": a.get("reg_stttus_nm"),
             "isVerified": a.get("is_verified", False),
             "registrationCount": a.get("registration_count", 1),
+            # 흡수된 등록 id 들. 앱이 옛 id 로도 학원을 찾을 수 있어야
+            # 통합 후에도 저장된 링크·후기 참조가 살아남는다.
+            "registrationIds": [str(r) for r in a.get("registration_ids") or []
+                                if str(r) != a["id"]] or None,
             "lat": a.get("lat"),
             "lng": a.get("lng"),
         }

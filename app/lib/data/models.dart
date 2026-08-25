@@ -380,6 +380,11 @@ class Academy {
   final double? lng;
   /// NEIS 등록 건수. 1보다 크면 여러 관/과정 등록을 하나로 묶은 것이다.
   final int registrationCount;
+
+  /// 통합으로 흡수된 옛 등록번호들. 옛 id 로 저장된 링크·참조를
+  /// 현재 학원으로 잇는 데 쓴다 — 통합이 참조를 끊으면 안 된다.
+  final List<String> registrationIds;
+
   final Score score;
   final List<Evidence> evidence;
 
@@ -404,6 +409,7 @@ class Academy {
     this.lat,
     this.lng,
     this.registrationCount = 1,
+    this.registrationIds = const [],
     required this.score,
     required this.evidence,
   });
@@ -429,6 +435,8 @@ class Academy {
         lat: (j['lat'] as num?)?.toDouble(),
         lng: (j['lng'] as num?)?.toDouble(),
         registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
+        registrationIds:
+            ((j['registrationIds'] as List?) ?? const []).cast<String>(),
         score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
         evidence: ((j['evidence'] as List?) ?? const [])
             .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))

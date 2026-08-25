@@ -28,7 +28,11 @@ class EduTreeData {
     for (final r in regions) r.id: r
   };
   late final Map<String, Academy> academyById = {
-    for (final a in academies) a.id: a
+    // 흡수된 옛 등록번호를 먼저 깐다 — 진짜 id 가 나중에 덮어 이긴다.
+    // 통합으로 id 가 바뀌어도 옛 링크(/academy/<옛id>)가 살아남는다.
+    for (final a in academies)
+      for (final rid in a.registrationIds) rid: a,
+    for (final a in academies) a.id: a,
   };
   late final Map<String, Stage> stageById = {
     for (final t in tracks)

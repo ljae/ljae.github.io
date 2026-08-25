@@ -288,8 +288,19 @@ def merge(rows: list[dict]) -> dict:
         r["registration_ids"] = [r.get("id")]
         return r
 
-    rows = sorted(rows, key=lambda r: (len(r.get("name", "")), r.get("name", "")))
+    # ★ 신원(id)은 **가장 오래된 등록**에서 딴다.
+    #   이름 길이순으로 고르면 더 짧은 이름의 관이 새로 등록될 때마다
+    #   학원의 id 가 뒤집힌다. id 는 후기·판정·정정이 전부 매달리는
+    #   키라서, 한 번 뒤집히면 그 참조가 전부 고아가 된다.
+    #   개설일이 같으면 id 문자열로 — 어떤 기준이든 결정적이면 된다.
+    rows = sorted(rows, key=lambda r: (r.get("estbl_ymd") or "9999-99-99",
+                                       str(r.get("id"))))
     base = dict(rows[0])
+    # 주소·동은 정원이 가장 큰 관에서 — 지도에 별관이 찍히지 않게.
+    loc = max(rows, key=lambda r: r.get("tofor_smtot") or 0)
+    for f in ("road_address", "dong"):
+        if loc.get(f):
+            base[f] = loc[f]
     names = [r.get("name", "") for r in rows]
     rep = representative_name(names)
     # 통합체의 이름에 관 번호가 남으면 안 된다. '길벗제2관보습학원' 은

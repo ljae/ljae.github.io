@@ -183,7 +183,11 @@ def apply(mentions: list[dict], academies: list[dict],
             continue
 
         # 지역을 알 수 없는 글. 걸리는 지점 전부의 근거로 삼는다.
-        m["branch_basis"] = "brand"
+        #
+        # '브랜드 공통' 딱지는 실제로 형제 지점이 있을 때만 붙인다.
+        # 지점이 하나뿐인 학원에 붙이면 화면의 '지점 불명 · 브랜드 공통'
+        # 칩이 거짓말이 된다 — 불명일 것이 없다.
+        m["branch_basis"] = "brand" if siblings.get(key) else "direct"
         kept.append(m)
 
         for sib in siblings.get(key, []):
