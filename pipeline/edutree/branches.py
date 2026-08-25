@@ -98,7 +98,9 @@ def locality_words(academy: dict) -> set[str]:
 def apply(mentions: list[dict], academies: list[dict],
           candidates: dict[str, set[str]],
           generic: dict[str, bool],
-          rivals: set[str]) -> tuple[list[dict], dict[str, int]]:
+          rivals: set[str],
+          extra_locality: dict[str, set[str]] | None = None,
+          ) -> tuple[list[dict], dict[str, int]]:
     """권역 규칙을 적용한 언급 목록과 집계를 돌려준다."""
     home = {a["id"]: a.get("region_id") for a in academies}
     siblings = sibling_map(academies)
@@ -114,7 +116,10 @@ def apply(mentions: list[dict], academies: list[dict],
     for rows in same_region.values():
         if len(rows) < 2:
             continue
-        mine = {a["id"]: locality_words(a) for a in rows}
+        # 위키가 채운 동네 말을 합친다. NEIS 법정동에 변별어가 없는
+        # 지점(방배점의 등록 동은 '서초동')은 위키만이 안다.
+        mine = {a["id"]: locality_words(a) | (extra_locality or {}).get(a["id"], set())
+                for a in rows}
         for a in rows:
             others: set[str] = set()
             for b in rows:

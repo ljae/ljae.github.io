@@ -731,6 +731,23 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     generic = {a["id"]: analyze.is_generic_name(a.get("name") or "")
                for a in evaluated}
 
+    # 분류 위키 — 페이지 frontmatter 의 힌트를 게이트에 공급한다.
+    # 구조와 규약은 pipeline/wiki/SCHEMA.md.
+    from . import wiki as wiki_mod
+    wiki_hints = wiki_mod.load()
+    if wiki_hints:
+        for w in wiki_mod.sanity(wiki_hints, evaluated + registry_only):
+            print(f"  ! 위키: {w}")
+        for aid, h in wiki_hints.items():
+            if aid not in candidates:
+                continue
+            for alias in h["aliases"]:
+                normed = analyze._norm(alias)
+                if len(normed) >= 2:
+                    candidates[aid].add(normed)
+            if h["generic"]:
+                generic[aid] = True
+
     # 다른 학원 이름 후보. 모든 학원에 쓴다.
     #
     # 두 가지를 판별한다.
@@ -761,8 +778,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 지점 게이트 — 유명 브랜드는 전국에 지점이 있다. 글이 지역을 밝히면
     # 그 권역 지점만, 안 밝히면 걸리는 지점 전부의 근거로 삼는다.
     from . import branches
+    wiki_locality = {aid: {w for w in h["locality"]}
+                     for aid, h in wiki_hints.items() if h["locality"]}
     mentions, bstat = branches.apply(mentions, evaluated,
-                                     candidates, generic, rival_names)
+                                     candidates, generic, rival_names,
+                                     extra_locality=wiki_locality)
     if bstat["branches"]:
         print(f"  지점 게이트: 다권역 지점 {bstat['branches']}곳 · "
               f"타권역 지점 글 {bstat['elsewhere']:,}건 · "
@@ -778,6 +798,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     rules = review_queue.load_rules()
     mentions, by_rule = review_queue.apply_rules(mentions, rules)
     verdicts = review_queue.load_verdicts()
+    mentions, by_wiki = wiki_mod.apply_gate(mentions, wiki_hints)
+    if by_wiki:
+        print(f"  위키 게이트: {by_wiki:,}건 제외")
     mentions, by_verdict = review_queue.apply_verdicts(mentions, verdicts)
     # 재분류 — '이 글은 사실 저 학원 글' 이라는 판정을 근거로 되돌린다.
     # 반려만 가능하던 때는 네 학원 비교글이 통째로 버려졌다.
@@ -831,6 +854,16 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     _assign_ranks(evaluated, scores)
     export(evaluated, registry_only, mentions, scores, cohorts, mode)
+
+    # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
+    try:
+        wstat = wiki_mod.update(evaluated, scores, rules, verdicts, reassign,
+                                {"mentions": len(mentions),
+                                 "wiki_dropped": by_wiki})
+        print(f"  위키: 페이지 신규 {wstat['created']} · 갱신 {wstat['updated']}")
+    except Exception as exc:                                  # noqa: BLE001
+        # 위키는 부산물이다. 위키가 깨져도 데이터 빌드는 나가야 한다.
+        print(f"  ! 위키 갱신 실패: {exc}")
     return {
         "mode": mode,
         "evaluated": len(evaluated),
@@ -1048,6 +1081,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode) -> None:
             print(f"      {p}")
     else:
         print(f"  전수 점검: {len(evaluated) + len(registry_only):,}곳 모두 고유 ✓")
+
 
     def base(a: dict) -> dict:
         return {

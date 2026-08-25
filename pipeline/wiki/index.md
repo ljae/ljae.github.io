@@ -1,0 +1,100 @@
+# 색인
+
+(자동 생성 — 손대지 말 것. 규약은 SCHEMA.md)
+
+## 개념
+- [관-통합](concepts/관-통합.md)
+- [나열형-비교글](concepts/나열형-비교글.md)
+- [대표명-함정](concepts/대표명-함정.md)
+- [동명이인](concepts/동명이인.md)
+- [일상어-학원명](concepts/일상어-학원명.md)
+- [지점-구분](concepts/지점-구분.md)
+
+## 학원
+- [아드폰테스](academies/1000033209.md) — mokdong
+- [대치1관정상어학원](academies/1000035161.md) — daechi
+- [강남대성학원](academies/1000035823.md) — daechi
+- [대치청담어학학원](academies/1000036728.md) — daechi
+- [폴리어학원](academies/11833.md) — mokdong
+- [피아이어학원](academies/14212.md) — daechi
+- [늘푸른수](academies/15129.md) — jamsil
+- [케이엔에스(KNS)](academies/15190.md) — daechi
+- [김태호과학학원](academies/15618.md) — daechi
+- [안재현영어](academies/15977.md) — mokdong
+- [반포파인만](academies/17250.md) — banpo
+- [리틀팍스어학원](academies/18108.md) — jamsil
+- [도곡시매쓰보습학원](academies/18350.md) — daechi
+- [시대인재수학스쿨](academies/19384.md) — daechi
+- [잠실1관정상어학학원](academies/19396.md) — jamsil
+- [서초에이프릴어학원](academies/19721.md) — banpo
+- [플라즈마](academies/20207.md) — daechi
+- [시매쓰학원](academies/22162.md) — banpo
+- [미래탐구](academies/22253.md) — mokdong
+- [구주이배](academies/22600.md) — jamsil
+- [다함영재원학원](academies/2343.md) — daechi
+- [아이엘이(별관)어학원](academies/23598.md) — daechi
+- [피아이서초어학원](academies/23899.md) — banpo
+- [목동정상어학원](academies/24080.md) — mokdong
+- [시대인재반포센터해냄관](academies/24150.md) — banpo
+- [송파1관정상어학학원](academies/24925.md) — jamsil
+- [서초1관정상어학원](academies/25640.md) — banpo
+- [키즈스피치예소스학원](academies/2812.md) — mokdong
+- [강남종로학원](academies/3000012367.md) — daechi
+- [씨엠에스(CMS)대치입시센터](academies/3000013171.md) — daechi
+- [개념폴리아](academies/3000014844.md) — daechi
+- [백인대장](academies/3000016023.md) — mokdong
+- [송파폴리어학원](academies/3000018034.md) — jamsil
+- [에디센어학원](academies/3000018730.md) — daechi
+- [코리아승무원학원](academies/3000018819.md) — banpo
+- [책읽기독서논술교습소](academies/3000019254.md) — daechi
+- [와이즈만](academies/3000019381.md) — banpo
+- [트윈클어학원](academies/3000019569.md) — daechi
+- [함영원](academies/3000020268.md) — daechi
+- [강남하이퍼목동관](academies/3000021291.md) — mokdong
+- [강대학원](academies/3000023780.md) — mokdong
+- [키즈스피치예소스학원](academies/3000023833.md) — banpo
+- [한맥학원](academies/3000023885.md) — jamsil
+- [대치이지영어교습소](academies/3000024955.md) — daechi
+- [잠실해법수학교습소](academies/3000026177.md) — jamsil
+- [러셀목동학원](academies/3000026182.md) — mokdong
+- [한우리독서토론논술교습소](academies/3000027400.md) — banpo
+- [씨엠에스(CMS)](academies/3000027401.md) — daechi
+- [그로튼아카데미학원](academies/3000027514.md) — daechi
+- [아이엔어학원](academies/3000027930.md) — daechi
+- [목동그린섬미술학원](academies/3000029206.md) — mokdong
+- [띵킹(Think-Eng)어학원](academies/3000030170.md) — daechi
+- [깊은생각](academies/3000030407.md) — daechi
+- [사고력수학시매쓰학원](academies/3000031703.md) — daechi
+- [시대인재](academies/3000032995.md) — daechi
+- [김종길국어논술](academies/3000033091.md) — mokdong
+- [아이엘이](academies/3000033586.md) — daechi
+- [반포세정](academies/3000034219.md) — banpo
+- [반포필즈수학교습소](academies/3000034445.md) — banpo
+- [브래니악](academies/3000034508.md) — jamsil
+- [(주)트윈클어학원](academies/3000035683.md) — mokdong
+- [대치한우리독서토론논술교습소](academies/3000036059.md) — daechi
+- [청담어학원대치브랜치2관학원](academies/3000036360.md) — daechi
+- [목동시대인재학원](academies/3000036526.md) — mokdong
+- [파인만영재고센터학원](academies/3000037277.md) — banpo
+- [뉴파인](academies/3000037390.md) — banpo
+- [그린섬미술학원](academies/3000039926.md) — mokdong
+- [감성피아노음악학원](academies/3000043059.md) — mokdong
+- [정도수학](academies/3000044034.md) — mokdong
+- [윤도영](academies/3000048377.md) — daechi
+- [소마사고력수학학원](academies/3000048613.md) — banpo
+- [강남은마한우리독서토론논술교습소](academies/3000050945.md) — daechi
+- [메디컬수학연구소학원](academies/3000051205.md) — jamsil
+- [목동준과학학원](academies/3000051566.md) — mokdong
+- [이맥스](academies/3000053154.md) — daechi
+- [메이플](academies/3000053245.md) — banpo
+- [시대인재반포센터서초관학원](academies/3000053355.md) — banpo
+- [대치파인만](academies/3000054704.md) — daechi
+- [씨앤씨학원](academies/3002.md) — mokdong
+- [최상위수학교습소](academies/30539.md) — jamsil
+- [반포시매쓰학원](academies/4531.md) — banpo
+- [윤도영](academies/5403.md) — daechi
+- [한우리독서토론논술교습소](academies/7369.md) — mokdong
+- [대치에이프릴어학원](academies/8183.md) — daechi
+- [서초청담어학원](academies/8683.md) — banpo
+- [청담어학원](academies/9917.md) — jamsil
+- [청담어학원](academies/9929.md) — mokdong
