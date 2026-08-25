@@ -94,6 +94,9 @@ def apply_rules(mentions: list[dict], rules: list[dict]) -> tuple[list[dict], in
                 drop = True
             elif kind == "require_keyword" and not re.search(pat, blob, re.I):
                 drop = True
+            elif kind == "exclude_author" and pat == (m.get("author_hash") or ""):
+                # 질문 답변으로 굳힌 홍보 계정. 작성자 해시가 곧 패턴이다.
+                drop = True
             elif kind == "exclude_region" and re.search(pat, title, re.I):
                 # 지역 규칙은 **제목만** 본다. 본문의 지역명은 대개 남의
                 # 상호다 — '세종 엄마표영어' 글이 본문의 '대치M수학' 때문에

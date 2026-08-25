@@ -208,6 +208,40 @@ class AdminService {
     }
   }
 
+
+  /// 대기 중인 질문. 우선순위(영향 추정치) 큰 것부터.
+  Future<List<ReviewQuestion>> pendingQuestions() async {
+    if (_db == null) return const [];
+    final rows = await _db
+        .from('review_questions')
+        .select()
+        .eq('status', 'pending')
+        .order('priority', ascending: false)
+        .limit(30);
+    return (rows as List)
+        .map((r) => ReviewQuestion.fromRow((r as Map).cast<String, dynamic>()))
+        .toList();
+  }
+
+  /// 답을 남긴다. 실제 조치(판정·규칙·위키)는 다음 수집의
+  /// apply_answers 가 한다 — 조치 경로는 기존 검수 체계 그대로다.
+  Future<void> answerQuestion(String id,
+      {String? value, String? text}) async {
+    await _db!.from('review_questions').update({
+      'status': 'answered',
+      'answer': {'value': value, 'text': text},
+      'answered_at': DateTime.now().toIso8601String(),
+    }).eq('id', id);
+  }
+
+  /// 건너뛰기도 답이다 — 같은 질문이 다시 올라오지 않는다.
+  Future<void> dismissQuestion(String id) async {
+    await _db!.from('review_questions').update({
+      'status': 'dismissed',
+      'answered_at': DateTime.now().toIso8601String(),
+    }).eq('id', id);
+  }
+
   Future<List<CrawlRule>> rules() async {
     if (_db == null) return const [];
     final rows = await _db
@@ -249,6 +283,57 @@ final adminServiceProvider = Provider<AdminService>(
 
 final isAdminProvider =
     FutureProvider<bool>((ref) => ref.watch(adminServiceProvider).isAdmin());
+
+
+/// 파이프라인이 만든 질문 하나.
+///
+/// 글마다 읽는 검수 대신, 판단이 필요한 지점만 골라 묻는다. 답 하나가
+/// 판정·규칙·위키 힌트가 되어 다음 수집부터 자동으로 적용된다 —
+/// 같은 상황을 사람이 다시 볼 일이 없게 하는 것이 목적이다.
+class ReviewQuestion {
+  final String id;
+  final String kind;
+  final String? academyKey;
+  final String? academyName;
+  final String question;
+  final Map<String, dynamic> payload;
+  /// [{value, label}]. null 이면 자유 입력(동네 말 등).
+  final List<Map<String, dynamic>>? options;
+  final double priority;
+
+  const ReviewQuestion({
+    required this.id,
+    required this.kind,
+    this.academyKey,
+    this.academyName,
+    required this.question,
+    this.payload = const {},
+    this.options,
+    this.priority = 0,
+  });
+
+  factory ReviewQuestion.fromRow(Map<String, dynamic> r) => ReviewQuestion(
+        id: r['id'] as String,
+        kind: (r['kind'] ?? '') as String,
+        academyKey: r['academy_key'] as String?,
+        academyName: r['academy_name'] as String?,
+        question: (r['question'] ?? '') as String,
+        payload: ((r['payload'] as Map?) ?? const {}).cast<String, dynamic>(),
+        options: (r['options'] as List?)
+            ?.map((e) => (e as Map).cast<String, dynamic>())
+            .toList(),
+        priority: (r['priority'] as num?)?.toDouble() ?? 0,
+      );
+
+  String get kindLabel => switch (kind) {
+        'confirm_post' => '글 분류 확인',
+        'exclude_word' => '규칙 후보',
+        'locality' => '지점 변별어',
+        'author' => '반복 작성자',
+        'compare' => '중요도 비교',
+        _ => kind,
+      };
+}
 
 /// 같은 글을 하나로 묶은 검수 단위.
 ///
@@ -305,6 +390,10 @@ class ReviewGroup {
 final pendingReviewsProvider =
     FutureProvider.family<List<MentionReview>, String?>((ref, academyKey) =>
         ref.watch(adminServiceProvider).pending(academyKey: academyKey));
+
+
+final pendingQuestionsProvider = FutureProvider<List<ReviewQuestion>>(
+    (ref) => ref.watch(adminServiceProvider).pendingQuestions());
 
 final crawlRulesProvider = FutureProvider<List<CrawlRule>>(
     (ref) => ref.watch(adminServiceProvider).rules());

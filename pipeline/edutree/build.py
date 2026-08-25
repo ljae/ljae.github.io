@@ -794,7 +794,19 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
     # 동명이인·광고를 사람이 판정한 결과가 여기서 되먹여진다.
-    from . import review_queue
+    from . import review_queue, questions as qmod
+    # 질문 답변을 먼저 실제 조치로 바꾼다 — 여기서 만든 판정·규칙을
+    # 바로 아래 load_rules/load_verdicts 가 읽는다. 순서가 바뀌면 답이
+    # 한 회차 늦게 반영된다.
+    qa = qmod.apply_answers()
+    if any(qa[k] for k in ("verdicts", "rules", "locality", "compare")):
+        print(f"  질문 답변 반영: 판정 {qa['verdicts']} · 규칙 {qa['rules']} · "
+              f"동네 말 {qa['locality']} · 비교 보정 {qa['compare']}")
+        if qa["locality"]:
+            # 방금 위키에 적힌 동네 말을 이번 실행이 바로 쓴다.
+            wiki_hints = wiki_mod.load()
+            wiki_locality = {aid: {w for w in h["locality"]}
+                             for aid, h in wiki_hints.items() if h["locality"]}
     # 흡수된 등록 id → 현재 학원 id. 언급 재귀속과 같은 지도를 판정·규칙·
     # 재분류에도 적용한다. 통합으로 id 가 바뀌어도 운영자의 판단이 고아가
     # 되면 안 된다 — 같은 글을 사람이 두 번 심사하게 된다.
@@ -831,6 +843,13 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
+    # 비교 질문의 답 — 두 글의 신뢰도만 ±20% 보정한다. 산식은 안 흔든다.
+    if qa.get("boost"):
+        for m in mentions:
+            mul = qa["boost"].get(m.get("url_hash"))
+            if mul:
+                m["credibility"] = round(
+                    min(1.0, max(0.0, m.get("credibility", 0.5) * mul)), 3)
 
     if mode == "live":
         # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
@@ -842,6 +861,14 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         queued = review_queue.enqueue(mentions, evaluated, verdicts)
         if queued:
             print(f"  검수 큐: {queued:,}건 대기")
+
+        # 질문 생성 — 글더미 대신 판단이 필요한 지점만 올린다.
+        qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
+                           wiki_locality)
+        asked = qmod.enqueue(qs)
+        if asked:
+            print(f"  질문 큐: {asked}건 ("
+                  + " · ".join(sorted({q['kind'] for q in qs})) + ")")
 
     # 학원실록 자체 후기를 같은 채점 로직에 태운다.
     # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —

@@ -38,9 +38,10 @@ class _AdminPageState extends ConsumerState<AdminPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SectionHeader('참조 글 검수',
-                  subtitle: '랭킹 근거로 쓰인 글을 확인하고, 잘못 잡힌 글을 '
-                      '반려합니다. 반려 사유는 다음 수집의 필터가 됩니다.'),
+              const SectionHeader('분류 검수',
+                  subtitle: '파이프라인이 판단이 필요한 지점을 골라 질문합니다. '
+                      '답 하나가 규칙·판정이 되어 다음 수집부터 자동 적용됩니다. '
+                      '글별 검수는 보조 수단으로 남겨 두었습니다.'),
               if (!enabled)
                 Text('Supabase 연결이 없어 검수 기능을 쓸 수 없습니다.',
                     style: text.bodyLarge)
@@ -63,14 +64,20 @@ class _AdminPageState extends ConsumerState<AdminPage> {
                 SegmentedButton<int>(
                   showSelectedIcon: false,
                   segments: const [
-                    ButtonSegment(value: 0, label: Text('검수 대기')),
-                    ButtonSegment(value: 1, label: Text('크롤 규칙')),
+                    ButtonSegment(value: 0, label: Text('질문')),
+                    ButtonSegment(value: 1, label: Text('글별 검수')),
+                    ButtonSegment(value: 2, label: Text('크롤 규칙')),
                   ],
                   selected: {_tab},
                   onSelectionChanged: (v) => setState(() => _tab = v.first),
                 ),
                 const SizedBox(height: AppSpace.md),
-                if (_tab == 0) const _PendingList() else const _RulesPanel(),
+                if (_tab == 0)
+                  const _QuestionList()
+                else if (_tab == 1)
+                  const _PendingList()
+                else
+                  const _RulesPanel(),
               ],
               const SizedBox(height: AppSpace.xxl),
             ],
@@ -138,6 +145,209 @@ class _SourceList extends StatelessWidget {
             '본문은 저장하지 않고 원문 링크로만 안내합니다.',
             style: text.bodySmall,
           ),
+        ]),
+      ),
+    );
+  }
+}
+
+
+/// 질문 카드 목록 — 관리자 검수의 새 기본 얼굴.
+///
+/// 글더미를 읽는 대신 파이프라인이 고른 지점만 답한다. 답은 다음 수집이
+/// 판정·규칙·위키 힌트로 바꾼다. 건너뛰기도 기록된다 — 같은 질문이
+/// 다시 올라오지 않는다.
+class _QuestionList extends ConsumerWidget {
+  const _QuestionList();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = Theme.of(context).textTheme;
+    final async = ref.watch(pendingQuestionsProvider);
+    return async.when(
+      loading: () => const Center(
+          child: Padding(
+              padding: EdgeInsets.all(AppSpace.xl),
+              child: CircularProgressIndicator())),
+      error: (e, _) => Text('질문을 불러오지 못했습니다\n$e'),
+      data: (rows) {
+        if (rows.isEmpty) {
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpace.lg),
+              child: Text(
+                '대기 중인 질문이 없습니다. 질문은 매일 밤 수집이 만들어 '
+                '올립니다 — 판단이 필요한 지점이 없으면 비어 있는 것이 '
+                '정상입니다.',
+                style: text.bodyLarge,
+              ),
+            ),
+          );
+        }
+        return Column(children: [
+          for (final q in rows) _QuestionCard(question: q),
+        ]);
+      },
+    );
+  }
+}
+
+class _QuestionCard extends ConsumerStatefulWidget {
+  final ReviewQuestion question;
+  const _QuestionCard({required this.question});
+
+  @override
+  ConsumerState<_QuestionCard> createState() => _QuestionCardState();
+}
+
+class _QuestionCardState extends ConsumerState<_QuestionCard> {
+  final _text = TextEditingController();
+  bool _busy = false;
+  bool _done = false;
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit({String? value, String? free}) async {
+    setState(() => _busy = true);
+    try {
+      await ref
+          .read(adminServiceProvider)
+          .answerQuestion(widget.question.id, value: value, text: free);
+      if (mounted) setState(() => _done = true);
+    } catch (_) {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _dismiss() async {
+    setState(() => _busy = true);
+    try {
+      await ref.read(adminServiceProvider).dismissQuestion(widget.question.id);
+      if (mounted) setState(() => _done = true);
+    } catch (_) {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_done) return const SizedBox.shrink();
+    final text = Theme.of(context).textTheme;
+    final q = widget.question;
+    final p = q.payload;
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: AppSpace.sm),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpace.md),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Wrap(spacing: 6, children: [
+            Chip2(q.kindLabel, color: AppColors.navy),
+            if (q.academyName != null)
+              Chip2(q.academyName!, color: AppColors.slate),
+          ]),
+          const SizedBox(height: 8),
+          Text(q.question, style: text.titleMedium),
+
+          // 근거 — 종류마다 보여줄 것이 다르다
+          if (q.kind == 'confirm_post') ...[
+            const SizedBox(height: 6),
+            Text(p['title'] as String? ?? '',
+                style: text.labelLarge, maxLines: 2),
+            if ((p['snippet'] as String?)?.isNotEmpty == true)
+              Text(p['snippet'] as String,
+                  style: text.bodyMedium,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis),
+            if (p['source_url'] != null)
+              TextButton.icon(
+                onPressed: () => launchUrl(Uri.parse(p['source_url'] as String),
+                    webOnlyWindowName: '_blank'),
+                icon: const Icon(Icons.open_in_new, size: 14),
+                label: const Text('원문'),
+              ),
+          ],
+          if (q.kind == 'compare') ...[
+            const SizedBox(height: 6),
+            for (final side in ['a', 'b'])
+              if (p[side] != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(children: [
+                    Chip2(side == 'a' ? '첫째' : '둘째', color: AppColors.mist),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text((p[side] as Map)['title'] as String? ?? '',
+                          style: text.bodyMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    if ((p[side] as Map)['source_url'] != null)
+                      IconButton(
+                        icon: const Icon(Icons.open_in_new, size: 14),
+                        onPressed: () => launchUrl(
+                            Uri.parse(
+                                (p[side] as Map)['source_url'] as String),
+                            webOnlyWindowName: '_blank'),
+                      ),
+                  ]),
+                ),
+          ],
+          if (q.kind == 'author' && p['titles'] is List) ...[
+            const SizedBox(height: 6),
+            for (final t in (p['titles'] as List).take(3))
+              Text('· $t',
+                  style: text.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+          ],
+
+          const SizedBox(height: AppSpace.sm),
+          if (q.options != null)
+            Wrap(spacing: AppSpace.sm, runSpacing: 6, children: [
+              for (final o in q.options!)
+                FilledButton.tonal(
+                  onPressed: _busy
+                      ? null
+                      : () => _submit(value: o['value'] as String?),
+                  child: Text(o['label'] as String? ?? ''),
+                ),
+              TextButton(
+                onPressed: _busy ? null : _dismiss,
+                child: const Text('건너뛰기'),
+              ),
+            ])
+          else
+            Row(children: [
+              Expanded(
+                child: TextField(
+                  controller: _text,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    isDense: true,
+                    hintText: '답 입력 (예: 방배)',
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpace.sm),
+              FilledButton(
+                onPressed: _busy
+                    ? null
+                    : () {
+                        final t = _text.text.trim();
+                        if (t.isNotEmpty) _submit(free: t);
+                      },
+                child: const Text('답변'),
+              ),
+              TextButton(
+                onPressed: _busy ? null : _dismiss,
+                child: const Text('건너뛰기'),
+              ),
+            ]),
         ]),
       ),
     );
