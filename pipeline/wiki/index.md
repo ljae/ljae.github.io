@@ -7,6 +7,7 @@
 - [나열형-비교글](concepts/나열형-비교글.md)
 - [대표명-함정](concepts/대표명-함정.md)
 - [동명이인](concepts/동명이인.md)
+- [선정-편향](concepts/선정-편향.md)
 - [일상어-학원명](concepts/일상어-학원명.md)
 - [지점-구분](concepts/지점-구분.md)
 
@@ -42,6 +43,7 @@
 - [시대인재반포센터해냄관](academies/24150.md) — banpo
 - [송파1관정상어학학원](academies/24925.md) — jamsil
 - [서초1관정상어학원](academies/25640.md) — banpo
+- [잉글리쉬부띠끄어학원](academies/26773.md) — banpo
 - [키즈스피치예소스학원](academies/2812.md) — mokdong
 - [해빛나인어학원](academies/3000011244.md) — daechi
 - [시대인재](academies/3000012230.md) — daechi

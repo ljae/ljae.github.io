@@ -485,15 +485,28 @@ def select_for_mentions(academies: list[dict],
     구간이 안 잡힌 곳(종합·보습·재종)은 남은 자리를 나눠 갖는다.
     """
     budget = config.NAVER_MAX_ACADEMIES
+    SEED_RESERVE = 8
     regions = [r["id"] for r in config.regions()]
     per_region = max(1, budget // max(1, len(regions)))
 
     # 지난 회차 결과를 반영한다. 언급이 안 나오던 곳은 뒤로 밀고,
     # 아직 비어 있는 단계를 채우는 곳을 앞으로 당긴다. 한 번에 끝나지
     # 않고 매 회차 조금씩 순환하면서 커버리지가 올라간다.
-    from . import coverage
+    from . import coverage, demand
     hist = coverage.load()
     gaps = coverage.stage_gaps(academies, prev_scores or {})
+    # 학군당 예비석 상한. 제보가 한꺼번에 쏟아져도 예산이 흔들리지 않는다.
+    # 이미 랭킹에 든 학원은 자리를 지킨다.
+    #
+    # ★ 지난 회차에 순위가 있던 곳이 수집 대상에서 밀리면 **화면에서
+    #   사라진다.** 근거가 나빠져서가 아니라 우리가 안 봐서다. 실측:
+    #   시드 7곳을 넣자 랭킹이 82 → 68곳이 됐다. 순환은 아직 근거가
+    #   없는 자리에서 일어나야 한다.
+    ranked_now = {aid for aid, v in (prev_scores or {}).items()
+                  if v.get("is_ranked")}
+    # 이미 수집한 글에 이름이 나오는 미수집 학원 — 정원보다 강한 신호다.
+    # 지난 회차가 남긴 파일을 읽는다(coverage 와 같은 방식).
+    want = demand.load()
 
     bands = list(config.GRADE_BANDS)
     # 학년 구간에 76%, 예체능·기타에 12%, 구간 미상에 12%.
@@ -525,6 +538,7 @@ def select_for_mentions(academies: list[dict],
         # 테크트리 화면이 전자에 의존하고, 후자는 학부모가 실제로 찾는 이름이다.
         for rows in by_subject.values():
             rows.sort(key=lambda a: (
+                0 if a["id"] in ranked_now else 1,
                 0 if a.get("curated_stages") else 1,
                 # ★ 시드인데 한 번도 수집된 적 없으면 최우선.
                 #   시드는 사람이 '중요하다'고 지목한 곳이다. 정원이 작으면
@@ -533,6 +547,10 @@ def select_for_mentions(academies: list[dict],
                 #   뒤에는 다른 시드와 똑같이 경쟁한다.
                 0 if (a.get("curated_stages") and a["id"] not in hist) else 1,
                 *coverage.priority_bonus(a, hist, gaps),
+                # ★ 수요 신호가 정원보다 앞선다. 정원은 규모의 대리
+                #   지표일 뿐이지만, 이미 수집한 글에 이름이 나온다는 것은
+                #   학부모가 실제로 그 이름을 말한다는 직접 증거다.
+                -want.get(a["id"], 0),
                 0 if a.get("brand_hint") else 1,
                 -capacity(a)))
 
@@ -575,6 +593,22 @@ def select_for_mentions(academies: list[dict],
         # 구간 미상(종합·보습·재종) + 위에서 후보가 모자라 남은 자리
         rest = [a for a in rows if a["id"] not in chosen]
         picked += take(rest, per_region - len(picked), chosen)
+
+        # ★ 한 번도 수집 안 된 시드는 **예비석**으로 따로 태운다.
+        #
+        #   경쟁에 넣으면 두 정당한 규칙이 서로를 밀어낸다: 랭킹 유지가
+        #   이기면 제보받은 학원이 영원히 안 보이고, 시드가 이기면 이미
+        #   순위가 있던 학원이 화면에서 사라진다. 둘 다 사용자에게는
+        #   '학원이 없다'로 보인다. 자리를 다투게 두지 말고 몇 칸 더 쓴다 —
+        #   수집 예산은 API 호출 수일 뿐이고, 한 회차만 지나면 이들도
+        #   보통의 후보가 된다.
+        newborn = [a for a in rows
+                   if a["id"] not in chosen
+                   and a.get("curated_stages")
+                   and a["id"] not in hist][:SEED_RESERVE]
+        for a in newborn:
+            chosen.add(a["id"])
+        picked += newborn
 
         selected.extend(picked)
         skipped.extend(a for a in rows if a["id"] not in chosen)
@@ -864,8 +898,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         #   아니다 — 기록하면 새로 시드된 학원이 '수집했는데 0건'(dry)으로
         #   오염돼, 실제로는 한 번도 검색해 보지 않았는데 후순위로 밀린다.
         #   그로튼에밀튼(리딩타운)이 정확히 이렇게 밀렸다.
-        from . import coverage
+        from . import coverage, demand
         coverage.record(evaluated, mentions)
+        # 이번 회차 글로 수요 신호를 갱신한다. 등록부 전체를 대상으로
+        # 재므로, 아직 한 번도 안 본 학원이 다음 회차에 앞으로 나온다.
+        demand.save(demand.measure(evaluated + registry_only, mentions))
 
         # 검수 대기 큐에 올린다. 신뢰도 높은 글부터 — 점수에 영향이 큰
         # 글을 먼저 봐야 검수 한 번의 값어치가 크다.

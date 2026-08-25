@@ -199,6 +199,41 @@ academies:
     regions: [daechi]
     subjects: [english]
     stages: [eng_el_phonics, eng_el_academy]
+  # 반포 초등 고학년 영어. 이용자 제보(2026-08-25) — 다섯 곳 모두 NEIS 에는
+  # 있었지만 정원이 작아(12~100) 구간 안 정원 경쟁에서 밀려 수집된 적이 없다.
+  # 소규모 맞춤형이 학부모 대화의 중심인 구간이라 정원은 특히 나쁜 대리 지표다.
+  - name: 우승희영어학원
+    aliases: [우승희]
+    regions: [banpo]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw]
+  - name: 제이제이영어학원
+    # 서초 잠원동. '제이제이미술'(예체능)·'제이제이과학'(과학)은 과목이
+    # 어긋나 걸러지고, 목동 '제이제이(JJ)영어교습소' 는 다른 학원이다 —
+    # 같은 키에 걸리므로 이 시드는 지점 단계를 붙이지 않는다.
+    aliases: []
+    regions: [banpo]
+    subjects: [english]
+    stages: [eng_el_academy]
+  - name: 현재어학원
+    # 반포 본원 + 목동·방배 캠퍼스. 지점 분리는 branches.py 가 한다.
+    aliases: []
+    regions: [banpo, mokdong]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw]
+  - name: 원더스잉글리시아카데미
+    # 서래로 17. 영어 독서·토론 중심
+    aliases: [원더스잉글리시]
+    regions: [banpo]
+    subjects: [english]
+    stages: [eng_el_academy, eng_el_rw]
+  - name: 잉글리쉬부띠끄어학원
+    # 통용 표기는 English Boutique / 잉글리시부티크. 등록명은 '부띠끄'다 —
+    # '부티크'로 찾으면 못 찾는다.
+    aliases: [잉글리시부티크, 잉글리쉬부티크, EnglishBoutique]
+    regions: [banpo]
+    subjects: [english]
+    stages: [eng_el_academy]
   - name: 그로튼에밀튼어학원
     # 통용명은 '리딩타운'(SP대치리딩타운, 삼성로51길 8). 등록명과 브랜드가
     # 완전히 달라 이름 매칭으로는 절대 이어지지 않는다 — 별칭이 유일한
