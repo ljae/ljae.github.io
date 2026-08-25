@@ -193,6 +193,20 @@ academies:
     regions: [daechi, banpo]
     subjects: [english]
     stages: [eng_el_phonics, eng_el_academy]
+  - name: 해빛나인어학원
+    # 도곡로 517, 1·2관. 정원 608인데도 선정에서 밀려 수집된 적이 없었다.
+    aliases: [해빛나인]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy]
+  - name: 그로튼에밀튼어학원
+    # 통용명은 '리딩타운'(SP대치리딩타운, 삼성로51길 8). 등록명과 브랜드가
+    # 완전히 달라 이름 매칭으로는 절대 이어지지 않는다 — 별칭이 유일한
+    # 다리다. '그로튼아카데미학원'(국어)은 다른 학원이니 합치지 말 것.
+    aliases: [리딩타운, 대치리딩타운]
+    regions: [daechi]
+    subjects: [english]
+    stages: [eng_el_phonics, eng_el_academy, eng_el_rw]
 
   # ─── 국어 · 논술 ───
   - name: 한우리독서토론논술

@@ -237,8 +237,10 @@ def matches_brand(name: str, brand_key: str, strict: bool = False) -> str | None
         if stem == brand_key or _TRADE_TAIL.sub("", stem) == brand_key:
             return "strict"
         # 뒤가 지점 표기뿐이면 같은 브랜드로 본다.
-        if rest and _BRANCH.search(rest) and not _TRADE_TAIL.sub("", rest).strip(
-                "0123456789"):
+        # 업종어만 지우면 '1관' 의 '관' 이 남아 '해빛나인어학원1관학원' 이
+        # strict 가 못 됐다 — 지점 표기(_BRANCH)도 함께 지우고 판정한다.
+        if rest and _BRANCH.search(rest) and not _BRANCH.sub(
+                "", _TRADE_TAIL.sub("", rest)).strip("0123456789"):
             return "strict"
         if rest and _LEAD_REGION.match(rest) and _BRANCH.search(rest):
             return "strict"

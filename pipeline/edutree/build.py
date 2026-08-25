@@ -526,6 +526,12 @@ def select_for_mentions(academies: list[dict],
         for rows in by_subject.values():
             rows.sort(key=lambda a: (
                 0 if a.get("curated_stages") else 1,
+                # ★ 시드인데 한 번도 수집된 적 없으면 최우선.
+                #   시드는 사람이 '중요하다'고 지목한 곳이다. 정원이 작으면
+                #   (그로튼에밀튼 151) 같은 구간의 큰 시드에 밀려 영원히
+                #   수집이 안 될 수 있다 — 최소 한 번은 본다. 한 번 본
+                #   뒤에는 다른 시드와 똑같이 경쟁한다.
+                0 if (a.get("curated_stages") and a["id"] not in hist) else 1,
                 *coverage.priority_bonus(a, hist, gaps),
                 0 if a.get("brand_hint") else 1,
                 -capacity(a)))
@@ -851,8 +857,13 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                 m["credibility"] = round(
                     min(1.0, max(0.0, m.get("credibility", 0.5) * mul)), 3)
 
-    if mode == "live":
+    if mode == "live" and not from_cache:
         # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
+        #
+        # ★ --from-cache 실행은 기록하지 않는다. 캐시 실행은 수집 시도가
+        #   아니다 — 기록하면 새로 시드된 학원이 '수집했는데 0건'(dry)으로
+        #   오염돼, 실제로는 한 번도 검색해 보지 않았는데 후순위로 밀린다.
+        #   그로튼에밀튼(리딩타운)이 정확히 이렇게 밀렸다.
         from . import coverage
         coverage.record(evaluated, mentions)
 
