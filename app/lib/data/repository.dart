@@ -44,18 +44,70 @@ class EduTreeData {
   static bool matchRegion(String? rowRegion, String? selected) =>
       selected == null || selected == 'all' || rowRegion == selected;
 
-  /// 단계 → 그 단계를 담당하는 학원들 (지역 필터 적용 가능)
-  List<Academy> academiesForStage(String stageId, {String? regionId}) {
-    final rows = academies.where((a) =>
-        a.stages.contains(stageId) && matchRegion(a.regionId, regionId));
-    final list = rows.toList()
+  /// 단계 → 그 단계를 담당하는 학원들 (지역 필터 적용 가능).
+  ///
+  /// **근거가 강한 순으로 세운다.** 파이프라인이 단계마다 왜 붙었는지를
+  /// 함께 내려준다(curated · hinted · inferred). 예전에는 셋이 한 덩어리로
+  /// 와서 '사람이 확인한 매핑'과 '과목·학년만 보고 넣은 것'이 화면에서
+  /// 구분되지 않았다.
+  ///
+  /// [fillTo] 를 주면 근거가 있는 곳이 그만큼 안 될 때 **같은 과목·학년
+  /// 구간**의 학원을 이어 붙인다(basis `band`). 파이프라인은 근거 없는
+  /// 배정을 만들지 않으므로 세부 단계(선행·영재고 대비 …)는 비기 쉬운데,
+  /// 없는 근거를 데이터에 지어 넣는 대신 화면에서 '이 단계 특정 근거
+  /// 없음'이라 적고 이어 붙인다. 랭킹의 '표본 부족' 폴백과 같은 방식이다.
+  List<StageMatch> academiesForStage(String stageId,
+      {String? regionId, int fillTo = 0}) {
+    final stage = stageById[stageId];
+    final subject = stage == null ? null : trackById[stage.trackId]?.subject;
+
+    int byScore(Academy a, Academy b) {
+      final sa = a.scoreFor(subject), sb = b.scoreFor(subject);
+      // 랭킹에 든 곳을 먼저. 점수가 있는 것과 없는 것을 한 줄에 세우면
+      // 코호트 평균으로 채워진 값이 실제 평가처럼 읽힌다.
+      if (sa.isRanked != sb.isRanked) return sa.isRanked ? -1 : 1;
+      return sb.total.compareTo(sa.total);
+    }
+
+    final direct = academies
+        .where((a) =>
+            a.stages.contains(stageId) && matchRegion(a.regionId, regionId))
+        .toList()
       ..sort((a, b) {
         final fa = a.isFlagshipOf(stageId) ? 1 : 0;
         final fb = b.isFlagshipOf(stageId) ? 1 : 0;
         if (fa != fb) return fb - fa;
-        return b.score.total.compareTo(a.score.total);
+        // 근거의 강도는 **정렬이 아니라 카드의 딱지**로 말한다. 여기 있는
+        // 곳은 전부 근거가 있고, 그다음 학부모가 궁금한 것은 '어느 쪽이
+        // 더 알려졌나'다. 근거 등급은 점수가 같을 때만 본다.
+        final byS = byScore(a, b);
+        if (byS != 0) return byS;
+        return StageMatch.rank(a.stageBasisOf(stageId)) -
+            StageMatch.rank(b.stageBasisOf(stageId));
       });
-    return list;
+
+    final out = [
+      for (final a in direct) StageMatch(a, a.stageBasisOf(stageId)),
+    ];
+    if (out.length >= fillTo || stage == null || subject == null) return out;
+
+    final seen = {for (final m in out) m.academy.id};
+    final bands = stage.gradeBands;
+    final extra = academies
+        .where((a) =>
+            !seen.contains(a.id) &&
+            matchRegion(a.regionId, regionId) &&
+            a.subjects.contains(subject) &&
+            // 구간이 비어 있는 학원은 '어느 학년대인지 공시에 없음'이다.
+            // 어느 구간에도 안 넣으면 통째로 사라진다 — 필터와 같게 읽는다.
+            (a.gradeBands.isEmpty ||
+                a.gradeBands.any((b) => bands.contains(b))))
+        .toList()
+      ..sort(byScore);
+
+    out.addAll(
+        extra.take(fillTo - out.length).map((a) => StageMatch(a, 'band')));
+    return out;
   }
 
   List<Track> tracksFor({String? subject, String? gradeBand}) {

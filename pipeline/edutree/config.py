@@ -1,6 +1,7 @@
 """설정 · 상수 · 경로."""
 from __future__ import annotations
 
+import functools
 import os
 from pathlib import Path
 
@@ -304,7 +305,14 @@ def regions() -> list[dict]:
     return load_yaml("regions.yaml")
 
 
+@functools.lru_cache(maxsize=1)
 def techtree() -> dict:
+    """테크트리 원본. **한 번만 읽는다.**
+
+    학원 한 곳의 단계를 정할 때마다 불리는데(실측 6,092회) 그때마다
+    530줄 YAML 을 다시 파싱하고 있었다. 반환값을 고쳐 쓰는 곳은 없다 —
+    banded_techtree() 도 roadmap_payload() 도 `{**st}` 로 베껴서 쓴다.
+    """
     return load_yaml("techtree.yaml")
 
 

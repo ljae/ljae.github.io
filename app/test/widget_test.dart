@@ -167,4 +167,134 @@ void main() {
     expect(find.byType(PageView), findsNothing,
         reason: '넓은 화면에서는 네 과목을 나란히 둔다');
   });
+
+  group('테크트리 단계 목록', () {
+    Academy academy(String id,
+            {List<String> stages = const [],
+            Map<String, String> basis = const {},
+            List<String> bands = const [],
+            double total = 50}) =>
+        Academy(
+          id: id,
+          name: id,
+          displayNameRaw: id,
+          aliases: const [],
+          regionId: 'daechi',
+          subjects: const ['math'],
+          gradeBands: bands,
+          stages: stages,
+          stageBasis: basis,
+          flagship: const [],
+          isVerified: true,
+          dataSource: 'neis',
+          score: Score(
+            total: total,
+            reputation: total,
+            momentum: total,
+            sampleSize: 20,
+            confidence: 'high',
+            isRanked: true,
+            momentumDirection: 'stable',
+          ),
+          evidence: const [],
+        );
+
+    // 초4~초6 수학 트랙. '경시'는 이 구간에만, '교과 기본'은 초등 전체.
+    const track = Track(
+      id: 'math_elem_high',
+      subject: 'math',
+      gradeBand: 'elem_high',
+      title: '초4~초6 수학',
+      summary: '',
+      stages: [
+        Stage(
+            id: 'basic',
+            trackId: 'math_elem_high',
+            title: '연산 · 교과 기본',
+            gradeMin: 0,
+            gradeMax: 6,
+            depth: 0,
+            lane: 0),
+        Stage(
+            id: 'comp',
+            trackId: 'math_elem_high',
+            title: '경시 · 심화',
+            gradeMin: 4,
+            gradeMax: 6,
+            depth: 1,
+            lane: 0),
+      ],
+      edges: [],
+    );
+
+    EduTreeData dataWith(List<Academy> rows) => EduTreeData(
+          meta: const Meta(
+            mode: 'test',
+            generatedAt: '',
+            evaluatedCount: 0,
+            registryCount: 0,
+            mentionCount: 0,
+            weights: {},
+            minSampleForRank: 10,
+            reputationPriorCount: 12,
+            recencyHalflifeDays: 180,
+          ),
+          regions: const [],
+          tracks: [track],
+          academies: rows,
+          roadmap: const Roadmap(),
+        );
+
+    test('단계에 붙은 근거를 그대로 들고 온다', () {
+      final data = dataWith([
+        academy('큐레이션', stages: ['comp'], basis: {'comp': 'curated'}),
+        academy('단서', stages: ['comp'], basis: {'comp': 'hinted'}),
+      ]);
+      final got = data.academiesForStage('comp', regionId: 'daechi');
+      expect(got.map((m) => m.basis).toSet(), {'curated', 'hinted'});
+      expect(got.every((m) => m.isDirect), isTrue);
+    });
+
+    test('근거가 없으면 근거를 지어내지 않고 비워 둔다', () {
+      final data = dataWith([academy('교과만', stages: ['basic'])]);
+      expect(data.academiesForStage('comp', regionId: 'daechi'), isEmpty);
+    });
+
+    test('fillTo 를 주면 같은 구간에서 채우되 band 로 표시한다', () {
+      final data = dataWith([
+        academy('경시', stages: ['comp'], basis: {'comp': 'hinted'}, total: 60),
+        academy('교과', stages: ['basic'], total: 70),
+      ]);
+      final got =
+          data.academiesForStage('comp', regionId: 'daechi', fillTo: 2);
+      expect(got.length, 2);
+      // 근거 있는 곳이 먼저. 점수가 낮아도 이어 붙인 곳보다 앞이다.
+      expect(got.first.academy.id, '경시');
+      expect(got.first.isDirect, isTrue);
+      expect(got.last.basis, 'band');
+      expect(got.last.label, contains('같은 구간'));
+    });
+
+    test('학년 구간이 비면 어느 구간에도 걸린다 — 필터와 같게 읽는다', () {
+      // 파이프라인이 빈 grade_bands 를 '아무 구간도 아님'으로 읽어
+      // 등록부 78%가 테크트리에서 통째로 사라진 적이 있다.
+      final data = dataWith([academy('구간미상', bands: const [])]);
+      final got =
+          data.academiesForStage('comp', regionId: 'daechi', fillTo: 3);
+      expect(got.single.academy.id, '구간미상');
+      expect(got.single.basis, 'band');
+    });
+
+    test('근거가 충분하면 이어 붙이지 않는다', () {
+      final data = dataWith([
+        academy('a', stages: ['comp'], basis: {'comp': 'hinted'}),
+        academy('b', stages: ['comp'], basis: {'comp': 'hinted'}),
+        academy('c', stages: ['basic']),
+      ]);
+      final got =
+          data.academiesForStage('comp', regionId: 'daechi', fillTo: 2);
+      expect(got.length, 2);
+      expect(got.every((m) => m.isDirect), isTrue);
+    });
+  });
 }

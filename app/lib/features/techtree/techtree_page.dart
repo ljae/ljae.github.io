@@ -58,7 +58,13 @@ class _StageSheet extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final track = data.trackById[stage.trackId]!;
     final accent = AppColors.subjects[track.subject] ?? AppColors.navy;
-    final academies = data.academiesForStage(stage.id, regionId: regionId);
+    // 목록이 한두 곳이면 '이 단계에 어떤 학원이 있나'에 답하지 못한다.
+    // 근거가 있는 곳을 먼저 다 보여주고, 모자라면 같은 과목·구간까지
+    // 넓혀 채운다. 이어 붙인 곳은 카드에 그렇게 적힌다.
+    final matches =
+        data.academiesForStage(stage.id, regionId: regionId, fillTo: 8);
+    final direct = matches.where((m) => m.isDirect).toList();
+    final nearby = matches.where((m) => !m.isDirect).toList();
     final incoming =
         track.edges.where((e) => e.to == stage.id && e.condition.isNotEmpty);
     final outgoing =
@@ -101,14 +107,37 @@ class _StageSheet extends StatelessWidget {
                 label: '${data.stageById[e.to]?.title ?? ""} 로 진행',
                 value: e.condition),
           const SizedBox(height: AppSpace.lg),
-          SectionHeader('이 단계의 학원 ${academies.length}곳',
+          SectionHeader('이 단계의 학원 ${direct.length}곳',
               subtitle: '${data.regionById[regionId]?.nameKo ?? ""} 기준 · 트리스코어 순'),
-          if (academies.isEmpty)
-            Text('이 학군에는 등록된 학원이 없습니다.', style: text.bodyMedium)
+          if (direct.isEmpty)
+            Text(
+                '이 단계를 담당한다고 볼 근거가 있는 학원이 아직 없습니다.'
+                '${nearby.isEmpty ? "" : " 같은 구간의 학원을 아래에 이어 둡니다."}',
+                style: text.bodyMedium)
           else
-            for (final a in academies)
+            for (final m in direct)
               AcademyCard(
-                  academy: a, showPillars: false, stageContext: stage.id),
+                  academy: m.academy,
+                  showPillars: false,
+                  stageContext: stage.id,
+                  // 단계는 과목에 매인다. 대표 점수를 쓰면 수학 후기로
+                  // 얻은 점수가 과학 단계 목록에 그대로 선다.
+                  subject: track.subject,
+                  stageBasis: m.basis),
+          if (nearby.isNotEmpty) ...[
+            const SizedBox(height: AppSpace.lg),
+            // 이 단계 근거가 없는 곳이다. 위와 같은 제목으로 묶으면
+            // 목록은 길어지고 뜻은 흐려진다.
+            SectionHeader('같은 구간의 학원 ${nearby.length}곳',
+                subtitle: '${track.title} · 이 단계를 특정할 근거는 없습니다'),
+            for (final m in nearby)
+              AcademyCard(
+                  academy: m.academy,
+                  showPillars: false,
+                  stageContext: stage.id,
+                  subject: track.subject,
+                  stageBasis: m.basis),
+          ],
         ],
       ),
     );

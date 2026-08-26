@@ -38,3 +38,6 @@ _site/
 
 # IDE
 app/.idea/
+
+# 옵시디언(위키를 볼 때 생기는 로컬 편집기 상태)
+.obsidian/

@@ -80,6 +80,7 @@ def _expand_seed() -> list[dict]:
                 "subjects": brand["subjects"],
                 "grade_bands": bands,
                 "stages": brand["stages"],
+                "stage_basis": {s: "curated" for s in brand["stages"]},
                 "curated_stages": True,
                 "flagship": brand.get("flagship", []),
                 "reg_stttus_nm": "정상",
@@ -163,6 +164,8 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             # '유명 브랜드' 신호로 쓰는데, 자동 매핑과 섞이면 신호가 죽는다.
             row["curated_stages"] = True
             row["flagship"] = brand.get("flagship", [])
+            # 사람이 적은 매핑이다. 자동 추정과 화면에서 구분해야 한다.
+            row["stage_basis"] = {s: "curated" for s in row["stages"]}
             # ★ 시드 과목을 그대로 물려주면 안 된다. '시대인재수학스쿨' 은
             #   시드 '시대인재'(국영수과)로 단정되어 과학 랭킹 3위에
             #   올랐다 — 이름이 수학 전문이라고 말하는데도. 이름에 과목이
@@ -176,6 +179,7 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
                 row["stages"] = [s for s in row["stages"] if s in keep] \
                     or row["stages"]
                 row["flagship"] = [s for s in row["flagship"] if s in keep]
+                row["stage_basis"] = {s: "curated" for s in row["stages"]}
         else:
             # 이름이 유명 브랜드로 시작하지만 단정할 수 없는 경우.
             # 수집 대상 선정에서만 가산점으로 쓴다.
@@ -192,7 +196,8 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         # 큐레이션에 없는 곳은 과목·구간에서 자동으로 단계를 붙인다.
         # curated_stages 는 켜지 않는다 — 선정 우선순위와 무관해야 한다.
         if not row.get("stages"):
-            row["stages"] = _auto_stages(row)
+            row["stages"], row["stage_basis"] = _auto_stages(row)
+        row.setdefault("stage_basis", {})
         row.setdefault("id", row.get("aca_asnum") or f"n-{row['name_normalized']}")
     print(f"  테크트리 매핑: {matched}/{len(neis_rows)}곳이 큐레이션 브랜드와 연결됨"
           + (f" (이름이 겹쳐 단정하지 않은 곳 {hinted}곳은 수집 우선순위로만 반영)"
@@ -273,10 +278,16 @@ _STAGE_HINTS: dict[str, tuple[str, ...]] = {
     "sci_hi_adv": ("의대", "II", "심화", "최상위"),
 }
 
-# 단서가 하나도 없을 때 붙일 대표 단계. 각 과목·구간에서 가장 넓은 곳.
+# 단서가 하나도 없을 때 붙일 대표 단계.
+#
+# **가장 넓은 곳이어야 한다 — 가장 높은 곳이 아니다.** 여기를 잘못 두면
+# 단서 없는 평범한 학원이 통째로 특수 단계로 간다. 실측에서 초4~6 수학은
+# 941곳이 '경시 · 심화' 로, 초4~6 과학은 117곳이 '영재원 대비' 로 배정돼
+# 있었다. 학원이 경시를 한다고 말한 적이 없는데 화면은 그렇게 적었다.
+# (techtree.yaml 에서 math_el_basic·sci_el_lab 을 초6까지 넓혀 자리를 냈다)
 _STAGE_DEFAULT = {
     ("math", "elem_low"): "math_el_basic",
-    ("math", "elem_high"): "math_el_competition",
+    ("math", "elem_high"): "math_el_basic",
     ("math", "middle"): "math_mid_naesin",
     ("math", "high"): "math_hi_naesin",
     ("english", "elem_low"): "eng_el_academy",
@@ -288,37 +299,81 @@ _STAGE_DEFAULT = {
     ("korean", "middle"): "kor_mid_naesin",
     ("korean", "high"): "kor_hi_naesin",
     ("science", "elem_low"): "sci_el_lab",
-    ("science", "elem_high"): "sci_el_gifted",
+    ("science", "elem_high"): "sci_el_lab",
     ("science", "middle"): "sci_mid_naesin",
     ("science", "high"): "sci_hi_naesin",
 }
 
 
-def _auto_stages(row: dict) -> list[str]:
-    """큐레이션에 없는 학원을 단계에 붙인다.
+def _stage_blob(row: dict) -> str:
+    """단계·구간 판정에 쓰는 텍스트. 학원이 스스로 밝힌 것만 넣는다.
+
+    이름과 교습과정 목록에 더해 **교습비 항목의 과정명**을 본다. 금액은
+    쓰지 않지만('교습비는 쓰지 않는다' 는 금액 이야기다) 거기 적힌
+    '초등수학'·'중학내신'·'수능독해' 는 학원이 밝힌 대상 학년과 과정이고,
+    이름에는 없는 신호다. 실측 9,324건 중 1,836곳(20%)에 들어 있다.
+    """
+    parts = [str(row.get(k) or "") for k in
+             ("name", "le_crse_list_nm", "le_crse_nm")]
+    parts += [str(c) for c in (row.get("course_names") or [])]
+    return " ".join(parts).upper()
+
+
+def _auto_stages(row: dict) -> tuple[list[str], dict[str, str]]:
+    """큐레이션에 없는 학원을 단계에 붙인다. (단계 목록, 단계별 근거)
 
     단계 매핑이 시드 브랜드 매칭에만 의존하고 있었다. 400곳 중 42곳만
     붙었고, 41개 단계 × 4학군 = 164개 조합 중 111개가 **0곳**이었다.
     국어·과학은 전 단계가 비어 있었다. 로드맵에서 단계를 눌러도 학원이
     안 나오면 로드맵이 랭킹으로 이어지지 않는다.
 
-    과목과 학년 구간은 이미 안다. 그 교집합에 드는 단계 중, 이름·교습과정에
-    단서가 있으면 그 단계로 좁히고 없으면 대표 단계 하나에만 붙인다.
-    구간의 모든 단계에 달라붙게 두면 '어느 단계 학원인지'가 사라진다.
+    붙이는 근거는 두 가지뿐이고, **어느 쪽인지 반드시 남긴다.**
+      hinted   이름·교습과정·과정명에 그 단계의 단서가 있다.
+      inferred 단서가 없어 과목·구간의 대표 단계에 둔다.
+
+    **★ 예전에는 세 번째가 있었다 — 학원 id 해시로 보조 단계 하나를 더
+    골랐다.** '선행'·'영재고 대비' 같은 단계가 0곳으로 남는 것을 막으려던
+    것인데, 실측하니 그 단계들 배정의 96~100% 가 해시였다. 영재고 대비
+    286곳, 심화·KMO 291곳, 사고력 1,423곳이 **근거 없이** 그 자리에 있었고,
+    화면은 큐레이션 매핑과 똑같이 보여줬다. 실명 사업자를 '영재고 대비'
+    학원이라고 적으려면 근거가 있어야 한다. 없앴다.
+
+    비는 단계는 데이터가 아니라 **화면**에서 채운다 — 앱이 같은 과목·구간의
+    학원을 이어 붙이되 '이 단계 특정 근거 없음' 이라 적는다. 없는 근거를
+    지어내지 않으면서 '이 단계에 어떤 학원이 있나' 는 답할 수 있다.
     """
     subjects = [s for s in (row.get("subjects") or []) if s != "etc"]
     bands = row.get("grade_bands") or []
-    if not subjects or not bands:
-        return []
+    if not subjects:
+        return [], {}
+    # ★ 빈 grade_bands 는 '아무 구간도 아님' 이 아니라 '구간을 특정할 수
+    #   없음' 이다. 앱의 필터(_matchesFilters)는 이미 그렇게 읽어 어느
+    #   학년 필터에도 걸리게 두는데, 여기서만 반대로 읽어 단계를 하나도
+    #   안 붙였다. 같은 값을 두 곳이 반대로 읽고 있었고, 등록부 6,092곳 중
+    #   4,771곳(78%)이 여기 해당해 테크트리에서 통째로 사라졌다.
+    if not bands:
+        bands = list(config.GRADE_BANDS)
 
-    blob = " ".join(str(row.get(k) or "") for k in
-                    ("name", "le_crse_list_nm", "le_crse_nm")).upper()
+    blob = _stage_blob(row)
     tree = config.techtree()
     by_id = {st["id"]: (t["subject"], st)
              for t in tree["tracks"] for st in t["stages"]
              if not st.get("roadmap_only")}
 
     out: list[str] = []
+    basis: dict[str, str] = {}
+
+    def add(sid: str | None, kind: str) -> None:
+        if not sid:
+            return
+        if sid not in out:
+            out.append(sid)
+            basis[sid] = kind
+        elif kind == "hinted":
+            # 한 구간에서는 추정이어도 다른 구간에서 단서가 잡혔다면
+            # 더 강한 쪽을 남긴다.
+            basis[sid] = kind
+
     for subject in subjects:
         for band in bands:
             lo, hi = config.GRADE_BANDS[band][1], config.GRADE_BANDS[band][2]
@@ -329,25 +384,12 @@ def _auto_stages(row: dict) -> list[str]:
             hinted = [sid for sid in fits
                       if any(h.upper() in blob for h in _STAGE_HINTS.get(sid, ()))]
             if hinted:
-                picked = hinted
+                for sid in hinted:
+                    add(sid, "hinted")
             else:
-                # 단서가 없으면 대표 단계에 붙인다. 다만 대표 하나에만
-                # 몰면 '선행'·'심화' 같은 보조 단계가 영원히 0곳으로 남는다
-                # (실측: 160개 조합 중 52개가 비었고 대부분 선행 단계였다).
-                # 학원 id 해시로 보조 단계에도 고르게 흩는다. 무작위가
-                # 아니라 해시라 매 빌드 같은 결과가 나온다.
                 default = _STAGE_DEFAULT.get((subject, band))
-                others = [x for x in fits if x != default]
-                picked = [default] if default in fits else []
-                if others:
-                    idx = int(hashlib.md5(
-                        f"{row.get('id')}|{subject}|{band}".encode()
-                    ).hexdigest(), 16)
-                    picked.append(others[idx % len(others)])
-            for sid in picked:
-                if sid and sid not in out:
-                    out.append(sid)
-    return out
+                add(default if default in fits else None, "inferred")
+    return out, basis
 
 
 def _bands_from_stages(row: dict) -> list[str]:
@@ -1262,6 +1304,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "aliases": a.get("aliases", []),
             "gradeBands": a.get("grade_bands", []),
             "stages": a.get("stages", []),
+            # 단계마다 왜 붙었는지. curated(사람이 적음) · hinted(이름·과정에
+            # 단서) · inferred(과목·구간만 보고 추정). 화면이 이걸 구분해
+            # 적지 않으면 추정이 큐레이션처럼 읽힌다.
+            "stageBasis": a.get("stage_basis") or {},
             "flagship": a.get("flagship", []),
             "tel": a.get("tel"),
             "establishedOn": a.get("estbl_ymd"),

@@ -19,6 +19,12 @@ class AcademyCard extends StatelessWidget {
   /// 보여줄지를 정한다.
   final String? subject;
 
+  /// 테크트리 단계 목록에서 보여줄 때, **이 학원이 왜 이 단계에 있는지.**
+  /// [StageMatch.basis] 를 그대로 받는다. 큐레이션(curated)은 적지 않는다 —
+  /// 기본값이라 매번 적으면 읽히지 않는다. 나머지는 반드시 적는다:
+  /// 추정과 확정이 같은 얼굴로 나오면 목록 전체를 믿을 수 없게 된다.
+  final String? stageBasis;
+
   const AcademyCard({
     super.key,
     required this.academy,
@@ -26,6 +32,7 @@ class AcademyCard extends StatelessWidget {
     this.showPillars = true,
     this.stageContext,
     this.subject,
+    this.stageBasis,
   });
 
   @override
@@ -80,6 +87,11 @@ class AcademyCard extends StatelessWidget {
                                       AppColors.slate),
                             VerifiedChip(verified: academy.isVerified),
                             ConfidenceChip(score: score),
+                            if (StageMatch.labelFor(stageBasis)
+                                case final basisLabel?)
+                              Chip2(basisLabel,
+                                  color: AppColors.mist,
+                                  icon: Icons.help_outline),
                             if (academy.registrationCount > 1)
                               Chip2('${academy.registrationCount}개 등록 통합',
                                   color: AppColors.slate,

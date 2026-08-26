@@ -33,10 +33,13 @@ FIELD_MAP = {
     "ESTBL_YMD": "estbl_ymd",               # 개설일자
     "TOFOR_SMTOT": "tofor_smtot",           # 정원합계
     "DTM_RCPTN_ABLTY_NMPR_SMTOT": "dtm_rcptn_ablty_nmpr_smtot",  # 동시수용인원합계
-    # 교습비(PSNBY_THCC_CNTNT)는 읽지 않는다. NEIS 가 금액만 주고
+    # 교습비 **금액**(PSNBY_THCC_CNTNT)은 읽지 않는다. NEIS 가 금액만 주고
     # **교습시간을 주지 않아** 주2회 26만원과 주5회 26만원이 같은 값으로
     # 선다. 비교가 성립하지 않는 값을 화면에 올리면 그건 정보가 아니라
     # 오해의 원인이다. 시세도 지역·과목마다 달라 금액만으로는 못 읽는다.
+    #
+    # 다만 같은 필드의 **과정명**은 다른 물건이다 — normalize() 에서
+    # 금액을 버리고 이름만 뽑아 course_names 로 남긴다. 아래 참고.
     "FA_RDNMA": "road_address",             # 도로명주소
     "FA_RDNDA": "address_detail",           # 상세주소 — 괄호 안에 법정동이 있다
     "FA_TELNO": "tel",                      # 전화번호
@@ -104,6 +107,37 @@ def extract_dong(row: dict) -> str | None:
     return m.group(1) if m else None
 
 
+# 교습비 항목에서 **과정명만** 뽑는다. 금액은 버린다.
+#
+# '교습비는 쓰지 않는다'는 **금액** 이야기다(교습시간이 없어 비교가 성립하지
+# 않는다). 같은 필드에 들어 있는 **과정명**은 전혀 다른 물건이다.
+# '초등수학'·'중학내신'·'수능독해' 는 학원이 스스로 밝힌 대상 학년과 과정이고,
+# 학원명·교습과정목록에는 없는 신호다. 실측 9,324건 중 1,836곳(20%)에 있다.
+#
+# 형식: `과정명:금액, 과정명:금액` — 과정명 안에 쉼표가 들어가는 경우가 있어
+# ('초등수학(주3회, 회60분):100000') 쉼표로 자르면 '회60분)' 같은 조각이 남는다.
+# 금액 자리에서 자르고 괄호를 통째로 지운다.
+_THCC_AMOUNT = re.compile(r":\s*\d[\d,]*")
+_THCC_PAREN = re.compile(r"\([^)]*\)?|\uff08[^\uff09]*\uff09?")
+
+
+def course_names(text: str | None) -> list[str]:
+    """교습비 문자열 → 과정명 목록. 금액·시간 표기는 버린다."""
+    if not text or not text.strip():
+        return []
+    out: list[str] = []
+    seen: set[str] = set()
+    for chunk in _THCC_AMOUNT.split(text):
+        name = _THCC_PAREN.sub(" ", chunk).strip(" ,\u00b7:/\t\n")
+        name = re.sub(r"\s+", " ", name)
+        # 1글자는 과정명이 아니고, 30자 넘는 것은 설명문이다.
+        if 2 <= len(name) <= 30 and name not in seen:
+            seen.add(name)
+            out.append(name)
+    # 한 학원이 40개 과정을 적어 두기도 한다. 단서로 쓰기에는 앞쪽으로 충분하다.
+    return out[:24]
+
+
 def normalize(row: dict) -> dict:
     out = {internal: row.get(neis) for neis, internal in FIELD_MAP.items()}
 
@@ -120,6 +154,8 @@ def normalize(row: dict) -> dict:
         out["estbl_ymd"] = None
 
     out["dong"] = extract_dong(row)
+    # 과정명만. 금액은 들어오지 않는다.
+    out["course_names"] = course_names(row.get("PSNBY_THCC_CNTNT"))
     out["name_normalized"] = normalize_name(out.get("name") or "")
     # 학원지정번호(ACA_ASNUM)를 고유 식별자로 쓴다.
     #

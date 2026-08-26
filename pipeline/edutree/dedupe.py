@@ -330,6 +330,17 @@ def merge(rows: list[dict]) -> dict:
                     merged.append(v)
         base[field] = merged
 
+    # 단계별 근거도 합친다. 같은 단계에 두 관이 다른 근거로 붙었으면
+    # 강한 쪽(curated > hinted > inferred)을 남긴다 — 통합 때문에 근거가
+    # 약해 보이면 화면이 실제보다 덜 알려 준다.
+    rank = {"curated": 2, "hinted": 1, "inferred": 0}
+    basis: dict[str, str] = {}
+    for r in rows:
+        for sid, kind in (r.get("stage_basis") or {}).items():
+            if rank.get(kind, 0) >= rank.get(basis.get(sid), -1):
+                basis[sid] = kind
+    base["stage_basis"] = {s: basis[s] for s in base["stages"] if s in basis}
+
     if any(r.get("reg_stttus_nm") == "정상" for r in rows):
         base["reg_stttus_nm"] = "정상"
 

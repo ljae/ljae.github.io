@@ -330,6 +330,56 @@ class _StageCard extends StatelessWidget {
   const _StageCard(
       {required this.stage, required this.data, required this.regionId});
 
+  /// 카드 아래의 학원 한 줄. 세 상태를 서로 다르게 적는다.
+  ///
+  ///   ★ 점수   랭킹에 든 곳
+  ///   ○ 표본   이 단계 학원이지만 아직 표본이 모자란 곳
+  ///   … 구간   이 단계 근거는 없고 같은 과목·구간이라 이어 붙인 곳
+  ///
+  /// 셋을 같은 얼굴로 적으면 목록은 채워지지만 무엇을 믿을지는 알 수 없다.
+  Widget _topLine(BuildContext context, StageMatch m) {
+    final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final score = m.academy.scoreFor(stage.subject);
+    final starred = score.isRanked && m.isDirect;
+    final dim = !starred;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 1),
+      child: Row(children: [
+        Icon(
+            !m.isDirect
+                ? Icons.more_horiz
+                : score.isRanked
+                    ? Icons.star_rounded
+                    : Icons.circle_outlined,
+            size: 10,
+            color: starred ? AppColors.gold : AppColors.mist),
+        const SizedBox(width: 3),
+        Expanded(
+          child: Text(m.academy.displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: text.bodySmall?.copyWith(
+                  fontSize: 10.5,
+                  color: dim
+                      ? AppColors.mist
+                      : (dark ? Colors.white70 : AppColors.inkSoft))),
+        ),
+        Text(
+            !m.isDirect
+                ? '구간'
+                : score.isRanked
+                    ? score.total.toStringAsFixed(0)
+                    : '표본',
+            style: text.bodySmall?.copyWith(
+                fontSize: 10.5,
+                fontWeight: starred ? FontWeight.w700 : FontWeight.w400,
+                color: dim ? AppColors.mist : null)),
+      ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -343,15 +393,15 @@ class _StageCard extends StatelessWidget {
     // 채워진다. 그래서 부족하면 아직 표본이 모자란 곳까지 이어 붙이되,
     // 점수 대신 '표본 부족'이라 적는다 — 없는 점수를 있는 척하지 않으면서
     // '이 단계에 어떤 학원이 있는가'는 답할 수 있다.
-    final all = stage.roadmapOnly
-        ? const <Academy>[]
-        : data.academiesForStage(stage.id, regionId: regionId);
-    final ranked = all.where((a) => a.score.isRanked).toList();
-    final tops = [
-      ...ranked.take(3),
-      if (ranked.length < 3)
-        ...all.where((a) => !a.score.isRanked).take(3 - ranked.length),
-    ];
+    //
+    // 그마저 없으면(세부 단계는 근거 있는 학원이 아예 없기도 하다) 같은
+    // 과목·구간까지 넓힌다. 이어 붙인 곳은 별표 대신 흐린 점으로 나오고,
+    // 시트를 열면 '이 단계 근거 없음'이라 적혀 있다.
+    final tops = stage.roadmapOnly
+        ? const <StageMatch>[]
+        : data.academiesForStage(stage.id, regionId: regionId, fillTo: 3)
+            .take(3)
+            .toList();
 
     final full = data.stageById[stage.id];
 
@@ -404,45 +454,7 @@ class _StageCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final a in tops)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 1),
-                        child: Row(children: [
-                          Icon(
-                              a.score.isRanked
-                                  ? Icons.star_rounded
-                                  : Icons.circle_outlined,
-                              size: 10,
-                              color: a.score.isRanked
-                                  ? AppColors.gold
-                                  : AppColors.mist),
-                          const SizedBox(width: 3),
-                          Expanded(
-                            child: Text(a.displayName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: text.bodySmall?.copyWith(
-                                    fontSize: 10.5,
-                                    color: a.score.isRanked
-                                        ? (dark
-                                            ? Colors.white70
-                                            : AppColors.inkSoft)
-                                        : AppColors.mist)),
-                          ),
-                          Text(
-                              a.score.isRanked
-                                  ? a.score.total.toStringAsFixed(0)
-                                  : '표본',
-                              style: text.bodySmall?.copyWith(
-                                  fontSize: 10.5,
-                                  fontWeight: a.score.isRanked
-                                      ? FontWeight.w700
-                                      : FontWeight.w400,
-                                  color: a.score.isRanked
-                                      ? null
-                                      : AppColors.mist)),
-                        ]),
-                      ),
+                    for (final m in tops) _topLine(context, m),
                   ],
                 ),
               ),

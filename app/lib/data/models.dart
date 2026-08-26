@@ -368,6 +368,13 @@ class Academy {
   final List<String> subjects;
   final List<String> gradeBands;
   final List<String> stages;
+
+  /// 단계마다 **왜** 붙었는지. `curated`(사람이 적은 큐레이션) ·
+  /// `hinted`(이름·교습과정·과정명에 단서) · `inferred`(과목·구간만 보고 추정).
+  ///
+  /// 예전에는 셋이 구분 없이 한 목록이었다. 화면은 추정을 큐레이션과
+  /// 똑같이 보여줬고, 근거 없는 배정이 '이 학원은 영재고 대비'로 읽혔다.
+  final Map<String, String> stageBasis;
   final List<String> flagship;
   final String? address;
   final String? tel;
@@ -404,6 +411,7 @@ class Academy {
     required this.subjects,
     required this.gradeBands,
     required this.stages,
+    this.stageBasis = const {},
     required this.flagship,
     this.address,
     this.tel,
@@ -431,6 +439,8 @@ class Academy {
         subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
         gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
         stages: ((j['stages'] as List?) ?? const []).cast<String>(),
+        stageBasis: ((j['stageBasis'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(k as String, v as String)),
         flagship: ((j['flagship'] as List?) ?? const []).cast<String>(),
         address: j['address'] as String?,
         tel: j['tel'] as String?,
@@ -464,10 +474,52 @@ class Academy {
       (brand != null && brand != name && !name.contains(brand!)) ? brand : null;
   bool isFlagshipOf(String stageId) => flagship.contains(stageId);
 
+  /// 이 단계에 붙은 근거. 모르면 'inferred' 로 본다 — 근거를 모르는 것은
+  /// 근거가 약한 것이지, 강한 것일 수 없다.
+  String stageBasisOf(String stageId) =>
+      stages.contains(stageId) ? (stageBasis[stageId] ?? 'inferred') : 'band';
+
   /// 그 과목의 점수. 과목을 안 주면 대표 점수.
   /// 과목별 점수가 없는 곳(옛 데이터·종합학원)은 대표 점수로 물러난다.
   Score scoreFor(String? subject) =>
       subject == null ? score : (subjectScores[subject] ?? score);
+}
+
+/// 한 단계에 걸린 학원 하나 — **어떤 근거로 걸렸는지와 함께.**
+///
+/// 학원만 넘기면 화면이 그 차이를 말할 수 없다. 큐레이션 매핑과
+/// '같은 구간이라 이어 붙인 곳'이 한 목록에 섞여 나오면, 목록은 길어지지만
+/// 무엇을 믿어야 하는지는 알 수 없게 된다.
+class StageMatch {
+  final Academy academy;
+
+  /// curated  사람이 적은 큐레이션 매핑
+  /// hinted   학원명·교습과정·과정명에 이 단계의 단서가 있음
+  /// inferred 단서가 없어 과목·학년 구간의 대표 단계로 추정
+  /// band     이 단계 근거는 없고, 같은 과목·구간이라 이어 붙인 곳
+  final String basis;
+
+  const StageMatch(this.academy, this.basis);
+
+  static int rank(String basis) => switch (basis) {
+        'curated' => 0,
+        'hinted' => 1,
+        'inferred' => 2,
+        _ => 3,
+      };
+
+  bool get isDirect => basis != 'band';
+
+  String? get label => labelFor(basis);
+
+  /// 화면에 적는 말. **추정을 확정처럼 적지 않는다.**
+  /// 큐레이션은 굳이 적지 않는다 — 기본값이고, 매번 적으면 읽히지 않는다.
+  static String? labelFor(String? basis) => switch (basis) {
+        'hinted' => '교습과정에 단서',
+        'inferred' => '과목·학년으로 추정',
+        'band' => '이 단계 근거 없음 · 같은 구간',
+        _ => null,
+      };
 }
 
 class Meta {

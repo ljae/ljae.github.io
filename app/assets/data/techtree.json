@@ -42,7 +42,7 @@
      "exit_criteria": "학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상",
      "grade": [
       0,
-      3
+      6
      ],
      "depth": 0,
      "lane": 1,
@@ -88,11 +88,11 @@
      "exit_criteria": "학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상",
      "grade": [
       0,
-      3
+      6
      ],
      "depth": 0,
      "lane": 1,
-     "inbound": true
+     "inbound": false
     },
     {
      "id": "math_el_thinking",
@@ -924,7 +924,7 @@
      "exit_criteria": "탐구보고서 자력 작성",
      "grade": [
       0,
-      4
+      6
      ],
      "depth": 0,
      "lane": 1,
@@ -949,7 +949,7 @@
      "exit_criteria": "탐구보고서 자력 작성",
      "grade": [
       0,
-      4
+      6
      ],
      "depth": 0,
      "lane": 1,
@@ -1179,7 +1179,7 @@
     "exit_criteria": "학년 교과 단원평가 안정적 만점, 연산 속도 학년 기준 이상",
     "grade": [
      0,
-     3
+     6
     ],
     "lane": 1,
     "roadmap_only": false
@@ -1627,7 +1627,7 @@
     "exit_criteria": "탐구보고서 자력 작성",
     "grade": [
      0,
-     4
+     6
     ],
     "lane": 1,
     "roadmap_only": false
