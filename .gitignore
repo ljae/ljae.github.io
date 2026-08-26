@@ -41,3 +41,6 @@ app/.idea/
 
 # 옵시디언(위키를 볼 때 생기는 로컬 편집기 상태)
 .obsidian/
+
+# Claude Code 세션 로컬 상태(워크트리 등)
+.claude/

@@ -83,8 +83,13 @@ def fetch_all(max_pages: int = 200) -> list[dict]:
     except NotRegistered as exc:
         print(f"  학구도: {exc}")
         return []
-    except RuntimeError as exc:
-        print(f"  학구도 수집 실패: {exc}")
+    except (RuntimeError, requests.RequestException) as exc:
+        # ★ 네트워크 오류로 실행 전체를 잃지 않는다.
+        #   여기까지 오면 NEIS·언급 분석·채점이 이미 다 끝난 상태다.
+        #   연결이 한 번 끊겼다고 그걸 통째로 버리면 야간 작업이 아무것도
+        #   내놓지 못한다. 학구도는 캐시가 있고(attach_to_schools 가 읽는다)
+        #   하루 이틀 묵어도 학교 배정은 바뀌지 않는다.
+        print(f"  학구도 수집 실패({type(exc).__name__}) — 캐시로 진행")
         return []
 
     path = config.CACHE_DIR / "school_district.json"
@@ -159,5 +164,8 @@ def status() -> str:
         return "사용 가능 ✓"
     except NotRegistered:
         return "활용신청 필요 (키는 유효)"
-    except RuntimeError as exc:
-        return f"오류: {exc}"
+    except (RuntimeError, requests.RequestException) as exc:
+        # 자격 증명 **확인**이 실행을 죽이면 안 된다. 여기는 아직 아무
+        # 일도 시작하지 않은 지점이고, 네트워크가 잠깐 끊긴 것과 키가
+        # 잘못된 것은 다른 사실이다. 한 줄로 알리고 계속 간다.
+        return f"오류: {type(exc).__name__}"

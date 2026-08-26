@@ -942,6 +942,22 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     mentions, by_wiki = wiki_mod.apply_gate(mentions, wiki_hints)
     if by_wiki:
         print(f"  위키 게이트: {by_wiki:,}건 제외")
+
+    # 글 노드 게이트 — posts/<url_hash>.md 의 판단을 반영한다.
+    # 운영자 판정(Supabase)과 같은 층이다. 다른 점은 이쪽이 커밋이라
+    # 왜 뺐는지가 근거와 함께 영구히 남는다는 것뿐이다.
+    from . import posts as posts_mod
+    post_overrides = posts_mod.load()
+    if post_overrides:
+        for w in posts_mod.sanity(post_overrides, evaluated + registry_only):
+            print(f"  ! 글 노드: {w}")
+        mentions, pstat = posts_mod.apply_gate(
+            mentions, post_overrides, evaluated + registry_only)
+        if any(pstat.values()):
+            print(f"  글 노드 게이트: 반려 {pstat['rejected']:,}건 · "
+                  f"기한 지남 {pstat['stale']:,}건 제외"
+                  + (f" · 재분류 {pstat['reassigned']:,}건 추가"
+                     if pstat["reassigned"] else ""))
     mentions, by_verdict = review_queue.apply_verdicts(mentions, verdicts)
     # 재분류 — '이 글은 사실 저 학원 글' 이라는 판정을 근거로 되돌린다.
     # 반려만 가능하던 때는 네 학원 비교글이 통째로 버려졌다.
@@ -1027,9 +1043,33 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
+        # 공식 홈페이지. frontmatter 에 적힌 곳만 본다 — 추측해 채우지 않는다.
+        official_cache = {}
+        homepages = {aid: h["homepage"] for aid, h in wiki_hints.items()
+                     if h.get("homepage")}
+        if homepages and mode == "live" and not from_cache:
+            from . import official as official_mod
+            official_cache = official_mod.collect(homepages)
+        elif homepages:
+            from . import official as official_mod
+            official_cache = official_mod._load_cache()
+
+        # 요약. 키가 없으면 아무 일도 안 한다 — 점수에는 쓰이지 않는다.
+        from . import summarize
+        post_summaries = summarize.collect(mentions) \
+            if mode == "live" and not from_cache else summarize._load()
+
+        # 글 노드 — 게이트를 통과한 글마다 페이지 한 장.
+        # 스팸 배제된 글도 남긴다: '왜 안 쓰였나' 도 근거다.
+        pstat = posts_mod.update(mentions, evaluated, verdicts, post_summaries)
+        print(f"  글 노드: {pstat['posts']:,}장 "
+              f"(신규 {pstat['created']:,} · 갱신 {pstat['updated']:,})")
+
         wstat = wiki_mod.update(evaluated, scores, rules, verdicts, reassign,
                                 {"mentions": len(mentions),
-                                 "wiki_dropped": by_wiki})
+                                 "wiki_dropped": by_wiki},
+                                post_links=posts_mod.backlinks(mentions),
+                                official_cache=official_cache)
         print(f"  위키: 페이지 신규 {wstat['created']} · 갱신 {wstat['updated']}")
     except Exception as exc:                                  # noqa: BLE001
         # 위키는 부산물이다. 위키가 깨져도 데이터 빌드는 나가야 한다.
@@ -1038,6 +1078,10 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
     from . import graph
     graph.audit(evaluated, [m for m in mentions if not m.get("is_excluded")])
+    # 글 노드도 같이 본다. 디스크의 페이지와 이번 근거가 어긋나면 알린다 —
+    # 우리가 뺀 것은 정상이고, 우리가 뺀 적 없는데 사라진 것이 신호다.
+    for w in posts_mod.audit(mentions, post_overrides):
+        print(f"  ! 글 노드: {w}")
     return {
         "mode": mode,
         "evaluated": len(evaluated),

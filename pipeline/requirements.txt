@@ -1,3 +1,6 @@
 requests>=2.31
 PyYAML>=6.0
 python-dotenv>=1.0
+
+# 선택 — 글 요약(auto:summary)에만 쓴다. 없어도 파이프라인은 온전히 돈다.
+anthropic>=1.0

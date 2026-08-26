@@ -31,8 +31,10 @@ CONCEPT_DIR = WIKI_DIR / "concepts"
 
 _FRONT = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 _AUTO = {
-    "review": re.compile(r"<!-- auto:review -->.*?<!-- /auto:review -->", re.S),
-    "stats": re.compile(r"<!-- auto:stats -->.*?<!-- /auto:stats -->", re.S),
+    name: re.compile(rf"<!-- auto:{name} -->.*?<!-- /auto:{name} -->", re.S)
+    # review 판정 이력 · stats 표본/순위 · posts 이 학원의 근거 글(역링크)
+    # official 공식 홈페이지 관찰
+    for name in ("review", "stats", "posts", "official")
 }
 
 
@@ -64,6 +66,10 @@ def load() -> dict[str, dict]:
             "exclude_title": [str(w) for w in (meta.get("exclude_title") or [])],
             "exclude_any": [str(w) for w in (meta.get("exclude_any") or [])],
             "locality": [str(w) for w in (meta.get("locality") or [])],
+            # 공식 홈페이지. NEIS 가 주지 않으므로 사람이 적는 값이다.
+            # 엔진은 적힌 것만 읽고, 이름으로 추측해 채우지 않는다.
+            "homepage": (str(meta.get("homepage")).strip()
+                         if meta.get("homepage") else None),
         }
     return hints
 
@@ -137,11 +143,18 @@ _STUB = """---
 id: "{aid}"
 name: {name}
 region: {region}
+# 공식 홈페이지. 적으면 엔진이 robots.txt 를 확인하고 읽어
+# auto:official 을 채운다. 추측해서 적지 말 것 — 이름이 겹치는 학원이 많다.
+homepage:
 ---
 # {name}
 
 (자동 생성된 골격. 분류 유의점을 알게 되면 근거와 함께 적을 것 —
  규약은 ../SCHEMA.md)
+
+## 공식 홈페이지
+<!-- auto:official -->
+<!-- /auto:official -->
 
 ## 판정 이력
 <!-- auto:review -->
@@ -150,17 +163,39 @@ region: {region}
 ## 통계
 <!-- auto:stats -->
 <!-- /auto:stats -->
+
+## 이 학원의 근거 글
+<!-- auto:posts -->
+<!-- /auto:posts -->
 """
 
 
+# 블록이 없는 옛 페이지에 새로 넣을 때 붙일 제목.
+_SECTION = {
+    "official": "## 공식 홈페이지",
+    "review": "## 판정 이력",
+    "stats": "## 통계",
+    "posts": "## 이 학원의 근거 글",
+}
+
+
 def _fill(text: str, block: str, body: str) -> str:
-    return _AUTO[block].sub(
-        f"<!-- auto:{block} -->\n{body}\n<!-- /auto:{block} -->", text)
+    """auto 블록을 갈아끼운다. 블록이 없으면 **끝에 새로 만든다.**
+
+    옛 골격으로 만들어진 페이지가 이미 있다(실측 95장). 마커가 없다고
+    조용히 넘어가면 그 페이지들은 영원히 새 정보를 못 받는다 — 스키마가
+    자라도 옛 페이지는 제자리에 머무는 셈이다.
+    """
+    filled = f"<!-- auto:{block} -->\n{body}\n<!-- /auto:{block} -->"
+    if _AUTO[block].search(text):
+        return _AUTO[block].sub(lambda _: filled, text)
+    return text.rstrip("\n") + f"\n\n{_SECTION.get(block, '')}\n{filled}\n"
 
 
 def update(academies: list[dict], scores: dict, rules: list[dict],
            verdicts: dict[str, str], reassign: dict[str, list[str]],
-           run_stats: dict) -> dict:
+           run_stats: dict, post_links: dict[str, list[str]] | None = None,
+           official_cache: dict | None = None) -> dict:
     """매 실행의 결과를 페이지에 되적는다. 마커 밖(산문)은 건드리지 않는다."""
     ACADEMY_DIR.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
@@ -229,6 +264,14 @@ def update(academies: list[dict], scores: dict, rules: list[dict],
         text = path.read_text(encoding="utf-8")
         new = _fill(_fill(text, "stats", "\n".join(stat_lines)),
                     "review", "\n".join(rv_lines))
+        # 근거 글 역링크. 글 페이지의 auto:edges 와 같은 엣지를 반대편에서
+        # 적는다 — 어느 쪽에서 읽어도 그래프를 따라갈 수 있어야 한다.
+        links = (post_links or {}).get(aid)
+        new = _fill(new, "posts",
+                    "\n".join(links) if links else "- (아직 없음)")
+        if official_cache is not None:
+            from . import official as official_mod
+            new = _fill(new, "official", official_mod.block(aid, official_cache))
         if new != text:
             path.write_text(new, encoding="utf-8")
             updated += 1
