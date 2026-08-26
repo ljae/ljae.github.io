@@ -131,8 +131,11 @@ def academy_pages(out: Path, academies, registry, regions) -> list[str]:
         score = a.get("score")
 
         title = f"{name} — {reg} 학원 정보 | 학원실록"
+        # 표본이 없으면 설명에도 점수를 적지 않는다 — 검색결과 스니펫이
+        # 근거 없는 숫자를 그대로 인용해 간다.
+        scored = bool(score and score.get("sampleSize"))
         desc = (f"{reg} {name}의 교습비, 정원, 등록상태를 NEIS 공시로 확인하세요."
-                + (f" 트리스코어 {score['total']:.0f}점." if score else ""))
+                + (f" 트리스코어 {score['total']:.0f}점." if scored else ""))
 
         rows = [("학군", reg), ("분야", subs or "—"),
                 ("주소", a.get("address")), ("등록상태", a.get("registrationStatus")),
@@ -142,7 +145,13 @@ def academy_pages(out: Path, academies, registry, regions) -> list[str]:
 
         body = [f"<h1>{esc(name)}</h1>",
                 f'<p class="sub">{esc(reg)} · {esc(subs)}</p>']
-        if score:
+        # 표본 0 은 '적다'가 아니라 '없다'다. 이때 평판은 코호트 평균(50)으로
+        # 대체된 값이라 그대로 찍으면 50점이 평가 결과처럼 읽힌다. 실명 사업자에게
+        # 근거 없는 숫자를 붙이는 것이라 점수 자체를 내지 않는다.
+        # 앱도 같은 규칙이다 — academy_page.dart / academy_card.dart 의 sampleSize == 0 분기.
+        #
+        # '수집했는데 근거가 없다'와 '아직 안 봤다'는 다른 상태이므로 문구를 나눈다.
+        if scored:
             body.append(
                 f"<p><strong>트리스코어 {score['total']:.0f}점</strong> "
                 # 예체능·기타는 투명성·진입난이도를 채점하지 않아 None 이다.
@@ -154,7 +163,14 @@ def academy_pages(out: Path, academies, registry, regions) -> list[str]:
                                        ("transparency", "투명성"),
                                        ("selectivity", "진입난이도"))
                     if score.get(key) is not None) + ") "
-                + f"— 유효 표본 {score['sampleSize']}건</p>")
+                + f"— 유효 표본 {score['sampleSize']}건"
+                # 순위 기준은 파이프라인이 이미 정했다. 여기서 10 을 다시 쓰면
+                # 기준이 두 곳에 생겨 언젠가 어긋난다.
+                + ("" if score.get("isRanked") else " · 표본 부족으로 순위 제외")
+                + "</p>")
+        elif score:
+            body.append("<p>수집한 커뮤니티 글에서 이 학원을 가리키는 근거를 "
+                        "찾지 못했습니다. 점수를 내지 않습니다. 공시 정보만 표시합니다.</p>")
         else:
             body.append("<p>아직 커뮤니티 신호를 수집하지 않은 학원입니다. "
                         "공시 정보만 표시합니다.</p>")
