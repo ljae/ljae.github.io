@@ -316,3 +316,23 @@ def test_감성_표기가_페이지에_음의_0_으로_새지_않는다(wiki):
     assert "-0.00" not in page
     assert "+0.00" in page
     assert "-0.00" not in "\n".join(posts.backlinks([m])["A1"])
+
+
+# ── 요약: 소용없는 재시도를 하지 않는다 ─────────────────────────
+def test_잔액_부족은_재시도하지_않는다():
+    # 9,362건 큐에서 잔액 부족을 재시도로 취급하면 같은 오류가 로그를
+    # 도배하고 정작 무엇이 문제인지가 안 보인다. 실측에서 이 한 줄이
+    # 9,362번을 1번으로 줄였다(0.8초).
+    from edutree import summarize
+    msg = ("Error code: 400 - {'type': 'error', 'error': {'type': "
+           "'invalid_request_error', 'message': 'Your credit balance is too "
+           "low to access the Anthropic API.'}}")
+    got = summarize._fatal(msg)
+    assert got is not None
+    assert got.startswith("Your credit balance")     # 사람이 읽을 사유만
+
+
+def test_일시적_오류는_계속_시도한다():
+    from edutree import summarize
+    assert summarize._fatal("Error code: 529 - overloaded_error") is None
+    assert summarize._fatal("Connection reset by peer") is None

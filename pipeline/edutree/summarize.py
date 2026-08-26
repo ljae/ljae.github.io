@@ -46,6 +46,25 @@ CACHE = config.CACHE_DIR / "post_summaries.json"
 MODEL = os.getenv("OPENEDU_SUMMARY_MODEL", "").strip() or "claude-opus-5"
 
 
+# 다시 시도해도 소용없는 실패. 9천 번을 더 불러도 같은 답이 온다.
+_FATAL = ("credit balance", "billing", "permission", "not_found_error",
+          "model not found", "invalid_api_key")
+
+
+def _fatal(message: str) -> str | None:
+    """치명적이면 사람이 읽을 사유, 아니면 None.
+
+    잔액 부족을 재시도로 취급하면 로그가 같은 오류로 도배되고, 정작
+    무엇이 문제인지가 안 보인다. 한 번 보고 바로 멈춘다.
+    """
+    low = message.lower()
+    if not any(k in low for k in _FATAL):
+        return None
+    # API 오류는 dict 를 문자열로 찍은 꼴이라 message 만 뽑아 읽기 쉽게 한다.
+    brief = message.split("'message': '")[-1].split("'")[0]
+    return (brief or message)[:140]
+
+
 def _int_env(name: str, default: int) -> int:
     raw = os.getenv(name, "").strip()
     try:
@@ -128,18 +147,29 @@ def collect(mentions: list[dict], limit: int | None = None) -> dict[str, str]:
 
     client = anthropic.Anthropic()
     done = failed = 0
+    # 요약은 어려운 일이 아니다. 깊이를 낮춰 비용을 줄이는 것은 모델을
+    # 낮추는 것과 다르다 — 같은 모델이 덜 생각할 뿐이다.
+    #
+    # ★ 다만 effort 를 못 받는 모델이 있다(구세대는 400). 모델 목록을
+    #   코드에 박으면 새 모델이 나올 때마다 낡는다. **한 번 시도해 보고
+    #   거부하면 그 실행 동안 끄는** 쪽이 스스로 낫는다.
+    use_effort = True
     for m in queue:
         body = f"제목: {m.get('title') or ''}\n본문: {(m.get('snippet') or '')[:4000]}"
         try:
-            resp = client.messages.create(
-                model=MODEL,
-                max_tokens=256,
-                system=SYSTEM,
-                # 요약은 어려운 일이 아니다. 깊이를 낮춰 비용을 줄이는 것은
-                # 모델을 낮추는 것과 다르다 — 같은 모델이 덜 생각할 뿐이다.
-                output_config={"effort": "low"},
-                messages=[{"role": "user", "content": body}],
-            )
+            extra = {"output_config": {"effort": "low"}} if use_effort else {}
+            try:
+                resp = client.messages.create(
+                    model=MODEL, max_tokens=256, system=SYSTEM,
+                    messages=[{"role": "user", "content": body}], **extra)
+            except anthropic.BadRequestError as exc:
+                if not use_effort or "effort" not in str(exc).lower():
+                    raise
+                print(f"  요약: {MODEL} 은 effort 를 안 받는다 — 끄고 계속")
+                use_effort = False
+                resp = client.messages.create(
+                    model=MODEL, max_tokens=256, system=SYSTEM,
+                    messages=[{"role": "user", "content": body}])
             text = "".join(b.text for b in resp.content if b.type == "text").strip()
             if text:
                 cache[m["url_hash"]] = text
@@ -147,7 +177,18 @@ def collect(mentions: list[dict], limit: int | None = None) -> dict[str, str]:
         except anthropic.RateLimitError:
             print("  요약: 요청 한도 — 이번 회차는 여기까지")
             break
+        except anthropic.AuthenticationError:
+            print("  요약: 키가 거부됐다 — ANTHROPIC_API_KEY 확인. 중단")
+            break
         except (anthropic.APIStatusError, anthropic.APIConnectionError) as exc:
+            # ★ 다시 시도해도 소용없는 실패가 있다. 잔액 부족·권한 없음은
+            #   9천 번을 더 불러도 같은 답이 온다. 한 번 보고 바로 멈춘다 —
+            #   안 그러면 로그가 같은 오류로 도배되고 무엇이 문제인지
+            #   오히려 안 보인다.
+            fatal = _fatal(str(exc))
+            if fatal:
+                print(f"  요약: 중단 — {fatal}")
+                break
             failed += 1
             if failed <= 3:
                 print(f"  ! 요약 실패({type(exc).__name__})")
