@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.17 · 스팸 0.20
-- 붙은 학원 4곳 · 과목 english·korean·math·science
+- 붙은 학원 3곳 · 과목 english·korean·math·science
 - 등급반 언급: advanced
 - 작성일 불명 — 최신성 가중 0.6(6개월 된 글과 같은 취급)
 <!-- /auto:digest -->
@@ -32,7 +32,6 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/3000014844|개념폴리아]] — 글이 이 권역을 밝힘 · 감성 +0.00
-- [[../academies/23598|아이엘이(별관)어학원]] — 글이 이 권역을 밝힘 · 감성 +0.31
 - [[../academies/2343|다함영재원학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/9294|아이엘이]] — 글이 이 권역을 밝힘 · 감성 +0.31
 <!-- /auto:edges -->

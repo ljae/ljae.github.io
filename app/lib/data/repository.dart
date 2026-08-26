@@ -137,7 +137,20 @@ class EduTreeData {
     return true;
   }
 
-  /// 지역 랭킹. 표본 부족 학원은 제외한다(제품 정책).
+  /// 지역 랭킹. **근거가 한 건이라도 있으면 줄을 세운다.**
+  ///
+  /// 예전에는 표본 10건 미만을 순위에서 통째로 뺐다. 그랬더니 96개
+  /// 조합(4학군 × 6과목 × 4구간) 중 순위가 10곳을 넘는 곳이 **하나뿐**
+  /// 이었다 — 학부모가 '반포 과학 초등' 을 눌러도 빈 화면을 봤다.
+  ///
+  /// 그래서 기준을 바꿨다. 표본이 **1건 이상**이면 순위에 넣되,
+  /// 10건 미만은 카드에 '표본 부족' 이라 적는다(Score.isRanked 가 그
+  /// 표시를 판단한다). 등수를 감추는 대신 **근거의 두께를 함께** 보여
+  /// 주는 쪽이다.
+  ///
+  /// ★ 표본 0 은 여기 넣지 않는다. 점수가 코호트 평균(50)으로 채워져
+  ///   있어 등수를 매기면 그건 평가가 아니라 기본값이다. [unscored] 로
+  ///   따로 나가고 화면에서는 등수 없이 '근거 없음' 으로 적는다.
   List<Academy> ranking({
     required String regionId,
     String? subject,
@@ -148,7 +161,7 @@ class EduTreeData {
     //   수학 후기가 많은 종합학원이 과학 랭킹 상위를 차지한다.
     final rows = academies
         .where((a) =>
-            (includeUnranked || a.scoreFor(subject).isRanked) &&
+            (includeUnranked || a.scoreFor(subject).sampleSize > 0) &&
             _matchesFilters(a,
                 regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();
@@ -157,25 +170,60 @@ class EduTreeData {
     return rows;
   }
 
-  /// 표본 부족으로 순위에서 빠진 학원들 — 별도 섹션에 보여준다.
+  /// 아직 근거가 한 건도 없는 학원. **등수를 매기지 않는다.**
   ///
   /// **랭킹과 같은 조건으로 걸러야 한다.** 지역만 보고 뽑으면 영어 랭킹
   /// 아래에 미술·수학 학원까지 늘어서서, 그 목록이 무엇의 목록인지
-  /// 읽히지 않는다. 순위에서 빠진 이유가 표본이지 과목이 아니므로,
-  /// 지금 보고 있는 과목·학년 구간 안의 학원만 열거한다.
-  List<Academy> unranked(
+  /// 읽히지 않는다.
+  ///
+  /// 표본 0 이면 점수가 코호트 평균으로 채워진다. 그 값으로 3위·4위를
+  /// 붙이면 화면의 등수가 평가 결과가 아니라 기본값이 된다 — 실명
+  /// 사업자를 다루는 서비스에서 그건 없는 사실을 지어내는 것이다.
+  /// '아직 안 봤다' 와 '보고서 낮았다' 는 다른 상태다.
+  List<Academy> unscored(
     String regionId, {
     String? subject,
     String? gradeBand,
   }) {
     final rows = academies
         .where((a) =>
-            !a.scoreFor(subject).isRanked &&
+            a.scoreFor(subject).sampleSize == 0 &&
             _matchesFilters(a,
                 regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();
-    rows.sort((a, b) => a.name.compareTo(b.name));
+    // 정원이 큰 곳부터. 이름순은 'ㄱ' 으로 시작하는 곳이 늘 위에 올 뿐
+    // 아무것도 뜻하지 않는다.
+    rows.sort((a, b) => (b.capacity ?? 0).compareTo(a.capacity ?? 0));
     return rows;
+  }
+
+  /// 순위 + 미수집을 합쳐도 [want] 곳이 안 되면 **등록부에서 채운다.**
+  ///
+  /// 채점 대상은 400곳뿐이고 회차마다 순환한다. 그래서 조합에 따라
+  /// 채점 대상 안에 학원이 서넛밖에 없다(실측: 대치 과학 예비초~초3 은
+  /// 3곳). 그 화면을 그대로 두면 학부모는 그 구간에 학원이 셋뿐인 줄
+  /// 안다 — 실제로는 등록부에 스무 곳이 넘는다.
+  ///
+  /// ★ 등록부 학원에는 **점수도 등수도 붙이지 않는다.** 수집한 적이
+  ///   없으니 붙일 근거가 없다. 화면에도 '등록부 · 미수집' 이라 적는다.
+  ///   등록부 행에는 학년 구간이 없어 어느 구간에서나 나온다 — 필터가
+  ///   빈 구간을 '한정되지 않음' 으로 읽는 것과 같은 규칙이다.
+  List<RegistryEntry> registryFill(
+    List<RegistryEntry> registry, {
+    required String regionId,
+    String? subject,
+    required int have,
+    int want = 10,
+  }) {
+    if (have >= want || registry.isEmpty) return const [];
+    final rows = registry
+        .where((r) =>
+            matchRegion(r.regionId, regionId) &&
+            (subject == null || r.subjects.contains(subject)))
+        .toList()
+      // 정원이 큰 곳부터. 학부모가 이름을 들어 봤을 확률이 그나마 높다.
+      ..sort((a, b) => (b.capacity ?? 0).compareTo(a.capacity ?? 0));
+    return rows.take(want - have).toList();
   }
 
   /// 채점 대상 안에서의 검색. 등록부는 [registryProvider] 가 따로 늦게 온다.

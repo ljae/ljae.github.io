@@ -175,14 +175,55 @@ _HALL = ("신관", "본관", "별관", "분관", "구관", "관")
 _HALL_MARK = re.compile(r"(제?\d+관|신관|본관|별관|분관|구관)")
 
 
+# 업종어를 **복합형부터** 떼는 판. `_SUFFIX` 와 반대 순서다.
+#
+# 왜 둘로 나누는가:
+#   _strip_suffix       는 브랜드 토큰(접두 매칭)에 쓰인다. 과하게 떼면
+#                       '뉴클리어학원' 이 '뉴클리' 가 되고, 그건 옆 건물
+#                       '뉴클리온' 의 **접두사**라 남남이 묶인다.
+#   _strip_suffix_strong 는 hall_key(관 통합)에만 쓰인다. 이쪽은 같은
+#                       학군 안에서 **완전일치**로 견주고, 게다가 한쪽에
+#                       관 표기가 있어야 묶는다. '뉴클리' 와 '뉴클리온' 은
+#                       글자가 달라 안 걸린다 — 과하게 떼도 안전하다.
+#
+# 이걸 안 나눠서 '아이엘이(별관)어학원' 이 '아이엘이어' 로 남았고,
+# 본관인 '아이엘이' 와 이어지지 않았다(신고로 발견).
+_SUFFIX_STRONG = tuple(sorted(
+    ("영어학원", "국어학원", "수학학원", "과학학원", "논술학원", "보습학원",
+     "어학원", "교습소", "교육센터", "교육원", "캠퍼스", "센터",
+     "본원", "분원", "본관", "분관", "호점", "학원", "관", "점"),
+    key=len, reverse=True))
+
+
+def _strip_suffix_strong(s: str) -> str:
+    """업종어를 끝에서만, **긴 복합형부터** 뗀다.
+
+    짧은 것부터 떼면 '학원' 이 먼저 걸려 '어학원' 이 끝에 안 남는다 →
+    '아이엘이어'. 같은 함정을 neis.normalize_name 에서 이미 한 번 겪었다.
+    """
+    changed = True
+    while changed:
+        changed = False
+        for w in _SUFFIX_STRONG:
+            if s.endswith(w) and len(s) > len(w) + 1:
+                s = s[: -len(w)]
+                changed = True
+                break
+    return s
+
+
 def hall_key(name: str) -> str:
-    """관 표기만 지운 이름. 지역·과목·브랜드는 그대로 남긴다."""
+    """관 표기만 지운 이름. **지역·과목·브랜드는 그대로 남긴다.**
+
+    지역어까지 떼면(brand_token_light) 리드101 도곡·대치·개포가 한 학원이
+    된다. 여기서 지우는 것은 관 표기와 업종어뿐이다.
+    """
     s = re.sub(r"[（(].*?[)）]", "", name or "")
     s = _NUM.sub("", _NON.sub("", s).lower())
-    s = _strip_suffix(s)
+    s = _strip_suffix_strong(s)
     for w in _HALL:
         s = s.replace(w, "")
-    return _strip_suffix(s)
+    return _strip_suffix_strong(s)
 
 
 def has_hall_mark(name: str) -> bool:

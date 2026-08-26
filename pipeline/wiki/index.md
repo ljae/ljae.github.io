@@ -86,6 +86,7 @@
 - [목동시대인재학원](academies/3000036526.md) — mokdong
 - [뉴파인](academies/3000036726.md) — banpo
 - [그린섬미술학원](academies/3000039926.md) — mokdong
+- [목동최상위수학학원](academies/3000042313.md) — mokdong
 - [감성피아노음악학원](academies/3000043059.md) — mokdong
 - [윤도영](academies/3000048377.md) — daechi
 - [소마사고력수학학원](academies/3000048613.md) — banpo

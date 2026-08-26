@@ -64,12 +64,26 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             ranked.sort((a, b) => (b.scoreFor(_subject).selectivity ?? -1)
                 .compareTo(a.scoreFor(_subject).selectivity ?? -1));
         }
+        // 아직 근거가 한 건도 없는 곳. 등수 없이 아래에 이어 붙인다.
         // 지금 보고 있는 랭킹과 같은 조건으로 뽑는다 — 영어 랭킹 아래에
         // 미술 학원이 늘어서면 그 목록이 무엇인지 읽히지 않는다.
-        final unranked = data.unranked(
+        //
+        // 목록이 10곳은 되게 채운다. 순위가 3곳뿐이면 학부모는 그 구간에
+        // 학원이 셋뿐인 줄 안다. 다만 채우는 쪽에 등수를 붙이지는 않는다.
+        final unranked = data.unscored(
           sel.regionId,
           subject: _subject,
           gradeBand: sel.gradeBand,
+        );
+        // 순위 + 미수집으로도 10곳이 안 되면 등록부에서 채운다.
+        // 등록부는 늦게 오는 provider 라 아직 안 왔으면 그냥 없는 셈 친다 —
+        // 이것 때문에 랭킹 첫 그림을 늦출 이유는 없다.
+        final registry = ref.watch(registryProvider).value ?? const [];
+        final fill = data.registryFill(
+          registry,
+          regionId: sel.regionId,
+          subject: _subject,
+          have: ranked.length + unranked.length,
         );
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
@@ -146,17 +160,19 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                       rank: rankOf[ranked[i].id] ?? i + 1),
                 ),
               ),
-            if (unranked.isNotEmpty)
+            if (unranked.isNotEmpty || fill.isNotEmpty)
               SliverToBoxAdapter(
                 child: ContentWidth(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: AppSpace.xl),
-                      SectionHeader('표본 부족으로 순위에서 제외된 학원',
+                      SectionHeader('아직 근거가 없어 순위를 매기지 않은 학원',
                           subtitle:
-                              '유효 후기 ${data.meta.minSampleForRank}건 미만입니다. 점수가 낮아서가 아니라, '
-                              '적은 표본으로 순위를 매기는 것이 부당하기 때문입니다.'),
+                              '커뮤니티 후기를 아직 한 건도 찾지 못한 곳입니다. 점수가 낮아서가 '
+                              '아니라 **아직 보지 않았다**는 뜻이라, 등수를 붙이지 않습니다. '
+                              '후기가 한 건이라도 잡히면 위 순위에 들어오고, '
+                              '${data.meta.minSampleForRank}건 미만이면 "표본 부족"이라 적습니다.'),
                       Wrap(
                         spacing: AppSpace.sm,
                         runSpacing: AppSpace.sm,
@@ -165,6 +181,15 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                             ActionChip(
                               label: Text(a.displayName),
                               onPressed: () => context.go('/academy/${a.id}'),
+                            ),
+                          // 등록부에서 채운 곳. 수집한 적이 없어 상세에
+                          // 보여줄 것이 등록 정보뿐이라 눌러도 그쪽으로 간다.
+                          for (final r in fill)
+                            ActionChip(
+                              avatar: const Icon(Icons.more_horiz,
+                                  size: 14, color: AppColors.mist),
+                              label: Text(r.displayName),
+                              onPressed: () => context.go('/academy/${r.id}'),
                             ),
                         ],
                       ),
