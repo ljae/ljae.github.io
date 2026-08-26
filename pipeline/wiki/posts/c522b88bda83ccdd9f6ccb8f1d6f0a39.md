@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초3 이상 선호도가 높은 학원의 대치 및 압구정 지점 레벨테스트 분석과 합격 지도 이력을 소개하는 강사(SUNNY T)의 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

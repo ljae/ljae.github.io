@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+함영원은 입학이 어렵고 숙제량이 많다고 하여 제외했다며 숙제량이 얼마나 되는지 조언을 구하고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

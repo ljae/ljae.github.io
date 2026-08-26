@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+중학교 진학 전에 옮길 곳을 알아보며 숙제량과 관리 방식에 대한 정보 공유를 요청하고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

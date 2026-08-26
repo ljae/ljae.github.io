@@ -45,9 +45,12 @@ jobs:
           NAVER_MAP_CLIENT_SECRET: ${{ secrets.NAVER_MAP_CLIENT_SECRET }}
           # 글 요약(wiki/posts 의 auto:summary). 시크릿이 없으면 요약만
           # 건너뛰고 수집·채점은 그대로 돈다. 점수에는 쓰이지 않는다.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENEDU_SUMMARY_PROVIDER: ${{ vars.OPENEDU_SUMMARY_PROVIDER }}
           OPENEDU_SUMMARY_MODEL: ${{ vars.OPENEDU_SUMMARY_MODEL }}
           OPENEDU_SUMMARY_PER_RUN: ${{ vars.OPENEDU_SUMMARY_PER_RUN }}
+          OPENEDU_SUMMARY_WORKERS: ${{ vars.OPENEDU_SUMMARY_WORKERS }}
         run: python pipeline/run.py
 
       - name: Supabase 업로드 (키가 있을 때만)

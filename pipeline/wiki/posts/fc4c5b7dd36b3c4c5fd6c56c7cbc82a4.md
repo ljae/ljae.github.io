@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+독서력 향상과 동기부여를 위해 책을 읽으면 선물을 주는 2026 AR King 이벤트를 소개하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 영어 및 파닉스 과정을 소개하며 자체 개발 교재를 활용한다고 안내하는 학원 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+개학 당일에 학원에서 정상 수업을 진행하는지 문의하는 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

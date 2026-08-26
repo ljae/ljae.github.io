@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+레벨테스트 진행과 문의처(전화번호, 카카오톡 채널)를 안내하는 학원 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

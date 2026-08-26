@@ -369,12 +369,26 @@ flutter build ipa --release
 이 값을 보지 않습니다 — LLM 문장이 산식에 흘러들면 산식을 공개하는 의미가
 없어집니다.
 
-1. https://console.anthropic.com/settings/keys 에서 키 발급
+**제공자는 둘 중 하나만 있으면 됩니다.** 요약이 점수에 안 쓰이기 때문에
+어느 모델이 썼는지가 산식의 설명을 바꾸지 않습니다 — 그래서 값싼 쪽으로
+자유롭게 옮겨도 됩니다.
+
+1. 키 발급 — 둘 중 하나
+   - Gemini: https://aistudio.google.com/apikey
+   - Anthropic: https://console.anthropic.com/settings/keys
 2. `.env` 에 넣기
 
 ```bash
+GEMINI_API_KEY=...
+# 또는
 ANTHROPIC_API_KEY=sk-ant-...
+
+# 둘 다 있으면 어느 쪽을 쓸지 정합니다(비우면 gemini).
+OPENEDU_SUMMARY_PROVIDER=gemini
 ```
+
+기본 모델은 제공자별로 다릅니다(`gemini-3.7-flash` / `claude-opus-5`).
+`OPENEDU_SUMMARY_MODEL` 로 바꿉니다.
 
 3. 패키지 설치 — **파이썬 3.10 이상이 필요합니다**
 
@@ -409,26 +423,29 @@ python3.12 -m venv .venv
 키를 넣었는데 `키 없음` 이 뜨면 `.env` 가 저장소 **루트**에 있는지,
 값 앞뒤에 공백이나 따옴표가 없는지 보세요.
 
-### 비용을 보면서 늘리세요
+### 비용과 속도
 
 한 실행에 200건까지만 부릅니다. 요약은 `url_hash` 로 캐시되어 **한 번만**
-만들어지므로, 회차가 쌓이면서 조금씩 채워집니다. 9천 장을 한 번에 밀지
-않는 이유는 비용을 눈으로 확인하고 정하시라는 뜻입니다.
+만들어지므로 회차가 쌓이면서 조금씩 채워집니다. 9천 장을 한 번에 밀지
+않는 기본값은 비용을 눈으로 확인하고 정하시라는 뜻입니다.
 
 ```bash
 # .env — 필요하면
-OPENEDU_SUMMARY_MODEL=claude-opus-5   # 기본값
-OPENEDU_SUMMARY_PER_RUN=200           # 기본값
+OPENEDU_SUMMARY_PER_RUN=200   # 기본값. 전량 백필하려면 9362
+OPENEDU_SUMMARY_WORKERS=8     # 동시 호출. 실측 16 에서 초당 4건
 ```
 
-대량으로 밀어야 하면 Message Batches(비용 50%)가 맞는 자리입니다. 다만
-비동기라 야간 작업 흐름이 복잡해져 지금은 동기 호출에 상한만 두었습니다.
+건당 2.4초라 순차로는 9,362건에 6시간이 걸립니다. 동시 호출로 줄이며,
+중간에 끊겨도 잃지 않도록 진행 중에 캐시를 저장합니다.
+
+**전량 백필 실측**(9,362건 · gemini-3.7-flash · 동시 16): 약 40분.
 
 ### 야간 워크플로에서 쓰려면
 
 GitHub 저장소 → Settings → Secrets and variables → Actions →
-`ANTHROPIC_API_KEY` 를 추가하고 `.github/workflows/collect.yml` 의 env 에
-넘기세요. 넣지 않으면 워크플로는 그대로 돌고 요약만 비어 있습니다.
+`GEMINI_API_KEY`(또는 `ANTHROPIC_API_KEY`)를 추가하세요.
+`.github/workflows/collect.yml` 이 이미 넘기도록 돼 있습니다.
+넣지 않으면 워크플로는 그대로 돌고 요약만 비어 있습니다.
 
 ---
 

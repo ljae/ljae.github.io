@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 2학년 레벨테스트 준비를 위해 해설이 포함된 대비 문제집을 추천하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

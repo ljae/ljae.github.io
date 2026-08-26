@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+레벨테스트를 앞두고 지인 추천 시 무료인지 문의하며 재원생 학부모에게 소개를 부탁하고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

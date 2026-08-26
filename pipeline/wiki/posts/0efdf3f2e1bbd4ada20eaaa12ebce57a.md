@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+종로구 평동에 위치해 있으며, 1년 3개월 동안 다닌 후기이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

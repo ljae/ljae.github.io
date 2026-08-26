@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+제공된 본문은 학원 정보 작성을 위한 안내 양식 문구만 포함되어 있어 구체적인 후기 내용이 없습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

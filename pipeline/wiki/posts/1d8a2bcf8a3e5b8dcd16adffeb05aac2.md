@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+고등학생을 대상으로 문법 설명과 문장 해석, 독서 교육 등을 다루는 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+서울 송파구 잠실 위치에서 5세 대상 교재영어 과목으로 2년 동안 스텝3반을 수강했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

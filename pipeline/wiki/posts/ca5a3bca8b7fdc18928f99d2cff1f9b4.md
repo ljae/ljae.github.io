@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+약술형 수학 담당 백경찬 강사의 약술 대표강사 등 주요 이력을 소개하며 개강을 알리는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

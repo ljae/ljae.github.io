@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등학교 1학년의 입학 레벨테스트를 혼자서 준비할 수 있는 해설형 문제집을 소개하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

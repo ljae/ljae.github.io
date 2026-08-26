@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+재원 전 고민했던 내용과 재원 전후의 변화를 비교하여 소개하는 재수학원 후기입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

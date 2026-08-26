@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+7세 남아의 영어 독서용으로 'DOG MAN' 책을 추천하는 내용이 포함되어 있습니다. 작성자는 관심 있는 어학원으로 폴리와 MI 등을 언급했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

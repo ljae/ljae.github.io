@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+감정 표현과 자신 있는 발표를 지도하는 스피치 교육 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

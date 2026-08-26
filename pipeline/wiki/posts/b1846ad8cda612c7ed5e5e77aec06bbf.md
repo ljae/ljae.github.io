@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 수학 레벨테스트를 본 후 두 학원 중 어디로 보낼지 비교하며 추천을 묻고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

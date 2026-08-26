@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+영어 레벨테스트의 시험 구조와 난이도 구간 등 문제 특징을 분석하고 대비 전략을 안내하는 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

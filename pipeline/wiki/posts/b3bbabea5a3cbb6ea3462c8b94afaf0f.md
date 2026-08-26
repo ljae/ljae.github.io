@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+AI 시대에 필요한 역량으로 리딩의 깊이를 강조하는 영어 과목 학원 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

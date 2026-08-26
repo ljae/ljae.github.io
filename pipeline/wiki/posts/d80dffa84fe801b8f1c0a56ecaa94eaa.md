@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원 관련 글이 아니며, 비데 및 양변기 교체 시공 공동구매와 욕실 관리 서비스를 홍보하는 내용이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

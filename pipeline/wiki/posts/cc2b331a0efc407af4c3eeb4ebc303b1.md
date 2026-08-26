@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+수학 학원과 레벨테스트가 처음이라 난이도 수준과 준비 기준에 대해 질문하고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

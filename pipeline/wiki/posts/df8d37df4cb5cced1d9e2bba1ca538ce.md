@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+지역 및 과목별 학원, 1대1 과외, 종합반 등 여러 학원 관련 키워드와 학원명들을 나열한 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

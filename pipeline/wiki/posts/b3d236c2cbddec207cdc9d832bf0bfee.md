@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+수업 교재는 쎈을 사용하며 8명 정도 규모의 판서식 수업으로 진행됩니다. 숙제 분량은 적당한 편입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -74,18 +74,31 @@ def fetch_all() -> list[dict]:
     regions = config.regions()
     dong_to_region = {d: r["id"] for r in regions for d in r["dong_list"]}
 
+    cache = config.CACHE_DIR / "schools.json"
     collected: list[dict] = []
     page = 1
-    while True:
-        payload = _request(page, "B10")
-        rows, total = _rows(payload)
-        if not rows:
-            break
-        collected.extend(rows)
-        if len(collected) >= total or len(rows) < PAGE_SIZE:
-            break
-        page += 1
-        time.sleep(0.2)
+    try:
+        while True:
+            payload = _request(page, "B10")
+            rows, total = _rows(payload)
+            if not rows:
+                break
+            collected.extend(rows)
+            if len(collected) >= total or len(rows) < PAGE_SIZE:
+                break
+            page += 1
+            time.sleep(0.2)
+    except requests.RequestException as exc:
+        # ★ 네트워크 오류로 실행 전체를 잃지 않는다. 여기까지 오면 NEIS
+        #   학원·언급 분석·채점이 이미 다 끝난 상태다. 학교 목록은 캐시가
+        #   있고 하루 이틀 묵어도 학교가 새로 생기지 않는다.
+        #   (같은 함정을 schooldistrict 에서 이미 한 번 겪었다)
+        if cache.exists():
+            rows = json.loads(cache.read_text(encoding="utf-8"))
+            print(f"  학교 수집 실패({type(exc).__name__}) — 캐시 {len(rows):,}곳으로 진행")
+            return rows
+        print(f"  학교 수집 실패({type(exc).__name__}) · 캐시도 없음 — 건너뜀")
+        return []
 
     out: list[dict] = []
     for row in collected:
@@ -120,6 +133,5 @@ def fetch_all() -> list[dict]:
                 by[s["level_label"]] = by.get(s["level_label"], 0) + 1
         print(f"    {r['name_ko']:>4}: {n:>3}곳  {by}")
 
-    cache = config.CACHE_DIR / "schools.json"
     cache.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     return out

@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+C1 및 C2 반 학생들의 'My Favorite Books' 활동을 소개하는 학원 홍보 글이다. C1 학생들이 C1-6 과정을 진행한 내용 등이 포함되어 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 3학년 영어 프리미엄반 새플링1 과정의 교재와 소설(Novel) 수업 진행 상황을 소개하는 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

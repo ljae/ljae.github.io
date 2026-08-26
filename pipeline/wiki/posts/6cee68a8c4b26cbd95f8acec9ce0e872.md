@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+토요일에 레벨테스트를 볼 예정이라며 추천인이 있으면 무료라고 도움을 요청했다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

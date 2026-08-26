@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+두 자녀의 레벨테스트 비용이 2명에 5만 원이었으며, 50분 동안 리딩과 리스닝 시험을 치렀습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+수학 과목을 6개월간 수강했다는 기본 정보 외에 구체적인 후기 내용은 작성되지 않은 양식 글입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

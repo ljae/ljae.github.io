@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+비학군지 수학 강사에 대한 이야기와 함께 학원에서 일할 강사를 모집한다는 내용의 채용 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

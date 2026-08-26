@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 영어, CHESS 프로그램, DreamTree, 원어민 수업, 영어 말하기 및 발표 관련 해시태그로 구성된 홍보 글이다. 구체적인 후기 내용 없이 학원 홍보용 키워드만 나열되어 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

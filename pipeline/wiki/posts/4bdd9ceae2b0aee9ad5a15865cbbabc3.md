@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 저학년 대상의 사고력 수학 및 과학 레벨테스트 관련 내용을 다룬 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

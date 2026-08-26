@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+C-Preb의 공부 방법과 숙제량, 선행 진도 속도에 대한 정보를 알고 있는 학부모에게 조언을 구하고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

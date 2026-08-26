@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+독서가 수학을 포함한 모든 학습의 밑바탕임을 강조하며 영종 센터 등록을 권유하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -336,3 +336,108 @@ def test_일시적_오류는_계속_시도한다():
     from edutree import summarize
     assert summarize._fatal("Error code: 529 - overloaded_error") is None
     assert summarize._fatal("Connection reset by peer") is None
+
+
+@pytest.fixture()
+def fresh_summarize(monkeypatch):
+    """summarize 를 환경변수 바꿔 가며 다시 읽는다.
+
+    모듈 상수를 import 시점에 정하므로 reload 가 필요하다. 끝나면 원래
+    환경으로 되돌려 한 번 더 읽는다 — 안 그러면 뒤에 오는 테스트가
+    이 테스트가 남긴 상태를 본다.
+    """
+    import importlib
+    from edutree import summarize as mod
+    keys = ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "GEMINI_API_KEY",
+            "Gemini_API_KEY", "GOOGLE_API_KEY", "OPENEDU_SUMMARY_PROVIDER",
+            "OPENEDU_SUMMARY_MODEL")
+
+    def reload_with(**env):
+        for k in keys:
+            monkeypatch.delenv(k, raising=False)
+        for k, v in env.items():
+            monkeypatch.setenv(k, v)
+        return importlib.reload(mod)
+
+    yield reload_with
+    monkeypatch.undo()
+    importlib.reload(mod)
+
+
+def test_제공자는_있는_키로_고른다(fresh_summarize):
+    reload_with = fresh_summarize
+    # 요약은 점수에 안 쓰이므로 제공자를 갈아끼워도 산식의 설명이 안 바뀐다.
+    # 실제로 Anthropic 잔액이 없어 Gemini 로 옮겼다.
+    m = reload_with(GEMINI_API_KEY="g")
+    assert (m.PROVIDER, m.MODEL) == ("gemini", "gemini-3.7-flash")
+
+    m = reload_with(ANTHROPIC_API_KEY="a")
+    assert (m.PROVIDER, m.MODEL) == ("anthropic", "claude-opus-5")
+
+    # 둘 다면 gemini 를 먼저 본다. 명시하면 그대로 따른다.
+    m = reload_with(GEMINI_API_KEY="g", ANTHROPIC_API_KEY="a")
+    assert m.PROVIDER == "gemini"
+    m = reload_with(GEMINI_API_KEY="g", ANTHROPIC_API_KEY="a",
+                    OPENEDU_SUMMARY_PROVIDER="anthropic")
+    assert m.PROVIDER == "anthropic"
+
+    # 키가 없으면 조용히 꺼진다.
+    m = reload_with()
+    assert m.PROVIDER == "" and m.HAS_KEY is False
+
+
+
+def test_대소문자가_섞인_키_이름도_받는다(fresh_summarize):
+    # .env 는 사람이 손으로 쓴다. 실제로 `Gemini_API_KEY` 로 들어왔다.
+    m = fresh_summarize(Gemini_API_KEY="g")
+    assert m.PROVIDER == "gemini" and m.GEMINI_KEY == "g"
+
+
+def test_잘린_요약은_저장해_두고도_다시_만든다():
+    # 사고 예산을 껐는데도 간헐적으로 출력이 모자라 문장이 끊겼다
+    # (실측 1,091건 중 8건: '12월 1일 개', '수학 9'). 캐시는 '한 번만
+    # 만든다'가 원칙이지만 잘린 조각은 요약이 아니라 잡음이다.
+    from edutree import summarize
+    assert summarize._looks_truncated("12월 1일 개")
+    assert summarize._looks_truncated("수학 9")
+    assert summarize._looks_truncated("대치동에서 시작해 20년 이상의 경력과 좋은")
+    assert summarize._looks_truncated("")
+    # ★ 짧다고 잘린 것이 아니다. '내용 없음.' 은 본문이 없는 글의 옳은
+    #   요약인데, 길이로 재면 매 실행 다시 만들고 그때마다 돈이 든다.
+    assert not summarize._looks_truncated("내용 없음.")
+    assert not summarize._looks_truncated("작성된 본문 내용이 없습니다.")
+    # 제대로 끝난 문장은 건드리지 않는다.
+    assert not summarize._looks_truncated("초등 교재로 시판 문제집을 쓰는지 질문했습니다.")
+    assert not summarize._looks_truncated("홍보성 글이다. 원장의 약력이 적혀 있다.")
+
+
+def test_학교_수집이_끊기면_캐시로_진행한다(tmp_path, monkeypatch):
+    # 여기까지 오면 NEIS 학원·언급 분석·채점이 이미 다 끝난 상태다.
+    # 연결이 한 번 끊겼다고 그걸 통째로 버리면 야간 작업이 아무것도
+    # 내놓지 못한다. schooldistrict 에서 겪고 schools 에서 또 겪었다.
+    import json as _json
+    import requests
+    from edutree import schools, config
+
+    monkeypatch.setattr(config, "HAS_NEIS", True)
+    monkeypatch.setattr(schools.config, "CACHE_DIR", tmp_path)
+    (tmp_path / "schools.json").write_text(
+        _json.dumps([{"name": "대치초등학교"}]), encoding="utf-8")
+
+    def boom(*a, **k):
+        raise requests.ConnectionError("Can't assign requested address")
+
+    monkeypatch.setattr(schools, "_request", boom)
+    got = schools.fetch_all()
+    assert got == [{"name": "대치초등학교"}]      # 캐시로 진행
+
+
+def test_캐시도_없으면_빈_목록이지_예외가_아니다(tmp_path, monkeypatch):
+    import requests
+    from edutree import schools, config
+    monkeypatch.setattr(config, "HAS_NEIS", True)
+    monkeypatch.setattr(schools.config, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(schools, "_request",
+                        lambda *a, **k: (_ for _ in ()).throw(
+                            requests.ConnectionError("boom")))
+    assert schools.fetch_all() == []

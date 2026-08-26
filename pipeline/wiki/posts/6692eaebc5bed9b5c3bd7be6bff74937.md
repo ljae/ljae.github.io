@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+대치동보다 임대료가 저렴한 반포 래미안퍼스티지 상가에 대형 학원 분원들이 잇따라 문을 열고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

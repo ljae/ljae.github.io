@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+서울 양천구 목동서로에 위치한 곳으로, 철저한 관리로 수학에 재미를 붙였다는 한줄평가가 적혀 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+2025학년도 수능 종료 후 고1과 고2 학생들을 대상으로 하는 고등 영어 공부에 대한 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

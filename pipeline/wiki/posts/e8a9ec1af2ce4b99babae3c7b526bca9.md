@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 4학년부터 중학생을 대상으로 방학 맞이 한국사 및 세계사 특강을 진행한다는 내용의 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

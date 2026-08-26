@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+영어 레벨테스트를 거쳐 pre-mega 레벨로 시작해 5개월째 다니고 있으며, 현재는 mega 레벨 수업을 2개월째 듣고 있습니다. 계속 학원을 유지하는 것이 맞는지 고민하고 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등부 영어 수강생 모집 및 레벨테스트 예약과 문의 전화번호를 안내하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

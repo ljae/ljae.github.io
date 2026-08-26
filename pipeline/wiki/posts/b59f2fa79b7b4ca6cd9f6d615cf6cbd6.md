@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+강대모의고사X 이벤트와 지점 연락처를 안내하는 독학재수학원의 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

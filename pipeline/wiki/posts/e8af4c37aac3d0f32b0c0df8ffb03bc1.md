@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+송파구 문정동과 장지동에 위치한 영어유치원 및 영어학원들의 이름과 주소 목록을 나열한 정보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

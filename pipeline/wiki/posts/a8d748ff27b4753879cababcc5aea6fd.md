@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 4학년 2부 수업에 배정된 Maddy 강사의 수업 진행 방식에 대한 평가를 묻고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

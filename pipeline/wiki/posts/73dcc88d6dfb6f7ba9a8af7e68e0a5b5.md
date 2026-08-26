@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원과 무관한 눈밑 시술 및 다크서클 치료 관련 시술 후기 홍보 글로 보입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

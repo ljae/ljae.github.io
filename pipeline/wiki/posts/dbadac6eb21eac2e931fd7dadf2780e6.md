@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+영어 과목을 2년간 수강한 후기로, 학습식에 리딩 중심의 수업 방식을 특징으로 언급했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+영등포구에 위치한 영어 및 독서논술 교습소들의 주소와 연락처 정보를 나열하고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

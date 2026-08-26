@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+공식 인스타그램 계정이 개설되어 여러 게시물이 올라와 있다며 해당 링크를 공유했다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

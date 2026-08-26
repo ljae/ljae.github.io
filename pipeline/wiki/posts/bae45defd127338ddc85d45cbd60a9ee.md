@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+서울 강남구 영동대로에 위치하여 영어 교육을 제공한다는 내용의 학원 소개 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

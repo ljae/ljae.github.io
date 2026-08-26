@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+중1 자녀의 2학기 수학 학원을 대치동으로 옮길지 고민하며 질문하는 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

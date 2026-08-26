@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+두 학원을 병행해 본 경험이 있는지 묻는 질문입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

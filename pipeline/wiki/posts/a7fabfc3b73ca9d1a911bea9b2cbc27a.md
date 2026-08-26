@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+아시아나항공 승무원 면접 준비생을 위한 채용 대비 설명회 진행을 안내하는 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

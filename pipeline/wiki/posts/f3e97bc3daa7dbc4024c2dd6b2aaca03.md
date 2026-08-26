@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원 관련 내용이 아니며, 지인들과 2차 모임 및 식사를 함께한 친목 모임 후기입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

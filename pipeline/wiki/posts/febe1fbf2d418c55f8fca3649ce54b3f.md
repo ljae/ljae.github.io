@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+레벨테스트는 1차 Reading Comprehension 및 Writing과 2차 1:1 Interview로 진행되며, 1차 시험을 통과해야 인터뷰에 참여할 수 있습니다. 최종 결과에 따라 반과 레벨이 배정됩니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

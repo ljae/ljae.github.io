@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+목동에서 2년 반 동안 GT4-2A 반의 영어 과목을 수강했습니다. 입학 레벨테스트 정보로는 문법(grammar)과 어휘(vocabulary) 등이 언급되어 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

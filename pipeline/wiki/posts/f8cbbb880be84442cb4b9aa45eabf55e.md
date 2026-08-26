@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원 관련 내용이 아니며, 화장실 냄새 제거 업체인 하우스클린의 서비스 지역 등을 나열한 홍보 글입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

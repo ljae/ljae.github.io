@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+대치사거리에 위치하며 3개월 동안 TEPS 850 목표반을 수강했습니다. 입학시험 정보 관련 항목이 포함되어 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

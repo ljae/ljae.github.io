@@ -26,6 +26,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+강의 대상은 영어이며, 강의 과목은 리딩, 라이팅, 파닉스로 구성되어 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

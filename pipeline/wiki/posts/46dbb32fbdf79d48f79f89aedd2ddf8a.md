@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+강대 모의고사 K 진행에 대해 안내하는 학원 홍보 글이다. 전화번호와 위치 정보를 제공하고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
