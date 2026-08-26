@@ -947,6 +947,40 @@ macOS 기본 파이썬은 3.9(`/usr/bin/python3`)이고 `anthropic` 1.x 는 3.10
 academies.json·techtree.json 은 3.9 와 3.12 가 완전히 같았다(채점은
 결정적이다). 갈린 것은 표시 문자열 두 곳뿐이었다.
 
+## Supabase 미러 — 지울 것과 절대 못 지울 것
+
+야간 수집이 몇 밤 연속 마지막 단계에서 실패했다. 원인이 **세 겹**이었고,
+하나를 고칠 때마다 다음 것이 드러났다.
+
+1. **`05_grade_bands.sql` 이 적용된 적이 없다.** 코드는 `grade_band` 를
+   쓰는데 DB 는 `school_level` 이었다 → `Could not find the 'grade_band'
+   column`. 수집·채점이 끝난 **뒤에** 터져서 JSON 과 사이트는 멀쩡했고,
+   그래서 오래 안 띄었다.
+2. **05 가 뷰와 RPC 를 놓쳤다.** 컬럼을 바꿔도 `v_ranking` 의 **출력 이름**
+   과 `ranking_for` 의 **파라미터 이름**은 그대로 남는다(만들 때 고정된다).
+   `create or replace` 로는 못 바꾸니 지우고 다시 만들어야 하고, 뷰를 다시
+   만들면 **권한이 사라지므로** 원래 권한도 되돌려야 한다.
+   → `12_grade_bands_finish.sql` (멱등).
+3. **미러가 미러가 아니었다.** `on_conflict=id` 로만 upsert 해서 옛 행이
+   남았다. 구간을 가르며 트랙 id 가 바뀌자(`math_elementary` →
+   `math_elem_low`·`math_elem_high`) 옛 4행이 `unique(subject, grade_band)`
+   를 점유해 새 트랙이 못 들어갔다. → `prune()`.
+
+**★ 그런데 `academies` 는 절대 prune 하면 안 된다.** 수집 대상 400곳은
+회차마다 순환하므로 이번에 안 뽑힌 학원이 늘 있다. 지우면
+`user_reviews`·`bookmarks`·`corrections`·`score_history` 가 전부
+`on delete cascade` 로 함께 사라진다 — 사용자가 쓴 후기와 정정 요청,
+되돌릴 수 없는 순위 이력이다. 미러에 학원이 쌓이는 것은 오류가 아니라
+'한 번이라도 평가한 곳'이라는 뜻이다.
+**지우기를 넣기 전에 물을 것: 여기에 사람이 쓴 것이 매달려 있는가.**
+
+**한 배치에 같은 키를 두 번 넣지 않는다.** 경계에 걸친 단계(사고력 초1~초4)
+는 두 구간 트랙에 **모두** 든다 — 한쪽에서 빼면 길이 끊기기 때문이다.
+그대로 보내면 Postgres 가 거부한다("ON CONFLICT DO UPDATE command cannot
+affect row a second time"). `stages` 는 track_id 를 하나만 갖는 표라 그
+사실을 담을 수 없으므로 첫 트랙에 매단다(실측 49행 → 41행). 앱은 이 표가
+아니라 정적 JSON 을 읽으므로 화면에는 영향이 없다.
+
 ## 네트워크 한 번 끊겼다고 실행 전체를 잃지 않는다
 
 `schooldistrict.status()` 가 자격 증명 **확인** 단계에서 `requests` 예외를
