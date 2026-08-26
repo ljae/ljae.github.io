@@ -273,6 +273,20 @@ _SENTIMENT_LABEL = ((0.25, "긍정"), (0.05, "약긍정"),
                     (-0.05, "중립"), (-0.25, "약부정"))
 
 
+def _signed(value: float | None) -> str:
+    """부호 붙은 두 자리. **음의 0 을 없앤다.**
+
+    `f"{-0.0:+.2f}"` 는 '-0.00' 이다. 중립인데 부정으로 읽히고, 파이썬
+    버전에 따라 같은 계산이 0.0 이 되기도 -0.0 이 되기도 해서 내용이
+    안 바뀌었는데도 페이지가 갈린다(3.9 → 3.12 에서 실제로 한 장이 그랬다).
+    """
+    # **표시 자릿수로 반올림한 뒤** 0 인지 본다. -0.001 은 0 이 아니지만
+    # 두 자리로는 '-0.00' 으로 찍혀 부정으로 읽힌다. 화면에 0.00 이라
+    # 적을 값에 마이너스를 붙이지 않는다.
+    x = round(float(value or 0.0), 2)
+    return f"{0.0 if x == 0 else x:+.2f}"
+
+
 def _label(sentiment: float) -> str:
     for cut, name in _SENTIMENT_LABEL:
         if sentiment >= cut:
@@ -294,7 +308,7 @@ def _digest(rows: list[dict]) -> str:
                   for k, v in (m.get("selectivity") or {}).items() if v})
     sent = top.get("sentiment")
     lines = [
-        f"- 감성 {sent:+.2f} ({_label(sent)}) · 신뢰도 "
+        f"- 감성 {_signed(sent)} ({_label(sent)}) · 신뢰도 "
         f"{top.get('credibility', 0):.2f}"
         + (f" · 스팸 {top['spam_score']:.2f}" if top.get("spam_score") else "")
         + (" · **스팸 배제**" if top.get("is_excluded") else ""),
@@ -324,7 +338,7 @@ def _edges(rows: list[dict], names: dict[str, str]) -> str:
         basis = m.get("branch_basis") or "direct"
         nm = names.get(aid) or m.get("academy_name") or aid
         out.append(f"- [[../academies/{aid}|{nm}]] — {basis_ko.get(basis, basis)}"
-                   + (f" · 감성 {m['sentiment']:+.2f}"
+                   + (f" · 감성 {_signed(m['sentiment'])}"
                       if m.get("sentiment") is not None else ""))
     return "\n".join(out) or "- (없음)"
 
@@ -445,7 +459,7 @@ def backlinks(mentions: list[dict], limit: int = 8) -> dict[str, list[str]]:
             title = (m.get("title") or "(제목 없음)").replace("|", "·")[:44]
             lines.append(
                 f"- [[../posts/{h}|{title}]] — 감성 "
-                f"{m.get('sentiment', 0):+.2f} · 신뢰도 "
+                f"{_signed(m.get('sentiment'))} · 신뢰도 "
                 f"{m.get('credibility', 0):.2f}")
             if len(lines) >= limit:
                 break

@@ -44,3 +44,6 @@ app/.idea/
 
 # Claude Code 세션 로컬 상태(워크트리 등)
 .claude/
+
+# 파이썬 가상환경 (로컬 전용)
+.venv/

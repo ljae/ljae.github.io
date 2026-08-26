@@ -9,3 +9,6 @@ python-dotenv>=1.0
 #   `pip install -r requirements.txt` 자체가 실패해 로컬 설치가 통째로
 #   막힌다. 야간 워크플로는 3.11 이라 그쪽에서는 설치된다.
 anthropic>=1.0 ; python_version >= "3.10"
+
+# 테스트 — `python -m pytest pipeline/tests`
+pytest>=8.0

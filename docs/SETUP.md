@@ -378,20 +378,36 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 3. 패키지 설치 — **파이썬 3.10 이상이 필요합니다**
 
+macOS 기본 파이썬은 3.9(`/usr/bin/python3`)라 `anthropic` 1.x 가 안 깔립니다.
+가상환경을 하나 만들어 쓰세요. 시스템 파이썬을 건드리지 않습니다.
+
 ```bash
-python3 -m pip install -r pipeline/requirements.txt
+brew install python@3.12
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r pipeline/requirements.txt
 ```
 
-`anthropic` 1.x 는 3.10+ 를 요구합니다. 3.9 에서는 `requirements.txt` 가
-이 줄을 건너뛰도록 마커를 달아 두었으므로 설치는 통과하고, 요약만 꺼집니다
-(야간 워크플로는 3.11 이라 그쪽에서는 동작합니다).
+이후 파이프라인은 이 파이썬으로 돌립니다.
+
+```bash
+.venv/bin/python pipeline/run.py            # 수집·채점
+.venv/bin/python pipeline/run.py --check    # 자격 증명 확인
+.venv/bin/python -m pytest pipeline/tests   # 테스트
+```
+
+`.venv/` 는 `.gitignore` 에 있습니다. 3.9 로 돌려도 파이프라인은 그대로
+동작하고 **요약만** 꺼집니다 — `requirements.txt` 가 그 줄을 건너뛰도록
+마커를 달아 두어 설치 자체는 통과합니다. 야간 워크플로는 3.11 입니다.
 
 4. 확인
 
 ```bash
-python3 pipeline/run.py --check
+.venv/bin/python pipeline/run.py --check
 #   글 요약(Anthropic) 사용 가능 ✓  모델 claude-opus-5 · 한 실행 200건 · 누적 0건
 ```
+
+키를 넣었는데 `키 없음` 이 뜨면 `.env` 가 저장소 **루트**에 있는지,
+값 앞뒤에 공백이나 따옴표가 없는지 보세요.
 
 ### 비용을 보면서 늘리세요
 
@@ -425,4 +441,4 @@ GitHub 저장소 → Settings → Secrets and variables → Actions →
 | 네이버 429 | 일일 한도 초과. 다음날 재시도하거나 앱을 하나 더 등록 |
 | 점수가 전부 비슷함 | 표본 부족. 정상입니다 — 베이지안 축소가 평균으로 당기는 중 |
 | 웹은 되는데 앱이 데이터를 못 읽음 | `app/assets/data/` 가 `pubspec.yaml` assets에 있는지 |
-| 키를 넣었는데 요약이 안 됨 | 파이썬이 3.10+ 인지 (`python3 -V`). `anthropic` 1.x 는 3.9 에 안 깔립니다 |
+| 키를 넣었는데 요약이 안 됨 | 3.9 로 돌리고 있지 않은지. `.venv/bin/python pipeline/run.py --check` 로 확인 (10단계) |

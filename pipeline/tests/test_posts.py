@@ -292,3 +292,27 @@ def test_날짜는_표기가_섞여_있어도_맞춰_적는다():
 def test_홈페이지가_없으면_안내만_남는다():
     from edutree import official
     assert "미등록" in official.block("A1", {})
+
+
+def test_음의_0_은_찍지_않는다():
+    # f"{-0.0:+.2f}" 는 '-0.00' 이다. 중립인데 부정으로 읽히고, 파이썬
+    # 버전에 따라 같은 계산이 0.0 이 되기도 -0.0 이 되기도 해서 내용이
+    # 안 바뀐 페이지가 갈린다(3.9 → 3.12 에서 실제로 한 장이 그랬다).
+    assert posts._signed(-0.0) == "+0.00"
+    assert posts._signed(0.0) == "+0.00"
+    assert posts._signed(None) == "+0.00"
+    # 표시 자릿수로 반올림해 0 이면 마이너스를 붙이지 않는다.
+    assert posts._signed(-0.004) == "+0.00"
+    # 진짜 값은 그대로.
+    assert posts._signed(-0.006) == "-0.01"
+    assert posts._signed(-0.42) == "-0.42"
+    assert posts._signed(0.42) == "+0.42"
+
+
+def test_감성_표기가_페이지에_음의_0_으로_새지_않는다(wiki):
+    m = mention("h1", "A1", sentiment=-0.0)
+    posts.update([m], ACADEMIES)
+    page = (wiki / "h1.md").read_text(encoding="utf-8")
+    assert "-0.00" not in page
+    assert "+0.00" in page
+    assert "-0.00" not in "\n".join(posts.backlinks([m])["A1"])
