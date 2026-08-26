@@ -47,3 +47,6 @@ app/.idea/
 
 # 파이썬 가상환경 (로컬 전용)
 .venv/
+
+# supabase CLI 로컬 상태
+supabase/.temp/
