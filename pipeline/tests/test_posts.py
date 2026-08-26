@@ -441,3 +441,47 @@ def test_캐시도_없으면_빈_목록이지_예외가_아니다(tmp_path, monk
                         lambda *a, **k: (_ for _ in ()).throw(
                             requests.ConnectionError("boom")))
     assert schools.fetch_all() == []
+
+
+# ── 과목 추론: '보습·논술' 은 과목 선언이 아니다 ─────────────────
+def test_보습논술은_국어_신호가_아니다():
+    """NEIS 의 '보습·논술' 은 보습학원 기본 등록값이지 과목 선언이 아니다.
+
+    '논술' 이 국어 힌트에 걸려, 이름에 과목 단서가 없는 학원 827곳이
+    국어로 분류돼 있었다 — 시대인재·강남대성·러셀·대치파인만이 전부
+    '대치 예비초~초3 국어' 랭킹에 있었다(신고: '아이엘이는 영어학원인데
+    국어에 있다'). 진짜 국어 학원은 이름에 단서가 있으므로 잃는 것이 없다.
+    """
+    from edutree import build
+    보습 = {"name": "아이엘이학원", "realm_sc_nm": "입시.검정 및 보습",
+           "le_crse_nm": "보습·논술"}
+    assert build._infer_subjects(보습) == ["general"]
+
+    # 이름에 단서가 있으면 그쪽이 이긴다. (주의: '논구술' 은 '논술' 을
+    # 부분문자열로 갖지 않는다 — 이 테스트를 쓰며 한 번 헛짚었다.)
+    논술 = {"name": "대치한우리독서토론논술교습소",
+           "realm_sc_nm": "입시.검정 및 보습", "le_crse_nm": "보습·논술"}
+    assert "korean" in build._infer_subjects(논술)
+
+    # 진짜 과목 신호는 그대로 살아 있어야 한다.
+    외국어 = {"name": "아이엘이어학원", "realm_sc_nm": "종합(대)",
+            "le_crse_list_nm": "실용외국어(유아/초·중·고)"}
+    assert build._infer_subjects(외국어) == ["english"]
+
+
+def test_종합학원_과목은_후기가_말한_것으로_정한다():
+    """general 은 '모른다' 는 뜻이라 어느 랭킹에도 안 나온다. 표본 342건
+    짜리 시대인재가 통째로 사라지므로, 후기가 반복해 말한 과목만 확정한다."""
+    from edutree import build
+    a = {"id": "X", "subjects": ["general"]}
+    many = [{"academy_key": "X", "subjects": ["math"], "is_excluded": False}
+            for _ in range(20)]
+    few = [{"academy_key": "X", "subjects": ["science"], "is_excluded": False}]
+    assert build._subjects_from_mentions([a], {"X": many + few}) == 1
+    # 반복된 과목만 붙고, 한 번 스친 과목은 안 붙는다. general 은 빠진다.
+    assert a["subjects"] == ["math"]
+
+    # 근거가 얇으면 아무것도 확정하지 않는다 — general 로 남는다.
+    b = {"id": "Y", "subjects": ["general"]}
+    assert build._subjects_from_mentions([b], {"Y": few}) == 0
+    assert b["subjects"] == ["general"]

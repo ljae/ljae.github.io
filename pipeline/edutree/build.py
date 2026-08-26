@@ -476,6 +476,30 @@ def _subjects_from_name(row: dict) -> list[str]:
     return [s for s in config.ACADEMIC_SUBJECTS if s in found]
 
 
+# 교습과정 값 중 **과목을 특정하지 않는** 것들. 종합·보습·재종 대부분이
+# 이 값이라 신호가 아니라 잡음이다.
+#
+# ★ 특히 '보습·논술' 이 위험하다. '논술' 이 국어 힌트에 걸려, 이름에 아무
+#   과목 단서가 없는 학원 **827곳이 국어 학원으로 분류돼 있었다** — 시대인재·
+#   강남대성·러셀·두각·대치파인만·CMS영재관·생각하는황소가 전부 '대치
+#   예비초~초3 국어' 랭킹에 있었다(신고: '아이엘이는 영어학원인데 국어에 있다').
+#   NEIS 에서 '보습·논술' 은 보습학원의 기본 등록값이지 과목 선언이 아니다.
+#
+# 진짜 국어 학원은 이름에 단서가 있고(논술·독서·문해·국어) 이름이 먼저
+# 판정되므로, 여기서 떼어 내도 잃는 것이 없다.
+_COURSE_NOISE = ("보습·논술", "보습.논술", "진학상담지도", "진학지도",
+                 "보통교과", "보습")
+
+
+def _course_signal(row: dict) -> str:
+    """교습과정에서 **과목을 말해 주는 부분만** 남긴다."""
+    course = " ".join(str(row.get(k) or "")
+                      for k in ("le_crse_list_nm", "le_crse_nm"))
+    for w in _COURSE_NOISE:          # 긴 것부터 — '보습·논술' 을 '보습' 보다 먼저
+        course = course.replace(w, " ")
+    return course
+
+
 def _infer_subjects(row: dict) -> list[str]:
     """과목 추론.
 
@@ -505,7 +529,7 @@ def _infer_subjects(row: dict) -> list[str]:
     if realm not in config.ACADEMIC_REALMS and any(h in name for h in _ARTS_HINTS):
         return ["arts"]
 
-    course = " ".join(str(row.get(k) or "") for k in ("le_crse_list_nm", "le_crse_nm"))
+    course = _course_signal(row)
     found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in course for h in hints)]
     if found:
         return found
@@ -525,6 +549,63 @@ def _infer_subjects(row: dict) -> list[str]:
 
 
 # ── 언급 로딩 ──────────────────────────────────────────────────────
+# 후기에서 과목을 확정할 때 요구하는 최소 근거.
+# 낮추면 스쳐 지나간 낱말 하나로 과목이 붙고, 높이면 종합학원이 계속
+# 어느 랭킹에도 안 나온다.
+_SUBJ_MIN_HITS = 5          # 그 과목을 말한 글이 최소 몇 건
+_SUBJ_MIN_SHARE = 0.15      # 과목을 말한 글 중 몇 할 이상
+
+
+def _subjects_from_mentions(academies: list[dict],
+                            by_key: dict[str, list[dict]]) -> int:
+    """과목 미상(general) 학원의 과목을 **후기로** 정한다.
+
+    시대인재·강남대성·씨앤씨 같은 종합·재종은 이름에도 교습과정에도 과목
+    단서가 없다(NEIS 등록값이 '보습·논술' 이다). 그래서 `general` 이 되는데,
+    general 은 어느 과목 랭킹에도 안 들어가므로 **표본 342건짜리 학원이
+    화면에서 통째로 사라진다.** 그렇다고 '보습·논술' 의 '논술' 을 믿고
+    국어에 넣으면 그건 더 틀렸다(그래서 827곳이 국어에 있었다).
+
+    남은 근거는 후기다. `analyze.subjects_near()` 가 이미 글마다 **학원
+    이름 근처(±45자)** 의 과목어를 뽑아 둔다 — 글 전체가 아니라 이름
+    근처만 보므로 '대치동 부동산' 같은 글이 과학 근거가 되지 않는다.
+    그것을 학원 단위로 모아, 충분히 반복되는 과목만 확정한다.
+
+    ★ 확정되면 general 을 **뺀다.** general 은 '모른다' 는 뜻이고, 이제
+      알기 때문이다. 하나도 확정 못 하면 general 로 남는다 — 억지로
+      배정하느니 랭킹에 안 나오는 편이 낫다.
+    """
+    n = 0
+    for a in academies:
+        subs = a.get("subjects") or []
+        if config.UNRANKED_SUBJECT not in subs:
+            continue
+        # 이미 다른 학술 과목이 확정돼 있으면 그것을 믿는다.
+        if any(s in config.ACADEMIC_SUBJECTS for s in subs):
+            continue
+        rows = [m for m in by_key.get(a["id"], []) if not m.get("is_excluded")]
+        counts: dict[str, int] = defaultdict(int)
+        spoken = 0
+        for m in rows:
+            got = [s for s in (m.get("subjects") or [])
+                   if s in config.ACADEMIC_SUBJECTS]
+            if got:
+                spoken += 1
+                for s in got:
+                    counts[s] += 1
+        if not spoken:
+            continue
+        found = [s for s, c in counts.items()
+                 if c >= _SUBJ_MIN_HITS and c / spoken >= _SUBJ_MIN_SHARE]
+        if not found:
+            continue
+        a["subjects"] = [s for s in config.ACADEMIC_SUBJECTS if s in found] \
+            + [s for s in subs if s not in config.ACADEMIC_SUBJECTS
+               and s != config.UNRANKED_SUBJECT]
+        n += 1
+    return n
+
+
 def _previous_scores() -> dict:
     """직전 빌드의 랭킹 상태. app 번들에 이미 나가 있는 것을 읽는다."""
     path = config.EXPORT_DIR / "academies.json"
@@ -1027,6 +1108,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     by_key: dict[str, list[dict]] = defaultdict(list)
     for m in mentions:
         by_key[m["academy_key"]].append(m)
+
+    # 종합·보습 학원의 과목을 **후기가 말해 준 것**으로 채운다.
+    promoted = _subjects_from_mentions(evaluated, by_key)
+    if promoted:
+        print(f"  종합학원 과목 확정: {promoted}곳 (후기가 말한 과목으로)")
 
     cohorts = scoring.build_cohorts(evaluated, by_key)
     scores, subject_scores = {}, {}
