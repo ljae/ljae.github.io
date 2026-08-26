@@ -40,6 +40,8 @@ def check() -> None:
     print(f"     학구도(통학구역) {schooldistrict.status()}")
     from edutree import apartments
     print(f"     공동주택(아파트)  {apartments.status()}")
+    from edutree import summarize
+    print(f"     글 요약(Anthropic) {summarize.status()}")
 
     print("─" * 62)
     print(f"  실행 모드: {mode}")

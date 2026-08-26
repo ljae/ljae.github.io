@@ -358,6 +358,64 @@ flutter build ipa --release
 
 ---
 
+## 10단계 (선택) — 글 요약 (Anthropic)
+
+`pipeline/wiki/posts/*.md` 의 `auto:summary` 블록을 채웁니다. **없어도 됩니다.**
+비워 두면 요약만 건너뛰고 나머지는 그대로 돕니다.
+
+**요약은 점수·랭킹에 쓰이지 않습니다.** `auto:digest`(감성·신뢰도·과목)는
+파이프라인이 이미 계산한 값을 옮겨 적는 것이라 LLM 없이 항상 채워집니다.
+요약은 사람이 9천 장을 훑을 때 빠르게 읽으라고 있는 것이고, 게이트도 산식도
+이 값을 보지 않습니다 — LLM 문장이 산식에 흘러들면 산식을 공개하는 의미가
+없어집니다.
+
+1. https://console.anthropic.com/settings/keys 에서 키 발급
+2. `.env` 에 넣기
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+3. 패키지 설치 — **파이썬 3.10 이상이 필요합니다**
+
+```bash
+python3 -m pip install -r pipeline/requirements.txt
+```
+
+`anthropic` 1.x 는 3.10+ 를 요구합니다. 3.9 에서는 `requirements.txt` 가
+이 줄을 건너뛰도록 마커를 달아 두었으므로 설치는 통과하고, 요약만 꺼집니다
+(야간 워크플로는 3.11 이라 그쪽에서는 동작합니다).
+
+4. 확인
+
+```bash
+python3 pipeline/run.py --check
+#   글 요약(Anthropic) 사용 가능 ✓  모델 claude-opus-5 · 한 실행 200건 · 누적 0건
+```
+
+### 비용을 보면서 늘리세요
+
+한 실행에 200건까지만 부릅니다. 요약은 `url_hash` 로 캐시되어 **한 번만**
+만들어지므로, 회차가 쌓이면서 조금씩 채워집니다. 9천 장을 한 번에 밀지
+않는 이유는 비용을 눈으로 확인하고 정하시라는 뜻입니다.
+
+```bash
+# .env — 필요하면
+OPENEDU_SUMMARY_MODEL=claude-opus-5   # 기본값
+OPENEDU_SUMMARY_PER_RUN=200           # 기본값
+```
+
+대량으로 밀어야 하면 Message Batches(비용 50%)가 맞는 자리입니다. 다만
+비동기라 야간 작업 흐름이 복잡해져 지금은 동기 호출에 상한만 두었습니다.
+
+### 야간 워크플로에서 쓰려면
+
+GitHub 저장소 → Settings → Secrets and variables → Actions →
+`ANTHROPIC_API_KEY` 를 추가하고 `.github/workflows/collect.yml` 의 env 에
+넘기세요. 넣지 않으면 워크플로는 그대로 돌고 요약만 비어 있습니다.
+
+---
+
 ## 문제가 생기면
 
 | 증상 | 확인할 것 |
@@ -367,3 +425,4 @@ flutter build ipa --release
 | 네이버 429 | 일일 한도 초과. 다음날 재시도하거나 앱을 하나 더 등록 |
 | 점수가 전부 비슷함 | 표본 부족. 정상입니다 — 베이지안 축소가 평균으로 당기는 중 |
 | 웹은 되는데 앱이 데이터를 못 읽음 | `app/assets/data/` 가 `pubspec.yaml` assets에 있는지 |
+| 키를 넣었는데 요약이 안 됨 | 파이썬이 3.10+ 인지 (`python3 -V`). `anthropic` 1.x 는 3.9 에 안 깔립니다 |

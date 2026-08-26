@@ -2,5 +2,10 @@ requests>=2.31
 PyYAML>=6.0
 python-dotenv>=1.0
 
-# 선택 — 글 요약(auto:summary)에만 쓴다. 없어도 파이프라인은 온전히 돈다.
-anthropic>=1.0
+# 선택 — 글 요약(pipeline/wiki/posts 의 auto:summary)에만 쓴다.
+# 없어도 파이프라인은 온전히 돈다(요약만 건너뛴다).
+#
+# ★ anthropic 1.x 는 파이썬 3.10+ 를 요구한다. 마커를 빼면 3.9 에서
+#   `pip install -r requirements.txt` 자체가 실패해 로컬 설치가 통째로
+#   막힌다. 야간 워크플로는 3.11 이라 그쪽에서는 설치된다.
+anthropic>=1.0 ; python_version >= "3.10"

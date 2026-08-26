@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 
 from . import config
 
@@ -39,8 +40,21 @@ CACHE = config.CACHE_DIR / "post_summaries.json"
 
 # 모델은 관리자가 정한다. 기본값을 낮은 모델로 깔아 두지 않는다 —
 # 비용을 이유로 품질을 대신 결정하지 않는다는 뜻이다.
-MODEL = os.getenv("OPENEDU_SUMMARY_MODEL", "claude-opus-5").strip()
-PER_RUN = int(os.getenv("OPENEDU_SUMMARY_PER_RUN", "200"))
+# ★ 빈 문자열과 미설정은 다르다. GitHub Actions 는 정의 안 된 vars 를
+#   **빈 문자열**로 넘기므로 os.getenv 의 기본값이 안 먹는다.
+#   int("") 는 ValueError 라 야간 작업이 여기서 죽는다.
+MODEL = os.getenv("OPENEDU_SUMMARY_MODEL", "").strip() or "claude-opus-5"
+
+
+def _int_env(name: str, default: int) -> int:
+    raw = os.getenv(name, "").strip()
+    try:
+        return int(raw) if raw else default
+    except ValueError:
+        return default
+
+
+PER_RUN = _int_env("OPENEDU_SUMMARY_PER_RUN", 200)
 HAS_KEY = bool(os.getenv("ANTHROPIC_API_KEY", "").strip()
                or os.getenv("ANTHROPIC_AUTH_TOKEN", "").strip())
 
@@ -53,6 +67,23 @@ SYSTEM = """학원 후기 글을 한국어 두 문장 이내로 요약한다.
 - 특정인을 비방하는 표현은 옮기지 않는다.
 - 학원 이름을 반복하지 않는다. 어느 학원 글인지는 이미 안다.
 - 서두("이 글은…") 없이 바로 내용만."""
+
+
+def status() -> str:
+    """자격 증명 확인 화면 한 줄. 왜 안 도는지가 바로 보여야 한다."""
+    if not HAS_KEY:
+        return "키 없음 — 요약 건너뜀 (선택 기능)"
+    try:
+        import anthropic                                   # noqa: F401
+    except ImportError:
+        # anthropic 1.x 는 파이썬 3.10+ 다. 이 사실을 안 적어 두면
+        # '키를 넣었는데 왜 안 도나' 를 사람이 한참 찾게 된다.
+        ver = f"{sys.version_info.major}.{sys.version_info.minor}"
+        hint = (f" — 현재 파이썬 {ver}, anthropic 1.x 는 3.10+ 필요"
+                if sys.version_info < (3, 10) else " (pip install anthropic)")
+        return f"키는 있으나 anthropic 패키지 없음{hint}"
+    done = len(_load())
+    return f"사용 가능 ✓  모델 {MODEL} · 한 실행 {PER_RUN}건 · 누적 {done:,}건"
 
 
 def _load() -> dict[str, str]:
@@ -78,8 +109,7 @@ def collect(mentions: list[dict], limit: int | None = None) -> dict[str, str]:
     try:
         import anthropic
     except ImportError:
-        print("  요약: anthropic 패키지 없음 — 건너뜀 "
-              "(pip install anthropic)")
+        print(f"  요약: 건너뜀 — {status()}")
         return cache
 
     # 아직 요약이 없는 글. 신뢰도 높은 것부터 — 사람이 먼저 볼 글이다.
