@@ -113,6 +113,38 @@ ACADEMIC_REALMS = {
 VOCATIONAL_REALMS = {"직업기술", "인문사회(대)"}
 EXCLUDED_REALMS = VOCATIONAL_REALMS | {"독서실"}
 
+# ★ 분야구분만으로는 다 못 거른다. 같은 미용학원이라도 '기타(대)' 로,
+#   승무원학원이 '기타(대)' 로, 김영편입이 '종합(대)' 로 등록돼 있다.
+#   교습과정(le_crse_nm)은 그때도 정직하다.
+VOCATIONAL_COURSES = {
+    "이·미용", "이.미용", "애견미용", "항공승무원", "대학편입",
+    "성인고시", "부동산", "식음료품(바리스타,소믈리에)",
+}
+
+# 교습과정도 비어 있는 곳이 있다(스카이항공승무원학원). 이름으로 마지막에
+# 한 번 더 거른다 — 다만 **오탐이 0인 낱말만** 쓴다.
+#
+# 전수로 확인했다(등록 6,092곳):
+#   편입 19 · 승무원 5 · 미용 13 · 메이크업 1 · 네일 1 · 바리스타 5
+#   → 전부 성인 직업·전문 학원이었다.
+#
+# ✗ '뷰티' 는 쓰지 않는다. 16곳 중 **뷰티풀마인드수학학원**·
+#   뷰티풀마인드고등관수학학원이 있다 — 진짜 수학학원이다.
+#   '미용' 이 든 이름은 전부 미용학원이지만 '뷰티' 는 아니다.
+#   낱말 하나 차이로 멀쩡한 학원이 사라진다.
+VOCATIONAL_NAME_WORDS = ("편입", "승무원", "미용", "메이크업", "네일", "바리스타")
+
+
+def is_vocational(row: dict) -> bool:
+    """성인 직업·전문 학원인가. 분야 → 교습과정 → 이름 순으로 본다."""
+    if (row.get("realm_sc_nm") or "").strip() in EXCLUDED_REALMS:
+        return True
+    course = " ".join(str(row.get(k) or "")
+                      for k in ("le_crse_nm", "le_crse_list_nm"))
+    if any(c in course for c in VOCATIONAL_COURSES):
+        return True
+    return any(w in (row.get("name") or "") for w in VOCATIONAL_NAME_WORDS)
+
 SUBJECTS = {
     "math": "수학",
     "english": "영어",

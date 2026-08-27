@@ -571,3 +571,39 @@ def test_직업학원은_분야구분으로_뺀다():
 
     # '정보' 는 두 곳뿐인데 둘 다 어린이 코딩학원이라 기타로 남긴다.
     assert "정보" in config.OTHER_REALMS
+
+
+def test_직업학원은_분야만으로_다_안_걸린다():
+    """같은 미용학원이라도 '기타(대)' 로, 승무원학원이 '기타(대)' 로,
+    김영편입이 '종합(대)' 로 등록돼 있다. 분야 → 교습과정 → 이름 순."""
+    from edutree import config
+    # 분야가 통과해도 교습과정이 말한다.
+    assert config.is_vocational(
+        {"name": "목동아뜰리에미용전문학원", "realm_sc_nm": "기타(대)",
+         "le_crse_nm": "이·미용"})
+    assert config.is_vocational(
+        {"name": "김영편입강남단과캠퍼스학원", "realm_sc_nm": "종합(대)",
+         "le_crse_nm": "대학편입"})
+    # 교습과정도 비어 있으면 이름이 마지막이다.
+    assert config.is_vocational(
+        {"name": "스카이항공승무원학원", "realm_sc_nm": "기타(대)"})
+    # 미대편입은 과정이 '미술' 이라 이름으로만 걸린다.
+    assert config.is_vocational(
+        {"name": "미대편입강남창조학원", "realm_sc_nm": "기예(대)",
+         "le_crse_nm": "미술"})
+
+
+def test_뷰티는_이름_규칙에_넣지_않는다():
+    """★ '뷰티' 16곳 중 뷰티풀마인드수학학원·뷰티풀마인드고등관수학학원은
+    진짜 수학학원이다. '미용' 이 든 이름은 전부 미용학원이지만 '뷰티' 는
+    아니다 — 낱말 하나 차이로 멀쩡한 학원이 사라진다."""
+    from edutree import config
+    assert "뷰티" not in config.VOCATIONAL_NAME_WORDS
+    for n in ("뷰티풀마인드수학학원", "뷰티풀마인드고등관수학학원"):
+        assert not config.is_vocational(
+            {"name": n, "realm_sc_nm": "입시.검정 및 보습", "le_crse_nm": "보습"})
+    # 아이 대상은 남는다.
+    assert not config.is_vocational(
+        {"name": "와이코딩정보교습소", "realm_sc_nm": "정보"})
+    assert not config.is_vocational(
+        {"name": "은마바둑교습소", "realm_sc_nm": "기타(대)"})

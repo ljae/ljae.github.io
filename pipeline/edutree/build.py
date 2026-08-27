@@ -149,10 +149,18 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
     # 예체능·기타(바둑·로봇·코딩)까지 받는다. 독서실과 **성인 직업·전문
     # 학원**은 뺀다 — 초·중·고 학부모가 찾는 학원이 아니다.
     keep = (config.ACADEMIC_REALMS | config.ARTS_REALMS | config.OTHER_REALMS)
+
+    def _why(r: dict) -> str | None:
+        realm = (r.get("realm_sc_nm") or "").strip()
+        if realm not in keep:
+            return realm or "(분야없음)"
+        # 분야는 통과했지만 교습과정·이름이 직업학원이라고 말하는 경우.
+        # 미용학원이 '기타(대)' 로, 김영편입이 '종합(대)' 로 등록돼 있다.
+        return "직업(과정·이름)" if config.is_vocational(r) else None
+
     dropped = collections.Counter(
-        r.get("realm_sc_nm") or "(분야없음)" for r in neis_rows
-        if (r.get("realm_sc_nm") or "") not in keep)
-    neis_rows = [r for r in neis_rows if (r.get("realm_sc_nm") or "") in keep]
+        w for w in (_why(r) for r in neis_rows) if w)
+    neis_rows = [r for r in neis_rows if _why(r) is None]
     detail = " · ".join(f"{k} {v}" for k, v in dropped.most_common())
     print(f"  분야 필터: {before}곳 → {len(neis_rows)}곳 "
           f"({before - len(neis_rows)}곳 제외 — {detail})")
