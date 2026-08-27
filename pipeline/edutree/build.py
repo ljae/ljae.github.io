@@ -10,6 +10,7 @@ demo 모드일 때 노출하지 않는다.
 """
 from __future__ import annotations
 
+import collections
 import hashlib
 import json
 import random
@@ -145,11 +146,16 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         return loose, False
 
     before = len(neis_rows)
-    # 예체능·기타까지 받는다. 독서실만 계속 제외한다 — 학원이 아니다.
+    # 예체능·기타(바둑·로봇·코딩)까지 받는다. 독서실과 **성인 직업·전문
+    # 학원**은 뺀다 — 초·중·고 학부모가 찾는 학원이 아니다.
     keep = (config.ACADEMIC_REALMS | config.ARTS_REALMS | config.OTHER_REALMS)
+    dropped = collections.Counter(
+        r.get("realm_sc_nm") or "(분야없음)" for r in neis_rows
+        if (r.get("realm_sc_nm") or "") not in keep)
     neis_rows = [r for r in neis_rows if (r.get("realm_sc_nm") or "") in keep]
+    detail = " · ".join(f"{k} {v}" for k, v in dropped.most_common())
     print(f"  분야 필터: {before}곳 → {len(neis_rows)}곳 "
-          f"(독서실 등 {before - len(neis_rows)}곳 제외)")
+          f"({before - len(neis_rows)}곳 제외 — {detail})")
 
     matched = 0
     hinted = 0

@@ -546,3 +546,28 @@ def test_빈_학급은_후기로_정하되_못_정하면_비워_둔다():
     c = {"id": "Z", "grade_bands": ["elem_low"]}
     assert build._bands_from_mentions([c], {"Z": high}) == 0
     assert c["grade_bands"] == ["elem_low"]
+
+
+# ── 성인 직업·전문 학원은 등록부에 넣지 않는다 ──────────────────
+def test_직업학원은_분야구분으로_뺀다():
+    """이 서비스는 초·중·고 학부모가 본다. 미용·승무원·간호조무사·
+    편입·변리사는 그 학부모가 찾는 학원이 아니다.
+
+    ★ 이름이 아니라 **분야구분**으로 거른다. 이름으로 거르면
+      '게임캔버스'·'디자인센트럴' 처럼 판단이 안 서는 것이 남고,
+      반대로 '미용' 이 든 아이 대상 학원을 잘못 지운다.
+    """
+    from edutree import config
+    keep = config.ACADEMIC_REALMS | config.ARTS_REALMS | config.OTHER_REALMS
+
+    for realm in ("직업기술", "인문사회(대)", "독서실"):
+        assert realm not in keep, f"{realm} 은 제외돼야 한다"
+        assert realm in config.EXCLUDED_REALMS
+
+    # 아이들이 다니는 곳은 남는다.
+    for realm in ("입시.검정 및 보습", "국제화", "종합(대)",
+                  "예능(대)", "기예(대)", "기타(대)", "정보"):
+        assert realm in keep, f"{realm} 은 남아야 한다"
+
+    # '정보' 는 두 곳뿐인데 둘 다 어린이 코딩학원이라 기타로 남긴다.
+    assert "정보" in config.OTHER_REALMS
