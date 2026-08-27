@@ -437,7 +437,7 @@ class _StrokeInState extends State<StrokeIn>
         // 폭이 곧 레이아웃 폭이 되어 카드가 실제로 좁아졌다 — 캡처에서
         // 목록의 카드마다 오른쪽 끝이 다른 자리에서 잘려 있었다.
         // 클리퍼는 배치를 건드리지 않으므로 동작이 멈춰도 폭은 그대로다.
-        clipper: _StrokeClipper(a.value, widget.from),
+        clipper: StrokeClipper(a.value, widget.from),
         child: Opacity(opacity: (a.value * 1.8).clamp(0.0, 1.0), child: child),
       ),
       child: widget.child,
@@ -446,10 +446,13 @@ class _StrokeInState extends State<StrokeIn>
 }
 
 /// 획이 지나간 만큼만 보여 주는 클리퍼.
-class _StrokeClipper extends CustomClipper<Rect> {
+///
+/// [StrokeIn](첫 화면 등장)과 [Reveal](스크롤 등장)이 나눠 쓴다 — 시점만
+/// 다르고 조형은 같아야 한다. 두 벌로 두면 한쪽만 고쳐 놓고 못 알아챈다.
+class StrokeClipper extends CustomClipper<Rect> {
   final double t;
   final Alignment from;
-  const _StrokeClipper(this.t, this.from);
+  const StrokeClipper(this.t, this.from);
 
   @override
   Rect getClip(Size size) {
@@ -471,7 +474,7 @@ class _StrokeClipper extends CustomClipper<Rect> {
   }
 
   @override
-  bool shouldReclip(_StrokeClipper old) => old.t != t || old.from != from;
+  bool shouldReclip(StrokeClipper old) => old.t != t || old.from != from;
 }
 
 // ─────────────────────────────────────────────────────────────────────

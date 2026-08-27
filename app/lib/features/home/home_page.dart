@@ -10,6 +10,7 @@ import '../../data/repository.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
+import '../../widgets/scroll_stage.dart';
 
 /// 첫 화면 — 「實錄」의 **권두(卷頭)**.
 ///
@@ -285,11 +286,11 @@ class _StatLedger extends StatelessWidget {
     // 네 칸이 한 줄에 안 들어가는 폭. 실측: 칸 하나에 라벨+숫자가 약 130,
     // 사이 계선·여백이 41 이라 네 칸이면 약 680 이 필요하다.
     final narrow = MediaQuery.sizeOf(context).width < 760;
-    final items = <(String, String)>[
-      ('등록 학원', ledgerCount(data.meta.registryCount)),
-      ('채점 대상', ledgerCount(data.meta.evaluatedCount)),
-      ('테크트리 단계', ledgerCount(data.stageById.length)),
-      ('분석한 글', ledgerCount(data.meta.mentionCount)),
+    final items = <(String, int)>[
+      ('등록 학원', data.meta.registryCount),
+      ('채점 대상', data.meta.evaluatedCount),
+      ('테크트리 단계', data.stageById.length),
+      ('분석한 글', data.meta.mentionCount),
     ];
 
     return StrokeIn(
@@ -324,10 +325,17 @@ class _StatLedger extends StatelessWidget {
                     ],
                     Padding(
                       padding: const EdgeInsets.only(right: AppSpace.lg),
-                      child: LedgerNumber(
-                        items[i].$2,
-                        size: 27,
-                        label: spaced(items[i].$1),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RailLabel(spaced(items[i].$1)),
+                          const SizedBox(height: 4),
+                          // 장부를 **세어 올린다.** 규모가 이 화면의
+                          // 주장이라, 숫자가 굴러가는 동안 자릿수가 늘어나는
+                          // 것 자체가 그 주장을 한다.
+                          Tally(items[i].$2, size: 27),
+                        ],
                       ),
                     ),
                   ],
@@ -373,13 +381,15 @@ class _RegionLedger extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionOpener(
-                  '기록하는 곳은 네 학군입니다',
-                  kicker: spaced('학군'),
-                  subtitle:
-                      '서울 전체는 초등학생이 줄고 있습니다(2025년 순유출 −188명). '
-                      '그런데 이 네 학군은 모두 순유입입니다. '
-                      '그 격차가 학군이라는 말의 실체입니다.',
+                Reveal(
+                  child: SectionOpener(
+                    '기록하는 곳은 네 학군입니다',
+                    kicker: spaced('학군'),
+                    subtitle:
+                        '서울 전체는 초등학생이 줄고 있습니다(2025년 순유출 −188명). '
+                        '그런데 이 네 학군은 모두 순유입입니다. '
+                        '그 격차가 학군이라는 말의 실체입니다.',
+                  ),
                 ),
                 Rule(thickness: AppRule.thin, color: AppColors.inkOn(dark)),
                 for (var i = 0; i < data.regions.length; i++)
@@ -428,8 +438,8 @@ class _RegionRowState extends State<_RegionRow> {
     final r = widget.region;
     final trend = r.latestTrend('elementary');
 
-    return StrokeIn(
-      index: widget.index + 1,
+    return Reveal(
+      index: widget.index,
       child: MouseRegion(
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
@@ -603,19 +613,32 @@ class _RegionRowState extends State<_RegionRow> {
 /// 카드 넷에 '35%'를 각각 적으면 네 숫자를 머릿속에서 다시 비교해야 한다.
 /// 한 줄에 폭으로 나눠 그으면 비교가 이미 끝나 있다 —
 /// 카드의 [PillarWeightBars] 와 같은 원칙을 페이지 크기로 키운 것이다.
+/// 산식 — **스크롤이 자(尺)를 긋는다.**
+///
+/// 이 화면에서 유일하게 스크롤에 매인 구간이다. 네 기둥의 가중치를
+/// 숫자로 늘어놓는 대신, 화면을 내리는 동안 왼쪽에서 오른쪽으로 **한 획**을
+/// 긋는다. 획이 지나가는 시간이 곧 그 기둥의 폭이고, 폭이 곧 가중치다.
+/// 다 그으면 정확히 100% 다 — 연출과 값이 같은 것을 말한다.
+///
+/// **숫자는 세어 올리지 않는다.** 막대와 같이 세면 중간에 '평판 22%' 같은
+/// 값이 화면에 뜬다. 잠깐이라도 틀린 가중치를 보여 주는 것은, 근거 없는
+/// 숫자를 내지 않는다는 이 서비스의 규칙과 정면으로 어긋난다.
+/// 참값을 **흐림에서 꺼낸다**(획이 그 칸을 지나가면 드러난다).
 class _WeightRuler extends StatelessWidget {
   final Meta meta;
   const _WeightRuler({required this.meta});
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final narrow = MediaQuery.sizeOf(context).width < 820;
 
     final rows = meta.weights.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     if (rows.isEmpty) return const SizedBox.shrink();
+
+    final total = rows.fold<double>(0, (a, e) => a + e.value);
+    if (total <= 0) return const SizedBox.shrink();
 
     return PaperGround(
       child: Padding(
@@ -633,45 +656,84 @@ class _WeightRuler extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionOpener(
-                  '점수를 만든 자를 그대로 내놓습니다',
-                  kicker: spaced('산식'),
-                  subtitle:
-                      '가중치는 화면에 박아 두지 않고 산식 파일에서 읽습니다. '
-                      '아래 칸은 폭이 곧 가중치입니다.',
-                  trailing: TextButton(
-                    onPressed: () => context.go('/method'),
-                    child: const Text('전문 보기 →'),
+                Reveal(
+                  child: SectionOpener(
+                    '점수를 만든 자를 그대로 내놓습니다',
+                    kicker: spaced('산식'),
+                    subtitle:
+                        '가중치는 화면에 박아 두지 않고 산식 파일에서 읽습니다. '
+                        '내려 보세요 — 획이 지나가는 길이가 곧 가중치입니다.',
+                    trailing: TextButton(
+                      onPressed: () => context.go('/method'),
+                      child: const Text('전문 보기 →'),
+                    ),
                   ),
                 ),
 
-                // ── 자. 폭이 가중치다.
-                StrokeIn(
-                  index: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Rule(
-                        thickness: AppRule.thin,
-                        color: AppColors.inkOn(dark),
-                      ),
-                      const SizedBox(height: AppSpace.sm),
-                      SizedBox(
-                        height: 30,
-                        child: Row(
-                          // ColoredBox 는 자식이 없으면 **세로로 최소 크기**를
-                          // 갖는다. Row 의 교차축 제약이 느슨해 높이 0 으로
-                          // 그려져 막대가 통째로 안 보였다 — stretch 로
-                          // 부모 높이를 강제한다.
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                // 여기부터가 스크롤에 매인 구간이다.
+                Scrub(
+                  builder: (context, t) {
+                    // 기둥마다 '획이 자기 칸을 얼마나 지났는지'를 구한다.
+                    // 누적 비율로 나누므로 네 칸이 이어진 **한 획**이 된다.
+                    final fills = <double>[];
+                    var cum = 0.0;
+                    for (final r in rows) {
+                      final a = cum / total;
+                      final b = (cum + r.value) / total;
+                      fills.add(
+                        b <= a ? 1.0 : ((t - a) / (b - a)).clamp(0.0, 1.0),
+                      );
+                      cum += r.value;
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Rule(
+                          thickness: AppRule.thin,
+                          color: AppColors.inkOn(dark),
+                        ),
+                        const SizedBox(height: AppSpace.sm),
+
+                        // ── 자. 채워지지 않은 칸도 자리는 지킨다 —
+                        //    옅은 바탕을 깔아 두면 '앞으로 얼마나 남았는지'가
+                        //    보이고, 다 차기 전에도 비율이 읽힌다.
+                        SizedBox(
+                          height: 30,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              for (var i = 0; i < rows.length; i++) ...[
+                                Expanded(
+                                  flex: (rows[i].value * 1000).round(),
+                                  child: _Segment(
+                                    color:
+                                        AppColors.pillars[rows[i].key] ??
+                                        AppColors.slate,
+                                    fill: fills[i],
+                                    dark: dark,
+                                  ),
+                                ),
+                                if (i != rows.length - 1)
+                                  const SizedBox(width: 3),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: AppSpace.sm),
+
+                        // ── 눈금 글자. 막대와 같은 flex 로 자리를 맞춘다.
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (var i = 0; i < rows.length; i++) ...[
                               Expanded(
                                 flex: (rows[i].value * 1000).round(),
-                                child: ColoredBox(
-                                  color:
-                                      AppColors.pillars[rows[i].key] ??
-                                      AppColors.slate,
+                                child: _Tick(
+                                  pillar: rows[i].key,
+                                  weight: rows[i].value,
+                                  fill: fills[i],
+                                  dark: dark,
                                 ),
                               ),
                               if (i != rows.length - 1)
@@ -679,84 +741,135 @@ class _WeightRuler extends StatelessWidget {
                             ],
                           ],
                         ),
-                      ),
-                      const SizedBox(height: AppSpace.sm),
-                      // 눈금 글자. 막대와 같은 flex 로 나눠 자리를 맞춘다.
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (var i = 0; i < rows.length; i++) ...[
-                            Expanded(
-                              flex: (rows[i].value * 1000).round(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${(rows[i].value * 100).toStringAsFixed(0)}%',
-                                    style: TextStyle(
-                                      fontFamily: 'Paperlogy',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                      height: 1.1,
-                                      letterSpacing: -1.0,
-                                      color: AppColors.inkOn(dark),
-                                      fontFeatures: ledgerFigures,
-                                    ),
-                                  ),
-                                  Text(
-                                    pillarNames[rows[i].key] ?? rows[i].key,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: text.labelLarge?.copyWith(
-                                      color: AppColors.pillars[rows[i].key],
+
+                        const SizedBox(height: AppSpace.lg),
+                        // 자와 설명을 붙여 두면 설명 칸이 자의 눈금인 줄 알고
+                        // 칸을 맞춰 읽으려 든다. 계선으로 끊어 다른 덩어리라고
+                        // 말해 준다 — 설명은 폭이 같고, 자는 폭이 다르다.
+                        Rule(color: AppColors.ruleOn(dark)),
+                        const SizedBox(height: AppSpace.lg),
+
+                        // ── 설명. 획이 그 칸을 지나가면 따라 나온다.
+                        if (narrow)
+                          for (var i = 0; i < rows.length; i++)
+                            _PillarNote(
+                              pillar: rows[i].key,
+                              index: i,
+                              stacked: true,
+                              appear: fills[i],
+                            )
+                        else
+                          IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                for (var i = 0; i < rows.length; i++) ...[
+                                  if (i != 0) ...[
+                                    const Rule.vertical(),
+                                    const SizedBox(width: AppSpace.md),
+                                  ],
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: AppSpace.md,
+                                      ),
+                                      child: _PillarNote(
+                                        pillar: rows[i].key,
+                                        index: i,
+                                        appear: fills[i],
+                                      ),
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            if (i != rows.length - 1) const SizedBox(width: 3),
-                          ],
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: AppSpace.lg),
-                // 자와 설명을 붙여 두면 설명 칸이 자의 눈금인 줄 알고
-                // 칸을 맞춰 읽으려 든다. 계선으로 끊어 다른 덩어리라고
-                // 말해 준다 — 설명은 폭이 같고, 자는 폭이 다르다.
-                Rule(color: AppColors.ruleOn(dark)),
-                const SizedBox(height: AppSpace.lg),
-
-                // ── 각 기둥의 설명. 좁으면 한 줄씩 쌓는다.
-                if (narrow)
-                  for (var i = 0; i < rows.length; i++)
-                    _PillarNote(pillar: rows[i].key, index: i, stacked: true)
-                else
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (var i = 0; i < rows.length; i++) ...[
-                          if (i != 0) ...[
-                            const Rule.vertical(),
-                            const SizedBox(width: AppSpace.md),
-                          ],
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: AppSpace.md,
-                              ),
-                              child: _PillarNote(pillar: rows[i].key, index: i),
+                              ],
                             ),
                           ),
-                        ],
                       ],
-                    ),
-                  ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 자의 한 칸. 옅은 바탕 위로 획이 지나간 만큼만 진하게 찬다.
+class _Segment extends StatelessWidget {
+  final Color color;
+  final double fill;
+  final bool dark;
+  const _Segment({required this.color, required this.fill, required this.dark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        ColoredBox(color: color.withValues(alpha: dark ? 0.22 : 0.15)),
+        // heightFactor 를 1 로 줘야 자식이 칸 높이를 그대로 받는다.
+        // 빼면 ColoredBox 가 세로로 0 이 되어 아무것도 안 그려진다.
+        FractionallySizedBox(
+          alignment: Alignment.centerLeft,
+          widthFactor: fill.clamp(0.0, 1.0),
+          heightFactor: 1,
+          child: ColoredBox(color: color),
+        ),
+      ],
+    );
+  }
+}
+
+/// 눈금 하나 — 참값 %와 기둥 이름. 획이 지나가면 흐림에서 꺼낸다.
+class _Tick extends StatelessWidget {
+  final String pillar;
+  final double weight;
+  final double fill;
+  final bool dark;
+  const _Tick({
+    required this.pillar,
+    required this.weight,
+    required this.fill,
+    required this.dark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    // 칸의 3할쯤 지났을 때부터 드러난다. 0 에서 바로 켜면 획보다 글자가
+    // 앞서 나가 '숫자가 먼저 뜨고 막대가 따라오는' 꼴이 된다.
+    final p = (((fill - 0.3) / 0.4)).clamp(0.0, 1.0);
+    return Opacity(
+      opacity: p,
+      child: Transform.translate(
+        offset: Offset(0, (1 - p) * 6),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${(weight * 100).toStringAsFixed(0)}%',
+              style: TextStyle(
+                fontFamily: 'Paperlogy',
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                height: 1.1,
+                letterSpacing: -1.0,
+                color: AppColors.inkOn(dark),
+                fontFeatures: ledgerFigures,
+              ),
+            ),
+            Text(
+              pillarNames[pillar] ?? pillar,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: text.labelLarge?.copyWith(
+                color: AppColors.pillars[pillar],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -767,10 +880,16 @@ class _PillarNote extends StatelessWidget {
   final String pillar;
   final int index;
   final bool stacked;
+
+  /// 자의 획이 이 칸을 얼마나 지났는지(0~1). 설명은 획을 **따라** 나온다 —
+  /// 먼저 뜨면 무엇에 대한 설명인지 모르는 채로 읽게 된다.
+  final double appear;
+
   const _PillarNote({
     required this.pillar,
     required this.index,
     this.stacked = false,
+    this.appear = 1,
   });
 
   @override
@@ -779,28 +898,33 @@ class _PillarNote extends StatelessWidget {
     final dark = Theme.of(context).brightness == Brightness.dark;
     final color = AppColors.pillars[pillar] ?? AppColors.slate;
 
-    return StrokeIn(
-      index: index + 2,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: stacked ? AppSpace.lg : 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(width: 8, height: 8, color: color),
-                const SizedBox(width: 7),
-                Text(
-                  pillarNames[pillar] ?? pillar,
-                  style: text.titleMedium?.copyWith(
-                    color: AppColors.inkOn(dark),
+    // 칸의 절반을 지났을 때부터 올라온다.
+    final p = (((appear - 0.5) / 0.45)).clamp(0.0, 1.0);
+    return Opacity(
+      opacity: p,
+      child: Transform.translate(
+        offset: Offset(0, (1 - p) * 10),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: stacked ? AppSpace.lg : 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(width: 8, height: 8, color: color),
+                  const SizedBox(width: 7),
+                  Text(
+                    pillarNames[pillar] ?? pillar,
+                    style: text.titleMedium?.copyWith(
+                      color: AppColors.inkOn(dark),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpace.sm),
-            Text(pillarDescriptions[pillar] ?? '', style: text.bodyMedium),
-          ],
+                ],
+              ),
+              const SizedBox(height: AppSpace.sm),
+              Text(pillarDescriptions[pillar] ?? '', style: text.bodyMedium),
+            ],
+          ),
         ),
       ),
     );
@@ -839,19 +963,27 @@ class _Excerpt extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionOpener(
-                  '${region?.nameKo ?? ""} 기록 발췌',
-                  kicker: spaced('발췌'),
-                  subtitle:
-                      '트리스코어 순. 표본 ${data.meta.minSampleForRank}건 미만은 '
-                      '등수를 붙이되 근거가 얇다는 것을 카드에 적습니다.',
-                  trailing: TextButton(
-                    onPressed: () => context.go('/rank'),
-                    child: const Text('전체 랭킹 →'),
+                Reveal(
+                  child: SectionOpener(
+                    '${region?.nameKo ?? ""} 기록 발췌',
+                    kicker: spaced('발췌'),
+                    subtitle:
+                        '트리스코어 순. 표본 ${data.meta.minSampleForRank}건 미만은 '
+                        '등수를 붙이되 근거가 얇다는 것을 카드에 적습니다.',
+                    trailing: TextButton(
+                      onPressed: () => context.go('/rank'),
+                      child: const Text('전체 랭킹 →'),
+                    ),
                   ),
                 ),
+                // 발췌는 세 장뿐이라 한 장씩 그어도 부산스럽지 않다.
+                // 랭킹 목록에서는 감싸지 않는다 — 100곳을 줄마다 움직이면
+                // 훑어 읽기가 어렵다.
                 for (var i = 0; i < top.length; i++)
-                  AcademyCard(academy: top[i], rank: i + 1, index: i),
+                  Reveal(
+                    index: i,
+                    child: AcademyCard(academy: top[i], rank: i + 1, index: i),
+                  ),
               ],
             ),
           ),

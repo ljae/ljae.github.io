@@ -10,6 +10,7 @@ import '../data/models.dart';
 import '../data/repository.dart';
 import 'annals.dart';
 import 'common.dart';
+import 'scroll_stage.dart';
 import 'header_layout.dart';
 import 'wheel_selector.dart';
 
@@ -32,12 +33,27 @@ double headerContentWidth(BuildContext context) {
 /// 머리띠 두께. 헤더 높이 계산에 들어가는 값이라 상수로 둔다.
 const double _headBand = 3.0;
 
-class AppShell extends ConsumerWidget {
+class AppShell extends ConsumerStatefulWidget {
   final Widget child;
   const AppShell({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AppShell> createState() => _AppShellState();
+}
+
+class _AppShellState extends ConsumerState<AppShell> {
+  /// 읽은 만큼. 본문의 스크롤 알림이 채우고 머리띠가 읽는다.
+  /// ValueNotifier 로 흘리므로 스크롤 한 번에 셸 전체가 다시 그려지지 않는다.
+  final _read = ValueNotifier<double>(0);
+
+  @override
+  void dispose() {
+    _read.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final layout = HeaderLayout.forWidth(headerContentWidth(context));
     // 데모 배너는 있을 때만 자리를 차지한다.
     final demo = ref.watch(
@@ -54,13 +70,10 @@ class AppShell extends ConsumerWidget {
         child: Column(
           children: [
             // 책배(冊背)의 머리띠. 모든 화면 맨 위에 주묵 한 줄.
-            // 로고가 없어도 '이 서비스'라는 것을 말하는 장치다.
-            Container(
-              height: _headBand,
-              color: AppColors.accentOn(
-                Theme.of(context).brightness == Brightness.dark,
-              ),
-            ),
+            // 로고가 없어도 '이 서비스'라는 것을 말하는 장치이고,
+            // **읽은 만큼 찬다** — 진행 막대를 새로 만드는 대신 이미
+            // 있는 것에 뜻을 하나 더 얹었다. 새 부품보다 조용하다.
+            ReadingBand(height: _headBand, progress: _read),
             _TopBar(layout: layout),
             if (demo) const _DemoBanner(),
           ],
@@ -68,7 +81,10 @@ class AppShell extends ConsumerWidget {
       ),
       // 판면은 앱 전체에 깔린다. 스크롤해도 계선은 제자리에 있고
       // 내용만 지나간다 — 종이 위를 읽는 느낌이 그래서 난다.
-      body: PaperGround(child: child),
+      body: ReadingProgress(
+        notifier: _read,
+        child: PaperGround(child: widget.child),
+      ),
       // 상단에 메뉴를 못 넣는 폭에서는 하단 바가 대신한다.
       bottomNavigationBar: layout.showNav ? null : const _BottomBar(),
     );
