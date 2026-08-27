@@ -606,6 +606,45 @@ def _subjects_from_mentions(academies: list[dict],
     return n
 
 
+def _bands_from_mentions(academies: list[dict],
+                         by_key: dict[str, list[dict]]) -> int:
+    """학년 구간이 비어 있는 학원의 구간을 **후기로** 정한다.
+
+    빈 grade_bands 는 '어느 학년대인지 공시에 없음' 이고, 앱은 그것을
+    '어느 구간에도 한정되지 않음' 으로 읽어 **네 구간 모두**에 내보낸다.
+    그래서 수능 재종반인 시대인재가 '대치 예비초~초3 국어' 랭킹 1위로
+    올라 있었다(신고: '학급 매칭에 오류가 있다').
+
+    빈 값을 그대로 두는 것도, 임의로 한 구간에 몰아넣는 것도 답이 아니다.
+    남은 근거는 후기다 — band_near_one() 이 글마다 **학원 이름 근처**의
+    학년 말을 하나 뽑아 두므로, 충분히 반복되는 구간만 확정한다.
+
+    ★ 못 정하면 빈 채로 둔다. 종합·보습처럼 정말로 전 학년을 받는 곳이
+      있고, 그런 곳을 한 구간에 가두면 그게 또 다른 오류다.
+    """
+    n = 0
+    for a in academies:
+        if a.get("grade_bands"):
+            continue
+        rows = [m for m in by_key.get(a["id"], []) if not m.get("is_excluded")]
+        counts: dict[str, int] = defaultdict(int)
+        spoken = 0
+        for m in rows:
+            b = m.get("band")
+            if b:
+                spoken += 1
+                counts[b] += 1
+        if not spoken:
+            continue
+        found = [b for b, c in counts.items()
+                 if c >= _SUBJ_MIN_HITS and c / spoken >= _SUBJ_MIN_SHARE]
+        if not found:
+            continue
+        a["grade_bands"] = [b for b in config.GRADE_BANDS if b in found]
+        n += 1
+    return n
+
+
 def _previous_scores() -> dict:
     """직전 빌드의 랭킹 상태. app 번들에 이미 나가 있는 것을 읽는다."""
     path = config.EXPORT_DIR / "academies.json"
@@ -1113,6 +1152,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     promoted = _subjects_from_mentions(evaluated, by_key)
     if promoted:
         print(f"  종합학원 과목 확정: {promoted}곳 (후기가 말한 과목으로)")
+    # 학년 구간도 마찬가지. 비워 두면 네 구간에 모두 나타나 수능 재종반이
+    # '예비초~초3' 랭킹에 오른다.
+    banded = _bands_from_mentions(evaluated, by_key)
+    if banded:
+        print(f"  학년 구간 확정: {banded}곳 (후기가 말한 학급으로)")
 
     cohorts = scoring.build_cohorts(evaluated, by_key)
     scores, subject_scores = {}, {}

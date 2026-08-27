@@ -524,3 +524,25 @@ def test_학급도_이름_근처에서_하나만_읽는다():
     assert analyze.band_near_one("고3 수능 이야기", {"없는학원"}) is None
     # 구간을 못 정하는 말은 넘기지 않는다 — '초등'은 저·고학년 어느 쪽도 아니다.
     assert analyze.band_near_one("초등 대상 학원 아이엘이", {"아이엘이"}) is None
+
+
+def test_빈_학급은_후기로_정하되_못_정하면_비워_둔다():
+    """빈 grade_bands 는 앱이 '네 구간 모두'로 읽는다. 그래서 수능 재종반
+    시대인재가 '대치 예비초~초3 국어' 1위였다(신고). 후기로 정한다."""
+    from edutree import build
+    a = {"id": "X", "grade_bands": []}
+    high = [{"band": "high", "is_excluded": False} for _ in range(20)]
+    stray = [{"band": "elem_low", "is_excluded": False}]
+    assert build._bands_from_mentions([a], {"X": high + stray}) == 1
+    assert a["grade_bands"] == ["high"]          # 스친 한 건은 안 붙는다
+
+    # 근거가 얇으면 비운 채로 둔다 — 정말 전 학년을 받는 곳이 있고,
+    # 그런 곳을 한 구간에 가두면 그게 또 다른 오류다.
+    b = {"id": "Y", "grade_bands": []}
+    assert build._bands_from_mentions([b], {"Y": stray}) == 0
+    assert b["grade_bands"] == []
+
+    # 이미 공시로 정해져 있으면 건드리지 않는다.
+    c = {"id": "Z", "grade_bands": ["elem_low"]}
+    assert build._bands_from_mentions([c], {"Z": high}) == 0
+    assert c["grade_bands"] == ["elem_low"]
