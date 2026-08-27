@@ -94,5 +94,22 @@ jobs:
             echo "변경 없음"
           else
             git commit -m "data: 학원 데이터 및 트리스코어 갱신 ($(date -u +%Y-%m-%d))"
-            git push
+            # ★ 30분 넘게 도는 작업이라 그동안 main 이 움직여 있을 수 있다.
+            #   그대로 push 하면 'fetch first' 로 거부되고 **한 회차가 통째로
+            #   버려진다**(실측: 수집·채점·요약을 다 끝낸 뒤 마지막 줄에서
+            #   실패). 생성물끼리는 우리 것이 최신이므로 우리 것을 쓴다.
+            for i in 1 2 3; do
+              git push && exit 0
+              echo "push 거부됨 — 원격을 받아 다시 얹는다 (시도 $i)"
+              git fetch origin main
+              git rebase -X ours origin/main || {
+                echo "리베이스 실패 — 생성물만 다시 얹는다"
+                git rebase --abort || true
+                git reset --soft origin/main
+                git add app/assets/data pipeline/wiki
+                git commit -m "data: 학원 데이터 및 트리스코어 갱신 ($(date -u +%Y-%m-%d))"
+              }
+            done
+            echo "::error::세 번 시도했으나 push 실패"
+            exit 1
           fi
