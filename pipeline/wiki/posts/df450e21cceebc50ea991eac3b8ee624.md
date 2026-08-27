@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.66 (긍정) · 신뢰도 0.37 · 스팸 0.20
-- 붙은 학원 2곳 · 과목 english·korean
+- 붙은 학원 2곳 · 과목 korean
 - 진입난이도 신호: hard
 <!-- /auto:digest -->
 

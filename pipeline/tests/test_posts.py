@@ -485,3 +485,42 @@ def test_종합학원_과목은_후기가_말한_것으로_정한다():
     b = {"id": "Y", "subjects": ["general"]}
     assert build._subjects_from_mentions([b], {"Y": few}) == 0
     assert b["subjects"] == ["general"]
+
+
+# ── 한 글은 한 학원에 대해 한 과목·한 학급만 말한다 ──────────────
+def test_한_글은_한_학원에_한_과목만_붙는다():
+    """집합으로 두면 같은 글이 수학 근거이자 과학 근거가 된다.
+    표본이 부풀고 코호트 평균까지 함께 밀린다."""
+    from edutree import analyze, scoring
+    t = "대치 시대인재 수학 재종반 다니는데 과학탐구도 같이 들어요"
+    assert analyze.subject_near_one(t, {"시대인재"}) == "math"   # 이름에 가장 가까운 것
+    m = analyze.analyze({"snippet": t, "title": "", "source": "naver_cafe"},
+                        "시대인재", {"시대인재"})
+    assert m["subject"] == "math"
+    assert m["subjects"] == ["math"]        # 목록이어도 길이는 1 이하
+
+    # 과목별로 갈랐을 때 같은 글이 두 곳에 들어가지 않는다.
+    aca = {"id": "X", "subjects": ["math", "science"], "region_id": "daechi"}
+    rows = ([{"url_hash": f"m{i}", "subjects": ["math"], "is_excluded": False}
+             for i in range(3)]
+            + [{"url_hash": "s0", "subjects": ["science"], "is_excluded": False}]
+            + [{"url_hash": "n0", "subjects": [], "is_excluded": False}])
+    seen: dict[str, list[str]] = {}
+    for sub in ("math", "science"):
+        for m in scoring.subject_mentions(aca, rows, sub):
+            seen.setdefault(m["url_hash"], []).append(sub)
+    assert all(len(v) == 1 for v in seen.values())   # 겹치는 글 없음
+    assert len(seen) == len(rows)                    # 빠지는 글도 없음
+
+
+def test_학급도_이름_근처에서_하나만_읽는다():
+    """학원을 학급별로 갈라 줄 세우려면 글도 학급별로 갈려야 한다.
+    이 신호는 원래 없었다 — 없으면 같은 글이 모든 학급에 복사된다."""
+    from edutree import analyze
+    assert analyze.band_near_one("아이엘이 초3 파닉스반 후기", {"아이엘이"}) == "elem_low"
+    assert analyze.band_near_one("시대인재 고3 재종반", {"시대인재"}) == "high"
+    assert analyze.band_near_one("중2 내신 대비로 다원", {"다원"}) == "middle"
+    # 학원 이름이 없으면 아무것도 읽지 않는다.
+    assert analyze.band_near_one("고3 수능 이야기", {"없는학원"}) is None
+    # 구간을 못 정하는 말은 넘기지 않는다 — '초등'은 저·고학년 어느 쪽도 아니다.
+    assert analyze.band_near_one("초등 대상 학원 아이엘이", {"아이엘이"}) is None

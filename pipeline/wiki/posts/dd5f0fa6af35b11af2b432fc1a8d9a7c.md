@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.95 (긍정) · 신뢰도 0.80
-- 붙은 학원 1곳 · 과목 math·science
+- 붙은 학원 1곳 · 과목 math
 - 진입난이도 신호: hard
 - 등급반 언급: advanced
 <!-- /auto:digest -->

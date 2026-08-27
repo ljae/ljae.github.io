@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.66 (긍정) · 신뢰도 0.39
-- 붙은 학원 1곳 · 과목 english·math
+- 붙은 학원 1곳 · 과목 math
 - 등급반 언급: advanced
 - 작성일 불명 — 최신성 가중 0.6(6개월 된 글과 같은 취급)
 <!-- /auto:digest -->

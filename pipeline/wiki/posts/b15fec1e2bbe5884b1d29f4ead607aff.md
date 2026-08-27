@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.83 (긍정) · 신뢰도 0.66 · 스팸 0.18
-- 붙은 학원 1곳 · 과목 math·science
+- 붙은 학원 1곳 · 과목 math
 <!-- /auto:digest -->
 
 <!-- auto:summary -->

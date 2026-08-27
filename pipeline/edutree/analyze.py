@@ -404,6 +404,91 @@ def subjects_in(text: str) -> set[str]:
             if any(_norm(w) in flat for w in words)}
 
 
+# 학년 구간(학급)을 말하는 낱말. 과목과 같은 방식으로 **이름 근처**만 본다.
+#
+# 구간을 못 정하는 말('초등')은 어느 쪽으로도 넘기지 않는다 — 저학년과
+# 고학년은 학원가에서 사실상 다른 시장이라(저=연산·파닉스, 고=경시·선행)
+# 반씩 나눠 갖게 두면 둘 다 틀린다.
+BAND_WORDS = {
+    "elem_low": ("예비초", "7세", "6세", "5세", "초1", "초2", "초3",
+                 "일학년", "이학년", "삼학년", "파닉스", "한글", "유치"),
+    "elem_high": ("초4", "초5", "초6", "사학년", "오학년", "육학년",
+                  "예비중", "경시", "영재원"),
+    "middle": ("중1", "중2", "중3", "중등", "중학교", "중학생", "예비고",
+               "고입", "특목고", "영재고", "과학고", "자사고"),
+    "high": ("고1", "고2", "고3", "고등", "고등학교", "고등학생", "수능",
+             "재수", "n수", "정시", "수시", "내신등급", "모의고사", "의대"),
+}
+
+
+def _nearest(flat: str, spots: list[int], words) -> int | None:
+    """이름 자리(spots)에서 가장 가까운 낱말까지의 거리. 없으면 None."""
+    best = None
+    for w in words:
+        n = _norm(w)
+        if not n:
+            continue
+        i = flat.find(n)
+        while i >= 0:
+            d = min(abs(i - s) for s in spots)
+            if d <= SUBJECT_WINDOW and (best is None or d < best):
+                best = d
+            i = flat.find(n, i + 1)
+    return best
+
+
+def _name_spots(flat: str, names: set[str]) -> list[int]:
+    spots: list[int] = []
+    for name in names:
+        n = _norm(name)
+        if len(n) < 2:
+            continue
+        i = flat.find(n)
+        while i >= 0:
+            spots.append(i)
+            i = flat.find(n, i + 1)
+    return spots
+
+
+def nearest_of(text: str, names: set[str], vocab: dict) -> str | None:
+    """**하나만** 고른다 — 학원 이름에 가장 가까운 낱말의 갈래.
+
+    ★ 한 글이 한 학원에 대해 여러 갈래로 세어지면 안 된다. 예전에는
+      subjects_near() 가 집합을 돌려줘서 같은 글이 수학 근거이자 과학
+      근거였다(실측: 시대인재 379건 중 124건이 중복 계산, 와이즈만은
+      225건 중 111건). 표본이 부풀면 그 학원이 실제보다 두껍게 논의된
+      것처럼 보이고, 코호트 평균까지 함께 밀린다.
+
+      '가장 가까운 것' 을 쓰는 이유: 글이 그 학원을 말하며 바로 옆에 둔
+      낱말이 그 글의 주제다. 멀리 떨어진 낱말은 대개 다른 학원 이야기다.
+    """
+    flat = _norm(text)
+    spots = _name_spots(flat, names)
+    if not spots:
+        return None
+    best, best_d = None, None
+    for key, words in vocab.items():
+        d = _nearest(flat, spots, words)
+        if d is not None and (best_d is None or d < best_d):
+            best, best_d = key, d
+    return best
+
+
+def subject_near_one(text: str, names: set[str]) -> str | None:
+    """이 글이 이 학원에 대해 말하는 **과목 하나.**"""
+    return nearest_of(text, names, SUBJECT_WORDS)
+
+
+def band_near_one(text: str, names: set[str]) -> str | None:
+    """이 글이 이 학원에 대해 말하는 **학년 구간 하나.**
+
+    과목과 달리 이 신호는 원래 없었다. 학원을 학급별로 갈라 줄을 세우려면
+    글도 학급별로 갈려야 하는데, 그게 없으면 같은 글이 모든 학급에 복사돼
+    과목에서 겪은 중복 계산이 한 층 아래에서 되풀이된다.
+    """
+    return nearest_of(text, names, BAND_WORDS)
+
+
 def subjects_near(text: str, names: set[str]) -> set[str]:
     """**학원 이름 근처**의 과목어만.
 
@@ -508,6 +593,9 @@ def analyze(mention: dict, academy_name: str = "",
     title = mention.get("title", "")
     blob = f"{title} {text}"
 
+    targets = names or {academy_name}
+    subject = subject_near_one(blob, targets)
+
     sentiment, aspects = score_sentiment(blob)
     spam = score_spam(text, title)
     credibility = score_credibility(text, title, mention.get("source", ""))
@@ -524,8 +612,16 @@ def analyze(mention: dict, academy_name: str = "",
         "is_excluded": spam >= SPAM_EXCLUDE_THRESHOLD,
         "selectivity": selectivity_signals(blob),
         "class_tier_signals": class_tier_signals(blob, exclude=academy_name),
-        # 이 글이 **이 학원에 대해** 말하는 과목. 이름 근처만 본다.
-        "subjects": sorted(subjects_near(blob, names or {academy_name})),
+        # 이 글이 **이 학원에 대해** 말하는 과목·학급. 이름 근처만 본다.
+        #
+        # ★ 각각 **하나씩만** 정한다. 집합으로 두면 같은 글이 수학 근거이자
+        #   과학 근거가 되어 표본이 부풀고(실측 시대인재 124건 중복),
+        #   코호트 평균까지 함께 밀린다. 한 글은 한 학원에 대해 한 가지를
+        #   말한다고 본다 — 이름에 가장 가까운 낱말이 그것이다.
+        "subject": subject,
+        # 하위 호환: 0개 또는 1개짜리 목록. 여러 개가 될 수 없다.
+        "subjects": [subject] if subject else [],
+        "band": band_near_one(blob, targets),
     })
     return mention
 

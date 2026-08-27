@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.54 (긍정) · 신뢰도 0.80 · 스팸 0.20
-- 붙은 학원 2곳 · 과목 english·math
+- 붙은 학원 2곳 · 과목 english
 - 진입난이도 신호: wait
 <!-- /auto:digest -->
 
