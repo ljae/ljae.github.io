@@ -46,7 +46,9 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
   @override
   void initState() {
     super.initState();
-    _controller = FixedExtentScrollController(initialItem: _index.clamp(0, 1 << 30));
+    _controller = FixedExtentScrollController(
+      initialItem: _index.clamp(0, 1 << 30),
+    );
   }
 
   @override
@@ -71,9 +73,11 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
     }
     if (old.selected != widget.selected) {
       // 밖에서 값이 바뀐 경우다. 툭 끊기지 않게 굴려서 옮긴다.
-      _controller!.animateToItem(target,
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic);
+      _controller!.animateToItem(
+        target,
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
@@ -109,57 +113,78 @@ class _WheelSelectorState<T> extends State<WheelSelector<T>> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.label,
-              style: text.bodySmall?.copyWith(fontSize: 10.5, height: 1.1)),
-          const SizedBox(height: 2),
+          // 벌린 자간의 작은 라벨. 판면의 다른 메타 정보와 같은 말투다.
+          Text(widget.label, style: text.labelSmall?.copyWith(height: 1.1)),
+          const SizedBox(height: 3),
           Container(
             height: 58,
             decoration: BoxDecoration(
-              color: dark ? AppColors.darkCanvas : AppColors.canvas,
+              color: AppColors.canvasOn(dark),
               borderRadius: BorderRadius.circular(AppRadius.sm),
-              border: Border.all(color: dark ? AppColors.darkLine : AppColors.line),
-            ),
-            child: Stack(children: [
-              // 선택 위치 표시. 휠에서 어느 칸이 '선택된 칸'인지 보이게 한다.
-              Center(
-                child: Container(
-                  height: 22,
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    color: AppColors.navy.withValues(alpha: dark ? 0.35 : 0.08),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
+              border: Border.all(
+                color: AppColors.ruleOn(dark),
+                width: AppRule.hair,
               ),
-              ListWheelScrollView.useDelegate(
-                controller: _controller,
-                itemExtent: 22,
-                diameterRatio: 1.5,
-                perspective: 0.003,
-                physics: const FixedExtentScrollPhysics(),
-                onSelectedItemChanged: _commit,
-                childDelegate: ListWheelChildBuilderDelegate(
-                  childCount: widget.options.length,
-                  builder: (context, i) {
-                    final active = widget.options[i].$1 == widget.selected;
-                    return Center(
-                      child: Text(
-                        widget.options[i].$2,
-                        style: TextStyle(
-                          fontFamily: 'Paperlogy',
-                          fontSize: active ? 13.5 : 12.5,
-                          fontWeight: active ? FontWeight.w800 : FontWeight.w500,
-                          letterSpacing: -0.3,
-                          color: active
-                              ? (dark ? Colors.white : AppColors.navy)
-                              : AppColors.mist,
+            ),
+            child: Stack(
+              children: [
+                // 선택 위치 표시. 알약 배경 대신 **위아래 계선**으로 칸을
+                // 긋는다. 휠은 '지금 이 칸'을 말해야 하는데, 채운 알약은
+                // 이 화면에서 유일하게 둥근 것이 되어 혼자 튄다.
+                Center(
+                  child: Container(
+                    height: 22,
+                    decoration: BoxDecoration(
+                      color: AppColors.accentOn(
+                        dark,
+                      ).withValues(alpha: dark ? 0.12 : 0.06),
+                      border: Border(
+                        top: BorderSide(
+                          color: AppColors.accentOn(dark),
+                          width: AppRule.hair,
+                        ),
+                        bottom: BorderSide(
+                          color: AppColors.accentOn(dark),
+                          width: AppRule.hair,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ]),
+                ListWheelScrollView.useDelegate(
+                  controller: _controller,
+                  itemExtent: 22,
+                  diameterRatio: 1.5,
+                  perspective: 0.003,
+                  physics: const FixedExtentScrollPhysics(),
+                  onSelectedItemChanged: _commit,
+                  childDelegate: ListWheelChildBuilderDelegate(
+                    childCount: widget.options.length,
+                    builder: (context, i) {
+                      final active = widget.options[i].$1 == widget.selected;
+                      return Center(
+                        child: Text(
+                          widget.options[i].$2,
+                          style: TextStyle(
+                            fontFamily: 'Paperlogy',
+                            fontSize: active ? 13.5 : 12.5,
+                            fontWeight: active
+                                ? FontWeight.w800
+                                : FontWeight.w500,
+                            letterSpacing: -0.3,
+                            color: active
+                                ? AppColors.inkOn(dark)
+                                : AppColors.mutedOn(
+                                    dark,
+                                  ).withValues(alpha: 0.75),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

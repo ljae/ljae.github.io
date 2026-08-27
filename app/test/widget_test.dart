@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edutree/data/models.dart';
 import 'package:edutree/data/repository.dart';
+import 'package:edutree/widgets/annals.dart';
 import 'package:edutree/widgets/wheel_selector.dart';
 import 'package:edutree/features/techtree/roadmap_view.dart';
 
@@ -166,6 +167,67 @@ void main() {
     await pumpAt(1200);
     expect(find.byType(PageView), findsNothing,
         reason: '넓은 화면에서는 네 과목을 나란히 둔다');
+  });
+
+  group('획 등장(StrokeIn)', () {
+    // 처음엔 `Align(widthFactor:)` 로 열었다. 그러면 애니메이션 도중의
+    // 폭이 곧 **레이아웃 폭**이 되어 자식이 실제로 좁아진다 — 랭킹 목록
+    // 캡처에서 카드마다 오른쪽 끝이 다른 자리에서 잘려 있었다.
+    // 지금은 클리퍼로 그리기만 자르므로 폭이 늘 그대로여야 한다.
+    testWidgets('애니메이션 도중에도 자식의 폭이 줄지 않는다', (tester) async {
+      const key = ValueKey('inner');
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: SizedBox(
+                width: 400,
+                child: StrokeIn(
+                  child: Row(children: [Expanded(child: SizedBox(key: key, height: 20))]),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // 시작 직후 — 아직 거의 안 열린 시점
+      await tester.pump(const Duration(milliseconds: 60));
+      expect(tester.getSize(find.byKey(key)).width, 400);
+
+      // 중간
+      await tester.pump(const Duration(milliseconds: 250));
+      expect(tester.getSize(find.byKey(key)).width, 400);
+
+      // 끝
+      await tester.pumpAndSettle();
+      expect(tester.getSize(find.byKey(key)).width, 400);
+    });
+
+    testWidgets('모션을 끄면 획을 긋지 않고 바로 내놓는다', (tester) async {
+      const key = ValueKey('inner');
+      await tester.pumpWidget(
+        const MediaQuery(
+          data: MediaQueryData(disableAnimations: true),
+          child: MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 300,
+                  child: StrokeIn(
+                    child: Row(children: [Expanded(child: SizedBox(key: key, height: 10))]),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      // 한 프레임만에 온전한 폭이어야 한다. 기다릴 것이 없다.
+      expect(tester.getSize(find.byKey(key)).width, 300);
+      expect(find.byType(ClipRect), findsNothing);
+    });
   });
 
   group('테크트리 단계 목록', () {

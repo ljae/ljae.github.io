@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
+import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../data/corrections.dart';
 import '../../data/leveltests.dart';
@@ -72,7 +73,29 @@ class _Body extends StatelessWidget {
                 runSpacing: AppSpace.md,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  ScoreDial(score.total, size: 92),
+                  // 표본이 0 이면 숫자를 내지 않는다. 아래 안내는 '점수를
+                  // 매기지 않았습니다' 라고 적는데 머리에는 코호트 평균으로
+                  // 채워진 값이 큼직하게 떠 있었다(실측: 근거 0건인데 40).
+                  // 카드와 같은 규칙으로 맞춘다 — 다이얼은 '—', 라벨은
+                  // '근거 없음'.
+                  if (score.sampleSize == 0)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('—',
+                            style: TextStyle(
+                                fontFamily: 'Paperlogy',
+                                fontSize: 56,
+                                height: 1.0,
+                                color: AppColors.mist)),
+                        const SizedBox(height: 6),
+                        Text(spaced('근거없음'),
+                            style: text.labelMedium),
+                      ],
+                    )
+                  else
+                    ScoreDial(score.total, size: 92),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
                     child: Column(
