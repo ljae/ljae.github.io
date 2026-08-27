@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.93 (긍정) · 신뢰도 0.04 · 스팸 0.63 · **스팸 배제**
-- 붙은 학원 1곳 · 과목 korean·math·science
+- 붙은 학원 1곳 · 과목 math
 - 진입난이도 신호: hard
 <!-- /auto:digest -->
 

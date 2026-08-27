@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.73 (긍정) · 신뢰도 0.38
-- 붙은 학원 2곳 · 과목 english
+- 붙은 학원 1곳 · 과목 english
 - 진입난이도 신호: wait
 <!-- /auto:digest -->
 
@@ -31,7 +31,6 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/3000030170|띵킹(Think-Eng)어학원]] — 글이 이 권역을 밝힘 · 감성 +0.73
-- [[../academies/3000019569|트윈클어학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 <!-- /auto:edges -->
 
 ## 검수

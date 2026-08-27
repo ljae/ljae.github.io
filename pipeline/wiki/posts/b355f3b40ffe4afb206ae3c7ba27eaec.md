@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.20 (약긍정) · 신뢰도 0.09 · 스팸 0.32
-- 붙은 학원 1곳 · 과목 english·korean
+- 붙은 학원 1곳 · 과목 korean
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
