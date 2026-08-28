@@ -1158,6 +1158,14 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     print(f"언급 {len(mentions)}건 분석 완료 "
           f"(스팸 배제 {sum(1 for m in mentions if m['is_excluded'])}건)")
 
+    # 주장 분해 — 글을 스칼라로 요약하는 대신 근거의 최소 단위로 쪼갠다.
+    # 여기서 나온 사실(숙제량·시험 횟수·수업 시간)은 점수에 들어가지
+    # 않는다. 학부모에게 보여주는 정보일 뿐 순위를 바꾸지 않는다 —
+    # 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
+    from . import claims as claims_mod
+    claim_rows = claims_mod.extract_all(mentions, candidates, rival_names)
+    print(f"  {claims_mod.summary(claim_rows)}")
+
     by_key: dict[str, list[dict]] = defaultdict(list)
     for m in mentions:
         by_key[m["academy_key"]].append(m)
@@ -1183,7 +1191,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores)
+           subject_scores, claim_rows)
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -1389,10 +1397,16 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores=None) -> None:
+           subject_scores=None, claim_rows=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
+
+    # 운영 사실 카드. 근거가 모자라면 값 대신 인용문만 나간다 —
+    # 1건짜리 '주 3회' 를 숫자로 적으면 그 학원의 사실처럼 읽힌다.
+    from . import claims as claims_mod
+    facts = {key: claims_mod.facts_for(rows)
+             for key, rows in claims_mod.by_academy(claim_rows or []).items()}
 
     # 언급은 학원별 상위 근거 몇 건만 앱에 싣는다(원문 전재 금지 · 번들 크기).
     top_evidence: dict[str, list] = defaultdict(list)
@@ -1547,6 +1561,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                 for sub, v in ((subject_scores or {}).get(key) or {}).items()
             },
             "evidence": top_evidence.get(key, []),
+            # 학부모가 실제로 묻는 것. 점수가 아니라 사실이므로 트리스코어에
+            # 들어가지 않는다. 모든 줄이 인용문과 원문 링크를 갖는다 —
+            # 근거를 못 보여주는 사실은 싣지 않는다.
+            "facts": facts.get(key, {}),
         })
         payload_academies.append(row)
 
