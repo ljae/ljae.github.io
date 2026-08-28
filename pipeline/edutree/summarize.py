@@ -180,17 +180,22 @@ class _Fatal(RuntimeError):
     """다시 시도해도 소용없는 실패. 바로 멈추라는 신호."""
 
 
-def _call_gemini(session, body: str) -> str:
+def _call_gemini(session, body: str, system: str | None = None,
+                 max_tokens: int = 2048) -> str:
     """Gemini REST. SDK 를 새로 들이지 않는다 — 호출이 한 종류뿐이라
-    requests(이미 의존) 로 충분하다."""
+    requests(이미 의존) 로 충분하다.
+
+    [system]·[max_tokens] 는 이 계층을 요약 말고도 쓰기 위한 것이다
+    (claim_llm 이 같은 제공자 배선을 그대로 쓴다). 기본값은 요약이다.
+    """
     payload = {
-        "system_instruction": {"parts": [{"text": SYSTEM}]},
+        "system_instruction": {"parts": [{"text": system or SYSTEM}]},
         "contents": [{"parts": [{"text": body}]}],
         "generationConfig": {
             # 두 문장이면 100토큰이면 충분하지만 넉넉히 준다. 사고 예산을
             # 껐는데도 간헐적으로 사고가 도는 듯한 응답이 있었고, 그때
             # 남은 자리가 모자라 문장이 잘렸다(실측 1,091건 중 8건).
-            "maxOutputTokens": 2048,
+            "maxOutputTokens": max_tokens,
             "temperature": 0.2,
             # 요약에 사고 예산을 쓰지 않는다. 켜 두면 maxOutputTokens 를
             # 사고가 먼저 먹어 본문이 빈 채로 끝난다.
@@ -245,11 +250,13 @@ def _anthropic_caller():
     #   동안 끄는** 쪽이 스스로 낫는다.
     state = {"effort": True}
 
-    def call(_session, body: str) -> str:
+    def call(_session, body: str, system: str | None = None,
+             max_tokens: int = 256) -> str:
+        sys_prompt = system or SYSTEM
         extra = {"output_config": {"effort": "low"}} if state["effort"] else {}
         try:
             resp = client.messages.create(
-                model=MODEL, max_tokens=256, system=SYSTEM,
+                model=MODEL, max_tokens=max_tokens, system=sys_prompt,
                 messages=[{"role": "user", "content": body}], **extra)
         except anthropic.BadRequestError as exc:
             reason = _fatal(str(exc))
@@ -260,7 +267,7 @@ def _anthropic_caller():
             print(f"  요약: {MODEL} 은 effort 를 안 받는다 — 끄고 계속")
             state["effort"] = False
             resp = client.messages.create(
-                model=MODEL, max_tokens=256, system=SYSTEM,
+                model=MODEL, max_tokens=max_tokens, system=sys_prompt,
                 messages=[{"role": "user", "content": body}])
         except anthropic.AuthenticationError as exc:
             raise _Fatal("키가 거부됐다 — ANTHROPIC_API_KEY 확인") from exc

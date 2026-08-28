@@ -20,7 +20,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from edutree import analyze, claims, config, scoring     # noqa: E402
+from edutree import analyze, claim_llm, claims, scoring  # noqa: E402
 
 
 NAMES = {"가나수학학원", "가나수학", "가나"}
@@ -593,3 +593,49 @@ def test_dispute_rate_is_reported_not_hidden():
                                                 "reason": "광고"}})
     rate = claims.dispute_rate(rows)["A1"]
     assert rate["dropped"] == 1 and rate["total"] == len(rows)
+
+
+# ── LLM 추출 ───────────────────────────────────────────────────────
+#
+# CLAUDE.md: "LLM 문장이 산식에 흘러들면 그때부터 산식을 설명할 수 없다."
+# 이 선을 넘지 않는 조건이 인용문 검증이다 — 모델은 값을 만드는 게 아니라
+# 원문의 어느 조각이 그 값인지 가리킬 뿐이고, 그 조각이 원문에 없으면
+# 기계가 버린다.
+SOURCE = "가나수학학원 다니는데 수업은 주 3회이고 한 번에 90분입니다"
+
+
+def test_llm_quote_must_be_in_the_source():
+    ok = claim_llm.verify(
+        [{"kind": "class_freq", "value": 3, "quote": "수업은 주 3회"}], SOURCE)
+    assert len(ok) == 1 and ok[0]["kind"] == "fact.class_freq"
+
+    # ★ 지어낸 문장은 통과하지 못한다
+    assert claim_llm.verify(
+        [{"kind": "class_freq", "value": 5, "quote": "주 5회 수업이라고 함"}],
+        SOURCE) == []
+
+
+def test_llm_may_not_invent_new_kinds():
+    """새 종류를 모델이 만들어 내면 그게 무엇을 뜻하는지 아무도 정한 적이 없다."""
+    assert claim_llm.verify(
+        [{"kind": "teacher_quality", "value": 9, "quote": "수업은 주 3회"}],
+        SOURCE) == []
+
+
+def test_llm_values_must_be_numbers_in_range():
+    assert claim_llm.verify(
+        [{"kind": "class_freq", "value": "많음", "quote": "수업은 주 3회"}],
+        SOURCE) == []
+    assert claim_llm.verify(
+        [{"kind": "class_minutes", "value": 99999, "quote": "한 번에 90분"}],
+        SOURCE) == []
+
+
+def test_llm_quote_ignores_only_whitespace():
+    """'주3회' 와 '주 3회' 는 같은 문장이다. 그 이상은 봐주지 않는다."""
+    assert len(claim_llm.verify(
+        [{"kind": "class_freq", "value": 3, "quote": "수업은주3회"}],
+        SOURCE)) == 1
+    assert claim_llm.verify(
+        [{"kind": "class_freq", "value": 3, "quote": "수업은 주 삼회"}],
+        SOURCE) == []

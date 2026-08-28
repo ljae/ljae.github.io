@@ -1123,52 +1123,21 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                 m["credibility"] = round(
                     min(1.0, max(0.0, m.get("credibility", 0.5) * mul)), 3)
 
-    if mode == "live" and not from_cache:
-        # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
-        #
-        # ★ --from-cache 실행은 기록하지 않는다. 캐시 실행은 수집 시도가
-        #   아니다 — 기록하면 새로 시드된 학원이 '수집했는데 0건'(dry)으로
-        #   오염돼, 실제로는 한 번도 검색해 보지 않았는데 후순위로 밀린다.
-        #   그로튼에밀튼(리딩타운)이 정확히 이렇게 밀렸다.
-        from . import coverage, demand
-        coverage.record(evaluated, mentions)
-        # 이번 회차 글로 수요 신호를 갱신한다. 등록부 전체를 대상으로
-        # 재므로, 아직 한 번도 안 본 학원이 다음 회차에 앞으로 나온다.
-        demand.save(demand.measure(evaluated + registry_only, mentions))
-
-        # 검수 대기 큐에 올린다. 신뢰도 높은 글부터 — 점수에 영향이 큰
-        # 글을 먼저 봐야 검수 한 번의 값어치가 크다.
-        queued = review_queue.enqueue(mentions, evaluated, verdicts)
-        if queued:
-            print(f"  검수 큐: {queued:,}건 대기")
-
-        # 질문 생성 — 글더미 대신 판단이 필요한 지점만 올린다.
-        qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
-                           wiki_locality)
-        asked = qmod.enqueue(qs)
-        if asked:
-            print(f"  질문 큐: {asked}건 ("
-                  + " · ".join(sorted({q['kind'] for q in qs})) + ")")
-
-    # 학원실록 자체 후기를 같은 채점 로직에 태운다.
-    # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —
-    # 평판은 하나의 축이고 출처에 따라 가중치만 다르면 된다.
-    if config.HAS_SUPABASE:
-        from . import reviews as own_reviews
-        summaries = own_reviews.fetch_summaries()
-        extra = own_reviews.as_mentions(summaries)
-        if extra:
-            mentions.extend(extra)
-            print(f"  학원실록 후기 {len(extra):,}건 반영 ({len(summaries)}곳)")
-    print(f"언급 {len(mentions)}건 분석 완료 "
-          f"(스팸 배제 {sum(1 for m in mentions if m['is_excluded'])}건)")
-
     # 주장 분해 — 글을 스칼라로 요약하는 대신 근거의 최소 단위로 쪼갠다.
-    # 여기서 나온 사실(숙제량·시험 횟수·수업 시간)은 점수에 들어가지
-    # 않는다. 학부모에게 보여주는 정보일 뿐 순위를 바꾸지 않는다 —
-    # 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
+    #
+    # ★ 질문 생성보다 **먼저** 와야 한다. questions 가 주장 쪽 질문
+    #   (claim_check·claim_conflict)을 만들려면 이번 회차의 주장이 이미
+    #   있어야 한다. 뒤에 두면 한 회차 늦게 반영된다 — apply_answers 를
+    #   load_rules 앞에 둔 것과 같은 이유다.
     from . import claims as claims_mod
     claim_rows = claims_mod.extract_all(mentions, candidates, rival_names)
+
+    # 규칙이 못 찾은 글에서 사실을 더 뽑는다. **기둥 점수에는 안 쓴다** —
+    # 인용문이 원문의 글자 그대로가 아니면 버리므로 지어낼 자리가 없지만,
+    # 그래도 산식은 결정적으로 남겨 둔다.
+    if mode == "live":
+        from . import claim_llm
+        claim_rows += claim_llm.collect(mentions, claim_rows, names)
 
     # 취소 회로 — 사용자 이의에 대한 운영자 판정을 반영한다.
     #
@@ -1193,6 +1162,46 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 그대로 통한다. 따로 들고 다니면 두 목록이 어긋난다.
     claims_mod.attach_events(mentions, claim_rows)
     print(f"  {claims_mod.summary(claim_rows)}")
+
+    if mode == "live" and not from_cache:
+        # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
+        #
+        # ★ --from-cache 실행은 기록하지 않는다. 캐시 실행은 수집 시도가
+        #   아니다 — 기록하면 새로 시드된 학원이 '수집했는데 0건'(dry)으로
+        #   오염돼, 실제로는 한 번도 검색해 보지 않았는데 후순위로 밀린다.
+        #   그로튼에밀튼(리딩타운)이 정확히 이렇게 밀렸다.
+        from . import coverage, demand
+        coverage.record(evaluated, mentions)
+        # 이번 회차 글로 수요 신호를 갱신한다. 등록부 전체를 대상으로
+        # 재므로, 아직 한 번도 안 본 학원이 다음 회차에 앞으로 나온다.
+        demand.save(demand.measure(evaluated + registry_only, mentions))
+
+        # 검수 대기 큐에 올린다. 신뢰도 높은 글부터 — 점수에 영향이 큰
+        # 글을 먼저 봐야 검수 한 번의 값어치가 크다.
+        queued = review_queue.enqueue(mentions, evaluated, verdicts)
+        if queued:
+            print(f"  검수 큐: {queued:,}건 대기")
+
+        # 질문 생성 — 글더미 대신 판단이 필요한 지점만 올린다.
+        qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
+                           wiki_locality, claim_rows)
+        asked = qmod.enqueue(qs)
+        if asked:
+            print(f"  질문 큐: {asked}건 ("
+                  + " · ".join(sorted({q['kind'] for q in qs})) + ")")
+
+    # 학원실록 자체 후기를 같은 채점 로직에 태운다.
+    # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —
+    # 평판은 하나의 축이고 출처에 따라 가중치만 다르면 된다.
+    if config.HAS_SUPABASE:
+        from . import reviews as own_reviews
+        summaries = own_reviews.fetch_summaries()
+        extra = own_reviews.as_mentions(summaries)
+        if extra:
+            mentions.extend(extra)
+            print(f"  학원실록 후기 {len(extra):,}건 반영 ({len(summaries)}곳)")
+    print(f"언급 {len(mentions)}건 분석 완료 "
+          f"(스팸 배제 {sum(1 for m in mentions if m['is_excluded'])}건)")
 
     by_key: dict[str, list[dict]] = defaultdict(list)
     for m in mentions:

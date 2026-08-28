@@ -42,6 +42,8 @@ def check() -> None:
     print(f"     공동주택(아파트)  {apartments.status()}")
     from edutree import summarize
     print(f"     글 요약        {summarize.status()}")
+    from edutree import claim_llm
+    print(f"     사실 추출(LLM) {claim_llm.status()}")
 
     print("─" * 62)
     print(f"  실행 모드: {mode}")
