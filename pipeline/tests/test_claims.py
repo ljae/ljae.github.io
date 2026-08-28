@@ -20,7 +20,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from edutree import claims                              # noqa: E402
+from edutree import analyze, claims, config, scoring     # noqa: E402
 
 
 NAMES = {"가나수학학원", "가나수학", "가나"}
@@ -45,8 +45,15 @@ def mention(text: str, *, url_hash: str = "h1", posted: str = "2026-06-01",
 
 
 def kinds(text: str) -> list[tuple[str, float, float | None]]:
+    """운영 사실만. 진입 사건은 events() 로 따로 본다."""
     got = claims.extract(mention(text), NAMES, RIVALS)
-    return [(c["kind"], c["value"], c["value_high"]) for c in got]
+    return [(c["kind"], c["value"], c["value_high"]) for c in got
+            if c["kind"] in claims.FACT_KINDS]
+
+
+def events(text: str, names=NAMES) -> list[str]:
+    got = claims.extract(mention(text), names, RIVALS)
+    return sorted(c["kind"] for c in got if c["kind"].startswith("sel."))
 
 
 # ── 추출 ───────────────────────────────────────────────────────────
@@ -201,6 +208,47 @@ def test_excluded_mentions_yield_nothing():
     assert claims.extract_all([m], {"A1": NAMES}, RIVALS) == []
 
 
+# ── 진입난이도 사건 ────────────────────────────────────────────────
+#
+# 옛 식(낱말 세기)을 캐시로 재 봤을 때 나온 세 가지 결함을 그대로 굳힌다.
+# 언급 30건·정원 200 조건에서:
+#     레테 얘기 없음                24.7   '모른다' 가 '쉽다' 로
+#     '난이도 높아 떨어졌어요'       74.1   기준점
+#     '어렵지 않았어요, 대기 없이'   70.6   부정문이 그대로 난이도
+#     '어렵다던데 걸리나요?'         74.1   질문글이 경험담과 동일
+def test_experience_produces_events():
+    assert events("가나수학학원 레벨테스트 난이도가 높아 떨어졌어요 대기도 걸렸습니다") == \
+        ["sel.test_exists", "sel.test_failed", "sel.waitlist"]
+
+
+def test_negation_produces_no_events():
+    """★ 부정문이 난이도가 되던 결함(70.6점).
+
+    한국어는 부정어가 뒤에도 온다 — '어렵지 않았어요' 와 '대기 없이'.
+    감성에는 NEGATORS 가 걸려 있었는데 진입난이도에는 없었다.
+    """
+    assert events("가나수학학원 레테 어렵지 않았어요 대기 없이 바로 등록했습니다") == []
+
+
+def test_questions_produce_no_events():
+    """★ 질문글이 경험담과 같은 점수를 받던 결함(둘 다 74.1점)."""
+    assert events("가나수학학원 레테 어렵다던데 대기 걸리나요?") == []
+
+
+def test_grade_drop_is_not_a_failed_placement_test():
+    """'성적이 떨어져서' 는 레벨테스트 탈락이 아니다."""
+    assert events("가나수학학원 다니는데 성적이 떨어져서 고민이에요") == []
+    # 시험 맥락이 있으면 어간형도 잡는다
+    assert "sel.test_failed" in events("가나수학학원 레테 두 번 떨어지고 세 번째에 붙었어요")
+
+
+def test_events_need_the_academy_nearby():
+    """과목·학급이 지키는 창(窓) 규칙을 진입난이도만 안 지키고 있었다."""
+    far = "가나수학학원 이야기는 여기까지고 " + "그냥 잡담이 이어집니다 " * 4 + \
+          "다른 곳은 레테에서 떨어졌대요"
+    assert events(far) == []
+
+
 # ── 집계 ───────────────────────────────────────────────────────────
 def _rows(texts: list[tuple[str, str]]) -> list[dict]:
     """(본문, 작성자) 목록 → 주장들."""
@@ -313,3 +361,112 @@ def test_revoked_claims_leave_the_card():
     rows[0]["status"] = "revoked"
     card = claims.facts_for(rows, TODAY)["fact.class_freq"]
     assert card["n"] == 1 and card["value"] is None
+
+
+# ── 진입난이도 산식 ────────────────────────────────────────────────
+def _sel_mentions(text: str, n: int, *, posted: str = "2026-06-01") -> list[dict]:
+    out = []
+    for i in range(n):
+        m = mention(text, url_hash=f"s{i}", author=f"au{i}", posted=posted)
+        claims.attach_events([m], claims.extract(m, NAMES))
+        out.append(m)
+    return out
+
+
+def test_no_events_means_no_score_not_a_low_score():
+    """★ '모른다' 를 '쉽다' 로 적지 않는다.
+
+    옛 식은 레테 얘기가 한 번도 없는 학원에 24.7점을 줬다. 배점 30%인
+    '정원 대비 수요' 가 후기 없이도 값을 만들었기 때문이다.
+    """
+    rows = _sel_mentions("가나수학학원 선생님 친절하고 아이가 잘 다녀요", 30)
+    score, bd = scoring.selectivity(rows, {"tofor_smtot": 200})
+    assert score is None
+    assert bd["사건"] == {}
+    assert scoring.selectivity_tier(bd) is None
+
+
+def test_events_outrank_a_bare_level_test_mention():
+    """무게가 살아 있어야 한다.
+
+    처음에는 사건을 전부 더했더니 '레벨테스트 있음'(0.3)이 양으로 쌓여
+    96점이 됐다 — 무게를 0.3 으로 둔 뜻이 통째로 상쇄됐다. 종류별로
+    포화시켜야 '레테가 있다는 것만으로는 난이도가 아니다' 가 성립한다.
+    """
+    bare, _ = scoring.selectivity(
+        _sel_mentions("가나수학학원 레테 보고 등록했어요", 30), {})
+    real, _ = scoring.selectivity(
+        _sel_mentions("가나수학학원 레벨테스트 난이도가 높아 떨어졌어요 대기도 걸렸습니다",
+                      30), {})
+    assert bare < real
+    assert bare < 50            # 레테가 있다는 것만으로는 어렵지 않다
+
+
+def test_missing_pillar_is_dropped_not_filled():
+    """근거 없는 기둥은 남은 기둥으로 가중치를 다시 나눈다."""
+    academy = {"id": "A1", "name": "가나수학학원", "region_id": "daechi",
+               "subjects": ["math"], "reg_stttus_nm": "정상",
+               "tofor_smtot": 200, "le_crse_list_nm": "수학"}
+    cohort = {"mean_sentiment": 0.0, "sd_sentiment": 0.12, "volumes": [],
+              "mention_capacity_ratio": 1.0, "size": 5}
+    quiet = _sel_mentions("가나수학학원 선생님 친절하고 아이가 잘 다녀요", 12)
+    for m in quiet:
+        m.update({"sentiment": 0.5, "credibility": 0.7, "substance": 1})
+    out = scoring.compute(academy, quiet, cohort, subject="math")
+    assert out["selectivity"] is None
+    w = out["breakdown"]["weights"]
+    assert "selectivity" not in w
+    assert abs(sum(w.values()) - 1.0) < 1e-6
+
+
+# ── 게이트 B ───────────────────────────────────────────────────────
+def test_substance_grades():
+    """얕은 글을 버리지 않고 등급을 매긴다 — 기둥마다 문턱이 다르다."""
+    assert analyze.score_substance("가나수학학원 다녀요") == 0
+    assert analyze.score_substance("가나수학학원 좋아요 만족합니다") == 1
+    assert analyze.score_substance("가나수학학원 주 3회 수업합니다") == 2
+
+
+def test_shallow_posts_count_for_buzz_but_not_reputation():
+    """★ 층을 섞지 않는다.
+
+    한 줄짜리 '거기 좋대요' 는 회자의 증거로는 유효하지만 감성은 아니다.
+    통째로 버리면 화제성이 정보량을 재는 지표로 변질된다.
+    """
+    rows = [{"url_hash": f"q{i}", "posted_at": "2026-08-01", "sentiment": 0.0,
+             "credibility": 0.5, "substance": 0, "is_excluded": False}
+            for i in range(6)]
+    _, bd = scoring.reputation(rows, 0.0)
+    assert bd["표본"] == 0                       # 평판에는 안 들어간다
+    _, mbd, _ = scoring.momentum(rows, [1.0, 2.0, 3.0])
+    assert mbd["전체_유효언급"] == 6             # 화제성에는 들어간다
+
+
+def test_near_duplicates_keep_the_oldest_only():
+    """같은 원고를 여러 곳에 옮긴 바이럴 배치. 개별 글은 스팸 점수가 낮다."""
+    body = ("이 학원 정말 좋습니다 아이가 즐겁게 다니고 성적도 올랐어요 "
+            "선생님들도 친절하시고 관리가 꼼꼼합니다")
+    rows = [{"academy_key": "A1", "snippet": body, "posted_at": d,
+             "is_excluded": False}
+            for d in ("2026-05-01", "2026-05-02", "2026-05-03")]
+    rows, hit = analyze.flag_near_duplicates(rows)
+    assert hit == 2
+    assert [r["is_excluded"] for r in rows] == [False, True, True]
+
+
+def test_bursts_ignore_discovery_dates():
+    """★ 발견일은 작성일이 아니다.
+
+    한 회차에 발견한 글 수천 건이 같은 날짜를 갖는다. 처음에 이걸
+    빼먹었더니 3,256건이 버스트로 잡혔다 — 캠페인이 아니라 우리 수집
+    일정이었다.
+    """
+    rows = [{"academy_key": "A1", "author_hash": "z", "posted_at": "2026-08-01",
+             "date_source": "discovery", "is_excluded": False}
+            for _ in range(5)]
+    _, hit = analyze.flag_author_bursts(rows)
+    assert hit == 0
+    for r in rows:
+        r["date_source"] = "cafe_list"
+    _, hit = analyze.flag_author_bursts(rows)
+    assert hit == 5

@@ -1110,6 +1110,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                                 candidates.get(m.get("academy_key")))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
+    # 홍보 게이트 — 글 하나가 아니라 묶음을 봐야 잡히는 두 가지.
+    mentions, dup = analyze.flag_near_duplicates(mentions)
+    mentions, burst = analyze.flag_author_bursts(mentions)
+    if dup or burst:
+        print(f"  홍보 묶음 배제: 근사중복 {dup:,}건 · 작성자 버스트 {burst:,}건")
     # 비교 질문의 답 — 두 글의 신뢰도만 ±20% 보정한다. 산식은 안 흔든다.
     if qa.get("boost"):
         for m in mentions:
@@ -1164,6 +1169,10 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
     from . import claims as claims_mod
     claim_rows = claims_mod.extract_all(mentions, candidates, rival_names)
+    # 진입난이도 사건은 글에 붙여 둔다. 점수 계산이 과목별로 글을 걸러
+    # 가며 도는데(subject_mentions), 사건이 글과 함께 움직여야 그 필터가
+    # 그대로 통한다. 따로 들고 다니면 두 목록이 어긋난다.
+    claims_mod.attach_events(mentions, claim_rows)
     print(f"  {claims_mod.summary(claim_rows)}")
 
     by_key: dict[str, list[dict]] = defaultdict(list)
@@ -1531,6 +1540,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                     (s.get("breakdown", {}).get("reputation", {}) or {}).get("긍정률")
                     if s["sample_size"] >= config.MIN_SAMPLE_FOR_RANK else None),
                 "momentumDirection": s["momentum_direction"],
+                "selectivityTier": s.get("selectivity_tier"),
                 "rankInRegion": s.get("rank_in_region"),
                 "regionRankedCount": s.get("region_ranked_count"),
                 "breakdown": s["breakdown"],
@@ -1555,6 +1565,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                         if v["sample_size"] >= config.MIN_SAMPLE_FOR_RANK
                         else None),
                     "momentumDirection": v["momentum_direction"],
+                    "selectivityTier": v.get("selectivity_tier"),
                     "rankInRegion": v.get("rank_in_region"),
                     "regionRankedCount": v.get("region_ranked_count"),
                 }

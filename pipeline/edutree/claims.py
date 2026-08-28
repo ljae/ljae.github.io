@@ -48,6 +48,59 @@ FACT_KINDS = {
     "fact.class_minutes": ("1회 수업",    "분"),
 }
 
+# ── 진입난이도 사건 ────────────────────────────────────────────────
+#
+# 낱말을 세지 않고 **사건이 확인됐는가**를 묻는다. 사건은 참·거짓을 따질
+# 수 있고, 인용문으로 보여줄 수 있고, 틀렸다면 그 한 줄만 취소할 수 있다.
+#
+# 왜 바꿨나 — 옛 selectivity_signals 를 캐시로 재 봤더니(언급 30건, 정원 200):
+#   레테 얘기가 아예 없는 학원        24.7   '모른다' 가 '쉽다' 로
+#   '난이도 높아 떨어졌어요'(경험담)   74.1   기준점
+#   '레테 어렵지 않았어요, 대기 없이'  70.6   부정문이 그대로 난이도
+#   '레테 어렵다던데 대기 걸리나요?'   74.1   질문글이 경험담과 동일
+#
+# 무게가 다르다. 옛 식은 '난이도'·'빡세' 가 '떨어졌' 과 같은 무게였다.
+# ★ 시험 맥락을 함께 요구하는 사건이 있다.
+#   '떨어지' 를 그냥 세면 '성적이 떨어져서 옮겼어요' 가 레벨테스트 탈락이
+#   된다. 시험을 말하는 낱말이 곁에 있어야 입반 시험 이야기다.
+SEL_TEST_WORDS = ("레테", "레벨테스트", "테스트", "시험", "입반", "반배정",
+                  "편성고사", "선발", "등록")
+SEL_CONTEXT_WINDOW = 22
+
+#            종류               무게   촉발 낱말                     시험맥락
+SEL_EVENTS: tuple[tuple[str, float, tuple[str, ...], bool], ...] = (
+    # 실제로 떨어진 사람이 있다. 가장 강한 증거다.
+    ("sel.test_failed", 1.00,
+     ("떨어지", "떨어졌", "떨어져", "탈락", "재응시", "불합격", "미달",
+      "못붙", "못 붙"), True),
+    # 수요가 정원을 넘었다는 관찰.
+    ("sel.waitlist", 0.80,
+     ("대기", "웨이팅", "티오", "결원", "대기번호"), False),
+    # 시점에 따라 달라진다.
+    ("sel.full", 0.60,
+     ("마감", "자리없", "자리 없", "오픈런", "등록전쟁", "만석"), False),
+    # 주관이 섞인다.
+    ("sel.test_hard", 0.50,
+     ("겨우 붙", "겨우붙", "커트라인", "간신히", "어렵게 붙", "합격률"), True),
+    # 레테가 있다는 것만으로는 난이도가 아니다.
+    ("sel.test_exists", 0.30,
+     ("레테", "레벨테스트", "레벨 테스트", "반배정고사", "입반테스트",
+      "입반 테스트", "편성고사"), False),
+)
+SEL_WEIGHT = {k: w for k, w, _t, _c in SEL_EVENTS}
+SEL_LABEL = {
+    "sel.test_failed": "레벨테스트 탈락",
+    "sel.waitlist":    "대기·웨이팅",
+    "sel.full":        "정원 마감",
+    "sel.test_hard":   "어렵게 통과",
+    "sel.test_exists": "레벨테스트 있음",
+}
+
+# 사건은 학원 이름에서 이만큼 안에서만 인정한다.
+# analyze.SUBJECT_WINDOW 와 같은 값이다 — 과목·학급이 지키는 규칙을
+# 진입난이도만 안 지키고 있었다.
+SEL_WINDOW = 45
+
 # 값을 숫자로 내려면 서로 다른 글이 이만큼 있어야 한다.
 # 1건짜리 '주 3회' 는 그 집 아이 반 이야기지 그 학원의 사실이 아니다.
 MIN_CORROBORATION = 2
@@ -259,44 +312,55 @@ def _duration_minutes(token: str, unit: str) -> tuple[float, float] | None:
     return lo, hi
 
 
-def _extract_facts(text: str, flat: str, idx: list[int], spots: list[int],
-                   rival_spots: list[int], generic_spots: list[int],
-                   mine_flat=frozenset()) -> list[dict]:
-    """운영 사실 후보. (kind, value, value_high, unit, span, quote)"""
-    out: list[dict] = []
+def _owner_checker(idx: list[int], spots: list[int], rival_spots: list[int],
+                   generic_spots: list[int]):
+    """`(원문 위치, 창) → 이 자리가 **이 학원** 이야기인가`.
 
+    임자를 두 단계로 가린다.
+
+    ① 상호끼리는 **왼쪽 우선**.
+       '다라영어학원은 주 5회인데 가나수학학원은 모르겠어요' 에서 '주 5회'
+       는 가나수학학원 쪽이 글자 수로는 가깝지만 다라영어학원 이야기다.
+       한국어는 수식어가 앞에 온다. (왼쪽에 아무 이름도 없을 때만 거리로
+       정한다 — '주 3회인 가나수학학원' 도 있다)
+
+    ② 업종어는 **더 가까울 때만** 임자.
+       '주3회 2시간씩 영어학원을 다녀요' 의 '영어학원' 은 수치보다 뒤에
+       있지만 그 수치의 임자다(다니다의 목적어). 왼쪽 우선 규칙으로는 못
+       잡는다. 그렇다고 업종어에 왼쪽 우선을 주면 '수학학원 알아보다가
+       가나수학학원 주 3회로 정했어요' 처럼 멀쩡한 근거가 날아간다.
+       그래서 거리로만 견준다.
+
+    두 규칙을 하나로 합치면 둘 중 하나가 반드시 틀린다.
+    """
     owners = [(s, "mine") for s in spots] + [(s, "rival") for s in rival_spots]
 
-    def near_name(orig_pos: int) -> bool:
-        """이 수치가 **이 학원** 것인가. 임자를 두 단계로 가린다.
-
-        ① 상호끼리는 **왼쪽 우선**.
-           '다라영어학원은 주 5회인데 가나수학학원은 모르겠어요' 에서
-           '주 5회' 는 가나수학학원 쪽이 글자 수로는 가깝지만 다라영어학원
-           이야기다. 한국어는 수식어가 앞에 온다. (왼쪽에 아무 이름도
-           없을 때만 거리로 정한다 — '주 3회인 가나수학학원' 도 있다)
-
-        ② 업종어는 **더 가까울 때만** 임자.
-           '주3회 2시간씩 영어학원을 다녀요' 의 '영어학원' 은 수치보다
-           뒤에 있지만 그 수치의 임자다(다니다의 목적어). 왼쪽 우선
-           규칙으로는 못 잡는다. 그렇다고 업종어에 왼쪽 우선을 주면
-           '수학학원 알아보다가 가나수학학원 주 3회로 정했어요' 처럼
-           멀쩡한 근거가 날아간다. 그래서 거리로만 견준다.
-        """
+    def ok(orig_pos: int, window: int = FACT_WINDOW) -> bool:
         if not spots:
             return False
         p = _to_norm_pos(idx, orig_pos)
-        left = [(p - s, who) for s, who in owners if 0 <= p - s <= FACT_WINDOW]
+        left = [(p - s, who) for s, who in owners if 0 <= p - s <= window]
         if left:
             if min(left)[1] != "mine":
                 return False
         else:
             near = [(abs(p - s), who) for s, who in owners
-                    if abs(p - s) <= FACT_WINDOW]
+                    if abs(p - s) <= window]
             if not near or min(near)[1] != "mine":
                 return False
         mine_d = min(abs(p - s) for s in spots)
         return not any(abs(p - g) < mine_d for g in generic_spots)
+
+    return ok
+
+
+def _extract_facts(text: str, flat: str, idx: list[int], owner_ok,
+                   mine_flat=frozenset()) -> list[dict]:
+    """운영 사실 후보. (kind, value, value_high, quote)"""
+    out: list[dict] = []
+
+    def near_name(orig_pos: int) -> bool:
+        return owner_ok(orig_pos, FACT_WINDOW)
 
     def negated(m: re.Match) -> bool:
         return bool(_NEGATED.match(text[m.end(): m.end() + 8]))
@@ -384,6 +448,61 @@ def _extract_facts(text: str, flat: str, idx: list[int], spots: list[int],
     return out
 
 
+def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
+                    owner_ok) -> list[dict]:
+    """진입난이도 사건. 세 조건을 **모두** 통과해야 근거가 된다.
+
+      ① 근접   학원 이름에서 ±45자 안 (owner_ok 가 임자까지 가린다)
+      ② 부정 아님   '어렵지 않았어요' · '대기 없이' 는 반대 증거다
+      ③ 전문·의문 아님   '어렵다던데' · '걸리나요?' 는 사실이 아니다
+    """
+    out: list[dict] = []
+    for kind, _weight, triggers, needs_test in SEL_EVENTS:
+        found: dict | None = None
+        for trig in triggers:
+            if found:
+                break
+            t = "".join(c.lower() for c in trig if c.isalnum())
+            i = flat.find(t)
+            while i >= 0 and not found:
+                orig = idx[i]
+                end = idx[min(i + len(t), len(idx)) - 1] + 1
+                if (owner_ok(orig, SEL_WINDOW)
+                        and not _sel_negated(flat, i, len(t))
+                        and (not needs_test or _has_test_context(flat, i))):
+                    quote = _sentence_at(text, orig, end)
+                    if not _HEARSAY.search(quote):
+                        found = {"kind": kind, "value": None,
+                                 "value_high": None, "quote": quote,
+                                 "anchor": trig}
+                i = flat.find(t, i + 1)
+        if found:
+            # 한 글이 같은 사건을 여러 번 말해도 사건은 하나다.
+            out.append(found)
+    return out
+
+
+def _has_test_context(flat: str, i: int) -> bool:
+    """'떨어지' 가 입반 시험 이야기인가, 성적 이야기인가."""
+    lo = max(0, i - SEL_CONTEXT_WINDOW)
+    win = flat[lo: i + SEL_CONTEXT_WINDOW]
+    return any(w.replace(" ", "") in win for w in SEL_TEST_WORDS)
+
+
+def _sel_negated(flat: str, i: int, n: int) -> bool:
+    """사건 표현이 부정됐는가.
+
+    한국어는 부정어가 앞에도 뒤에도 온다 — '안 떨어졌' 과 '대기 없이' 가
+    모두 부정이다. 감성(NEGATORS)은 앞만 보는데, 진입난이도에는 그
+    장치가 아예 걸려 있지 않았다. 측정에서 '레테 어렵지 않았어요, 대기
+    없이 등록' 이 70.6점을 받았다.
+    """
+    before = flat[max(0, i - 2): i]
+    after = flat[i + n: i + n + 6]
+    return (any(p in before for p in ("안", "못"))
+            or any(p in after for p in ("않", "없", "아니")))
+
+
 # ── 주장 만들기 ────────────────────────────────────────────────────
 def claim_id(url_hash: str, academy_key: str, kind: str, anchor: str) -> str:
     """결정적 id. 같은 글의 같은 주장은 언제나 같은 id 다.
@@ -435,15 +554,20 @@ def extract(mention: dict, names=None, rivals=frozenset()) -> list[dict]:
     key = mention.get("academy_key") or ""
     posted = mention.get("posted_at")
 
+    owner_ok = _owner_checker(idx, spots, rival_spots, generic_spots)
+
     out: list[dict] = []
     seen: set[str] = set()
-    for raw in _extract_facts(text, flat, idx, spots, rival_spots,
-                              generic_spots, {c for c in mine if len(c) >= 2}):
+    found = _extract_facts(text, flat, idx, owner_ok,
+                           {c for c in mine if len(c) >= 2})
+    found += _extract_events(text, flat, idx, spots, owner_ok)
+    for raw in found:
         quote = raw["quote"]
         if not quote:
             continue
-        anchor = (f'{raw["value"]}~{raw["value_high"]}'
-                  if raw["value_high"] is not None else str(raw["value"]))
+        anchor = raw.get("anchor") or (
+            f'{raw["value"]}~{raw["value_high"]}'
+            if raw["value_high"] is not None else str(raw["value"]))
         cid = claim_id(url_hash, key, raw["kind"], anchor)
         # 한 글이 같은 값을 두 번 말해도 주장은 하나다. 두 번 세면 한 사람이
         # 두 번 말한 것이 두 사람이 말한 것처럼 보인다.
@@ -457,9 +581,10 @@ def extract(mention: dict, names=None, rivals=frozenset()) -> list[dict]:
             "kind": raw["kind"],
             "value": raw["value"],
             "value_high": raw["value_high"],
-            "unit": FACT_KINDS[raw["kind"]][1],
+            "unit": FACT_KINDS.get(raw["kind"], (None, None))[1],
             "quote": quote,
-            "extractor": "rule:fact_v1",
+            "extractor": ("rule:sel_v1" if raw["kind"].startswith("sel.")
+                          else "rule:fact_v1"),
             "posted_at": posted,
             "author_hash": mention.get("author_hash"),
             "source_url": mention.get("source_url"),
@@ -621,6 +746,28 @@ def facts_for(rows: list[dict], today: date | None = None) -> dict:
     return out
 
 
+def attach_events(mentions: list[dict], rows: list[dict]) -> int:
+    """진입난이도 사건을 그 글에 붙인다.
+
+    채점은 과목별로 글을 걸러 가며 돈다(scoring.subject_mentions). 사건이
+    글과 함께 움직여야 그 필터가 그대로 통한다 — 따로 들고 다니면 두
+    목록이 어긋나고, 수학 후기의 사건이 과학 점수에 들어간다.
+
+    취소된 주장은 붙이지 않는다. 그것이 재반영의 전부다.
+    """
+    by_post: dict[tuple, list[dict]] = defaultdict(list)
+    for r in rows:
+        if r["kind"].startswith("sel.") and r.get("status") == "active":
+            by_post[(r["url_hash"], r["academy_key"])].append(r)
+    hit = 0
+    for m in mentions:
+        got = by_post.get((m.get("url_hash"), m.get("academy_key")), [])
+        m["sel_events"] = [r["kind"] for r in got]
+        m["sel_claim_ids"] = [r["id"] for r in got]
+        hit += len(got)
+    return hit
+
+
 def by_academy(rows: list[dict]) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
@@ -635,6 +782,14 @@ def summary(rows: list[dict]) -> str:
     counts: dict[str, int] = defaultdict(int)
     for r in rows:
         counts[r["kind"]] += 1
-    parts = " · ".join(f"{FACT_KINDS.get(k, (k, ''))[0]} {n:,}"
-                       for k, n in sorted(counts.items()))
-    return f"주장 {len(rows):,}건 ({parts})"
+    def label(kind: str) -> str:
+        if kind in FACT_KINDS:
+            return FACT_KINDS[kind][0]
+        return SEL_LABEL.get(kind, kind)
+
+    facts = " · ".join(f"{label(k)} {n:,}" for k, n in sorted(counts.items())
+                       if k in FACT_KINDS)
+    events = " · ".join(f"{label(k)} {n:,}" for k, n in sorted(counts.items())
+                        if k.startswith("sel."))
+    return (f"주장 {len(rows):,}건 — 사실 [{facts or '없음'}] · "
+            f"진입 사건 [{events or '없음'}]")

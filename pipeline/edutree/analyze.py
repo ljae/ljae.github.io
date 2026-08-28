@@ -244,6 +244,37 @@ def score_credibility(text: str, title: str = "", source: str = "") -> float:
     return round(max(0.0, min(1.0, score)), 3)
 
 
+# ── 정보량 등급 ────────────────────────────────────────────────────
+#
+# '홍보글이나 정보가 제한적인 글을 제거' 라는 요구에서, 둘은 결과가 달라야
+# 한다. 홍보글은 증거가 아니므로 배제한다. 정보가 얕은 글은 증거가 아닌
+# 게 아니라 **어떤 종류의 증거가 아닐 뿐**이다.
+#
+#   0  이름만 스침 — 의견도 사실도 없다
+#   1  의견은 있다 — 감성어가 있다
+#   2  검증 가능한 사실이 있다 — 수치나 사건 표현이 있다
+#
+# ★ 얕은 글을 통째로 버리면 안 된다. 화제성은 '얼마나 회자되는가' 라서
+#   한 줄짜리 '거기 좋대요' 도 회자의 증거로는 유효하다. 그 글을 지우면
+#   화제성이 정보량을 재는 지표로 변질된다. 반대로 그 글을 평판에 넣으면
+#   감성 0.0 이 코호트 평균을 끌어당긴다. 버리는 대신 **쓸 수 있는 곳에서만**
+#   쓴다 — 기둥마다 문턱이 다르다(scoring.SUBSTANCE_FLOOR).
+_NUMERIC = re.compile(r"\d+\s*(?:회|번|분|시간|명|주|달|개월|만원|등급|점|권|장)")
+
+
+def score_substance(text: str, title: str = "") -> int:
+    """이 글이 어느 층까지 근거가 될 수 있는가. 0·1·2."""
+    flat = f"{title} {text}".replace(" ", "")
+    if not flat:
+        return 0
+    if _NUMERIC.search(f"{title} {text}") or any(
+            k in flat for k in SELECTIVITY_HARD + SELECTIVITY_WAIT):
+        return 2
+    if any(t in flat for t in POSITIVE) or any(t in flat for t in NEGATIVE):
+        return 1
+    return 0
+
+
 def selectivity_signals(text: str) -> dict[str, int]:
     flat = (text or "").replace(" ", "")
     return {
@@ -610,6 +641,8 @@ def analyze(mention: dict, academy_name: str = "",
         "spam_score": spam,
         "credibility": round(credibility, 3),
         "is_excluded": spam >= SPAM_EXCLUDE_THRESHOLD,
+        # 이 글이 어느 기둥까지 근거가 될 수 있는가. 배제가 아니라 등급이다.
+        "substance": score_substance(text, title),
         "selectivity": selectivity_signals(blob),
         "class_tier_signals": class_tier_signals(blob, exclude=academy_name),
         # 이 글이 **이 학원에 대해** 말하는 과목·학급. 이름 근처만 본다.
@@ -644,3 +677,99 @@ def flag_repeat_authors(mentions: list[dict], threshold: int = 4) -> list[dict]:
             m["repeat_author_count"] = n
         out.append(m)
     return out
+
+
+# 같은 작성자가 며칠 안에 한 학원 글을 이만큼 쓰면 바이럴 배치로 본다.
+#
+# ★ flag_repeat_authors 에는 시간 창이 없다. 3년에 걸친 4건과 사흘 만의
+#   4건이 같은 취급이었다 — 앞은 단골 학부모이고 뒤는 캠페인이다.
+#   문헌(opinion spam detection)에서 burst 가 가장 값싼 행위 신호다.
+BURST_DAYS = 7
+BURST_MIN = 3
+
+
+def flag_author_bursts(mentions: list[dict]) -> tuple[list[dict], int]:
+    """짧은 기간에 몰린 같은 작성자의 글을 배제한다.
+
+    ★ 발견일(date_source='discovery')로 채워진 날짜는 쓰지 않는다.
+      그것은 '우리가 언제 봤나' 이지 '언제 썼나' 가 아니고, 한 회차에
+      발견한 글 수천 건이 **같은 날짜**를 갖는다. 처음에 이걸 빼먹었더니
+      3,256건이 버스트로 잡혔다 — 캠페인이 아니라 우리 수집 일정이었다.
+    """
+    by_author: dict[tuple, list[dict]] = defaultdict(list)
+    for m in mentions:
+        if (m.get("author_hash") and m.get("posted_at")
+                and m.get("date_source") != "discovery"):
+            by_author[(m.get("academy_key"), m["author_hash"])].append(m)
+
+    burst: set[int] = set()
+    for rows in by_author.values():
+        dated = sorted(
+            ((d, m) for m in rows if (d := _as_day(m.get("posted_at")))),
+            key=lambda x: x[0])
+        for i, (day, _) in enumerate(dated):
+            window = [r for r in dated[i:] if (r[0] - day).days <= BURST_DAYS]
+            if len(window) >= BURST_MIN:
+                burst.update(id(m) for _, m in window)
+
+    hit = 0
+    for m in mentions:
+        if id(m) in burst and not m.get("is_excluded"):
+            m["is_excluded"] = True
+            m["exclude_reason"] = "author_burst"
+            hit += 1
+    return mentions, hit
+
+
+def _as_day(value):
+    try:
+        return datetime.fromisoformat(str(value)[:10]).date()
+    except (ValueError, TypeError):
+        return None
+
+
+# 두 글이 이만큼 닮으면 같은 원고를 옮긴 것으로 본다.
+# 문헌 기준값(2-gram Jaccard 0.9)을 그대로 쓴다.
+DUPLICATE_JACCARD = 0.9
+# 이보다 짧은 글은 견주지 않는다. 짧으면 우연히 닮는다.
+DUPLICATE_MIN_LEN = 40
+
+
+def _bigrams(text: str) -> set[str]:
+    flat = _NORM.sub("", text or "")
+    return {flat[i:i + 2] for i in range(len(flat) - 1)}
+
+
+def flag_near_duplicates(mentions: list[dict]) -> tuple[list[dict], int]:
+    """같은 문구를 여러 곳에 옮긴 바이럴 배치를 걸러낸다.
+
+    개별 글은 스팸 점수가 낮아 전부 통과한다 — 홍보 문구가 없는 '후기체'
+    원고를 여러 카페에 뿌리기 때문이다. **묶음으로 봐야** 잡힌다.
+    가장 오래된 한 건만 남긴다. 원본까지 버리면 근거가 통째로 사라진다.
+    """
+    groups: dict[str, list[dict]] = defaultdict(list)
+    for m in mentions:
+        if m.get("is_excluded"):
+            continue
+        text = m.get("snippet") or ""
+        if len(_NORM.sub("", text)) >= DUPLICATE_MIN_LEN:
+            # 학원별로만 견준다. 전수 비교는 O(n²) 라 감당이 안 되고,
+            # 다른 학원의 닮은 글은 애초에 서로의 근거가 아니다.
+            groups[m.get("academy_key")].append(m)
+
+    hit = 0
+    for rows in groups.values():
+        grams = [(m, _bigrams(m.get("snippet") or "")) for m in rows]
+        grams.sort(key=lambda x: str(x[0].get("posted_at") or "9999"))
+        kept: list[tuple[dict, set]] = []
+        for m, g in grams:
+            twin = next((k for _, k in kept
+                         if len(g & k) / max(1, len(g | k)) >= DUPLICATE_JACCARD),
+                        None)
+            if twin is not None:
+                m["is_excluded"] = True
+                m["exclude_reason"] = "near_duplicate"
+                hit += 1
+            else:
+                kept.append((m, g))
+    return mentions, hit
