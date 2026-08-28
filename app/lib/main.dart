@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/brand.dart';
 import 'core/env.dart';
 import 'core/router.dart';
+import 'core/reduced_motion.dart';
 import 'core/theme.dart';
 
 Future<void> main() async {
@@ -42,6 +43,21 @@ class EduTreeApp extends StatelessWidget {
       darkTheme: buildTheme(dark: true),
       themeMode: ThemeMode.system,
       routerConfig: router,
+      // '동작 줄이기'를 **한 곳에서** 확정한다. 웹에서는 Flutter 가
+      // 브라우저의 prefers-reduced-motion 을 안 넘겨줘서, 연출을 끄는 길이
+      // 정작 이 서비스가 도는 곳에서만 막혀 있었다. 여기서 얹어 두면
+      // 아래의 모든 연출(Reveal·Scrub·Tally·StrokeIn)이 그대로 따른다 —
+      // 위젯마다 다시 물어보게 두면 언젠가 한 곳을 빠뜨린다.
+      builder: (context, child) {
+        final mq = MediaQuery.of(context);
+        if (mq.disableAnimations || !platformPrefersReducedMotion()) {
+          return child ?? const SizedBox.shrink();
+        }
+        return MediaQuery(
+          data: mq.copyWith(disableAnimations: true),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

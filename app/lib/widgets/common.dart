@@ -2,27 +2,39 @@ import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
 import '../data/models.dart';
+import 'annals.dart';
 
 /// 최대폭 제한 + 좌우 여백. 모든 페이지 본문이 이걸 통과한다.
 class ContentWidth extends StatelessWidget {
   final Widget child;
   final double max;
-  const ContentWidth({super.key, required this.child, this.max = AppSpace.maxContent});
+  const ContentWidth({
+    super.key,
+    required this.child,
+    this.max = AppSpace.maxContent,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final pad = MediaQuery.sizeOf(context).width < 640 ? AppSpace.md : AppSpace.lg;
+    final pad = MediaQuery.sizeOf(context).width < 640
+        ? AppSpace.md
+        : AppSpace.lg;
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: max),
         child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: pad), child: child),
+          padding: EdgeInsets.symmetric(horizontal: pad),
+          child: child,
+        ),
       ),
     );
   }
 }
 
 /// 데모 모드 배너. 실명 학원에 합성 점수가 붙어 있음을 반드시 알린다.
+///
+/// 여기에는 **도장을 찍지 않는다.** 도장은 단정에만 쓰기로 했고,
+/// 이 배너가 말하는 것은 정확히 그 반대다.
 class DemoBanner extends StatelessWidget {
   final Meta meta;
   const DemoBanner({super.key, required this.meta});
@@ -30,57 +42,63 @@ class DemoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!meta.isDemo) return const SizedBox.shrink();
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: double.infinity,
-      color: AppColors.gold.withValues(alpha: 0.16),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: AppSpace.md),
+      decoration: BoxDecoration(
+        color: dark
+            ? AppColors.vermilion.withValues(alpha: 0.14)
+            : AppColors.vermilionWash,
+        border: Border(
+          top: BorderSide(color: AppColors.accentOn(dark), width: AppRule.bold),
+          bottom: BorderSide(
+            color: AppColors.accentOn(dark).withValues(alpha: 0.3),
+            width: AppRule.hair,
+          ),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 9, horizontal: AppSpace.md),
       child: Center(
-        child: Text(
-          '샘플 데이터로 동작 중입니다 — 표시된 점수는 합성값이며 실제 평가가 아닙니다.',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: const Color(0xFF7A5B10), fontWeight: FontWeight.w600),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RailLabel(spaced('표본'), color: AppColors.accentOn(dark)),
+            const SizedBox(width: AppSpace.sm),
+            Flexible(
+              child: Text(
+                '샘플 데이터로 동작 중입니다 — 표시된 점수는 합성값이며 실제 평가가 아닙니다.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: dark ? AppColors.darkInk : AppColors.vermilionDeep,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
+/// 꼬리표. 이름은 그대로 두고 조형만 「實錄」 것으로 바꿨다 —
+/// 서른 곳 넘는 호출부를 한꺼번에 고치는 것보다 이쪽이 안전하다.
 class Chip2 extends StatelessWidget {
   final String label;
   final Color color;
   final IconData? icon;
   final bool filled;
-  const Chip2(this.label,
-      {super.key, required this.color, this.icon, this.filled = false});
+  const Chip2(
+    this.label, {
+    super.key,
+    required this.color,
+    this.icon,
+    this.filled = false,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: icon == null ? 9 : 8, vertical: 4.5),
-      decoration: BoxDecoration(
-        color: filled ? color : color.withValues(alpha: 0.11),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: filled ? null : Border.all(color: color.withValues(alpha: 0.28)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) Icon(icon, size: 12, color: filled ? Colors.white : color),
-          if (icon != null) const SizedBox(width: 4),
-          Text(label,
-              style: TextStyle(
-                fontFamily: 'Paperlogy',
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.1,
-                color: filled ? Colors.white : color,
-              )),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      TagMark(label, color: color, icon: icon, filled: filled);
 }
 
 /// 검증됨 / 추정 배지 — 사실과 의견을 시각적으로 분리하는 장치.
@@ -90,10 +108,16 @@ class VerifiedChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => verified
-      ? const Chip2('공식 검증',
-          color: AppColors.verified, icon: Icons.verified_rounded)
-      : const Chip2('샘플',
-          color: AppColors.estimated, icon: Icons.science_outlined);
+      ? const TagMark(
+          '공시 검증',
+          color: AppColors.verified,
+          icon: Icons.check_rounded,
+        )
+      : const TagMark(
+          '샘플',
+          color: AppColors.estimated,
+          icon: Icons.science_outlined,
+        );
 }
 
 class ConfidenceChip extends StatelessWidget {
@@ -107,70 +131,76 @@ class ConfidenceChip extends StatelessWidget {
       'medium' => AppColors.slate,
       _ => AppColors.estimated,
     };
-    return Chip2('${score.confidenceLabel} · ${score.sampleSize}건', color: color);
+    return TagMark(
+      '${score.confidenceLabel} · ${score.sampleSize}건',
+      color: color,
+    );
   }
 }
 
-/// 큰 점수 원형 표시
+/// 트리스코어 표시. 이름은 'Dial' 로 남았지만 **더 이상 도넛이 아니다.**
+///
+/// 도넛은 값이 클수록 예뻐 보일 뿐, 목록에서 두 값을 견주기 어렵다.
+/// 세로 눈금 + 장부 숫자로 바꾸면 카드가 세로로 쌓일 때 눈금 높이가
+/// 그대로 비교가 된다. 70 이상만 주묵으로 채운다 — 강조색을 아무 데나
+/// 쓰면 그 색이 아무 뜻도 갖지 않는다.
 class ScoreDial extends StatelessWidget {
   final double value;
   final double size;
   final bool showLabel;
-  const ScoreDial(this.value,
-      {super.key, this.size = 64, this.showLabel = true});
+  const ScoreDial(
+    this.value, {
+    super.key,
+    this.size = 64,
+    this.showLabel = true,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox.expand(
-            child: CircularProgressIndicator(
-              value: value / 100,
-              strokeWidth: size * 0.085,
-              backgroundColor: AppColors.line.withValues(alpha: 0.55),
-              valueColor: AlwaysStoppedAnimation(_colorFor(value)),
-              strokeCap: StrokeCap.round,
-            ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(value.toStringAsFixed(0),
-                  style: TextStyle(
-                    fontFamily: 'Paperlogy',
-                    fontSize: size * 0.34,
-                    fontWeight: FontWeight.w800,
-                    height: 1.0,
-                    letterSpacing: -0.8,
-                  )),
-              if (showLabel)
-                Text('트리스코어',
-                    style: TextStyle(
-                      fontFamily: 'Paperlogy',
-                      fontSize: size * 0.125,
-                      color: AppColors.mist,
-                      height: 1.4,
-                    )),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final strong = value >= 70;
+    final gauge = strong ? AppColors.accentOn(dark) : AppColors.inkOn(dark);
 
-  static Color _colorFor(double v) {
-    if (v >= 70) return AppColors.navyBright;
-    if (v >= 55) return AppColors.reputation;
-    if (v >= 45) return AppColors.momentum;
-    return AppColors.slate;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        GaugeSpine(value, height: size * 0.82, width: 3.5, color: gauge),
+        const SizedBox(width: 7),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (showLabel) ...[
+              Text(
+                spaced('트리스코어'),
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              SizedBox(height: size * 0.05),
+            ],
+            Text(
+              value.toStringAsFixed(0),
+              style: TextStyle(
+                fontFamily: 'Paperlogy',
+                fontSize: size * 0.60,
+                fontWeight: FontWeight.w800,
+                height: 0.94,
+                letterSpacing: size * -0.035,
+                color: AppColors.inkOn(dark),
+                fontFeatures: ledgerFigures,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
 /// 기둥별 막대. 랭킹·상세에서 동일한 시각 언어를 유지한다.
+///
+/// 둥근 막대를 각진 계선으로 바꿨다. 아이콘 대신 **색 사각**을 세운다 —
+/// 목록에서 아이콘 넷은 서로 구분되지 않고 모양만 어지럽다.
 class PillarBar extends StatelessWidget {
   final String pillar;
   final double value;
@@ -194,40 +224,81 @@ class PillarBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = AppColors.pillars[pillar] ?? AppColors.slate;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final text = Theme.of(context).textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(pillarIcons[pillar], size: compact ? 12 : 14, color: color),
-            const SizedBox(width: 5),
+            Container(
+              width: compact ? 6 : 7,
+              height: compact ? 6 : 7,
+              color: color,
+            ),
+            const SizedBox(width: 6),
             Flexible(
-              child: Text(pillarNames[pillar] ?? pillar,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: text.labelMedium?.copyWith(
-                      color: color, fontWeight: FontWeight.w600)),
+              child: Text(
+                pillarNames[pillar] ?? pillar,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: text.labelLarge?.copyWith(
+                  fontSize: compact ? 11.5 : 12.5,
+                  color: AppColors.mutedOn(dark),
+                ),
+              ),
             ),
             if (showWeight) ...[
               const SizedBox(width: 5),
-              Text('${(weight * 100).toStringAsFixed(0)}%',
-                  style: text.bodySmall?.copyWith(fontSize: 10.5)),
+              Text(
+                '${(weight * 100).toStringAsFixed(0)}%',
+                style: text.bodySmall?.copyWith(
+                  fontSize: 10.5,
+                  fontFeatures: ledgerFigures,
+                ),
+              ),
             ],
-            const Spacer(),
-            Text(value.toStringAsFixed(0),
-                style: text.labelLarge?.copyWith(fontSize: compact ? 12 : 13.5)),
+            const SizedBox(width: 6),
+            Text(
+              value.toStringAsFixed(0),
+              style: TextStyle(
+                fontFamily: 'Paperlogy',
+                fontSize: compact ? 12 : 13.5,
+                fontWeight: FontWeight.w700,
+                height: 1.2,
+                letterSpacing: -0.3,
+                color: AppColors.inkOn(dark),
+                fontFeatures: ledgerFigures,
+              ),
+            ),
           ],
         ),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(AppRadius.pill),
-          child: LinearProgressIndicator(
-            value: value / 100,
-            minHeight: compact ? 4 : 6,
-            backgroundColor: color.withValues(alpha: 0.13),
-            valueColor: AlwaysStoppedAnimation(color),
-          ),
+        const SizedBox(height: 5),
+        // 각진 계선 막대. 트랙은 계선 색, 채움은 기둥 색.
+        LayoutBuilder(
+          builder: (context, c) {
+            final w = c.maxWidth.isFinite ? c.maxWidth : 120.0;
+            final h = compact ? 3.0 : 5.0;
+            return SizedBox(
+              width: w,
+              height: h,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ColoredBox(color: AppColors.ruleSoftOn(dark)),
+                  ),
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: (value / 100).clamp(0.0, 1.0)),
+                    duration: AppMotion.stroke,
+                    curve: AppMotion.strokeCurve,
+                    builder: (_, v, _) =>
+                        Container(width: w * v, height: h, color: color),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );
@@ -269,94 +340,110 @@ class PillarWeightBars extends StatelessWidget {
   Widget build(BuildContext context) {
     final rows = _ordered;
     if (stacked) {
-      return Column(children: [
-        for (final e in rows)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: PillarBar(
+      return Column(
+        children: [
+          for (final e in rows)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 9),
+              child: PillarBar(
                 pillar: e.key,
                 value: score.pillar(e.key),
                 weight: e.value,
                 compact: true,
-                showWeight: showWeight),
-          ),
-      ]);
+                showWeight: showWeight,
+              ),
+            ),
+        ],
+      );
     }
     // flex 를 가중치에 비례시킨다. 정수여야 해서 1000배해 반올림한다.
-    return Row(children: [
-      for (var i = 0; i < rows.length; i++) ...[
-        Expanded(
-          flex: (rows[i].value * 1000).round(),
-          child: PillarBar(
+    return Row(
+      children: [
+        for (var i = 0; i < rows.length; i++) ...[
+          Expanded(
+            flex: (rows[i].value * 1000).round(),
+            child: PillarBar(
               pillar: rows[i].key,
               value: score.pillar(rows[i].key),
               weight: rows[i].value,
               compact: true,
-              showWeight: showWeight),
-        ),
-        if (i != rows.length - 1) const SizedBox(width: AppSpace.md),
+              showWeight: showWeight,
+            ),
+          ),
+          if (i != rows.length - 1) const SizedBox(width: AppSpace.md),
+        ],
       ],
-    ]);
+    );
   }
 }
 
+/// 언급량 추세. 아이콘 대신 활자 삼각형을 쓴다 — 장부에 찍힌 기호처럼
+/// 보이고, 아이콘 폰트와 달리 글자 크기·자간이 본문과 같이 움직인다.
 class MomentumArrow extends StatelessWidget {
   final String direction;
   const MomentumArrow(this.direction, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final (icon, color, label) = switch (direction) {
-      'rising' => (Icons.arrow_drop_up, AppColors.rising, '상승'),
-      'falling' => (Icons.arrow_drop_down, AppColors.falling, '하락'),
-      _ => (Icons.remove, AppColors.mist, '보합'),
+    final (glyph, color, label) = switch (direction) {
+      'rising' => ('▲', AppColors.rising, '상승'),
+      'falling' => ('▼', AppColors.falling, '하락'),
+      _ => ('—', AppColors.mist, '보합'),
     };
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 18, color: color),
-      Text(label,
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 8.5px 로는 화면에서 점 하나로 보였다(실측). 삼각형이
+        // 삼각형으로 읽히는 최소 크기가 10.5 다.
+        Text(
+          glyph,
+          style: TextStyle(fontSize: 10.5, height: 1.35, color: color),
+        ),
+        const SizedBox(width: 3),
+        Text(
+          label,
           style: TextStyle(
-              fontFamily: 'Paperlogy',
-              fontSize: 11.5,
-              fontWeight: FontWeight.w600,
-              color: color)),
-    ]);
-  }
-}
-
-class SectionHeader extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final Widget? trailing;
-  const SectionHeader(this.title, {super.key, this.subtitle, this.trailing});
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpace.md),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: text.headlineMedium),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(subtitle!, style: text.bodyMedium),
-                ],
-              ],
-            ),
+            fontFamily: 'Paperlogy',
+            fontSize: 11.5,
+            fontWeight: FontWeight.w600,
+            letterSpacing: -0.2,
+            color: color,
           ),
-          ?trailing,
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-/// 가로 스크롤 선택 칩 줄
+/// 섹션 머리. 조형은 [SectionOpener] 가 갖고 있다 —
+/// 호출부를 그대로 두기 위해 이름만 남겨 이어 붙인다.
+class SectionHeader extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final String? kicker;
+  const SectionHeader(
+    this.title, {
+    super.key,
+    this.subtitle,
+    this.trailing,
+    this.kicker,
+  });
+
+  @override
+  Widget build(BuildContext context) => SectionOpener(
+    title,
+    kicker: kicker,
+    subtitle: subtitle,
+    trailing: trailing,
+  );
+}
+
+/// 선택 줄. 알약이 아니라 **밑줄 탭**이다.
+///
+/// 알약 필터는 어느 앱에나 있어 화면의 성격을 말하지 않는다. 밑줄은
+/// 계선과 같은 언어라 판면 안에 자연스럽게 앉고, 선택된 하나만 주묵으로
+/// 그어 두면 '지금 어디를 보고 있는가'가 색 하나로 읽힌다.
 class ChipRow<T> extends StatelessWidget {
   final List<(T value, String label)> options;
   final T selected;
@@ -370,9 +457,9 @@ class ChipRow<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pills = [
+    final tabs = [
       for (final (value, label) in options)
-        _Pill(
+        _Tab(
           label: label,
           selected: value == selected,
           onTap: () => onChanged(value),
@@ -382,66 +469,69 @@ class ChipRow<T> extends StatelessWidget {
     // 과목이 여섯 개가 되면서 한 줄에 안 들어간다. 가로 스크롤만 두면
     // 잘린 칩이 있다는 것 자체가 안 보여 '예체능' 탭을 못 찾는다.
     // 좁은 화면에서는 줄을 바꿔 전부 내놓는다.
-    return LayoutBuilder(builder: (context, c) {
-      final tight = c.maxWidth < 560 || options.length > 5;
-      if (tight) {
-        return Wrap(
-          spacing: AppSpace.sm,
-          runSpacing: AppSpace.sm,
-          children: pills,
+    return LayoutBuilder(
+      builder: (context, c) {
+        final tight = c.maxWidth < 560 || options.length > 5;
+        if (tight) {
+          return Wrap(spacing: AppSpace.sm, runSpacing: 2, children: tabs);
+        }
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              for (final t in tabs)
+                Padding(
+                  padding: const EdgeInsets.only(right: AppSpace.sm),
+                  child: t,
+                ),
+            ],
+          ),
         );
-      }
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: [
-          for (final p in pills)
-            Padding(
-              padding: const EdgeInsets.only(right: AppSpace.sm),
-              child: p,
-            ),
-        ]),
-      );
-    });
+      },
+    );
   }
 }
 
-class _Pill extends StatelessWidget {
+class _Tab extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-  const _Pill(
-      {required this.label, required this.selected, required this.onTap});
+  const _Tab({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    return Material(
-      color: selected
-          ? AppColors.navy
-          : (dark ? AppColors.darkSurface : AppColors.surface),
-      borderRadius: BorderRadius.circular(AppRadius.pill),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            border: Border.all(
-                color: selected
-                    ? AppColors.navy
-                    : (dark ? AppColors.darkLine : AppColors.line)),
+    final accent = AppColors.accentOn(dark);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: AnimatedContainer(
+        duration: AppMotion.quick,
+        padding: const EdgeInsets.fromLTRB(11, 9, 11, 7),
+        decoration: BoxDecoration(
+          color: selected
+              ? accent.withValues(alpha: dark ? 0.13 : 0.07)
+              : Colors.transparent,
+          border: Border(
+            bottom: BorderSide(
+              color: selected ? accent : AppColors.ruleOn(dark),
+              width: selected ? AppRule.bold : AppRule.hair,
+            ),
           ),
-          child: Text(label,
-              style: TextStyle(
-                fontFamily: 'Paperlogy',
-                fontSize: 13.5,
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.2,
-                color: selected
-                    ? Colors.white
-                    : (dark ? AppColors.mist : AppColors.slate),
-              )),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Paperlogy',
+            fontSize: 13.5,
+            fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+            letterSpacing: -0.3,
+            color: selected ? AppColors.inkOn(dark) : AppColors.mutedOn(dark),
+          ),
         ),
       ),
     );

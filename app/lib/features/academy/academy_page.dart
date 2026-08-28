@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
+import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../data/corrections.dart';
 import '../../data/leveltests.dart';
@@ -48,8 +49,11 @@ class _Body extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final score = academy.score;
     final region = data.regionById[academy.regionId];
-    final stages =
-        academy.stages.map((s) => data.stageById[s]).whereType<Stage>().toList();
+    final stages = academy.stages
+        .map((s) => data.stageById[s])
+        .whereType<Stage>()
+        .toList();
+    final dark = Theme.of(context).brightness == Brightness.dark;
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpace.lg),
@@ -72,7 +76,31 @@ class _Body extends StatelessWidget {
                 runSpacing: AppSpace.md,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  ScoreDial(score.total, size: 92),
+                  // 표본이 0 이면 숫자를 내지 않는다. 아래 안내는 '점수를
+                  // 매기지 않았습니다' 라고 적는데 머리에는 코호트 평균으로
+                  // 채워진 값이 큼직하게 떠 있었다(실측: 근거 0건인데 40).
+                  // 카드와 같은 규칙으로 맞춘다 — 다이얼은 '—', 라벨은
+                  // '근거 없음'.
+                  if (score.sampleSize == 0)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '—',
+                          style: TextStyle(
+                            fontFamily: 'Paperlogy',
+                            fontSize: 56,
+                            height: 1.0,
+                            color: AppColors.mist,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(spaced('근거없음'), style: text.labelMedium),
+                      ],
+                    )
+                  else
+                    ScoreDial(score.total, size: 92),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
                     child: Column(
@@ -80,20 +108,27 @@ class _Body extends StatelessWidget {
                       children: [
                         Text(academy.displayName, style: text.displayMedium),
                         const SizedBox(height: AppSpace.sm),
-                        Wrap(spacing: 6, runSpacing: 6, children: [
-                          if (region != null)
-                            Chip2(region.nameKo, color: AppColors.navy),
-                          for (final s in academy.subjects)
-                            Chip2(subjectNames[s] ?? s,
-                                color: AppColors.subjects[s] ?? AppColors.slate),
-                          VerifiedChip(verified: academy.isVerified),
-                          ConfidenceChip(score: score),
-                          if (score.rankInRegion != null)
-                            Chip2(
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: [
+                            if (region != null)
+                              Chip2(region.nameKo, color: AppColors.navy),
+                            for (final s in orderedSubjects(academy.subjects))
+                              Chip2(
+                                subjectNames[s] ?? s,
+                                color: AppColors.subjectOn(s, dark),
+                              ),
+                            VerifiedChip(verified: academy.isVerified),
+                            ConfidenceChip(score: score),
+                            if (score.rankInRegion != null)
+                              Chip2(
                                 '${region?.nameKo ?? ""} ${score.rankInRegion}위'
                                 '${score.regionRankedCount != null ? " / ${score.regionRankedCount}곳" : ""}',
-                                color: AppColors.gold),
-                        ]),
+                                color: AppColors.gold,
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -109,41 +144,53 @@ class _Body extends StatelessWidget {
                   color: AppColors.estimated.withValues(alpha: 0.07),
                   child: Padding(
                     padding: const EdgeInsets.all(AppSpace.md),
-                    child: Row(children: [
-                      const Icon(Icons.info_outline,
-                          size: 18, color: AppColors.estimated),
-                      const SizedBox(width: AppSpace.sm),
-                      Expanded(
-                        child: Text(
-                          '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 매기지 '
-                          '않았으며, 공식 등록 정보만 보여드립니다.',
-                          style: text.bodyMedium,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.info_outline,
+                          size: 18,
+                          color: AppColors.estimated,
                         ),
-                      ),
-                    ]),
+                        const SizedBox(width: AppSpace.sm),
+                        Expanded(
+                          child: Text(
+                            '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 매기지 '
+                            '않았으며, 공식 등록 정보만 보여드립니다.',
+                            style: text.bodyMedium,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               else ...[
-              const SectionHeader('점수 구성',
-                  subtitle: '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
-                      '펼쳐 볼 수 있습니다.'),
-              // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
-              // 예체능·기타는 채점하지 않은 기둥을 아예 내지 않는다 —
-              // 0 으로 그리면 '점수가 나쁘다'로 읽힌다.
-              for (final key in (pillarNames.keys.toList()
-                    ..sort((a, b) => (data.meta.weights[b] ?? 0)
-                        .compareTo(data.meta.weights[a] ?? 0))))
-                if (score.pillarOrNull(key) != null)
-                  _PillarPanel(
-                    pillar: key,
-                    value: score.pillar(key),
-                    weight: score.subjectGroup == 'academic'
-                        ? (data.meta.weights[key] ?? 0)
-                        : (key == 'reputation' ? 0.6 : 0.4),
-                    breakdown: (score.breakdown[key] as Map?)
-                            ?.cast<String, dynamic>() ??
-                        const {},
-                  ),
+                const SectionHeader(
+                  '점수 구성',
+                  subtitle:
+                      '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
+                      '펼쳐 볼 수 있습니다.',
+                ),
+                // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
+                // 예체능·기타는 채점하지 않은 기둥을 아예 내지 않는다 —
+                // 0 으로 그리면 '점수가 나쁘다'로 읽힌다.
+                for (final key
+                    in (pillarNames.keys.toList()..sort(
+                      (a, b) => (data.meta.weights[b] ?? 0).compareTo(
+                        data.meta.weights[a] ?? 0,
+                      ),
+                    )))
+                  if (score.pillarOrNull(key) != null)
+                    _PillarPanel(
+                      pillar: key,
+                      value: score.pillar(key),
+                      weight: score.subjectGroup == 'academic'
+                          ? (data.meta.weights[key] ?? 0)
+                          : (key == 'reputation' ? 0.6 : 0.4),
+                      breakdown:
+                          (score.breakdown[key] as Map?)
+                              ?.cast<String, dynamic>() ??
+                          const {},
+                    ),
               ],
               if (academy.subjectScores.length > 1) ...[
                 const SizedBox(height: AppSpace.lg),
@@ -152,44 +199,57 @@ class _Body extends StatelessWidget {
               const SizedBox(height: AppSpace.xl),
 
               // ── 공식 정보 ──────────────────────────────────
-              SectionHeader('공식 등록 정보',
-                  subtitle: academy.isVerified
-                      ? 'NEIS 학원교습소정보 공시 기준 — 검증된 사실입니다'
-                      : '샘플 데이터입니다. 실제 공시값이 아닙니다.'),
+              SectionHeader(
+                '공식 등록 정보',
+                subtitle: academy.isVerified
+                    ? 'NEIS 학원교습소정보 공시 기준 — 검증된 사실입니다'
+                    : '샘플 데이터입니다. 실제 공시값이 아닙니다.',
+              ),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpace.md),
-                  child: Column(children: [
-                    if (academy.registrationCount > 1)
-                      _Row('등록 건수',
-                          '${academy.registrationCount}건 (관·과정별 등록을 한 학원으로 묶음)'),
-                    if (academy.brandLabel != null)
-                      _Row('브랜드', academy.brandLabel!),
-                    _Row('등록상태', academy.registrationStatus ?? '—'),
-                    _Row('정원', academy.capacity != null ? '${academy.capacity}명' : '—'),
-                    _Row('개설일', academy.establishedOn ?? '—'),
-                    _Row('주소', academy.address ?? '—'),
-                    if (academy.tel != null) _Row('전화', academy.tel!),
-                  ]),
+                  child: Column(
+                    children: [
+                      if (academy.registrationCount > 1)
+                        _Row(
+                          '등록 건수',
+                          '${academy.registrationCount}건 (관·과정별 등록을 한 학원으로 묶음)',
+                        ),
+                      if (academy.brandLabel != null)
+                        _Row('브랜드', academy.brandLabel!),
+                      _Row('등록상태', academy.registrationStatus ?? '—'),
+                      _Row(
+                        '정원',
+                        academy.capacity != null ? '${academy.capacity}명' : '—',
+                      ),
+                      _Row('개설일', academy.establishedOn ?? '—'),
+                      _Row('주소', academy.address ?? '—'),
+                      if (academy.tel != null) _Row('전화', academy.tel!),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: AppSpace.xl),
 
               // ── 테크트리 위치 ───────────────────────────────
               if (stages.isNotEmpty) ...[
-                const SectionHeader('단계별 진입 기준',
-                    subtitle: '이 학원이 담당하는 단계와, 각 단계를 넘어가려면 '
-                        '무엇이 필요한지입니다. 커뮤니티 추정이 아니라 '
-                        '큐레이션한 기준입니다.'),
+                const SectionHeader(
+                  '단계별 진입 기준',
+                  subtitle:
+                      '이 학원이 담당하는 단계와, 각 단계를 넘어가려면 '
+                      '무엇이 필요한지입니다. 커뮤니티 추정이 아니라 '
+                      '큐레이션한 기준입니다.',
+                ),
                 Wrap(
                   spacing: AppSpace.sm,
                   runSpacing: AppSpace.sm,
                   children: [
                     for (final s in stages)
                       _StageLink(
-                          stage: s,
-                          track: data.trackById[s.trackId]!,
-                          isFlagship: academy.isFlagshipOf(s.id)),
+                        stage: s,
+                        track: data.trackById[s.trackId]!,
+                        isFlagship: academy.isFlagshipOf(s.id),
+                      ),
                   ],
                 ),
                 const SizedBox(height: AppSpace.md),
@@ -200,8 +260,10 @@ class _Body extends StatelessWidget {
               ],
 
               // ── 근거 ───────────────────────────────────────
-              const SectionHeader('평판 점수에 반영된 근거',
-                  subtitle: '신뢰도 상위 게시물입니다. 원문 링크로만 제공하며 본문을 전재하지 않습니다.'),
+              const SectionHeader(
+                '평판 점수에 반영된 근거',
+                subtitle: '신뢰도 상위 게시물입니다. 원문 링크로만 제공하며 본문을 전재하지 않습니다.',
+              ),
               if (academy.evidence.isEmpty)
                 Text('표시할 근거가 없습니다.', style: text.bodyMedium)
               else
@@ -214,12 +276,15 @@ class _Body extends StatelessWidget {
               _LevelTests(academyKey: academy.id),
 
               ReviewSection(
-                  academyId: academy.id, academyName: academy.displayName),
+                academyId: academy.id,
+                academyName: academy.displayName,
+              ),
 
               const SizedBox(height: AppSpace.xl),
               _CorrectionNotice(
-                  academyKey: academy.id,
-                  academyName: academy.displayName),
+                academyKey: academy.id,
+                academyName: academy.displayName,
+              ),
               const SizedBox(height: AppSpace.xxl),
             ],
           ),
@@ -228,7 +293,6 @@ class _Body extends StatelessWidget {
     );
   }
 }
-
 
 /// 과목별 점수 — 여러 과목을 가르치는 학원에만 보인다.
 ///
@@ -242,44 +306,55 @@ class _SubjectScores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final rows = academy.subjectScores.entries.toList()
       ..sort((a, b) => b.value.sampleSize.compareTo(a.value.sampleSize));
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SectionHeader('과목별 점수',
-          subtitle: '랭킹은 과목마다 따로 매깁니다. 그 과목을 말한 후기만 '
-              '그 과목의 근거로 씁니다.'),
-      for (final e in rows)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Row(children: [
-            SizedBox(
-              width: 74,
-              child: Chip2(subjectNames[e.key] ?? e.key,
-                  color: AppColors.subjects[e.key] ?? AppColors.slate),
-            ),
-            const SizedBox(width: AppSpace.sm),
-            SizedBox(
-              width: 52,
-              child: Text(
-                e.value.sampleSize == 0
-                    ? '—'
-                    : e.value.total.toStringAsFixed(1),
-                style: text.titleMedium,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                e.value.sampleSize == 0
-                    ? '근거 없음'
-                    : '후기 ${e.value.sampleSize}건'
-                        '${e.value.isRanked ? " · 학군 ${e.value.rankInRegion}위" : " · 표본 부족으로 순위 제외"}',
-                style: text.bodySmall,
-              ),
-            ),
-          ]),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeader(
+          '과목별 점수',
+          subtitle:
+              '랭킹은 과목마다 따로 매깁니다. 그 과목을 말한 후기만 '
+              '그 과목의 근거로 씁니다.',
         ),
-    ]);
+        for (final e in rows)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 74,
+                  child: Chip2(
+                    subjectNames[e.key] ?? e.key,
+                    color: AppColors.subjectOn(e.key, dark),
+                  ),
+                ),
+                const SizedBox(width: AppSpace.sm),
+                SizedBox(
+                  width: 52,
+                  child: Text(
+                    e.value.sampleSize == 0
+                        ? '—'
+                        : e.value.total.toStringAsFixed(1),
+                    style: text.titleMedium,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    e.value.sampleSize == 0
+                        ? '근거 없음'
+                        : '후기 ${e.value.sampleSize}건'
+                              '${e.value.isRanked ? " · 학군 ${e.value.rankInRegion}위" : " · 표본 부족으로 순위 제외"}',
+                    style: text.bodySmall,
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
   }
 }
 
@@ -308,21 +383,34 @@ class _PillarPanel extends StatelessWidget {
         child: ExpansionTile(
           tilePadding: const EdgeInsets.symmetric(horizontal: AppSpace.md),
           childrenPadding: const EdgeInsets.fromLTRB(
-              AppSpace.md, 0, AppSpace.md, AppSpace.md),
+            AppSpace.md,
+            0,
+            AppSpace.md,
+            AppSpace.md,
+          ),
           // %는 여기서만 적는다. 목록 카드에서는 막대 폭이 그 정보를 담는다.
           title: PillarBar(
-              pillar: pillar, value: value, weight: weight, showWeight: true),
+            pillar: pillar,
+            value: value,
+            weight: weight,
+            showWeight: true,
+          ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 6),
-            child: Row(children: [
-              Flexible(
-                  child: Text(pillarDescriptions[pillar] ?? '',
-                      style: text.bodySmall)),
-              if (estimated) ...[
-                const SizedBox(width: 6),
-                const Chip2('추정', color: AppColors.estimated),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    pillarDescriptions[pillar] ?? '',
+                    style: text.bodySmall,
+                  ),
+                ),
+                if (estimated) ...[
+                  const SizedBox(width: 6),
+                  const Chip2('추정', color: AppColors.estimated),
+                ],
               ],
-            ]),
+            ),
           ),
           children: [
             for (final entry in breakdown.entries)
@@ -333,11 +421,14 @@ class _PillarPanel extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 130,
-                      child: Text(entry.key,
-                          style: text.labelMedium?.copyWith(color: color)),
+                      child: Text(
+                        entry.key,
+                        style: text.labelMedium?.copyWith(color: color),
+                      ),
                     ),
                     Expanded(
-                        child: Text('${entry.value}', style: text.bodySmall)),
+                      child: Text('${entry.value}', style: text.bodySmall),
+                    ),
                   ],
                 ),
               ),
@@ -352,12 +443,16 @@ class _StageLink extends StatelessWidget {
   final Stage stage;
   final Track track;
   final bool isFlagship;
-  const _StageLink(
-      {required this.stage, required this.track, required this.isFlagship});
+  const _StageLink({
+    required this.stage,
+    required this.track,
+    required this.isFlagship,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final color = AppColors.subjects[track.subject] ?? AppColors.navy;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final color = AppColors.subjectOn(track.subject, dark);
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.sm),
       onTap: () => context.go('/tree'),
@@ -368,25 +463,33 @@ class _StageLink extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.sm),
           color: color.withValues(alpha: 0.06),
         ),
-        child: Row(mainAxisSize: MainAxisSize.min, children: [
-          if (isFlagship) ...[
-            const Icon(Icons.star_rounded, size: 13, color: AppColors.gold),
-            const SizedBox(width: 4),
-          ],
-          Text('${track.title} · ${stage.title}',
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isFlagship) ...[
+              const Icon(Icons.star_rounded, size: 13, color: AppColors.gold),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              '${track.title} · ${stage.title}',
               style: TextStyle(
                 fontFamily: 'Paperlogy',
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: color,
-              )),
-          const SizedBox(width: 6),
-          Text(stage.gradeLabel,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              stage.gradeLabel,
               style: const TextStyle(
-                  fontFamily: 'Paperlogy',
-                  fontSize: 11.5,
-                  color: AppColors.mist)),
-        ]),
+                fontFamily: 'Paperlogy',
+                fontSize: 11.5,
+                color: AppColors.mist,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -404,28 +507,41 @@ class _EvidenceTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpace.md, vertical: AppSpace.sm),
-        title: Text(evidence.title,
-            style: text.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+          horizontal: AppSpace.md,
+          vertical: AppSpace.sm,
+        ),
+        title: Text(
+          evidence.title,
+          style: text.titleMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 4),
             Text(evidence.snippet, style: text.bodyMedium, maxLines: 2),
             const SizedBox(height: 6),
-            Wrap(spacing: 6, children: [
-              Chip2(evidence.sourceLabel, color: AppColors.slate),
-              if (evidence.postedAt != null)
-                Chip2(evidence.postedAt!, color: AppColors.mist),
-              Chip2(positive ? '긍정' : '부정',
-                  color: positive ? AppColors.verified : AppColors.momentum),
-              Chip2('신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
-                  color: AppColors.reputation),
-              // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
-              // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
-              if (evidence.isBrandWide)
-                const Chip2('지점 불명 · 브랜드 공통', color: AppColors.mist),
-            ]),
+            Wrap(
+              spacing: 6,
+              children: [
+                Chip2(evidence.sourceLabel, color: AppColors.slate),
+                if (evidence.postedAt != null)
+                  Chip2(evidence.postedAt!, color: AppColors.mist),
+                Chip2(
+                  positive ? '긍정' : '부정',
+                  color: positive ? AppColors.verified : AppColors.momentum,
+                ),
+                Chip2(
+                  '신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
+                  color: AppColors.reputation,
+                ),
+                // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
+                // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
+                if (evidence.isBrandWide)
+                  const Chip2('지점 불명 · 브랜드 공통', color: AppColors.mist),
+              ],
+            ),
           ],
         ),
         trailing: const Icon(Icons.open_in_new, size: 16),
@@ -443,8 +559,10 @@ class _EvidenceTile extends StatelessWidget {
 class _CorrectionNotice extends StatelessWidget {
   final String academyKey;
   final String academyName;
-  const _CorrectionNotice(
-      {required this.academyKey, required this.academyName});
+  const _CorrectionNotice({
+    required this.academyKey,
+    required this.academyName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -453,34 +571,46 @@ class _CorrectionNotice extends StatelessWidget {
       color: AppColors.estimated.withValues(alpha: 0.07),
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.gavel_outlined, size: 18, color: AppColors.estimated),
-          const SizedBox(width: AppSpace.sm),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('학원 운영자이신가요?', style: text.titleMedium),
-              const SizedBox(height: 4),
-              Text(
-                '표시된 정보에 사실과 다른 부분이 있다면 정정을 요청하실 수 있습니다. '
-                '접수되면 해당 항목에 "검토 중" 표시가 붙고, 7일 이내에 처리 결과를 회신합니다.',
-                style: text.bodyMedium,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(
+              Icons.gavel_outlined,
+              size: 18,
+              color: AppColors.estimated,
+            ),
+            const SizedBox(width: AppSpace.sm),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('학원 운영자이신가요?', style: text.titleMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    '표시된 정보에 사실과 다른 부분이 있다면 정정을 요청하실 수 있습니다. '
+                    '접수되면 해당 항목에 "검토 중" 표시가 붙고, 7일 이내에 처리 결과를 회신합니다.',
+                    style: text.bodyMedium,
+                  ),
+                  const SizedBox(height: AppSpace.sm),
+                  OutlinedButton.icon(
+                    onPressed: () => showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      showDragHandle: true,
+                      constraints: const BoxConstraints(maxWidth: 640),
+                      builder: (_) => _CorrectionSheet(
+                        academyKey: academyKey,
+                        academyName: academyName,
+                      ),
+                    ),
+                    icon: const Icon(Icons.edit_note, size: 16),
+                    label: const Text('정정 요청하기'),
+                  ),
+                ],
               ),
-              const SizedBox(height: AppSpace.sm),
-              OutlinedButton.icon(
-                onPressed: () => showModalBottomSheet<void>(
-                  context: context,
-                  isScrollControlled: true,
-                  showDragHandle: true,
-                  constraints: const BoxConstraints(maxWidth: 640),
-                  builder: (_) => _CorrectionSheet(
-                      academyKey: academyKey, academyName: academyName),
-                ),
-                icon: const Icon(Icons.edit_note, size: 16),
-                label: const Text('정정 요청하기'),
-              ),
-            ]),
-          ),
-        ]),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -507,22 +637,29 @@ class _StageCriteria extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Container(width: 3, height: 14, color: AppColors.navyBright),
-            const SizedBox(width: 7),
-            Text(stage.title, style: text.titleMedium),
-            const SizedBox(width: 6),
-            Chip2(stage.gradeLabel, color: AppColors.slate),
-          ]),
-          if (stage.goal != null) ...[
-            const SizedBox(height: 5),
-            Text('목표 · ${stage.goal}', style: text.bodyMedium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(width: 3, height: 14, color: AppColors.navyBright),
+                const SizedBox(width: 7),
+                Text(stage.title, style: text.titleMedium),
+                const SizedBox(width: 6),
+                Chip2(stage.gradeLabel, color: AppColors.slate),
+              ],
+            ),
+            if (stage.goal != null) ...[
+              const SizedBox(height: 5),
+              Text('목표 · ${stage.goal}', style: text.bodyMedium),
+            ],
+            const SizedBox(height: 3),
+            Text(
+              '다음 단계 기준 · ${stage.exitCriteria}',
+              style: text.bodyMedium?.copyWith(color: AppColors.navy),
+            ),
           ],
-          const SizedBox(height: 3),
-          Text('다음 단계 기준 · ${stage.exitCriteria}',
-              style: text.bodyMedium?.copyWith(color: AppColors.navy)),
-        ]),
+        ),
       ),
     );
   }
@@ -550,32 +687,48 @@ class _RankTrend extends ConsumerWidget {
 
     final first = points.first, last = points.last;
     final moved = (first.rank != null && last.rank != null)
-        ? first.rank! - last.rank!     // 양수면 순위가 올라간 것
+        ? first.rank! -
+              last.rank! // 양수면 순위가 올라간 것
         : null;
     final since = points.first.day;
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SectionHeader('$region 순위 추이',
-          subtitle: '${since.year}.${since.month}.${since.day} 집계 시작 이후. '
-              '이전 기록은 없습니다 — 과거 순위를 만들어 넣지 않습니다.'),
-      if (moved != null && moved != 0)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Row(children: [
-            Icon(moved > 0 ? Icons.arrow_upward : Icons.arrow_downward,
-                size: 15,
-                color: moved > 0 ? AppColors.rising : AppColors.falling),
-            const SizedBox(width: 4),
-            Text('${moved.abs()}계단 ${moved > 0 ? "상승" : "하락"}',
-                style: text.titleMedium?.copyWith(
-                    color: moved > 0 ? AppColors.rising : AppColors.falling)),
-            const SizedBox(width: AppSpace.sm),
-            Text('현재 ${last.rank}위 · 트리스코어 ${last.total}',
-                style: text.bodyMedium),
-          ]),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionHeader(
+          '$region 순위 추이',
+          subtitle:
+              '${since.year}.${since.month}.${since.day} 집계 시작 이후. '
+              '이전 기록은 없습니다 — 과거 순위를 만들어 넣지 않습니다.',
         ),
-      RankHistoryChart(points: points),
-    ]);
+        if (moved != null && moved != 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              children: [
+                Icon(
+                  moved > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                  size: 15,
+                  color: moved > 0 ? AppColors.rising : AppColors.falling,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '${moved.abs()}계단 ${moved > 0 ? "상승" : "하락"}',
+                  style: text.titleMedium?.copyWith(
+                    color: moved > 0 ? AppColors.rising : AppColors.falling,
+                  ),
+                ),
+                const SizedBox(width: AppSpace.sm),
+                Text(
+                  '현재 ${last.rank}위 · 트리스코어 ${last.total}',
+                  style: text.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+        RankHistoryChart(points: points),
+      ],
+    );
   }
 }
 
@@ -595,59 +748,83 @@ class _LevelTests extends ConsumerWidget {
     if (rows.isEmpty) return const SizedBox.shrink();
     final text = Theme.of(context).textTheme;
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SectionHeader('레벨테스트 일정',
-          subtitle: '학원 공지와 학부모 제보를 구분해 표시합니다. '
-              '제보는 확인 전이므로 방문 전 학원에 확인하세요.'),
-      for (final t in rows)
-        Card(
-          margin: const EdgeInsets.only(bottom: AppSpace.sm),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpace.md),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Icon(Icons.event_outlined, size: 18,
-                  color: t.official ? AppColors.verified : AppColors.estimated),
-              const SizedBox(width: AppSpace.sm),
-              Expanded(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Text(t.whenLabel, style: text.titleMedium),
-                        const SizedBox(width: 6),
-                        Chip2(t.official ? '학원 공지' : '학부모 제보',
-                            color: t.official
-                                ? AppColors.verified
-                                : AppColors.estimated),
-                      ]),
-                      if (t.targetBand != null || t.subject != null)
-                        Text([
-                          if (t.targetBand != null)
-                            gradeBandNames[t.targetBand] ?? '',
-                          if (t.subject != null) subjectNames[t.subject] ?? '',
-                        ].where((x) => x.isNotEmpty).join(' · '),
-                            style: text.bodySmall),
-                      if (t.detail != null && t.detail!.isNotEmpty)
-                        Text(t.detail!, style: text.bodyMedium),
-                      if (t.applyUntil != null)
-                        Text('접수 마감 ${t.applyUntil!.month}월 ${t.applyUntil!.day}일',
-                            style: text.bodySmall
-                                ?.copyWith(color: AppColors.rising)),
-                    ]),
-              ),
-            ]),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeader(
+          '레벨테스트 일정',
+          subtitle:
+              '학원 공지와 학부모 제보를 구분해 표시합니다. '
+              '제보는 확인 전이므로 방문 전 학원에 확인하세요.',
         ),
-      const SizedBox(height: AppSpace.xl),
-    ]);
+        for (final t in rows)
+          Card(
+            margin: const EdgeInsets.only(bottom: AppSpace.sm),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpace.md),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.event_outlined,
+                    size: 18,
+                    color: t.official
+                        ? AppColors.verified
+                        : AppColors.estimated,
+                  ),
+                  const SizedBox(width: AppSpace.sm),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(t.whenLabel, style: text.titleMedium),
+                            const SizedBox(width: 6),
+                            Chip2(
+                              t.official ? '학원 공지' : '학부모 제보',
+                              color: t.official
+                                  ? AppColors.verified
+                                  : AppColors.estimated,
+                            ),
+                          ],
+                        ),
+                        if (t.targetBand != null || t.subject != null)
+                          Text(
+                            [
+                              if (t.targetBand != null)
+                                gradeBandNames[t.targetBand] ?? '',
+                              if (t.subject != null)
+                                subjectNames[t.subject] ?? '',
+                            ].where((x) => x.isNotEmpty).join(' · '),
+                            style: text.bodySmall,
+                          ),
+                        if (t.detail != null && t.detail!.isNotEmpty)
+                          Text(t.detail!, style: text.bodyMedium),
+                        if (t.applyUntil != null)
+                          Text(
+                            '접수 마감 ${t.applyUntil!.month}월 ${t.applyUntil!.day}일',
+                            style: text.bodySmall?.copyWith(
+                              color: AppColors.rising,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        const SizedBox(height: AppSpace.xl),
+      ],
+    );
   }
 }
 
 class _CorrectionSheet extends ConsumerStatefulWidget {
   final String academyKey;
   final String academyName;
-  const _CorrectionSheet(
-      {required this.academyKey, required this.academyName});
+  const _CorrectionSheet({required this.academyKey, required this.academyName});
 
   @override
   ConsumerState<_CorrectionSheet> createState() => _CorrectionSheetState();
@@ -679,21 +856,26 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
       setState(() => _error = '회신받으실 연락처를 입력해 주세요.');
       return;
     }
-    setState(() { _sending = true; _error = null; });
+    setState(() {
+      _sending = true;
+      _error = null;
+    });
     try {
       await service.submit(
         academyKey: widget.academyKey,
         academyName: widget.academyName,
         requester: _requester.text.trim().isEmpty
-            ? '미기재' : _requester.text.trim(),
+            ? '미기재'
+            : _requester.text.trim(),
         contact: _contact.text.trim(),
         kind: _kind,
         message: _message.text.trim(),
       );
       if (!mounted) return;
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('접수되었습니다. 검토 후 연락처로 회신드립니다.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('접수되었습니다. 검토 후 연락처로 회신드립니다.')),
+      );
     } catch (_) {
       if (mounted) {
         setState(() {
@@ -711,34 +893,40 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
 
     return Padding(
       padding: EdgeInsets.only(
-          left: AppSpace.md, right: AppSpace.md,
-          bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpace.lg),
+        left: AppSpace.md,
+        right: AppSpace.md,
+        bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpace.lg,
+      ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${widget.academyName} — 정보 정정 요청',
-                style: text.titleLarge),
+            Text('${widget.academyName} — 정보 정정 요청', style: text.titleLarge),
             const SizedBox(height: 4),
-            Text('접수 내용은 공개되지 않으며, 운영자 검토 후 데이터에 반영됩니다.',
-                style: text.bodySmall),
+            Text(
+              '접수 내용은 공개되지 않으며, 운영자 검토 후 데이터에 반영됩니다.',
+              style: text.bodySmall,
+            ),
             const SizedBox(height: AppSpace.md),
             if (!enabled)
               Text('현재 접수 기능을 사용할 수 없습니다.', style: text.bodyMedium)
             else ...[
-              Wrap(spacing: AppSpace.sm, children: [
-                for (final (v, label) in const [
-                  ('fix', '정보가 틀렸어요'),
-                  ('claim', '학원 관계자입니다'),
-                  ('remove', '삭제를 요청합니다'),
-                ])
-                  ChoiceChip(
-                    label: Text(label),
-                    selected: _kind == v,
-                    onSelected: (_) => setState(() => _kind = v),
-                  ),
-              ]),
+              Wrap(
+                spacing: AppSpace.sm,
+                children: [
+                  for (final (v, label) in const [
+                    ('fix', '정보가 틀렸어요'),
+                    ('claim', '학원 관계자입니다'),
+                    ('remove', '삭제를 요청합니다'),
+                  ])
+                    ChoiceChip(
+                      label: Text(label),
+                      selected: _kind == v,
+                      onSelected: (_) => setState(() => _kind = v),
+                    ),
+                ],
+              ),
               const SizedBox(height: AppSpace.md),
               TextField(
                 controller: _message,
@@ -768,9 +956,10 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
               ),
               if (_error != null) ...[
                 const SizedBox(height: AppSpace.sm),
-                Text(_error!,
-                    style: text.bodySmall
-                        ?.copyWith(color: AppColors.rising)),
+                Text(
+                  _error!,
+                  style: text.bodySmall?.copyWith(color: AppColors.rising),
+                ),
               ],
               const SizedBox(height: AppSpace.md),
               SizedBox(
@@ -795,15 +984,18 @@ class _Row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-              width: 88,
-              child: Text(label,
-                  style: Theme.of(context).textTheme.labelMedium)),
-          Expanded(
-              child: Text(value,
-                  style: Theme.of(context).textTheme.bodyLarge)),
-        ]),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 7),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 88,
+          child: Text(label, style: Theme.of(context).textTheme.labelMedium),
+        ),
+        Expanded(
+          child: Text(value, style: Theme.of(context).textTheme.bodyLarge),
+        ),
+      ],
+    ),
+  );
 }

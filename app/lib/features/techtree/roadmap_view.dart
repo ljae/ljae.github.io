@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
+import '../../widgets/subject_bar.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
 import 'techtree_page.dart' show showStageSheet;
@@ -65,8 +66,11 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
 
   void _goTo(int i) {
     setState(() => _page = i);
-    _pages?.animateToPage(i,
-        duration: const Duration(milliseconds: 260), curve: Curves.easeOutCubic);
+    _pages?.animateToPage(
+      i,
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
@@ -75,31 +79,42 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
     if (roadmap.isEmpty) {
       return const Center(child: Text('로드맵 데이터가 없습니다'));
     }
-    final subjects = ['english', 'math', 'korean', 'science']
-        .where((s) => roadmap.stages.any((st) => st.subject == s))
-        .toList();
+    // 순서는 표준 하나뿐이다. 예전에는 여기 `['english', 'math', …]` 가
+    // 박혀 있어 로드맵만 영어부터였다 — 시작 나이 순이라는 나름의 뜻이
+    // 있었지만, 이 판은 **세로축이 이미 나이**다. 가로까지 나이를 말하면
+    // 같은 것을 두 번 말하면서 다른 화면과 어긋난다.
+    final subjects = orderedSubjects(
+      subjectOrder,
+    ).where((s) => roadmap.stages.any((st) => st.subject == s)).toList();
 
-    return LayoutBuilder(builder: (context, c) {
-      if (c.maxWidth < RoadmapView.mobileMaxWidth && subjects.length > 1) {
-        return _mobile(context, roadmap, subjects, c.maxWidth);
-      }
-      // 좁은 화면에서는 가로 스크롤로 도망가게 한다. 네 과목을 억지로
-      // 구겨 넣으면 카드가 글자 하나 폭이 된다.
-      final colW = ((c.maxWidth - _axisW - _gap * subjects.length) /
-              subjects.length)
-          .clamp(150.0, 340.0);
-      final contentW = _axisW + (colW + _gap) * subjects.length;
-      final totalH = _y(_maxGrade + 1) + 20;
+    return LayoutBuilder(
+      builder: (context, c) {
+        if (c.maxWidth < RoadmapView.mobileMaxWidth && subjects.length > 1) {
+          return _mobile(context, roadmap, subjects, c.maxWidth);
+        }
+        // 좁은 화면에서는 가로 스크롤로 도망가게 한다. 네 과목을 억지로
+        // 구겨 넣으면 카드가 글자 하나 폭이 된다.
+        final colW =
+            ((c.maxWidth - _axisW - _gap * subjects.length) / subjects.length)
+                .clamp(150.0, 340.0);
+        final contentW = _axisW + (colW + _gap) * subjects.length;
+        final totalH = _y(_maxGrade + 1) + 20;
 
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: contentW,
-          child: _board(context, roadmap, subjects,
-              colW: colW, totalH: totalH),
-        ),
-      );
-    });
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SizedBox(
+            width: contentW,
+            child: _board(
+              context,
+              roadmap,
+              subjects,
+              colW: colW,
+              totalH: totalH,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /// 휴대폰용 — 한 과목씩, 옆으로 넘겨서 본다.
@@ -111,155 +126,173 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   ///
   /// 세로 스크롤은 페이지마다 따로 둔다 — 국어를 보다 영어로 넘겼을 때
   /// 영어가 중간부터 시작하면 어디를 보고 있는지 알 수 없다.
-  Widget _mobile(BuildContext context, Roadmap roadmap,
-      List<String> subjects, double width) {
+  Widget _mobile(
+    BuildContext context,
+    Roadmap roadmap,
+    List<String> subjects,
+    double width,
+  ) {
     _pages ??= PageController(initialPage: _page);
     final text = Theme.of(context).textTheme;
     final colW = (width - _axisW - _gap).clamp(150.0, 420.0);
     final totalH = _y(_maxGrade + 1) + 20;
 
-    return Column(children: [
-      const SizedBox(height: AppSpace.sm),
-      // 과목 칩이 곧 현재 위치 표시다. 점(dot) 표시를 따로 두면 같은 것을
-      // 두 번 말하게 된다.
-      SizedBox(
-        height: 34,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
+    return Column(
+      children: [
+        const SizedBox(height: AppSpace.sm),
+        // 과목 칩이 곧 현재 위치 표시다. 점(dot) 표시를 따로 두면 같은 것을
+        // 두 번 말하게 된다.
+        //
+        // 여기만 꽉 채운 알약(999px)이었다 — 각진 판면에서 그것만 둥글어
+        // 혼자 튀었고, 같은 조작인 랭킹의 과목 줄과도 모양이 달랐다.
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpace.sm),
-          itemCount: subjects.length,
-          separatorBuilder: (_, _) => const SizedBox(width: 6),
-          itemBuilder: (context, i) {
-            final s = subjects[i];
-            final on = i == _page;
-            final accent = AppColors.subjects[s] ?? AppColors.slate;
-            return GestureDetector(
-              onTap: () => _goTo(i),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: on ? accent : accent.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: Text(
-                  subjectNames[s] ?? s,
-                  style: text.labelLarge?.copyWith(
-                    color: on ? Colors.white : accent,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-      const SizedBox(height: 4),
-      Text('옆으로 넘겨 과목을 바꿉니다',
-          style: text.bodySmall?.copyWith(fontSize: 10.5)),
-      const SizedBox(height: 4),
-      Expanded(
-        child: PageView.builder(
-          controller: _pages,
-          itemCount: subjects.length,
-          onPageChanged: (i) => setState(() => _page = i),
-          itemBuilder: (context, i) => _board(
-            context,
-            roadmap,
-            [subjects[i]],          // 한 과목만 그린다
-            colW: colW,
-            totalH: totalH,
-            showHeader: false,      // 과목 이름은 위 칩이 이미 말한다
+          child: SubjectBar(
+            selected: _page < subjects.length ? subjects[_page] : null,
+            only: subjects.toSet(),
+            onChanged: (v) {
+              final i = v == null ? -1 : subjects.indexOf(v);
+              if (i >= 0) _goTo(i);
+            },
           ),
         ),
-      ),
-    ]);
+        const SizedBox(height: 4),
+        Text(
+          '옆으로 넘겨 과목을 바꿉니다',
+          style: text.bodySmall?.copyWith(fontSize: 10.5),
+        ),
+        const SizedBox(height: 4),
+        Expanded(
+          child: PageView.builder(
+            controller: _pages,
+            itemCount: subjects.length,
+            onPageChanged: (i) => setState(() => _page = i),
+            itemBuilder: (context, i) => _board(
+              context,
+              roadmap,
+              [subjects[i]], // 한 과목만 그린다
+              colW: colW,
+              totalH: totalH,
+              showHeader: false, // 과목 이름은 위 칩이 이미 말한다
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   /// 로드맵 판 하나. 과목 목록을 그대로 받으므로 전체(네 과목)와
   /// 한 과목짜리가 같은 코드를 쓴다 — 경로선 좌표도 이 목록으로 계산된다.
-  Widget _board(BuildContext context, Roadmap roadmap, List<String> subjects,
-      {required double colW, required double totalH, bool showHeader = true}) {
+  Widget _board(
+    BuildContext context,
+    Roadmap roadmap,
+    List<String> subjects, {
+    required double colW,
+    required double totalH,
+    bool showHeader = true,
+  }) {
     return SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (showHeader) ...[
-          const SizedBox(height: AppSpace.md),
-          _subjectHeader(context, subjects, colW),
-          const SizedBox(height: 6),
-        ],
-        SizedBox(
-          height: totalH,
-          child: Stack(children: [
-            for (var g = _minGrade; g <= _maxGrade; g++)
-              Positioned(
-                top: _y(g),
-                left: 0,
-                right: 0,
-                child: _GradeRow(
-                  grade: g,
-                  milestone:
-                      roadmap.milestones.where((m) => m.grade == g).firstOrNull,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (showHeader) ...[
+            const SizedBox(height: AppSpace.md),
+            _subjectHeader(context, subjects, colW),
+            const SizedBox(height: 6),
+          ],
+          SizedBox(
+            height: totalH,
+            child: Stack(
+              children: [
+                for (var g = _minGrade; g <= _maxGrade; g++)
+                  Positioned(
+                    top: _y(g),
+                    left: 0,
+                    right: 0,
+                    child: _GradeRow(
+                      grade: g,
+                      milestone: roadmap.milestones
+                          .where((m) => m.grade == g)
+                          .firstOrNull,
+                    ),
+                  ),
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: _EdgePainter(
+                      roadmap: roadmap,
+                      subjects: subjects,
+                      colW: colW,
+                      gap: _gap,
+                      axisW: _axisW,
+                      yOf: _y,
+                      lineColor: Theme.of(context).dividerColor,
+                    ),
+                  ),
                 ),
-              ),
-            Positioned.fill(
-              child: CustomPaint(
-                painter: _EdgePainter(
-                  roadmap: roadmap,
-                  subjects: subjects,
-                  colW: colW,
-                  gap: _gap,
-                  axisW: _axisW,
-                  yOf: _y,
-                  lineColor: Theme.of(context).dividerColor,
-                ),
-              ),
+                for (final st in roadmap.stages)
+                  if (subjects.contains(st.subject))
+                    _positioned(context, st, subjects, colW),
+              ],
             ),
-            for (final st in roadmap.stages)
-              if (subjects.contains(st.subject))
-                _positioned(context, st, subjects, colW),
-          ]),
-        ),
-        const SizedBox(height: AppSpace.xl),
-      ]),
+          ),
+          const SizedBox(height: AppSpace.xl),
+        ],
+      ),
     );
   }
 
   Widget _subjectHeader(
-      BuildContext context, List<String> subjects, double colW) {
-    return Row(children: [
-      const SizedBox(width: _axisW),
-      for (final s in subjects)
-        Container(
-          width: colW,
-          margin: const EdgeInsets.only(right: _gap),
-          padding: const EdgeInsets.symmetric(vertical: 7),
-          decoration: BoxDecoration(
-            color: (AppColors.subjects[s] ?? AppColors.slate)
-                .withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(AppRadius.sm),
-          ),
-          child: Center(
-            child: Text(subjectNames[s] ?? s,
+    BuildContext context,
+    List<String> subjects,
+    double colW,
+  ) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Row(
+      children: [
+        const SizedBox(width: _axisW),
+        for (final s in subjects)
+          Container(
+            width: colW,
+            margin: const EdgeInsets.only(right: _gap),
+            padding: const EdgeInsets.symmetric(vertical: 7),
+            decoration: BoxDecoration(
+              color: AppColors.subjectOn(s, dark).withValues(
+                alpha: 0.1,
+              ),
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+            child: Center(
+              child: Text(
+                subjectNames[s] ?? s,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.subjects[s],
-                    fontWeight: FontWeight.w800)),
+                  color: AppColors.subjectOn(s, dark),
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
           ),
-        ),
-    ]);
+      ],
+    );
   }
 
-  Widget _positioned(BuildContext context, RoadmapStage st,
-      List<String> subjects, double colW) {
+  Widget _positioned(
+    BuildContext context,
+    RoadmapStage st,
+    List<String> subjects,
+    double colW,
+  ) {
     final col = subjects.indexOf(st.subject);
     // 같은 과목 안에서 기간이 겹치는 단계는 lane(0/1)으로 좌우를 나눈다.
-    final overlaps = data.roadmap.stages.any((o) =>
-        o.id != st.id &&
-        o.subject == st.subject &&
-        o.gradeMin <= st.gradeMax &&
-        o.gradeMax >= st.gradeMin);
+    final overlaps = data.roadmap.stages.any(
+      (o) =>
+          o.id != st.id &&
+          o.subject == st.subject &&
+          o.gradeMin <= st.gradeMax &&
+          o.gradeMax >= st.gradeMin,
+    );
     final laneW = overlaps ? (colW - 4) / 2 : colW;
-    final left = _axisW +
+    final left =
+        _axisW +
         col * (colW + _gap) +
         (overlaps && st.lane > 0 ? laneW + 4 : 0);
 
@@ -283,42 +316,56 @@ class _GradeRow extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     return SizedBox(
       height: RoadmapView._unitH,
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
-          width: RoadmapView._axisW,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2, right: 8),
-            child: Text(Stage.gradeName(grade),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: RoadmapView._axisW,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 2, right: 8),
+              child: Text(
+                Stage.gradeName(grade),
                 textAlign: TextAlign.right,
                 style: text.bodySmall?.copyWith(
-                    fontSize: 11,
-                    fontWeight:
-                        milestone != null ? FontWeight.w800 : FontWeight.w400,
-                    color: milestone != null ? AppColors.gold : null)),
-          ),
-        ),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Divider(
-                height: 1,
-                color: milestone != null
-                    ? AppColors.gold.withValues(alpha: 0.55)
-                    : Theme.of(context).dividerColor.withValues(alpha: 0.5)),
-            if (milestone != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Tooltip(
-                  message: milestone!.note,
-                  child: Text('◆ ${milestone!.label}',
-                      style: text.bodySmall?.copyWith(
-                          fontSize: 10,
-                          color: AppColors.gold,
-                          fontWeight: FontWeight.w700)),
+                  fontSize: 11,
+                  fontWeight: milestone != null
+                      ? FontWeight.w800
+                      : FontWeight.w400,
+                  color: milestone != null ? AppColors.gold : null,
                 ),
               ),
-          ]),
-        ),
-      ]),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Divider(
+                  height: 1,
+                  color: milestone != null
+                      ? AppColors.gold.withValues(alpha: 0.55)
+                      : Theme.of(context).dividerColor.withValues(alpha: 0.5),
+                ),
+                if (milestone != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Tooltip(
+                      message: milestone!.note,
+                      child: Text(
+                        '◆ ${milestone!.label}',
+                        style: text.bodySmall?.copyWith(
+                          fontSize: 10,
+                          color: AppColors.gold,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -327,8 +374,11 @@ class _StageCard extends StatelessWidget {
   final RoadmapStage stage;
   final EduTreeData data;
   final String regionId;
-  const _StageCard(
-      {required this.stage, required this.data, required this.regionId});
+  const _StageCard({
+    required this.stage,
+    required this.data,
+    required this.regionId,
+  });
 
   /// 카드 아래의 학원 한 줄. 세 상태를 서로 다르게 적는다.
   ///
@@ -346,37 +396,45 @@ class _StageCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 1),
-      child: Row(children: [
-        Icon(
+      child: Row(
+        children: [
+          Icon(
             !m.isDirect
                 ? Icons.more_horiz
                 : score.isRanked
-                    ? Icons.star_rounded
-                    : Icons.circle_outlined,
+                ? Icons.star_rounded
+                : Icons.circle_outlined,
             size: 10,
-            color: starred ? AppColors.gold : AppColors.mist),
-        const SizedBox(width: 3),
-        Expanded(
-          child: Text(m.academy.displayName,
+            color: starred ? AppColors.gold : AppColors.mist,
+          ),
+          const SizedBox(width: 3),
+          Expanded(
+            child: Text(
+              m.academy.displayName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: text.bodySmall?.copyWith(
-                  fontSize: 10.5,
-                  color: dim
-                      ? AppColors.mist
-                      : (dark ? Colors.white70 : AppColors.inkSoft))),
-        ),
-        Text(
+                fontSize: 10.5,
+                color: dim
+                    ? AppColors.mist
+                    : (dark ? Colors.white70 : AppColors.inkSoft),
+              ),
+            ),
+          ),
+          Text(
             !m.isDirect
                 ? '구간'
                 : score.isRanked
-                    ? score.total.toStringAsFixed(0)
-                    : '표본',
+                ? score.total.toStringAsFixed(0)
+                : '표본',
             style: text.bodySmall?.copyWith(
-                fontSize: 10.5,
-                fontWeight: starred ? FontWeight.w700 : FontWeight.w400,
-                color: dim ? AppColors.mist : null)),
-      ]),
+              fontSize: 10.5,
+              fontWeight: starred ? FontWeight.w700 : FontWeight.w400,
+              color: dim ? AppColors.mist : null,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -384,7 +442,8 @@ class _StageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final accent = AppColors.subjects[stage.subject] ?? AppColors.slate;
+    final accent = AppColors.subjectOn(
+        stage.subject, Theme.of(context).brightness == Brightness.dark);
 
     // 로드맵에서 랭킹으로 이어지는 고리 — 이 단계 담당 학원 중 상위.
     // 유아 단계는 랭킹과 연결하지 않는다.
@@ -399,9 +458,10 @@ class _StageCard extends StatelessWidget {
     // 시트를 열면 '이 단계 근거 없음'이라 적혀 있다.
     final tops = stage.roadmapOnly
         ? const <StageMatch>[]
-        : data.academiesForStage(stage.id, regionId: regionId, fillTo: 3)
-            .take(3)
-            .toList();
+        : data
+              .academiesForStage(stage.id, regionId: regionId, fillTo: 3)
+              .take(3)
+              .toList();
 
     final full = data.stageById[stage.id];
 
@@ -422,44 +482,57 @@ class _StageCard extends StatelessWidget {
             width: stage.roadmapOnly ? 1 : 1.4,
           ),
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Container(width: 3, height: 12, color: accent),
-            const SizedBox(width: 5),
-            Expanded(
-              child: Text(stage.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: text.labelLarge
-                      ?.copyWith(fontSize: 12.5, height: 1.25)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(width: 3, height: 12, color: accent),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    stage.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: text.labelLarge?.copyWith(
+                      fontSize: 12.5,
+                      height: 1.25,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ]),
-          const SizedBox(height: 2),
-          Text(stage.gradeLabel,
-              style: text.bodySmall?.copyWith(fontSize: 10)),
-          if (stage.roadmapOnly)
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text('로드맵 안내 · 순위 없음',
-                    style: text.bodySmall
-                        ?.copyWith(fontSize: 9.5, color: AppColors.mist)),
-              ),
-            )
-          else if (tops.isNotEmpty)
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (final m in tops) _topLine(context, m),
-                  ],
+            const SizedBox(height: 2),
+            Text(
+              stage.gradeLabel,
+              style: text.bodySmall?.copyWith(fontSize: 10),
+            ),
+            if (stage.roadmapOnly)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    '로드맵 안내 · 순위 없음',
+                    style: text.bodySmall?.copyWith(
+                      fontSize: 9.5,
+                      color: AppColors.mist,
+                    ),
+                  ),
+                ),
+              )
+            else if (tops.isNotEmpty)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [for (final m in tops) _topLine(context, m)],
+                  ),
                 ),
               ),
-            ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -495,11 +568,13 @@ class _EdgePainter extends CustomPainter {
 
     double centerX(RoadmapStage st) {
       final col = subjects.indexOf(st.subject);
-      final overlaps = roadmap.stages.any((o) =>
-          o.id != st.id &&
-          o.subject == st.subject &&
-          o.gradeMin <= st.gradeMax &&
-          o.gradeMax >= st.gradeMin);
+      final overlaps = roadmap.stages.any(
+        (o) =>
+            o.id != st.id &&
+            o.subject == st.subject &&
+            o.gradeMin <= st.gradeMax &&
+            o.gradeMax >= st.gradeMin,
+      );
       final laneW = overlaps ? (colW - 4) / 2 : colW;
       return axisW +
           col * (colW + gap) +

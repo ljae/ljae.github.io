@@ -57,7 +57,8 @@ class _StageSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final track = data.trackById[stage.trackId]!;
-    final accent = AppColors.subjects[track.subject] ?? AppColors.navy;
+    final accent = AppColors.subjectOn(
+        track.subject, Theme.of(context).brightness == Brightness.dark);
     // 목록이 한두 곳이면 '이 단계에 어떤 학원이 있나'에 답하지 못한다.
     // 근거가 있는 곳을 먼저 다 보여주고, 모자라면 같은 과목·구간까지
     // 넓혀 채운다. 이어 붙인 곳은 카드에 그렇게 적힌다.
