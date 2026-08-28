@@ -1029,6 +1029,80 @@ class NearbySchool {
 /// 5세 영어 → 6세 수학 → 7세 국어 → 초4 재편으로 이어지는 흐름은
 /// 과목을 나란히 놓아야 보인다. 유아 단계(roadmapOnly)는 방향 안내일
 /// 뿐 랭킹과 연결되지 않는다.
+/// 되돌리기 어려운 분기점. "언제 갈리는가" 가 학부모의 실제 질문이다.
+class DestinationGate {
+  final int grade;
+  final String note;
+  const DestinationGate({required this.grade, required this.note});
+
+  factory DestinationGate.fromJson(Map<String, dynamic> j) => DestinationGate(
+        grade: (j['grade'] as num).toInt(),
+        note: (j['note'] ?? '') as String,
+      );
+}
+
+/// 진로 목적지 — 테크트리의 종점.
+///
+/// 단계가 '무엇을 배우는가' 라면 목적지는 '어디로 가는가' 다.
+/// **큐레이션이다** — 후기에서 추론하지 않는다. 목적지 신호는 글 2.3%
+/// 뿐이라 학원에 딱지를 붙일 수는 없지만, '의대는 과탐II를 지난다' 는
+/// 이미 아는 사실이라 사람이 적는다.
+class Destination {
+  final String id;
+  final String label;
+
+  /// 국내입시 · 해외 · 특목 · 기타
+  final String axis;
+  final String? summary;
+
+  /// 과목 → 지나야 하는 단계 id
+  final Map<String, List<String>> requires;
+  final List<DestinationGate> gates;
+
+  /// false 면 학원을 잇지 않는다. 근거가 얇은 목적지(조기졸업·예체능)는
+  /// 길만 보여 주고 누가 그 길인지는 말하지 않는다.
+  final bool linkable;
+
+  /// 단계 id → 그 단계에 붙은 학원 수. 길의 어느 대목이 비었는지 보인다.
+  final Map<String, int> stageCounts;
+
+  /// 이 길에 놓인 학원 수(중복 제거).
+  final int academyCount;
+
+  const Destination({
+    required this.id,
+    required this.label,
+    required this.axis,
+    this.summary,
+    this.requires = const {},
+    this.gates = const [],
+    this.linkable = true,
+    this.stageCounts = const {},
+    this.academyCount = 0,
+  });
+
+  /// 이 목적지가 지나는 모든 단계.
+  Set<String> get stageIds =>
+      {for (final ids in requires.values) ...ids};
+
+  factory Destination.fromJson(Map<String, dynamic> j) => Destination(
+        id: j['id'] as String,
+        label: j['label'] as String,
+        axis: (j['axis'] ?? '기타') as String,
+        summary: j['summary'] as String?,
+        requires: ((j['requires'] as Map?) ?? const {}).map((k, v) =>
+            MapEntry(k as String, (v as List).cast<String>())),
+        gates: ((j['gates'] as List?) ?? const [])
+            .map((e) =>
+                DestinationGate.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
+        linkable: (j['linkable'] ?? true) as bool,
+        stageCounts: ((j['stageCounts'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(k as String, (v as num).toInt())),
+        academyCount: (j['academyCount'] as num?)?.toInt() ?? 0,
+      );
+}
+
 class Roadmap {
   final List<RoadmapMilestone> milestones;
   final List<RoadmapStage> stages;

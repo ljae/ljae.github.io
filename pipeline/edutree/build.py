@@ -1280,6 +1280,42 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     }
 
 
+def _destination_payload(academies: list[dict]) -> list[dict]:
+    """목적지 + 그 길에 실제로 학원이 몇 곳 붙어 있는지.
+
+    경로는 사람이 적지만 **얼마나 채워졌는지는 데이터가 말한다.**
+    단계별 학원 수를 세어 목적지 카드에 싣는다 — 'KMO 단계 2곳' 처럼
+    길의 어느 대목이 비어 있는지가 그대로 보인다.
+
+    linkable=false 인 목적지(조기졸업·예체능)는 세지 않는다. 근거가 얇아
+    학원을 잇지 않기로 한 곳이라, 숫자를 붙이면 그 판단과 어긋난다.
+    """
+    by_stage: dict[str, int] = collections.Counter()
+    for a in academies:
+        for sid in a.get("stages") or []:
+            by_stage[sid] += 1
+
+    out = []
+    for d in config.destinations():
+        stages = [s for ids in d["requires"].values() for s in ids]
+        counts = ({s: by_stage.get(s, 0) for s in stages}
+                  if d["linkable"] else {})
+        out.append({
+            "id": d["id"], "label": d["label"], "axis": d["axis"],
+            "summary": d.get("summary"),
+            "requires": d["requires"],
+            "gates": d.get("gates") or [],
+            "linkable": d["linkable"],
+            "stageCounts": counts,
+            # 이 길에 놓인 학원 수(중복 제거). 단계 수가 아니라 학원 수다.
+            "academyCount": len({
+                a["id"] for a in academies
+                if d["linkable"] and set(a.get("stages") or []) & set(stages)
+            }),
+        })
+    return out
+
+
 def _assign_ranks(academies: list[dict], scores: dict) -> None:
     by_region: dict[str, list] = defaultdict(list)
     for a in academies:
@@ -1665,7 +1701,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "source": a.get("source"),
         } for a in apt_rows if a.get("kaptCode")],
         "techtree.json": {**config.banded_techtree(),
-                          "roadmap": config.roadmap_payload()},
+                          "roadmap": config.roadmap_payload(),
+                          # 진로 목적지. 단계와 달리 학년 구간으로 가르지
+                          # 않는다 — 목적지는 구간을 관통하는 축이다.
+                          "destinations": _destination_payload(evaluated)},
         "academies.json": payload_academies,
         "registry.json": payload_registry,
         "meta.json": {

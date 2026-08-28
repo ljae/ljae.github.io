@@ -16,12 +16,16 @@ class EduTreeData {
   final List<Academy> academies;
   final Roadmap roadmap;
 
+  /// 진로 목적지 — 테크트리의 종점. 학년 구간으로 가르지 않는다.
+  final List<Destination> destinations;
+
   EduTreeData({
     required this.meta,
     required this.regions,
     required this.tracks,
     required this.academies,
     this.roadmap = const Roadmap(),
+    this.destinations = const [],
   });
 
   late final Map<String, Region> regionById = {
@@ -328,6 +332,9 @@ class EduTreeRepository {
           ? Roadmap.fromJson(
               ((results[2] as Map)['roadmap'] as Map).cast<String, dynamic>())
           : const Roadmap(),
+      destinations: (((results[2] as Map)['destinations'] as List?) ?? const [])
+          .map((e) => Destination.fromJson((e as Map).cast<String, dynamic>()))
+          .toList(),
       academies: (results[3] as List)
           .map((e) => Academy.fromJson((e as Map).cast<String, dynamic>()))
           .toList(),

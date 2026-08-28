@@ -29,6 +29,120 @@ roadmap_milestones:
     label: 중등 전환
     note: 내신 체제 시작. 특목·자사 지원 여부가 루트를 가른다.
 
+# ─────────────────────────────────────────────────────────────────────
+# 진로 목적지 — 테크트리의 종점
+#
+# 단계(stages)가 '무엇을 배우는가' 라면 목적지는 '어디로 가는가' 다.
+# 학부모가 실제로 붙들고 있는 것은 후자다 — 의대, 유학, 영재고.
+#
+# ★ 이것은 **큐레이션**이다. 후기에서 추론하지 않는다.
+#   목적지 신호를 실측하니 글 2.3% 뿐이라 학원에 딱지를 붙일 수는 없다.
+#   하지만 '의대는 과탐II와 수학 최상위를 지난다'는 후기로 알아낼 지식이
+#   아니라 이미 아는 사실이다. 근거가 얇다는 것은 학원 연결을 못 한다는
+#   뜻이지, 길을 못 그린다는 뜻이 아니다.
+#
+# requires: 지나야 하는 **기존 단계 id**. 새 단계를 만들지 않는다.
+#           존재하지 않는 id 를 적으면 빌드가 경고한다(조용히 비지 않는다).
+# gates:    되돌리기 어려운 분기점. 이 서비스가 줄 수 있는 가장 실용적인 정보다.
+# linkable: false 면 학원을 연결하지 않는다 — 길은 보여 주되 누가 그 길인지는
+#           말하지 않는다. 근거가 얇은 목적지에 쓴다.
+# ─────────────────────────────────────────────────────────────────────
+destinations:
+  - id: dest_medical
+    label: 의대 · 의치한
+    axis: 국내입시
+    sort_order: 0
+    summary: 과탐 II 와 수학 최상위가 갈림길. 영어는 절대평가라 비중이 낮다.
+    requires:
+      math:    [math_hi_naesin, math_hi_suneung, math_hi_top]
+      science: [sci_hi_naesin, sci_hi_suneung, sci_hi_two]
+      korean:  [kor_hi_suneung]
+    gates:
+      - grade: 10
+        note: 고1 내신이 사실상 전제. 여기서 대부분 갈린다.
+      - grade: 11
+        note: 과탐 II 선택. 안 고르면 상위권 지원 폭이 줄어든다.
+
+  - id: dest_snu_top
+    label: 서울대 · 최상위 국내
+    axis: 국내입시
+    sort_order: 1
+    summary: 내신·수능·논술 세 갈래를 모두 열어 두는 가장 넓은 길.
+    requires:
+      math:    [math_hi_naesin, math_hi_suneung, math_hi_top]
+      korean:  [kor_hi_suneung, kor_hi_nonsul]
+      english: [eng_hi_suneung, eng_hi_adv]
+      science: [sci_hi_suneung]
+    gates:
+      - grade: 10
+        note: 내신 산출 시작. 수시·정시 비중이 여기서 정해지기 시작한다.
+      - grade: 11
+        note: 논술 준비 여부 결정. 대학별 고사는 따로 준비해야 한다.
+
+  - id: dest_abroad
+    label: 해외대학 · 유학
+    axis: 해외
+    sort_order: 2
+    summary: 국내 입시와 거의 겹치지 않는 길. 초등 영어 축적이 그대로 자산이 된다.
+    requires:
+      english: [eng_el_phonics, eng_el_academy, eng_el_rw, eng_mid_test]
+      math:    [math_el_basic, math_mid_preview]
+    gates:
+      - grade: 1
+        note: 리딩 축적이 뒤에 대체 불가. 이 길의 진짜 관문은 초등에 있다.
+      - grade: 8
+        note: 국내 내신 트랙과 갈라지는 지점. 토플·SAT 로 방향을 튼다.
+
+  - id: dest_science_hs
+    label: 영재고 · 과학고
+    axis: 특목
+    sort_order: 3
+    summary: 가장 이르게 갈리는 길. 초4 영재원 선발이 실질적 출발선이다.
+    requires:
+      math:    [math_el_thinking, math_el_competition, math_mid_kmo, math_mid_yeongjae]
+      science: [sci_el_lab, sci_el_gifted, sci_mid_olympiad]
+    gates:
+      - grade: 4
+        note: 영재원 선발. 실적이 이후 루트의 입장권이 된다.
+      - grade: 8
+        note: KMO. 이때 시작하면 늦다는 것이 학원가의 통설이다.
+
+  - id: dest_foreign_hs
+    label: 외고 · 국제고 · 자사고
+    axis: 특목
+    sort_order: 4
+    summary: 중등 내신과 영어 공인시험이 함께 간다.
+    requires:
+      english: [eng_el_academy, eng_mid_naesin, eng_mid_test]
+      math:    [math_mid_naesin, math_mid_preview]
+      korean:  [kor_mid_naesin, kor_mid_deep]
+    gates:
+      - grade: 7
+        note: 내신 산출 시작. 특목 지원 여부가 여기서 정해진다.
+
+  - id: dest_early
+    label: 조기졸업 · 검정고시
+    axis: 기타
+    sort_order: 5
+    linkable: false
+    summary: 선행을 극대화해 학년을 앞당기는 길. 후기 근거가 얇어 학원을 연결하지 않는다.
+    requires:
+      math:    [math_el_preview, math_mid_preview]
+    gates:
+      - grade: 6
+        note: 중등 과정 선행 완료 여부가 갈림길.
+
+  - id: dest_art
+    label: 예체능 입시
+    axis: 기타
+    sort_order: 6
+    linkable: false
+    summary: 실기 중심이라 교과 테크트리와 축이 다르다. 길만 표시하고 단계를 잇지 않는다.
+    requires: {}
+    gates:
+      - grade: 9
+        note: 예고 지원 여부. 실기 준비 기간을 역산해 정한다.
+
 tracks:
   # ══════════════════════ 수학 ══════════════════════
   - id: math_elementary

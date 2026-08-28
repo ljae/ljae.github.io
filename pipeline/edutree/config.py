@@ -289,6 +289,36 @@ def banded_techtree() -> dict:
     return {**tree, "tracks": out_tracks}
 
 
+def destinations() -> list[dict]:
+    """진로 목적지 — 테크트리의 종점. **큐레이션이다.**
+
+    목적지 신호를 후기에서 재 보니 글 2.3%뿐이라 학원에 딱지를 붙일 수는
+    없다. 하지만 '의대는 과탐II와 수학 최상위를 지난다' 는 후기로 알아낼
+    지식이 아니라 이미 아는 사실이다 — 그래서 사람이 적고, 근거 등급은
+    curated 다.
+
+    참조하는 단계 id 가 실제로 있는지 여기서 확인한다. 오타를 그냥 두면
+    경로가 **조용히 비어** 목적지 카드가 빈 채로 나가고, 그건 길이 없다는
+    거짓말이 된다.
+    """
+    tree = techtree()
+    rows = tree.get("destinations") or []
+    valid = {s["id"] for t in tree["tracks"] for s in t["stages"]}
+    out = []
+    for d in rows:
+        req = {}
+        for subject, ids in (d.get("requires") or {}).items():
+            good = [i for i in ids if i in valid]
+            for bad in [i for i in ids if i not in valid]:
+                print(f"  ! 목적지 {d['id']}: 없는 단계 '{bad}' — 무시")
+            if good:
+                req[subject] = good
+        out.append({**d, "requires": req,
+                    "linkable": d.get("linkable", True)})
+    out.sort(key=lambda d: d.get("sort_order", 99))
+    return out
+
+
 def roadmap_payload() -> dict:
     """통합 로드맵 — 과목·구간으로 가르지 않은 전체 그림.
 
