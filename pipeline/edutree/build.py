@@ -1169,6 +1169,25 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
     from . import claims as claims_mod
     claim_rows = claims_mod.extract_all(mentions, candidates, rival_names)
+
+    # 취소 회로 — 사용자 이의에 대한 운영자 판정을 반영한다.
+    #
+    # posts.py 의 무효화는 글 **전체**를 끈다. 여기는 한 층 아래다 —
+    # 그 글의 평판 근거는 살리고 진입난이도 주장만 끈다. 매 실행 원자료
+    # 에서 전부 다시 지으므로 '어디까지 지워야 하나' 를 판단할 것이 없고,
+    # 판정을 지우면 결정적 id 덕분에 같은 주장이 그대로 돌아온다.
+    claim_verdicts = claims_mod.load_verdicts()
+    claim_disputes = claims_mod.load_disputes()
+    claim_rows, cstat = claims_mod.apply_verdicts(
+        claim_rows, claim_verdicts, claim_disputes)
+    if any(cstat.values()):
+        print(f"  주장 판정 반영: 취소 {cstat['revoked']:,}건 · "
+              f"기한 지남 {cstat['stale'] + cstat['auto_stale']:,}건"
+              f"(자동 {cstat['auto_stale']:,})")
+    if claim_disputes:
+        # 미처리 이의는 운영자가 봐야 한다. 정정 요청과 같은 층이다.
+        print(f"  ! 주장 이의 {len(claim_disputes):,}건 미처리 — /admin 에서 판정")
+
     # 진입난이도 사건은 글에 붙여 둔다. 점수 계산이 과목별로 글을 걸러
     # 가며 도는데(subject_mentions), 사건이 글과 함께 움직여야 그 필터가
     # 그대로 통한다. 따로 들고 다니면 두 목록이 어긋난다.
@@ -1416,6 +1435,12 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     from . import claims as claims_mod
     facts = {key: claims_mod.facts_for(rows)
              for key, rows in claims_mod.by_academy(claim_rows or []).items()}
+    # 진입난이도 근거. 줄마다 인용문·출처·claimId 를 실어 화면에서 '이의'
+    # 를 받을 수 있게 한다. 근거를 못 보여주는 점수는 내지 않는다.
+    sel_evidence = claims_mod.evidence_for(claim_rows or [])
+    # 취소율. 숨기면 그 자체가 왜곡이다 — 취소가 남용되면 학원이 불리한
+    # 근거만 지우는 통로가 된다.
+    dispute_rates = claims_mod.dispute_rate(claim_rows or [])
 
     # 언급은 학원별 상위 근거 몇 건만 앱에 싣는다(원문 전재 금지 · 번들 크기).
     top_evidence: dict[str, list] = defaultdict(list)
@@ -1576,6 +1601,11 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             # 들어가지 않는다. 모든 줄이 인용문과 원문 링크를 갖는다 —
             # 근거를 못 보여주는 사실은 싣지 않는다.
             "facts": facts.get(key, {}),
+            # 진입난이도의 근거 인용문. 줄마다 claimId 가 있어 화면에서
+            # '이의' 를 받을 수 있다. 취소된 줄도 함께 나간다 — 왜 빠졌는지가
+            # 보여야 한다.
+            "selectivityEvidence": sel_evidence.get(key, []),
+            "disputeRate": dispute_rates.get(key),
         })
         payload_academies.append(row)
 

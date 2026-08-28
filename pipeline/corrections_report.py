@@ -58,6 +58,46 @@ def show(rows: list[dict]) -> None:
     print("처리: python3 pipeline/corrections_report.py --done <ID앞8자> --note '...'")
 
 
+DISPUTE_REASON = {
+    "not_true": "사실 아님", "outdated": "지금은 다름",
+    "other_academy": "다른 학원 이야기", "ad": "광고", "other": "기타",
+}
+
+
+def show_disputes(show_all: bool = False) -> list[dict]:
+    """미처리 주장 이의. 근거 한 줄에 대한 이의라 정정 요청보다 잘다.
+
+    같은 주장에 여러 건이 들어오면 한 줄로 묶어 보여준다 — 쪼개 보면
+    같은 판단을 여러 번 하게 된다.
+    """
+    q = "claim_disputes?select=*&order=created_at.desc"
+    if not show_all:
+        q += "&status=eq.open"
+    rows = _req("GET", q)
+    if not rows:
+        print("미처리 주장 이의 없음.")
+        return []
+
+    by_claim: dict[str, list[dict]] = {}
+    for r in rows:
+        by_claim.setdefault(r["claim_id"], []).append(r)
+    print(f"\n미처리 주장 이의 {len(rows)}건 ({len(by_claim)}개 주장)\n" + "─" * 72)
+    for cid, group in by_claim.items():
+        head = group[0]
+        reasons = " · ".join(sorted({DISPUTE_REASON.get(g.get("reason"), "?")
+                                     for g in group}))
+        print(f"[{cid[:10]}] {head.get('academy_key')}  · {head.get('claim_kind')}"
+              f"  · 이의 {len(group)}건  · {reasons}")
+        if head.get("quote"):
+            print(f"    근거: {head['quote'][:70]}")
+        for g in group:
+            if g.get("note"):
+                print(f"    메모: {g['note'][:70]}")
+    print("\n취소하려면 claim_verdicts 에 (claim_id, academy_key, reason) 을 넣는다.")
+    print("판정을 지우면 다음 실행에서 그 주장이 그대로 되살아난다.")
+    return rows
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--all", action="store_true")
@@ -92,9 +132,12 @@ def main() -> None:
         q += "&status=in.(received,open,reviewing)"
     rows = _req("GET", q)
     show(rows)
+    # 주장 이의도 같은 창구다. 접수만 되고 아무도 안 보면 정정 요청이
+    # 조용히 묻히던 것과 똑같은 일이 반복된다.
+    disputes = show_disputes(a.all)
     # 미처리가 있으면 0 이 아닌 코드로 끝낸다. 야간 작업이 실패로 표시되고
     # 깃허브가 알림을 보낸다 — 로그에만 찍히면 아무도 안 본다.
-    if rows and a.fail_on_open:
+    if (rows or disputes) and a.fail_on_open:
         sys.exit(2)
 
 

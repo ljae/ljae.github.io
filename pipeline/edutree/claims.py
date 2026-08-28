@@ -88,6 +88,13 @@ SEL_EVENTS: tuple[tuple[str, float, tuple[str, ...], bool], ...] = (
       "입반 테스트", "편성고사"), False),
 )
 SEL_WEIGHT = {k: w for k, w, _t, _c in SEL_EVENTS}
+
+# 촉발 낱말 바로 뒤에 이것이 오면 다른 뜻이다.
+# '대기실 비디오에서 보니' 는 대기자 명단이 아니라 **방** 이야기다(실측).
+SEL_NOT_AFTER = {
+    "대기": ("실", "오염", "질", "중일"),
+    "마감": ("일", "기한"),
+}
 SEL_LABEL = {
     "sel.test_failed": "레벨테스트 탈락",
     "sel.waitlist":    "대기·웨이팅",
@@ -228,22 +235,48 @@ _NOT_TEST = ("레벨테스트", "레테", "입반", "배치고사", "반배정",
 _TOPIC_WINDOW = 16
 
 
+def _spans(win: str, words) -> list[tuple[int, int]]:
+    out = []
+    for w in words:
+        i = win.find(w)
+        while i >= 0:
+            out.append((i, i + len(w)))
+            i = win.find(w, i + 1)
+    return out
+
+
 def _topic_near(flat: str, pos: int) -> str | None:
-    """정규화 위치 pos 주변의 주제. 없으면 None."""
+    """정규화 위치 pos 주변의 주제. 없으면 None.
+
+    ★ 레벨테스트를 '시험' 으로도, 만능 거부권으로도 두지 않는다.
+      처음에는 창 안에 레테가 있으면 무조건 건너뛰게 했는데, 그러면
+      '레테에서 떨어졌어요. 수업은 주 3회입니다' 의 주 3회까지 사라졌다.
+      레벨테스트는 **그 자체가 하나의 주제**로 가장 가까울 때만 이긴다.
+
+      '테스트' 는 '레벨테스트' 의 일부이기도 하다. 겹치는 자리에서 잡힌
+      '테스트' 는 세지 않는다 — 아니면 '레벨테스트는 월 1회' 가 정기시험이
+      된다.
+    """
     lo = max(0, pos - _TOPIC_WINDOW)
     hi = min(len(flat), pos + _TOPIC_WINDOW)
     win = flat[lo:hi]
-    if any(w in win for w in _NOT_TEST):
-        return "level_test"
+
+    lt_spans = _spans(win, [w.replace(" ", "") for w in _NOT_TEST])
     best, best_d = None, None
+
+    def offer(topic: str, start: int) -> None:
+        nonlocal best, best_d
+        d = abs((lo + start) - pos)
+        if best_d is None or d < best_d:
+            best, best_d = topic, d
+
+    for a, _b in lt_spans:
+        offer("level_test", a)
     for topic, words in _TOPIC_WORDS.items():
-        for w in words:
-            i = win.find(w)
-            while i >= 0:
-                d = abs((lo + i) - pos)
-                if best_d is None or d < best_d:
-                    best, best_d = topic, d
-                i = win.find(w, i + 1)
+        for a, b in _spans(win, words):
+            if topic == "test" and any(s <= a and b <= e for s, e in lt_spans):
+                continue                  # '레벨테스트' 안의 '테스트'
+            offer(topic, a)
     return best
 
 
@@ -467,7 +500,11 @@ def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
             while i >= 0 and not found:
                 orig = idx[i]
                 end = idx[min(i + len(t), len(idx)) - 1] + 1
-                if (owner_ok(orig, SEL_WINDOW)
+                tail = flat[i + len(t): i + len(t) + 3]
+                wrong_sense = any(
+                    tail.startswith(x) for x in SEL_NOT_AFTER.get(trig, ()))
+                if (not wrong_sense
+                        and owner_ok(orig, SEL_WINDOW)
                         and not _sel_negated(flat, i, len(t))
                         and (not needs_test or _has_test_context(flat, i))):
                     quote = _sentence_at(text, orig, end)
@@ -746,6 +783,125 @@ def facts_for(rows: list[dict], today: date | None = None) -> dict:
     return out
 
 
+# ── 취소 회로 ──────────────────────────────────────────────────────
+#
+# 취소는 삭제가 아니라 **스위치**다. 매 실행이 원자료에서 전부 다시
+# 지으므로 '어디까지 지워야 하나' 를 사람이 판단할 것이 없고, 판정을
+# 지우면 결정적 id 덕분에 같은 주장이 그대로 돌아온다.
+#
+# 파급은 한 학원에서 끝나지 않는다: 그 학원의 점수 → 코호트 평균·표준편차
+# → 같은 코호트 전 학원의 등수. 그게 정상이다.
+
+# 이보다 오래된 주장에 '지금은 다름' 이의가 들어오면 운영자를 기다리지
+# 않고 넘긴다. **낡음은 가짜가 아니고**, 되돌리기도 쉽다. 자동 반영은
+# 이 하나뿐이다 — 접수가 곧 편집권이 되면 그건 또 다른 왜곡이다.
+AUTO_STALE_DAYS = 730
+
+
+def load_verdicts() -> dict[str, dict]:
+    """Supabase 의 취소 판정. 키가 없으면 빈 dict — 파이프라인은 그대로 간다."""
+    from . import config
+    if not config.HAS_SUPABASE:
+        return {}
+    import requests
+    try:
+        r = requests.get(
+            f"{config.SUPABASE_URL}/rest/v1/claim_verdicts",
+            params={"select": "claim_id,verdict,reason,academy_key"},
+            headers={"apikey": config.SUPABASE_SERVICE_KEY,
+                     "Authorization": f"Bearer {config.SUPABASE_SERVICE_KEY}"},
+            timeout=20)
+    except requests.RequestException as exc:
+        # 부산물이다. 네트워크가 한 번 끊겼다고 실행 전체를 잃지 않는다.
+        print(f"  주장 판정 조회 실패: {exc}")
+        return {}
+    if r.status_code != 200:
+        print(f"  주장 판정 조회 실패 {r.status_code}")
+        return {}
+    return {row["claim_id"]: row for row in r.json()}
+
+
+def load_disputes() -> list[dict]:
+    """미처리 이의. 자동 stale 판정과 운영자 알림에 쓴다."""
+    from . import config
+    if not config.HAS_SUPABASE:
+        return []
+    import requests
+    try:
+        r = requests.get(
+            f"{config.SUPABASE_URL}/rest/v1/claim_disputes",
+            params={"select": "id,claim_id,academy_key,reason,status",
+                    "status": "eq.open"},
+            headers={"apikey": config.SUPABASE_SERVICE_KEY,
+                     "Authorization": f"Bearer {config.SUPABASE_SERVICE_KEY}"},
+            timeout=20)
+        return r.json() if r.status_code == 200 else []
+    except requests.RequestException:
+        return []
+
+
+def apply_verdicts(rows: list[dict], verdicts: dict[str, dict],
+                   disputes: list[dict] | None = None,
+                   today: date | None = None) -> tuple[list[dict], dict]:
+    """판정을 반영한다. 지우지 않고 status 를 바꾼다.
+
+    취소된 주장은 목록에 남는다 — 화면에 '이의로 제외됨' 이라 적어야
+    하고, 학원 위키에도 되적어야 한다. 지워 버리면 왜 빠졌는지가 사라진다.
+    """
+    today = today or date.today()
+    stat = {"revoked": 0, "stale": 0, "auto_stale": 0, "confirmed": 0}
+
+    # 2년 넘은 주장에 '지금은 다름' 이의 → 사람을 기다리지 않는다.
+    auto: set[str] = set()
+    for d in disputes or []:
+        if d.get("reason") == "outdated" and d["claim_id"] not in verdicts:
+            auto.add(d["claim_id"])
+
+    for r in rows:
+        v = verdicts.get(r["id"])
+        if v:
+            kind = v.get("verdict") or "revoked"
+            # 사유 없는 취소는 무시한다. 이유 모르는 제외는 나중에 지우지도
+            # 못하고 남는다 — posts.py 가 같은 규칙을 쓴다.
+            if kind == "revoked" and not (v.get("reason") or "").strip():
+                continue
+            if kind in ("revoked", "stale"):
+                r["status"] = kind
+                r["revoked_reason"] = v.get("reason")
+                stat[kind] += 1
+            else:
+                r["verdict"] = "confirmed"
+                stat["confirmed"] += 1
+            continue
+        if r["id"] in auto:
+            d = _as_date(r.get("posted_at"))
+            if d and (today - d).days > AUTO_STALE_DAYS:
+                r["status"] = "stale"
+                r["revoked_reason"] = "지금은 다름 (2년 경과 · 자동)"
+                stat["auto_stale"] += 1
+    return rows, stat
+
+
+def dispute_rate(rows: list[dict]) -> dict[str, dict]:
+    """학원별 취소율. **숨기면 그 자체가 왜곡이다.**
+
+    취소가 남용되면 학원이 불리한 근거만 지우는 통로가 된다. 취소가
+    점수를 올리지 않게 해 두었지만(사건이 0건이 되면 점수는 올라가는 게
+    아니라 사라진다), 그것과 별개로 얼마나 빠졌는지는 보여야 한다.
+    """
+    out: dict[str, dict] = {}
+    for key, group in by_academy(rows).items():
+        dropped = [r for r in group if r.get("status") in ("revoked", "stale")]
+        if not dropped:
+            continue
+        out[key] = {
+            "total": len(group),
+            "dropped": len(dropped),
+            "rate": round(len(dropped) / len(group), 3),
+        }
+    return out
+
+
 def attach_events(mentions: list[dict], rows: list[dict]) -> int:
     """진입난이도 사건을 그 글에 붙인다.
 
@@ -780,7 +936,11 @@ def summary(rows: list[dict]) -> str:
     if not rows:
         return "주장 0건"
     counts: dict[str, int] = defaultdict(int)
+    dropped = 0
     for r in rows:
+        if r.get("status") != "active":
+            dropped += 1
+            continue
         counts[r["kind"]] += 1
     def label(kind: str) -> str:
         if kind in FACT_KINDS:
@@ -791,5 +951,32 @@ def summary(rows: list[dict]) -> str:
                        if k in FACT_KINDS)
     events = " · ".join(f"{label(k)} {n:,}" for k, n in sorted(counts.items())
                         if k.startswith("sel."))
-    return (f"주장 {len(rows):,}건 — 사실 [{facts or '없음'}] · "
-            f"진입 사건 [{events or '없음'}]")
+    tail = f" · 판정으로 제외 {dropped:,}건" if dropped else ""
+    return (f"주장 {len(rows) - dropped:,}건 — 사실 [{facts or '없음'}] · "
+            f"진입 사건 [{events or '없음'}]{tail}")
+
+
+def evidence_for(rows: list[dict], limit: int = 6) -> dict[str, list[dict]]:
+    """학원별 진입난이도 근거. 화면이 인용문을 줄마다 보여주고, 줄마다
+    '이의' 버튼이 붙는다. **근거를 못 보여주는 점수는 내지 않는다.**
+
+    취소된 것도 함께 내보낸다 — 왜 빠졌는지가 보여야 한다.
+    """
+    out: dict[str, list[dict]] = defaultdict(list)
+    for key, group in by_academy(rows).items():
+        picked = [r for r in group if r["kind"].startswith("sel.")]
+        picked.sort(key=lambda r: (r.get("status") != "active",
+                                   -SEL_WEIGHT.get(r["kind"], 0),
+                                   str(r.get("posted_at") or "")))
+        for r in picked[:limit]:
+            out[key].append({
+                "claimId": r["id"],
+                "kind": r["kind"],
+                "label": SEL_LABEL.get(r["kind"], r["kind"]),
+                "quote": r["quote"],
+                "url": r.get("source_url"),
+                "postedAt": str(r["posted_at"]) if r.get("posted_at") else None,
+                "status": r.get("status", "active"),
+                "revokedReason": r.get("revoked_reason"),
+            })
+    return dict(out)

@@ -242,6 +242,12 @@ def test_grade_drop_is_not_a_failed_placement_test():
     assert "sel.test_failed" in events("가나수학학원 레테 두 번 떨어지고 세 번째에 붙었어요")
 
 
+def test_a_waiting_room_is_not_a_waitlist():
+    """'대기실 비디오에서 보니' 가 대기자 명단으로 잡혔던 글(실측)."""
+    assert events("가나수학학원 대기실 비디오에서 보니 쌤들이 캐나다분들") == []
+    assert events("가나수학학원 대기 두 달 걸린대요") == ["sel.waitlist"]
+
+
 def test_events_need_the_academy_nearby():
     """과목·학급이 지키는 창(窓) 규칙을 진입난이도만 안 지키고 있었다."""
     far = "가나수학학원 이야기는 여기까지고 " + "그냥 잡담이 이어집니다 " * 4 + \
@@ -470,3 +476,120 @@ def test_bursts_ignore_discovery_dates():
         r["date_source"] = "cafe_list"
     _, hit = analyze.flag_author_bursts(rows)
     assert hit == 5
+
+
+# ── 취소 회로 ──────────────────────────────────────────────────────
+#
+# 이 구조의 약속: **한 글의 일부만 끌 수 있다.** posts.py 의 무효화는 글
+# 전체를 끄므로 '이 진입난이도 근거는 틀렸지만 평판 근거는 맞다' 를 담을
+# 자리가 없었다.
+def test_revoking_one_claim_leaves_the_rest_of_the_post():
+    m = mention("가나수학학원 레테에서 떨어졌어요. 수업은 주 3회입니다")
+    rows = claims.extract(m, NAMES)
+    kinds_before = {r["kind"] for r in rows}
+    assert "sel.test_failed" in kinds_before
+    assert "fact.class_freq" in kinds_before
+
+    target = next(r for r in rows if r["kind"] == "sel.test_failed")
+    rows, stat = claims.apply_verdicts(
+        rows, {target["id"]: {"verdict": "revoked", "reason": "사실 아님"}})
+    assert stat["revoked"] == 1
+
+    claims.attach_events([m], rows)
+    assert "sel.test_failed" not in m["sel_events"]        # 사건은 꺼졌고
+    card = claims.facts_for(rows, TODAY)
+    assert "fact.class_freq" in card                      # 사실은 살아 있다
+
+
+def test_a_revocation_without_a_reason_is_ignored():
+    """사유 없는 취소는 나중에 지우지도 못하고 남는다. posts.py 와 같은 규칙."""
+    m = mention("가나수학학원 레테에서 떨어졌어요")
+    rows = claims.extract(m, NAMES)
+    target = next(r for r in rows if r["kind"] == "sel.test_failed")
+    rows, stat = claims.apply_verdicts(
+        rows, {target["id"]: {"verdict": "revoked", "reason": "  "}})
+    assert stat["revoked"] == 0
+    assert target["status"] == "active"
+
+
+def test_deleting_the_verdict_brings_the_claim_back():
+    """★ 취소는 삭제가 아니라 스위치다.
+
+    claim_id 가 결정적이라 같은 원문에서 같은 id 가 다시 나온다.
+    판정을 지우면 그 주장이 그대로 되살아난다 — 되돌릴 수 있다는 것이
+    이 설계의 조건이다.
+    """
+    m = mention("가나수학학원 레테에서 떨어졌어요")
+    first = claims.extract(m, NAMES)
+    target = next(r for r in first if r["kind"] == "sel.test_failed")
+    claims.apply_verdicts(first, {target["id"]: {"verdict": "revoked",
+                                                 "reason": "사실 아님"}})
+    assert target["status"] == "revoked"
+
+    # 판정을 지운 뒤 다시 지어 보면
+    again = claims.extract(m, NAMES)
+    revived = next(r for r in again if r["kind"] == "sel.test_failed")
+    assert revived["id"] == target["id"]
+    again, stat = claims.apply_verdicts(again, {})
+    assert revived["status"] == "active" and stat["revoked"] == 0
+
+
+def test_outdated_disputes_go_stale_by_themselves_only_when_old():
+    """자동 반영은 이것 하나뿐이다 — 낡음은 가짜가 아니고 되돌리기도 쉽다."""
+    old = mention("가나수학학원 레테에서 떨어졌어요", posted="2023-01-01")
+    rows = claims.extract(old, NAMES)
+    target = next(r for r in rows if r["kind"] == "sel.test_failed")
+    disputes = [{"claim_id": target["id"], "reason": "outdated"}]
+    rows, stat = claims.apply_verdicts(rows, {}, disputes, TODAY)
+    assert stat["auto_stale"] == 1 and target["status"] == "stale"
+
+    # 최근 글이면 자동으로 넘기지 않는다. 사람이 본다.
+    recent = mention("가나수학학원 레테에서 떨어졌어요", posted="2026-06-01")
+    rows = claims.extract(recent, NAMES)
+    t2 = next(r for r in rows if r["kind"] == "sel.test_failed")
+    rows, stat = claims.apply_verdicts(
+        rows, {}, [{"claim_id": t2["id"], "reason": "outdated"}], TODAY)
+    assert stat["auto_stale"] == 0 and t2["status"] == "active"
+
+
+def test_other_dispute_reasons_never_auto_apply():
+    """'사실 아님' 은 사람이 본다. 접수가 곧 편집권이 되면 안 된다."""
+    old = mention("가나수학학원 레테에서 떨어졌어요", posted="2020-01-01")
+    rows = claims.extract(old, NAMES)
+    target = next(r for r in rows if r["kind"] == "sel.test_failed")
+    rows, stat = claims.apply_verdicts(
+        rows, {}, [{"claim_id": target["id"], "reason": "not_true"}], TODAY)
+    assert stat["auto_stale"] == 0 and target["status"] == "active"
+
+
+def test_revocation_removes_the_score_it_does_not_raise_it():
+    """★ 취소가 유리해지는 통로가 되면 안 된다.
+
+    사건이 0건이 되면 점수는 올라가는 게 아니라 **사라진다**.
+    """
+    rows = _sel_mentions("가나수학학원 레테에서 떨어졌어요 대기도 걸렸습니다", 6)
+    before, _ = scoring.selectivity(rows, {})
+    assert before is not None
+
+    all_claims = []
+    for m in rows:
+        all_claims += claims.extract(m, NAMES)
+    all_claims, _ = claims.apply_verdicts(
+        all_claims,
+        {c["id"]: {"verdict": "revoked", "reason": "다른 학원 이야기"}
+         for c in all_claims})
+    claims.attach_events(rows, all_claims)
+    after, bd = scoring.selectivity(rows, {})
+    assert after is None
+    assert "모른다" in bd["주의"]
+
+
+def test_dispute_rate_is_reported_not_hidden():
+    """숨기면 그 자체가 왜곡이다."""
+    m = mention("가나수학학원 레테에서 떨어졌어요. 수업은 주 3회입니다")
+    rows = claims.extract(m, NAMES)
+    target = next(r for r in rows if r["kind"] == "sel.test_failed")
+    claims.apply_verdicts(rows, {target["id"]: {"verdict": "revoked",
+                                                "reason": "광고"}})
+    rate = claims.dispute_rate(rows)["A1"]
+    assert rate["dropped"] == 1 and rate["total"] == len(rows)
