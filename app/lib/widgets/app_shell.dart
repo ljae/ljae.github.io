@@ -649,9 +649,9 @@ class _AcademySearch extends SearchDelegate<String> {
           itemBuilder: (context, i) {
             final hit = rows[i];
             final region = data.regionById[hit.regionId];
-            final subjects = hit.subjects
-                .map((s) => subjectNames[s] ?? s)
-                .join(', ');
+            final subjects = orderedSubjects(
+              hit.subjects,
+            ).map((s) => subjectNames[s]!).join(', ');
             return ListTile(
               key: ValueKey(hit.id),
               title: Text(hit.name),

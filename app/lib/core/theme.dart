@@ -94,9 +94,32 @@ class AppColors {
     'english': Color(0xFFB4442C),
     'korean': selectivity,
     'science': transparency,
-    'art': Color(0xFF9A6C1E),
+    // 키가 'art' 였다. 표시 이름 쪽은 'arts' 라 색을 못 찾고
+    // 회색으로 떨어졌다 — 예체능만 색 코드에서 빠져 있었다.
+    'arts': Color(0xFF9A6C1E),
     'etc': Color(0xFF6B675E),
   };
+
+  /// 먹빛 바탕에서 쓰는 과목 색.
+  ///
+  /// 안료 색은 한지 위에서 앉으라고 낮춰 잡은 값이라, 먹빛 바탕에
+  /// 그대로 쓰면 가라앉는다. 과목 줄의 색 사각은 7px 밖에 안 되는데
+  /// 쪽빛 #2E4E8A 를 #101218 위에 두면 사각인지도 안 보였다(실측).
+  /// **색 코드는 두 판에서 똑같이 읽혀야 코드다.**
+  static const _subjectsDark = <String, Color>{
+    'math': Color(0xFF5E86C8),
+    'english': Color(0xFFDE7A62),
+    'korean': Color(0xFFA472A4),
+    'science': Color(0xFF63AF93),
+    'arts': Color(0xFFC79A4B),
+    'etc': Color(0xFF9C978B),
+  };
+
+  /// 과목 색을 밝기에 맞춰 고른다. **과목 색이 필요한 곳은 전부 이걸 쓴다** —
+  /// `subjects[key]` 를 직접 읽으면 어두운 판에서만 조용히 가라앉는다.
+  static Color subjectOn(String? key, bool dark) =>
+      (dark ? _subjectsDark[key] : subjects[key]) ??
+      (dark ? mist : slate);
 
   /// 밝기에 따라 갈리는 값을 한 곳에서 고른다. 화면마다
   /// `dark ? A : B` 를 반복하면 반드시 한 곳을 빠뜨린다.

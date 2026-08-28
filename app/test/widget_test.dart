@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:edutree/core/theme.dart';
 import 'package:edutree/data/models.dart';
 import 'package:edutree/data/repository.dart';
 import 'package:edutree/widgets/annals.dart';
@@ -275,6 +276,43 @@ void main() {
       // 한 프레임만에 온전한 폭이어야 한다. 기다릴 것이 없다.
       expect(tester.getSize(find.byKey(key)).width, 300);
       expect(find.byType(ClipRect), findsNothing);
+    });
+  });
+
+  group('과목 순서', () {
+    test('표준 순서로 세운다 — 들어온 차례와 무관하게', () {
+      expect(orderedSubjects(['science', 'etc', 'math', 'arts', 'english']), [
+        'math',
+        'english',
+        'science',
+        'arts',
+        'etc',
+      ]);
+    });
+
+    test('표시 이름이 없는 키는 버린다 — general 은 모른다는 뜻이다', () {
+      expect(orderedSubjects(['general', 'math']), ['math']);
+      expect(orderedSubjects(['general']), isEmpty);
+    });
+
+    test('같은 과목이 두 번 와도 한 번만 나온다', () {
+      expect(orderedSubjects(['math', 'math', 'english']), ['math', 'english']);
+    });
+
+    test('학술과 비학술이 갈린다 — 산식이 다르기 때문', () {
+      expect(isAcademicSubject('math'), isTrue);
+      expect(isAcademicSubject('arts'), isFalse);
+      expect(isAcademicSubject('etc'), isFalse);
+      expect(isAcademicSubject(null), isFalse);
+    });
+
+    test('모든 과목이 이름과 색을 갖는다', () {
+      for (final s in subjectOrder) {
+        expect(subjectNames[s], isNotNull, reason: '$s 에 표시 이름이 없다');
+        // 'art' 로 적어 두고 'arts' 로 찾는 바람에 예체능만 색 없이
+        // 회색으로 떨어져 있었다. 키가 어긋나면 조용히 회색이 된다.
+        expect(AppColors.subjects[s], isNotNull, reason: '$s 에 색이 없다');
+      }
     });
   });
 

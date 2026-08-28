@@ -168,12 +168,16 @@ class AcademyCard extends StatelessWidget {
                             // 키를 그대로 내면 화면에 'general' 이라는
                             // 영문이 꼬리표로 붙는다(실측: 깊은생각 카드).
                             // 모른다는 것은 붙일 꼬리표가 없다는 뜻이다.
-                            for (final s in academy.subjects.take(3))
+                            // 표준 순서로 세운 뒤 앞에서 셋. 데이터가 주는
+                            // 순서대로 찍으면 같은 학원인데 화면마다 꼬리표
+                            // 차례가 달라진다.
+                            for (final s in orderedSubjects(
+                              academy.subjects,
+                            ).take(3))
                               if (subjectNames[s] case final name?)
                                 TagMark(
                                   name,
-                                  color:
-                                      AppColors.subjects[s] ?? AppColors.slate,
+                                  color: AppColors.subjectOn(s, dark),
                                 ),
                             // 검증된 곳은 도장이 이미 말했다. 꼬리표까지
                             // 붙이면 같은 말을 두 번 한다.

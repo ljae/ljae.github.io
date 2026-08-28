@@ -8,6 +8,7 @@ import '../../data/repository.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/annals_controls.dart';
+import '../../widgets/subject_bar.dart';
 import '../../widgets/common.dart';
 
 class RankingPage extends ConsumerStatefulWidget {
@@ -23,9 +24,9 @@ enum _Sort { score, selectivity, positive, sample }
 class _RankingPageState extends ConsumerState<RankingPage> {
   String _subject = 'math';
 
-  /// 학술 과목인가. 예체능·기타는 만족도·화제성만 본다.
-  static bool _isAcademic(String s) =>
-      const {'math', 'english', 'korean', 'science'}.contains(s);
+  /// 학술 과목인가. 정의는 `models.academicSubjects` 하나뿐이다 —
+  /// 여기 따로 두면 과목이 늘 때 한쪽만 고치게 된다.
+  static bool _isAcademic(String s) => isAcademicSubject(s);
   _Sort _sort = _Sort.score;
   bool _onlyVerified = false; // 공식 검증(NEIS 대조) 학원만
 
@@ -122,13 +123,10 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
                       // 무엇을 뜻하는지 설명할 수 없다.
-                      ChipRow<String>(
-                        options: [
-                          for (final e in subjectNames.entries)
-                            (e.key, e.value),
-                        ],
+                      SubjectBar(
                         selected: _subject,
                         onChanged: (v) => setState(() {
+                          if (v == null) return; // 랭킹은 '전체'를 두지 않는다
                           _subject = v;
                           // 비학술 과목에는 없는 정렬이라 기본으로 되돌린다.
                           if (!_isAcademic(v) && (_sort == _Sort.selectivity)) {

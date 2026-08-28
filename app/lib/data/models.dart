@@ -12,6 +12,7 @@ class Region {
   final String tagline;
   final double lat;
   final double lng;
+
   /// 학군별 전출입 추이. '학군이 좋으면 전입이 많다'를 수치로 보여준다.
   final List<RegionTrend> trends;
 
@@ -81,13 +82,13 @@ class RegionTrend {
   });
 
   factory RegionTrend.fromJson(Map<String, dynamic> j) => RegionTrend(
-        year: '${j['year']}',
-        level: (j['level'] ?? '') as String,
-        transferIn: (j['transferIn'] as num?)?.toInt() ?? 0,
-        transferOut: (j['transferOut'] as num?)?.toInt() ?? 0,
-        netTransfer: (j['netTransfer'] as num?)?.toInt() ?? 0,
-        schools: (j['schools'] as num?)?.toInt() ?? 0,
-      );
+    year: '${j['year']}',
+    level: (j['level'] ?? '') as String,
+    transferIn: (j['transferIn'] as num?)?.toInt() ?? 0,
+    transferOut: (j['transferOut'] as num?)?.toInt() ?? 0,
+    netTransfer: (j['netTransfer'] as num?)?.toInt() ?? 0,
+    schools: (j['schools'] as num?)?.toInt() ?? 0,
+  );
 }
 
 class Stage {
@@ -160,9 +161,9 @@ class Stage {
   };
 
   List<String> get gradeBands => [
-        for (final MapEntry(key: band, value: (lo, hi)) in _bandRanges.entries)
-          if (gradeMin <= hi && gradeMax >= lo) band,
-      ];
+    for (final MapEntry(key: band, value: (lo, hi)) in _bandRanges.entries)
+      if (gradeMin <= hi && gradeMax >= lo) band,
+  ];
 }
 
 enum EdgeType { standard, accelerated, alternative }
@@ -181,15 +182,15 @@ class StageEdge {
   });
 
   factory StageEdge.fromList(List<dynamic> raw) => StageEdge(
-        from: raw[0] as String,
-        to: raw[1] as String,
-        condition: raw.length > 2 ? (raw[2] as String? ?? '') : '',
-        type: switch (raw.length > 3 ? raw[3] : 'standard') {
-          'accelerated' => EdgeType.accelerated,
-          'alternative' => EdgeType.alternative,
-          _ => EdgeType.standard,
-        },
-      );
+    from: raw[0] as String,
+    to: raw[1] as String,
+    condition: raw.length > 2 ? (raw[2] as String? ?? '') : '',
+    type: switch (raw.length > 3 ? raw[3] : 'standard') {
+      'accelerated' => EdgeType.accelerated,
+      'alternative' => EdgeType.alternative,
+      _ => EdgeType.standard,
+    },
+  );
 }
 
 class Track {
@@ -233,6 +234,7 @@ class Score {
   final double total;
   final double reputation;
   final double momentum;
+
   /// 예체능·기타는 채점하지 않아 null 이다. 0 으로 두면 '점수가 나쁘다'로
   /// 읽히므로, 없는 것은 없다고 표시한다.
   final double? transparency;
@@ -271,41 +273,41 @@ class Score {
   });
 
   factory Score.fromJson(Map<String, dynamic> j) => Score(
-        total: (j['total'] as num).toDouble(),
-        reputation: (j['reputation'] as num).toDouble(),
-        momentum: (j['momentum'] as num).toDouble(),
-        transparency: (j['transparency'] as num?)?.toDouble(),
-        selectivity: (j['selectivity'] as num?)?.toDouble(),
-        subjectGroup: (j['subjectGroup'] ?? 'academic') as String,
-        sampleSize: (j['sampleSize'] as num).toInt(),
-        confidence: j['confidence'] as String,
-        isRanked: j['isRanked'] as bool,
-        momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
-        positiveRate: (j['positiveRate'] as num?)?.toDouble(),
-        rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
-        regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
-        breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
-      );
+    total: (j['total'] as num).toDouble(),
+    reputation: (j['reputation'] as num).toDouble(),
+    momentum: (j['momentum'] as num).toDouble(),
+    transparency: (j['transparency'] as num?)?.toDouble(),
+    selectivity: (j['selectivity'] as num?)?.toDouble(),
+    subjectGroup: (j['subjectGroup'] ?? 'academic') as String,
+    sampleSize: (j['sampleSize'] as num).toInt(),
+    confidence: j['confidence'] as String,
+    isRanked: j['isRanked'] as bool,
+    momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
+    positiveRate: (j['positiveRate'] as num?)?.toDouble(),
+    rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
+    regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
+    breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
+  );
 
   /// 값이 없는 기둥(예체능의 투명성·진입난이도)은 0 을 돌려준다.
   /// 화면은 [subjectGroup] 으로 그릴지 말지 먼저 정한다.
   double pillar(String key) => pillarOrNull(key) ?? 0;
 
   double? pillarOrNull(String key) => switch (key) {
-        'reputation' => reputation,
-        'momentum' => momentum,
-        'transparency' => transparency,
-        'selectivity' => selectivity,
-        _ => 0,
-      };
+    'reputation' => reputation,
+    'momentum' => momentum,
+    'transparency' => transparency,
+    'selectivity' => selectivity,
+    _ => 0,
+  };
 
   /// 표본 0 은 '적다' 가 아니라 '아직 근거가 없다' 다. 둘을 같은 말로
   /// 적으면 50점이 평가 결과처럼 읽힌다.
   String get confidenceLabel => switch (confidence) {
-        'high' => '표본 충분',
-        'medium' => '표본 보통',
-        _ => sampleSize == 0 ? '근거 없음' : '표본 부족',
-      };
+    'high' => '표본 충분',
+    'medium' => '표본 보통',
+    _ => sampleSize == 0 ? '근거 없음' : '표본 부족',
+  };
 }
 
 class Evidence {
@@ -334,31 +336,32 @@ class Evidence {
   });
 
   factory Evidence.fromJson(Map<String, dynamic> j) => Evidence(
-        source: j['source'] as String,
-        url: j['url'] as String,
-        title: (j['title'] ?? '') as String,
-        snippet: (j['snippet'] ?? '') as String,
-        postedAt: j['posted_at'] as String?,
-        sentiment: (j['sentiment'] as num?)?.toDouble() ?? 0,
-        credibility: (j['credibility'] as num?)?.toDouble() ?? 0,
-        branchBasis: j['branch_basis'] as String?,
-      );
+    source: j['source'] as String,
+    url: j['url'] as String,
+    title: (j['title'] ?? '') as String,
+    snippet: (j['snippet'] ?? '') as String,
+    postedAt: j['posted_at'] as String?,
+    sentiment: (j['sentiment'] as num?)?.toDouble() ?? 0,
+    credibility: (j['credibility'] as num?)?.toDouble() ?? 0,
+    branchBasis: j['branch_basis'] as String?,
+  );
 
   /// 지점이 특정되지 않은 글인가.
   bool get isBrandWide => branchBasis == 'brand';
 
   String get sourceLabel => switch (source) {
-        'naver_cafe' => '네이버 카페',
-        'naver_blog' => '네이버 블로그',
-        'naver_kin' => '지식iN',
-        'cafe_local' => '카페 수집',
-        _ => source,
-      };
+    'naver_cafe' => '네이버 카페',
+    'naver_blog' => '네이버 블로그',
+    'naver_kin' => '지식iN',
+    'cafe_local' => '카페 수집',
+    _ => source,
+  };
 }
 
 class Academy {
   final String id;
   final String name;
+
   /// 화면에 찍는 이름. 파이프라인이 학군 내 중복을 없앤 뒤 내려준다.
   /// 지점이 여럿이면 도로명이 붙는다: '씨앤씨 (목동서로 389)'
   final String displayNameRaw;
@@ -385,6 +388,7 @@ class Academy {
   final String dataSource;
   final double? lat;
   final double? lng;
+
   /// NEIS 등록 건수. 1보다 크면 여러 관/과정 등록을 하나로 묶은 것이다.
   final int registrationCount;
 
@@ -430,40 +434,42 @@ class Academy {
   });
 
   factory Academy.fromJson(Map<String, dynamic> j) => Academy(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        displayNameRaw: (j['displayName'] ?? j['name']) as String,
-        brand: j['brand'] as String?,
-        aliases: ((j['aliases'] as List?) ?? const []).cast<String>(),
-        regionId: (j['regionId'] ?? '') as String,
-        subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
-        gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
-        stages: ((j['stages'] as List?) ?? const []).cast<String>(),
-        stageBasis: ((j['stageBasis'] as Map?) ?? const {})
-            .map((k, v) => MapEntry(k as String, v as String)),
-        flagship: ((j['flagship'] as List?) ?? const []).cast<String>(),
-        address: j['address'] as String?,
-        tel: j['tel'] as String?,
-        capacity: (j['capacity'] as num?)?.toInt(),
-        registrationStatus: j['registrationStatus'] as String?,
-        establishedOn: j['establishedOn'] as String?,
-        isVerified: (j['isVerified'] ?? false) as bool,
-        dataSource: (j['dataSource'] ?? 'seed') as String,
-        lat: (j['lat'] as num?)?.toDouble(),
-        lng: (j['lng'] as num?)?.toDouble(),
-        registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
-        registrationIds:
-            ((j['registrationIds'] as List?) ?? const []).cast<String>(),
-        score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
-        subjectScores: {
-          for (final e in ((j['subjectScores'] as Map?) ?? const {}).entries)
-            e.key as String:
-                Score.fromJson((e.value as Map).cast<String, dynamic>()),
-        },
-        evidence: ((j['evidence'] as List?) ?? const [])
-            .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
-            .toList(),
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    displayNameRaw: (j['displayName'] ?? j['name']) as String,
+    brand: j['brand'] as String?,
+    aliases: ((j['aliases'] as List?) ?? const []).cast<String>(),
+    regionId: (j['regionId'] ?? '') as String,
+    subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
+    gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
+    stages: ((j['stages'] as List?) ?? const []).cast<String>(),
+    stageBasis: ((j['stageBasis'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, v as String),
+    ),
+    flagship: ((j['flagship'] as List?) ?? const []).cast<String>(),
+    address: j['address'] as String?,
+    tel: j['tel'] as String?,
+    capacity: (j['capacity'] as num?)?.toInt(),
+    registrationStatus: j['registrationStatus'] as String?,
+    establishedOn: j['establishedOn'] as String?,
+    isVerified: (j['isVerified'] ?? false) as bool,
+    dataSource: (j['dataSource'] ?? 'seed') as String,
+    lat: (j['lat'] as num?)?.toDouble(),
+    lng: (j['lng'] as num?)?.toDouble(),
+    registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
+    registrationIds: ((j['registrationIds'] as List?) ?? const [])
+        .cast<String>(),
+    score: Score.fromJson((j['score'] as Map).cast<String, dynamic>()),
+    subjectScores: {
+      for (final e in ((j['subjectScores'] as Map?) ?? const {}).entries)
+        e.key as String: Score.fromJson(
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
+    evidence: ((j['evidence'] as List?) ?? const [])
+        .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+  );
 
   /// 큐레이션 브랜드명(brand)을 표시에 쓰지 않는다. 브랜드는 지점을
   /// 구분하지 못해서, 서로 다른 CMS 지점 두 곳이 같은 이름으로 나왔다.
@@ -502,11 +508,11 @@ class StageMatch {
   const StageMatch(this.academy, this.basis);
 
   static int rank(String basis) => switch (basis) {
-        'curated' => 0,
-        'hinted' => 1,
-        'inferred' => 2,
-        _ => 3,
-      };
+    'curated' => 0,
+    'hinted' => 1,
+    'inferred' => 2,
+    _ => 3,
+  };
 
   bool get isDirect => basis != 'band';
 
@@ -515,11 +521,11 @@ class StageMatch {
   /// 화면에 적는 말. **추정을 확정처럼 적지 않는다.**
   /// 큐레이션은 굳이 적지 않는다 — 기본값이고, 매번 적으면 읽히지 않는다.
   static String? labelFor(String? basis) => switch (basis) {
-        'hinted' => '교습과정에 단서',
-        'inferred' => '과목·학년으로 추정',
-        'band' => '이 단계 근거 없음 · 같은 구간',
-        _ => null,
-      };
+    'hinted' => '교습과정에 단서',
+    'inferred' => '과목·학년으로 추정',
+    'band' => '이 단계 근거 없음 · 같은 구간',
+    _ => null,
+  };
 }
 
 class Meta {
@@ -548,17 +554,18 @@ class Meta {
   bool get isDemo => mode == 'demo';
 
   factory Meta.fromJson(Map<String, dynamic> j) => Meta(
-        mode: (j['mode'] ?? 'demo') as String,
-        generatedAt: (j['generatedAt'] ?? '') as String,
-        evaluatedCount: (j['evaluatedCount'] as num?)?.toInt() ?? 0,
-        registryCount: (j['registryCount'] as num?)?.toInt() ?? 0,
-        mentionCount: (j['mentionCount'] as num?)?.toInt() ?? 0,
-        weights: ((j['weights'] as Map?) ?? const {})
-            .map((k, v) => MapEntry(k as String, (v as num).toDouble())),
-        minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
-        reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
-        recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,
-      );
+    mode: (j['mode'] ?? 'demo') as String,
+    generatedAt: (j['generatedAt'] ?? '') as String,
+    evaluatedCount: (j['evaluatedCount'] as num?)?.toInt() ?? 0,
+    registryCount: (j['registryCount'] as num?)?.toInt() ?? 0,
+    mentionCount: (j['mentionCount'] as num?)?.toInt() ?? 0,
+    weights: ((j['weights'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, (v as num).toDouble()),
+    ),
+    minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
+    reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
+    recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,
+  );
 }
 
 /// 등록부 엔트리 — NEIS로 검증됐지만 커뮤니티 수집 대상은 아니었던 학원.
@@ -595,30 +602,30 @@ class RegistryEntry {
   });
 
   factory RegistryEntry.fromJson(Map<String, dynamic> j) => RegistryEntry(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        displayName: (j['displayName'] ?? j['name']) as String,
-        regionId: (j['regionId'] ?? '') as String,
-        dong: j['dong'] as String?,
-        subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
-        address: j['address'] as String?,
-        capacity: (j['capacity'] as num?)?.toInt(),
-        registrationStatus: j['registrationStatus'] as String?,
-        isVerified: (j['isVerified'] ?? false) as bool,
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    displayName: (j['displayName'] ?? j['name']) as String,
+    regionId: (j['regionId'] ?? '') as String,
+    dong: j['dong'] as String?,
+    subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
+    address: j['address'] as String?,
+    capacity: (j['capacity'] as num?)?.toInt(),
+    registrationStatus: j['registrationStatus'] as String?,
+    isVerified: (j['isVerified'] ?? false) as bool,
+  );
 }
 
 /// 학교. 학군지도의 주인공이다 — 어느 학교에 배정되느냐가 곧 학군이다.
 class School {
   final String id;
   final String name;
-  final String level;            // elementary | middle | high
-  final String levelLabel;       // 초등학교 | 중학교 | 고등학교
+  final String level; // elementary | middle | high
+  final String levelLabel; // 초등학교 | 중학교 | 고등학교
   final String regionId;
   final String? dong;
-  final String? foundation;      // 공립 | 사립
-  final String? coed;            // 남여공학 | 남 | 여
-  final String? highKind;        // 일반고 | 특목고 …
+  final String? foundation; // 공립 | 사립
+  final String? coed; // 남여공학 | 남 | 여
+  final String? highKind; // 일반고 | 특목고 …
   final String? address;
   final String? homepage;
   final double? lat;
@@ -627,10 +634,13 @@ class School {
   final String? zoneName;
   final String? eduOffice;
   final List<String> zonePeers;
+
   /// '통학구역'(초등 1:1) 또는 '학교군 추첨'(중·고)
   final String? assignment;
+
   /// 이 학교로 배정되는 아파트들 (아파트→학교의 역방향)
   final List<ZonedApartment> apartments;
+
   /// 배정 아파트 세대수 합계. 공시 학생수와 달리 '앞으로 들어올 수요'를 보여준다.
   final int? apartmentHouseholds;
 
@@ -668,31 +678,31 @@ class School {
   });
 
   factory School.fromJson(Map<String, dynamic> j) => School(
-        id: '${j['id']}',
-        name: j['name'] as String,
-        level: (j['level'] ?? 'elementary') as String,
-        levelLabel: (j['levelLabel'] ?? '') as String,
-        regionId: (j['regionId'] ?? '') as String,
-        dong: j['dong'] as String?,
-        foundation: j['foundation'] as String?,
-        coed: j['coed'] as String?,
-        highKind: j['highKind'] as String?,
-        address: j['address'] as String?,
-        homepage: j['homepage'] as String?,
-        lat: (j['lat'] as num?)?.toDouble(),
-        lng: (j['lng'] as num?)?.toDouble(),
-        zoneId: j['zoneId'] as String?,
-        zoneName: j['zoneName'] as String?,
-        eduOffice: j['eduOffice'] as String?,
-        zonePeers: ((j['zonePeers'] as List?) ?? const []).cast<String>(),
-        assignment: j['assignment'] as String?,
-        apartments: ((j['apartments'] as List?) ?? const [])
-            .map((a) => ZonedApartment.fromJson((a as Map).cast<String, dynamic>()))
-            .toList(),
-        apartmentHouseholds: (j['apartmentHouseholds'] as num?)?.toInt(),
-        careers: (j['careers'] as Map?)?.cast<String, dynamic>(),
-        outcomesExtra: (j['outcomesExtra'] as Map?)?.cast<String, dynamic>(),
-      );
+    id: '${j['id']}',
+    name: j['name'] as String,
+    level: (j['level'] ?? 'elementary') as String,
+    levelLabel: (j['levelLabel'] ?? '') as String,
+    regionId: (j['regionId'] ?? '') as String,
+    dong: j['dong'] as String?,
+    foundation: j['foundation'] as String?,
+    coed: j['coed'] as String?,
+    highKind: j['highKind'] as String?,
+    address: j['address'] as String?,
+    homepage: j['homepage'] as String?,
+    lat: (j['lat'] as num?)?.toDouble(),
+    lng: (j['lng'] as num?)?.toDouble(),
+    zoneId: j['zoneId'] as String?,
+    zoneName: j['zoneName'] as String?,
+    eduOffice: j['eduOffice'] as String?,
+    zonePeers: ((j['zonePeers'] as List?) ?? const []).cast<String>(),
+    assignment: j['assignment'] as String?,
+    apartments: ((j['apartments'] as List?) ?? const [])
+        .map((a) => ZonedApartment.fromJson((a as Map).cast<String, dynamic>()))
+        .toList(),
+    apartmentHouseholds: (j['apartmentHouseholds'] as num?)?.toInt(),
+    careers: (j['careers'] as Map?)?.cast<String, dynamic>(),
+    outcomesExtra: (j['outcomesExtra'] as Map?)?.cast<String, dynamic>(),
+  );
 
   bool get hasLocation => lat != null && lng != null;
 }
@@ -708,6 +718,7 @@ class Apartment {
   final int? buildings;
   final double? lat;
   final double? lng;
+
   /// 이 단지가 속한 학교군들. 중·고는 추첨 배정이라 '배정'이 아니라 '소속'이다.
   final List<ApartmentZone> zones;
 
@@ -725,19 +736,19 @@ class Apartment {
   });
 
   factory Apartment.fromJson(Map<String, dynamic> j) => Apartment(
-        id: '${j['id']}',
-        name: (j['name'] ?? '') as String,
-        regionId: (j['regionId'] ?? '') as String,
-        dong: j['dong'] as String?,
-        address: j['address'] as String?,
-        households: (j['households'] as num?)?.toInt(),
-        buildings: (j['buildings'] as num?)?.toInt(),
-        lat: (j['lat'] as num?)?.toDouble(),
-        lng: (j['lng'] as num?)?.toDouble(),
-        zones: ((j['zones'] as List?) ?? const [])
-            .map((z) => ApartmentZone.fromJson((z as Map).cast<String, dynamic>()))
-            .toList(),
-      );
+    id: '${j['id']}',
+    name: (j['name'] ?? '') as String,
+    regionId: (j['regionId'] ?? '') as String,
+    dong: j['dong'] as String?,
+    address: j['address'] as String?,
+    households: (j['households'] as num?)?.toInt(),
+    buildings: (j['buildings'] as num?)?.toInt(),
+    lat: (j['lat'] as num?)?.toDouble(),
+    lng: (j['lng'] as num?)?.toDouble(),
+    zones: ((j['zones'] as List?) ?? const [])
+        .map((z) => ApartmentZone.fromJson((z as Map).cast<String, dynamic>()))
+        .toList(),
+  );
 
   bool get hasLocation => lat != null && lng != null;
 }
@@ -757,11 +768,11 @@ class ZonedApartment {
   });
 
   factory ZonedApartment.fromJson(Map<String, dynamic> j) => ZonedApartment(
-        name: (j['name'] ?? '') as String,
-        dong: j['dong'] as String?,
-        households: (j['households'] as num?)?.toInt(),
-        certain: (j['certain'] ?? false) as bool,
-      );
+    name: (j['name'] ?? '') as String,
+    dong: j['dong'] as String?,
+    households: (j['households'] as num?)?.toInt(),
+    certain: (j['certain'] ?? false) as bool,
+  );
 }
 
 class ApartmentZone {
@@ -769,6 +780,7 @@ class ApartmentZone {
   final String? zoneName;
   final String? level;
   final List<String> schools;
+
   /// 초등 통학구역이면서 학교가 하나일 때만 true — '배정'이라 단정할 수 있다.
   final bool certain;
 
@@ -787,21 +799,21 @@ class ApartmentZone {
   });
 
   factory ApartmentZone.fromJson(Map<String, dynamic> j) => ApartmentZone(
-        zoneId: j['zoneId'] as String?,
-        zoneName: j['zoneName'] as String?,
-        level: j['level'] as String?,
-        schools: ((j['schools'] as List?) ?? const []).cast<String>(),
-        certain: (j['certain'] ?? false) as bool,
-        nearby: ((j['nearby'] as List?) ?? const [])
-            .map((e) => NearbySchool.fromJson((e as Map).cast<String, dynamic>()))
-            .toList(),
-      );
+    zoneId: j['zoneId'] as String?,
+    zoneName: j['zoneName'] as String?,
+    level: j['level'] as String?,
+    schools: ((j['schools'] as List?) ?? const []).cast<String>(),
+    certain: (j['certain'] ?? false) as bool,
+    nearby: ((j['nearby'] as List?) ?? const [])
+        .map((e) => NearbySchool.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+  );
 
   String get levelLabel => switch (level) {
-        'middle' => '중학교',
-        'high' => '고등학교',
-        _ => '초등학교',
-      };
+    'middle' => '중학교',
+    'high' => '고등학교',
+    _ => '초등학교',
+  };
 
   /// 화면 문구. 추첨을 '배정'이라 쓰지 않는 것이 이 게터의 존재 이유다.
   String get assignmentText {
@@ -816,23 +828,24 @@ class ApartmentZone {
 class NearbySchool {
   final String name;
   final double km;
+
   /// '남' · '여' · '남여공학'. 남고·여고를 밝히지 않으면 목록이 거짓이 된다 —
   /// 아들만 있는 집에 '1순위 여고'라고 적어 놓는 셈이다.
   final String? coed;
   const NearbySchool({required this.name, required this.km, this.coed});
 
   factory NearbySchool.fromJson(Map<String, dynamic> j) => NearbySchool(
-        name: (j['name'] ?? '') as String,
-        km: (j['km'] as num?)?.toDouble() ?? 0,
-        coed: j['coed'] as String?,
-      );
+    name: (j['name'] ?? '') as String,
+    km: (j['km'] as num?)?.toDouble() ?? 0,
+    coed: j['coed'] as String?,
+  );
 
   /// 공학이 아닐 때만 붙인다. 대부분이 공학이라 매번 적으면 읽히지 않는다.
   String get coedTag => switch (coed) {
-        '남' => ' (남)',
-        '여' => ' (여)',
-        _ => '',
-      };
+    '남' => ' (남)',
+    '여' => ' (여)',
+    _ => '',
+  };
 
   /// 1km 미만은 m 로 보여준다. '0.4km' 보다 '400m' 가 걷는 거리로 읽힌다.
   String get distanceLabel =>
@@ -858,33 +871,35 @@ class Roadmap {
   bool get isEmpty => stages.isEmpty;
 
   factory Roadmap.fromJson(Map<String, dynamic> j) => Roadmap(
-        milestones: ((j['milestones'] as List?) ?? const [])
-            .map((e) =>
-                RoadmapMilestone.fromJson((e as Map).cast<String, dynamic>()))
-            .toList(),
-        stages: ((j['stages'] as List?) ?? const [])
-            .map((e) =>
-                RoadmapStage.fromJson((e as Map).cast<String, dynamic>()))
-            .toList(),
-        edges: ((j['edges'] as List?) ?? const [])
-            .map((e) => StageEdge.fromList(e as List<dynamic>))
-            .toList(),
-      );
+    milestones: ((j['milestones'] as List?) ?? const [])
+        .map(
+          (e) => RoadmapMilestone.fromJson((e as Map).cast<String, dynamic>()),
+        )
+        .toList(),
+    stages: ((j['stages'] as List?) ?? const [])
+        .map((e) => RoadmapStage.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+    edges: ((j['edges'] as List?) ?? const [])
+        .map((e) => StageEdge.fromList(e as List<dynamic>))
+        .toList(),
+  );
 }
 
 class RoadmapMilestone {
   final int grade;
   final String label;
   final String note;
-  const RoadmapMilestone(
-      {required this.grade, required this.label, required this.note});
+  const RoadmapMilestone({
+    required this.grade,
+    required this.label,
+    required this.note,
+  });
 
-  factory RoadmapMilestone.fromJson(Map<String, dynamic> j) =>
-      RoadmapMilestone(
-        grade: (j['grade'] as num).toInt(),
-        label: (j['label'] ?? '') as String,
-        note: (j['note'] ?? '') as String,
-      );
+  factory RoadmapMilestone.fromJson(Map<String, dynamic> j) => RoadmapMilestone(
+    grade: (j['grade'] as num).toInt(),
+    label: (j['label'] ?? '') as String,
+    note: (j['note'] ?? '') as String,
+  );
 }
 
 class RoadmapStage {
@@ -944,6 +959,52 @@ const subjectNames = <String, String>{
   'arts': '예체능',
   'etc': '기타',
 };
+
+/// 과목을 늘어놓는 **단 하나의 순서.**
+///
+/// 화면마다 제각각이었다 — 랭킹은 수학부터, 로드맵은 `['english', 'math',
+/// 'korean', 'science']` 를 코드에 박아 영어부터였다. 같은 네 과목이 화면을
+/// 옮길 때마다 자리를 바꾸면 손이 기억할 수가 없다.
+///
+/// 순서의 근거는 **채점 대상의 과목 수**다(실측 404곳):
+///
+///     수학 97 · 영어 89 · 국어 75 · 과학 49 ‖ 예체능 60 · 기타 41
+///
+/// 학술 넷을 앞에, 예체능·기타를 뒤에 둔다. 뒤 둘은 산식이 아예 다르다
+/// (평판 60% + 화제성 40%, `NON_ACADEMIC_WEIGHTS`) — 같은 줄에 나란히
+/// 두되 사이를 계선으로 끊는 이유가 그것이다.
+///
+/// 로드맵의 옛 순서(영어부터)는 **시작 나이 순**이라 나름의 뜻이 있었지만,
+/// 로드맵은 세로축이 이미 나이다. 가로 순서까지 나이를 말하면 같은 것을
+/// 두 번 말하면서 다른 화면과는 어긋난다.
+const subjectOrder = <String>[
+  'math',
+  'english',
+  'korean',
+  'science',
+  'arts',
+  'etc',
+];
+
+/// 네 기둥을 다 적용하는 과목. 나머지는 평판·화제성만 본다.
+const academicSubjects = <String>{'math', 'english', 'korean', 'science'};
+
+bool isAcademicSubject(String? s) => academicSubjects.contains(s);
+
+/// 아무 데서나 온 과목 목록을 **표준 순서로** 세운다.
+///
+/// 표시 이름이 없는 키는 버린다 — `general` 은 '어느 과목인지 모른다'는
+/// 뜻이라 늘어놓을 자리가 없다. 목록에 없는 낯선 키는 뒤에 붙여 둔다:
+/// 파이프라인이 새 과목을 내보내기 시작해도 화면에서 조용히 사라지지는
+/// 않아야 한다.
+List<String> orderedSubjects(Iterable<String> keys) {
+  final seen = keys.where(subjectNames.containsKey).toSet();
+  return [
+    for (final s in subjectOrder)
+      if (seen.remove(s)) s,
+    ...seen,
+  ];
+}
 
 /// 학원이 받는 학년대. 학교(초등학교·중학교·고등학교)와는 다른 축이다.
 /// 학교는 건물이고, 이건 '몇 학년을 받는 학원인가'다.
