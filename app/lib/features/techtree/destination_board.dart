@@ -561,78 +561,86 @@ class _DestinationBrief extends ConsumerWidget {
       );
     final gates = dest.gates.toList()..sort((a, b) => a.grade - b.grade);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceOn(dark),
-        border: Border(
-          left: BorderSide(color: accent, width: AppRule.bold),
-          top: hair,
-          right: hair,
-          bottom: hair,
-        ),
-      ),
-      padding: const EdgeInsets.fromLTRB(
-        AppSpace.md,
-        AppSpace.md,
-        AppSpace.md,
-        AppSpace.lg,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: Text(dest.label, style: text.titleLarge)),
-              if (onShowRoadmap != null)
-                TextButton(
-                  onPressed: onShowRoadmap,
-                  child: const Text('과목 축에서 보기'),
-                ),
-            ],
+    // 해설판은 넓은 화면에서도 폭을 묶는다. 안 묶으면 단계 줄의 제목이
+    // 왼쪽 끝, 학원 수가 1350px 오른쪽 끝에 붙어 눈이 화면을 가로지른다
+    // (실측 1400px). 표는 칸이 격자라 넓어도 읽히지만, 해설은 글줄이라
+    // 길어지면 읽는 일이 된다.
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 820),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surfaceOn(dark),
+          border: Border(
+            left: BorderSide(color: accent, width: AppRule.bold),
+            top: hair,
+            right: hair,
+            bottom: hair,
           ),
-          if (dest.summary != null) Text(dest.summary!, style: text.bodyMedium),
-          const SizedBox(height: AppSpace.sm),
-          if (dest.linkable)
-            TagMark(
-              '이 길의 학원 '
-              '${data.destinationAcademyCount(dest, regionId: regionId)}곳'
-              '${region == null ? "" : " · $region"}',
-              color: accent,
-            )
-          else
-            const TagMark('근거가 얇아 학원을 잇지 않습니다', color: AppColors.mist),
-          if (gates.isNotEmpty) ...[
-            const SizedBox(height: AppSpace.md),
-            Text('관문', style: text.labelMedium),
-            const SizedBox(height: 3),
-            for (final g in gates)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 3),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 44,
-                      child: Text(
-                        Stage.gradeName(g.grade),
-                        style: text.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.estimated,
-                          fontFeatures: ledgerFigures,
+        ),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.md,
+          AppSpace.md,
+          AppSpace.md,
+          AppSpace.lg,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: Text(dest.label, style: text.titleLarge)),
+                if (onShowRoadmap != null)
+                  TextButton(
+                    onPressed: onShowRoadmap,
+                    child: const Text('과목 축에서 보기'),
+                  ),
+              ],
+            ),
+            if (dest.summary != null)
+              Text(dest.summary!, style: text.bodyMedium),
+            const SizedBox(height: AppSpace.sm),
+            if (dest.linkable)
+              TagMark(
+                '이 길의 학원 '
+                '${data.destinationAcademyCount(dest, regionId: regionId)}곳'
+                '${region == null ? "" : " · $region"}',
+                color: accent,
+              )
+            else
+              const TagMark('근거가 얇아 학원을 잇지 않습니다', color: AppColors.mist),
+            if (gates.isNotEmpty) ...[
+              const SizedBox(height: AppSpace.md),
+              Text('관문', style: text.labelMedium),
+              const SizedBox(height: 3),
+              for (final g in gates)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 44,
+                        child: Text(
+                          Stage.gradeName(g.grade),
+                          style: text.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.estimated,
+                            fontFeatures: ledgerFigures,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(child: Text(g.note, style: text.bodySmall)),
-                  ],
+                      Expanded(child: Text(g.note, style: text.bodySmall)),
+                    ],
+                  ),
                 ),
-              ),
+            ],
+            const SizedBox(height: AppSpace.md),
+            Text('지나는 단계', style: text.labelMedium),
+            for (final leg in legs)
+              _LegBlock(leg: leg, data: data, regionId: regionId),
           ],
-          const SizedBox(height: AppSpace.md),
-          Text('지나는 단계', style: text.labelMedium),
-          for (final leg in legs)
-            _LegBlock(leg: leg, data: data, regionId: regionId),
-        ],
+        ),
       ),
     );
   }
