@@ -1,0 +1,39 @@
+---
+url_hash: "30b742be509cec6d09fba0ea1fcf08cd"
+url: https://cafe.naver.com/bangbaedongmom/137599
+source: naver_cafe
+title: 영어학원ㅁㅇ
+posted_at: 2026-08-29
+author_hash: c6bdde7bafd7e02dfd523412d0e96b31
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 영어학원ㅁㅇ
+
+원문: https://cafe.naver.com/bangbaedongmom/137599
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.38 · 스팸 0.20
+- 붙은 학원 1곳 · 과목 불명
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/19721|서초에이프릴어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
