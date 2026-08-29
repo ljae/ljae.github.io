@@ -67,7 +67,8 @@ def _title_words(title: str) -> set[str]:
 def generate(mentions: list[dict], academies: list[dict],
              generic: dict[str, bool], verdicts: dict[str, str],
              rules: list[dict],
-             wiki_locality: dict[str, set[str]] | None = None) -> list[dict]:
+             wiki_locality: dict[str, set[str]] | None = None,
+             claim_rows: list[dict] | None = None) -> list[dict]:
     """이번 실행의 질문 후보를 만든다. 우선순위 큰 것부터 QUESTION_LIMIT 개."""
     by_id = {a["id"]: a for a in academies}
     name_of = {a["id"]: (a.get("display_name") or a.get("name") or "")
@@ -232,8 +233,119 @@ def generate(mentions: list[dict], academies: list[dict],
             sample[aid] / 10)
         n_cmp += 1
 
+    # 6) claim_check — 근거가 한 사람뿐인 고영향 사건
+    #
+    # 진입난이도에서 무게가 가장 큰 것이 '레벨테스트 탈락'(1.0)인데, 그것이
+    # 한 사람 말뿐이면 그 한 줄이 점수를 크게 흔든다. 확인율이 이미
+    # 점수를 낮추지만, 사람이 한 번 보면 확신으로 바뀐다.
+    _claim_questions(out, add, claim_rows or [], name_of, sample)
+
     out.sort(key=lambda q: -q["priority"])
     return out[:QUESTION_LIMIT]
+
+
+# 이 무게 이상의 사건만 묻는다. '레테가 있다' 는 확인해도 점수가 별로
+# 안 움직인다 — 질문 예산은 12개뿐이다.
+CLAIM_ASK_WEIGHT = 0.8
+
+
+def _ga(word: str) -> str:
+    """받침에 맞는 주격 조사. '수업 횟수 이 다릅니다' 를 막는다."""
+    ch = (word or "").strip()[-1:]
+    if not ch or not ("가" <= ch <= "힣"):
+        return "가"
+    return "이" if (ord(ch) - 0xAC00) % 28 else "가"
+
+
+def _revoke_claim(claim_id: str | None, academy_key: str,
+                  reason: str) -> bool:
+    """질문 답변을 취소 판정으로 굳힌다.
+
+    답의 적용 경로는 기존 체계 그대로다 — 질문은 입구일 뿐이다.
+    claim_verdicts 에 들어가면 다음 실행의 재빌드가 알아서 반영한다.
+    """
+    if not claim_id or not config.HAS_SUPABASE:
+        return False
+    try:
+        r = requests.post(
+            f"{config.SUPABASE_URL}/rest/v1/claim_verdicts",
+            params={"on_conflict": "claim_id"},
+            headers={**_headers(), "Prefer": "resolution=merge-duplicates"},
+            json={"claim_id": claim_id, "academy_key": academy_key,
+                  "verdict": "revoked", "reason": reason, "source": "admin"},
+            timeout=20)
+        return r.status_code < 300
+    except requests.RequestException:
+        return False
+
+
+def _claim_questions(out, add, claim_rows, name_of, sample) -> None:
+    """주장 쪽 질문 둘. 전부 결정적 생성이다(LLM 없음)."""
+    from . import claims as claims_mod
+
+    by_academy: dict[str, list[dict]] = defaultdict(list)
+    for r in claim_rows:
+        if r.get("status") == "active":
+            by_academy[r["academy_key"]].append(r)
+
+    asked_check = asked_conflict = 0
+    for aid, rows in by_academy.items():
+        # ── claim_check ──
+        if asked_check < 3:
+            for r in rows:
+                w = claims_mod.SEL_WEIGHT.get(r["kind"], 0)
+                if w < CLAIM_ASK_WEIGHT:
+                    continue
+                twins = [x for x in rows if x["kind"] == r["kind"]]
+                authors = {x.get("author_hash") or x["url_hash"] for x in twins}
+                if len(authors) > 1:
+                    continue                # 여러 사람이 말했으면 안 묻는다
+                add("claim_check", f"claim_check|{r['id']}", aid,
+                    f"‘{name_of.get(aid, aid)}’ 의 진입난이도 근거입니다. "
+                    f"이 글이 정말 이 학원의 "
+                    f"{claims_mod.SEL_LABEL.get(r['kind'], r['kind'])} 사례인가요?",
+                    {"claim_id": r["id"], "kind": r["kind"],
+                     "quote": r["quote"], "source_url": r.get("source_url"),
+                     "posted_at": str(r.get("posted_at") or "")},
+                    [{"value": "yes", "label": "맞다"},
+                     {"value": "no", "label": "아니다 — 이 근거를 뺀다"}],
+                    w * 10 + sample.get(aid, 0) / 20)
+                asked_check += 1
+                break
+
+        # ── claim_conflict ──
+        #
+        # 같은 항목인데 값이 크게 갈리면 반이 다른 것일 수 있다. 그때는
+        # 버릴 게 아니라 **갈라야** 한다 — 합치면 어느 반에도 없는 평균이
+        # 되고, 버리면 둘 다 사라진다.
+        if asked_conflict >= 3:
+            continue
+        by_kind: dict[str, list[dict]] = defaultdict(list)
+        for r in rows:
+            if r["kind"] in claims_mod.FACT_KINDS and r.get("value"):
+                by_kind[r["kind"]].append(r)
+        for kind, group in by_kind.items():
+            if len(group) < 2:
+                continue
+            lo = min(group, key=lambda x: x["value"])
+            hi = max(group, key=lambda x: x["value"])
+            if hi["value"] < lo["value"] * claims_mod.DISPUTE_RATIO:
+                continue
+            label = claims_mod.FACT_KINDS[kind][0]
+            add("claim_conflict", f"claim_conflict|{lo['id']}|{hi['id']}", aid,
+                f"‘{name_of.get(aid, aid)}’ 의 {label}{_ga(label)} "
+                f"후기마다 다릅니다. 반이 달라서인가요?",
+                {"kind": kind,
+                 "low": {"claim_id": lo["id"], "value": lo["value"],
+                         "quote": lo["quote"], "source_url": lo.get("source_url")},
+                 "high": {"claim_id": hi["id"], "value": hi["value"],
+                          "quote": hi["quote"], "source_url": hi.get("source_url")}},
+                [{"value": "band", "label": "반이 다르다 — 둘 다 맞다"},
+                 {"value": "low", "label": "낮은 쪽만 맞다"},
+                 {"value": "high", "label": "높은 쪽만 맞다"}],
+                sample.get(aid, 0) / 15)
+            asked_conflict += 1
+            break
 
 
 def _fetch_reviewed() -> tuple[list[dict], list[dict]]:
@@ -281,7 +393,8 @@ def apply_answers() -> dict:
     들어간다 — 검수 체계는 그대로, 입구만 질문이다. 일회성 답은
     status=applied 로 밀봉하고, compare 는 계속 살아 신뢰도 보정을 준다.
     """
-    stats = {"verdicts": 0, "rules": 0, "locality": 0, "compare": 0}
+    stats = {"verdicts": 0, "rules": 0, "locality": 0, "compare": 0,
+             "claims": 0}
     boost: dict[str, float] = {}
     if not config.HAS_SUPABASE:
         return {**stats, "boost": boost}
@@ -325,6 +438,26 @@ def apply_answers() -> dict:
             word = (ans.get("text") or "").strip().rstrip("동")
             if word and _write_locality(aid, word):
                 stats["locality"] += 1
+            done.append(q["id"])
+
+        elif kind == "claim_check":
+            # 답이 곧 취소 판정이다. 주장 하나만 끈다 — 그 글의 다른
+            # 근거(평판 등)는 그대로 남는다.
+            if val == "no" and _revoke_claim(
+                    payload.get("claim_id"), aid,
+                    f"질문 답변({today}): 이 학원의 사례가 아님"):
+                stats["claims"] += 1
+            done.append(q["id"])
+
+        elif kind == "claim_conflict":
+            # '반이 다르다' 면 둘 다 맞다 — 아무것도 끄지 않는다.
+            # 한쪽만 맞다면 다른 쪽을 끈다.
+            drop = {"low": payload.get("high"), "high": payload.get("low")}
+            target = drop.get(val)
+            if target and _revoke_claim(
+                    target.get("claim_id"), aid,
+                    f"질문 답변({today}): 반대쪽 값이 맞다고 확인됨"):
+                stats["claims"] += 1
             done.append(q["id"])
 
         elif kind == "compare":

@@ -702,4 +702,83 @@ void main() {
       expect(got.every((m) => m.isDirect), isTrue);
     });
   });
+
+  // ── 새 필드가 없는 번들도 읽는다 ────────────────────────────
+  //
+  // 앱은 배포되는 순간 바뀌지만 번들은 다음 야간 수집에서야 바뀐다.
+  // 그래서 **새 필드를 읽는 코드가 옛 번들을 먼저 만난다** — 주장(claim)
+  // 분해를 넣은 회차가 정확히 그랬다. 여기서 터지면 화면이 통째로 빈다.
+  group('옛 번들 호환', () {
+    Map<String, dynamic> legacy() => {
+      'id': 'A1',
+      'name': '가나수학학원',
+      'displayName': '가나수학',
+      'regionId': 'daechi',
+      'subjects': ['math'],
+      'gradeBands': ['middle'],
+      'stages': <String>[],
+      'flagship': <String>[],
+      'isVerified': true,
+      'dataSource': 'neis',
+      'evidence': <dynamic>[],
+      'score': {
+        'total': 61.2,
+        'reputation': 55.0,
+        'momentum': 48.0,
+        'transparency': 70.0,
+        'selectivity': 40.0,
+        'sampleSize': 12,
+        'confidence': 'medium',
+        'isRanked': true,
+        'momentumDirection': 'stable',
+      },
+    };
+
+    test('facts·selectivityEvidence·disputeRate 가 없어도 읽힌다', () {
+      final a = Academy.fromJson(legacy());
+      expect(a.facts, isEmpty);
+      expect(a.selectivityEvidence, isEmpty);
+      expect(a.disputeRate, isNull);
+    });
+
+    test('selectivityTier 가 없으면 등급을 지어내지 않는다', () {
+      final a = Academy.fromJson(legacy());
+      expect(a.score.selectivityTier, isNull);
+      // 근거가 없으면 '쉽다'가 아니라 아무 말도 하지 않는다.
+      expect(a.score.selectivityLabel, isNull);
+      // 옛 번들의 진입난이도 숫자는 그대로 읽는다 — 화면이 비지 않는다.
+      expect(a.score.pillarOrNull('selectivity'), 40.0);
+    });
+
+    test('새 필드가 있으면 그대로 읽는다', () {
+      final a = Academy.fromJson({
+        ...legacy(),
+        'score': {...legacy()['score'] as Map, 'selectivityTier': 'medium'},
+        'facts': {
+          'fact.class_freq': {
+            'label': '수업 횟수', 'unit': '회/주', 'text': '3회',
+            'value': 3, 'n': 4,
+            'quotes': [
+              {'claimId': 'c1', 'quote': '수업은 주 3회', 'url': 'https://x'},
+            ],
+          },
+        },
+        'selectivityEvidence': [
+          {'claimId': 'c2', 'kind': 'sel.waitlist', 'label': '대기·웨이팅',
+           'quote': '대기 두 달', 'status': 'revoked',
+           'revokedReason': '지금은 다름'},
+        ],
+        'disputeRate': {'total': 5, 'dropped': 1, 'rate': 0.2},
+      });
+      expect(a.score.selectivityLabel, '확인됨 · 중간');
+      expect(a.facts['fact.class_freq']!.hasValue, isTrue);
+      expect(a.facts['fact.class_freq']!.quotes.single.claimId, 'c1');
+      // 취소된 근거는 사라지지 않고 사유와 함께 남는다 — 그냥 지우면
+      // 다음 사람이 같은 이의를 다시 제기한다.
+      final ev = a.selectivityEvidence.single;
+      expect(ev.isActive, isFalse);
+      expect(ev.statusLabel, '이의로 제외됨');
+      expect(a.disputeRate!.dropped, 1);
+    });
+  });
 }

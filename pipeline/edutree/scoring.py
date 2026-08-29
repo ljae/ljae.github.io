@@ -1,6 +1,7 @@
 """트리스코어 (TreeScore) 계산.
 
-    TreeScore = 0.35·평판 + 0.20·화제성 + 0.25·투명성 + 0.20·진입난이도
+    TreeScore = 0.35·평판 + 0.35·진입난이도 + 0.15·화제성 + 0.15·투명성
+    (가중치의 출처는 언제나 config.WEIGHTS 다 — 여기 숫자는 설명일 뿐)
 
 설계 원칙
   1. 각 기둥은 0–100 으로 독립 계산되고, breakdown 에 계산 근거를 남긴다.
@@ -9,6 +10,17 @@
      후기 3건짜리 학원이 1위로 튀는 것을 막는 핵심 장치다.
   3. 표본 10건 미만은 순위에서 아예 제외한다. 소수 악평으로 하위권을
      만들어 두면 그게 곧 명예훼손 리스크다.
+  4. **근거가 없는 기둥은 채우지 않고 뺀다.** 없는 값을 코호트 평균으로
+     채우면 '모른다' 가 '보통' 이 되고, 0 으로 치면 '쉽다' 가 된다.
+     남은 기둥으로 가중치를 다시 나눈다(compute 참고).
+
+기둥마다 문턱이 다르다 — 같은 글이 화제성에는 들어가고 평판에는 안
+들어가는 것이 정상이다(analyze.score_substance).
+
+    화제성      정보량 0 이상   회자되는 것 자체가 신호다
+    평판        정보량 1 이상   의견 없는 글은 감성이 아니다
+    진입난이도   사건이 확인된 글만
+    투명성      후기를 보지 않는다 (NEIS 공시)
 """
 from __future__ import annotations
 
@@ -52,9 +64,19 @@ def recency_weight(posted_at) -> float:
 
 
 # ── 기둥 1. 평판 (35%) ─────────────────────────────────────────────
+# 평판에 쓰려면 의견이 있어야 한다(analyze.score_substance ≥ 1).
+#
+# ★ 화제성에는 이 문턱을 걸지 않는다. 화제성은 '얼마나 회자되는가' 라서
+#   한 줄짜리 '거기 좋대요' 도 회자의 증거로는 유효하다. 같은 글을 두
+#   기둥이 다르게 쓰는 것이 정상이다 — 층을 섞지 않는다.
+REPUTATION_SUBSTANCE_FLOOR = 1
+
+
 def reputation(mentions: list[dict], cohort_mean: float,
                cohort_sd: float = 0.12) -> tuple[float, dict]:
-    valid = [m for m in mentions if not m.get("is_excluded")]
+    valid = [m for m in mentions
+             if not m.get("is_excluded")
+             and m.get("substance", 1) >= REPUTATION_SUBSTANCE_FLOOR]
     if not valid:
         return 50.0, {
             "표본": 0, "설명": "유효 표본 없음 — 코호트 평균으로 대체",
@@ -208,76 +230,146 @@ def transparency(academy: dict) -> tuple[float, dict]:
 
 
 # ── 기둥 4. 진입난이도 (20%) ───────────────────────────────────────
-def _selectivity_raw(rows: list[dict], capacity: int,
-                     cohort_ratio_mean: float) -> tuple[float, dict]:
-    """진입난이도의 알맹이. 학원 전체에도, 등급반 하나에도 같은 식을 쓴다.
+#
+# 낱말 세기에서 **사건 판정**으로 바꿨다(2026-08-28).
+#
+# 옛 식을 캐시로 재 보니(언급 30건·정원 200) 이렇게 나왔다:
+#
+#   레테 얘기가 아예 없는 학원         24.7   '모른다' 가 '쉽다' 로
+#   '난이도 높아 떨어졌어요'(경험담)    74.1   기준점
+#   '레테 어렵지 않았어요, 대기 없이'   70.6   부정문이 그대로 난이도
+#   '레테 어렵다던데 대기 걸리나요?'    74.1   질문글이 경험담과 동일
+#
+# 원인이 셋이었다. ① selectivity_signals 가 창(窓) 없이 글 전체를 봤다 —
+# 과목·학급은 이름 근처 45자만 보는데 진입난이도만 그 규칙 밖에 있었다.
+# ② 감성에는 NEGATORS 가 걸리는데 진입난이도에는 안 걸렸다. ③ 전문·의문을
+# 사실과 구분하지 않았다. 게다가 배점 30%인 '정원 대비 수요' 는 후기
+# 내용이 아니라 언급 수 ÷ 정원이라 화제성과 같은 재료를 두 번 썼다.
+#
+# 사건 판정은 claims._extract_events 가 한다. 여기서는 세기만 한다.
 
-    난이도·대기 신호에도 최신성을 건다. 3년 전 '대기 걸렸다'와 지난달
-    '대기 걸렸다'가 같은 무게일 이유가 없다 — 진입난이도야말로 지금
-    상황을 말해야 하는 값이다.
-    """
-    hard = sum(m.get("selectivity", {}).get("hard", 0)
-               * recency_weight(m.get("posted_at")) for m in rows)
-    wait = sum(m.get("selectivity", {}).get("wait", 0)
-               * recency_weight(m.get("posted_at")) for m in rows)
-    n = max(1, len(rows))
-    hard_score = _clamp(math.tanh(hard / n * 2.2) * 100)
-    wait_score = _clamp(math.tanh(wait / n * 2.2) * 100)
+# ★ 강도는 **종류별로** 포화시킨다. 같은 종류를 몇 번 말했는지가 아니라
+#   어떤 종류가 확인됐는지가 진입난이도다.
+#
+#   처음에는 사건을 전부 더했다. 그랬더니 '레벨테스트 있음'(무게 0.3)이
+#   양으로 쌓여 소마·개념폴리아가 96~97점을 받았다 — 무게를 0.3 으로 둔
+#   뜻('레테가 있다는 것만으로는 난이도가 아니다')이 통째로 상쇄됐다.
+#   실측 1,555건 중 대부분이 이 종류였다.
+#
+#   종류마다 서로 다른 작성자 수로 포화시키면(둘이면 거의 최대) 무게가
+#   그대로 살아난다. 100점은 다섯 종류가 모두 확인된 곳이다.
+EVENT_AUTHOR_SCALE = 2.0
 
-    if capacity > 0 and rows:
-        ratio = len(rows) / capacity
-        rel = ratio / cohort_ratio_mean if cohort_ratio_mean else 1.0
-        demand_score = _clamp(50 + math.log1p(rel) * 30)
-    else:
-        rel = None
-        demand_score = 50.0
+# 표본 수로 나누지 않는다. 진입난이도는 '사건이 일어났는가' 이지 '글 중
+# 몇 %가 그 얘기를 하는가' 가 아니다. 나누면 후기가 많은 큰 학원이
+# 자동으로 쉬운 곳이 된다.
 
-    score = 0.4 * hard_score + 0.3 * wait_score + 0.3 * demand_score
-    return score, {
-        "난이도_언급": round(hard, 1),
-        "대기·마감_언급": round(wait, 1),
-        "표본": len(rows),
-        "언급÷정원_상대값": round(rel, 3) if rel is not None else None,
-    }
+# 서로 다른 작성자 수 → 확인율. 한 사람 말은 아직 한 사람 말이다.
+CORROBORATION = ((5, 1.00), (3, 0.70), (2, 0.50), (1, 0.30))
+
+
+def _corroboration(authors: int) -> float:
+    for need, value in CORROBORATION:
+        if authors >= need:
+            return value
+    return 0.0
 
 
 def selectivity(mentions: list[dict], academy: dict,
-                cohort_ratio_mean: float) -> tuple[float, dict]:
-    """커뮤니티 신호에서 추정. 공식 경쟁률이 아니므로 UI 에 '추정' 표기.
+                cohort_ratio_mean: float | None = None):
+    """(점수 또는 None, 근거). 사건이 없으면 **점수를 내지 않는다.**
 
-    가중치가 0.35 로 올라가면서 축소(shrinkage)를 넣었다. 표본 12건짜리
-    학원이 '난이도 100' 으로 서면 그건 측정이 아니라 잡음이다. 표본이
-    적을수록 중앙(50)으로 끌어당긴다.
+    ★ 표본 0 을 코호트 평균(50)으로 채우지 않는다.
+      '아직 안 봤다' 와 '보고서 보통이었다' 는 다른 상태다. 이 원칙은
+      이미 평판·표본 0 에 적용돼 있었는데 진입난이도만 빠져 있었다.
+      예체능에서 진입난이도를 뺄 때 적어 둔 말이 그대로 해당한다 —
+      **없는 것을 0점으로 치면 그게 곧 왜곡이다.**
 
-    ★ 등급반별 점수는 만들지 않는다.
-      학부모가 실제로 묻는 것은 '그 학원 심화반 들어갈 수 있나'가 맞다.
-      그래서 반 이름 주변에서 난이도 단어를 세어 봤는데, 400곳 전체에서
-      반 이름과 난이도 단어가 함께 붙은 언급이 **186건**뿐이었고 그중
-      상당수가 키워드 나열형 광고였다('파주 … 심화반 난이도 음악 미술').
-      결과도 기초반이 최상위반보다 어렵게 나왔다.
-
-      숫자를 내면 정밀해 보이지만 잡음이다. 반별 난이도는 큐레이션
-      테크트리의 단계별 진입 기준(exit_criteria)으로 대신한다 — 그쪽은
-      사람이 적은 것이라 근거가 분명하다.
+    ★ 등급반별 점수는 여전히 만들지 않는다.
+      반 이름과 난이도 단어가 함께 붙은 언급이 400곳 전체에서 186건뿐이고
+      결과가 뒤집혔다(기초반이 최상위반보다 어렵게). 주장 단위로 바꿔도
+      표본이 늘지는 않는다.
     """
     valid = [m for m in mentions if not m.get("is_excluded")]
-    capacity = academy.get("tofor_smtot") or 0
-    raw, detail = _selectivity_raw(valid, capacity, cohort_ratio_mean)
 
-    # 표본이 적으면 중앙으로 끌어당긴다. 평판의 베이지안 축소와 같은 이유.
-    m0 = config.SELECTIVITY_PRIOR_COUNT
-    n = len(valid)
-    score = (raw * n + 50.0 * m0) / (n + m0)
+    counts: dict[str, int] = defaultdict(int)
+    # 종류 → {작성자: 그 작성자의 가장 최신 글 가중치}
+    by_kind: dict[str, dict] = defaultdict(dict)
+    authors: set = set()
+    newest = None
+    for m in valid:
+        events = m.get("sel_events") or []
+        if not events:
+            continue
+        rw = recency_weight(m.get("posted_at"))
+        who = m.get("author_hash") or m.get("url_hash")
+        for kind in events:
+            counts[kind] += 1
+            by_kind[kind][who] = max(by_kind[kind].get(who, 0.0), rw)
+        authors.add(who)
+        d = _to_date(m.get("posted_at"))
+        if d and (newest is None or d > newest):
+            newest = d
 
-    # ── 등급반별 ────────────────────────────────────────────────
+    if not counts:
+        return None, {
+            "사건": {},
+            "설명": "진입 관련 후기가 없어 점수를 내지 않습니다.",
+            "주의": "'쉽다' 가 아니라 '아직 모른다' 는 뜻입니다.",
+        }
+
+    strength = sum(
+        analyze_weight(kind) * math.tanh(sum(ws.values()) / EVENT_AUTHOR_SCALE)
+        for kind, ws in by_kind.items())
+    ceiling = sum(w for _k, w, _t, _c in _sel_events()) or 1.0
+    strength_score = _clamp(strength / ceiling * 100)
+    corr = _corroboration(len(authors))
+    recency = _clamp(recency_weight(newest) * 100) if newest else 60.0
+
+    score = 0.55 * strength_score + 0.25 * corr * 100 + 0.20 * recency
     return round(score, 1), {
-        **detail,
-        "정원": capacity or None,
-        "축소_사전표본": m0,
-        "설명": "레벨테스트 난이도 40% + 대기/마감 30% + 정원 대비 수요 30%"
-                f" (표본 {n}건, 사전표본 {m0}건만큼 중앙으로 축소)",
-        "주의": "커뮤니티 언급에서 추정한 값입니다. 공식 경쟁률이 아닙니다.",
+        "사건": {SEL_LABEL_KO.get(k, k): v for k, v in sorted(counts.items())},
+        "사건_강도": round(strength, 2),
+        "서로_다른_작성자": len(authors),
+        "확인율": corr,
+        "최신_사건": newest.isoformat() if newest else None,
+        "정원": academy.get("tofor_smtot") or None,
+        "설명": "사건 강도 55% + 확인율(서로 다른 작성자) 25% + 최신성 20%. "
+                "레벨테스트 탈락 1.0 · 대기 0.8 · 마감 0.6 · 어렵게 통과 0.5 · "
+                "레벨테스트 있음 0.3 으로 무게가 다릅니다.",
+        "주의": "커뮤니티 후기에서 확인된 사건입니다. 공식 경쟁률이 아닙니다.",
     }
+
+
+def analyze_weight(kind: str) -> float:
+    from . import claims
+    return claims.SEL_WEIGHT.get(kind, 0.0)
+
+
+def _sel_events():
+    from . import claims
+    return claims.SEL_EVENTS
+
+
+SEL_LABEL_KO = {
+    "sel.test_failed": "레벨테스트 탈락", "sel.waitlist": "대기·웨이팅",
+    "sel.full": "정원 마감", "sel.test_hard": "어렵게 통과",
+    "sel.test_exists": "레벨테스트 있음",
+}
+
+# 화면에 낼 등급. 0–100 숫자보다 등급이 정직하다 — 표본 3건짜리
+# '난이도 74점' 은 정밀해 보이지만 그 정밀도가 근거에 없다.
+def selectivity_tier(breakdown: dict) -> str | None:
+    events = breakdown.get("사건") or {}
+    if not events:
+        return None
+    authors = breakdown.get("서로_다른_작성자", 0)
+    if events.get("레벨테스트 탈락", 0) >= 3 and authors >= 3:
+        return "high"
+    if authors >= 2 and (events.get("대기·웨이팅", 0)
+                         + events.get("정원 마감", 0)) >= 2:
+        return "medium"
+    return "mentioned"
 
 
 # ── 종합 ───────────────────────────────────────────────────────────
@@ -340,6 +432,20 @@ def subject_mentions(academy: dict, mentions: list[dict],
     return out
 
 
+def _renormalize(weights: dict[str, float]) -> dict[str, float]:
+    """남은 기둥으로 가중치를 다시 나눈다. 합은 **정확히 1** 이어야 한다.
+
+    화면과 산식 페이지가 이 값을 그대로 찍는다. 반올림해서 0.5385 +
+    0.2308 + 0.2308 = 1.0001 이 나오면 공개한 산식이 틀린 것이 된다.
+    가장 무거운 기둥이 나머지를 흡수한다.
+    """
+    scale = sum(weights.values()) or 1.0
+    out = {k: round(v / scale, 4) for k, v in weights.items()}
+    top = max(out, key=out.get)
+    out[top] = round(out[top] + (1.0 - sum(out.values())), 4)
+    return out
+
+
 def compute(academy: dict, mentions: list[dict], cohort: dict,
             subject: str | None = None) -> dict:
     rep, rep_bd = reputation(mentions, cohort["mean_sentiment"],
@@ -360,9 +466,19 @@ def compute(academy: dict, mentions: list[dict], cohort: dict,
         tra, tra_bd = transparency(academy)
         sel, sel_bd = selectivity(mentions, academy,
                                   cohort["mention_capacity_ratio"])
-        w = config.WEIGHTS
-        total = (w["reputation"] * rep + w["momentum"] * mom
-                 + w["transparency"] * tra + w["selectivity"] * sel)
+        w = dict(config.WEIGHTS)
+        if sel is None:
+            # 진입 관련 후기가 없는 학원. 없는 기둥을 코호트 평균으로
+            # 채우면 '모른다' 가 '보통' 이 되고, 0 으로 치면 '쉽다' 가
+            # 된다. 대신 **남은 기둥으로 다시 나눈다** — 그러면 총점이
+            # '우리가 아는 것만으로 매긴 점수' 라고 말할 수 있다.
+            w.pop("selectivity")
+            w = _renormalize(w)
+            total = (w["reputation"] * rep + w["momentum"] * mom
+                     + w["transparency"] * tra)
+        else:
+            total = (w["reputation"] * rep + w["momentum"] * mom
+                     + w["transparency"] * tra + w["selectivity"] * sel)
     else:
         tra, sel = None, None
         tra_bd = {"설명": "예체능·기타는 투명성을 채점하지 않습니다."}
@@ -386,6 +502,8 @@ def compute(academy: dict, mentions: list[dict], cohort: dict,
         # 정할 수 없으면 등수도 매길 수 없다.
         "is_ranked": rankable and sample >= config.MIN_SAMPLE_FOR_RANK,
         "momentum_direction": direction,
+        # 숫자 대신 화면에 낼 등급. 없으면 '진입 관련 후기 없음'.
+        "selectivity_tier": (selectivity_tier(sel_bd) if academic else None),
         "breakdown": {
             "weights": w,
             "reputation": rep_bd,

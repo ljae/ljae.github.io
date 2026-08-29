@@ -253,6 +253,13 @@ class Score {
   /// 중립 서술은 분모에서 뺀다 — 넣으면 어디나 25~40%로 몰려 변별이 안 된다.
   final double? positiveRate;
 
+  /// 진입난이도를 숫자 대신 등급으로. high | medium | mentioned | null.
+  ///
+  /// 표본 셋으로 만든 '난이도 74점' 은 정밀해 보이지만 그 정밀도가
+  /// 근거에 없다. 숫자는 트리스코어 계산에만 쓰고 화면에는 등급과
+  /// 인용문을 낸다.
+  final String? selectivityTier;
+
   final Map<String, dynamic> breakdown;
 
   const Score({
@@ -269,6 +276,7 @@ class Score {
     this.rankInRegion,
     this.regionRankedCount,
     this.positiveRate,
+    this.selectivityTier,
     this.breakdown = const {},
   });
 
@@ -284,6 +292,7 @@ class Score {
     isRanked: j['isRanked'] as bool,
     momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
     positiveRate: (j['positiveRate'] as num?)?.toDouble(),
+    selectivityTier: j['selectivityTier'] as String?,
     rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
     regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
     breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
@@ -301,6 +310,15 @@ class Score {
     _ => 0,
   };
 
+  /// 진입난이도 등급 표시. 근거가 없으면 null — '쉽다'가 아니라
+  /// '아직 모른다'는 뜻이므로 점수도 등급도 내지 않는다.
+  String? get selectivityLabel => switch (selectivityTier) {
+    'high' => '확인됨 · 높음',
+    'medium' => '확인됨 · 중간',
+    'mentioned' => '언급됨',
+    _ => null,
+  };
+
   /// 표본 0 은 '적다' 가 아니라 '아직 근거가 없다' 다. 둘을 같은 말로
   /// 적으면 50점이 평가 결과처럼 읽힌다.
   String get confidenceLabel => switch (confidence) {
@@ -308,6 +326,129 @@ class Score {
     'medium' => '표본 보통',
     _ => sampleSize == 0 ? '근거 없음' : '표본 부족',
   };
+}
+
+/// 후기에서 뽑아낸 주장 하나. 파이프라인의 claims.py 가 만든다.
+///
+/// 근거를 못 보여주는 값은 싣지 않는다 — 모든 줄이 인용문과 원문 링크를
+/// 갖고, [claimId] 로 '이의'를 받는다. 취소된 줄도 목록에 남는다:
+/// 왜 빠졌는지가 보여야 한다.
+class ClaimEvidence {
+  final String claimId;
+  final String kind;
+  final String label;
+  final String quote;
+  final String? url;
+  final String? postedAt;
+
+  /// active | revoked | stale
+  final String status;
+  final String? revokedReason;
+
+  const ClaimEvidence({
+    required this.claimId,
+    required this.kind,
+    required this.label,
+    required this.quote,
+    this.url,
+    this.postedAt,
+    this.status = 'active',
+    this.revokedReason,
+  });
+
+  factory ClaimEvidence.fromJson(Map<String, dynamic> j) => ClaimEvidence(
+    claimId: j['claimId'] as String,
+    kind: (j['kind'] ?? '') as String,
+    label: (j['label'] ?? '') as String,
+    quote: (j['quote'] ?? '') as String,
+    url: j['url'] as String?,
+    postedAt: j['postedAt'] as String?,
+    status: (j['status'] ?? 'active') as String,
+    revokedReason: j['revokedReason'] as String?,
+  );
+
+  bool get isActive => status == 'active';
+
+  String? get statusLabel => switch (status) {
+    'revoked' => '이의로 제외됨',
+    'stale' => '기한 지남',
+    _ => null,
+  };
+}
+
+/// 운영 사실 한 항목 (숙제량 · 시험 횟수 · 수업 횟수 · 1회 수업).
+///
+/// [text] 가 null 이면 값을 낼 만큼 근거가 없다는 뜻이다. 그때는 숫자를
+/// 지어내지 말고 인용문만 보여준다 — 한 사람의 아이 반 이야기를 그
+/// 학원의 사실로 적으면 그건 측정이 아니라 확대다.
+class FactCard {
+  final String label;
+  final String unit;
+  final String? text;
+  final double? value;
+  final int n;
+
+  /// 값이 지나치게 갈려 중앙값을 낼 수 없는 상태.
+  final bool disputed;
+  final bool stale;
+  final List<ClaimEvidence> quotes;
+
+  /// 학년 구간마다 값이 실제로 다를 때만 채워진다.
+  /// 주2회와 주5회의 평균 3.5회는 어느 반에도 없는 숫자다.
+  final Map<String, FactCard> byBand;
+
+  const FactCard({
+    required this.label,
+    required this.unit,
+    this.text,
+    this.value,
+    required this.n,
+    this.disputed = false,
+    this.stale = false,
+    this.quotes = const [],
+    this.byBand = const {},
+  });
+
+  factory FactCard.fromJson(Map<String, dynamic> j) => FactCard(
+    label: (j['label'] ?? '') as String,
+    unit: (j['unit'] ?? '') as String,
+    text: j['text'] as String?,
+    value: (j['value'] as num?)?.toDouble(),
+    n: (j['n'] as num?)?.toInt() ?? 0,
+    disputed: (j['disputed'] ?? false) as bool,
+    stale: (j['stale'] ?? false) as bool,
+    quotes: ((j['quotes'] as List?) ?? const [])
+        .map((e) => ClaimEvidence.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+    byBand: {
+      for (final e in ((j['byBand'] as Map?) ?? const {}).entries)
+        e.key as String: FactCard.fromJson(
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
+  );
+
+  /// 값을 숫자로 말할 수 있는 상태인가.
+  bool get hasValue => text != null;
+}
+
+/// 이 학원 근거 중 이의로 빠진 비율.
+class DisputeRate {
+  final int total;
+  final int dropped;
+  final double rate;
+
+  const DisputeRate({
+    required this.total,
+    required this.dropped,
+    required this.rate,
+  });
+
+  factory DisputeRate.fromJson(Map<String, dynamic> j) => DisputeRate(
+    total: (j['total'] as num?)?.toInt() ?? 0,
+    dropped: (j['dropped'] as num?)?.toInt() ?? 0,
+    rate: (j['rate'] as num?)?.toDouble() ?? 0,
+  );
 }
 
 class Evidence {
@@ -405,6 +546,20 @@ class Academy {
   final Map<String, Score> subjectScores;
   final List<Evidence> evidence;
 
+  /// 학부모가 실제로 묻는 것 — 숙제량·시험 횟수·수업 시간.
+  ///
+  /// 점수가 아니라 **사실**이라 트리스코어에 들어가지 않는다. 숙제가 많은
+  /// 것은 좋은 것도 나쁜 것도 아니고, 순위로 바꾸는 순간 그 값이 무엇을
+  /// 뜻하는지 설명할 수 없다. 모든 줄이 인용문과 원문 링크를 갖는다.
+  final Map<String, FactCard> facts;
+
+  /// 진입난이도의 근거 인용문. 줄마다 claimId 가 있어 '이의'를 받는다.
+  /// 취소된 줄도 들어 있다 — 왜 빠졌는지가 보여야 한다.
+  final List<ClaimEvidence> selectivityEvidence;
+
+  /// 이 학원 근거 중 이의로 빠진 비율. **숨기면 그 자체가 왜곡이다.**
+  final DisputeRate? disputeRate;
+
   const Academy({
     required this.id,
     required this.name,
@@ -431,6 +586,9 @@ class Academy {
     required this.score,
     this.subjectScores = const {},
     required this.evidence,
+    this.facts = const {},
+    this.selectivityEvidence = const [],
+    this.disputeRate,
   });
 
   factory Academy.fromJson(Map<String, dynamic> j) => Academy(
@@ -469,6 +627,20 @@ class Academy {
     evidence: ((j['evidence'] as List?) ?? const [])
         .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
         .toList(),
+    facts: {
+      for (final e in ((j['facts'] as Map?) ?? const {}).entries)
+        e.key as String: FactCard.fromJson(
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
+    selectivityEvidence: ((j['selectivityEvidence'] as List?) ?? const [])
+        .map((e) => ClaimEvidence.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+    disputeRate: j['disputeRate'] == null
+        ? null
+        : DisputeRate.fromJson(
+            (j['disputeRate'] as Map).cast<String, dynamic>(),
+          ),
   );
 
   /// 큐레이션 브랜드명(brand)을 표시에 쓰지 않는다. 브랜드는 지점을
