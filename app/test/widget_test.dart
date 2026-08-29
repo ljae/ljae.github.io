@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:edutree/core/brand.dart';
 import 'package:edutree/core/theme.dart';
 import 'package:edutree/data/models.dart';
 import 'package:edutree/data/repository.dart';
@@ -276,6 +277,34 @@ void main() {
       // 한 프레임만에 온전한 폭이어야 한다. 기다릴 것이 없다.
       expect(tester.getSize(find.byKey(key)).width, 300);
       expect(find.byType(ClipRect), findsNothing);
+    });
+  });
+
+  group('조사', () {
+    test('받침이 있으면 앞 글자, 없으면 뒤 글자', () {
+      // 실제로 틀려 있던 것 — '록'에 받침 ㄱ 이 있으니 '은'이다.
+      expect(josa('학원실록', '은는'), '학원실록은');
+      expect(josa('대치', '은는'), '대치는');
+      expect(josa('학원실록', '이가'), '학원실록이');
+      expect(josa('테크트리', '이가'), '테크트리가');
+      expect(josa('산식', '을를'), '산식을');
+      expect(josa('학군지도', '을를'), '학군지도를');
+      expect(josa('목동', '과와'), '목동과');
+      expect(josa('반포', '과와'), '반포와');
+    });
+
+    test('브랜드 이름이 바뀌어도 조사가 따라온다', () {
+      // 이 파일의 첫 줄이 '이름을 바꿀 때 손댈 곳은 여기 하나뿐이다' 라고
+      // 약속한다. 조사를 손으로 적으면 그 약속이 깨진다.
+      expect(josa(Brand.name, '은는'), '학원실록은');
+      expect(josa('에듀트리', '은는'), '에듀트리는');
+    });
+
+    test('한글이 아니면 받침 없는 쪽으로 둔다', () {
+      // 소리로 정해지는 자리라 글자만 봐서는 알 수 없다. 이 경우에는
+      // 함수를 쓰지 말고 문장을 손으로 적으라고 문서에 적어 뒀다.
+      expect(josa('Open Edu', '은는'), 'Open Edu는');
+      expect(josa('', '은는'), '는');
     });
   });
 

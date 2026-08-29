@@ -113,7 +113,7 @@ class _Frontispiece extends StatelessWidget {
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(maxWidth: 560),
                               child: Text(
-                                '${Brand.name}는 학원 목록이 아니라 학원 사이의 '
+                                '${josa(Brand.name, '은는')} 학원 목록이 아니라 학원 사이의 '
                                 '길을 적습니다. NEIS 공시로 사실을 확인하고, '
                                 '커뮤니티 신호로 평판을 읽어 '
                                 '${data.regions.length}개 학군의 진학 경로를 '

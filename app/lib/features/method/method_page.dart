@@ -36,7 +36,7 @@ class MethodPage extends ConsumerWidget {
                   Text('트리스코어는 어떻게 계산되나요', style: text.displayMedium),
                   const SizedBox(height: AppSpace.sm),
                   Text(
-                    '${Brand.name}는 랭킹 산식을 공개합니다. '
+                    '${josa(Brand.name, '은는')} 랭킹 산식을 공개합니다. '
                     '점수가 어떻게 나왔는지 설명할 수 없다면, 그 점수로 학원을 줄 세울 자격도 없다고 봅니다.',
                     style: text.bodyLarge,
                   ),
