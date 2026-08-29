@@ -13,6 +13,22 @@ on:
     paths-ignore:
       - 'docs/**'
       - '**.md'
+
+  # 야간 수집이 끝나면 이어서 배포한다.
+  #
+  # ★ 수집이 미는 데이터 커밋은 push 트리거를 깨우지 못한다. 봇이 기본
+  #   GITHUB_TOKEN 으로 커밋하는데, 그 토큰이 만든 푸시는 다른 워크플로를
+  #   실행하지 않는다(깃허브의 재귀 방지). 실측: 2026-08-29 데이터 커밋
+  #   두 건(511befba·b44721bd)에 배포가 한 번도 안 붙었고, 사이트는 사람이
+  #   무언가 밀 때까지 옛 번들을 내주고 있었다. 순위가 매일 갱신되는
+  #   서비스에서 이건 조용한 고장이다.
+  #
+  #   workflow_run 은 깃허브가 직접 거는 연쇄라 그 제약을 받지 않는다.
+  #   (이 트리거는 파일이 기본 브랜치에 있어야 동작한다)
+  workflow_run:
+    workflows: ["Nightly data collection"]
+    types: [completed]
+
   workflow_dispatch:
 
 permissions:
@@ -26,9 +42,24 @@ concurrency:
 
 jobs:
   build:
+    # 수집이 실패한 회차는 배포하지 않는다. workflow_run 은 성공·실패를
+    # 가리지 않고 발화하므로 여기서 걸러야 한다 — 실패한 수집을 그대로
+    # 내보내면 배포가 안 되는 것보다 나쁘다.
+    # (build 가 걸러지면 needs 로 매달린 deploy 도 함께 건너뛴다)
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # ★ workflow_run 의 기본 체크아웃은 **수집을 시작한 시점의 커밋**을
+          #   집을 수 있다. 그러면 새 데이터를 만들어 놓고 옛 번들을 배포한다 —
+          #   화면에는 성공으로 보이는데 내용만 안 바뀌는, 가장 알아채기 어려운
+          #   실패다. 연쇄로 들어올 때는 main 최신을 명시적으로 집는다.
+          #   (직접 실행은 고른 ref 를 그대로 존중한다)
+          ref: >-
+            ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
 
       - uses: subosito/flutter-action@v2
         with:
