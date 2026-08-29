@@ -357,6 +357,37 @@ def name_candidates(academy: dict) -> set[str]:
     return {c for c in out if len(c) >= 2}
 
 
+# 사람이 시드·위키에 적었지만 **그 자체로 일상어인 별칭.**
+#
+# 짧은 별칭은 학부모가 실제로 쓰는 줄임말이라 대체로 값지다 —
+# '소마'·'폴리'·'필즈'·'청담' 은 이 말로만 걸리는 글이 각각 210·240·80·157건
+# 이고 대부분 진짜다. **길이가 기준이 아니다. 일상어인지가 기준이다.**
+#
+# `정상`(정상어학원): 실측 2026-08-29 에 이런 글들이 근거가 됐다 —
+#   '인테리어 금액 상담 어느 정도가 정상인지 …' → 진입난이도 '정원 마감'
+#   '하이뮨 프로틴 … 정상적인 면역기능'        → 진입난이도 '대기·웨이팅'
+#   '호빵찜기기' · '변기막힘 출장 업체' · '진주과외'
+# 다섯 지점(대치·목동·서초·잠실·송파)에 같은 오탐이 함께 붙었다 — 지역을
+# 안 밝힌 글은 형제 지점 전부의 근거가 되므로, 별칭 하나가 다섯 학원의
+# 점수를 흔든다. 이 말로만 걸린 글이 대치 76·서초 153·잠실 92·송파 122건.
+#
+# ★ 새 낱말을 넣기 전에 **그 말로만 걸린 글을 눈으로 확인할 것.**
+#   '시대'(시대인재 130건)·'강대'(강대학원 206건)도 같은 냄새가 나지만
+#   확인 전에는 넣지 않는다. 지우는 쪽도 조용히 틀릴 수 있다.
+EVERYDAY_ALIASES = ("정상",)
+
+
+def weak_candidates(candidates: set[str]) -> set[str]:
+    """혼자서는 근거가 못 되는 표기 — 일상어 별칭.
+
+    이름 전체가 일상어인 것(`is_generic_name`)과 **별칭 하나가 일상어인
+    것**은 다른 상태인데, 예전에는 앞의 것만 걸렀다. 학원은 멀쩡한 이름
+    ('정상어학원')을 갖고 있고 별칭만 일상어일 수 있다.
+    """
+    bad = {_norm(g) for g in (*GENERIC_NAME_PARTS, *EVERYDAY_ALIASES)}
+    return {c for c in candidates if c in bad}
+
+
 def _mention_position(blob: str, candidates: set[str]) -> int:
     """이름이 처음 나오는 위치. 없으면 -1."""
     hits = [blob.find(c) for c in candidates if c in blob]
@@ -564,6 +595,11 @@ def is_relevant(mention: dict, candidates: set[str],
     [generic] 이면 이름만으로는 부족하다. '책읽기' 처럼 일상어와 겹치는
     이름은 육아 글·독서 후기가 전부 걸리므로, 학원 표지가 함께 있어야
     근거로 인정한다.
+
+    일상어 별칭('정상')은 애초에 [candidates] 에서 빠져서 들어온다 —
+    `weak_candidates` 와 build 의 게이트 준비 부분 참고. 여기서 학원 표지를
+    요구하는 정도로는 못 거른다: '인테리어 금액 상담 어느 정도가 정상인지'
+    가 '상담' 때문에 통과한다(실측).
     """
     title = _norm(mention.get("title", ""))
     blob = _norm(f"{mention.get('title', '')} {mention.get('snippet', '')}")

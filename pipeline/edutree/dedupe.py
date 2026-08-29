@@ -292,10 +292,21 @@ def merge_same_name(groups: dict[str, list[dict]]) -> dict[str, list[dict]]:
 
 
 def representative_name(names: list[str]) -> str:
-    """묶음의 대표 이름.
+    """묶음의 대표 이름. **`names[0]` 이 가장 오래된 등록**이어야 한다.
 
     가장 짧은 이름을 쓰면 '씨엠에스(CMS)중등1관학원' 처럼 특정 관 이름이
     다섯 관을 대표하게 된다. 이름들의 공통 접두사가 있으면 그쪽이 브랜드다.
+
+    ★ 공통 접두사가 없으면 **가장 오래된 등록의 이름**을 쓴다. 예전에는
+      가장 짧은 이름이었는데, 그러면 과목이 다른 관이 묶였을 때 한 과목이
+      전체를 대표한다. 신고로 드러났다(2026-08-29):
+
+          대치1관정상어학원(영어·표본 337) + 대치정상수학학원(수학·61)
+          → 최단 이름 '대치정상수학학원'
+
+      영어가 압도적인 학원이 화면에 '수학학원' 으로 나갔다. id 는 이미
+      가장 오래된 등록에서 딴다(신원). **이름만 다른 규칙으로 뽑으면
+      신원과 표시가 어긋난다** — 같은 것을 두 기준으로 부르는 셈이다.
 
     ★ 접두사가 **너무 많이 깎이면 쓰지 않는다.**
       '책읽기독서논술교습소' 와 '책읽기와글쓰기리딩엠역삼…' 의 공통 접두사는
@@ -313,12 +324,16 @@ def representative_name(names: list[str]) -> str:
             prefix = prefix[:-1]
     prefix = re.sub(r"[\s(（]+$", "", prefix).strip()
 
+    # 접두사가 쓸 만한지는 **가장 짧은 이름** 기준으로 본다. 여기까지는
+    # 예전 그대로다 — 최고참 이름으로 견주면 그 이름이 긴 만큼 접두사가
+    # 부족해 보여서, '메이플'·'뉴파인'·'브래니악' 같은 멀쩡한 브랜드 이름이
+    # '메이플리틀쇼팽음악학원' 으로 퇴화한다(실측에서 이렇게 틀렸다).
     shortest = min(names, key=lambda n: (len(n), n))
-    # 업종어를 뗀 알맹이 기준으로 견준다. '교습소'·'학원' 은 어차피 공통이다.
     core = re.sub(r"(학원|교습소|어학원)$", "", shortest)
     if len(prefix) >= 3 and len(prefix) * 2 >= len(core):
         return prefix
-    return shortest
+    # 쓸 만한 공통 접두사가 없을 때만 신원(가장 오래된 등록)을 따른다.
+    return names[0]
 
 
 def merge(rows: list[dict]) -> dict:
@@ -347,8 +362,15 @@ def merge(rows: list[dict]) -> dict:
     # 통합체의 이름에 관 번호가 남으면 안 된다. '길벗제2관보습학원' 은
     # 5개 관을 합친 곳의 이름으로 읽히지 않는다 — 2관만 가리키는 말이다.
     if has_hall_mark(rep):
-        plain = [n for n in names if not has_hall_mark(n)]
-        rep = representative_name(plain) if plain else _strip_hall_mark(rep)
+        # 번호만 뗀 이름이 실제 등록으로 있으면 그것을, 없으면 뗀 형태를.
+        #
+        # ★ 관 없는 이름을 **아무거나** 집어오면 안 된다. 과목이 다른 관이
+        #   묶였을 때 그쪽 이름이 묶음 전체를 대표하게 된다 — 실측:
+        #   '대치1관정상어학원'(대표) 이 관 표기 때문에 밀려나
+        #   '대치정상수학학원' 이 영어 학원의 이름이 됐다.
+        bare = _strip_hall_mark(rep)
+        same = [n for n in names if not has_hall_mark(n) and n == bare]
+        rep = same[0] if same else bare
     base["name"] = rep
 
     caps = [r.get("tofor_smtot") for r in rows if r.get("tofor_smtot")]
