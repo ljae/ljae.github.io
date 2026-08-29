@@ -631,7 +631,12 @@ class TagMark extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(icon == null ? 8 : 7, 4, 8, 4.5),
       decoration: BoxDecoration(
         color: filled ? color : color.withValues(alpha: dark ? 0.10 : 0.07),
-        borderRadius: BorderRadius.circular(AppRadius.sm),
+        // 모서리를 굴리지 않는다. **왼쪽만 굵은 획인 테두리에는 반경을
+        // 줄 수 없다** — Flutter 가 페인트 단계에서 막는다(색·굵기가
+        // 균일한 테두리에만 borderRadius 를 허용한다). 릴리스에서는
+        // assert 가 꺼져 조용히 지나가지만, 그건 고쳐진 게 아니라
+        // 안 보이는 것이다. 2px 짜리 반경은 이 크기에서 눈에도 안 띄고,
+        // 각진 칸이 이 판면의 말투이기도 하다.
         border: Border(
           left: BorderSide(color: color, width: AppRule.bold),
           top: BorderSide(
