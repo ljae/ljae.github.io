@@ -51,11 +51,13 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   ///
   /// 판이 모든 길을 같은 밝기로 그리면 '우리 아이 길은 어디냐' 에 답하지
   /// 못한다. 목적지를 고르면 그 길만 살아나고 관문이 나이 축에 뜬다.
-  String? _destId;
+  ///
+  /// **선택은 이 화면이 갖지 않는다.** 목적성 판(DestinationBoard)과 같은
+  /// 것을 보고 있어야 축을 바꿔도 고른 길이 유지된다 — 화면마다 따로 들면
+  /// 두 판이 같은 그래프의 두 얼굴이라는 사실이 드러나지 않는다.
+  String? get _destId => ref.watch(destinationProvider);
 
-  Destination? get _dest => _destId == null
-      ? null
-      : data.destinations.where((d) => d.id == _destId).firstOrNull;
+  Destination? get _dest => data.destinationById(_destId);
 
   // 위젯 쪽 상수를 그대로 쓴다. 두 벌로 두면 한쪽만 고쳐진다.
   static const _minGrade = RoadmapView._minGrade;
@@ -173,9 +175,13 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
               if (d.summary != null)
                 Text(d.summary!, style: text.bodySmall),
               // 큐레이션한 길에 데이터가 얼마나 찼는지를 숨기지 않는다.
+              // 학군 기준으로 다시 센다. 파이프라인의 academyCount 는
+              // 전국 합계라, 학군을 바꿔도 숫자가 안 움직여서 그 숫자가
+              // 무엇을 세었는지 알 수 없었다. 판은 학군 하나를 본다.
               if (d.linkable)
                 TagMark(
-                  '이 길의 학원 ${d.academyCount}곳',
+                  '이 길의 학원 '
+                  '${data.destinationAcademyCount(d, regionId: regionId)}곳',
                   color: AppColors.accentOn(dark),
                 )
               else
@@ -198,7 +204,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: InkWell(
-        onTap: () => setState(() => _destId = id),
+        onTap: () => ref.read(destinationProvider.notifier).select(id),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           decoration: BoxDecoration(

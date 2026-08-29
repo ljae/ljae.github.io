@@ -1064,9 +1064,16 @@ class Destination {
   final bool linkable;
 
   /// 단계 id → 그 단계에 붙은 학원 수. 길의 어느 대목이 비었는지 보인다.
+  ///
+  /// **전국 합계다 — 화면에 그대로 쓰지 말 것.** 판은 늘 학군 하나를
+  /// 보고 있어서, 이 값을 적으면 학군을 바꿔도 숫자가 안 움직인다.
+  /// 그러면 그 숫자가 무엇을 세었는지 알 수 없고, 바로 아래 목록의
+  /// 길이와도 어긋난다. 화면은 `EduTreeData.legFor` 로 다시 센다.
+  /// 이 값은 빌드 진단용이다(학군 '전체'일 때 같은 수가 나온다).
   final Map<String, int> stageCounts;
 
-  /// 이 길에 놓인 학원 수(중복 제거).
+  /// 이 길에 놓인 학원 수(중복 제거). 이것도 전국 합계다 —
+  /// 화면은 `EduTreeData.destinationAcademyCount` 를 쓴다.
   final int academyCount;
 
   const Destination({
@@ -1085,6 +1092,18 @@ class Destination {
   Set<String> get stageIds =>
       {for (final ids in requires.values) ...ids};
 
+  /// 이 길이 지나는 과목 — 표준 순서로.
+  ///
+  /// `requires` 의 키 순서를 그대로 쓰지 않는다. 그건 사람이 yaml 에 적은
+  /// 차례라 목적지마다 다르고, 그러면 판의 열이 행마다 흔들린다.
+  List<String> get subjects =>
+      orderedSubjects(requires.keys.where((s) => (requires[s] ?? const []).isNotEmpty));
+
+  /// 가장 이른 관문의 학년. 없으면 null.
+  /// '언제 갈리는가' 가 학부모의 실제 질문이라 판의 한 칸을 이것에 준다.
+  int? get firstGateGrade =>
+      gates.isEmpty ? null : gates.map((g) => g.grade).reduce((a, b) => a < b ? a : b);
+
   factory Destination.fromJson(Map<String, dynamic> j) => Destination(
         id: j['id'] as String,
         label: j['label'] as String,
@@ -1101,6 +1120,54 @@ class Destination {
             .map((k, v) => MapEntry(k as String, (v as num).toInt())),
         academyCount: (j['academyCount'] as num?)?.toInt() ?? 0,
       );
+}
+
+/// 목적지 × 과목 한 칸 — 목적성 판의 최소 단위.
+///
+/// **목적지 하나에 학원을 한 줄로 세우지 않는다.** 의대의 수학 학원과
+/// 과학 학원을 한 줄에 세우면 그 순위가 무엇을 뜻하는지 설명할 수 없다 —
+/// 예체능을 학술과 한 줄에 세우지 않는 것과 같은 이유다. 그래서 목적지의
+/// 최소 단위는 목적지가 아니라 (목적지 × 과목)이다. 학부모의 질문도
+/// 실은 이 단위다: '의대를 보려면 **수학은** 어디까지인가'.
+class DestinationLeg {
+  final String destId;
+  final String subject;
+
+  /// 나이 순으로 세운 단계. 길은 시간 순으로 읽힌다.
+  final List<Stage> stages;
+
+  /// 단계 id → 그 단계에 근거가 있는 학원 수 (선택 학군 기준).
+  final Map<String, int> counts;
+
+  /// 이 칸에 놓인 학원 수(중복 제거). 단계 수의 합이 아니다 —
+  /// 한 학원이 여러 단계를 담당한다.
+  final int academyCount;
+
+  /// false 면 학원을 잇지 않기로 한 길이다(조기졸업·예체능).
+  /// **'안 이었다'와 '이었는데 비었다'는 다른 상태다.**
+  final bool linkable;
+
+  const DestinationLeg({
+    required this.destId,
+    required this.subject,
+    required this.stages,
+    this.counts = const {},
+    this.academyCount = 0,
+    this.linkable = true,
+  });
+
+  /// 이 목적지가 이 과목을 아예 지나지 않는다.
+  bool get isOffPath => stages.isEmpty;
+
+  /// 지나기는 하는데 학원이 하나도 없다. 큐레이션한 길의 빈 대목이다.
+  bool get isEmpty => !isOffPath && linkable && academyCount == 0;
+
+  int countOf(String stageId) => counts[stageId] ?? 0;
+
+  /// 요구는 하는데 학원이 하나도 없는 단계.
+  /// 숨기면 채워진 길처럼 읽힌다 — 어디가 비었는지가 이 판의 정보다.
+  List<Stage> get emptyStages =>
+      [for (final s in stages) if (countOf(s.id) == 0) s];
 }
 
 class Roadmap {

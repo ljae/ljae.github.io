@@ -1300,6 +1300,16 @@ def _destination_payload(academies: list[dict]) -> list[dict]:
         stages = [s for ids in d["requires"].values() for s in ids]
         counts = ({s: by_stage.get(s, 0) for s in stages}
                   if d["linkable"] else {})
+
+        # 큐레이션한 길의 **빈 대목을 로그에 남긴다.** 화면은 학군별로
+        # 다시 세지만(EduTreeData.legFor), 전국에서도 0곳인 단계는 그
+        # 대목을 우리가 아직 아무것도 모른다는 뜻이다 — 길을 적은 사람이
+        # 다음 회차에 무엇을 채워야 하는지가 여기서만 보인다.
+        empty = [s for s in stages if not by_stage.get(s)] if d["linkable"] else []
+        if empty:
+            print(f"  · 목적지 {d['label']}: 학원 0곳인 단계 {len(empty)}개"
+                  f" — {', '.join(empty)}")
+
         out.append({
             "id": d["id"], "label": d["label"], "axis": d["axis"],
             "summary": d.get("summary"),

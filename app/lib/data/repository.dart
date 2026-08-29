@@ -44,6 +44,114 @@ class EduTreeData {
   };
   late final Map<String, Track> trackById = {for (final t in tracks) t.id: t};
 
+  /// 단계 → 그 단계를 담당하는 학원 (학군 필터 전).
+  ///
+  /// 목적지 판은 한 화면에서 (목적지 7 × 단계 20) 칸을 세는데, 칸마다
+  /// 전수를 훑으면 스크롤이 끊긴다. 한 번 세워 두고 학군만 걸러 쓴다.
+  late final Map<String, List<Academy>> academiesByStage = () {
+    final m = <String, List<Academy>>{};
+    for (final a in academies) {
+      for (final sid in a.stages) {
+        (m[sid] ??= []).add(a);
+      }
+    }
+    return m;
+  }();
+
+  /// 단계 → 이 단계를 지나는 목적지들.
+  ///
+  /// **엣지는 양쪽에서 읽을 수 있어야 한다.** 목적지에서 단계로 가는 길만
+  /// 있으면 로드맵에서 단계를 눌렀을 때 '이건 어디로 이어지나' 에 답하지
+  /// 못한다. 같은 관계를 반대 방향으로도 세워 둔다.
+  late final Map<String, List<Destination>> _destinationsByStage = () {
+    final m = <String, List<Destination>>{};
+    for (final d in destinations) {
+      for (final sid in d.stageIds) {
+        (m[sid] ??= []).add(d);
+      }
+    }
+    return m;
+  }();
+
+  List<Destination> destinationsForStage(String stageId) =>
+      _destinationsByStage[stageId] ?? const [];
+
+  Destination? destinationById(String? id) => id == null
+      ? null
+      : destinations.where((d) => d.id == id).firstOrNull;
+
+  /// 목적지가 쓰는 축(국내입시 · 특목 · 해외 · 기타) — 나온 순서대로.
+  /// 목적지는 sort_order 로 이미 정렬돼 오므로 그 차례를 그대로 따른다.
+  List<String> get destinationAxes {
+    final out = <String>[];
+    for (final d in destinations) {
+      if (!out.contains(d.axis)) out.add(d.axis);
+    }
+    return out;
+  }
+
+  /// (목적지 × 과목) 한 칸. **학군 기준으로 다시 센다.**
+  ///
+  /// 파이프라인의 `stageCounts` 는 전국 합계다. 판은 학군 하나를 보고
+  /// 있으므로 그 값을 그대로 쓰면 표의 숫자와 그 아래 목록의 길이가
+  /// 어긋난다. 같은 화면의 두 숫자가 다르면 둘 다 못 믿는다.
+  /// (학군이 '전체'면 파이프라인 값과 같은 수가 나온다.)
+  DestinationLeg legFor(Destination d, String subject, {String? regionId}) {
+    final ids = d.requires[subject] ?? const <String>[];
+    // 없는 단계 id 는 건너뛴다. 빌드가 이미 경고로 잡는다 — 여기서
+    // 지어내면 화면이 있지도 않은 대목을 그린다.
+    final stages = [
+      for (final id in ids)
+        if (stageById[id] != null) stageById[id]!,
+    ]..sort((a, b) => a.gradeMin != b.gradeMin
+        ? a.gradeMin - b.gradeMin
+        : a.gradeMax - b.gradeMax);
+
+    if (!d.linkable) {
+      return DestinationLeg(
+        destId: d.id,
+        subject: subject,
+        stages: stages,
+        linkable: false,
+      );
+    }
+
+    final counts = <String, int>{};
+    final seen = <String>{};
+    for (final s in stages) {
+      final rows = (academiesByStage[s.id] ?? const <Academy>[])
+          .where((a) => matchRegion(a.regionId, regionId));
+      counts[s.id] = rows.length;
+      seen.addAll(rows.map((a) => a.id));
+    }
+    return DestinationLeg(
+      destId: d.id,
+      subject: subject,
+      stages: stages,
+      counts: counts,
+      academyCount: seen.length,
+    );
+  }
+
+  /// 이 길의 과목별 칸 — 표준 과목 순서로.
+  List<DestinationLeg> legsFor(Destination d, {String? regionId}) => [
+        for (final s in d.subjects) legFor(d, s, regionId: regionId),
+      ];
+
+  /// 이 길에 놓인 학원 수(중복 제거, 학군 기준).
+  /// 목적지 칩이 이 값을 쓴다 — 전국 합계를 적으면 학군을 바꿔도 숫자가
+  /// 안 움직여서, 그 숫자가 무엇을 세었는지 알 수 없다.
+  int destinationAcademyCount(Destination d, {String? regionId}) {
+    if (!d.linkable) return 0;
+    final seen = <String>{};
+    for (final sid in d.stageIds) {
+      for (final a in academiesByStage[sid] ?? const <Academy>[]) {
+        if (matchRegion(a.regionId, regionId)) seen.add(a.id);
+      }
+    }
+    return seen.length;
+  }
+
   /// 'all' 은 학군 전체를 뜻한다. 헤더 휠에서 '전체'를 고른 상태.
   static bool matchRegion(String? rowRegion, String? selected) =>
       selected == null || selected == 'all' || rowRegion == selected;
@@ -516,3 +624,22 @@ class SelectionNotifier extends Notifier<Selection> {
 
 final selectionProvider =
     NotifierProvider<SelectionNotifier, Selection>(SelectionNotifier.new);
+
+/// 고른 진로 목적지. null 이면 '전체' — 모든 길을 같은 밝기로 본다.
+///
+/// **두 축이 같은 선택을 본다.** 목적성 판에서 고른 길이 과목 축(로드맵)
+/// 에서도 밝아져야 한 화면의 두 얼굴이 된다. 화면마다 따로 들고 있으면
+/// 축을 바꿀 때마다 선택이 풀려서, 사용자는 두 판이 같은 것을 다르게
+/// 보여 준다는 사실을 알아채지 못한다.
+class DestinationNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void select(String? id) => state = id;
+
+  /// 같은 것을 다시 누르면 푼다 — 고른 것을 못 푸는 필터는 덫이다.
+  void toggle(String id) => state = state == id ? null : id;
+}
+
+final destinationProvider =
+    NotifierProvider<DestinationNotifier, String?>(DestinationNotifier.new);

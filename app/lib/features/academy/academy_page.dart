@@ -54,6 +54,22 @@ class _Body extends StatelessWidget {
         .map((s) => data.stageById[s])
         .whereType<Stage>()
         .toList();
+
+    // 이 학원의 단계가 놓인 진로 목적지 — 학원 → 목적지 방향.
+    //
+    // **근거가 확실한 단계만 쓴다.** 'inferred'(단서 없이 과목·학년의
+    // 대표 단계로 추정)까지 끌어오면 실명 사업자에게 근거 없이 '의대
+    // 학원' 딱지를 붙이는 셈이 된다 — 해시로 단계를 흩뿌리던 것을
+    // 없앤 것과 같은 이유다. 'band' 는 애초에 데이터에 없다.
+    final sure = {
+      for (final id in academy.stages)
+        if (academy.stageBasisOf(id) == 'curated' ||
+            academy.stageBasisOf(id) == 'hinted')
+          id,
+    };
+    final routes = data.destinations
+        .where((d) => d.linkable && d.stageIds.any(sure.contains))
+        .toList();
     final dark = Theme.of(context).brightness == Brightness.dark;
 
     return ListView(
@@ -280,6 +296,38 @@ class _Body extends StatelessWidget {
                       ),
                   ],
                 ),
+                if (routes.isNotEmpty) ...[
+                  const SizedBox(height: AppSpace.md),
+                  Text('이 단계들이 놓인 길', style: text.labelMedium),
+                  const SizedBox(height: 2),
+                  Text(
+                    '이 학원이 그 진로를 표방한다는 뜻이 아니라, 담당 단계가 '
+                    '그 길 위에 있다는 뜻입니다. 근거가 분명한 단계만 셉니다.',
+                    style: text.bodySmall,
+                  ),
+                  const SizedBox(height: 5),
+                  Consumer(
+                    builder: (context, ref, _) => Wrap(
+                      spacing: AppSpace.sm,
+                      runSpacing: 4,
+                      children: [
+                        for (final d in routes)
+                          InkWell(
+                            onTap: () {
+                              ref
+                                  .read(destinationProvider.notifier)
+                                  .select(d.id);
+                              context.go('/tree');
+                            },
+                            child: TagMark(
+                              d.label,
+                              color: AppColors.accentOn(dark),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: AppSpace.md),
                 for (final s in stages)
                   if (s.exitCriteria != null && s.exitCriteria!.isNotEmpty)
@@ -1200,8 +1248,10 @@ class _ClaimQuote extends ConsumerWidget {
             IconButton(
               tooltip: '원문 보기',
               icon: const Icon(Icons.open_in_new, size: 16),
-              onPressed: () =>
-                  launchUrl(Uri.parse(claim.url!), mode: LaunchMode.externalApplication),
+              onPressed: () => launchUrl(
+                Uri.parse(claim.url!),
+                mode: LaunchMode.externalApplication,
+              ),
             ),
           if (!dead && ref.read(claimDisputeServiceProvider).enabled)
             TextButton(
@@ -1313,8 +1363,7 @@ class _DisputeSheetState extends ConsumerState<_DisputeSheet> {
                   ChoiceChip(
                     label: Text(r.label),
                     selected: _reason == r,
-                    onSelected: (on) =>
-                        setState(() => _reason = on ? r : null),
+                    onSelected: (on) => setState(() => _reason = on ? r : null),
                   ),
               ],
             ),
