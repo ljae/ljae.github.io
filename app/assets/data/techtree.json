@@ -148,10 +148,10 @@
     "eng_el_academy": 50,
     "eng_el_rw": 16,
     "eng_mid_test": 0,
-    "math_el_basic": 36,
+    "math_el_basic": 35,
     "math_mid_preview": 0
    },
-   "academyCount": 85
+   "academyCount": 84
   },
   {
    "id": "dest_science_hs",
@@ -183,8 +183,8 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_el_thinking": 14,
-    "math_el_competition": 8,
+    "math_el_thinking": 15,
+    "math_el_competition": 7,
     "math_mid_kmo": 0,
     "math_mid_yeongjae": 0,
     "sci_el_lab": 18,
