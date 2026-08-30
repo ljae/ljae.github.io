@@ -535,6 +535,13 @@ class Meta {
   final int registryCount;
   final int mentionCount;
   final Map<String, double> weights;
+  /// 예체능·기타 전용 가중치(평판·화제성만). 네 기둥을 다 적용하지 않는
+  /// 과목이라 저울이 아예 다르다.
+  ///
+  /// ★ 화면에 상수로 박지 않는다. 예전에 세 화면이 각자 0.6/0.4 를 들고
+  ///   있어서, 파이프라인의 값을 바꿔도 화면만 옛 값으로 남을 수 있었다.
+  ///   학술 가중치에서 이미 한 번 겪은 사고다.
+  final Map<String, double> nonAcademicWeights;
   final int minSampleForRank;
   final int reputationPriorCount;
   final int recencyHalflifeDays;
@@ -546,12 +553,17 @@ class Meta {
     required this.registryCount,
     required this.mentionCount,
     required this.weights,
+    required this.nonAcademicWeights,
     required this.minSampleForRank,
     required this.reputationPriorCount,
     required this.recencyHalflifeDays,
   });
 
   bool get isDemo => mode == 'demo';
+
+  /// 이 점수에 적용된 가중치. 과목군에 따라 저울이 다르다.
+  Map<String, double> weightsFor(String subjectGroup) =>
+      subjectGroup == 'academic' ? weights : nonAcademicWeights;
 
   factory Meta.fromJson(Map<String, dynamic> j) => Meta(
     mode: (j['mode'] ?? 'demo') as String,
@@ -562,6 +574,12 @@ class Meta {
     weights: ((j['weights'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, (v as num).toDouble()),
     ),
+    // 옛 번들에는 없는 키다. 없으면 파이프라인의 현재 값과 같은 기본값을
+    // 쓰되, 앞으로는 meta 가 진실이다.
+    nonAcademicWeights:
+        ((j['nonAcademicWeights'] as Map?) ??
+                const {'reputation': 0.6, 'momentum': 0.4})
+            .map((k, v) => MapEntry(k as String, (v as num).toDouble())),
     minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
     reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
     recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,

@@ -1608,6 +1608,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "mentionCount": len(mentions),
             "naverBudget": config.NAVER_MAX_ACADEMIES,
             "weights": config.WEIGHTS,
+            # 예체능·기타는 저울이 아예 다르다. 이것도 내보내야 화면이
+            # 상수를 들고 있지 않는다 — 학술 가중치에서 이미 겪은 사고다
+            # (산식은 0.35 인데 목록은 0.20 을 그리고 있었다).
+            "nonAcademicWeights": config.NON_ACADEMIC_WEIGHTS,
             "minSampleForRank": config.MIN_SAMPLE_FOR_RANK,
             "reputationPriorCount": config.REPUTATION_PRIOR_COUNT,
             "recencyHalflifeDays": config.RECENCY_HALFLIFE_DAYS,
