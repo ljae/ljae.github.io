@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+예비초 대상의 수학 및 과학 과목이며, 레벨테스트 없이 ppsm 반에서 약 2년간 수강했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

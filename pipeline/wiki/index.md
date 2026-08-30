@@ -53,6 +53,7 @@
 - [아이엘이(별관)어학원](academies/23598.md) — daechi
 - [피아이서초어학원](academies/23899.md) — banpo
 - [시대인재반포센터해냄관](academies/24150.md) — banpo
+- [로고스](academies/24349.md) — daechi
 - [목동로드맵학원](academies/24356.md) — mokdong
 - [송파1관정상어학학원](academies/24925.md) — jamsil
 - [서초1관정상어학원](academies/25640.md) — banpo

@@ -1,0 +1,41 @@
+---
+url_hash: "b3de1a8b9eda69236abbf72fadb66e7c"
+url: https://cafe.naver.com/mapomommy/1271884
+source: naver_cafe
+title: '[240130-2] 초중전문 리드투더탑 영어학원 신입원생 모집 안내'
+posted_at: 2026-08-30
+author_hash: af3155ff295aa7c7e7628c72627cef5c
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[240130-2] 초중전문 리드투더탑 영어학원 신입원생 모집 안내'
+
+원문: https://cafe.naver.com/mapomommy/1271884
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.40
+- 붙은 학원 2곳 · 과목 english
+- 진입난이도 신호: wait
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/1000035161|대치1관정상어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3002|씨앤씨학원]] — 이름이 본문에 등장 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
