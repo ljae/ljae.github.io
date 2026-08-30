@@ -214,6 +214,51 @@ void main() {
     );
   });
 
+  group('로고 표장(LogoMark)', () {
+    // 로고를 PNG 에서 그리기로 바꾼 **이유가 이것 하나**다. 한지 바탕에
+    // 맞춘 먹빛 마크는 먹빛 판면에서 사라지고, 바탕을 깔면 어두운 헤더에
+    // 흰 딱지가 붙는다. 다시 래스터로 돌아가면 이 시험이 먼저 깨진다.
+    testWidgets('먹빛 판면에서 색이 뒤집힌다', (tester) async {
+      Future<Color> inkOf(Brightness b) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: ThemeData(brightness: b),
+            home: const Scaffold(body: Center(child: LogoMark(size: 48))),
+          ),
+        );
+        // **MaterialApp 은 테마를 200ms 에 걸쳐 보간한다**(AnimatedTheme).
+        // 두 번째 pump 직후에 읽으면 아직 앞 테마 쪽 값이라, 다크로 바꿔
+        // 놓고도 밝은 색을 보게 된다 — 여기서 한 번 속았다.
+        await tester.pumpAndSettle();
+        final paint = tester.widget<CustomPaint>(
+          find.descendant(
+            of: find.byType(LogoMark),
+            matching: find.byType(CustomPaint),
+          ),
+        );
+        return (paint.painter! as dynamic).ink as Color;
+      }
+
+      final light = await inkOf(Brightness.light);
+      final dark = await inkOf(Brightness.dark);
+
+      expect(light, AppColors.ink);
+      expect(dark, AppColors.darkInk);
+      expect(light, isNot(dark));
+    });
+
+    // 헤더는 폭에 따라 로고 크기를 달리 준다(HeaderLayout). 격자를 크기로
+    // 나눠 그리므로 어느 크기에서도 마크가 상자를 넘지 않아야 한다.
+    testWidgets('주어진 크기를 넘지 않는다', (tester) async {
+      for (final s in [16.0, 28.0, 44.0]) {
+        await tester.pumpWidget(
+          MaterialApp(home: Scaffold(body: Center(child: LogoMark(size: s)))),
+        );
+        expect(tester.getSize(find.byType(LogoMark)), Size(s, s));
+      }
+    });
+  });
+
   group('획 등장(StrokeIn)', () {
     // 처음엔 `Align(widthFactor:)` 로 열었다. 그러면 애니메이션 도중의
     // 폭이 곧 **레이아웃 폭**이 되어 자식이 실제로 좁아진다 — 랭킹 목록

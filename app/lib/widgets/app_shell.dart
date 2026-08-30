@@ -187,7 +187,7 @@ class _Brand extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _Logo(size: layout.logo),
+          LogoMark(size: layout.logo),
           const SizedBox(width: AppSpace.sm),
           Text(
             Brand.name,
@@ -436,30 +436,6 @@ class _FilterSheet extends ConsumerWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  final double size;
-  const _Logo({required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    // 각지게 자른다. 둥근 아이콘은 어느 앱에나 있고, 이 화면에서는
-    // 유일하게 둥근 것이 되어 혼자 튄다.
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.sm),
-      child: Image.asset(
-        'assets/brand/mark.png',
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
-        filterQuality: FilterQuality.medium,
-        // 표시 크기에 맞춰 디코딩한다. 원본을 그대로 풀면
-        // 헤더 하나 그리자고 큰 비트맵을 메모리에 올리게 된다.
-        cacheWidth: (size * MediaQuery.devicePixelRatioOf(context)).round(),
       ),
     );
   }
