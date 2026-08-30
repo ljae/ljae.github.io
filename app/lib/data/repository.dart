@@ -151,6 +151,17 @@ class EduTreeData {
   /// ★ 표본 0 은 여기 넣지 않는다. 점수가 코호트 평균(50)으로 채워져
   ///   있어 등수를 매기면 그건 평가가 아니라 기본값이다. [unscored] 로
   ///   따로 나가고 화면에서는 등수 없이 '근거 없음' 으로 적는다.
+  ///
+  /// ★★ **근거가 두꺼운 쪽을 먼저 세운다.** 표본 1건짜리가 표본 130건짜리
+  ///   위에 서면 그 등수가 무엇을 뜻하는지 설명할 수 없다. 표본이 얇으면
+  ///   평판·진입난이도가 중앙(50)으로 축소되는데, 표본과 무관한 투명성이
+  ///   그 위에 얹혀 두꺼운 학원을 넘어서는 일이 실제로 있었다(실측: 7개
+  ///   조합에서 표본 1~2건이 1위였다 — 잠실 수학 1위 표본 2건 vs 2위
+  ///   표본 47건).
+  ///
+  ///   '표본 부족'이라 적는 것만으로는 부족하다. 자리 자체가 근거의 두께를
+  ///   말해야 한다. 등수를 감추자는 것이 아니라, 얇은 근거를 두꺼운 근거
+  ///   **아래**에 두자는 것이다.
   List<Academy> ranking({
     required String regionId,
     String? subject,
@@ -165,8 +176,16 @@ class EduTreeData {
             _matchesFilters(a,
                 regionId: regionId, subject: subject, gradeBand: gradeBand))
         .toList();
-    rows.sort((a, b) =>
-        b.scoreFor(subject).total.compareTo(a.scoreFor(subject).total));
+    rows.sort((a, b) {
+      final sa = a.scoreFor(subject);
+      final sb = b.scoreFor(subject);
+      // 1층: 표본이 순위 기준을 넘은 곳. 2층: '표본 부족'.
+      if (sa.isRanked != sb.isRanked) return sa.isRanked ? -1 : 1;
+      final byScore = sb.total.compareTo(sa.total);
+      // 동점이면 id 로 갈라 매번 같은 순서가 나오게 한다. 파이프라인의
+      // 등수 배정과 같은 규칙이다.
+      return byScore != 0 ? byScore : a.id.compareTo(b.id);
+    });
     return rows;
   }
 

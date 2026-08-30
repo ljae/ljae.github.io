@@ -210,8 +210,15 @@ def test_합성_언급은_글_노드를_만들지_않는다(wiki):
 
 # ── 약속: 무효화가 점수까지 전파된다 ────────────────────────────
 def test_반려하면_표본과_코호트와_등수가_함께_다시_계산된다(wiki):
-    """이 구조의 존재 이유. 글 한 장이 점수 전체를 되돌린다."""
-    ms = ([mention(f"p{i}", "A1", sentiment=0.9) for i in range(12)]
+    """이 구조의 존재 이유. 글 한 장이 점수 전체를 되돌린다.
+
+    A1 의 후기를 **감성이 섞이게** 둔다. 코호트의 중심과 폭은 학원 단위
+    값(가중 평균 감성)의 분포에서 나오므로, 똑같은 감성의 글만 지우면
+    A1 의 평균이 그대로라 코호트가 안 움직인다 — 그건 정상이다.
+    전파를 보려면 **A1 의 평균이 실제로 바뀌어야** 한다.
+    """
+    ms = ([mention(f"p{i}", "A1", sentiment=0.9) for i in range(6)]
+          + [mention(f"r{i}", "A1", sentiment=0.1) for i in range(6)]
           + [mention(f"q{i}", "A2", sentiment=0.1) for i in range(12)])
 
     def score(rows):
@@ -226,7 +233,8 @@ def test_반려하면_표본과_코호트와_등수가_함께_다시_계산된�
     assert before["A1"]["sample_size"] == 12
     assert before["A1"]["is_ranked"] is True
 
-    # A1 의 긍정 후기 절반을 반려한다.
+    # A1 의 긍정 후기(p*)를 전부 반려한다 — 남는 것은 0.1 짜리뿐이라
+    # A1 의 평균 감성 자체가 내려간다.
     for i in range(6):
         write(wiki, f"p{i}", verdict="rejected", reject_reason="광고")
     overrides = posts.load()
