@@ -545,6 +545,11 @@ class Meta {
   final int minSampleForRank;
   final int reputationPriorCount;
   final int recencyHalflifeDays;
+  /// 작성일을 아는 글의 비율. 반감기가 실제로 몇 할에 걸리는지다.
+  final double datedShare;
+  /// 그중 **글에 실제로 적혀 있던** 날짜의 비율. 나머지는 발견일이라
+  /// 추세(시계열)에는 쓰지 않는다.
+  final double realDatedShare;
 
   const Meta({
     required this.mode,
@@ -557,6 +562,8 @@ class Meta {
     required this.minSampleForRank,
     required this.reputationPriorCount,
     required this.recencyHalflifeDays,
+    this.datedShare = 0,
+    this.realDatedShare = 0,
   });
 
   bool get isDemo => mode == 'demo';
@@ -583,6 +590,8 @@ class Meta {
     minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
     reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
     recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,
+    datedShare: (j['datedShare'] as num?)?.toDouble() ?? 0,
+    realDatedShare: (j['realDatedShare'] as num?)?.toDouble() ?? 0,
   );
 }
 

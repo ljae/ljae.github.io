@@ -69,8 +69,37 @@ def load_rules() -> list[dict]:
         return []
 
 
+def _valid_rules(rules: list[dict]) -> list[dict]:
+    """정규식이 실제로 컴파일되는 규칙만 남긴다.
+
+    ★ 패턴은 운영자가 `/admin` 화면에서 손으로 넣는다. 잘못된 정규식
+      하나가 `re.search` 에서 예외로 터지면 **야간 실행 전체가 죽는다** —
+      수집·분석·채점이 다 끝난 뒤에, 사이트에 나갈 데이터를 만들기 직전에.
+      규칙 하나를 잘못 적은 대가로는 너무 크다.
+
+    깨진 규칙은 건너뛰고 이름을 찍는다. 조용히 무시하면 운영자는 규칙이
+    도는 줄 알고 같은 글을 계속 본다.
+    """
+    ok: list[dict] = []
+    for r in rules:
+        pat = r.get("pattern") or ""
+        # 정규식으로 쓰는 종류만 검사한다. exclude_author 는 해시 완전일치,
+        # exclude_domain 은 부분 문자열이라 컴파일할 일이 없다.
+        if r.get("kind") in ("exclude_keyword", "require_keyword",
+                             "exclude_region"):
+            try:
+                re.compile(pat)
+            except re.error as exc:
+                print(f"  ! 크롤 규칙 무시 — 정규식 오류 "
+                      f"[{r.get('kind')}] {pat!r}: {exc}")
+                continue
+        ok.append(r)
+    return ok
+
+
 def apply_rules(mentions: list[dict], rules: list[dict]) -> tuple[list[dict], int]:
     """규칙에 걸리는 글을 뺀다. (남은 글, 걸러낸 수)"""
+    rules = _valid_rules(rules or [])
     if not rules:
         return mentions, 0
 

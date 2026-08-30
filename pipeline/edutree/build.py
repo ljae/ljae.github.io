@@ -1066,6 +1066,17 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             if len(c) >= 3:          # 짧은 이름은 우연히 겹친다
                 rival_names.add(c)
 
+    # 게이트 이전에 **이번 회차 대상 학원으로** 받아 온 글. 글 노드 감사가
+    # '우리가 가져와 놓고 버린 글'(신호)과 '이번 회차에 아예 안 본
+    # 학원의 글'(정상)을 가르는 데 쓴다.
+    #
+    # 학원으로 한정하는 이유: --from-cache 는 캐시 전체를 읽으므로 이번에
+    # 안 뽑힌 학원의 글까지 들어 있다. 그것들은 후보 이름이 없어 게이트에서
+    # 빠지는데, 그건 규칙이 바뀐 게 아니라 순환일 뿐이다.
+    _watch_ids = {a["id"] for a in evaluated}
+    retrieved_hashes = {m.get("url_hash") for m in mentions
+                        if m.get("url_hash") and m.get("academy_key") in _watch_ids}
+
     before = len(mentions)
     mentions = [m for m in mentions
                 if analyze.is_relevant(
@@ -1092,7 +1103,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
               f"지역 불명 {bstat['shared']:,}건은 지점 공유"
               + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
-                 if bstat.get("sibling") else ""))
+                 if bstat.get("sibling") else "")
+              + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
+                 if bstat.get("rehomed") else ""))
 
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
@@ -1282,7 +1295,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     graph.audit(evaluated, [m for m in mentions if not m.get("is_excluded")])
     # 글 노드도 같이 본다. 디스크의 페이지와 이번 근거가 어긋나면 알린다 —
     # 우리가 뺀 것은 정상이고, 우리가 뺀 적 없는데 사라진 것이 신호다.
-    for w in posts_mod.audit(mentions, post_overrides):
+    # evaluated 를 함께 넘겨야 '순환으로 안 본 학원의 글'(정상)과 '수집은
+    # 했는데 게이트에서 빠진 글'(신호)이 갈린다. 안 가르면 경고가 수천
+    # 장씩 찍혀 진짜 신호가 묻힌다.
+    for w in posts_mod.audit(mentions, post_overrides, evaluated,
+                             retrieved_hashes):
         print(f"  ! 글 노드: {w}")
     return {
         "mode": mode,
@@ -1676,6 +1693,20 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "minSampleForRank": config.MIN_SAMPLE_FOR_RANK,
             "reputationPriorCount": config.REPUTATION_PRIOR_COUNT,
             "recencyHalflifeDays": config.RECENCY_HALFLIFE_DAYS,
+            # 작성일을 아는 글의 비율. 최신성 반감기가 실제로 몇 할에
+            # 걸리는지를 말해 준다 — 나머지는 0.6(6개월 된 글과 같은
+            # 취급)을 받는다. 산식을 공개하기로 했으면 그 산식이 얼마나
+            # 걸리는지도 공개해야 한다.
+            "datedShare": round(
+                sum(1 for m in mentions if m.get("posted_at"))
+                / max(1, len(mentions)), 3),
+            # 그중 **작성일이 실제로 적혀 있던** 글. 나머지는 우리가 처음
+            # 본 날로 채운 것이라 추세(시계열)에는 쓰지 않는다.
+            "realDatedShare": round(
+                sum(1 for m in mentions
+                    if m.get("posted_at")
+                    and m.get("date_source") != "discovery")
+                / max(1, len(mentions)), 3),
             "sources": {
                 "official": "NEIS 학원교습소정보 (open.neis.go.kr)" if config.HAS_NEIS else None,
                 "community": "네이버 검색 API" if config.HAS_NAVER else None,
