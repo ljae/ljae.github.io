@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
+import '../../widgets/annals.dart';
 import '../../widgets/subject_bar.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
@@ -46,6 +47,18 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   PageController? _pages;
   int _page = 0;
 
+  /// 고른 진로 목적지. null 이면 전체를 같은 밝기로 본다.
+  ///
+  /// 판이 모든 길을 같은 밝기로 그리면 '우리 아이 길은 어디냐' 에 답하지
+  /// 못한다. 목적지를 고르면 그 길만 살아나고 관문이 나이 축에 뜬다.
+  ///
+  /// **선택은 이 화면이 갖지 않는다.** 목적성 판(DestinationBoard)과 같은
+  /// 것을 보고 있어야 축을 바꿔도 고른 길이 유지된다 — 화면마다 따로 들면
+  /// 두 판이 같은 그래프의 두 얼굴이라는 사실이 드러나지 않는다.
+  String? get _destId => ref.watch(destinationProvider);
+
+  Destination? get _dest => data.destinationById(_destId);
+
   // 위젯 쪽 상수를 그대로 쓴다. 두 벌로 두면 한쪽만 고쳐진다.
   static const _minGrade = RoadmapView._minGrade;
   static const _maxGrade = RoadmapView._maxGrade;
@@ -87,6 +100,20 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
       subjectOrder,
     ).where((s) => roadmap.stages.any((st) => st.subject == s)).toList();
 
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (data.destinations.isNotEmpty) _destinationBar(context),
+        Expanded(child: _canvas(context, roadmap, subjects)),
+      ],
+    );
+  }
+
+  Widget _canvas(
+    BuildContext context,
+    Roadmap roadmap,
+    List<String> subjects,
+  ) {
     return LayoutBuilder(
       builder: (context, c) {
         if (c.maxWidth < RoadmapView.mobileMaxWidth && subjects.length > 1) {
@@ -116,6 +143,93 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
       },
     );
   }
+
+  /// 진로 목적지 선택 — 「實錄」의 목차에 해당한다.
+  ///
+  /// 고르면 그 길의 단계만 밝아지고, 되돌리기 어려운 지점이 나이 축에 뜬다.
+  Widget _destinationBar(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final d = _dest;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppSpace.sm),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _destChip(context, null, '전체'),
+              for (final x in data.destinations)
+                _destChip(context, x.id, x.label),
+            ],
+          ),
+        ),
+        if (d != null) ...[
+          const SizedBox(height: 7),
+          Wrap(
+            spacing: AppSpace.sm,
+            runSpacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              if (d.summary != null)
+                Text(d.summary!, style: text.bodySmall),
+              // 큐레이션한 길에 데이터가 얼마나 찼는지를 숨기지 않는다.
+              // 학군 기준으로 다시 센다. 파이프라인의 academyCount 는
+              // 전국 합계라, 학군을 바꿔도 숫자가 안 움직여서 그 숫자가
+              // 무엇을 세었는지 알 수 없었다. 판은 학군 하나를 본다.
+              if (d.linkable)
+                TagMark(
+                  '이 길의 학원 '
+                  '${data.destinationAcademyCount(d, regionId: regionId)}곳',
+                  color: AppColors.accentOn(dark),
+                )
+              else
+                const TagMark(
+                  '근거가 얇아 학원을 잇지 않습니다',
+                  color: AppColors.mist,
+                ),
+            ],
+          ),
+        ],
+        const SizedBox(height: 7),
+      ],
+    );
+  }
+
+  Widget _destChip(BuildContext context, String? id, String label) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final on = _destId == id;
+    final accent = AppColors.accentOn(dark);
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: InkWell(
+        onTap: () => ref.read(destinationProvider.notifier).select(id),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          decoration: BoxDecoration(
+            color: on ? accent : Colors.transparent,
+            // 계선(界線)을 따른다 — 이 판에서 둥근 알약은 다른 말투다.
+            border: Border.all(
+              color: on ? accent : AppColors.ruleOn(dark),
+              width: AppRule.hair,
+            ),
+          ),
+          child: Text(
+            label,
+            style: _chipStyle(on, dark),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TextStyle _chipStyle(bool on, bool dark) => TextStyle(
+        fontFamily: 'Paperlogy',
+        fontSize: 12.5,
+        fontWeight: on ? FontWeight.w600 : FontWeight.w400,
+        color: on ? Colors.white : AppColors.inkOn(dark),
+      );
 
   /// 휴대폰용 — 한 과목씩, 옆으로 넘겨서 본다.
   ///
@@ -214,6 +328,11 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
                       milestone: roadmap.milestones
                           .where((m) => m.grade == g)
                           .firstOrNull,
+                      // 되돌리기 어려운 분기점. 목적지를 골랐을 때만 뜬다 —
+                      // 늘 띄우면 어느 길의 관문인지 알 수 없다.
+                      gate: _dest?.gates
+                          .where((x) => x.grade == g)
+                          .firstOrNull,
                     ),
                   ),
                 Positioned.fill(
@@ -231,7 +350,14 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
                 ),
                 for (final st in roadmap.stages)
                   if (subjects.contains(st.subject))
-                    _positioned(context, st, subjects, colW),
+                    _positioned(
+                      context,
+                      st,
+                      subjects,
+                      colW,
+                      // 목적지를 안 골랐으면 전부 같은 밝기(null).
+                      onPath: _dest?.stageIds.contains(st.id),
+                    ),
               ],
             ),
           ),
@@ -279,8 +405,9 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
     BuildContext context,
     RoadmapStage st,
     List<String> subjects,
-    double colW,
-  ) {
+    double colW, {
+    bool? onPath,
+  }) {
     final col = subjects.indexOf(st.subject);
     // 같은 과목 안에서 기간이 겹치는 단계는 lane(0/1)으로 좌우를 나눈다.
     final overlaps = data.roadmap.stages.any(
@@ -301,7 +428,12 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
       left: left,
       width: laneW,
       height: (st.gradeMax - st.gradeMin + 1) * _unitH - 6,
-      child: _StageCard(stage: st, data: data, regionId: regionId),
+      child: _StageCard(
+        stage: st,
+        data: data,
+        regionId: regionId,
+        onPath: onPath,
+      ),
     );
   }
 }
@@ -309,7 +441,12 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
 class _GradeRow extends StatelessWidget {
   final int grade;
   final RoadmapMilestone? milestone;
-  const _GradeRow({required this.grade, this.milestone});
+
+  /// 고른 목적지의 분기점. '언제 갈리는가' 가 학부모의 실제 질문이라
+  /// 이정표(milestone)보다 강하게 적는다.
+  final DestinationGate? gate;
+
+  const _GradeRow({required this.grade, this.milestone, this.gate});
 
   @override
   Widget build(BuildContext context) {
@@ -328,10 +465,12 @@ class _GradeRow extends StatelessWidget {
                 textAlign: TextAlign.right,
                 style: text.bodySmall?.copyWith(
                   fontSize: 11,
-                  fontWeight: milestone != null
+                  fontWeight: (gate != null || milestone != null)
                       ? FontWeight.w800
                       : FontWeight.w400,
-                  color: milestone != null ? AppColors.gold : null,
+                  color: gate != null
+                      ? AppColors.estimated
+                      : (milestone != null ? AppColors.gold : null),
                 ),
               ),
             ),
@@ -342,10 +481,44 @@ class _GradeRow extends StatelessWidget {
               children: [
                 Divider(
                   height: 1,
-                  color: milestone != null
-                      ? AppColors.gold.withValues(alpha: 0.55)
-                      : Theme.of(context).dividerColor.withValues(alpha: 0.5),
+                  thickness: gate != null ? 1.6 : 1,
+                  color: gate != null
+                      ? AppColors.estimated.withValues(alpha: 0.8)
+                      : milestone != null
+                          ? AppColors.gold.withValues(alpha: 0.55)
+                          : Theme.of(context)
+                              .dividerColor
+                              .withValues(alpha: 0.5),
                 ),
+                // 관문을 이정표보다 위에 둔다. 되돌리기 어려운 지점이
+                // 그 나이의 가장 중요한 사실이다.
+                if (gate != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.flag_outlined,
+                          size: 11,
+                          color: AppColors.estimated,
+                        ),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            gate!.note,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: text.bodySmall?.copyWith(
+                              fontSize: 10,
+                              height: 1.3,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.estimated,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 if (milestone != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 2),
@@ -374,10 +547,15 @@ class _StageCard extends StatelessWidget {
   final RoadmapStage stage;
   final EduTreeData data;
   final String regionId;
+  /// 고른 목적지의 길에 속하는가. null 이면 목적지를 안 골랐다는 뜻이라
+  /// 전부 같은 밝기로 둔다 — 아무것도 안 골랐는데 흐려지면 고장으로 보인다.
+  final bool? onPath;
+
   const _StageCard({
     required this.stage,
     required this.data,
     required this.regionId,
+    this.onPath,
   });
 
   /// 카드 아래의 학원 한 줄. 세 상태를 서로 다르게 적는다.
@@ -465,7 +643,10 @@ class _StageCard extends StatelessWidget {
 
     final full = data.stageById[stage.id];
 
-    return InkWell(
+    // 길 밖은 **지우지 않고 흐리게** 둔다. 없애면 '그 과목이 아예 없다' 로
+    // 읽히는데, 사실은 이 목적지가 그 단계를 요구하지 않을 뿐이다.
+    final off = onPath == false;
+    final card = InkWell(
       borderRadius: BorderRadius.circular(AppRadius.sm),
       onTap: full == null
           ? null
@@ -476,10 +657,12 @@ class _StageCard extends StatelessWidget {
           color: dark ? AppColors.darkSurface : AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: stage.roadmapOnly
-                ? AppColors.mist
-                : accent.withValues(alpha: 0.55),
-            width: stage.roadmapOnly ? 1 : 1.4,
+            color: onPath == true
+                ? AppColors.accentOn(dark)
+                : stage.roadmapOnly
+                    ? AppColors.mist
+                    : accent.withValues(alpha: 0.55),
+            width: onPath == true ? 2 : (stage.roadmapOnly ? 1 : 1.4),
           ),
         ),
         child: Column(
@@ -535,6 +718,9 @@ class _StageCard extends StatelessWidget {
         ),
       ),
     );
+    return off
+        ? Opacity(opacity: 0.26, child: IgnorePointer(child: card))
+        : card;
   }
 }
 

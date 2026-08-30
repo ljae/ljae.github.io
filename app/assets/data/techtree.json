@@ -26,6 +26,249 @@
    "note": "내신 체제 시작. 특목·자사 지원 여부가 루트를 가른다."
   }
  ],
+ "destinations": [
+  {
+   "id": "dest_medical",
+   "label": "의대 · 의치한",
+   "axis": "국내입시",
+   "summary": "과탐 II 와 수학 최상위가 갈림길. 영어는 절대평가라 비중이 낮다.",
+   "requires": {
+    "math": [
+     "math_hi_naesin",
+     "math_hi_suneung",
+     "math_hi_top"
+    ],
+    "science": [
+     "sci_hi_naesin",
+     "sci_hi_suneung",
+     "sci_hi_two"
+    ],
+    "korean": [
+     "kor_hi_suneung"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 10,
+     "note": "고1 내신이 사실상 전제. 여기서 대부분 갈린다."
+    },
+    {
+     "grade": 11,
+     "note": "과탐 II 선택. 안 고르면 상위권 지원 폭이 줄어든다."
+    }
+   ],
+   "linkable": true,
+   "stageCounts": {
+    "math_hi_naesin": 20,
+    "math_hi_suneung": 5,
+    "math_hi_top": 5,
+    "sci_hi_naesin": 16,
+    "sci_hi_suneung": 1,
+    "sci_hi_two": 0,
+    "kor_hi_suneung": 2
+   },
+   "academyCount": 42
+  },
+  {
+   "id": "dest_snu_top",
+   "label": "서울대 · 최상위 국내",
+   "axis": "국내입시",
+   "summary": "내신·수능·논술 세 갈래를 모두 열어 두는 가장 넓은 길.",
+   "requires": {
+    "math": [
+     "math_hi_naesin",
+     "math_hi_suneung",
+     "math_hi_top"
+    ],
+    "korean": [
+     "kor_hi_suneung",
+     "kor_hi_nonsul"
+    ],
+    "english": [
+     "eng_hi_suneung",
+     "eng_hi_adv"
+    ],
+    "science": [
+     "sci_hi_suneung"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 10,
+     "note": "내신 산출 시작. 수시·정시 비중이 여기서 정해지기 시작한다."
+    },
+    {
+     "grade": 11,
+     "note": "논술 준비 여부 결정. 대학별 고사는 따로 준비해야 한다."
+    }
+   ],
+   "linkable": true,
+   "stageCounts": {
+    "math_hi_naesin": 20,
+    "math_hi_suneung": 5,
+    "math_hi_top": 5,
+    "kor_hi_suneung": 2,
+    "kor_hi_nonsul": 11,
+    "eng_hi_suneung": 1,
+    "eng_hi_adv": 7,
+    "sci_hi_suneung": 1
+   },
+   "academyCount": 45
+  },
+  {
+   "id": "dest_abroad",
+   "label": "해외대학 · 유학",
+   "axis": "해외",
+   "summary": "국내 입시와 거의 겹치지 않는 길. 초등 영어 축적이 그대로 자산이 된다.",
+   "requires": {
+    "english": [
+     "eng_el_phonics",
+     "eng_el_academy",
+     "eng_el_rw",
+     "eng_mid_test"
+    ],
+    "math": [
+     "math_el_basic",
+     "math_mid_preview"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 1,
+     "note": "리딩 축적이 뒤에 대체 불가. 이 길의 진짜 관문은 초등에 있다."
+    },
+    {
+     "grade": 8,
+     "note": "국내 내신 트랙과 갈라지는 지점. 토플·SAT 로 방향을 튼다."
+    }
+   ],
+   "linkable": true,
+   "stageCounts": {
+    "eng_el_phonics": 18,
+    "eng_el_academy": 50,
+    "eng_el_rw": 16,
+    "eng_mid_test": 0,
+    "math_el_basic": 35,
+    "math_mid_preview": 0
+   },
+   "academyCount": 84
+  },
+  {
+   "id": "dest_science_hs",
+   "label": "영재고 · 과학고",
+   "axis": "특목",
+   "summary": "가장 이르게 갈리는 길. 초4 영재원 선발이 실질적 출발선이다.",
+   "requires": {
+    "math": [
+     "math_el_thinking",
+     "math_el_competition",
+     "math_mid_kmo",
+     "math_mid_yeongjae"
+    ],
+    "science": [
+     "sci_el_lab",
+     "sci_el_gifted",
+     "sci_mid_olympiad"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 4,
+     "note": "영재원 선발. 실적이 이후 루트의 입장권이 된다."
+    },
+    {
+     "grade": 8,
+     "note": "KMO. 이때 시작하면 늦다는 것이 학원가의 통설이다."
+    }
+   ],
+   "linkable": true,
+   "stageCounts": {
+    "math_el_thinking": 15,
+    "math_el_competition": 7,
+    "math_mid_kmo": 0,
+    "math_mid_yeongjae": 0,
+    "sci_el_lab": 18,
+    "sci_el_gifted": 1,
+    "sci_mid_olympiad": 2
+   },
+   "academyCount": 40
+  },
+  {
+   "id": "dest_foreign_hs",
+   "label": "외고 · 국제고 · 자사고",
+   "axis": "특목",
+   "summary": "중등 내신과 영어 공인시험이 함께 간다.",
+   "requires": {
+    "english": [
+     "eng_el_academy",
+     "eng_mid_naesin",
+     "eng_mid_test"
+    ],
+    "math": [
+     "math_mid_naesin",
+     "math_mid_preview"
+    ],
+    "korean": [
+     "kor_mid_naesin",
+     "kor_mid_deep"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 7,
+     "note": "내신 산출 시작. 특목 지원 여부가 여기서 정해진다."
+    }
+   ],
+   "linkable": true,
+   "stageCounts": {
+    "eng_el_academy": 50,
+    "eng_mid_naesin": 33,
+    "eng_mid_test": 0,
+    "math_mid_naesin": 29,
+    "math_mid_preview": 0,
+    "kor_mid_naesin": 26,
+    "kor_mid_deep": 2
+   },
+   "academyCount": 106
+  },
+  {
+   "id": "dest_early",
+   "label": "조기졸업 · 검정고시",
+   "axis": "기타",
+   "summary": "선행을 극대화해 학년을 앞당기는 길. 후기 근거가 얇어 학원을 연결하지 않는다.",
+   "requires": {
+    "math": [
+     "math_el_preview",
+     "math_mid_preview"
+    ]
+   },
+   "gates": [
+    {
+     "grade": 6,
+     "note": "중등 과정 선행 완료 여부가 갈림길."
+    }
+   ],
+   "linkable": false,
+   "stageCounts": {},
+   "academyCount": 0
+  },
+  {
+   "id": "dest_art",
+   "label": "예체능 입시",
+   "axis": "기타",
+   "summary": "실기 중심이라 교과 테크트리와 축이 다르다. 길만 표시하고 단계를 잇지 않는다.",
+   "requires": {},
+   "gates": [
+    {
+     "grade": 9,
+     "note": "예고 지원 여부. 실기 준비 기간을 역산해 정한다."
+    }
+   ],
+   "linkable": false,
+   "stageCounts": {},
+   "academyCount": 0
+  }
+ ],
  "tracks": [
   {
    "id": "math_elem_low",

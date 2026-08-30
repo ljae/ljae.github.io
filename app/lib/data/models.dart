@@ -253,6 +253,13 @@ class Score {
   /// 중립 서술은 분모에서 뺀다 — 넣으면 어디나 25~40%로 몰려 변별이 안 된다.
   final double? positiveRate;
 
+  /// 진입난이도를 숫자 대신 등급으로. high | medium | mentioned | null.
+  ///
+  /// 표본 셋으로 만든 '난이도 74점' 은 정밀해 보이지만 그 정밀도가
+  /// 근거에 없다. 숫자는 트리스코어 계산에만 쓰고 화면에는 등급과
+  /// 인용문을 낸다.
+  final String? selectivityTier;
+
   final Map<String, dynamic> breakdown;
 
   const Score({
@@ -269,6 +276,7 @@ class Score {
     this.rankInRegion,
     this.regionRankedCount,
     this.positiveRate,
+    this.selectivityTier,
     this.breakdown = const {},
   });
 
@@ -284,6 +292,7 @@ class Score {
     isRanked: j['isRanked'] as bool,
     momentumDirection: (j['momentumDirection'] ?? 'stable') as String,
     positiveRate: (j['positiveRate'] as num?)?.toDouble(),
+    selectivityTier: j['selectivityTier'] as String?,
     rankInRegion: (j['rankInRegion'] as num?)?.toInt(),
     regionRankedCount: (j['regionRankedCount'] as num?)?.toInt(),
     breakdown: (j['breakdown'] as Map?)?.cast<String, dynamic>() ?? const {},
@@ -301,6 +310,15 @@ class Score {
     _ => 0,
   };
 
+  /// 진입난이도 등급 표시. 근거가 없으면 null — '쉽다'가 아니라
+  /// '아직 모른다'는 뜻이므로 점수도 등급도 내지 않는다.
+  String? get selectivityLabel => switch (selectivityTier) {
+    'high' => '확인됨 · 높음',
+    'medium' => '확인됨 · 중간',
+    'mentioned' => '언급됨',
+    _ => null,
+  };
+
   /// 표본 0 은 '적다' 가 아니라 '아직 근거가 없다' 다. 둘을 같은 말로
   /// 적으면 50점이 평가 결과처럼 읽힌다.
   String get confidenceLabel => switch (confidence) {
@@ -308,6 +326,129 @@ class Score {
     'medium' => '표본 보통',
     _ => sampleSize == 0 ? '근거 없음' : '표본 부족',
   };
+}
+
+/// 후기에서 뽑아낸 주장 하나. 파이프라인의 claims.py 가 만든다.
+///
+/// 근거를 못 보여주는 값은 싣지 않는다 — 모든 줄이 인용문과 원문 링크를
+/// 갖고, [claimId] 로 '이의'를 받는다. 취소된 줄도 목록에 남는다:
+/// 왜 빠졌는지가 보여야 한다.
+class ClaimEvidence {
+  final String claimId;
+  final String kind;
+  final String label;
+  final String quote;
+  final String? url;
+  final String? postedAt;
+
+  /// active | revoked | stale
+  final String status;
+  final String? revokedReason;
+
+  const ClaimEvidence({
+    required this.claimId,
+    required this.kind,
+    required this.label,
+    required this.quote,
+    this.url,
+    this.postedAt,
+    this.status = 'active',
+    this.revokedReason,
+  });
+
+  factory ClaimEvidence.fromJson(Map<String, dynamic> j) => ClaimEvidence(
+    claimId: j['claimId'] as String,
+    kind: (j['kind'] ?? '') as String,
+    label: (j['label'] ?? '') as String,
+    quote: (j['quote'] ?? '') as String,
+    url: j['url'] as String?,
+    postedAt: j['postedAt'] as String?,
+    status: (j['status'] ?? 'active') as String,
+    revokedReason: j['revokedReason'] as String?,
+  );
+
+  bool get isActive => status == 'active';
+
+  String? get statusLabel => switch (status) {
+    'revoked' => '이의로 제외됨',
+    'stale' => '기한 지남',
+    _ => null,
+  };
+}
+
+/// 운영 사실 한 항목 (숙제량 · 시험 횟수 · 수업 횟수 · 1회 수업).
+///
+/// [text] 가 null 이면 값을 낼 만큼 근거가 없다는 뜻이다. 그때는 숫자를
+/// 지어내지 말고 인용문만 보여준다 — 한 사람의 아이 반 이야기를 그
+/// 학원의 사실로 적으면 그건 측정이 아니라 확대다.
+class FactCard {
+  final String label;
+  final String unit;
+  final String? text;
+  final double? value;
+  final int n;
+
+  /// 값이 지나치게 갈려 중앙값을 낼 수 없는 상태.
+  final bool disputed;
+  final bool stale;
+  final List<ClaimEvidence> quotes;
+
+  /// 학년 구간마다 값이 실제로 다를 때만 채워진다.
+  /// 주2회와 주5회의 평균 3.5회는 어느 반에도 없는 숫자다.
+  final Map<String, FactCard> byBand;
+
+  const FactCard({
+    required this.label,
+    required this.unit,
+    this.text,
+    this.value,
+    required this.n,
+    this.disputed = false,
+    this.stale = false,
+    this.quotes = const [],
+    this.byBand = const {},
+  });
+
+  factory FactCard.fromJson(Map<String, dynamic> j) => FactCard(
+    label: (j['label'] ?? '') as String,
+    unit: (j['unit'] ?? '') as String,
+    text: j['text'] as String?,
+    value: (j['value'] as num?)?.toDouble(),
+    n: (j['n'] as num?)?.toInt() ?? 0,
+    disputed: (j['disputed'] ?? false) as bool,
+    stale: (j['stale'] ?? false) as bool,
+    quotes: ((j['quotes'] as List?) ?? const [])
+        .map((e) => ClaimEvidence.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+    byBand: {
+      for (final e in ((j['byBand'] as Map?) ?? const {}).entries)
+        e.key as String: FactCard.fromJson(
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
+  );
+
+  /// 값을 숫자로 말할 수 있는 상태인가.
+  bool get hasValue => text != null;
+}
+
+/// 이 학원 근거 중 이의로 빠진 비율.
+class DisputeRate {
+  final int total;
+  final int dropped;
+  final double rate;
+
+  const DisputeRate({
+    required this.total,
+    required this.dropped,
+    required this.rate,
+  });
+
+  factory DisputeRate.fromJson(Map<String, dynamic> j) => DisputeRate(
+    total: (j['total'] as num?)?.toInt() ?? 0,
+    dropped: (j['dropped'] as num?)?.toInt() ?? 0,
+    rate: (j['rate'] as num?)?.toDouble() ?? 0,
+  );
 }
 
 class Evidence {
@@ -405,6 +546,20 @@ class Academy {
   final Map<String, Score> subjectScores;
   final List<Evidence> evidence;
 
+  /// 학부모가 실제로 묻는 것 — 숙제량·시험 횟수·수업 시간.
+  ///
+  /// 점수가 아니라 **사실**이라 트리스코어에 들어가지 않는다. 숙제가 많은
+  /// 것은 좋은 것도 나쁜 것도 아니고, 순위로 바꾸는 순간 그 값이 무엇을
+  /// 뜻하는지 설명할 수 없다. 모든 줄이 인용문과 원문 링크를 갖는다.
+  final Map<String, FactCard> facts;
+
+  /// 진입난이도의 근거 인용문. 줄마다 claimId 가 있어 '이의'를 받는다.
+  /// 취소된 줄도 들어 있다 — 왜 빠졌는지가 보여야 한다.
+  final List<ClaimEvidence> selectivityEvidence;
+
+  /// 이 학원 근거 중 이의로 빠진 비율. **숨기면 그 자체가 왜곡이다.**
+  final DisputeRate? disputeRate;
+
   const Academy({
     required this.id,
     required this.name,
@@ -431,6 +586,9 @@ class Academy {
     required this.score,
     this.subjectScores = const {},
     required this.evidence,
+    this.facts = const {},
+    this.selectivityEvidence = const [],
+    this.disputeRate,
   });
 
   factory Academy.fromJson(Map<String, dynamic> j) => Academy(
@@ -469,6 +627,20 @@ class Academy {
     evidence: ((j['evidence'] as List?) ?? const [])
         .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
         .toList(),
+    facts: {
+      for (final e in ((j['facts'] as Map?) ?? const {}).entries)
+        e.key as String: FactCard.fromJson(
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
+    selectivityEvidence: ((j['selectivityEvidence'] as List?) ?? const [])
+        .map((e) => ClaimEvidence.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+    disputeRate: j['disputeRate'] == null
+        ? null
+        : DisputeRate.fromJson(
+            (j['disputeRate'] as Map).cast<String, dynamic>(),
+          ),
   );
 
   /// 큐레이션 브랜드명(brand)을 표시에 쓰지 않는다. 브랜드는 지점을
@@ -558,7 +730,9 @@ class Meta {
     required this.registryCount,
     required this.mentionCount,
     required this.weights,
-    required this.nonAcademicWeights,
+    // 옛 번들·시험 픽스처는 이 값을 모른다. 비워 두면 기둥 막대를 그리지
+    // 않을 뿐이라 안전하게 물러선다 — 진짜 값은 언제나 meta.json 이 준다.
+    this.nonAcademicWeights = const {},
     required this.minSampleForRank,
     required this.reputationPriorCount,
     required this.recencyHalflifeDays,
@@ -884,6 +1058,147 @@ class NearbySchool {
 /// 5세 영어 → 6세 수학 → 7세 국어 → 초4 재편으로 이어지는 흐름은
 /// 과목을 나란히 놓아야 보인다. 유아 단계(roadmapOnly)는 방향 안내일
 /// 뿐 랭킹과 연결되지 않는다.
+/// 되돌리기 어려운 분기점. "언제 갈리는가" 가 학부모의 실제 질문이다.
+class DestinationGate {
+  final int grade;
+  final String note;
+  const DestinationGate({required this.grade, required this.note});
+
+  factory DestinationGate.fromJson(Map<String, dynamic> j) => DestinationGate(
+        grade: (j['grade'] as num).toInt(),
+        note: (j['note'] ?? '') as String,
+      );
+}
+
+/// 진로 목적지 — 테크트리의 종점.
+///
+/// 단계가 '무엇을 배우는가' 라면 목적지는 '어디로 가는가' 다.
+/// **큐레이션이다** — 후기에서 추론하지 않는다. 목적지 신호는 글 2.3%
+/// 뿐이라 학원에 딱지를 붙일 수는 없지만, '의대는 과탐II를 지난다' 는
+/// 이미 아는 사실이라 사람이 적는다.
+class Destination {
+  final String id;
+  final String label;
+
+  /// 국내입시 · 해외 · 특목 · 기타
+  final String axis;
+  final String? summary;
+
+  /// 과목 → 지나야 하는 단계 id
+  final Map<String, List<String>> requires;
+  final List<DestinationGate> gates;
+
+  /// false 면 학원을 잇지 않는다. 근거가 얇은 목적지(조기졸업·예체능)는
+  /// 길만 보여 주고 누가 그 길인지는 말하지 않는다.
+  final bool linkable;
+
+  /// 단계 id → 그 단계에 붙은 학원 수. 길의 어느 대목이 비었는지 보인다.
+  ///
+  /// **전국 합계다 — 화면에 그대로 쓰지 말 것.** 판은 늘 학군 하나를
+  /// 보고 있어서, 이 값을 적으면 학군을 바꿔도 숫자가 안 움직인다.
+  /// 그러면 그 숫자가 무엇을 세었는지 알 수 없고, 바로 아래 목록의
+  /// 길이와도 어긋난다. 화면은 `EduTreeData.legFor` 로 다시 센다.
+  /// 이 값은 빌드 진단용이다(학군 '전체'일 때 같은 수가 나온다).
+  final Map<String, int> stageCounts;
+
+  /// 이 길에 놓인 학원 수(중복 제거). 이것도 전국 합계다 —
+  /// 화면은 `EduTreeData.destinationAcademyCount` 를 쓴다.
+  final int academyCount;
+
+  const Destination({
+    required this.id,
+    required this.label,
+    required this.axis,
+    this.summary,
+    this.requires = const {},
+    this.gates = const [],
+    this.linkable = true,
+    this.stageCounts = const {},
+    this.academyCount = 0,
+  });
+
+  /// 이 목적지가 지나는 모든 단계.
+  Set<String> get stageIds =>
+      {for (final ids in requires.values) ...ids};
+
+  /// 이 길이 지나는 과목 — 표준 순서로.
+  ///
+  /// `requires` 의 키 순서를 그대로 쓰지 않는다. 그건 사람이 yaml 에 적은
+  /// 차례라 목적지마다 다르고, 그러면 판의 열이 행마다 흔들린다.
+  List<String> get subjects =>
+      orderedSubjects(requires.keys.where((s) => (requires[s] ?? const []).isNotEmpty));
+
+  /// 가장 이른 관문의 학년. 없으면 null.
+  /// '언제 갈리는가' 가 학부모의 실제 질문이라 판의 한 칸을 이것에 준다.
+  int? get firstGateGrade =>
+      gates.isEmpty ? null : gates.map((g) => g.grade).reduce((a, b) => a < b ? a : b);
+
+  factory Destination.fromJson(Map<String, dynamic> j) => Destination(
+        id: j['id'] as String,
+        label: j['label'] as String,
+        axis: (j['axis'] ?? '기타') as String,
+        summary: j['summary'] as String?,
+        requires: ((j['requires'] as Map?) ?? const {}).map((k, v) =>
+            MapEntry(k as String, (v as List).cast<String>())),
+        gates: ((j['gates'] as List?) ?? const [])
+            .map((e) =>
+                DestinationGate.fromJson((e as Map).cast<String, dynamic>()))
+            .toList(),
+        linkable: (j['linkable'] ?? true) as bool,
+        stageCounts: ((j['stageCounts'] as Map?) ?? const {})
+            .map((k, v) => MapEntry(k as String, (v as num).toInt())),
+        academyCount: (j['academyCount'] as num?)?.toInt() ?? 0,
+      );
+}
+
+/// 목적지 × 과목 한 칸 — 목적성 판의 최소 단위.
+///
+/// **목적지 하나에 학원을 한 줄로 세우지 않는다.** 의대의 수학 학원과
+/// 과학 학원을 한 줄에 세우면 그 순위가 무엇을 뜻하는지 설명할 수 없다 —
+/// 예체능을 학술과 한 줄에 세우지 않는 것과 같은 이유다. 그래서 목적지의
+/// 최소 단위는 목적지가 아니라 (목적지 × 과목)이다. 학부모의 질문도
+/// 실은 이 단위다: '의대를 보려면 **수학은** 어디까지인가'.
+class DestinationLeg {
+  final String destId;
+  final String subject;
+
+  /// 나이 순으로 세운 단계. 길은 시간 순으로 읽힌다.
+  final List<Stage> stages;
+
+  /// 단계 id → 그 단계에 근거가 있는 학원 수 (선택 학군 기준).
+  final Map<String, int> counts;
+
+  /// 이 칸에 놓인 학원 수(중복 제거). 단계 수의 합이 아니다 —
+  /// 한 학원이 여러 단계를 담당한다.
+  final int academyCount;
+
+  /// false 면 학원을 잇지 않기로 한 길이다(조기졸업·예체능).
+  /// **'안 이었다'와 '이었는데 비었다'는 다른 상태다.**
+  final bool linkable;
+
+  const DestinationLeg({
+    required this.destId,
+    required this.subject,
+    required this.stages,
+    this.counts = const {},
+    this.academyCount = 0,
+    this.linkable = true,
+  });
+
+  /// 이 목적지가 이 과목을 아예 지나지 않는다.
+  bool get isOffPath => stages.isEmpty;
+
+  /// 지나기는 하는데 학원이 하나도 없다. 큐레이션한 길의 빈 대목이다.
+  bool get isEmpty => !isOffPath && linkable && academyCount == 0;
+
+  int countOf(String stageId) => counts[stageId] ?? 0;
+
+  /// 요구는 하는데 학원이 하나도 없는 단계.
+  /// 숨기면 채워진 길처럼 읽힌다 — 어디가 비었는지가 이 판의 정보다.
+  List<Stage> get emptyStages =>
+      [for (final s in stages) if (countOf(s.id) == 0) s];
+}
+
 class Roadmap {
   final List<RoadmapMilestone> milestones;
   final List<RoadmapStage> stages;

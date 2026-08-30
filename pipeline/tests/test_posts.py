@@ -633,3 +633,41 @@ def test_뷰티는_이름_규칙에_넣지_않는다():
         {"name": "와이코딩정보교습소", "realm_sc_nm": "정보"})
     assert not config.is_vocational(
         {"name": "은마바둑교습소", "realm_sc_nm": "기타(대)"})
+
+
+# ── 진로 목적지 (테크트리 종점) ──────────────────────────────────
+def test_목적지가_참조하는_단계는_전부_실재한다():
+    """오타를 그냥 두면 경로가 **조용히 비어** 목적지 카드가 빈 채로
+    나가고, 그건 '이 길이 없다' 는 거짓말이 된다."""
+    from edutree import config
+    tree = config.techtree()
+    valid = {s["id"] for t in tree["tracks"] for s in t["stages"]}
+    dests = config.destinations()
+    assert len(dests) == 7
+    for d in dests:
+        for subject, ids in d["requires"].items():
+            assert ids, f"{d['id']} 의 {subject} 경로가 비었다"
+            for i in ids:
+                assert i in valid, f"{d['id']} → 없는 단계 {i}"
+
+
+def test_근거가_얇은_목적지는_학원을_잇지_않는다():
+    """조기졸업 15건 · 예체능 28건. 길이 있다는 것은 보여 주되
+    누가 그 길인지는 말하지 않는다."""
+    from edutree import config
+    by = {d["id"]: d for d in config.destinations()}
+    assert by["dest_early"]["linkable"] is False
+    assert by["dest_art"]["linkable"] is False
+    # 근거가 선 목적지는 잇는다.
+    for k in ("dest_medical", "dest_abroad", "dest_science_hs"):
+        assert by[k]["linkable"] is True
+
+
+def test_목적지마다_되돌리기_어려운_지점이_있다():
+    """'언제 갈리는가' 가 이 서비스가 줄 수 있는 가장 실용적인 정보다."""
+    from edutree import config
+    for d in config.destinations():
+        assert d.get("gates"), f"{d['id']} 에 관문이 없다"
+        for g in d["gates"]:
+            assert -2 <= g["grade"] <= 12
+            assert g["note"].strip()

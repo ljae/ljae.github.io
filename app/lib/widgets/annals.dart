@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../core/brand.dart';
 import '../core/theme.dart';
 
 /// 「實錄」 조형 요소 — 이 파일이 새 디자인의 서명이다.
@@ -11,6 +12,7 @@ import '../core/theme.dart';
 /// 새 화면을 만들 때는 Card·Chip 을 새로 그리기 전에 여기를 먼저 볼 것.
 ///
 ///   [PaperGround]   한지 바탕 + 계선(界線) + 결
+///   [LogoMark]      로고 표장. 계선 둘 사이로 계단이 오른다
 ///   [Seal]          낙관(落款). 검증·1위 같은 **단정**에만 찍는다
 ///   [LedgerNumber]  장부 숫자. 등수·점수·수량
 ///   [Rule]          계선 한 줄
@@ -116,6 +118,79 @@ class _GyeseonPainter extends CustomPainter {
   @override
   bool shouldRepaint(_GyeseonPainter old) =>
       old.rule != rule || old.column != column || old.grain != grain;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// 표장(標章)
+// ─────────────────────────────────────────────────────────────────────
+
+/// 로고 마크. 계선 둘 사이로 계단이 오르고 그 끝에 주묵이 찍힌다.
+///
+/// **래스터를 쓰지 않는다.** PNG 한 장으로는 두 판을 못 맞춘다 — 한지
+/// 바탕에 맞춘 먹빛 마크는 먹빛 판면에서 사라지고, 바탕을 깔면 어두운
+/// 헤더에 흰 딱지가 붙는다. 도형이 사각형 일곱 개뿐이라 그릴 값이다.
+///
+/// 좌표는 `brand/build_marks.py` 의 작은 판과 **같은 48단위 격자**다.
+/// 로고를 고치면 그쪽을 고치고 이 표를 맞춰 옮긴다 — 두 곳에 있는 것은
+/// 알지만, 파비콘·앱아이콘을 파이썬이 내고 화면은 다트가 그리므로
+/// 한쪽만 두면 다른 쪽이 못 읽는다.
+class LogoMark extends StatelessWidget {
+  final double size;
+  const LogoMark({super.key, this.size = 28});
+
+  /// 48단위 격자 위의 사각형 (x, y, w, h). 마지막 하나가 주묵이다.
+  static const _grid = 48.0;
+  static const _ink = <List<double>>[
+    [3, 6, 3, 36], // 왼쪽 계선
+    [42, 6, 3, 36], // 오른쪽 계선
+    [12, 27, 6, 15], // 리서 1
+    [12, 27, 15, 6], // 트레드 1
+    [21, 15, 6, 18], // 리서 2
+    [21, 15, 15, 6], // 트레드 2
+  ];
+  static const _tip = <double>[30, 6, 6, 9];
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    // 접근성 라벨은 **바깥에서** 감싼다. `CustomPaint` 는 자식이 있으면
+    // 제 `size` 를 버리고 자식 크기를 따르므로, 라벨을 자식으로 넣으면
+    // 마크가 0×0 으로 접힌다 — 여기서 한 번 틀렸고 시험이 잡았다.
+    return Semantics(
+      label: Brand.name,
+      image: true,
+      child: CustomPaint(
+        size: Size.square(size),
+        painter: _LogoPainter(
+          ink: AppColors.inkOn(dark),
+          accent: AppColors.accentOn(dark),
+        ),
+      ),
+    );
+  }
+}
+
+class _LogoPainter extends CustomPainter {
+  final Color ink;
+  final Color accent;
+  const _LogoPainter({required this.ink, required this.accent});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = size.shortestSide / LogoMark._grid;
+    void box(List<double> r, Color c) => canvas.drawRect(
+      Rect.fromLTWH(r[0] * k, r[1] * k, r[2] * k, r[3] * k),
+      Paint()..color = c,
+    );
+    for (final r in LogoMark._ink) {
+      box(r, ink);
+    }
+    box(LogoMark._tip, accent);
+  }
+
+  @override
+  bool shouldRepaint(_LogoPainter old) =>
+      old.ink != ink || old.accent != accent;
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -631,7 +706,12 @@ class TagMark extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(icon == null ? 8 : 7, 4, 8, 4.5),
       decoration: BoxDecoration(
         color: filled ? color : color.withValues(alpha: dark ? 0.10 : 0.07),
-        borderRadius: BorderRadius.circular(AppRadius.sm),
+        // 모서리를 굴리지 않는다. **왼쪽만 굵은 획인 테두리에는 반경을
+        // 줄 수 없다** — Flutter 가 페인트 단계에서 막는다(색·굵기가
+        // 균일한 테두리에만 borderRadius 를 허용한다). 릴리스에서는
+        // assert 가 꺼져 조용히 지나가지만, 그건 고쳐진 게 아니라
+        // 안 보이는 것이다. 2px 짜리 반경은 이 크기에서 눈에도 안 띄고,
+        // 각진 칸이 이 판면의 말투이기도 하다.
         border: Border(
           left: BorderSide(color: color, width: AppRule.bold),
           top: BorderSide(

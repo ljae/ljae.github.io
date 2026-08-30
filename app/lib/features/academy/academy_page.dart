@@ -8,6 +8,7 @@ import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
+import '../../data/claim_disputes.dart';
 import '../../data/corrections.dart';
 import '../../data/leveltests.dart';
 import '../../widgets/rank_history_chart.dart';
@@ -52,6 +53,22 @@ class _Body extends StatelessWidget {
     final stages = academy.stages
         .map((s) => data.stageById[s])
         .whereType<Stage>()
+        .toList();
+
+    // 이 학원의 단계가 놓인 진로 목적지 — 학원 → 목적지 방향.
+    //
+    // **근거가 확실한 단계만 쓴다.** 'inferred'(단서 없이 과목·학년의
+    // 대표 단계로 추정)까지 끌어오면 실명 사업자에게 근거 없이 '의대
+    // 학원' 딱지를 붙이는 셈이 된다 — 해시로 단계를 흩뿌리던 것을
+    // 없앤 것과 같은 이유다. 'band' 는 애초에 데이터에 없다.
+    final sure = {
+      for (final id in academy.stages)
+        if (academy.stageBasisOf(id) == 'curated' ||
+            academy.stageBasisOf(id) == 'hinted')
+          id,
+    };
+    final routes = data.destinations
+        .where((d) => d.linkable && d.stageIds.any(sure.contains))
         .toList();
     final dark = Theme.of(context).brightness == Brightness.dark;
 
@@ -197,6 +214,33 @@ class _Body extends StatelessWidget {
               ],
               const SizedBox(height: AppSpace.xl),
 
+              // ── 학부모가 묻는 것 ────────────────────────────
+              // 점수가 아니라 사실이다. 트리스코어에 들어가지 않는다 —
+              // 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
+              if (academy.facts.isNotEmpty) ...[
+                const SectionHeader(
+                  '수업과 과제',
+                  subtitle:
+                      '후기에서 뽑은 사실입니다. 점수에는 들어가지 않습니다. '
+                      '근거가 한 건뿐이면 숫자를 내지 않습니다.',
+                ),
+                _FactCards(academy: academy),
+                const SizedBox(height: AppSpace.xl),
+              ],
+
+              // ── 진입난이도 근거 ─────────────────────────────
+              if (academy.selectivityEvidence.isNotEmpty) ...[
+                SectionHeader(
+                  '진입난이도 근거',
+                  subtitle: score.selectivityLabel == null
+                      ? '진입 관련 후기가 아직 없습니다.'
+                      : '후기에서 확인된 사건입니다 (${score.selectivityLabel}). '
+                            '틀린 줄이 있으면 이의를 눌러 주세요.',
+                ),
+                _SelectivityEvidence(academy: academy),
+                const SizedBox(height: AppSpace.xl),
+              ],
+
               // ── 공식 정보 ──────────────────────────────────
               SectionHeader(
                 '공식 등록 정보',
@@ -251,6 +295,38 @@ class _Body extends StatelessWidget {
                       ),
                   ],
                 ),
+                if (routes.isNotEmpty) ...[
+                  const SizedBox(height: AppSpace.md),
+                  Text('이 단계들이 놓인 길', style: text.labelMedium),
+                  const SizedBox(height: 2),
+                  Text(
+                    '이 학원이 그 진로를 표방한다는 뜻이 아니라, 담당 단계가 '
+                    '그 길 위에 있다는 뜻입니다. 근거가 분명한 단계만 셉니다.',
+                    style: text.bodySmall,
+                  ),
+                  const SizedBox(height: 5),
+                  Consumer(
+                    builder: (context, ref, _) => Wrap(
+                      spacing: AppSpace.sm,
+                      runSpacing: 4,
+                      children: [
+                        for (final d in routes)
+                          InkWell(
+                            onTap: () {
+                              ref
+                                  .read(destinationProvider.notifier)
+                                  .select(d.id);
+                              context.go('/tree');
+                            },
+                            child: TagMark(
+                              d.label,
+                              color: AppColors.accentOn(dark),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: AppSpace.md),
                 for (final s in stages)
                   if (s.exitCriteria != null && s.exitCriteria!.isNotEmpty)
@@ -971,6 +1047,344 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
             ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// 운영 사실 카드 — 숙제량 · 시험 횟수 · 수업 횟수 · 1회 수업.
+///
+/// 근거 건수에 따라 말할 수 있는 것이 다르다. 1건이면 숫자를 내지 않고
+/// 인용문만 보여준다 — 한 사람의 아이 반 이야기를 그 학원의 사실로
+/// 적으면 그건 측정이 아니라 확대다.
+class _FactCards extends StatelessWidget {
+  final Academy academy;
+  const _FactCards({required this.academy});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    // 파생값(주당 수업시간)을 맨 앞에. 학부모가 가장 먼저 보는 숫자다.
+    final keys = academy.facts.keys.toList()
+      ..sort((a, b) {
+        if (a.startsWith('derived.') != b.startsWith('derived.')) {
+          return a.startsWith('derived.') ? -1 : 1;
+        }
+        return a.compareTo(b);
+      });
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpace.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final k in keys) _factRow(context, t, academy.facts[k]!),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _factRow(BuildContext context, ThemeData t, FactCard card) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 7),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 96,
+              child: Text(card.label, style: t.textTheme.labelMedium),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    // 값이 없으면 숫자 자리를 비운다. '—'조차 값처럼
+                    // 읽히므로 무엇이 없는지를 말로 적는다.
+                    card.hasValue ? card.text! : '후기 ${card.n}건 · 값을 내기엔 부족',
+                    style: t.textTheme.bodyLarge?.copyWith(
+                      color: card.stale ? t.disabledColor : null,
+                      fontWeight: card.hasValue ? FontWeight.w600 : null,
+                    ),
+                  ),
+                  Text(
+                    [
+                      '후기 ${card.n}건',
+                      if (card.stale) '1년 이상 지난 값',
+                      if (card.disputed) '후기마다 달라 하나로 정하지 않음',
+                    ].join(' · '),
+                    style: t.textTheme.bodySmall?.copyWith(
+                      color: t.disabledColor,
+                    ),
+                  ),
+                  // 구간마다 값이 실제로 다르면 갈라서 보여준다. 합치면
+                  // 어느 반에도 없는 평균이 된다.
+                  for (final e in card.byBand.entries)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        '${e.value.label} · ${e.value.text ?? "근거 부족"}',
+                        style: t.textTheme.bodySmall,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        if (card.quotes.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 96, top: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final q in card.quotes.take(2))
+                  _ClaimQuote(academy: academy, claim: q),
+              ],
+            ),
+          ),
+      ],
+    ),
+  );
+}
+
+/// 진입난이도 근거. 줄마다 인용문과 '이의'.
+///
+/// 근거를 못 보여주는 점수는 내지 않는다는 원칙의 화면 쪽 절반이다.
+class _SelectivityEvidence extends StatelessWidget {
+  final Academy academy;
+  const _SelectivityEvidence({required this.academy});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    final rate = academy.disputeRate;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpace.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (final c in academy.selectivityEvidence)
+              _ClaimQuote(academy: academy, claim: c, showLabel: true),
+            // 얼마나 빠졌는지를 숨기지 않는다. 숨기면 그 자체가 왜곡이다 —
+            // 취소가 불리한 근거만 지우는 통로가 될 수 있다.
+            if (rate != null && rate.dropped > 0)
+              Padding(
+                padding: const EdgeInsets.only(top: AppSpace.sm),
+                child: Text(
+                  '근거 ${rate.total}건 중 ${rate.dropped}건이 이의로 제외됐습니다.',
+                  style: t.textTheme.bodySmall?.copyWith(
+                    color: t.disabledColor,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// 인용문 한 줄 + 출처 + 이의.
+class _ClaimQuote extends ConsumerWidget {
+  final Academy academy;
+  final ClaimEvidence claim;
+  final bool showLabel;
+  const _ClaimQuote({
+    required this.academy,
+    required this.claim,
+    this.showLabel = false,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = Theme.of(context);
+    final dead = !claim.isActive;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (showLabel)
+                  Text(
+                    claim.label,
+                    style: t.textTheme.labelSmall?.copyWith(
+                      color: dead ? t.disabledColor : t.colorScheme.primary,
+                    ),
+                  ),
+                Text(
+                  '“${claim.quote}”',
+                  style: t.textTheme.bodySmall?.copyWith(
+                    color: dead ? t.disabledColor : null,
+                    decoration: dead ? TextDecoration.lineThrough : null,
+                  ),
+                ),
+                Text(
+                  [
+                    if (claim.postedAt != null) claim.postedAt!,
+                    // 왜 빠졌는지가 보여야 한다. 그냥 사라지면 다음 사람이
+                    // 같은 이의를 다시 제기한다.
+                    if (dead) claim.statusLabel!,
+                    if (claim.revokedReason != null) claim.revokedReason!,
+                  ].join(' · '),
+                  style: t.textTheme.labelSmall?.copyWith(
+                    color: t.disabledColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (claim.url != null)
+            IconButton(
+              tooltip: '원문 보기',
+              icon: const Icon(Icons.open_in_new, size: 16),
+              onPressed: () => launchUrl(
+                Uri.parse(claim.url!),
+                mode: LaunchMode.externalApplication,
+              ),
+            ),
+          if (!dead && ref.read(claimDisputeServiceProvider).enabled)
+            TextButton(
+              onPressed: () => _openDisputeSheet(context, ref),
+              child: const Text('이의'),
+            ),
+        ],
+      ),
+    );
+  }
+
+  void _openDisputeSheet(BuildContext context, WidgetRef ref) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) => _DisputeSheet(academy: academy, claim: claim),
+    );
+  }
+}
+
+/// 이의 접수 시트.
+///
+/// 사유를 반드시 받는다. 이유 모르는 제외는 나중에 지우지도 못하고
+/// 남는다 — crawl_rules 가 reason 을 요구하는 것과 같은 이유다.
+class _DisputeSheet extends ConsumerStatefulWidget {
+  final Academy academy;
+  final ClaimEvidence claim;
+  const _DisputeSheet({required this.academy, required this.claim});
+
+  @override
+  ConsumerState<_DisputeSheet> createState() => _DisputeSheetState();
+}
+
+class _DisputeSheetState extends ConsumerState<_DisputeSheet> {
+  DisputeReason? _reason;
+  final _note = TextEditingController();
+  bool _sending = false;
+  bool _sent = false;
+
+  @override
+  void dispose() {
+    _note.dispose();
+    super.dispose();
+  }
+
+  Future<void> _send() async {
+    if (_reason == null || _sending) return;
+    setState(() => _sending = true);
+    try {
+      await ref
+          .read(claimDisputeServiceProvider)
+          .submit(
+            claimId: widget.claim.claimId,
+            academyKey: widget.academy.id,
+            claimKind: widget.claim.kind,
+            quote: widget.claim.quote,
+            reason: _reason!,
+            note: _note.text.trim().isEmpty ? null : _note.text.trim(),
+          );
+      if (mounted) setState(() => _sent = true);
+    } catch (e) {
+      if (mounted) {
+        setState(() => _sending = false);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('접수하지 못했습니다: $e')));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        left: AppSpace.md,
+        right: AppSpace.md,
+        top: AppSpace.md,
+        bottom: MediaQuery.of(context).viewInsets.bottom + AppSpace.md,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('이 근거에 이의', style: t.textTheme.titleMedium),
+          const SizedBox(height: AppSpace.sm),
+          Text('“${widget.claim.quote}”', style: t.textTheme.bodySmall),
+          const SizedBox(height: AppSpace.md),
+          if (_sent) ...[
+            Text(
+              '접수됐습니다. 운영자가 확인한 뒤 다음 갱신에 반영됩니다.\n'
+              '바로 지워지지 않는 이유: 접수가 곧 편집권이 되면 그것도 왜곡입니다.',
+              style: t.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: AppSpace.md),
+            Align(
+              alignment: Alignment.centerRight,
+              child: FilledButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('닫기'),
+              ),
+            ),
+          ] else ...[
+            Wrap(
+              spacing: AppSpace.sm,
+              runSpacing: AppSpace.xs,
+              children: [
+                for (final r in DisputeReason.values)
+                  ChoiceChip(
+                    label: Text(r.label),
+                    selected: _reason == r,
+                    onSelected: (on) => setState(() => _reason = on ? r : null),
+                  ),
+              ],
+            ),
+            const SizedBox(height: AppSpace.sm),
+            TextField(
+              controller: _note,
+              maxLength: 200,
+              decoration: const InputDecoration(
+                labelText: '덧붙일 말 (선택)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: AppSpace.sm),
+            Align(
+              alignment: Alignment.centerRight,
+              child: FilledButton(
+                onPressed: _reason == null || _sending ? null : _send,
+                child: Text(_sending ? '보내는 중…' : '이의 접수'),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

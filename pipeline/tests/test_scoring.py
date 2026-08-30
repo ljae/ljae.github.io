@@ -212,6 +212,25 @@ def test_실효_기여를_잰다_그리고_역전을_알린다():
     assert any("역전" in w for w in warnings)
 
 
+def test_가중치가_같은데_영향이_갈리면_알린다():
+    """역전만 보면 놓친다. 같은 0.35 를 주었는데 한쪽이 두 배로 순위를
+    가르면 '두 기둥을 똑같이 본다' 는 공개된 설명이 사실이 아니게 된다.
+    이 서비스의 첫 사고가 정확히 그것이었다(평판 0.87 대 진입 3.27)."""
+    def row(rep, sel):
+        return {"subject_group": "academic", "sample_size": 20,
+                "reputation": rep, "selectivity": sel,
+                "momentum": 50.0, "transparency": 50.0}
+
+    # 평판은 49~51 로 좁고, 진입난이도는 20~80 으로 넓다 — 가중치는 같다.
+    scores = {
+        "A": {"math": row(49.0, 20.0)},
+        "B": {"math": row(51.0, 80.0)},
+    }
+    assert config.WEIGHTS["reputation"] == config.WEIGHTS["selectivity"]
+    warnings = scoring.audit_contribution(scores)
+    assert any("쏠림" in w for w in warnings)
+
+
 def test_최신성은_날짜를_모르는_글을_중간으로_둔다():
     """모르는 것을 최신으로도, 오래된 것으로도 취급하지 않는다."""
     assert scoring.recency_weight(None) == 0.6
@@ -229,9 +248,29 @@ def test_교습비는_투명성_배점에_없다():
 
 
 def test_총점은_공개된_가중치의_가중합이다():
-    """산식을 공개하기로 했으면 총점이 그 산식대로 나와야 한다."""
+    """산식을 공개하기로 했으면 총점이 **그 화면에 적힌 산식대로** 나와야 한다.
+
+    ★ `config.WEIGHTS` 가 아니라 `breakdown['weights']` 로 견준다.
+      근거가 없는 기둥은 채우지 않고 빼며, 남은 기둥으로 가중치를 다시
+      나눈다. 그래서 학원마다 적용된 저울이 다를 수 있고, 화면은 그
+      저울을 그대로 찍는다 — 검증해야 하는 것은 화면에 적힌 쪽이다.
+    """
     ms = [m() for _ in range(15)]
     s = scoring.compute(academy(), ms, cohort())
-    w = config.WEIGHTS
+    w = s["breakdown"]["weights"]
+    assert abs(sum(w.values()) - 1.0) < 1e-9, "공개하는 가중치의 합은 정확히 1"
+    assert all(s[k] is not None for k in w), "저울에 오른 기둥은 값이 있어야 한다"
     assert abs(s["total"] - sum(w[k] * s[k] for k in w)) < 0.06
-    _ = date
+
+
+def test_근거가_없는_기둥은_채우지_않고_뺀다():
+    """없는 값을 코호트 평균으로 채우면 '모른다' 가 '보통' 이 되고,
+    0 으로 치면 '쉽다' 가 된다. 진입 관련 후기가 없으면 그 기둥을 빼고
+    남은 것으로 다시 나눈다 — 그래야 총점이 '우리가 아는 것만으로 매긴
+    점수' 라고 말할 수 있다."""
+    ms = [m() for _ in range(15)]          # 진입 사건이 없는 글들
+    s = scoring.compute(academy(), ms, cohort())
+    assert s["selectivity"] is None
+    assert "selectivity" not in s["breakdown"]["weights"]
+    assert abs(sum(s["breakdown"]["weights"].values()) - 1.0) < 1e-9
+    _ = (config, date)

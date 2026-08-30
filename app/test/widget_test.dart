@@ -9,6 +9,7 @@ import 'package:edutree/data/repository.dart';
 import 'package:edutree/widgets/annals.dart';
 import 'package:edutree/widgets/scroll_stage.dart';
 import 'package:edutree/widgets/wheel_selector.dart';
+import 'package:edutree/features/techtree/destination_board.dart';
 import 'package:edutree/features/techtree/roadmap_view.dart';
 
 void main() {
@@ -171,7 +172,6 @@ void main() {
         registryCount: 0,
         mentionCount: 0,
         weights: {},
-        nonAcademicWeights: {},
         minSampleForRank: 10,
         reputationPriorCount: 12,
         recencyHalflifeDays: 180,
@@ -212,6 +212,51 @@ void main() {
       findsNothing,
       reason: '넓은 화면에서는 네 과목을 나란히 둔다',
     );
+  });
+
+  group('로고 표장(LogoMark)', () {
+    // 로고를 PNG 에서 그리기로 바꾼 **이유가 이것 하나**다. 한지 바탕에
+    // 맞춘 먹빛 마크는 먹빛 판면에서 사라지고, 바탕을 깔면 어두운 헤더에
+    // 흰 딱지가 붙는다. 다시 래스터로 돌아가면 이 시험이 먼저 깨진다.
+    testWidgets('먹빛 판면에서 색이 뒤집힌다', (tester) async {
+      Future<Color> inkOf(Brightness b) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: ThemeData(brightness: b),
+            home: const Scaffold(body: Center(child: LogoMark(size: 48))),
+          ),
+        );
+        // **MaterialApp 은 테마를 200ms 에 걸쳐 보간한다**(AnimatedTheme).
+        // 두 번째 pump 직후에 읽으면 아직 앞 테마 쪽 값이라, 다크로 바꿔
+        // 놓고도 밝은 색을 보게 된다 — 여기서 한 번 속았다.
+        await tester.pumpAndSettle();
+        final paint = tester.widget<CustomPaint>(
+          find.descendant(
+            of: find.byType(LogoMark),
+            matching: find.byType(CustomPaint),
+          ),
+        );
+        return (paint.painter! as dynamic).ink as Color;
+      }
+
+      final light = await inkOf(Brightness.light);
+      final dark = await inkOf(Brightness.dark);
+
+      expect(light, AppColors.ink);
+      expect(dark, AppColors.darkInk);
+      expect(light, isNot(dark));
+    });
+
+    // 헤더는 폭에 따라 로고 크기를 달리 준다(HeaderLayout). 격자를 크기로
+    // 나눠 그리므로 어느 크기에서도 마크가 상자를 넘지 않아야 한다.
+    testWidgets('주어진 크기를 넘지 않는다', (tester) async {
+      for (final s in [16.0, 28.0, 44.0]) {
+        await tester.pumpWidget(
+          MaterialApp(home: Scaffold(body: Center(child: LogoMark(size: s)))),
+        );
+        expect(tester.getSize(find.byType(LogoMark)), Size(s, s));
+      }
+    });
   });
 
   group('획 등장(StrokeIn)', () {
@@ -671,7 +716,6 @@ void main() {
         registryCount: 0,
         mentionCount: 0,
         weights: {},
-        nonAcademicWeights: {},
         minSampleForRank: 10,
         reputationPriorCount: 12,
         recencyHalflifeDays: 180,
@@ -731,6 +775,451 @@ void main() {
       final got = data.academiesForStage('comp', regionId: 'daechi', fillTo: 2);
       expect(got.length, 2);
       expect(got.every((m) => m.isDirect), isTrue);
+    });
+  });
+
+  // ── 새 필드가 없는 번들도 읽는다 ────────────────────────────
+  //
+  // 앱은 배포되는 순간 바뀌지만 번들은 다음 야간 수집에서야 바뀐다.
+  // 그래서 **새 필드를 읽는 코드가 옛 번들을 먼저 만난다** — 주장(claim)
+  // 분해를 넣은 회차가 정확히 그랬다. 여기서 터지면 화면이 통째로 빈다.
+  group('옛 번들 호환', () {
+    Map<String, dynamic> legacy() => {
+      'id': 'A1',
+      'name': '가나수학학원',
+      'displayName': '가나수학',
+      'regionId': 'daechi',
+      'subjects': ['math'],
+      'gradeBands': ['middle'],
+      'stages': <String>[],
+      'flagship': <String>[],
+      'isVerified': true,
+      'dataSource': 'neis',
+      'evidence': <dynamic>[],
+      'score': {
+        'total': 61.2,
+        'reputation': 55.0,
+        'momentum': 48.0,
+        'transparency': 70.0,
+        'selectivity': 40.0,
+        'sampleSize': 12,
+        'confidence': 'medium',
+        'isRanked': true,
+        'momentumDirection': 'stable',
+      },
+    };
+
+    test('facts·selectivityEvidence·disputeRate 가 없어도 읽힌다', () {
+      final a = Academy.fromJson(legacy());
+      expect(a.facts, isEmpty);
+      expect(a.selectivityEvidence, isEmpty);
+      expect(a.disputeRate, isNull);
+    });
+
+    test('selectivityTier 가 없으면 등급을 지어내지 않는다', () {
+      final a = Academy.fromJson(legacy());
+      expect(a.score.selectivityTier, isNull);
+      // 근거가 없으면 '쉽다'가 아니라 아무 말도 하지 않는다.
+      expect(a.score.selectivityLabel, isNull);
+      // 옛 번들의 진입난이도 숫자는 그대로 읽는다 — 화면이 비지 않는다.
+      expect(a.score.pillarOrNull('selectivity'), 40.0);
+    });
+
+    test('새 필드가 있으면 그대로 읽는다', () {
+      final a = Academy.fromJson({
+        ...legacy(),
+        'score': {...legacy()['score'] as Map, 'selectivityTier': 'medium'},
+        'facts': {
+          'fact.class_freq': {
+            'label': '수업 횟수',
+            'unit': '회/주',
+            'text': '3회',
+            'value': 3,
+            'n': 4,
+            'quotes': [
+              {'claimId': 'c1', 'quote': '수업은 주 3회', 'url': 'https://x'},
+            ],
+          },
+        },
+        'selectivityEvidence': [
+          {
+            'claimId': 'c2',
+            'kind': 'sel.waitlist',
+            'label': '대기·웨이팅',
+            'quote': '대기 두 달',
+            'status': 'revoked',
+            'revokedReason': '지금은 다름',
+          },
+        ],
+        'disputeRate': {'total': 5, 'dropped': 1, 'rate': 0.2},
+      });
+      expect(a.score.selectivityLabel, '확인됨 · 중간');
+      expect(a.facts['fact.class_freq']!.hasValue, isTrue);
+      expect(a.facts['fact.class_freq']!.quotes.single.claimId, 'c1');
+      // 취소된 근거는 사라지지 않고 사유와 함께 남는다 — 그냥 지우면
+      // 다음 사람이 같은 이의를 다시 제기한다.
+      final ev = a.selectivityEvidence.single;
+      expect(ev.isActive, isFalse);
+      expect(ev.statusLabel, '이의로 제외됨');
+      expect(a.disputeRate!.dropped, 1);
+    });
+  });
+
+  group('진로 목적지 — 목적성 축', () {
+    // 같은 그래프를 축만 바꿔 읽는다. 판이 답해야 하는 것은 셋이다:
+    // 이 길이 어느 과목을 지나는가 · 언제 갈리는가 · 그 대목이 얼마나 찼나.
+    const mathTrack = Track(
+      id: 'math_high',
+      subject: 'math',
+      gradeBand: 'high',
+      title: '고등 수학',
+      summary: '',
+      stages: [
+        Stage(
+          id: 'm_naesin',
+          trackId: 'math_high',
+          title: '고등 내신',
+          gradeMin: 10,
+          gradeMax: 12,
+          depth: 0,
+          lane: 0,
+        ),
+        Stage(
+          id: 'm_top',
+          trackId: 'math_high',
+          title: '최상위 · 심화',
+          gradeMin: 11,
+          gradeMax: 12,
+          depth: 1,
+          lane: 0,
+        ),
+      ],
+      edges: [],
+    );
+    const sciTrack = Track(
+      id: 'sci_high',
+      subject: 'science',
+      gradeBand: 'high',
+      title: '고등 과학',
+      summary: '',
+      stages: [
+        Stage(
+          id: 's_two',
+          trackId: 'sci_high',
+          title: '과탐 II',
+          gradeMin: 11,
+          gradeMax: 12,
+          depth: 0,
+          lane: 0,
+        ),
+      ],
+      edges: [],
+    );
+
+    // requires 를 일부러 과학부터 적는다 — 판의 열은 사람이 yaml 에 적은
+    // 차례가 아니라 표준 과목 순서를 따라야 행마다 안 흔들린다.
+    const medical = Destination(
+      id: 'dest_medical',
+      label: '의대 · 의치한',
+      axis: '국내입시',
+      summary: '과탐 II 와 수학 최상위가 갈림길.',
+      requires: {
+        'science': ['s_two'],
+        'math': ['m_naesin', 'm_top'],
+      },
+      gates: [
+        DestinationGate(grade: 11, note: '과탐 II 선택'),
+        DestinationGate(grade: 10, note: '고1 내신이 사실상 전제'),
+      ],
+    );
+    const early = Destination(
+      id: 'dest_early',
+      label: '조기졸업 · 검정고시',
+      axis: '기타',
+      linkable: false,
+      requires: {
+        'math': ['m_naesin'],
+      },
+    );
+
+    Academy aca(String id, String region, List<String> stages) => Academy(
+      id: id,
+      name: id,
+      displayNameRaw: id,
+      aliases: const [],
+      regionId: region,
+      subjects: const ['math'],
+      gradeBands: const ['high'],
+      stages: stages,
+      stageBasis: {for (final s in stages) s: 'curated'},
+      flagship: const [],
+      isVerified: true,
+      dataSource: 'neis',
+      score: const Score(
+        total: 60,
+        reputation: 60,
+        momentum: 60,
+        sampleSize: 20,
+        confidence: 'high',
+        isRanked: true,
+        momentumDirection: 'stable',
+      ),
+      evidence: const [],
+    );
+
+    EduTreeData board() => EduTreeData(
+      meta: const Meta(
+        mode: 'test',
+        generatedAt: '',
+        evaluatedCount: 0,
+        registryCount: 0,
+        mentionCount: 0,
+        weights: {},
+        minSampleForRank: 10,
+        reputationPriorCount: 12,
+        recencyHalflifeDays: 180,
+      ),
+      regions: const [],
+      tracks: const [mathTrack, sciTrack],
+      // 로드맵이 비면 RoadmapView 가 안내문만 내므로, 축을 넘나드는
+      // 시험이 성립하지 않는다.
+      roadmap: const Roadmap(
+        stages: [
+          RoadmapStage(
+            id: 'm_naesin',
+            subject: 'math',
+            title: '고등 내신',
+            gradeMin: 10,
+            gradeMax: 12,
+          ),
+          RoadmapStage(
+            id: 's_two',
+            subject: 'science',
+            title: '과탐 II',
+            gradeMin: 11,
+            gradeMax: 12,
+          ),
+        ],
+      ),
+      academies: [
+        aca('대치A', 'daechi', ['m_naesin']),
+        aca('대치B', 'daechi', ['m_naesin', 'm_top']),
+        aca('목동C', 'mokdong', ['m_naesin']),
+      ],
+      destinations: const [medical, early],
+    );
+
+    test('칸은 학군 기준으로 다시 센다 — 전국 합계를 적으면 판과 어긋난다', () {
+      final data = board();
+      expect(
+        data.legFor(medical, 'math', regionId: 'daechi').academyCount,
+        2,
+        reason: '목동 학원은 대치 판의 숫자에 들어가면 안 된다',
+      );
+      expect(data.legFor(medical, 'math', regionId: 'all').academyCount, 3);
+      // 학원 수는 단계별 수의 합이 아니다 — 한 학원이 여러 단계를 담당한다.
+      expect(
+        data.legFor(medical, 'math', regionId: 'daechi').countOf('m_naesin'),
+        2,
+      );
+      expect(
+        data.legFor(medical, 'math', regionId: 'daechi').countOf('m_top'),
+        1,
+      );
+    });
+
+    test('지나지 않음 · 비었음 · 잇지 않음은 서로 다른 상태다', () {
+      final data = board();
+
+      final english = data.legFor(medical, 'english', regionId: 'daechi');
+      expect(english.isOffPath, isTrue, reason: '이 길은 영어를 요구하지 않는다');
+      expect(english.isEmpty, isFalse, reason: '지나지 않는 것은 빈 것이 아니다');
+
+      final science = data.legFor(medical, 'science', regionId: 'daechi');
+      expect(science.isOffPath, isFalse);
+      expect(science.isEmpty, isTrue, reason: '요구하는데 학원이 0곳 — 큐레이션한 길의 빈 대목');
+      expect(science.emptyStages.map((s) => s.id), ['s_two']);
+
+      final notLinked = data.legFor(early, 'math', regionId: 'daechi');
+      expect(notLinked.linkable, isFalse);
+      expect(notLinked.academyCount, 0);
+      expect(
+        notLinked.isEmpty,
+        isFalse,
+        reason: '학원을 안 잇기로 한 길을 비었다고 적으면 근거가 얇다는 판단이 지워진다',
+      );
+      expect(notLinked.stages.length, 1, reason: '길은 그대로 그린다');
+    });
+
+    test('열은 표준 과목 순서를 따른다 — yaml 에 적은 차례가 아니라', () {
+      expect(medical.subjects, ['math', 'science']);
+    });
+
+    test('갈림은 가장 이른 관문이다', () {
+      expect(medical.firstGateGrade, 10);
+      expect(early.firstGateGrade, isNull);
+    });
+
+    test('단계 → 목적지 역방향도 읽힌다', () {
+      final data = board();
+      expect(data.destinationsForStage('m_naesin').map((d) => d.id), [
+        'dest_medical',
+        'dest_early',
+      ]);
+      expect(data.destinationsForStage('s_two').map((d) => d.id), [
+        'dest_medical',
+      ]);
+      expect(data.destinationsForStage('없는단계'), isEmpty);
+    });
+
+    test('학원을 잇지 않는 길은 세지 않는다', () {
+      final data = board();
+      expect(data.destinationAcademyCount(early, regionId: 'daechi'), 0);
+      expect(data.destinationAcademyCount(medical, regionId: 'daechi'), 2);
+    });
+
+    Widget pumpable(EduTreeData data, ProviderContainer c) =>
+        UncontrolledProviderScope(
+          container: c,
+          child: MaterialApp(
+            home: Scaffold(
+              body: DestinationBoard(data: data, regionId: 'daechi'),
+            ),
+          ),
+        );
+
+    testWidgets('판이 세 상태를 다른 얼굴로 적는다', (tester) async {
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(pumpable(board(), c));
+      await tester.pump();
+
+      expect(find.text('2곳'), findsWidgets, reason: '찬 대목은 학원 수');
+      expect(find.text('비었음'), findsWidgets, reason: '요구하는데 0곳');
+      expect(find.text('—'), findsWidgets, reason: '학원을 잇지 않는 길');
+      expect(find.text('고1'), findsWidgets, reason: '갈림 = 가장 이른 관문');
+    });
+
+    testWidgets('교과 단계를 안 지나는 길은 점이 아니라 말로 적는다', (tester) async {
+      // 점 여섯 개짜리 행은 '데이터가 빠졌다' 로 읽힌다. 예체능 입시는
+      // 실기가 축이라 교과 단계를 안 지나는 것이고, 그건 진술이다.
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      const art = Destination(
+        id: 'dest_art',
+        label: '예체능 입시',
+        axis: '기타',
+        linkable: false,
+        summary: '실기 중심이라 교과 테크트리와 축이 다르다.',
+      );
+      final data = EduTreeData(
+        meta: const Meta(
+          mode: 'test',
+          generatedAt: '',
+          evaluatedCount: 0,
+          registryCount: 0,
+          mentionCount: 0,
+          weights: {},
+          minSampleForRank: 10,
+          reputationPriorCount: 12,
+          recencyHalflifeDays: 180,
+        ),
+        regions: const [],
+        tracks: const [mathTrack],
+        academies: const [],
+        destinations: const [medical, art],
+      );
+
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(pumpable(data, c));
+      await tester.pump();
+
+      expect(find.text('실기 중심이라 교과 테크트리와 축이 다르다.'), findsOneWidget);
+    });
+
+    testWidgets('좁은 화면에서는 표 대신 목적지 카드로 편다', (tester) async {
+      addTearDown(tester.view.reset);
+      tester.view.devicePixelRatio = 1.0;
+
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+
+      tester.view.physicalSize = const Size(1000, 900);
+      await tester.pumpWidget(pumpable(board(), c));
+      await tester.pump();
+      expect(find.text('진로 목적지'), findsOneWidget, reason: '표에는 머리가 있다');
+
+      tester.view.physicalSize = const Size(400, 900);
+      await tester.pumpWidget(pumpable(board(), c));
+      await tester.pump();
+      expect(
+        find.text('진로 목적지'),
+        findsNothing,
+        reason: '칸이 숫자 하나 폭이 되면 표는 표 구실을 못 한다',
+      );
+      expect(find.textContaining('갈림 고1'), findsOneWidget);
+    });
+
+    testWidgets('칸을 누르면 그 길이 열리고 그 과목이 앞에 선다', (tester) async {
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(pumpable(board(), c));
+      await tester.pump();
+
+      expect(find.textContaining('이 길의 학원'), findsNothing);
+      await tester.tap(find.text('2곳').first);
+      await tester.pump();
+
+      expect(c.read(destinationProvider), 'dest_medical');
+      expect(find.textContaining('이 길의 학원 2곳'), findsOneWidget);
+      expect(find.text('과탐 II 선택'), findsOneWidget, reason: '관문이 나이 순으로 뜬다');
+    });
+
+    testWidgets('고른 길은 축을 넘어 유지된다', (tester) async {
+      // 목적성 판에서 고른 길이 과목 축(로드맵)에서도 밝아져야 두 판이
+      // 같은 그래프의 두 얼굴이 된다. 화면마다 선택을 따로 들면 축을
+      // 바꿀 때마다 풀려서 사용자는 그 사실을 알아채지 못한다.
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final data = board();
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+
+      await tester.pumpWidget(pumpable(data, c));
+      await tester.pump();
+      await tester.tap(find.text('의대 · 의치한'));
+      await tester.pump();
+      expect(c.read(destinationProvider), 'dest_medical');
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: c,
+          child: MaterialApp(
+            home: Scaffold(
+              body: RoadmapView(data: data, regionId: 'daechi'),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(
+        find.text('과탐 II 와 수학 최상위가 갈림길.'),
+        findsOneWidget,
+        reason: '로드맵이 같은 선택을 보고 있다',
+      );
     });
   });
 

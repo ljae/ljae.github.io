@@ -137,6 +137,7 @@
 - [감성피아노음악학원](academies/3000043059.md) — mokdong
 - [테스트](academies/3000043345.md) — jamsil
 - [융합인재학원](academies/3000046236.md) — banpo
+- [3000048112](academies/3000048112.md) — ?
 - [윤도영](academies/3000048377.md) — daechi
 - [소마사고력수학학원](academies/3000048613.md) — banpo
 - [강남은마한우리독서토론논술교습소](academies/3000050945.md) — daechi

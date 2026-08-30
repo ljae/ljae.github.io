@@ -1066,6 +1066,21 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             if len(c) >= 3:          # 짧은 이름은 우연히 겹친다
                 rival_names.add(c)
 
+    # 일상어 별칭은 게이트에서 뺀다. 사람이 시드·위키에 적은 별칭이라도
+    # 그 자체로 일상어면 근거가 못 된다 — '정상'(정상어학원)이 '어느 정도가
+    # 정상인지'·'정상적인 면역기능'을 다섯 지점의 근거로 만들었다.
+    # 학원 표지를 요구하는 정도로는 안 걸러진다('금액 상담'의 '상담').
+    # 강한 표기('정상어학원'·'정상영어')는 그대로 남으므로 진짜 글은 산다.
+    dropped_alias = 0
+    for aid, cand in candidates.items():
+        weak = analyze.weak_candidates(cand)
+        if weak:
+            candidates[aid] = cand - weak
+            dropped_alias += 1
+    if dropped_alias:
+        print(f"  일상어 별칭 제외: {dropped_alias}곳 "
+              f"({', '.join(analyze.EVERYDAY_ALIASES)})")
+
     # 게이트 이전에 **이번 회차 대상 학원으로** 받아 온 글. 글 노드 감사가
     # '우리가 가져와 놓고 버린 글'(신호)과 '이번 회차에 아예 안 본
     # 학원의 글'(정상)을 가르는 데 쓴다.
@@ -1176,6 +1191,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                                 candidates.get(m.get("academy_key")))
                 for m in mentions]
     mentions = analyze.flag_repeat_authors(mentions)
+    # 홍보 게이트 — 글 하나가 아니라 묶음을 봐야 잡히는 두 가지.
+    mentions, dup = analyze.flag_near_duplicates(mentions)
+    mentions, burst = analyze.flag_author_bursts(mentions)
+    if dup or burst:
+        print(f"  홍보 묶음 배제: 근사중복 {dup:,}건 · 작성자 버스트 {burst:,}건")
     # 비교 질문의 답 — 두 글의 신뢰도만 ±20% 보정한다. 산식은 안 흔든다.
     if qa.get("boost"):
         for m in mentions:
@@ -1183,6 +1203,46 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             if mul:
                 m["credibility"] = round(
                     min(1.0, max(0.0, m.get("credibility", 0.5) * mul)), 3)
+
+    # 주장 분해 — 글을 스칼라로 요약하는 대신 근거의 최소 단위로 쪼갠다.
+    #
+    # ★ 질문 생성보다 **먼저** 와야 한다. questions 가 주장 쪽 질문
+    #   (claim_check·claim_conflict)을 만들려면 이번 회차의 주장이 이미
+    #   있어야 한다. 뒤에 두면 한 회차 늦게 반영된다 — apply_answers 를
+    #   load_rules 앞에 둔 것과 같은 이유다.
+    from . import claims as claims_mod
+    claim_rows = claims_mod.extract_all(mentions, candidates, rival_names)
+
+    # 규칙이 못 찾은 글에서 사실을 더 뽑는다. **기둥 점수에는 안 쓴다** —
+    # 인용문이 원문의 글자 그대로가 아니면 버리므로 지어낼 자리가 없지만,
+    # 그래도 산식은 결정적으로 남겨 둔다.
+    if mode == "live":
+        from . import claim_llm
+        claim_rows += claim_llm.collect(mentions, claim_rows, names)
+
+    # 취소 회로 — 사용자 이의에 대한 운영자 판정을 반영한다.
+    #
+    # posts.py 의 무효화는 글 **전체**를 끈다. 여기는 한 층 아래다 —
+    # 그 글의 평판 근거는 살리고 진입난이도 주장만 끈다. 매 실행 원자료
+    # 에서 전부 다시 지으므로 '어디까지 지워야 하나' 를 판단할 것이 없고,
+    # 판정을 지우면 결정적 id 덕분에 같은 주장이 그대로 돌아온다.
+    claim_verdicts = claims_mod.load_verdicts()
+    claim_disputes = claims_mod.load_disputes()
+    claim_rows, cstat = claims_mod.apply_verdicts(
+        claim_rows, claim_verdicts, claim_disputes)
+    if any(cstat.values()):
+        print(f"  주장 판정 반영: 취소 {cstat['revoked']:,}건 · "
+              f"기한 지남 {cstat['stale'] + cstat['auto_stale']:,}건"
+              f"(자동 {cstat['auto_stale']:,})")
+    if claim_disputes:
+        # 미처리 이의는 운영자가 봐야 한다. 정정 요청과 같은 층이다.
+        print(f"  ! 주장 이의 {len(claim_disputes):,}건 미처리 — /admin 에서 판정")
+
+    # 진입난이도 사건은 글에 붙여 둔다. 점수 계산이 과목별로 글을 걸러
+    # 가며 도는데(subject_mentions), 사건이 글과 함께 움직여야 그 필터가
+    # 그대로 통한다. 따로 들고 다니면 두 목록이 어긋난다.
+    claims_mod.attach_events(mentions, claim_rows)
+    print(f"  {claims_mod.summary(claim_rows)}")
 
     if mode == "live" and not from_cache:
         # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
@@ -1205,7 +1265,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
         # 질문 생성 — 글더미 대신 판단이 필요한 지점만 올린다.
         qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
-                           wiki_locality)
+                           wiki_locality, claim_rows)
         asked = qmod.enqueue(qs)
         if asked:
             print(f"  질문 큐: {asked}건 ("
@@ -1254,7 +1314,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores)
+           subject_scores, claim_rows)
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -1308,6 +1368,52 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         "mentions": len(mentions),
         "ranked": sum(1 for s in scores.values() if s["is_ranked"]),
     }
+
+
+def _destination_payload(academies: list[dict]) -> list[dict]:
+    """목적지 + 그 길에 실제로 학원이 몇 곳 붙어 있는지.
+
+    경로는 사람이 적지만 **얼마나 채워졌는지는 데이터가 말한다.**
+    단계별 학원 수를 세어 목적지 카드에 싣는다 — 'KMO 단계 2곳' 처럼
+    길의 어느 대목이 비어 있는지가 그대로 보인다.
+
+    linkable=false 인 목적지(조기졸업·예체능)는 세지 않는다. 근거가 얇아
+    학원을 잇지 않기로 한 곳이라, 숫자를 붙이면 그 판단과 어긋난다.
+    """
+    by_stage: dict[str, int] = collections.Counter()
+    for a in academies:
+        for sid in a.get("stages") or []:
+            by_stage[sid] += 1
+
+    out = []
+    for d in config.destinations():
+        stages = [s for ids in d["requires"].values() for s in ids]
+        counts = ({s: by_stage.get(s, 0) for s in stages}
+                  if d["linkable"] else {})
+
+        # 큐레이션한 길의 **빈 대목을 로그에 남긴다.** 화면은 학군별로
+        # 다시 세지만(EduTreeData.legFor), 전국에서도 0곳인 단계는 그
+        # 대목을 우리가 아직 아무것도 모른다는 뜻이다 — 길을 적은 사람이
+        # 다음 회차에 무엇을 채워야 하는지가 여기서만 보인다.
+        empty = [s for s in stages if not by_stage.get(s)] if d["linkable"] else []
+        if empty:
+            print(f"  · 목적지 {d['label']}: 학원 0곳인 단계 {len(empty)}개"
+                  f" — {', '.join(empty)}")
+
+        out.append({
+            "id": d["id"], "label": d["label"], "axis": d["axis"],
+            "summary": d.get("summary"),
+            "requires": d["requires"],
+            "gates": d.get("gates") or [],
+            "linkable": d["linkable"],
+            "stageCounts": counts,
+            # 이 길에 놓인 학원 수(중복 제거). 단계 수가 아니라 학원 수다.
+            "academyCount": len({
+                a["id"] for a in academies
+                if d["linkable"] and set(a.get("stages") or []) & set(stages)
+            }),
+        })
+    return out
 
 
 def _assign_ranks(academies: list[dict], scores: dict) -> None:
@@ -1467,10 +1573,22 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores=None) -> None:
+           subject_scores=None, claim_rows=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
+
+    # 운영 사실 카드. 근거가 모자라면 값 대신 인용문만 나간다 —
+    # 1건짜리 '주 3회' 를 숫자로 적으면 그 학원의 사실처럼 읽힌다.
+    from . import claims as claims_mod
+    facts = {key: claims_mod.facts_for(rows)
+             for key, rows in claims_mod.by_academy(claim_rows or []).items()}
+    # 진입난이도 근거. 줄마다 인용문·출처·claimId 를 실어 화면에서 '이의'
+    # 를 받을 수 있게 한다. 근거를 못 보여주는 점수는 내지 않는다.
+    sel_evidence = claims_mod.evidence_for(claim_rows or [])
+    # 취소율. 숨기면 그 자체가 왜곡이다 — 취소가 남용되면 학원이 불리한
+    # 근거만 지우는 통로가 된다.
+    dispute_rates = claims_mod.dispute_rate(claim_rows or [])
 
     # 언급은 학원별 상위 근거 몇 건만 앱에 싣는다(원문 전재 금지 · 번들 크기).
     top_evidence: dict[str, list] = defaultdict(list)
@@ -1595,6 +1713,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                     (s.get("breakdown", {}).get("reputation", {}) or {}).get("긍정률")
                     if s["sample_size"] >= config.MIN_SAMPLE_FOR_RANK else None),
                 "momentumDirection": s["momentum_direction"],
+                "selectivityTier": s.get("selectivity_tier"),
                 "rankInRegion": s.get("rank_in_region"),
                 "regionRankedCount": s.get("region_ranked_count"),
                 "breakdown": s["breakdown"],
@@ -1619,12 +1738,22 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                         if v["sample_size"] >= config.MIN_SAMPLE_FOR_RANK
                         else None),
                     "momentumDirection": v["momentum_direction"],
+                    "selectivityTier": v.get("selectivity_tier"),
                     "rankInRegion": v.get("rank_in_region"),
                     "regionRankedCount": v.get("region_ranked_count"),
                 }
                 for sub, v in ((subject_scores or {}).get(key) or {}).items()
             },
             "evidence": top_evidence.get(key, []),
+            # 학부모가 실제로 묻는 것. 점수가 아니라 사실이므로 트리스코어에
+            # 들어가지 않는다. 모든 줄이 인용문과 원문 링크를 갖는다 —
+            # 근거를 못 보여주는 사실은 싣지 않는다.
+            "facts": facts.get(key, {}),
+            # 진입난이도의 근거 인용문. 줄마다 claimId 가 있어 화면에서
+            # '이의' 를 받을 수 있다. 취소된 줄도 함께 나간다 — 왜 빠졌는지가
+            # 보여야 한다.
+            "selectivityEvidence": sel_evidence.get(key, []),
+            "disputeRate": dispute_rates.get(key),
         })
         payload_academies.append(row)
 
@@ -1675,7 +1804,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "source": a.get("source"),
         } for a in apt_rows if a.get("kaptCode")],
         "techtree.json": {**config.banded_techtree(),
-                          "roadmap": config.roadmap_payload()},
+                          "roadmap": config.roadmap_payload(),
+                          # 진로 목적지. 단계와 달리 학년 구간으로 가르지
+                          # 않는다 — 목적지는 구간을 관통하는 축이다.
+                          "destinations": _destination_payload(evaluated)},
         "academies.json": payload_academies,
         "registry.json": payload_registry,
         "meta.json": {
