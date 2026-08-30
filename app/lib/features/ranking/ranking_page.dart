@@ -113,12 +113,16 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                       SectionHeader(
                         '${region?.nameKo ?? "전체 학군"} 학원 랭킹',
                         kicker: spaced('랭킹'),
+                        // 근거가 0건인 곳만 순위에서 빠진다. 표본이 얇은
+                        // 곳은 등수를 감추는 대신 두께를 함께 적는다 —
+                        // 아래 '미수집' 섹션 안내와 같은 말이어야 한다.
                         subtitle: _isAcademic(_subject)
-                            ? '트리스코어 기준 · 표본 ${data.meta.minSampleForRank}건 미만은 '
-                                  '순위에서 제외됩니다'
-                            : '만족도·화제성 기준 · 표본 ${data.meta.minSampleForRank}건 '
-                                  '미만은 순위에서 제외됩니다. 국·영·수·과학 학원은 '
-                                  '각 과목 랭킹에서 보세요.',
+                            ? '트리스코어 기준 · 근거가 0건인 곳은 순위를 매기지 않고, '
+                                  '${data.meta.minSampleForRank}건 미만은 "표본 부족"으로 '
+                                  '표기합니다'
+                            : '만족도·화제성 기준 · 근거가 0건인 곳은 순위를 매기지 않고, '
+                                  '${data.meta.minSampleForRank}건 미만은 "표본 부족"으로 '
+                                  '표기합니다. 국·영·수·과학 학원은 각 과목 랭킹에서 보세요.',
                       ),
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
@@ -232,9 +236,8 @@ class _MethodNote extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     // 예체능·기타는 만족도와 화제성만 본다. 진학 경로가 없고 공시로
     // 확인할 것도 적어, 네 기둥을 다 적용하면 없는 차이를 만들어 낸다.
-    final weights = academic
-        ? meta.weights
-        : const {'reputation': 0.6, 'momentum': 0.4};
+    // 저울 자체는 meta 가 준다 — 화면에 상수로 두지 않는다.
+    final weights = meta.weightsFor(academic ? 'academic' : 'non_academic');
     final formula =
         '트리스코어 = '
         '${weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}'

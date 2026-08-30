@@ -83,6 +83,14 @@ def sanity(hints: dict[str, dict], academies: list[dict]) -> list[str]:
     from . import analyze
 
     by_id = {a["id"]: a for a in academies}
+    # 통합으로 흡수된 등록 id → 지금의 대표 id. 이게 있으면 '없는 id' 가
+    # 아니라 '이름이 바뀐 id' 다 — 사람이 할 일이 전혀 다르다.
+    absorbed: dict[str, dict] = {}
+    for a in academies:
+        for rid in a.get("registration_ids") or []:
+            if str(rid) != a["id"]:
+                absorbed[str(rid)] = a
+
     all_names: dict[str, str] = {}
     for a in academies:
         for c in analyze.name_candidates(a):
@@ -92,8 +100,24 @@ def sanity(hints: dict[str, dict], academies: list[dict]) -> list[str]:
     for aid, h in hints.items():
         a = by_id.get(aid)
         if a is None:
-            # 통합으로 id 가 흡수됐거나 폐업. 페이지 이관은 사람 몫이다.
-            warnings.append(f"{aid}: 등록부에 없는 id (페이지 이관 필요?)")
+            # ★ '등록부에 없다' 에는 성격이 다른 셋이 섞여 있었다. 한 문구로
+            #   묶어 두니 매 실행 같은 경고가 나오는데 무엇을 해야 하는지는
+            #   알 수 없었다(실측 7건 중 6건이 손댈 것 없는 정상이었다).
+            merged = absorbed.get(aid)
+            if merged is not None:
+                # 통합으로 대표 id 가 바뀌었다. 힌트는 살려서 넘긴다 —
+                # 사람이 옮길 때까지 별칭·동네 말이 죽어 있을 이유가 없다.
+                warnings.append(
+                    f"{aid}: 통합으로 대표 id 가 바뀜 → {merged['id']} "
+                    f"({merged.get('name')}) · 페이지 이관 권장")
+                hints.setdefault(merged["id"], h)
+                continue
+            # 등록부에서 아예 빠진 곳. 성인 직업·전문 학원(편입·승무원·
+            # 고시·변리사…)은 분야 필터로 **의도적으로** 뺐으므로 이관할
+            # 것이 없다. 폐업도 마찬가지다.
+            warnings.append(
+                f"{aid}: 등록부에 없는 id — 제외 분류이거나 폐업 "
+                f"(위키 name '{h.get('name') or '?'}')")
             continue
         if h.get("name") and h["name"] != a.get("name"):
             warnings.append(

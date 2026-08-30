@@ -707,9 +707,21 @@ class Meta {
   final int registryCount;
   final int mentionCount;
   final Map<String, double> weights;
+  /// 예체능·기타 전용 가중치(평판·화제성만). 네 기둥을 다 적용하지 않는
+  /// 과목이라 저울이 아예 다르다.
+  ///
+  /// ★ 화면에 상수로 박지 않는다. 예전에 세 화면이 각자 0.6/0.4 를 들고
+  ///   있어서, 파이프라인의 값을 바꿔도 화면만 옛 값으로 남을 수 있었다.
+  ///   학술 가중치에서 이미 한 번 겪은 사고다.
+  final Map<String, double> nonAcademicWeights;
   final int minSampleForRank;
   final int reputationPriorCount;
   final int recencyHalflifeDays;
+  /// 작성일을 아는 글의 비율. 반감기가 실제로 몇 할에 걸리는지다.
+  final double datedShare;
+  /// 그중 **글에 실제로 적혀 있던** 날짜의 비율. 나머지는 발견일이라
+  /// 추세(시계열)에는 쓰지 않는다.
+  final double realDatedShare;
 
   const Meta({
     required this.mode,
@@ -718,12 +730,21 @@ class Meta {
     required this.registryCount,
     required this.mentionCount,
     required this.weights,
+    // 옛 번들·시험 픽스처는 이 값을 모른다. 비워 두면 기둥 막대를 그리지
+    // 않을 뿐이라 안전하게 물러선다 — 진짜 값은 언제나 meta.json 이 준다.
+    this.nonAcademicWeights = const {},
     required this.minSampleForRank,
     required this.reputationPriorCount,
     required this.recencyHalflifeDays,
+    this.datedShare = 0,
+    this.realDatedShare = 0,
   });
 
   bool get isDemo => mode == 'demo';
+
+  /// 이 점수에 적용된 가중치. 과목군에 따라 저울이 다르다.
+  Map<String, double> weightsFor(String subjectGroup) =>
+      subjectGroup == 'academic' ? weights : nonAcademicWeights;
 
   factory Meta.fromJson(Map<String, dynamic> j) => Meta(
     mode: (j['mode'] ?? 'demo') as String,
@@ -734,9 +755,17 @@ class Meta {
     weights: ((j['weights'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, (v as num).toDouble()),
     ),
+    // 옛 번들에는 없는 키다. 없으면 파이프라인의 현재 값과 같은 기본값을
+    // 쓰되, 앞으로는 meta 가 진실이다.
+    nonAcademicWeights:
+        ((j['nonAcademicWeights'] as Map?) ??
+                const {'reputation': 0.6, 'momentum': 0.4})
+            .map((k, v) => MapEntry(k as String, (v as num).toDouble())),
     minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
     reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
     recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,
+    datedShare: (j['datedShare'] as num?)?.toDouble() ?? 0,
+    realDatedShare: (j['realDatedShare'] as num?)?.toDouble() ?? 0,
   );
 }
 

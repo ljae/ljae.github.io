@@ -1,18 +1,31 @@
 """트리스코어 (TreeScore) 계산.
 
     TreeScore = 0.35·평판 + 0.35·진입난이도 + 0.15·화제성 + 0.15·투명성
-    (가중치의 출처는 언제나 config.WEIGHTS 다 — 여기 숫자는 설명일 뿐)
+    (예체능·기타 = 0.6·평판 + 0.4·화제성 — 나머지 두 기둥은 null)
+
+가중치의 출처는 언제나 `config.WEIGHTS` 다 — 여기 숫자는 설명일 뿐이다.
+그리고 **docs/SPEC.md §4 와 반드시 일치해야 한다.** 산식을 공개하기로 한
+서비스라 문서와 코드가 어긋나면 공개하는 의미가 없다. 실제로 문서가 두
+세대 뒤처져 있던 적이 있다.
 
 설계 원칙
   1. 각 기둥은 0–100 으로 독립 계산되고, breakdown 에 계산 근거를 남긴다.
-     서비스가 산식을 전면 공개하기로 했으므로 근거를 못 만들면 점수도 못 낸다.
+     근거를 못 만들면 점수도 못 낸다.
   2. 표본이 적은 학원은 코호트 평균으로 끌어당긴다(베이지안 축소).
      후기 3건짜리 학원이 1위로 튀는 것을 막는 핵심 장치다.
-  3. 표본 10건 미만은 순위에서 아예 제외한다. 소수 악평으로 하위권을
-     만들어 두면 그게 곧 명예훼손 리스크다.
+     **축소의 분모는 사전 표본수와 같은 단위여야 한다** — 가중치 합을
+     그대로 쓰면 글 한 건의 무게가 0.2~0.5 라 표본 30건도 사전값에
+     눌린다(§ effective_n).
+  3. **표본 0 은 순위를 매기지 않는다.** 점수가 코호트 평균(50)으로
+     채워져 있어 등수를 붙이면 그건 평가가 아니라 기본값이다.
+     표본 1~9 건은 순위에 넣되 화면에 '표본 부족' 이라 적고, 목록에서는
+     10건 이상 아래에 세운다 — 예전처럼 통째로 빼면 96개 조합 중 95개가
+     빈 화면이 된다.
   4. **근거가 없는 기둥은 채우지 않고 뺀다.** 없는 값을 코호트 평균으로
      채우면 '모른다' 가 '보통' 이 되고, 0 으로 치면 '쉽다' 가 된다.
      남은 기둥으로 가중치를 다시 나눈다(compute 참고).
+  5. 점수는 **(학원 × 과목)** 마다 따로 낸다. 수학 후기 496건짜리
+     종합학원이 그 점수로 과학 랭킹에 오르면 안 된다.
 
 기둥마다 문턱이 다르다 — 같은 글이 화제성에는 들어가고 평판에는 안
 들어가는 것이 정상이다(analyze.score_substance).
@@ -21,6 +34,10 @@
     평판        정보량 1 이상   의견 없는 글은 감성이 아니다
     진입난이도   사건이 확인된 글만
     투명성      후기를 보지 않는다 (NEIS 공시)
+
+★ 가중치를 바꾸면 **실효 기여(가중치 × 표준편차)를 반드시 다시 잰다.**
+  가중치가 같아도 분산이 다르면 영향이 다르다. `effective_contribution()`
+  이 매 실행 재고, 명목 순서와 어긋나면 빌드가 경고한다.
 """
 from __future__ import annotations
 
@@ -63,6 +80,62 @@ def recency_weight(posted_at) -> float:
     return math.exp(-days / config.RECENCY_HALFLIFE_DAYS)
 
 
+# 코호트 z 점수를 0–100 으로 펼칠 때 쓰는 배수. **기둥이 공유한다.**
+#
+# ★ 기둥끼리 저울이 다르면 가중치가 곧 영향력이 되지 않는다. 평판은 15,
+#   화제성은 18 을 쓰고 있었는데 그 차이에 근거가 없었다. 같은 z 축에
+#   올리기로 한 이유가 저울을 맞추기 위해서였으니 배수도 같아야 한다.
+Z_SCALE = 15
+
+# 추세 화살표 임계값. **월평균 언급 수 대비 비율**이다(절대 건수가 아니다).
+# 0.12 = '월평균의 12%씩 늘거나 줄고 있다'. 실측 분포를 보고 정한다 —
+# 눈으로 정한 임계값은 다음 회차에서 또 깨진다.
+TREND_THRESHOLD = 0.12
+# 상대 기울기를 점수로 펼칠 때의 배수. rel 이 [-1, 1] 근처라 절대
+# 기울기에 쓰던 배수(12)를 그대로 쓰면 slope_score 가 50 에 붙어 버린다.
+TREND_SCALE = 30
+
+
+def mention_weight(m: dict) -> float:
+    """글 한 건의 무게. 신뢰도 × 최신성."""
+    return float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+
+
+def weighted_sentiment(mentions: list[dict]) -> float | None:
+    """신뢰도·최신성 가중 평균 감성. **자기 값과 코호트 분포가 함께 쓴다.**
+
+    ★ 예전에는 `reputation()` 이 가중 평균을 쓰고 `build_cohorts()` 는
+      **단순 평균**의 표준편차를 z 의 분모로 줬다. 분자와 분모를 다른
+      통계로 재면 z 가 뜻하는 바가 흐려진다 — 화제성에서 자기 값과
+      코호트 분포를 다른 자로 재던 것과 같은 실수다.
+    """
+    num = den = 0.0
+    for m in mentions:
+        w = mention_weight(m)
+        num += w * float(m.get("sentiment", 0.0))
+        den += w
+    return (num / den) if den else None
+
+
+def effective_n(weights: list[float]) -> float:
+    """유효 표본수 (Kish) = (Σw)² / Σw².
+
+    **베이지안 축소의 분모는 사전 표본수와 같은 단위여야 한다.**
+    예전에는 가중치 합(Σw)을 그대로 썼는데, 글 한 건의 무게가 보통
+    0.2~0.5 라 표본 30건이면 Σw ≈ 7 이다. 사전표본 12 와 견주면 축소
+    계수가 0.37 — 표본이 아무리 두꺼워도 사전값이 이긴다. 그래서 평판의
+    분산이 코호트 z 축 위에서 짓눌렸고(실측 sd 4.03), 가중치 0.35 짜리
+    기둥의 실효 기여가 0.15 짜리 화제성보다 작았다.
+
+    Kish 유효 표본수는 가중치가 고르면 표본 수 n 과 같고, 신뢰도 낮은
+    글이 섞인 만큼만 줄어든다. 이제 '사전표본 12건' 이라는 말이 실제로
+    '글 12건만큼' 을 뜻한다.
+    """
+    s1 = sum(weights)
+    s2 = sum(w * w for w in weights)
+    return (s1 * s1 / s2) if s2 > 0 else 0.0
+
+
 # ── 기둥 1. 평판 (35%) ─────────────────────────────────────────────
 # 평판에 쓰려면 의견이 있어야 한다(analyze.score_substance ≥ 1).
 #
@@ -84,7 +157,7 @@ def reputation(mentions: list[dict], cohort_mean: float,
 
     num = den = 0.0
     for m in valid:
-        w = float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+        w = mention_weight(m)
         num += w * float(m.get("sentiment", 0.0))
         den += w
 
@@ -96,7 +169,7 @@ def reputation(mentions: list[dict], cohort_mean: float,
     # 나빠 보인다. 국내 커뮤니티 글은 중립 서술이 많아 특히 그렇다.
     pos = neg = 0.0
     for m in valid:
-        w = float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+        w = mention_weight(m)
         sent = float(m.get("sentiment", 0.0))
         if sent > 0.05:
             pos += w
@@ -105,8 +178,12 @@ def reputation(mentions: list[dict], cohort_mean: float,
     opinionated = pos + neg
     recommend = round(pos / opinionated * 100, 1) if opinionated > 0 else None
 
+    # 베이지안 축소. **유효 표본수 단위로** 끌어당긴다 — 가중치 합으로
+    # 하면 표본 30건짜리도 사전값에 눌린다(effective_n 참고).
     m0 = config.REPUTATION_PRIOR_COUNT
-    shrunk = (num + m0 * cohort_mean) / (den + m0)      # 베이지안 축소
+    n_eff = effective_n([mention_weight(m) for m in valid])
+    obs = num / den if den else cohort_mean
+    shrunk = (obs * n_eff + m0 * cohort_mean) / (n_eff + m0)
 
     # 코호트 대비 z 점수로 옮긴다. [-1,1] 을 [0,100] 에 선형 매핑하면
     # 실제 감성이 0.00~0.78 구간에만 살아서 점수가 53~65 로 눌린다.
@@ -117,11 +194,12 @@ def reputation(mentions: list[dict], cohort_mean: float,
     # 맞춰야 가중치가 곧 영향력이 된다.
     sd = cohort_sd or 0.12
     z = (shrunk - cohort_mean) / sd
-    score = _clamp(50 + 15 * z)
+    score = _clamp(50 + Z_SCALE * z)
 
     excluded = len(mentions) - len(valid)
     return round(score, 1), {
         "표본": len(valid),
+        "유효표본": round(n_eff, 1),
         "긍정률": recommend,
         "의견_표명_가중치": round(opinionated, 2),
         "제외된_스팸": excluded,
@@ -130,21 +208,38 @@ def reputation(mentions: list[dict], cohort_mean: float,
         "코호트_평균감성": round(cohort_mean, 3),
         "코호트_감성표준편차": round(cohort_sd, 3),
         "축소_사전표본": m0,
-        "설명": f"신뢰도·최신성 가중 감성 {round(num/den, 3) if den else 0} 를 "
-                f"코호트 평균 {round(cohort_mean, 3)} 쪽으로 {m0}건만큼 축소",
+        "설명": f"신뢰도·최신성 가중 감성 {round(obs, 3)} 를 코호트 평균 "
+                f"{round(cohort_mean, 3)} 쪽으로 {m0}건만큼 축소 "
+                f"(유효표본 {round(n_eff, 1)}건)",
     }
 
 
-# ── 기둥 2. 화제성 (20%) ───────────────────────────────────────────
+# ── 기둥 2. 화제성 (15%) ───────────────────────────────────────────
+def volume_of(mentions: list[dict]) -> float:
+    """언급량의 로그 스케일 값. **자기 값과 코호트 분포가 이걸 함께 쓴다.**
+
+    90일 창은 경계가 딱딱하다 — 91일 된 글이 0이 되고 89일 된 글이 1이
+    된다. 최신성 가중 합과 큰 쪽을 써서 경계를 무르게 한다. 날짜 없는
+    글은 0.6 으로 들어가므로 전체가 0 이 되지는 않는다.
+
+    ★ 예전에는 `momentum()` 이 이 식을 쓰고 `build_cohorts()` 는
+      `log1p(전체 언급 수)` 를 썼다. 자기 값과 분포를 **다른 자로 재면**
+      z 점수가 통째로 치우친다 — 날짜 불명 글의 무게가 0.6 이라 자기
+      값만 체계적으로 낮게 나왔다. 같은 함수를 쓰게 해서 없앤다.
+    """
+    valid = [m for m in mentions if not m.get("is_excluded")]
+    recent = [m for m in valid
+              if (d := _to_date(m.get("posted_at"))) and (TODAY - d).days <= 90]
+    weighted = sum(recency_weight(m.get("posted_at")) for m in valid)
+    return math.log1p(max(len(recent), weighted))
+
+
 def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, dict, str]:
     valid = [m for m in mentions if not m.get("is_excluded")]
     recent = [m for m in valid
               if (d := _to_date(m.get("posted_at"))) and (TODAY - d).days <= 90]
-    # 90일 창은 경계가 딱딱하다 — 91일 된 글이 0이 되고 89일 된 글이 1이 된다.
-    # 최신성 가중 합을 함께 써서 경계를 부드럽게 한다. 날짜 없는 글은
-    # 여전히 0.6 으로 들어가므로 전체가 0 이 되지는 않는다.
     weighted = sum(recency_weight(m.get("posted_at")) for m in valid)
-    volume = math.log1p(max(len(recent), weighted))
+    volume = volume_of(mentions)
 
     if len(cohort_volumes) >= 3:
         mu = statistics.mean(cohort_volumes)
@@ -152,10 +247,10 @@ def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, 
         z = (volume - mu) / sd
     else:
         z = 0.0
-    volume_score = _clamp(50 + z * 18)
+    volume_score = _clamp(50 + z * Z_SCALE)
 
     slope, direction = _trend(valid)
-    slope_score = _clamp(50 + slope * 12)
+    slope_score = _clamp(50 + slope * TREND_SCALE)
 
     score = 0.6 * volume_score + 0.4 * slope_score
     return round(score, 1), {
@@ -163,30 +258,76 @@ def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, 
         "최신성_가중합": round(weighted, 1),
         "전체_유효언급": len(valid),
         "코호트_z점수": round(z, 2),
-        "월별_추세기울기": round(slope, 3),
-        "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40%",
+        # 월평균 대비 증감 비율. 절대 건수가 아니다 — 규모가 다른 학원의
+        # 추세를 같은 자로 재려면 상대값이어야 한다.
+        "월별_추세_상대기울기": round(slope, 3),
+        "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% "
+                "(추세는 월평균 대비 상대 기울기)",
     }, direction
 
 
+def _month_index(d: date) -> int:
+    return d.year * 12 + d.month
+
+
 def _trend(mentions: list[dict]) -> tuple[float, str]:
-    """월별 언급 수의 단순 선형 기울기와 방향 라벨."""
-    buckets: dict[str, int] = defaultdict(int)
+    """월별 언급 수의 상대 기울기와 방향 라벨.
+
+    ★ **발견일로 채운 날짜는 쓰지 않는다.** 추세는 '언제 쓰였나' 의
+      시계열인데, 발견일은 '언제 우리가 봤나' 다. 수집 일정이 곧 x축이
+      되어 버리면 화살표가 학원의 화제성이 아니라 우리 크롤 일정을
+      가리킨다 — 실측에서 발견 도장이 사흘(8/22~24)에 몰려 있어 추세가
+      잡히는 학원 44곳 중 40곳이 '상승' 으로 나왔다.
+
+      최신성 가중치와 90일 창에는 발견일을 그대로 쓴다. 거기서는 '최근에
+      처음 본 글은 대체로 최근 글' 이라는 원래 논리가 성립한다. 시계열의
+      모양을 만들 때만 못 쓴다.
+
+      그래서 대부분의 학원은 '보합' 으로 남는다. 실제 작성일을 아는 글이
+      9%뿐이기 때문이다 — **모르는 것을 모른다고 두는 편이** 수집 일정을
+      추세로 파는 것보다 낫다.
+
+    ★ **관측이 없는 달을 0 으로 채운다.** 예전에는 언급이 있는 달만
+      버킷에 담아서, 1월(5건)과 6월(1건)이 인접한 두 점으로 계산됐다.
+      사이의 빈 넉 달이 사라지므로 **언급이 끊긴 학원의 하락이 잡히지
+      않았고**, 카드의 상승·보합 화살표가 실제보다 낙관적이었다.
+
+      채우는 구간은 '처음 관측된 달 ~ 이번 달' 이다. 최근에 아무 글도
+      없다는 것도 추세다 — 마지막 관측에서 끊으면 그 사실이 사라진다.
+
+    ★ 다만 **관측된 달이 3개 미만이면 기울기를 내지 않는다.** 0 을
+      채워 점을 늘리면 관측 한 달짜리로도 12점이 만들어져, 근거 한 줌으로
+      '하락' 이라 단정하게 된다. 날짜를 아는 글이 절반뿐이라 특히 그렇다.
+    """
+    buckets: dict[int, int] = defaultdict(int)
     for m in mentions:
+        if m.get("date_source") == "discovery":
+            continue          # 발견일 — 작성 시점의 근거가 아니다
         d = _to_date(m.get("posted_at"))
-        if d and (TODAY - d).days <= 365:
-            buckets[f"{d.year}-{d.month:02d}"] += 1
+        if d and 0 <= (TODAY - d).days <= 365:
+            buckets[_month_index(d)] += 1
     if len(buckets) < 3:
         return 0.0, "stable"
 
-    ys = [buckets[k] for k in sorted(buckets)]
+    # 첫 관측 달부터 이번 달까지 빈 달을 0 으로 채운다.
+    start, end = min(buckets), _month_index(TODAY)
+    ys = [buckets.get(i, 0) for i in range(start, max(end, max(buckets)) + 1)]
     n = len(ys)
     xs = list(range(n))
     mx, my = sum(xs) / n, sum(ys) / n
     denom = sum((x - mx) ** 2 for x in xs) or 1.0
     slope = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / denom
 
-    direction = "rising" if slope > 0.35 else "falling" if slope < -0.35 else "stable"
-    return slope, direction
+    # ★ 기울기를 **월평균 언급 수로 나눈다.** 절대 기울기는 학원 규모에
+    #   딸려 다닌다 — 월 50건짜리가 30건으로 주는 것과 월 5건짜리가 0건이
+    #   되는 것은 같은 '줄어듦' 인데 절대 기울기는 6배 차이가 난다.
+    #   빈 달을 채우면서 점이 늘어 기울기 크기가 더 희석되므로, 옛 절대
+    #   임계값(±0.35)을 그대로 두면 **거의 전부 '보합'** 이 된다(실측:
+    #   하락 3곳 → 0곳). 상대값으로 재야 임계값이 규모와 무관해진다.
+    rel = slope / my if my > 0 else 0.0
+    direction = ("rising" if rel > TREND_THRESHOLD
+                 else "falling" if rel < -TREND_THRESHOLD else "stable")
+    return rel, direction
 
 
 # ── 기둥 3. 투명성 (25%) ───────────────────────────────────────────
@@ -558,19 +699,44 @@ def build_cohorts(academies: list[dict], mentions_by_key: dict) -> dict:
                   if not m.get("is_excluded")]
             if ms:
                 sentiments.extend(float(m.get("sentiment", 0.0)) for m in ms)
-                # 학원 단위 평균도 따로 모은다. z 점수의 분모는 '학원끼리
+                # 학원 단위 값도 따로 모은다. z 점수의 분모는 '학원끼리
                 # 얼마나 벌어지는가'여야 한다 — 언급 단위 편차를 쓰면
                 # 글마다의 잡음이 분모에 들어간다.
-                per_academy.append(
-                    statistics.mean(float(m.get("sentiment", 0.0)) for m in ms))
-                volumes.append(math.log1p(len(ms)))
+                #
+                # ★ reputation() 이 재는 것과 **같은 통계 · 같은 모집단**
+                #   이어야 한다. 여기서 단순 평균의 편차를 주고 저기서
+                #   가중 평균을 견주면 z 가 무엇을 뜻하는지 말할 수 없다.
+                #   문턱(substance)도 같이 걸어야 한다 — 평판은 의견 있는
+                #   글만 보는데 코호트가 전부를 보면 중심이 어긋난다.
+                opinionated = [m for m in ms
+                               if m.get("substance", 1)
+                               >= REPUTATION_SUBSTANCE_FLOOR]
+                wm = weighted_sentiment(opinionated)
+                if wm is not None:
+                    per_academy.append(wm)
+                # ★ momentum() 과 **같은 함수**로 잰다. 다른 자로 재면
+                #   z 점수가 통째로 치우친다 — 여기서 log1p(건수)를 쓰고
+                #   저기서 최신성 가중합을 쓰고 있었다.
+                #
+                #   ★ 화제성에는 문턱을 걸지 않는다(위 REPUTATION_SUBSTANCE_
+                #   FLOOR 설명 참고). 한 줄짜리 '거기 좋대요' 도 회자의
+                #   증거로는 유효하다 — 두 기둥이 같은 글을 다르게 쓰는
+                #   것이 정상이고, 그래서 모집단도 다르다.
+                volumes.append(volume_of(ms))
                 cap = a.get("tofor_smtot") or 0
                 if cap:
                     ratios.append(len(ms) / cap)
         cohorts[key] = {
-            "mean_sentiment": round(statistics.mean(sentiments), 4) if sentiments else 0.0,
+            # μ 와 σ 는 **같은 분포**에서 나와야 한다. 예전에는 μ 를 글
+            # 단위 평균(언급 많은 학원이 지배)으로, σ 를 학원 단위 편차로
+            # 재서 z 의 중심과 폭이 서로 다른 것을 가리켰다.
+            "mean_sentiment": (round(statistics.mean(per_academy), 4)
+                               if per_academy else 0.0),
             "sd_sentiment": (round(statistics.pstdev(per_academy), 4)
                              if len(per_academy) >= 3 else 0.12),
+            # 글 단위 평균은 참고용으로 남긴다(화면의 근거 설명에 쓰인다).
+            "mean_sentiment_per_post": (round(statistics.mean(sentiments), 4)
+                                        if sentiments else 0.0),
             "volumes": volumes,
             "mention_capacity_ratio": statistics.mean(ratios) if ratios else 1.0,
             "size": len(members),
@@ -587,3 +753,93 @@ def cohort_for(academy: dict, cohorts: dict, subject: str | None = None) -> dict
         "mean_sentiment": 0.0, "sd_sentiment": 0.12,
         "volumes": [], "mention_capacity_ratio": 1.0, "size": 0,
     })
+
+
+# ── 실효 기여 감시 ─────────────────────────────────────────────────
+PILLARS = ("reputation", "selectivity", "momentum", "transparency")
+
+# 가중치가 같은 두 기둥의 실효 기여가 이 배수 이상 갈리면 알린다.
+# 2배면 '똑같이 본다' 는 설명이 더는 사실이 아니다.
+EQUAL_WEIGHT_RATIO = 2.0
+
+
+def effective_contribution(subject_scores: dict,
+                           min_sample: int = 1) -> dict[str, dict]:
+    """기둥별 `가중치 × 표준편차`. 가중치와 실제 영향력이 맞는지 잰다.
+
+    **가중치가 같아도 분산이 다르면 영향이 다르다.** 평판·진입난이도를
+    각 0.35 로 올렸는데도 순위를 가른 것은 진입난이도뿐이었던 적이 있고,
+    나중에는 0.15 짜리 화제성이 0.35 짜리 평판을 눌렀다(실효 2.55 대 1.41).
+    둘 다 손으로 재서야 알았다 — 그래서 매 실행 잰다.
+
+    학술 과목 점수만 본다. 예체능·기타는 저울 자체가 다르다.
+    """
+    values: dict[str, list[float]] = {p: [] for p in PILLARS}
+    for per_subject in subject_scores.values():
+        for sc in (per_subject or {}).values():
+            if sc.get("subject_group") != "academic":
+                continue
+            if sc.get("sample_size", 0) < min_sample:
+                continue
+            for p in PILLARS:
+                v = sc.get(p)
+                if v is not None:
+                    values[p].append(float(v))
+
+    out: dict[str, dict] = {}
+    for p in PILLARS:
+        rows = values[p]
+        sd = statistics.pstdev(rows) if len(rows) > 1 else 0.0
+        w = config.WEIGHTS[p]
+        out[p] = {"weight": w, "sd": round(sd, 2),
+                  "effective": round(w * sd, 2), "n": len(rows)}
+    return out
+
+
+def audit_contribution(subject_scores: dict) -> list[str]:
+    """명목 가중치 순서와 실효 기여 순서가 어긋나면 경고 문자열을 낸다.
+
+    ★ 어긋난 채로 두면 '평판 35%' 라고 공개해 놓고 실제로는 화제성이
+      순위를 가르는 상태가 된다. 산식을 공개하는 서비스에서 그건
+      숫자가 틀린 것보다 나쁘다 — 설명이 틀린 것이기 때문이다.
+    """
+    table = effective_contribution(subject_scores)
+    if not any(v["n"] for v in table.values()):
+        return []
+
+    line = " · ".join(
+        f"{p} {v['weight']:.2f}×{v['sd']:.1f}={v['effective']:.2f}"
+        for p, v in sorted(table.items(), key=lambda kv: -kv[1]["effective"]))
+    out = [f"실효 기여(가중치×표준편차): {line}"]
+
+    by_weight = sorted(PILLARS, key=lambda p: -config.WEIGHTS[p])
+    # 가벼운 기둥이 무거운 기둥을 실제로 이기고 있는 짝만 짚는다.
+    for i, heavy in enumerate(by_weight):
+        for light in by_weight[i + 1:]:
+            if config.WEIGHTS[light] >= config.WEIGHTS[heavy]:
+                continue
+            if table[light]["effective"] > table[heavy]["effective"]:
+                out.append(
+                    f"! 가중치 역전: {light}({config.WEIGHTS[light]:.2f}) 가 "
+                    f"{heavy}({config.WEIGHTS[heavy]:.2f}) 보다 순위를 더 가른다 "
+                    f"— 실효 {table[light]['effective']:.2f} > "
+                    f"{table[heavy]['effective']:.2f}")
+
+    # ★ 역전만 보면 놓치는 것이 있다. **가중치가 같은데 영향이 갈리는**
+    #   경우다. 같은 0.35 를 주었는데 한쪽이 두 배로 순위를 가르면,
+    #   '두 기둥을 똑같이 본다' 는 공개된 설명이 사실이 아니게 된다.
+    #   실제로 이 서비스의 첫 사고가 그것이었다(평판 0.87 대 진입 3.27).
+    for i, a in enumerate(PILLARS):
+        for b in PILLARS[i + 1:]:
+            if config.WEIGHTS[a] != config.WEIGHTS[b]:
+                continue
+            hi, lo = sorted((table[a], table[b]), key=lambda t: -t["effective"])
+            if lo["effective"] > 0 and hi["effective"] / lo["effective"] >= EQUAL_WEIGHT_RATIO:
+                strong = a if table[a]["effective"] >= table[b]["effective"] else b
+                weak = b if strong == a else a
+                out.append(
+                    f"! 저울 쏠림: {strong} 와 {weak} 는 가중치가 같은데"
+                    f"(각 {config.WEIGHTS[a]:.2f}) 영향은 "
+                    f"{hi['effective'] / lo['effective']:.1f}배 차이다 "
+                    f"— 실효 {hi['effective']:.2f} 대 {lo['effective']:.2f}")
+    return out

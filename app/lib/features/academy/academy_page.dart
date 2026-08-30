@@ -200,9 +200,8 @@ class _Body extends StatelessWidget {
                     _PillarPanel(
                       pillar: key,
                       value: score.pillar(key),
-                      weight: score.subjectGroup == 'academic'
-                          ? (data.meta.weights[key] ?? 0)
-                          : (key == 'reputation' ? 0.6 : 0.4),
+                      weight:
+                          data.meta.weightsFor(score.subjectGroup)[key] ?? 0,
                       breakdown:
                           (score.breakdown[key] as Map?)
                               ?.cast<String, dynamic>() ??

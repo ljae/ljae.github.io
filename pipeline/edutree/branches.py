@@ -131,7 +131,7 @@ def apply(mentions: list[dict], academies: list[dict],
     kept: list[dict] = []
     seen: set[tuple[str, str]] = set()
     stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "sibling": 0,
-             "branches": len(siblings)}
+             "rehomed": 0, "branches": len(siblings)}
 
     for m in mentions:
         key = m.get("academy_key")
@@ -172,6 +172,34 @@ def apply(mentions: list[dict], academies: list[dict],
             # 지역을 밝힌 글. 내 권역이 아니면 내 근거가 아니다.
             if mine not in ours:
                 stats["elsewhere"] += 1
+                # ★ 버리기만 하면 **진짜 주인도 잃는다.**
+                #   '목동 정상어학원' 글이 대치 지점에서 걸렸다면 대치의
+                #   근거는 아니지만 **목동 지점의 근거는 맞다.** 그런데
+                #   목동 지점은 그 글을 자기 이름으로 수집하지 못했을 수
+                #   있다(수집 대상 순환 · 검색어 차이). 형제 중 그 권역에
+                #   있는 지점에게 넘긴다.
+                #
+                #   넘기기 전에 **그 지점 이름으로도 실제로 걸리는지**
+                #   다시 본다. 브랜드가 같다고 아무 글이나 붙이면 그건
+                #   추측이지 근거가 아니다.
+                for sib in siblings.get(key, []):
+                    if sib.get("region_id") not in ours:
+                        continue
+                    pair = (m.get("url_hash", ""), sib["id"])
+                    if pair in seen:
+                        continue
+                    if not analyze.is_relevant(
+                            m, candidates.get(sib["id"], set()),
+                            generic.get(sib["id"], False), rivals):
+                        continue
+                    seen.add(pair)
+                    copy = dict(m)
+                    copy["academy_key"] = sib["id"]
+                    copy["academy_name"] = sib.get("name")
+                    copy["region_id"] = sib.get("region_id")
+                    copy["branch_basis"] = "region"
+                    kept.append(copy)
+                    stats["rehomed"] += 1
                 continue
             m["branch_basis"] = "region"
             kept.append(m)

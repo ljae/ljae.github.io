@@ -65,16 +65,40 @@ def _rows(payload: dict) -> tuple[list[dict], int]:
     return rows, total
 
 
+def _cached(cache, why: str) -> list[dict]:
+    """캐시로 물러선다. 없으면 빈 목록."""
+    if cache.exists():
+        try:
+            rows = json.loads(cache.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            rows = []
+        if rows:
+            print(f"  학교 {why} — 캐시 {len(rows):,}곳으로 진행")
+            return rows
+    print(f"  학교 {why} · 캐시도 없음 — 건너뜀")
+    return []
+
+
 def fetch_all() -> list[dict]:
     """4개 학군에 속한 학교만 남긴다."""
+    cache = config.CACHE_DIR / "schools.json"
+
+    # ★ 키가 없어도 캐시가 있으면 그것으로 간다.
+    #
+    #   네트워크 **실패** 에는 캐시로 물러서면서 키 **없음** 에는 빈 목록을
+    #   돌려주고 있었다. 그 차이 때문에 키 없는 환경에서 `--from-cache` 로
+    #   산식을 실험하면(문서가 권하는 사용법이다) schools.json 이 0KB 로
+    #   덮어써져 학교·아파트 배정이 통째로 사라졌다.
+    #
+    #   두 경우 모두 '지금 새로 못 가져온다' 는 같은 상황이다. 학교는
+    #   하루 이틀 사이에 새로 생기지 않는다 — schooldistrict·schools 에서
+    #   이미 두 번 겪은 함정의 세 번째 갈래다.
     if not config.HAS_NEIS:
-        print("  NEIS 키 없음 — 학교 수집 건너뜀")
-        return []
+        return _cached(cache, "수집 건너뜀(NEIS 키 없음)")
 
     regions = config.regions()
     dong_to_region = {d: r["id"] for r in regions for d in r["dong_list"]}
 
-    cache = config.CACHE_DIR / "schools.json"
     collected: list[dict] = []
     page = 1
     try:
@@ -93,12 +117,7 @@ def fetch_all() -> list[dict]:
         #   학원·언급 분석·채점이 이미 다 끝난 상태다. 학교 목록은 캐시가
         #   있고 하루 이틀 묵어도 학교가 새로 생기지 않는다.
         #   (같은 함정을 schooldistrict 에서 이미 한 번 겪었다)
-        if cache.exists():
-            rows = json.loads(cache.read_text(encoding="utf-8"))
-            print(f"  학교 수집 실패({type(exc).__name__}) — 캐시 {len(rows):,}곳으로 진행")
-            return rows
-        print(f"  학교 수집 실패({type(exc).__name__}) · 캐시도 없음 — 건너뜀")
-        return []
+        return _cached(cache, f"수집 실패({type(exc).__name__})")
 
     out: list[dict] = []
     for row in collected:

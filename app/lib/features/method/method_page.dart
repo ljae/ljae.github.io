@@ -8,6 +8,12 @@ import '../../data/corrections.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
 
+/// 비율을 사람이 읽는 문장으로. [bare] 면 앞말 없이 숫자만.
+String _pct(double share, {bool bare = false}) {
+  final n = (share * 100).round();
+  return bare ? '$n%' : '지금 수집된 글의 $n%가 작성일을 알고 있고,';
+}
+
 /// 산식 공개 페이지.
 ///
 /// 실명 사업자를 점수로 줄 세우는 서비스가 신뢰를 얻는 방법은 하나뿐이다.
@@ -105,7 +111,7 @@ class MethodPage extends ConsumerWidget {
 
                   const SizedBox(height: AppSpace.xl),
                   const SectionHeader('최근 글에 더 무게를 둡니다'),
-                  const _Prose(
+                  _Prose(
                     '학원은 강사가 바뀌고 반 편성이 바뀝니다. 3년 전 후기와 지난달 후기가 같은 '
                     '무게일 수 없습니다. 그래서 모든 글에 반감기 180일의 감쇠를 겁니다 — '
                     '6개월 된 글은 0.37, 1년 된 글은 0.13의 무게를 받습니다.\n\n'
@@ -115,7 +121,16 @@ class MethodPage extends ConsumerWidget {
                     '작성일을 알 수 없는 글(카페 검색 결과는 날짜를 주지 않습니다)은 6개월 된 '
                     '글과 같은 무게로 둡니다. 모르는 것을 최신으로도, 오래된 것으로도 '
                     '취급하지 않기 위해서입니다. 다만 저희가 처음 발견한 날짜는 기록해 두고, '
-                    '그 이후 새로 나타난 글에는 발견일을 작성일로 씁니다.',
+                    '그 이후 새로 나타난 글에는 발견일을 작성일로 씁니다.\n\n'
+                    // 산식을 공개하기로 했으면 그 산식이 실제로 몇 할에
+                    // 걸리는지도 공개해야 한다. 날짜를 아는 글이 절반이
+                    // 안 되는데 '반감기 180일' 만 적어 두면, 읽는 사람은
+                    // 전부에 걸린다고 이해한다.
+                    '${_pct(data.meta.datedShare)} 그 가운데 글에 작성일이 실제로 적혀 있던 '
+                    '것은 ${_pct(data.meta.realDatedShare, bare: true)}이고, 나머지는 저희가 '
+                    '처음 본 날로 채운 것입니다. 발견일은 "언제 우리가 봤나"이지 "언제 '
+                    '쓰였나"가 아니라서, 최신성 가중치에는 쓰지만 아래의 언급량 추세에는 '
+                    '쓰지 않습니다.',
                   ),
 
                   const SizedBox(height: AppSpace.xl),

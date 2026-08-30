@@ -456,6 +456,48 @@ _SUBJECT_HINTS = {
 }
 
 
+# ★ 과목어가 **낱말 사이에 걸쳐** 우연히 만들어지는 것을 막는다.
+#
+# 부분 문자열로 찾으면 형태소 경계를 모른다. 실측(등록부 5,749곳):
+#   '독학**재수학원**'  → '수학' 이 걸쳐 **재수 학원 19곳이 수학 학원**
+#   '권미나**국어학원**' → '어학' 이 걸쳐 **국어 학원 67곳이 영어 학원**
+#   '…**독서실**'       → '독서' 가 걸쳐 독서실이 국어 학원
+#
+# CLAUDE.md 가 `normalize_name` 에서 이미 겪은 함정이다('우승희영어학원'
+# 이 '우승희영' 이 됐다). 거기서는 끝에서만 떼는 것으로 풀었고, 여기서는
+# **이음매에 공백을 넣어** 낱말이 서로를 넘지 못하게 한다.
+#
+# ★ 지우지 않고 **가른다.** '국어학원' 을 통째로 지우면 '국어' 까지 사라져
+#   진짜 국어 학원이 과목을 잃는다. 공백 하나면 '국어' 는 남고 '어학' 만
+#   깨진다.
+#
+# ★ 정확히 이 표기일 때만 가른다. '시대인**재수학**스쿨' 은 '인재' + '수학'
+#   이라 진짜 수학 학원이다 — '재수학원' 이 아니므로 걸리지 않는다.
+_NAME_SEAMS = (
+    ("재수학원", "재수 학원"),        # 재수 + 학원 ('수학' 아님)
+    ("국어학원", "국어 학원"),        # 국어 + 학원 ('어학' 아님)
+    ("독서실", " "),                  # 독서실은 국어 학원이 아니다
+)
+
+# 앞말이 뒷말을 한정하는 복합어. 뒷말 쪽 과목을 지운다.
+# '과학논술' 은 과학 글쓰기이지 국어 논술이 아니다.
+_NAME_COMPOUNDS = (
+    ("과학논술", "과학"),
+    ("수리논술", "수학"),
+    ("영어논술", "영어"),
+    ("한자논술", " "),
+)
+
+
+def _subject_text(name: str) -> str:
+    """과목 힌트를 찾기 전에 이름의 이음매를 정리한다."""
+    for old, new in _NAME_COMPOUNDS:
+        name = name.replace(old, new)
+    for old, new in _NAME_SEAMS:
+        name = name.replace(old, new)
+    return name
+
+
 def _subject_from_realm(row: dict) -> str | None:
     """분야구분으로 정해지는 과목. 이름 추론보다 우선한다 —
     공시가 '예능(대)'이라고 말하는데 이름에 '수학'이 있다고
@@ -482,7 +524,7 @@ def _subjects_from_name(row: dict) -> list[str]:
     신호가 아니라 잡음이다. 이름은 다르다: 학원이 스스로를 뭐라고
     부르는지이고, '시대인재수학스쿨' 은 수학 전문이라고 말하고 있다.
     """
-    name = row.get("name") or ""
+    name = _subject_text(row.get("name") or "")
     if _subject_from_realm(row):
         return []
     found = [sub for sub, hints in _SUBJECT_HINTS.items()
@@ -527,7 +569,9 @@ def _infer_subjects(row: dict) -> list[str]:
     if by_realm:
         return [by_realm]
 
-    name = str(row.get("name") or "")
+    # 이음매를 정리한 뒤에 본다. '독학재수학원' 의 '수학', '국어학원' 의
+    # '어학' 처럼 낱말에 걸쳐 생긴 과목어를 그대로 믿으면 안 된다.
+    name = _subject_text(str(row.get("name") or ""))
 
     # 학술 과목이 먼저다. 공시 분야가 '입시.검정 및 보습' 인 곳에서
     # 이름의 낱말만 보고 예체능으로 넘기면 안 된다 — '수영수학교습소' 가
@@ -970,9 +1014,18 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         if got:
             print(f"  카페 목록 페이지에서 날짜 {got:,}건 보강")
         store = discovery.update(mentions)
-        new = discovery.apply(mentions, store)
-        if new:
-            print(f"  발견 시점으로 날짜 {new:,}건 보강")
+        # ★ 이전 회차에 이미 보고 있던 학원의 글에만 발견일을 채운다.
+        #   수집 대상이 회차마다 순환하므로, 처음 수집하는 학원의 글은
+        #   '새로 쓰인 것' 이 아니라 '이제 본 것' 이다. 구분하지 않으면
+        #   화제성 화살표가 우리 수집 일정을 가리킨다(discovery 참고).
+        from . import coverage as _cov
+        watched = {aid for aid, row in _cov.load().items()
+                   if (row or {}).get("tries", 0) >= 1}
+        new, held = discovery.apply(mentions, store, watched)
+        if new or held:
+            print(f"  발견 시점으로 날짜 {new:,}건 보강"
+                  + (f" · 처음 수집한 학원 {held:,}건은 날짜 미상 유지"
+                     if held else ""))
         print(f"  날짜 확보율: {cafe_dates.coverage(mentions)}")
 
     # 관련성 게이트 — 학원명이 실제로 등장하는 글만 근거로 인정한다.
@@ -1028,6 +1081,17 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  일상어 별칭 제외: {dropped_alias}곳 "
               f"({', '.join(analyze.EVERYDAY_ALIASES)})")
 
+    # 게이트 이전에 **이번 회차 대상 학원으로** 받아 온 글. 글 노드 감사가
+    # '우리가 가져와 놓고 버린 글'(신호)과 '이번 회차에 아예 안 본
+    # 학원의 글'(정상)을 가르는 데 쓴다.
+    #
+    # 학원으로 한정하는 이유: --from-cache 는 캐시 전체를 읽으므로 이번에
+    # 안 뽑힌 학원의 글까지 들어 있다. 그것들은 후보 이름이 없어 게이트에서
+    # 빠지는데, 그건 규칙이 바뀐 게 아니라 순환일 뿐이다.
+    _watch_ids = {a["id"] for a in evaluated}
+    retrieved_hashes = {m.get("url_hash") for m in mentions
+                        if m.get("url_hash") and m.get("academy_key") in _watch_ids}
+
     before = len(mentions)
     mentions = [m for m in mentions
                 if analyze.is_relevant(
@@ -1054,7 +1118,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
               f"지역 불명 {bstat['shared']:,}건은 지점 공유"
               + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
-                 if bstat.get("sibling") else ""))
+                 if bstat.get("sibling") else "")
+              + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
+                 if bstat.get("rehomed") else ""))
 
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
@@ -1240,6 +1306,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         scores[a["id"]] = main
         subject_scores[a["id"]] = per_subject
 
+    # 가중치와 실제 영향력이 맞는지 매 실행 잰다. 손으로 재서야 알았던
+    # 역전(0.15 짜리 화제성이 0.35 짜리 평판을 누름)을 자동으로 잡는다.
+    for line in scoring.audit_contribution(subject_scores):
+        print(f"  {line}")
+
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
@@ -1284,7 +1355,11 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     graph.audit(evaluated, [m for m in mentions if not m.get("is_excluded")])
     # 글 노드도 같이 본다. 디스크의 페이지와 이번 근거가 어긋나면 알린다 —
     # 우리가 뺀 것은 정상이고, 우리가 뺀 적 없는데 사라진 것이 신호다.
-    for w in posts_mod.audit(mentions, post_overrides):
+    # evaluated 를 함께 넘겨야 '순환으로 안 본 학원의 글'(정상)과 '수집은
+    # 했는데 게이트에서 빠진 글'(신호)이 갈린다. 안 가르면 경고가 수천
+    # 장씩 찍혀 진짜 신호가 묻힌다.
+    for w in posts_mod.audit(mentions, post_overrides, evaluated,
+                             retrieved_hashes):
         print(f"  ! 글 노드: {w}")
     return {
         "mode": mode,
@@ -1488,7 +1563,10 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
             if sc.get("is_ranked"):
                 pools[(a.get("region_id"), sub)].append((a["id"], sc))
     for rows in pools.values():
-        rows.sort(key=lambda t: -t[1]["total"])
+        # 동점일 때도 매 실행 같은 순서가 나오도록 (총점 내림차순, id 오름차순).
+        # _assign_ranks 와 같은 규칙이다 — 한쪽만 결정론이면 회차마다
+        # 과목 등수가 흔들린다.
+        rows.sort(key=lambda t: (-t[1]["total"], t[0]))
         for i, (_, sc) in enumerate(rows, 1):
             sc["rank_in_region"] = i
             sc["region_ranked_count"] = len(rows)
@@ -1740,9 +1818,27 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "mentionCount": len(mentions),
             "naverBudget": config.NAVER_MAX_ACADEMIES,
             "weights": config.WEIGHTS,
+            # 예체능·기타는 저울이 아예 다르다. 이것도 내보내야 화면이
+            # 상수를 들고 있지 않는다 — 학술 가중치에서 이미 겪은 사고다
+            # (산식은 0.35 인데 목록은 0.20 을 그리고 있었다).
+            "nonAcademicWeights": config.NON_ACADEMIC_WEIGHTS,
             "minSampleForRank": config.MIN_SAMPLE_FOR_RANK,
             "reputationPriorCount": config.REPUTATION_PRIOR_COUNT,
             "recencyHalflifeDays": config.RECENCY_HALFLIFE_DAYS,
+            # 작성일을 아는 글의 비율. 최신성 반감기가 실제로 몇 할에
+            # 걸리는지를 말해 준다 — 나머지는 0.6(6개월 된 글과 같은
+            # 취급)을 받는다. 산식을 공개하기로 했으면 그 산식이 얼마나
+            # 걸리는지도 공개해야 한다.
+            "datedShare": round(
+                sum(1 for m in mentions if m.get("posted_at"))
+                / max(1, len(mentions)), 3),
+            # 그중 **작성일이 실제로 적혀 있던** 글. 나머지는 우리가 처음
+            # 본 날로 채운 것이라 추세(시계열)에는 쓰지 않는다.
+            "realDatedShare": round(
+                sum(1 for m in mentions
+                    if m.get("posted_at")
+                    and m.get("date_source") != "discovery")
+                / max(1, len(mentions)), 3),
             "sources": {
                 "official": "NEIS 학원교습소정보 (open.neis.go.kr)" if config.HAS_NEIS else None,
                 "community": "네이버 검색 API" if config.HAS_NAVER else None,

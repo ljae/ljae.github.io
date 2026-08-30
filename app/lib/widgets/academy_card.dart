@@ -392,14 +392,12 @@ class AcademyPillarGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var weights =
-        ref.watch(dataProvider).value?.meta.weights ?? const <String, double>{};
-    if (weights.isEmpty) return const SizedBox.shrink();
+    final meta = ref.watch(dataProvider).value?.meta;
     // 예체능·기타는 투명성·진입난이도를 채점하지 않는다. 값이 없는
-    // 기둥을 0으로 그리면 '점수가 나쁘다'로 읽힌다.
-    if (score.subjectGroup != 'academic') {
-      weights = const {'reputation': 0.6, 'momentum': 0.4};
-    }
+    // 기둥을 0으로 그리면 '점수가 나쁘다'로 읽힌다. 저울은 meta 가 준다 —
+    // 화면이 상수로 들고 있으면 산식을 바꿔도 여기만 옛 값으로 남는다.
+    final weights = meta?.weightsFor(score.subjectGroup) ?? const {};
+    if (weights.isEmpty) return const SizedBox.shrink();
     return PillarWeightBars(score: score, weights: weights, stacked: narrow);
   }
 }

@@ -210,8 +210,15 @@ def test_합성_언급은_글_노드를_만들지_않는다(wiki):
 
 # ── 약속: 무효화가 점수까지 전파된다 ────────────────────────────
 def test_반려하면_표본과_코호트와_등수가_함께_다시_계산된다(wiki):
-    """이 구조의 존재 이유. 글 한 장이 점수 전체를 되돌린다."""
-    ms = ([mention(f"p{i}", "A1", sentiment=0.9) for i in range(12)]
+    """이 구조의 존재 이유. 글 한 장이 점수 전체를 되돌린다.
+
+    A1 의 후기를 **감성이 섞이게** 둔다. 코호트의 중심과 폭은 학원 단위
+    값(가중 평균 감성)의 분포에서 나오므로, 똑같은 감성의 글만 지우면
+    A1 의 평균이 그대로라 코호트가 안 움직인다 — 그건 정상이다.
+    전파를 보려면 **A1 의 평균이 실제로 바뀌어야** 한다.
+    """
+    ms = ([mention(f"p{i}", "A1", sentiment=0.9) for i in range(6)]
+          + [mention(f"r{i}", "A1", sentiment=0.1) for i in range(6)]
           + [mention(f"q{i}", "A2", sentiment=0.1) for i in range(12)])
 
     def score(rows):
@@ -226,7 +233,8 @@ def test_반려하면_표본과_코호트와_등수가_함께_다시_계산된�
     assert before["A1"]["sample_size"] == 12
     assert before["A1"]["is_ranked"] is True
 
-    # A1 의 긍정 후기 절반을 반려한다.
+    # A1 의 긍정 후기(p*)를 전부 반려한다 — 남는 것은 0.1 짜리뿐이라
+    # A1 의 평균 감성 자체가 내려간다.
     for i in range(6):
         write(wiki, f"p{i}", verdict="rejected", reject_reason="광고")
     overrides = posts.load()
@@ -441,6 +449,24 @@ def test_캐시도_없으면_빈_목록이지_예외가_아니다(tmp_path, monk
                         lambda *a, **k: (_ for _ in ()).throw(
                             requests.ConnectionError("boom")))
     assert schools.fetch_all() == []
+
+
+def test_키가_없어도_캐시가_있으면_그것으로_간다(tmp_path, monkeypatch):
+    """네트워크 **실패** 에는 캐시로 물러서면서 키 **없음** 에는 빈 목록을
+    돌려주고 있었다. 그 차이 때문에 키 없는 환경에서 `--from-cache` 로
+    산식을 실험하면(문서가 권하는 사용법이다) schools.json 이 0KB 로
+    덮어써져 학교·아파트 배정이 통째로 사라졌다.
+
+    둘 다 '지금 새로 못 가져온다' 는 같은 상황이다. 학교는 하루 이틀
+    사이에 새로 생기지 않는다."""
+    import json as _json
+    from edutree import schools, config
+
+    monkeypatch.setattr(config, "HAS_NEIS", False)
+    monkeypatch.setattr(schools.config, "CACHE_DIR", tmp_path)
+    (tmp_path / "schools.json").write_text(
+        _json.dumps([{"name": "목동초등학교"}]), encoding="utf-8")
+    assert schools.fetch_all() == [{"name": "목동초등학교"}]
 
 
 # ── 과목 추론: '보습·논술' 은 과목 선언이 아니다 ─────────────────

@@ -398,14 +398,42 @@ def update(mentions: list[dict], academies: list[dict],
     return {"created": created, "updated": updated, "posts": len(by_post)}
 
 
-def audit(mentions: list[dict], overrides: dict[str, dict]) -> list[str]:
+def _page_academies(path: Path) -> set[str]:
+    """글 페이지의 auto:edges 가 가리키는 학원 id 들.
+
+    엔진이 쓴 블록이지만 **판단의 근거로 되읽는 것이 아니라** '이 페이지가
+    누구를 가리키고 있었나' 를 확인하는 용도다. 감사에만 쓴다.
+    """
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return set()
+    block = _AUTO["edges"].search(text)
+    if not block:
+        return set()
+    return set(re.findall(r"\.\./academies/([^|\]]+)", block.group(0)))
+
+
+def audit(mentions: list[dict], overrides: dict[str, dict],
+          evaluated: list[dict] | None = None,
+          retrieved: set[str] | None = None) -> list[str]:
     """디스크의 글 페이지와 이번 실행의 근거가 어긋나는지 본다.
 
     **고아 페이지 자체는 오류가 아니다.** 우리가 반려했거나 기한을 넘긴 글은
-    당연히 이번 근거에 없다 — 그게 무효화가 동작했다는 증거다. 문제는
-    **우리가 뺀 적 없는데 사라진 글**이다. 규칙이 바뀌었거나 그 학원이 수집
-    대상에서 빠졌다는 뜻이고, 페이지에 적힌 산문이 이제 아무것도 가리키지
-    않는다.
+    당연히 이번 근거에 없다 — 그게 무효화가 동작했다는 증거다.
+
+    ★ 그리고 **수집 대상에서 빠진 학원의 글도 오류가 아니다.** 채점 대상은
+      400곳뿐이고 회차마다 순환한다. 이번에 안 뽑힌 학원의 글이 근거에
+      없는 것은 설계대로다. 이걸 구분하지 않아 매 실행 경고가 7,817장씩
+      찍혔고, 그 더미 속에서 **진짜 신호**(수집은 했는데 게이트에서 빠진
+      글)가 묻혔다. 경고는 읽히지 않으면 없는 것과 같다.
+
+      [retrieved] 는 **게이트에 걸리기 전** 이번 회차가 실제로 받아 온
+      글의 해시다. 여기 있는데 근거에 없다면 우리가 가져와 놓고 버린
+      것이므로 사람이 볼 값어치가 있다. 여기에도 없으면 이번 회차에
+      아예 검색하지 않은 글이라 정상이다.
+
+      [evaluated] 는 [retrieved] 가 없을 때 쓰는 거친 대용이다.
 
     ★ 페이지를 지우지 않는다. 사람이 적은 산문이 거기 있고, 다음 회차에
       그 글이 다시 들어올 수도 있다. 알리기만 한다.
@@ -418,19 +446,40 @@ def audit(mentions: list[dict], overrides: dict[str, dict]) -> list[str]:
     # 우리가 의도적으로 뺀 것 — 정상이다.
     intended = {h for h, o in overrides.items()
                 if o["verdict"] in ("rejected", "reclassified") or o["stale_after"]}
-    drifted = sorted(on_disk - live - intended)
-
-    # 판단은 적혀 있는데 그 글이 아예 수집된 적이 없는 경우.
-    # 오타이거나, 그 학원이 수집 대상에서 빠진 것이다.
-    dangling = sorted(h for h in overrides
-                      if h not in live and h not in on_disk)
+    missing = sorted(on_disk - live - intended)
 
     out: list[str] = []
+    rotated = 0
+    if retrieved is not None and missing:
+        # 가장 정확한 판별: 이번에 받아 왔는데 근거에 없다 = 게이트가 뺐다.
+        drifted = [h for h in missing if h in retrieved]
+        rotated = len(missing) - len(drifted)
+    elif evaluated is not None and missing:
+        watched = {a["id"] for a in evaluated}
+        drifted = []
+        for h in missing:
+            owners = _page_academies(POST_DIR / f"{h}.md")
+            # 가리키던 학원이 하나도 이번 수집 대상이 아니면 순환일 뿐이다.
+            if owners and not (owners & watched):
+                rotated += 1
+            else:
+                drifted.append(h)
+    else:
+        drifted = missing
+
     if drifted:
         out.append(
-            f"글 페이지 {len(drifted)}장이 이번 근거에 없다(우리가 뺀 것이 "
-            f"아님) — 규칙 변경이나 수집 대상 변동: {', '.join(h[:8] for h in drifted[:3])}"
+            f"글 페이지 {len(drifted)}장이 이번 근거에 없다 — 수집은 했는데 "
+            f"게이트에서 빠졌다(규칙 변경 의심): "
+            + ", ".join(h[:8] for h in drifted[:3])
             + (" …" if len(drifted) > 3 else ""))
+    if rotated:
+        # 경고가 아니라 사실 보고다. 줄 하나로 줄여 더미를 만들지 않는다.
+        out.append(f"(수집 대상 순환으로 이번에 안 본 학원의 글 {rotated:,}장은 정상)")
+
+    # 판단은 적혀 있는데 그 글이 아예 수집된 적이 없는 경우.
+    dangling = sorted(h for h in overrides
+                      if h not in live and h not in on_disk)
     if dangling:
         out.append(f"판단이 적힌 글 {len(dangling)}건이 수집분에 없다: "
                    + ", ".join(h[:8] for h in dangling[:3]))
