@@ -8665,6 +8665,24 @@
   "lng": 127.050955
  },
  {
+  "id": "3000033624",
+  "name": "우리영어교습소",
+  "displayName": "우리영어교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "english"
+  ],
+  "address": "서울특별시 강남구 논현로10길 30",
+  "capacity": 14,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4749931,
+  "lng": 127.050955
+ },
+ {
   "id": "3000053775",
   "name": "톰의영어교습소",
   "displayName": "톰의영어교습소",
@@ -12786,24 +12804,6 @@
   "registrationIds": null,
   "lat": 37.4861725,
   "lng": 127.0364975
- },
- {
-  "id": "3000024272",
-  "name": "이·티영어교습소",
-  "displayName": "이·티영어교습소",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "english"
-  ],
-  "address": "서울특별시 강남구 개포로 237",
-  "capacity": 12,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4790857,
-  "lng": 127.0486026
  },
  {
   "id": "9084",
@@ -24221,24 +24221,6 @@
   "lng": 127.0515994
  },
  {
-  "id": "3000048750",
-  "name": "디앤에이댄스스튜디오학원",
-  "displayName": "디앤에이댄스스튜디오학원",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "etc"
-  ],
-  "address": "서울특별시 강남구 봉은사로30길 70",
-  "capacity": 340,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5029779,
-  "lng": 127.0367304
- },
- {
   "id": "3000039489",
   "name": "디앤에이입시랩학원",
   "displayName": "디앤에이입시랩학원",
@@ -28865,6 +28847,24 @@
   "registrationIds": null,
   "lat": 37.4993965,
   "lng": 127.0532028
+ },
+ {
+  "id": "3000054050",
+  "name": "스토리헤롯강남원놀이학원",
+  "displayName": "스토리헤롯강남원놀이학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 강남구 역삼로37길 7",
+  "capacity": 350,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4982861,
+  "lng": 127.0430287
  },
  {
   "id": "3000036893",
@@ -36512,6 +36512,24 @@
   "lng": 126.8780787
  },
  {
+  "id": "3000040115",
+  "name": "뿌리깊은심화수학교습소",
+  "displayName": "뿌리깊은심화수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 12,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
   "id": "3000053544",
   "name": "서울대에스엔유(SNU)수학교습소",
   "displayName": "서울대에스엔유(SNU)수학교습소",
@@ -36964,6 +36982,24 @@
   "lng": 126.8780787
  },
  {
+  "id": "3000046254",
+  "name": "오늘은역사논술교습소",
+  "displayName": "오늘은역사논술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "address": "서울특별시 양천구 목동서로 77",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5359472,
+  "lng": 126.8780787
+ },
+ {
   "id": "3000043442",
   "name": "올백수학교습소",
   "displayName": "올백수학교습소",
@@ -37408,24 +37444,6 @@
   ],
   "address": "서울특별시 양천구 목동서로 77",
   "capacity": 6,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5359472,
-  "lng": 126.8780787
- },
- {
-  "id": "3000048630",
-  "name": "창수학교습소",
-  "displayName": "창수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동서로 77",
-  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -40203,24 +40221,6 @@
   "dong": "신정동",
   "subjects": [
    "english"
-  ],
-  "address": "서울특별시 양천구 목동동로 130",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5147094,
-  "lng": 126.8732757
- },
- {
-  "id": "3000048417",
-  "name": "신문보는아이논술교습소",
-  "displayName": "신문보는아이논술교습소",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "korean"
   ],
   "address": "서울특별시 양천구 목동동로 130",
   "capacity": 0,
@@ -48180,6 +48180,24 @@
   ],
   "address": "서울특별시 양천구 목동중앙남로 100",
   "capacity": 69,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5427806,
+  "lng": 126.8637411
+ },
+ {
+  "id": "28826",
+  "name": "수앤수수학교습소",
+  "displayName": "수앤수수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "address": "서울특별시 양천구 목동중앙남로 100",
+  "capacity": 28,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -59047,24 +59065,6 @@
   "lng": 126.8732872
  },
  {
-  "id": "3000051931",
-  "name": "올림수학&사고력학원",
-  "displayName": "올림수학&사고력학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "address": "서울특별시 양천구 목동동로12길 20",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5226833,
-  "lng": 126.8732872
- },
- {
   "id": "1000034016",
   "name": "와이비엠이씨씨목동어학원",
   "displayName": "와이비엠이씨씨목동어학원",
@@ -60383,24 +60383,6 @@
   "registrationIds": null,
   "lat": 37.525618,
   "lng": 126.8624443
- },
- {
-  "id": "3000052464",
-  "name": "목동아이엠미술학원",
-  "displayName": "목동아이엠미술학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "address": "서울특별시 양천구 오목로 326",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5244911,
-  "lng": 126.8735865
  },
  {
   "id": "25811",
@@ -62418,6 +62400,24 @@
   ],
   "address": "서울특별시 양천구 목동로 213",
   "capacity": 129,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5274766,
+  "lng": 126.8638405
+ },
+ {
+  "id": "3000021641",
+  "name": "예일아카데미연기학원",
+  "displayName": "예일아카데미연기학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "etc"
+  ],
+  "address": "서울특별시 양천구 목동로 213",
+  "capacity": 200,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,

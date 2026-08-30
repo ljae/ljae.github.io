@@ -481,6 +481,23 @@ def _extract_facts(text: str, flat: str, idx: list[int], owner_ok,
     return out
 
 
+def _contiguous(idx: list[int], i: int, n: int, trig: str) -> bool:
+    """찾은 낱말이 **원문에서도 붙어 있는가.**
+
+    `flat` 은 공백과 문장부호를 지운다. 그래서 원문의 두 낱말이 붙어
+    새 낱말을 만든다 — 실측(2026-08-29):
+
+        '과학적인 8대 기능성 영양설계'  → flat '…8대기능성…'  → '대기'
+        (건강식품 광고가 진입난이도 '대기·웨이팅' 근거가 됐다)
+
+    낱말 자체에 공백이 없으면 원문에서도 한 덩어리여야 한다. 공백을 품은
+    표기('자리 없')는 붙여 찾는 것이 목적이므로 이 검사를 건너뛴다.
+    """
+    if " " in trig:
+        return True
+    return idx[i + n - 1] - idx[i] == n - 1
+
+
 def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
                     owner_ok) -> list[dict]:
     """진입난이도 사건. 세 조건을 **모두** 통과해야 근거가 된다.
@@ -504,6 +521,7 @@ def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
                 wrong_sense = any(
                     tail.startswith(x) for x in SEL_NOT_AFTER.get(trig, ()))
                 if (not wrong_sense
+                        and _contiguous(idx, i, len(t), trig)
                         and owner_ok(orig, SEL_WINDOW)
                         and not _sel_negated(flat, i, len(t))
                         and (not needs_test or _has_test_context(flat, i))):
