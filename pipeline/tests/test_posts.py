@@ -451,6 +451,24 @@ def test_캐시도_없으면_빈_목록이지_예외가_아니다(tmp_path, monk
     assert schools.fetch_all() == []
 
 
+def test_키가_없어도_캐시가_있으면_그것으로_간다(tmp_path, monkeypatch):
+    """네트워크 **실패** 에는 캐시로 물러서면서 키 **없음** 에는 빈 목록을
+    돌려주고 있었다. 그 차이 때문에 키 없는 환경에서 `--from-cache` 로
+    산식을 실험하면(문서가 권하는 사용법이다) schools.json 이 0KB 로
+    덮어써져 학교·아파트 배정이 통째로 사라졌다.
+
+    둘 다 '지금 새로 못 가져온다' 는 같은 상황이다. 학교는 하루 이틀
+    사이에 새로 생기지 않는다."""
+    import json as _json
+    from edutree import schools, config
+
+    monkeypatch.setattr(config, "HAS_NEIS", False)
+    monkeypatch.setattr(schools.config, "CACHE_DIR", tmp_path)
+    (tmp_path / "schools.json").write_text(
+        _json.dumps([{"name": "목동초등학교"}]), encoding="utf-8")
+    assert schools.fetch_all() == [{"name": "목동초등학교"}]
+
+
 # ── 과목 추론: '보습·논술' 은 과목 선언이 아니다 ─────────────────
 def test_보습논술은_국어_신호가_아니다():
     """NEIS 의 '보습·논술' 은 보습학원 기본 등록값이지 과목 선언이 아니다.
