@@ -733,4 +733,104 @@ void main() {
       expect(got.every((m) => m.isDirect), isTrue);
     });
   });
+
+  group('랭킹 목록', () {
+    Academy academy(
+      String id, {
+      required int sample,
+      required double total,
+      List<String> subjects = const ['math'],
+    }) => Academy(
+      id: id,
+      name: id,
+      displayNameRaw: id,
+      aliases: const [],
+      regionId: 'daechi',
+      subjects: subjects,
+      gradeBands: const [],
+      stages: const [],
+      stageBasis: const {},
+      flagship: const [],
+      isVerified: true,
+      dataSource: 'neis',
+      score: Score(
+        total: total,
+        reputation: total,
+        momentum: total,
+        sampleSize: sample,
+        confidence: sample >= 30
+            ? 'high'
+            : sample >= 10
+            ? 'medium'
+            : 'low',
+        // 파이프라인과 같은 규칙: 표본 10건 이상만 순위 기준을 넘는다.
+        isRanked: sample >= 10,
+        momentumDirection: 'stable',
+      ),
+      evidence: const [],
+    );
+
+    EduTreeData dataWith(List<Academy> rows) => EduTreeData(
+      meta: const Meta(
+        mode: 'test',
+        generatedAt: '',
+        evaluatedCount: 0,
+        registryCount: 0,
+        mentionCount: 0,
+        weights: {},
+        nonAcademicWeights: {},
+        minSampleForRank: 10,
+        reputationPriorCount: 12,
+        recencyHalflifeDays: 180,
+      ),
+      regions: const [],
+      tracks: const [],
+      academies: rows,
+      roadmap: const Roadmap(),
+    );
+
+    test('표본 0 은 순위 목록에 넣지 않는다', () {
+      // 점수가 코호트 평균(50)으로 채워져 있어 등수를 붙이면 그건
+      // 평가가 아니라 기본값이다.
+      final data = dataWith([
+        academy('근거없음', sample: 0, total: 90),
+        academy('근거있음', sample: 12, total: 40),
+      ]);
+      final got = data.ranking(regionId: 'daechi', subject: 'math');
+      expect(got.map((a) => a.id), ['근거있음']);
+      expect(data.unscored('daechi', subject: 'math').single.id, '근거없음');
+    });
+
+    test('★ 근거가 두꺼운 쪽을 먼저 세운다', () {
+      // 실측: 7개 조합에서 표본 1~2건이 표본 47~130건짜리를 제치고
+      // 1위였다. '표본 부족'이라 적는 것만으로는 부족하다 — 자리 자체가
+      // 근거의 두께를 말해야 한다.
+      final data = dataWith([
+        academy('표본1건', sample: 1, total: 58),
+        academy('표본130건', sample: 130, total: 54),
+        academy('표본47건', sample: 47, total: 52),
+        academy('표본2건', sample: 2, total: 57),
+      ]);
+      final got = data.ranking(regionId: 'daechi', subject: 'math');
+      expect(got.map((a) => a.id), [
+        '표본130건', // 순위 기준을 넘은 것끼리 점수순
+        '표본47건',
+        '표본1건', // 그 아래가 '표본 부족' — 이 층 안에서도 점수순이다
+        '표본2건',
+      ]);
+      // 점수만 보면 58점짜리가 1위였다. 층이 갈려 아래로 내려간다.
+      expect(got.first.scoreFor('math').total, lessThan(58));
+    });
+
+    test('같은 층 안에서는 점수순, 동점이면 id 순', () {
+      // 동점 tie-break 가 없으면 회차마다 등수가 흔들린다.
+      final data = dataWith([
+        academy('나', sample: 20, total: 50),
+        academy('가', sample: 20, total: 50),
+        academy('다', sample: 20, total: 60),
+      ]);
+      final got = data.ranking(regionId: 'daechi', subject: 'math');
+      expect(got.map((a) => a.id), ['다', '가', '나']);
+    });
+  });
 }
