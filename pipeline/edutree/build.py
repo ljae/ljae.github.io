@@ -1013,6 +1013,21 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             if len(c) >= 3:          # 짧은 이름은 우연히 겹친다
                 rival_names.add(c)
 
+    # 일상어 별칭은 게이트에서 뺀다. 사람이 시드·위키에 적은 별칭이라도
+    # 그 자체로 일상어면 근거가 못 된다 — '정상'(정상어학원)이 '어느 정도가
+    # 정상인지'·'정상적인 면역기능'을 다섯 지점의 근거로 만들었다.
+    # 학원 표지를 요구하는 정도로는 안 걸러진다('금액 상담'의 '상담').
+    # 강한 표기('정상어학원'·'정상영어')는 그대로 남으므로 진짜 글은 산다.
+    dropped_alias = 0
+    for aid, cand in candidates.items():
+        weak = analyze.weak_candidates(cand)
+        if weak:
+            candidates[aid] = cand - weak
+            dropped_alias += 1
+    if dropped_alias:
+        print(f"  일상어 별칭 제외: {dropped_alias}곳 "
+              f"({', '.join(analyze.EVERYDAY_ALIASES)})")
+
     before = len(mentions)
     mentions = [m for m in mentions
                 if analyze.is_relevant(
