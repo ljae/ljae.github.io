@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.40
-- 붙은 학원 1곳 · 과목 science
+- 붙은 학원 2곳 · 과목 science
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -30,6 +30,7 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/19384|시대인재수학스쿨]] — 이름이 본문에 등장 · 감성 +0.00
+- [[../academies/10013|시대인재수학스쿨]] — 이름이 본문에 등장 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

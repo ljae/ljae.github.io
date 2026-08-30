@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.40
-- 붙은 학원 2곳 · 과목 english
+- 붙은 학원 1곳 · 과목 english
 - 진입난이도 신호: wait
 <!-- /auto:digest -->
 
@@ -30,7 +30,6 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/1000035161|대치1관정상어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
-- [[../academies/3002|씨앤씨학원]] — 이름이 본문에 등장 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

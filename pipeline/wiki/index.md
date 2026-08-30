@@ -134,6 +134,7 @@
 - [새로운학원](academies/3000040050.md) — mokdong
 - [퍼스트액터스학원](academies/3000040489.md) — banpo
 - [잠실피아노학원](academies/3000040780.md) — jamsil
+- [류다현](academies/3000041868.md) — mokdong
 - [목동최상위수학학원](academies/3000042313.md) — mokdong
 - [감성피아노음악학원](academies/3000043059.md) — mokdong
 - [테스트](academies/3000043345.md) — jamsil

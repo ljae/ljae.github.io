@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+쌍용고 1학년 영어 내신 공략법과 포인트를 안내하며 원생을 유치하려는 학원 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
