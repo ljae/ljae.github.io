@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-labelledby="t d">
+  <title id="t">학원실록</title>
+  <desc id="d">큰 판의 축약. 계선을 둘로 줄이고 굵혔다. 계단은 같은 중심선이다.</desc>
+  <!-- 색은 CSS 변수로 열어 둔다: logo-ink / logo-accent (하이픈 두 개를
+       앞에 붙여 쓴다). 인라인이면 먹빛 판면에 맞출 수 있고, img 로
+       불러도 대체값이 그대로 쓰인다. -->
+  <rect x="0" y="0" width="48" height="48" fill="var(--logo-paper, #F4F0E6)"/>
+  <rect x="3" y="6" width="3" height="36" fill="var(--logo-ink, #14161C)"/>
+  <rect x="42" y="6" width="3" height="36" fill="var(--logo-ink, #14161C)"/>
+  <rect x="12" y="27" width="6" height="15" fill="var(--logo-ink, #14161C)"/>
+  <rect x="12" y="27" width="15" height="6" fill="var(--logo-ink, #14161C)"/>
+  <rect x="21" y="15" width="6" height="18" fill="var(--logo-ink, #14161C)"/>
+  <rect x="21" y="15" width="15" height="6" fill="var(--logo-ink, #14161C)"/>
+  <rect x="30" y="6" width="6" height="9" fill="var(--logo-accent, #C4392A)"/>
+</svg>

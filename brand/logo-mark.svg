@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-labelledby="t d">
+  <title id="t">학원실록</title>
+  <desc id="d">실록 판면의 계선 다섯 줄 중 하나가 굵어져 계단으로 오르고, 그 끝에 주묵이 찍힌다.</desc>
+  <!-- 색은 CSS 변수로 열어 둔다: logo-ink / logo-accent (하이픈 두 개를
+       앞에 붙여 쓴다). 인라인이면 먹빛 판면에 맞출 수 있고, img 로
+       불러도 대체값이 그대로 쓰인다. -->
+  <rect x="5.5" y="6" width="1" height="36" fill="var(--logo-ink, #14161C)"/>
+  <rect x="4" y="6" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="4" y="41" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="14.5" y="6" width="1" height="24" fill="var(--logo-ink, #14161C)"/>
+  <rect x="13" y="6" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="23.5" y="6" width="1" height="12" fill="var(--logo-ink, #14161C)"/>
+  <rect x="22" y="6" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="23.5" y="30" width="1" height="12" fill="var(--logo-ink, #14161C)"/>
+  <rect x="22" y="41" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="32.5" y="18" width="1" height="24" fill="var(--logo-ink, #14161C)"/>
+  <rect x="31" y="41" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="41.5" y="6" width="1" height="36" fill="var(--logo-ink, #14161C)"/>
+  <rect x="40" y="6" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="40" y="41" width="4" height="1" fill="var(--logo-ink, #14161C)"/>
+  <rect x="13" y="28" width="4" height="14" fill="var(--logo-ink, #14161C)"/>
+  <rect x="13" y="28" width="13" height="4" fill="var(--logo-ink, #14161C)"/>
+  <rect x="22" y="16" width="4" height="16" fill="var(--logo-ink, #14161C)"/>
+  <rect x="22" y="16" width="13" height="4" fill="var(--logo-ink, #14161C)"/>
+  <rect x="31" y="6" width="4" height="10" fill="var(--logo-accent, #C4392A)"/>
+</svg>
