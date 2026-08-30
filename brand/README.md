@@ -15,6 +15,7 @@
 ```bash
 uv run --with pillow --no-project python brand/build_marks.py   # SVG + preview
 uv run --with pillow --no-project python brand/build_icons.py   # 파비콘·앱아이콘 전부
+uv run --with pillow --no-project python brand/build_og.py      # 공유 카드
 ```
 
 `build_marks.py` 가 **좌표의 유일한 출처**다. SVG 도 검증용 PNG 도 거기서
@@ -41,11 +42,20 @@ uv run --with pillow --no-project python brand/build_icons.py   # 파비콘·앱
 좌표가 두 곳(파이썬·다트)에 있는 것은 알고 있다. 로고를 고치면 둘 다
 고칠 것 — `widget_test.dart` 의 '로고 표장' 이 다크 대응을 지킨다.
 
-## 아직 안 한 것
+## 공유 카드
 
-`app/web/og-image.png` 는 **옛 남색 로고 그대로다.** 공유 링크에 가장 많이
-노출되는 자리인데 카드 디자인 전체가 옛 브랜드라, 아이콘처럼 기계로 바꿀
-수 없고 다시 짜야 한다.
+`build_og.py` 가 `app/web/og-image.png`(1200 × 630)를 낸다. 오른쪽에 큰 판
+마크를 앉히고 왼쪽에 이름·표제를 세운다 — 가운데 정렬을 쓰지 않는 화면
+규칙 그대로다.
+
+- **한자를 쓰지 않는다.** Paperlogy 에 `學院實錄` 네 자가 모두 없다(실측).
+  넉 자 때문에 다른 서체를 섞으면 조판이 어긋난다. 화면은 브라우저 대체
+  글꼴이 받아 주지만 그림은 못 받는다.
+- **숫자를 넣지 않는다.** 히어로에는 등록 학원·분석한 글 수가 있지만,
+  카드는 정적 파일이라 야간 수집이 돌아도 안 바뀐다. 며칠 뒤면 화면과
+  다른 수를 말하게 된다 — 이 서비스에서 틀린 숫자는 장식이 아니라 오류다.
+- 이름을 크게 둔다. 첫 판에서는 이름이 본문 속 한 번뿐이라 피드 크기
+  (~400px)에서 '누구인가'에 답하지 못했다.
 
 ## 어떻게 여기까지 왔나
 
