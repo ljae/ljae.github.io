@@ -1254,6 +1254,13 @@ class RoadmapStage {
   final int lane;
   final bool roadmapOnly;
 
+  /// 순위를 매길 수 없는 단계에 사람이 적어 둔 예시(영유 등).
+  ///
+  /// 랭킹·수집과 이어지지 않는다. 5~6세를 순위에 세울 근거가 없다는
+  /// 판단은 그대로 두되, **'그 구간에 무엇이 있나'** 에는 답한다 —
+  /// 이름만 적고 점수도 등수도 붙이지 않는다.
+  final List<String> examples;
+
   const RoadmapStage({
     required this.id,
     required this.subject,
@@ -1263,6 +1270,7 @@ class RoadmapStage {
     required this.gradeMax,
     this.lane = 0,
     this.roadmapOnly = false,
+    this.examples = const [],
   });
 
   factory RoadmapStage.fromJson(Map<String, dynamic> j) {
@@ -1276,6 +1284,7 @@ class RoadmapStage {
       gradeMax: (g[1] as num).toInt(),
       lane: (j['lane'] as num?)?.toInt() ?? 0,
       roadmapOnly: j['roadmap_only'] == true,
+      examples: ((j['examples'] as List?) ?? const []).cast<String>(),
     );
   }
 
