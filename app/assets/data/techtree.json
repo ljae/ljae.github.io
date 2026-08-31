@@ -251,22 +251,6 @@
    "linkable": false,
    "stageCounts": {},
    "academyCount": 0
-  },
-  {
-   "id": "dest_art",
-   "label": "예체능 입시",
-   "axis": "기타",
-   "summary": "실기 중심이라 교과 테크트리와 축이 다르다. 길만 표시하고 단계를 잇지 않는다.",
-   "requires": {},
-   "gates": [
-    {
-     "grade": 9,
-     "note": "예고 지원 여부. 실기 준비 기간을 역산해 정한다."
-    }
-   ],
-   "linkable": false,
-   "stageCounts": {},
-   "academyCount": 0
   }
  ],
  "tracks": [
@@ -1425,7 +1409,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_el_thinking",
@@ -1439,7 +1424,8 @@
      4
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_el_competition",
@@ -1453,7 +1439,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_el_preview",
@@ -1467,7 +1454,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_mid_naesin",
@@ -1481,7 +1469,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_mid_kmo",
@@ -1495,7 +1484,8 @@
      8
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_mid_preview",
@@ -1509,7 +1499,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_mid_yeongjae",
@@ -1523,7 +1514,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_hi_naesin",
@@ -1537,7 +1529,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_hi_suneung",
@@ -1551,7 +1544,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_hi_top",
@@ -1565,7 +1559,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "math_hi_nsu",
@@ -1579,7 +1574,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_kindy",
@@ -1593,7 +1589,11 @@
      0
     ],
     "lane": 0,
-    "roadmap_only": true
+    "roadmap_only": true,
+    "examples": [
+     "애플트리",
+     "GATE"
+    ]
    },
    {
     "id": "eng_el_phonics",
@@ -1607,7 +1607,8 @@
      3
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_el_academy",
@@ -1621,7 +1622,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_el_rw",
@@ -1635,7 +1637,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_el_bridge",
@@ -1649,7 +1652,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_mid_naesin",
@@ -1663,7 +1667,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_mid_test",
@@ -1677,7 +1682,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_mid_preview",
@@ -1691,7 +1697,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_hi_naesin",
@@ -1705,7 +1712,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_hi_suneung",
@@ -1719,7 +1727,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "eng_hi_adv",
@@ -1733,7 +1742,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_el_reading",
@@ -1747,7 +1757,8 @@
      4
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_el_literacy",
@@ -1761,7 +1772,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_el_preview",
@@ -1775,7 +1787,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_mid_naesin",
@@ -1789,7 +1802,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_mid_deep",
@@ -1803,7 +1817,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_mid_preview",
@@ -1817,7 +1832,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_hi_naesin",
@@ -1831,7 +1847,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_hi_suneung",
@@ -1845,7 +1862,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "kor_hi_nonsul",
@@ -1859,7 +1877,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_el_lab",
@@ -1873,7 +1892,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_el_gifted",
@@ -1887,7 +1907,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_el_preview",
@@ -1901,7 +1922,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_mid_naesin",
@@ -1915,7 +1937,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_mid_preview",
@@ -1929,7 +1952,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_mid_olympiad",
@@ -1943,7 +1967,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_hi_naesin",
@@ -1957,7 +1982,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_hi_suneung",
@@ -1971,7 +1997,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    },
    {
     "id": "sci_hi_two",
@@ -1985,7 +2012,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "examples": []
    }
   ],
   "edges": [

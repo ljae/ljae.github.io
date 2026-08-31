@@ -341,6 +341,9 @@ def roadmap_payload() -> dict:
                 "grade": st["grade"],
                 "lane": st.get("lane", 0),
                 "roadmap_only": bool(st.get("roadmap_only")),
+                # 순위를 매길 수 없는 단계의 **사람이 적은 예시**.
+                # 랭킹·수집과 이어지지 않으므로 점수도 등수도 없다.
+                "examples": list(st.get("examples", [])),
             })
         edges.extend(track["edges"])
     return {

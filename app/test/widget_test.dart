@@ -9,7 +9,6 @@ import 'package:edutree/data/repository.dart';
 import 'package:edutree/widgets/annals.dart';
 import 'package:edutree/widgets/scroll_stage.dart';
 import 'package:edutree/widgets/wheel_selector.dart';
-import 'package:edutree/features/techtree/destination_board.dart';
 import 'package:edutree/features/techtree/roadmap_view.dart';
 
 void main() {
@@ -387,6 +386,181 @@ void main() {
         // 'art' 로 적어 두고 'arts' 로 찾는 바람에 예체능만 색 없이
         // 회색으로 떨어져 있었다. 키가 어긋나면 조용히 회색이 된다.
         expect(AppColors.subjects[s], isNotNull, reason: '$s 에 색이 없다');
+      }
+    });
+  });
+
+  group('로드맵 자리 계산(RoadmapLanes)', () {
+    Roadmap withStages(List<RoadmapStage> stages) =>
+        Roadmap(stages: stages);
+
+    RoadmapStage st(String id, int min, int max, {int lane = 0}) =>
+        RoadmapStage(
+            id: id, subject: 'math', title: id, gradeMin: min, gradeMax: max,
+            lane: lane);
+
+    // 고3 수학이 실제로 이렇다 — 내신·수능·최상위·N수 넷이 한 학년에
+    // 동시에 열려 있다. 예전 배치는 lane 0/1 두 자리만 알아서 넷 중
+    // 둘이 같은 자리에 포개졌고, 위 카드가 아래 카드의 학원 이름을
+    // 통째로 덮었다.
+    test('겹치는 단계는 서로 다른 칸에 선다', () {
+      final lanes = RoadmapLanes.of(withStages([
+        st('naesin', 10, 12, lane: 1),
+        st('suneung', 10, 12, lane: 1),
+        st('top', 11, 12, lane: 0),
+        st('nsu', 12, 12, lane: 1),
+      ]));
+
+      final seats = {
+        for (final id in ['naesin', 'suneung', 'top', 'nsu'])
+          id: lanes.laneOfStage(id),
+      };
+      expect(seats.values.toSet().length, 4, reason: '넷이 전부 다른 칸이다');
+      expect(lanes.countFor('math'), 4);
+    });
+
+    test('겹치지 않으면 같은 칸을 다시 쓴다', () {
+      // 자리를 아끼지 않으면 안 겹치는 단계까지 폭이 좁아진다.
+      final lanes = RoadmapLanes.of(withStages([
+        st('a', 0, 3),
+        st('b', 4, 6),
+        st('c', 7, 9),
+      ]));
+      expect(lanes.countFor('math'), 1);
+      expect(lanes.laneOfStage('a'), 0);
+      expect(lanes.laneOfStage('c'), 0);
+    });
+
+    test('yaml 의 lane 은 같은 학년에서 시작한 것들의 차례로 남는다', () {
+      final lanes = RoadmapLanes.of(withStages([
+        st('right', 0, 4, lane: 1),
+        st('left', 0, 4, lane: 0),
+      ]));
+      expect(lanes.laneOfStage('left'), 0);
+      expect(lanes.laneOfStage('right'), 1);
+    });
+
+    // 학년 한 칸짜리 카드(72px)에 표제 두 줄 + 학년 표기 + 학원 세 줄을
+    // 밀어 넣고 있었다 — 실측 43px 넘침. 넘친 부분은 그려지지 않으므로
+    // **학원 이름이 통째로 사라진다.** 넘침은 시험에서 예외로 잡히므로
+    // 카드를 그려 보는 것만으로 검사가 된다.
+    testWidgets('짧은 카드에서도 내용이 넘치지 않는다', (tester) async {
+      tester.view.physicalSize = const Size(1400, 1200);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final data = EduTreeData(
+        meta: const Meta(
+          mode: 'test',
+          generatedAt: '',
+          evaluatedCount: 0,
+          registryCount: 0,
+          mentionCount: 0,
+          weights: {},
+          minSampleForRank: 10,
+          reputationPriorCount: 12,
+          recencyHalflifeDays: 180,
+        ),
+        regions: const [],
+        tracks: const [],
+        // 학년 한 칸짜리 단계. 이어 붙일 학원이 셋 다 있어도 넘치면 안 된다.
+        academies: [
+          for (var i = 0; i < 3; i++)
+            Academy(
+              id: 'a$i',
+              name: '아주긴이름의학원$i',
+              displayNameRaw: '아주긴이름의학원$i',
+              aliases: const [],
+              regionId: 'daechi',
+              subjects: const ['math'],
+              gradeBands: const [],
+              stages: const ['one'],
+              stageBasis: const {'one': 'curated'},
+              flagship: const [],
+              isVerified: true,
+              dataSource: 'neis',
+              score: const Score(
+                total: 60,
+                reputation: 60,
+                momentum: 60,
+                sampleSize: 20,
+                confidence: 'high',
+                isRanked: true,
+                momentumDirection: 'stable',
+              ),
+              evidence: const [],
+            ),
+        ],
+        roadmap: withStages([st('one', 12, 12)]),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ProviderScope(
+              child: RoadmapView(data: data, regionId: 'daechi'),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+    });
+
+    // 실제 화면에서 카드가 겹치지 않는지까지 본다. 자리 계산이 맞아도
+    // 배치에서 안 쓰면 소용이 없다 — 예전에 경로선이 옛 규칙에 남아
+    // 카드와 다른 곳을 가리켰다.
+    testWidgets('카드끼리 화면에서 겹치지 않는다', (tester) async {
+      tester.view.physicalSize = const Size(1400, 2400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final roadmap = withStages([
+        st('naesin', 10, 12, lane: 1),
+        st('suneung', 10, 12, lane: 1),
+        st('top', 11, 12, lane: 0),
+      ]);
+      final data = EduTreeData(
+        meta: const Meta(
+          mode: 'test',
+          generatedAt: '',
+          evaluatedCount: 0,
+          registryCount: 0,
+          mentionCount: 0,
+          weights: {},
+          minSampleForRank: 10,
+          reputationPriorCount: 12,
+          recencyHalflifeDays: 180,
+        ),
+        regions: const [],
+        tracks: const [],
+        academies: const [],
+        roadmap: roadmap,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ProviderScope(
+              child: RoadmapView(data: data, regionId: 'daechi'),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      Rect rectOf(String title) => tester.getRect(
+          find.ancestor(of: find.text(title), matching: find.byType(Container))
+              .first);
+
+      final rects = [
+        for (final id in ['naesin', 'suneung', 'top']) rectOf(id),
+      ];
+      for (var i = 0; i < rects.length; i++) {
+        for (var j = i + 1; j < rects.length; j++) {
+          expect(rects[i].overlaps(rects[j]), isFalse,
+              reason: '$i 번과 $j 번 카드가 포개졌다 — 학원 이름이 가려진다');
+        }
       }
     });
   });
@@ -865,7 +1039,7 @@ void main() {
     });
   });
 
-  group('진로 목적지 — 목적성 축', () {
+  group('진로 목적지', () {
     // 같은 그래프를 축만 바꿔 읽는다. 판이 답해야 하는 것은 셋이다:
     // 이 길이 어느 과목을 지나는가 · 언제 갈리는가 · 그 대목이 얼마나 찼나.
     const mathTrack = Track(
@@ -1078,118 +1252,10 @@ void main() {
       expect(data.destinationAcademyCount(medical, regionId: 'daechi'), 2);
     });
 
-    Widget pumpable(EduTreeData data, ProviderContainer c) =>
-        UncontrolledProviderScope(
-          container: c,
-          child: MaterialApp(
-            home: Scaffold(
-              body: DestinationBoard(data: data, regionId: 'daechi'),
-            ),
-          ),
-        );
-
-    testWidgets('판이 세 상태를 다른 얼굴로 적는다', (tester) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-
-      expect(find.text('2곳'), findsWidgets, reason: '찬 대목은 학원 수');
-      expect(find.text('비었음'), findsWidgets, reason: '요구하는데 0곳');
-      expect(find.text('—'), findsWidgets, reason: '학원을 잇지 않는 길');
-      expect(find.text('고1'), findsWidgets, reason: '갈림 = 가장 이른 관문');
-    });
-
-    testWidgets('교과 단계를 안 지나는 길은 점이 아니라 말로 적는다', (tester) async {
-      // 점 여섯 개짜리 행은 '데이터가 빠졌다' 로 읽힌다. 예체능 입시는
-      // 실기가 축이라 교과 단계를 안 지나는 것이고, 그건 진술이다.
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      const art = Destination(
-        id: 'dest_art',
-        label: '예체능 입시',
-        axis: '기타',
-        linkable: false,
-        summary: '실기 중심이라 교과 테크트리와 축이 다르다.',
-      );
-      final data = EduTreeData(
-        meta: const Meta(
-          mode: 'test',
-          generatedAt: '',
-          evaluatedCount: 0,
-          registryCount: 0,
-          mentionCount: 0,
-          weights: {},
-          minSampleForRank: 10,
-          reputationPriorCount: 12,
-          recencyHalflifeDays: 180,
-        ),
-        regions: const [],
-        tracks: const [mathTrack],
-        academies: const [],
-        destinations: const [medical, art],
-      );
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(data, c));
-      await tester.pump();
-
-      expect(find.text('실기 중심이라 교과 테크트리와 축이 다르다.'), findsOneWidget);
-    });
-
-    testWidgets('좁은 화면에서는 표 대신 목적지 카드로 편다', (tester) async {
-      addTearDown(tester.view.reset);
-      tester.view.devicePixelRatio = 1.0;
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-
-      tester.view.physicalSize = const Size(1000, 900);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-      expect(find.text('진로 목적지'), findsOneWidget, reason: '표에는 머리가 있다');
-
-      tester.view.physicalSize = const Size(400, 900);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-      expect(
-        find.text('진로 목적지'),
-        findsNothing,
-        reason: '칸이 숫자 하나 폭이 되면 표는 표 구실을 못 한다',
-      );
-      expect(find.textContaining('갈림 고1'), findsOneWidget);
-    });
-
-    testWidgets('칸을 누르면 그 길이 열리고 그 과목이 앞에 선다', (tester) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-
-      expect(find.textContaining('이 길의 학원'), findsNothing);
-      await tester.tap(find.text('2곳').first);
-      await tester.pump();
-
-      expect(c.read(destinationProvider), 'dest_medical');
-      expect(find.textContaining('이 길의 학원 2곳'), findsOneWidget);
-      expect(find.text('과탐 II 선택'), findsOneWidget, reason: '관문이 나이 순으로 뜬다');
-    });
-
-    testWidgets('고른 길은 축을 넘어 유지된다', (tester) async {
-      // 목적성 판에서 고른 길이 과목 축(로드맵)에서도 밝아져야 두 판이
-      // 같은 그래프의 두 얼굴이 된다. 화면마다 선택을 따로 들면 축을
-      // 바꿀 때마다 풀려서 사용자는 그 사실을 알아채지 못한다.
+    // 목적성 판을 걷어낸 뒤에도 **고른 길이 로드맵을 밝힌다**는 것은
+    // 그대로여야 한다. 선택은 이제 로드맵 안의 목적지 줄이 하고,
+    // 상태는 destinationProvider 하나가 들고 있다.
+    testWidgets('고른 길이 로드맵을 밝힌다', (tester) async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
@@ -1197,12 +1263,7 @@ void main() {
       final data = board();
       final c = ProviderContainer();
       addTearDown(c.dispose);
-
-      await tester.pumpWidget(pumpable(data, c));
-      await tester.pump();
-      await tester.tap(find.text('의대 · 의치한'));
-      await tester.pump();
-      expect(c.read(destinationProvider), 'dest_medical');
+      c.read(destinationProvider.notifier).select('dest_medical');
 
       await tester.pumpWidget(
         UncontrolledProviderScope(
@@ -1218,7 +1279,7 @@ void main() {
       expect(
         find.text('과탐 II 와 수학 최상위가 갈림길.'),
         findsOneWidget,
-        reason: '로드맵이 같은 선택을 보고 있다',
+        reason: '로드맵이 고른 길의 요약을 적는다',
       );
     });
   });

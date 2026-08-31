@@ -132,17 +132,6 @@ destinations:
       - grade: 6
         note: 중등 과정 선행 완료 여부가 갈림길.
 
-  - id: dest_art
-    label: 예체능 입시
-    axis: 기타
-    sort_order: 6
-    linkable: false
-    summary: 실기 중심이라 교과 테크트리와 축이 다르다. 길만 표시하고 단계를 잇지 않는다.
-    requires: {}
-    gates:
-      - grade: 9
-        note: 예고 지원 여부. 실기 준비 기간을 역산해 정한다.
-
 tracks:
   # ══════════════════════ 수학 ══════════════════════
   - id: math_elementary
@@ -309,6 +298,11 @@ tracks:
         depth: 0
         lane: 0
         roadmap_only: true
+        # 순위를 매길 수 없는 구간이라 **사람이 적은 예시**만 둔다.
+        # 등록부에는 학군마다 따로 있다(애플트리개포·서초·잠실어학학원,
+        # 게이트대치·서초어학학원). 점수도 등수도 붙이지 않는다 —
+        # 5~6세를 세울 근거 데이터가 없다는 판단은 그대로다.
+        examples: [애플트리, GATE]
       - id: eng_el_phonics
         title: 파닉스 · 리딩 기초
         subtitle: 소리와 문자 결합
