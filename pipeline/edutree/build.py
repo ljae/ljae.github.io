@@ -758,6 +758,20 @@ def select_for_mentions(academies: list[dict],
     #   없는 자리에서 일어나야 한다.
     ranked_now = {aid for aid, v in (prev_scores or {}).items()
                   if v.get("is_ranked")}
+    # ★ 그런데 그 기억은 **잘려 나가는 파일에만** 있었다.
+    #
+    #   `_previous_scores()` 는 academies.json 을 읽는데, 그 파일이 바로
+    #   이 선정의 결과물이다. 한 회차 밀려 빠지면 다음 회차에는 '순위였던
+    #   적 없는 곳' 이 되어 보호가 영영 사라진다 — 한 방향 문이다.
+    #   실측: 렉스김어학원(대치 빅3 영어, 표본 111 · 총점 49.7)이 그렇게
+    #   빠진 뒤, 정원 60 으로는 대치 영어의 큰 학원들을 이길 수 없어
+    #   23회를 수집하고도 화면에서 사라져 있었다.
+    #
+    #   → 수집 이력에도 기억이 있다. `last` 는 마지막 회차에 실제로 모은
+    #     글 수다. 표본이 설 만큼 모였던 곳은 자리를 지킨다.
+    #     이력은 잘리지 않으므로 한 번 밀려도 돌아올 수 있다.
+    ranked_now |= {aid for aid, row in hist.items()
+                   if (row.get("last") or 0) >= config.MIN_SAMPLE_FOR_RANK}
     # 이미 수집한 글에 이름이 나오는 미수집 학원 — 정원보다 강한 신호다.
     # 지난 회차가 남긴 파일을 읽는다(coverage 와 같은 방식).
     want = demand.load()
@@ -768,8 +782,11 @@ def select_for_mentions(academies: list[dict],
     # 예체능은 별도 몫을 떼어 준다. 학년 구간으로만 나누면 학년 단서가
     # 약한 예체능이 매번 뒤로 밀려 랭킹에 한 곳도 못 든다(실측: 90곳을
     # 뽑았는데 언급이 잡힌 곳은 2곳뿐이었다).
-    per_band = max(1, int(per_region * 0.76) // len(bands))
-    per_arts = max(1, int(per_region * 0.12))
+    # 자리를 먼저 뗀 만큼 **남은 예산에서** 다시 나눈다. 고정으로 두면
+    # 지킨 자리가 예산에 더해져 회차마다 대상이 불어난다(실측 400 → 442).
+    def quotas(budget: int) -> tuple[int, int]:
+        return (max(1, int(budget * 0.76) // len(bands)),
+                max(1, int(budget * 0.12)))
 
     def capacity(a: dict) -> float:
         try:
@@ -831,6 +848,21 @@ def select_for_mentions(academies: list[dict],
         rows = [a for a in academies if a.get("region_id") == region_id]
         chosen: set[str] = set()
         picked: list[dict] = []
+
+        # ★ 근거가 이미 선 곳은 **자리를 먼저 뗀다.**
+        #
+        #   정렬로 앞세우는 것만으로는 부족했다. 구간·과목마다 자리가
+        #   19칸 남짓이라, 같은 우선순위 층이 넘치면 마지막 열쇠인 정원이
+        #   승부를 가른다. 렉스김어학원(정원 60)은 대치 영어의 큰 학원들
+        #   틈에서 그렇게 밀렸다 — 표본 111 · 총점 49.7 로 순위에 들어
+        #   있던 곳이 23회를 수집하고도 화면에서 사라졌다.
+        #
+        #   순환은 **아직 근거가 없는 자리**에서 일어나야 한다.
+        keep = [a for a in rows if a["id"] in ranked_now]
+        for a in keep:
+            chosen.add(a["id"])
+        picked += keep
+        per_band, per_arts = quotas(max(0, per_region - len(picked)))
 
         for band in bands:
             pool = [a for a in rows if band in (a.get("grade_bands") or [])]
