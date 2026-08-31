@@ -341,6 +341,11 @@ def roadmap_payload() -> dict:
                 "grade": st["grade"],
                 "lane": st.get("lane", 0),
                 "roadmap_only": bool(st.get("roadmap_only")),
+                # 사람이 적은 대표 학원 이름. 근거 데이터가 없어 점수를
+                # 매기지 않는 구간(영유 등)이 '어디를 말하는 것이냐'에
+                # 답할 수 있는 유일한 수단이다. 점수와 섞이지 않도록
+                # 화면에서는 별도 표기로 나간다.
+                "representatives": list(st.get("representatives") or []),
             })
         edges.extend(track["edges"])
     return {

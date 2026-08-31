@@ -9,7 +9,6 @@ import 'package:edutree/data/repository.dart';
 import 'package:edutree/widgets/annals.dart';
 import 'package:edutree/widgets/scroll_stage.dart';
 import 'package:edutree/widgets/wheel_selector.dart';
-import 'package:edutree/features/techtree/destination_board.dart';
 import 'package:edutree/features/techtree/roadmap_view.dart';
 
 void main() {
@@ -820,7 +819,7 @@ void main() {
     });
   });
 
-  group('진로 목적지 — 목적성 축', () {
+  group('진로 목적지', () {
     // 같은 그래프를 축만 바꿔 읽는다. 판이 답해야 하는 것은 셋이다:
     // 이 길이 어느 과목을 지나는가 · 언제 갈리는가 · 그 대목이 얼마나 찼나.
     const mathTrack = Track(
@@ -1033,118 +1032,14 @@ void main() {
       expect(data.destinationAcademyCount(medical, regionId: 'daechi'), 2);
     });
 
-    Widget pumpable(EduTreeData data, ProviderContainer c) =>
-        UncontrolledProviderScope(
-          container: c,
-          child: MaterialApp(
-            home: Scaffold(
-              body: DestinationBoard(data: data, regionId: 'daechi'),
-            ),
-          ),
-        );
-
-    testWidgets('판이 세 상태를 다른 얼굴로 적는다', (tester) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-
-      expect(find.text('2곳'), findsWidgets, reason: '찬 대목은 학원 수');
-      expect(find.text('비었음'), findsWidgets, reason: '요구하는데 0곳');
-      expect(find.text('—'), findsWidgets, reason: '학원을 잇지 않는 길');
-      expect(find.text('고1'), findsWidgets, reason: '갈림 = 가장 이른 관문');
-    });
-
-    testWidgets('교과 단계를 안 지나는 길은 점이 아니라 말로 적는다', (tester) async {
-      // 점 여섯 개짜리 행은 '데이터가 빠졌다' 로 읽힌다. 예체능 입시는
-      // 실기가 축이라 교과 단계를 안 지나는 것이고, 그건 진술이다.
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      const art = Destination(
-        id: 'dest_art',
-        label: '예체능 입시',
-        axis: '기타',
-        linkable: false,
-        summary: '실기 중심이라 교과 테크트리와 축이 다르다.',
-      );
-      final data = EduTreeData(
-        meta: const Meta(
-          mode: 'test',
-          generatedAt: '',
-          evaluatedCount: 0,
-          registryCount: 0,
-          mentionCount: 0,
-          weights: {},
-          minSampleForRank: 10,
-          reputationPriorCount: 12,
-          recencyHalflifeDays: 180,
-        ),
-        regions: const [],
-        tracks: const [mathTrack],
-        academies: const [],
-        destinations: const [medical, art],
-      );
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(data, c));
-      await tester.pump();
-
-      expect(find.text('실기 중심이라 교과 테크트리와 축이 다르다.'), findsOneWidget);
-    });
-
-    testWidgets('좁은 화면에서는 표 대신 목적지 카드로 편다', (tester) async {
-      addTearDown(tester.view.reset);
-      tester.view.devicePixelRatio = 1.0;
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-
-      tester.view.physicalSize = const Size(1000, 900);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-      expect(find.text('진로 목적지'), findsOneWidget, reason: '표에는 머리가 있다');
-
-      tester.view.physicalSize = const Size(400, 900);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-      expect(
-        find.text('진로 목적지'),
-        findsNothing,
-        reason: '칸이 숫자 하나 폭이 되면 표는 표 구실을 못 한다',
-      );
-      expect(find.textContaining('갈림 고1'), findsOneWidget);
-    });
-
-    testWidgets('칸을 누르면 그 길이 열리고 그 과목이 앞에 선다', (tester) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.reset);
-
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      await tester.pumpWidget(pumpable(board(), c));
-      await tester.pump();
-
-      expect(find.textContaining('이 길의 학원'), findsNothing);
-      await tester.tap(find.text('2곳').first);
-      await tester.pump();
-
-      expect(c.read(destinationProvider), 'dest_medical');
-      expect(find.textContaining('이 길의 학원 2곳'), findsOneWidget);
-      expect(find.text('과탐 II 선택'), findsOneWidget, reason: '관문이 나이 순으로 뜬다');
-    });
-
-    testWidgets('고른 길은 축을 넘어 유지된다', (tester) async {
-      // 목적성 판에서 고른 길이 과목 축(로드맵)에서도 밝아져야 두 판이
-      // 같은 그래프의 두 얼굴이 된다. 화면마다 선택을 따로 들면 축을
-      // 바꿀 때마다 풀려서 사용자는 그 사실을 알아채지 못한다.
+    testWidgets('로드맵에서 길을 고르면 그 길이 판 위에 밝아진다', (tester) async {
+      // 목적성 판(DestinationBoard)을 없앤 뒤, 목적지를 고르는 자리는
+      // 로드맵 자신의 목적지 줄 하나뿐이다. 선택이 한 곳에만 있어야
+      // '어느 쪽이 진짜인가'를 묻지 않게 된다.
+      //
+      // 고르면 요약과 '이 길의 학원 N곳'이 함께 떠야 무엇을 고른 것인지
+      // 판 위에서 읽힌다 — 판이 밝아지기만 하고 말이 없으면 사용자는
+      // 자기가 무엇을 눌렀는지 확인할 방법이 없다.
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
@@ -1152,12 +1047,6 @@ void main() {
       final data = board();
       final c = ProviderContainer();
       addTearDown(c.dispose);
-
-      await tester.pumpWidget(pumpable(data, c));
-      await tester.pump();
-      await tester.tap(find.text('의대 · 의치한'));
-      await tester.pump();
-      expect(c.read(destinationProvider), 'dest_medical');
 
       await tester.pumpWidget(
         UncontrolledProviderScope(
@@ -1170,11 +1059,51 @@ void main() {
         ),
       );
       await tester.pump();
+
+      expect(find.textContaining('이 길의 학원'), findsNothing,
+          reason: '아무것도 안 골랐으면 길에 대해 말하지 않는다');
+
+      await tester.tap(find.text('의대 · 의치한'));
+      await tester.pump();
+
+      expect(c.read(destinationProvider), 'dest_medical');
       expect(
         find.text('과탐 II 와 수학 최상위가 갈림길.'),
         findsOneWidget,
-        reason: '로드맵이 같은 선택을 보고 있다',
+        reason: '고른 길의 요약이 판 위에 뜬다',
       );
+      expect(find.textContaining('이 길의 학원 2곳'), findsOneWidget);
+    });
+
+    testWidgets('학원을 잇지 않는 길은 숫자 대신 그렇게 적는다', (tester) async {
+      // 근거가 얇아 학원을 연결하지 않는 길에 '0곳'이라 적으면 '그 길에
+      // 학원이 없다'는 **사실 주장**이 된다. 우리가 세지 않기로 한 것과
+      // 세어 보니 없는 것은 다르다.
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      final data = board();
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: c,
+          child: MaterialApp(
+            home: Scaffold(
+              body: RoadmapView(data: data, regionId: 'daechi'),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      await tester.tap(find.text('조기졸업 · 검정고시'));
+      await tester.pump();
+
+      expect(find.text('근거가 얇아 학원을 잇지 않습니다'), findsOneWidget);
+      expect(find.textContaining('이 길의 학원'), findsNothing);
     });
   });
 }

@@ -29,6 +29,15 @@ class RoadmapView extends ConsumerStatefulWidget {
   static const _axisW = 52.0;
   static const _gap = 10.0;
 
+  /// 세로 열(lane) 하나의 최소·최대 폭.
+  ///
+  /// 카드 한 줄은 '점 + 학원 이름 + 점수'다. 이보다 좁아지면 이름이 두어
+  /// 글자에서 잘려 '여기 무엇이 있는가'를 말하지 못한다. 겹치는 단계가
+  /// 많은 과목은 열을 더 쓰고 판은 그만큼 넓어진다 — 좁혀서 못 읽게
+  /// 만드느니 가로로 미는 편이 낫다.
+  static const _minLaneW = 132.0;
+  static const _maxLaneW = 220.0;
+
   /// 이 아래로는 과목을 한 번에 하나만 보여준다.
   ///
   /// 네 과목이 다 들어가려면 축 52 + (최소 카드폭 150 + 사이 10) × 4 =
@@ -121,24 +130,12 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
         }
         // 좁은 화면에서는 가로 스크롤로 도망가게 한다. 네 과목을 억지로
         // 구겨 넣으면 카드가 글자 하나 폭이 된다.
-        final colW =
-            ((c.maxWidth - _axisW - _gap * subjects.length) / subjects.length)
-                .clamp(150.0, 340.0);
-        final contentW = _axisW + (colW + _gap) * subjects.length;
-        final totalH = _y(_maxGrade + 1) + 20;
-
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            width: contentW,
-            child: _board(
-              context,
-              roadmap,
-              subjects,
-              colW: colW,
-              totalH: totalH,
-            ),
-          ),
+        return _scrollable(
+          context,
+          roadmap,
+          subjects,
+          _Layout.compute(roadmap.stages, subjects, available: c.maxWidth),
+          totalH: _y(_maxGrade + 1) + 20,
         );
       },
     );
@@ -248,7 +245,6 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   ) {
     _pages ??= PageController(initialPage: _page);
     final text = Theme.of(context).textTheme;
-    final colW = (width - _axisW - _gap).clamp(150.0, 420.0);
     final totalH = _y(_maxGrade + 1) + 20;
 
     return Column(
@@ -281,14 +277,17 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
             controller: _pages,
             itemCount: subjects.length,
             onPageChanged: (i) => setState(() => _page = i),
-            itemBuilder: (context, i) => _board(
-              context,
-              roadmap,
-              [subjects[i]], // 한 과목만 그린다
-              colW: colW,
-              totalH: totalH,
-              showHeader: false, // 과목 이름은 위 칩이 이미 말한다
-            ),
+            itemBuilder: (context, i) {
+              final one = [subjects[i]]; // 한 과목만 그린다
+              return _scrollable(
+                context,
+                roadmap,
+                one,
+                _Layout.compute(roadmap.stages, one, available: width),
+                totalH: totalH,
+                showHeader: false, // 과목 이름은 위 칩이 이미 말한다
+              );
+            },
           ),
         ),
       ],
@@ -297,11 +296,40 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
 
   /// 로드맵 판 하나. 과목 목록을 그대로 받으므로 전체(네 과목)와
   /// 한 과목짜리가 같은 코드를 쓴다 — 경로선 좌표도 이 목록으로 계산된다.
+  /// 가로 스크롤 껍데기.
+  ///
+  /// 겹치는 단계가 많은 과목은 열을 더 쓰므로 판이 화면보다 넓어질 수
+  /// 있다. 예전에는 열 폭을 340 으로 잘라 화면 안에 욱여넣었고, 그래서
+  /// 겹친 카드가 서로를 덮었다. 넓으면 민다.
+  Widget _scrollable(
+    BuildContext context,
+    Roadmap roadmap,
+    List<String> subjects,
+    _Layout layout, {
+    required double totalH,
+    bool showHeader = true,
+  }) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: layout.contentW,
+        child: _board(
+          context,
+          roadmap,
+          subjects,
+          layout,
+          totalH: totalH,
+          showHeader: showHeader,
+        ),
+      ),
+    );
+  }
+
   Widget _board(
     BuildContext context,
     Roadmap roadmap,
-    List<String> subjects, {
-    required double colW,
+    List<String> subjects,
+    _Layout layout, {
     required double totalH,
     bool showHeader = true,
   }) {
@@ -311,7 +339,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
         children: [
           if (showHeader) ...[
             const SizedBox(height: AppSpace.md),
-            _subjectHeader(context, subjects, colW),
+            _subjectHeader(context, subjects, layout),
             const SizedBox(height: 6),
           ],
           SizedBox(
@@ -340,9 +368,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
                     painter: _EdgePainter(
                       roadmap: roadmap,
                       subjects: subjects,
-                      colW: colW,
-                      gap: _gap,
-                      axisW: _axisW,
+                      layout: layout,
                       yOf: _y,
                       lineColor: Theme.of(context).dividerColor,
                     ),
@@ -353,8 +379,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
                     _positioned(
                       context,
                       st,
-                      subjects,
-                      colW,
+                      layout,
                       // 목적지를 안 골랐으면 전부 같은 밝기(null).
                       onPath: _dest?.stageIds.contains(st.id),
                     ),
@@ -370,7 +395,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   Widget _subjectHeader(
     BuildContext context,
     List<String> subjects,
-    double colW,
+    _Layout layout,
   ) {
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Row(
@@ -378,7 +403,7 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
         const SizedBox(width: _axisW),
         for (final s in subjects)
           Container(
-            width: colW,
+            width: layout.width[s],
             margin: const EdgeInsets.only(right: _gap),
             padding: const EdgeInsets.symmetric(vertical: 7),
             decoration: BoxDecoration(
@@ -404,29 +429,13 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   Widget _positioned(
     BuildContext context,
     RoadmapStage st,
-    List<String> subjects,
-    double colW, {
+    _Layout layout, {
     bool? onPath,
   }) {
-    final col = subjects.indexOf(st.subject);
-    // 같은 과목 안에서 기간이 겹치는 단계는 lane(0/1)으로 좌우를 나눈다.
-    final overlaps = data.roadmap.stages.any(
-      (o) =>
-          o.id != st.id &&
-          o.subject == st.subject &&
-          o.gradeMin <= st.gradeMax &&
-          o.gradeMax >= st.gradeMin,
-    );
-    final laneW = overlaps ? (colW - 4) / 2 : colW;
-    final left =
-        _axisW +
-        col * (colW + _gap) +
-        (overlaps && st.lane > 0 ? laneW + 4 : 0);
-
     return Positioned(
       top: _y(st.gradeMin) + 2,
-      left: left,
-      width: laneW,
+      left: layout.left(st),
+      width: layout.laneW(st.subject),
       height: (st.gradeMax - st.gradeMin + 1) * _unitH - 6,
       child: _StageCard(
         stage: st,
@@ -616,6 +625,36 @@ class _StageCard extends StatelessWidget {
     );
   }
 
+  /// 큐레이션한 대표 학원 한 줄.
+  ///
+  /// 근거 데이터가 없어 점수를 매기지 않는 구간(영유 등)은 목록이 통째로
+  /// 비어 '어디를 말하는 것이냐'에 답하지 못했다. 사람이 적은 이름이므로
+  /// 별표도 점수도 붙이지 않는다 — 점수와 같은 얼굴로 적으면 재지 않은
+  /// 것을 잰 것처럼 읽힌다.
+  Widget _repLine(BuildContext context, String name) {
+    final text = Theme.of(context).textTheme;
+    return Padding(
+      padding: const EdgeInsets.only(top: 1),
+      child: Row(
+        children: [
+          const Icon(Icons.bookmark_border, size: 10, color: AppColors.mist),
+          const SizedBox(width: 3),
+          Expanded(
+            child: Text(
+              name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: text.bodySmall?.copyWith(
+                fontSize: 10.5,
+                color: AppColors.mist,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -641,12 +680,25 @@ class _StageCard extends StatelessWidget {
               .take(3)
               .toList();
 
+    // 카드 높이는 학년 폭에서 나온다(한 학년 = 72px). 한 학년짜리 단계는
+    // 66px 뿐이라 제목 두 줄 + 학년 + 학원 세 줄이 애초에 들어가지 않는다.
+    // 예전에는 넘치는 만큼 **잘려서** 학원 이름이 소리 없이 사라졌다.
+    // 들어갈 만큼만 적고 나머지는 카드를 눌러 시트에서 본다.
+    int slotsFor(double h) {
+      final headH = 14 + (h < 100 ? 16.0 : 32.0) + 2 + 14;
+      return ((h - headH) / 14.5).floor().clamp(0, 3);
+    }
+
     final full = data.stageById[stage.id];
 
     // 길 밖은 **지우지 않고 흐리게** 둔다. 없애면 '그 과목이 아예 없다' 로
     // 읽히는데, 사실은 이 목적지가 그 단계를 요구하지 않을 뿐이다.
     final off = onPath == false;
-    final card = InkWell(
+    final card = LayoutBuilder(
+      builder: (context, cons) {
+        final slots = slotsFor(cons.maxHeight);
+        final titleLines = cons.maxHeight < 100 ? 1 : 2;
+        return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.sm),
       onTap: full == null
           ? null
@@ -675,7 +727,7 @@ class _StageCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     stage.title,
-                    maxLines: 2,
+                    maxLines: titleLines,
                     overflow: TextOverflow.ellipsis,
                     style: text.labelLarge?.copyWith(
                       fontSize: 12.5,
@@ -694,33 +746,161 @@ class _StageCard extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text(
-                    '로드맵 안내 · 순위 없음',
-                    style: text.bodySmall?.copyWith(
-                      fontSize: 9.5,
-                      color: AppColors.mist,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (final r
+                          in stage.representatives.take(
+                            slots > 0 ? slots - 1 : 0,
+                          ))
+                        _repLine(context, r),
+                      Text(
+                        stage.representatives.isEmpty
+                            ? '로드맵 안내 · 순위 없음'
+                            : '대표 학원 · 순위 없음',
+                        style: text.bodySmall?.copyWith(
+                          fontSize: 9.5,
+                          color: AppColors.mist,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               )
-            else if (tops.isNotEmpty)
+            else if (tops.isNotEmpty && slots > 0)
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [for (final m in tops) _topLine(context, m)],
+                    children: [
+                      for (final m in tops.take(slots)) _topLine(context, m),
+                    ],
                   ),
                 ),
               ),
           ],
         ),
       ),
+        );
+      },
     );
     return off
         ? Opacity(opacity: 0.26, child: IgnorePointer(child: card))
         : card;
+  }
+}
+
+/// 판의 가로 배치 — 과목별 열 폭과, 겹치는 단계를 가르는 lane.
+///
+/// **lane 은 적는 것이 아니라 계산한다.** 예전에는 yaml 에 손으로 적어 둔
+/// lane(0/1)을 그대로 믿고 '겹치면 열을 둘로 가른다'로 그렸다. 그런데 실제
+/// 데이터는 한 학년에 최대 **네 단계**가 겹친다(수학 중2: 중등 내신 · 심화
+/// KMO · 고등 선행 · 영재고 대비). 열이 둘뿐이라 나머지는 앞 카드와 **같은
+/// 자리에 겹쳐 그려졌다** — 41단계 중 18쌍이 그랬고, 나중에 그린 카드가 앞
+/// 카드를 덮어 학원 이름이 소리 없이 사라졌다. 로그도 안 남고 화면도
+/// 멀쩡해 보이는 종류의 고장이다.
+///
+/// 이제 시작 학년 순으로 훑으며 **비어 있는 첫 열**에 넣는다(구간 그래프
+/// 색칠). 겹치는 단계가 같은 열에 놓이는 일이 없고, 열은 그 과목이 실제로
+/// 필요로 하는 만큼만 쓴다. yaml 의 lane 은 이제 '같은 학년에 시작하는
+/// 단계들의 좌우 차례' 힌트로만 남는다.
+class _Layout {
+  /// 단계 id → 열 번호
+  final Map<String, int> lane;
+
+  /// 과목 → 열 수
+  final Map<String, int> lanes;
+
+  /// 과목 → 열 묶음의 왼쪽 x
+  final Map<String, double> x;
+
+  /// 과목 → 열 묶음 전체 폭
+  final Map<String, double> width;
+
+  /// 축을 포함한 판 전체 폭
+  final double contentW;
+
+  const _Layout(this.lane, this.lanes, this.x, this.width, this.contentW);
+
+  double laneW(String subject) {
+    final n = lanes[subject] ?? 1;
+    final w = width[subject] ?? RoadmapView._minLaneW;
+    return (w - RoadmapView._gap * (n - 1)) / n;
+  }
+
+  double left(RoadmapStage st) =>
+      (x[st.subject] ?? RoadmapView._axisW) +
+      (lane[st.id] ?? 0) * (laneW(st.subject) + RoadmapView._gap);
+
+  double centerX(RoadmapStage st) => left(st) + laneW(st.subject) / 2;
+
+  static _Layout compute(
+    List<RoadmapStage> stages,
+    List<String> subjects, {
+    required double available,
+  }) {
+    final lane = <String, int>{};
+    final lanes = <String, int>{};
+
+    for (final s in subjects) {
+      final list = stages.where((st) => st.subject == s).toList()
+        ..sort((a, b) {
+          final c = a.gradeMin.compareTo(b.gradeMin);
+          if (c != 0) return c;
+          // 시작이 같으면 사람이 적어 둔 자리를 존중한다. 충돌하지 않는
+          // 한 원래 의도한 좌우가 그대로 남는다.
+          final l = a.lane.compareTo(b.lane);
+          return l != 0 ? l : a.gradeMax.compareTo(b.gradeMax);
+        });
+      // 열마다 '지금까지 찬 마지막 학년'
+      final until = <int>[];
+      for (final st in list) {
+        var i = 0;
+        while (i < until.length && until[i] >= st.gradeMin) {
+          i++;
+        }
+        if (i == until.length) {
+          until.add(st.gradeMax);
+        } else {
+          until[i] = st.gradeMax;
+        }
+        lane[st.id] = i;
+      }
+      lanes[s] = until.isEmpty ? 1 : until.length;
+    }
+
+    // 열 폭은 과목마다 다르다. 겹침이 없는 과목까지 가장 넓은 과목에
+    // 맞춰 늘리면 판만 넓어지고 빈 자리가 는다.
+    final width = <String, double>{};
+    var need = 0.0;
+    for (final s in subjects) {
+      final n = lanes[s]!;
+      width[s] = n * RoadmapView._minLaneW + RoadmapView._gap * (n - 1);
+      need += width[s]! + RoadmapView._gap;
+    }
+
+    // 자리가 남으면 고르게 나눠 준다. 줄이지는 않는다 — 최소 폭은
+    // '이름이 읽히는가'로 정한 값이라 양보하면 고치려던 문제로 돌아간다.
+    final slack = available - RoadmapView._axisW - need;
+    if (slack > 0) {
+      final add = slack / subjects.length;
+      for (final s in subjects) {
+        final n = lanes[s]!;
+        final cap = n * RoadmapView._maxLaneW + RoadmapView._gap * (n - 1);
+        width[s] = (width[s]! + add).clamp(width[s]!, cap);
+      }
+    }
+
+    final x = <String, double>{};
+    var cursor = RoadmapView._axisW;
+    for (final s in subjects) {
+      x[s] = cursor;
+      cursor += width[s]! + RoadmapView._gap;
+    }
+    return _Layout(lane, lanes, x, width, cursor);
   }
 }
 
@@ -729,18 +909,14 @@ class _StageCard extends StatelessWidget {
 class _EdgePainter extends CustomPainter {
   final Roadmap roadmap;
   final List<String> subjects;
-  final double colW;
-  final double gap;
-  final double axisW;
+  final _Layout layout;
   final double Function(num) yOf;
   final Color lineColor;
 
   _EdgePainter({
     required this.roadmap,
     required this.subjects,
-    required this.colW,
-    required this.gap,
-    required this.axisW,
+    required this.layout,
     required this.yOf,
     required this.lineColor,
   });
@@ -751,22 +927,6 @@ class _EdgePainter extends CustomPainter {
     final paint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.4;
-
-    double centerX(RoadmapStage st) {
-      final col = subjects.indexOf(st.subject);
-      final overlaps = roadmap.stages.any(
-        (o) =>
-            o.id != st.id &&
-            o.subject == st.subject &&
-            o.gradeMin <= st.gradeMax &&
-            o.gradeMax >= st.gradeMin,
-      );
-      final laneW = overlaps ? (colW - 4) / 2 : colW;
-      return axisW +
-          col * (colW + gap) +
-          (overlaps && st.lane > 0 ? laneW + 4 : 0) +
-          laneW / 2;
-    }
 
     for (final e in roadmap.edges) {
       final a = byId[e.from];
@@ -781,8 +941,8 @@ class _EdgePainter extends CustomPainter {
         _ => AppColors.navyBright.withValues(alpha: 0.5),
       };
 
-      final start = Offset(centerX(a), yOf(a.gradeMax + 1) - 4);
-      final end = Offset(centerX(b), yOf(b.gradeMin) + 2);
+      final start = Offset(layout.centerX(a), yOf(a.gradeMax + 1) - 4);
+      final end = Offset(layout.centerX(b), yOf(b.gradeMin) + 2);
       final mid = (start.dy + end.dy) / 2;
       canvas.drawPath(
         Path()
@@ -795,5 +955,5 @@ class _EdgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _EdgePainter old) =>
-      old.colW != colW || old.roadmap != roadmap;
+      old.layout.contentW != layout.contentW || old.roadmap != roadmap;
 }

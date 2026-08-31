@@ -6,49 +6,24 @@ import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/annals.dart';
-import '../../widgets/annals_controls.dart';
 import '../../widgets/common.dart';
-import 'destination_board.dart';
 import 'roadmap_view.dart';
 
-/// 테크트리가 답하는 두 질문 — 방향만 반대인 같은 그래프.
-enum TechTreeAxis {
-  /// 나이 × 과목. '지금 초4 수학인데 이게 어디로 이어지나.'
-  subject('과목 축'),
-
-  /// 목적지 × 과목. '의대를 보내려면 지금 무엇부터인가.'
-  purpose('목적성 축');
-
-  final String label;
-  const TechTreeAxis(this.label);
-}
-
-/// 테크트리 화면 — 같은 그래프를 **축만 바꿔** 두 번 보여준다.
+/// 테크트리 화면 — 나이 × 과목 로드맵 하나.
 ///
-/// 과목·구간별 트리를 따로 두었었는데 없앴다. 같은 정보를 두 벌로
-/// 유지하면 한쪽만 고쳐진다. 그 판단은 그대로다 — 여기서 늘리는 것은
-/// 정보가 아니라 **읽는 방향**이다.
+/// 한때 같은 그래프를 '과목 축'과 '목적성 축' 두 판으로 나눠 보여줬다.
+/// 없앴다. 목적지를 고르는 일은 로드맵 자신이 이미 하고 있고
+/// (`_destinationBar`), 고르면 그 길이 판 위에서 밝아진다. 같은 선택을
+/// 두 곳에 두면 **어느 쪽이 진짜인지**가 흐려지고, 판을 하나 더 유지하는
+/// 값은 계속 나간다. 목적지는 축이 아니라 이 판의 **조명**이다.
 ///
-/// 학부모의 질문은 두 방향으로 온다. '우리 아이는 지금 초4 수학인데
-/// 이게 어디로 이어지나'(과목 축)와 '의대를 보내려면 지금 무엇부터인가'
-/// (목적성 축). 목적지를 로드맵의 조명으로만 두면 뒤쪽 질문에는 답하지
-/// 못한다 — 길을 고르기 전에는 어떤 길이 있는지조차 안 보이기 때문이다.
-///
-/// **고른 목적지는 축을 넘어 유지된다**(`destinationProvider`). 목적성
-/// 판에서 '의대'를 고르고 과목 축으로 넘어가면 그 길이 밝혀진 로드맵이
-/// 나온다. 두 판이 같은 그래프의 두 얼굴이라는 것을 그 연속성이 말한다.
-class TechTreePage extends ConsumerStatefulWidget {
+/// 과목·구간별 트리를 따로 두었던 것을 없앤 판단과 같은 줄기다 —
+/// 같은 정보를 두 벌로 유지하면 한쪽만 고쳐진다.
+class TechTreePage extends ConsumerWidget {
   const TechTreePage({super.key});
 
   @override
-  ConsumerState<TechTreePage> createState() => _TechTreePageState();
-}
-
-class _TechTreePageState extends ConsumerState<TechTreePage> {
-  TechTreeAxis _axis = TechTreeAxis.subject;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(dataProvider);
     final sel = ref.watch(selectionProvider);
 
@@ -57,33 +32,7 @@ class _TechTreePageState extends ConsumerState<TechTreePage> {
       error: (e, _) => Center(child: Text('데이터를 불러오지 못했습니다\n$e')),
       data: (data) => ContentWidth(
         max: 1400,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 목적지가 없는 번들(옛 데이터)에서는 축이 하나뿐이다.
-            // 고를 것이 하나뿐인 선택기를 띄우면 그 자리가 거짓말을 한다.
-            if (data.destinations.isNotEmpty) ...[
-              const SizedBox(height: AppSpace.sm),
-              RuledSegments<TechTreeAxis>(
-                options: [
-                  for (final a in TechTreeAxis.values) (a, a.label),
-                ],
-                selected: _axis,
-                onChanged: (a) => setState(() => _axis = a),
-              ),
-            ],
-            Expanded(
-              child: _axis == TechTreeAxis.subject || data.destinations.isEmpty
-                  ? RoadmapView(data: data, regionId: sel.regionId)
-                  : DestinationBoard(
-                      data: data,
-                      regionId: sel.regionId,
-                      onShowRoadmap: () =>
-                          setState(() => _axis = TechTreeAxis.subject),
-                    ),
-            ),
-          ],
-        ),
+        child: RoadmapView(data: data, regionId: sel.regionId),
       ),
     );
   }

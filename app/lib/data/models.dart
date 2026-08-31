@@ -1225,6 +1225,13 @@ class RoadmapStage {
   final int lane;
   final bool roadmapOnly;
 
+  /// 사람이 적은 대표 학원 이름.
+  ///
+  /// 근거 데이터가 없어 점수를 매기지 않는 구간(영유 등)은 학원 목록이
+  /// 통째로 비어 '어디를 말하는 것이냐'에 답하지 못했다. 점수가 아니라
+  /// **큐레이션한 예시**이므로 화면에서도 점수와 섞지 않고 그렇게 적는다.
+  final List<String> representatives;
+
   const RoadmapStage({
     required this.id,
     required this.subject,
@@ -1234,6 +1241,7 @@ class RoadmapStage {
     required this.gradeMax,
     this.lane = 0,
     this.roadmapOnly = false,
+    this.representatives = const [],
   });
 
   factory RoadmapStage.fromJson(Map<String, dynamic> j) {
@@ -1247,6 +1255,10 @@ class RoadmapStage {
       gradeMax: (g[1] as num).toInt(),
       lane: (j['lane'] as num?)?.toInt() ?? 0,
       roadmapOnly: j['roadmap_only'] == true,
+      representatives: [
+        for (final r in (j['representatives'] as List?) ?? const [])
+          r.toString(),
+      ],
     );
   }
 

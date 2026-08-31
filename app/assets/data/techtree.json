@@ -60,14 +60,14 @@
    "linkable": true,
    "stageCounts": {
     "math_hi_naesin": 20,
-    "math_hi_suneung": 5,
-    "math_hi_top": 5,
-    "sci_hi_naesin": 16,
+    "math_hi_suneung": 6,
+    "math_hi_top": 4,
+    "sci_hi_naesin": 17,
     "sci_hi_suneung": 1,
     "sci_hi_two": 0,
-    "kor_hi_suneung": 2
+    "kor_hi_suneung": 5
    },
-   "academyCount": 42
+   "academyCount": 47
   },
   {
    "id": "dest_snu_top",
@@ -105,15 +105,15 @@
    "linkable": true,
    "stageCounts": {
     "math_hi_naesin": 20,
-    "math_hi_suneung": 5,
-    "math_hi_top": 5,
-    "kor_hi_suneung": 2,
-    "kor_hi_nonsul": 11,
-    "eng_hi_suneung": 1,
+    "math_hi_suneung": 6,
+    "math_hi_top": 4,
+    "kor_hi_suneung": 5,
+    "kor_hi_nonsul": 12,
+    "eng_hi_suneung": 4,
     "eng_hi_adv": 7,
     "sci_hi_suneung": 1
    },
-   "academyCount": 45
+   "academyCount": 50
   },
   {
    "id": "dest_abroad",
@@ -145,13 +145,13 @@
    "linkable": true,
    "stageCounts": {
     "eng_el_phonics": 18,
-    "eng_el_academy": 50,
-    "eng_el_rw": 16,
-    "eng_mid_test": 0,
+    "eng_el_academy": 54,
+    "eng_el_rw": 18,
+    "eng_mid_test": 1,
     "math_el_basic": 36,
-    "math_mid_preview": 0
+    "math_mid_preview": 5
    },
-   "academyCount": 85
+   "academyCount": 92
   },
   {
    "id": "dest_science_hs",
@@ -183,15 +183,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_el_thinking": 14,
-    "math_el_competition": 8,
+    "math_el_thinking": 13,
+    "math_el_competition": 6,
     "math_mid_kmo": 0,
     "math_mid_yeongjae": 0,
-    "sci_el_lab": 18,
-    "sci_el_gifted": 1,
-    "sci_mid_olympiad": 2
+    "sci_el_lab": 19,
+    "sci_el_gifted": 2,
+    "sci_mid_olympiad": 1
    },
-   "academyCount": 40
+   "academyCount": 37
   },
   {
    "id": "dest_foreign_hs",
@@ -221,15 +221,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 50,
-    "eng_mid_naesin": 33,
-    "eng_mid_test": 0,
-    "math_mid_naesin": 29,
-    "math_mid_preview": 0,
-    "kor_mid_naesin": 26,
-    "kor_mid_deep": 2
+    "eng_el_academy": 54,
+    "eng_mid_naesin": 29,
+    "eng_mid_test": 1,
+    "math_mid_naesin": 25,
+    "math_mid_preview": 5,
+    "kor_mid_naesin": 25,
+    "kor_mid_deep": 4
    },
-   "academyCount": 106
+   "academyCount": 108
   },
   {
    "id": "dest_early",
@@ -246,22 +246,6 @@
     {
      "grade": 6,
      "note": "중등 과정 선행 완료 여부가 갈림길."
-    }
-   ],
-   "linkable": false,
-   "stageCounts": {},
-   "academyCount": 0
-  },
-  {
-   "id": "dest_art",
-   "label": "예체능 입시",
-   "axis": "기타",
-   "summary": "실기 중심이라 교과 테크트리와 축이 다르다. 길만 표시하고 단계를 잇지 않는다.",
-   "requires": {},
-   "gates": [
-    {
-     "grade": 9,
-     "note": "예고 지원 여부. 실기 준비 기간을 역산해 정한다."
     }
    ],
    "linkable": false,
@@ -610,6 +594,10 @@
      "depth": 0,
      "lane": 0,
      "roadmap_only": true,
+     "representatives": [
+      "애플트리",
+      "GATE"
+     ],
      "inbound": true
     },
     {
@@ -683,6 +671,10 @@
      "depth": 0,
      "lane": 0,
      "roadmap_only": true,
+     "representatives": [
+      "애플트리",
+      "GATE"
+     ],
      "inbound": true
     },
     {
@@ -1425,7 +1417,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_el_thinking",
@@ -1439,7 +1432,8 @@
      4
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_el_competition",
@@ -1453,7 +1447,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_el_preview",
@@ -1467,7 +1462,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_mid_naesin",
@@ -1481,7 +1477,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_mid_kmo",
@@ -1495,7 +1492,8 @@
      8
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_mid_preview",
@@ -1509,7 +1507,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_mid_yeongjae",
@@ -1523,7 +1522,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_hi_naesin",
@@ -1537,7 +1537,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_hi_suneung",
@@ -1551,7 +1552,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_hi_top",
@@ -1565,7 +1567,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "math_hi_nsu",
@@ -1579,7 +1582,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_kindy",
@@ -1593,7 +1597,11 @@
      0
     ],
     "lane": 0,
-    "roadmap_only": true
+    "roadmap_only": true,
+    "representatives": [
+     "애플트리",
+     "GATE"
+    ]
    },
    {
     "id": "eng_el_phonics",
@@ -1607,7 +1615,8 @@
      3
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_el_academy",
@@ -1621,7 +1630,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_el_rw",
@@ -1635,7 +1645,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_el_bridge",
@@ -1649,7 +1660,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_mid_naesin",
@@ -1663,7 +1675,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_mid_test",
@@ -1677,7 +1690,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_mid_preview",
@@ -1691,7 +1705,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_hi_naesin",
@@ -1705,7 +1720,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_hi_suneung",
@@ -1719,7 +1735,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "eng_hi_adv",
@@ -1733,7 +1750,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_el_reading",
@@ -1747,7 +1765,8 @@
      4
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_el_literacy",
@@ -1761,7 +1780,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_el_preview",
@@ -1775,7 +1795,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_mid_naesin",
@@ -1789,7 +1810,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_mid_deep",
@@ -1803,7 +1825,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_mid_preview",
@@ -1817,7 +1840,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_hi_naesin",
@@ -1831,7 +1855,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_hi_suneung",
@@ -1845,7 +1870,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "kor_hi_nonsul",
@@ -1859,7 +1885,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_el_lab",
@@ -1873,7 +1900,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_el_gifted",
@@ -1887,7 +1915,8 @@
      6
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_el_preview",
@@ -1901,7 +1930,8 @@
      6
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_mid_naesin",
@@ -1915,7 +1945,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_mid_preview",
@@ -1929,7 +1960,8 @@
      9
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_mid_olympiad",
@@ -1943,7 +1975,8 @@
      9
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_hi_naesin",
@@ -1957,7 +1990,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_hi_suneung",
@@ -1971,7 +2005,8 @@
      12
     ],
     "lane": 1,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    },
    {
     "id": "sci_hi_two",
@@ -1985,7 +2020,8 @@
      12
     ],
     "lane": 0,
-    "roadmap_only": false
+    "roadmap_only": false,
+    "representatives": []
    }
   ],
   "edges": [

@@ -80,16 +80,6 @@ class EduTreeData {
       ? null
       : destinations.where((d) => d.id == id).firstOrNull;
 
-  /// 목적지가 쓰는 축(국내입시 · 특목 · 해외 · 기타) — 나온 순서대로.
-  /// 목적지는 sort_order 로 이미 정렬돼 오므로 그 차례를 그대로 따른다.
-  List<String> get destinationAxes {
-    final out = <String>[];
-    for (final d in destinations) {
-      if (!out.contains(d.axis)) out.add(d.axis);
-    }
-    return out;
-  }
-
   /// (목적지 × 과목) 한 칸. **학군 기준으로 다시 센다.**
   ///
   /// 파이프라인의 `stageCounts` 는 전국 합계다. 판은 학군 하나를 보고

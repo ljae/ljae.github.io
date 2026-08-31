@@ -617,7 +617,7 @@ def test_목적지가_참조하는_단계는_전부_실재한다():
     tree = config.techtree()
     valid = {s["id"] for t in tree["tracks"] for s in t["stages"]}
     dests = config.destinations()
-    assert len(dests) == 7
+    assert len(dests) == 6
     for d in dests:
         for subject, ids in d["requires"].items():
             assert ids, f"{d['id']} 의 {subject} 경로가 비었다"
@@ -626,12 +626,18 @@ def test_목적지가_참조하는_단계는_전부_실재한다():
 
 
 def test_근거가_얇은_목적지는_학원을_잇지_않는다():
-    """조기졸업 15건 · 예체능 28건. 길이 있다는 것은 보여 주되
-    누가 그 길인지는 말하지 않는다."""
+    """조기졸업 15건. 길이 있다는 것은 보여 주되 누가 그 길인지는
+    말하지 않는다.
+
+    예체능 입시(dest_art)도 같은 취급이었으나 목적지에서 뺐다. 실기가
+    축이라 교과 단계를 하나도 지나지 않아 `requires` 가 통째로 비었고,
+    '길은 있는데 지나는 단계가 없다'는 칸은 판에서 데이터 누락으로만
+    읽혔다. 잇지 않을 길이라면 애초에 세우지 않는 편이 정직하다.
+    """
     from edutree import config
     by = {d["id"]: d for d in config.destinations()}
     assert by["dest_early"]["linkable"] is False
-    assert by["dest_art"]["linkable"] is False
+    assert "dest_art" not in by
     # 근거가 선 목적지는 잇는다.
     for k in ("dest_medical", "dest_abroad", "dest_science_hs"):
         assert by[k]["linkable"] is True
