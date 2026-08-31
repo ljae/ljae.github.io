@@ -163,15 +163,28 @@ class _MapSurface extends StatelessWidget {
   /// 그렇게 안다. 가까운 순 세 곳을 거리와 함께 보여주는 선에서 멈춘다.
   /// 확률(%)로 바꾸지 않는다 — 실제 배정 결과 자료가 없다.
   static String _zoneLine(ApartmentZone z) {
-    final head = '${z.levelLabel} ${z.assignmentText}';
-    if (z.level == 'elementary' || z.nearby.isEmpty) return head;
+    // 초등은 배정이 확정이라 학교를 그대로 적는다.
+    if (z.level == 'elementary') return '${z.levelLabel} ${z.assignmentText}';
+
+    // 중·고는 **가까운 세 곳을 앞세운다.**
+    //
+    // 예전에는 'OO학교군 · 11개교 중 추첨' 이 머리에 오고 학교 이름이
+    // 뒤에 붙었다. 학부모가 알고 싶은 것은 '어디로 갈 가능성이 큰가'
+    // 인데, 머리에 온 말이 '알 수 없다' 라 화면이 학부모보다 덜 아는
+    // 셈이었다. 배정에 통학 편의가 반영되므로 가까운 학교로 갈 확률이
+    // 실제로 높고, 학부모도 '추첨이지만 보통 저기 간다' 로 안다.
+    //
+    // 그래도 **확률(%)로는 바꾸지 않는다** — 실제 배정 결과 자료가 없다.
+    // 거리와 순서까지만 말하고, 추첨이라는 사실은 작게 뒤에 남긴다.
+    if (z.nearby.isEmpty) return '${z.levelLabel} ${z.assignmentText}';
     final top = z.nearby.take(3).toList();
     final names = [
       for (var i = 0; i < top.length; i++)
         '${i + 1}. ${top[i].name} ${top[i].distanceLabel}${top[i].coedTag}',
     ].join(' · ');
-    return '$head<br>'
-        '<span style="color:#0B1020">가까운 순 $names</span>';
+    return '<span style="color:#0B1020">${z.levelLabel} 가까운 순 $names</span>'
+        '<br><span style="font-size:10.5px">'
+        '${z.zoneName ?? ""} · 추첨이지만 통학 편의가 반영됩니다</span>';
   }
 
   String _markers() {
