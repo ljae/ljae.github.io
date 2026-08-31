@@ -166,6 +166,69 @@
       var instances = {};
       function ready() { return !!(window.naver && window.naver.maps); }
 
+      // ── 이름표 접기 ────────────────────────────────────────────────
+      //
+      // 지도를 학군에 고정하고 나니 한 화면에 이름표가 너무 많아졌다.
+      // 실측: 대치 36교 + 79단지, 반포 28교 + 132단지. 확대로 흩을 수도
+      // 없으니(고정이다) 겹치는 것은 **점으로 접는다.**
+      //
+      // 지우지 않고 접는 이유: 점도 눌러서 볼 수 있다. 없애면 '그 자리에
+      // 아무것도 없다' 가 되지만, 접으면 '겹쳐 있다' 가 된다.
+      //
+      // 순서는 z 가 정한다 — 학교(3)가 아파트(2)보다 먼저 이름을 얻는다.
+      // 학군지도에 온 사람이 찾는 것은 학교고, 아파트는 맥락이다.
+      var LABEL_H = 22;
+
+      function labelIcon(it) {
+        return {
+          content:
+            '<div style="transform:translate(-50%,-50%);white-space:nowrap;' +
+            'font-family:Paperlogy,-apple-system,sans-serif;font-size:11.5px;' +
+            'font-weight:700;letter-spacing:-.3px;color:#fff;padding:4px 9px;' +
+            'border-radius:999px;background:' + it.color + ';' +
+            'box-shadow:0 2px 8px rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.85)">' +
+            it.label + '</div>',
+          anchor: new naver.maps.Point(0, 0)
+        };
+      }
+
+      function dotIcon(it) {
+        return {
+          content:
+            '<div title="' + (it.label || '') + '" ' +
+            'style="transform:translate(-50%,-50%);width:9px;height:9px;' +
+            'border-radius:999px;background:' + it.color + ';' +
+            'border:1.5px solid rgba(255,255,255,.9);' +
+            'box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
+          anchor: new naver.maps.Point(0, 0)
+        };
+      }
+
+      function declutter(map) {
+        var proj = map.getProjection();
+        if (!proj) return;
+        var placed = [];
+        var rows = (map.__markers || []).slice().sort(function (a, b) {
+          return ((b.__it && b.__it.z) || 0) - ((a.__it && a.__it.z) || 0);
+        });
+        rows.forEach(function (m) {
+          var it = m.__it;
+          if (!it) return;
+          var off = proj.fromCoordToOffset(m.getPosition());
+          // 한글은 대략 글자 크기만큼 넓다. 좌우 여백·테두리를 더한다.
+          var w = String(it.label || '').length * 11.5 + 22;
+          var box = {
+            l: off.x - w / 2, r: off.x + w / 2,
+            t: off.y - LABEL_H / 2, b: off.y + LABEL_H / 2
+          };
+          var hit = placed.some(function (p) {
+            return !(box.r < p.l || box.l > p.r || box.b < p.t || box.t > p.b);
+          });
+          m.setIcon(hit ? dotIcon(it) : labelIcon(it));
+          if (!hit) placed.push(box);
+        });
+      }
+
       function init(id, lat, lng, zoom, payload) {
         if (!ready()) return false;
         var el = document.getElementById(id);
@@ -223,6 +286,11 @@
             if (box === lastBox) return;
             lastBox = box;
             naver.maps.Event.trigger(map, 'resize');
+            // 고정 지도라 크기가 바뀌면 스스로 다시 맞춰야 한다.
+            if (map.__fit) {
+              map.fitBounds(map.__fit,
+                { top: 48, right: 40, bottom: 48, left: 40 });
+            }
           }, 250);
         } else {
           map.setCenter(new naver.maps.LatLng(lat, lng));
@@ -282,17 +350,10 @@
             position: new naver.maps.LatLng(it.lat, it.lng),
             map: map,
             zIndex: it.z || 1,
-            icon: {
-              content:
-                '<div style="transform:translate(-50%,-50%);white-space:nowrap;' +
-                'font-family:Paperlogy,-apple-system,sans-serif;font-size:11.5px;' +
-                'font-weight:700;letter-spacing:-.3px;color:#fff;padding:4px 9px;' +
-                'border-radius:999px;background:' + it.color + ';' +
-                'box-shadow:0 2px 8px rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.85)">' +
-                it.label + '</div>',
-              anchor: new naver.maps.Point(0, 0)
-            }
+            icon: labelIcon(it)
           });
+          // 접기 판정에 쓸 값. 아이콘을 갈아 끼워야 해서 원본을 들고 간다.
+          marker.__it = it;
           naver.maps.Event.addListener(marker, 'click', function () {
             info.setContent(
               '<div style="font-family:Paperlogy,-apple-system,sans-serif;' +
@@ -318,11 +379,23 @@
         if (pts.length >= 2) {
           var b = new naver.maps.LatLngBounds(pts[0], pts[0]);
           pts.forEach(function (p) { b.extend(p); });
+          // 창 크기가 바뀌면 다시 맞춰야 한다. 고정 지도라 사용자가
+          // 스스로 되돌릴 방법이 없다.
+          map.__fit = b;
           map.fitBounds(b, { top: 48, right: 40, bottom: 48, left: 40 });
         } else if (pts.length === 1) {
+          map.__fit = null;
           map.setCenter(pts[0]);
           map.setZoom(zoom);
         }
+
+        // 배치가 끝난 뒤에 접는다. fitBounds 직후에는 아직 옛 배율이라
+        // 겹침 판정이 어긋난다.
+        if (map.__idle) naver.maps.Event.removeListener(map.__idle);
+        map.__idle = naver.maps.Event.addListener(map, 'idle', function () {
+          declutter(map);
+        });
+        declutter(map);
         return true;
       }
       // 진단용. 콘솔에서 지도 상태를 확인할 때 쓴다.
