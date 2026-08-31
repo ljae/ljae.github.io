@@ -594,6 +594,10 @@
      "depth": 0,
      "lane": 0,
      "roadmap_only": true,
+     "examples": [
+      "애플트리",
+      "GATE"
+     ],
      "inbound": true
     },
     {
@@ -667,6 +671,10 @@
      "depth": 0,
      "lane": 0,
      "roadmap_only": true,
+     "examples": [
+      "애플트리",
+      "GATE"
+     ],
      "inbound": true
     },
     {
