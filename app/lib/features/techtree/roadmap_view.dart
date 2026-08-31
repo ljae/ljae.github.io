@@ -8,6 +8,68 @@ import '../../data/models.dart';
 import '../../data/repository.dart';
 import 'techtree_page.dart' show showStageSheet;
 
+/// 과목마다 겹치는 단계가 **서로 다른 칸에 서도록** 자리를 계산한다.
+///
+/// 예전에는 yaml 의 `lane`(사람이 손으로 적은 0/1)을 그대로 믿고
+/// '겹치는 단계가 있으면 폭을 반으로 나눠 왼쪽·오른쪽에 세운다' 였다.
+/// 두 가지가 깨진다.
+///
+///  1. **셋 이상이 한 학년에 겹치면 자리가 모자란다.** 고3 수학은
+///     내신·수능·최상위·N수 넷이 동시에 열려 있다.
+///  2. **같은 lane 끼리 겹치면 정확히 포개진다.** 위 카드가 아래 카드를
+///     통째로 덮어, 그 안의 학원 이름이 화면에서 사라진다.
+///
+/// 실측(41단계)에서 2번이 **16쌍**이었다. `math_hi_naesin` 과
+/// `math_hi_suneung` 은 학년 범위도 lane 도 같아 한쪽이 아예 안 보였다.
+///
+/// → 자리를 **겹침에서 계산한다.** 시작 학년 순으로 훑으며 비어 있는 첫
+/// 칸에 넣는 구간 그래프 색칠이라, 필요한 칸 수가 최소가 된다. yaml 의
+/// `lane` 은 버리지 않고 **같은 학년에서 시작한 것들의 좌우 차례**로만
+/// 쓴다 — '주(主)가 왼쪽' 같은 사람의 뜻이 그만큼 남는다.
+class RoadmapLanes {
+  final Map<String, int> _laneOf;
+  final Map<String, int> _countOf;
+
+  const RoadmapLanes._(this._laneOf, this._countOf);
+
+  factory RoadmapLanes.of(Roadmap roadmap) {
+    final laneOf = <String, int>{};
+    final countOf = <String, int>{};
+    final bySubject = <String, List<RoadmapStage>>{};
+    for (final s in roadmap.stages) {
+      (bySubject[s.subject] ??= <RoadmapStage>[]).add(s);
+    }
+    for (final entry in bySubject.entries) {
+      final rows = [...entry.value]..sort((a, b) {
+        final g = a.gradeMin.compareTo(b.gradeMin);
+        if (g != 0) return g;
+        final l = a.lane.compareTo(b.lane);
+        if (l != 0) return l;
+        return a.id.compareTo(b.id); // 같은 값이면 순서를 못 박는다
+      });
+      // 칸마다 '지금까지 그 칸을 쓴 마지막 단계의 끝 학년'을 들고 간다.
+      final ends = <int>[];
+      for (final s in rows) {
+        var col = ends.indexWhere((end) => end < s.gradeMin);
+        if (col < 0) {
+          ends.add(s.gradeMax);
+          col = ends.length - 1;
+        } else {
+          ends[col] = s.gradeMax;
+        }
+        laneOf[s.id] = col;
+      }
+      countOf[entry.key] = ends.length;
+    }
+    return RoadmapLanes._(laneOf, countOf);
+  }
+
+  int laneOfStage(String stageId) => _laneOf[stageId] ?? 0;
+
+  /// 그 과목이 쓰는 칸 수. 최소 1 — 0 으로 나누지 않는다.
+  int countFor(String subject) => _countOf[subject] ?? 1;
+}
+
 /// 통합 로드맵 — 연령 축 하나 위에 네 과목을 나란히 놓는다.
 ///
 /// 과목·구간별 트리는 '지금 내 아이 구간'을 보는 데 좋지만, 5세 영어 →
@@ -58,6 +120,21 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   String? get _destId => ref.watch(destinationProvider);
 
   Destination? get _dest => data.destinationById(_destId);
+
+  /// 칸 사이. 카드 테두리가 맞닿아 한 덩어리로 보이지 않을 만큼만.
+  static const _laneGap = 4.0;
+
+  /// 겹침에서 계산한 자리. 데이터가 바뀔 때만 다시 잡는다 —
+  /// 매 프레임 41단계를 훑을 이유가 없다.
+  late RoadmapLanes _lanes = RoadmapLanes.of(widget.data.roadmap);
+
+  @override
+  void didUpdateWidget(covariant RoadmapView old) {
+    super.didUpdateWidget(old);
+    if (!identical(old.data.roadmap, widget.data.roadmap)) {
+      _lanes = RoadmapLanes.of(widget.data.roadmap);
+    }
+  }
 
   // 위젯 쪽 상수를 그대로 쓴다. 두 벌로 두면 한쪽만 고쳐진다.
   static const _minGrade = RoadmapView._minGrade;
@@ -345,6 +422,8 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
                       axisW: _axisW,
                       yOf: _y,
                       lineColor: Theme.of(context).dividerColor,
+                      lanes: _lanes,
+                      laneGap: _laneGap,
                     ),
                   ),
                 ),
@@ -409,19 +488,13 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
     bool? onPath,
   }) {
     final col = subjects.indexOf(st.subject);
-    // 같은 과목 안에서 기간이 겹치는 단계는 lane(0/1)으로 좌우를 나눈다.
-    final overlaps = data.roadmap.stages.any(
-      (o) =>
-          o.id != st.id &&
-          o.subject == st.subject &&
-          o.gradeMin <= st.gradeMax &&
-          o.gradeMax >= st.gradeMin,
-    );
-    final laneW = overlaps ? (colW - 4) / 2 : colW;
+    // 자리는 겹침에서 계산한다 — [RoadmapLanes] 참고.
+    final lanes = _lanes.countFor(st.subject);
+    final laneW = (colW - _laneGap * (lanes - 1)) / lanes;
     final left =
         _axisW +
         col * (colW + _gap) +
-        (overlaps && st.lane > 0 ? laneW + 4 : 0);
+        _lanes.laneOfStage(st.id) * (laneW + _laneGap);
 
     return Positioned(
       top: _y(st.gradeMin) + 2,
@@ -544,6 +617,14 @@ class _GradeRow extends StatelessWidget {
 }
 
 class _StageCard extends StatelessWidget {
+  /// 학원 한 줄의 높이(실측). 아이콘 10 + 글자 11 + 위 여백 1.
+  /// 몇 줄이 들어가는지 세는 데만 쓴다 — 줄 자체는 제 크기로 그린다.
+  static const _topLineH = 16.0;
+
+  /// 이 폭 아래로는 점수를 빼고 이름에 자리를 준다. 학원 이름은 대개
+  /// 네다섯 글자(11px ≈ 55px)라 아이콘·여백을 빼면 이만큼은 있어야 한다.
+  static const _compactWidth = 118.0;
+
   final RoadmapStage stage;
   final EduTreeData data;
   final String regionId;
@@ -565,7 +646,12 @@ class _StageCard extends StatelessWidget {
   ///   … 구간   이 단계 근거는 없고 같은 과목·구간이라 이어 붙인 곳
   ///
   /// 셋을 같은 얼굴로 적으면 목록은 채워지지만 무엇을 믿을지는 알 수 없다.
-  Widget _topLine(BuildContext context, StageMatch m) {
+  ///
+  /// [compact] 는 칸이 좁을 때다(한 과목이 여러 칸으로 갈리면 카드가
+  /// 75px 까지 좁아진다). 그때는 **점수를 뺀다** — 이름과 점수를 한 줄에
+  /// 우겨 넣으면 정작 찾으러 온 이름이 서너 글자로 잘린다. 점수는 눌러서
+  /// 여는 시트에 온전히 있다. 없앨 것은 기능이 아니라 곁가지다.
+  Widget _topLine(BuildContext context, StageMatch m, {bool compact = false}) {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final score = m.academy.scoreFor(stage.subject);
@@ -599,18 +685,19 @@ class _StageCard extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            !m.isDirect
-                ? '구간'
-                : score.isRanked
-                ? score.total.toStringAsFixed(0)
-                : '표본',
-            style: text.bodySmall?.copyWith(
-              fontSize: 10.5,
-              fontWeight: starred ? FontWeight.w700 : FontWeight.w400,
-              color: dim ? AppColors.mist : null,
+          if (!compact)
+            Text(
+              !m.isDirect
+                  ? '구간'
+                  : score.isRanked
+                  ? score.total.toStringAsFixed(0)
+                  : '표본',
+              style: text.bodySmall?.copyWith(
+                fontSize: 10.5,
+                fontWeight: starred ? FontWeight.w700 : FontWeight.w400,
+                color: dim ? AppColors.mist : null,
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -694,24 +781,61 @@ class _StageCard extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text(
-                    '로드맵 안내 · 순위 없음',
-                    style: text.bodySmall?.copyWith(
-                      fontSize: 9.5,
-                      color: AppColors.mist,
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 이름은 적되 **점수도 등수도 붙이지 않는다.** 5~6세를
+                      // 순위에 세울 근거가 없다는 판단은 그대로다. 그래도
+                      // '그 구간에 무엇이 있나' 는 답할 수 있고, 빈 칸으로
+                      // 두면 화면이 학부모보다 덜 아는 셈이 된다.
+                      for (final name in stage.examples)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 1),
+                          child: Text(
+                            name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: text.bodySmall?.copyWith(fontSize: 11),
+                          ),
+                        ),
+                      Text(
+                        '로드맵 안내 · 순위 없음',
+                        style: text.bodySmall?.copyWith(
+                          fontSize: 9.5,
+                          color: AppColors.mist,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               )
             else if (tops.isNotEmpty)
+              // **들어가는 만큼만 싣는다.** 학년 한 칸짜리 카드(72px)는
+              // 표제 두 줄과 학년 표기를 빼고 나면 20px 남짓만 남는데,
+              // 거기에 세 줄을 밀어 넣고 있었다 — 실측 43px 넘침. 넘친
+              // 부분은 그려지지 않으므로 **학원 이름이 통째로 사라진다.**
+              // 잘려 나가느니 적게 보여주는 편이 낫다.
               Expanded(
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [for (final m in tops) _topLine(context, m)],
-                  ),
+                child: LayoutBuilder(
+                  builder: (context, c) {
+                    final n = (c.maxHeight / _topLineH)
+                        .floor()
+                        .clamp(0, tops.length);
+                    if (n == 0) return const SizedBox.shrink();
+                    return Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final m in tops.take(n))
+                            _topLine(context, m,
+                                compact: c.maxWidth < _compactWidth),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
           ],
@@ -734,6 +858,8 @@ class _EdgePainter extends CustomPainter {
   final double axisW;
   final double Function(num) yOf;
   final Color lineColor;
+  final RoadmapLanes lanes;
+  final double laneGap;
 
   _EdgePainter({
     required this.roadmap,
@@ -743,6 +869,8 @@ class _EdgePainter extends CustomPainter {
     required this.axisW,
     required this.yOf,
     required this.lineColor,
+    required this.lanes,
+    required this.laneGap,
   });
 
   @override
@@ -752,19 +880,16 @@ class _EdgePainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.4;
 
+    // 카드 배치와 **같은 자리 계산**을 쓴다. 예전에는 겹침 판정을 여기에
+    // 한 벌 더 적어 두었는데, 그러면 배치를 고칠 때 경로선이 옛 규칙에
+    // 남아 카드와 어긋난 곳을 가리킨다.
     double centerX(RoadmapStage st) {
       final col = subjects.indexOf(st.subject);
-      final overlaps = roadmap.stages.any(
-        (o) =>
-            o.id != st.id &&
-            o.subject == st.subject &&
-            o.gradeMin <= st.gradeMax &&
-            o.gradeMax >= st.gradeMin,
-      );
-      final laneW = overlaps ? (colW - 4) / 2 : colW;
+      final n = lanes.countFor(st.subject);
+      final laneW = (colW - laneGap * (n - 1)) / n;
       return axisW +
           col * (colW + gap) +
-          (overlaps && st.lane > 0 ? laneW + 4 : 0) +
+          lanes.laneOfStage(st.id) * (laneW + laneGap) +
           laneW / 2;
     }
 
@@ -795,5 +920,10 @@ class _EdgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _EdgePainter old) =>
-      old.colW != colW || old.roadmap != roadmap;
+      old.colW != colW ||
+      old.roadmap != roadmap ||
+      // 과목 목록이 바뀌면(모바일에서 페이지를 넘기면) 칸 번호가 그대로여도
+      // 선이 다른 자리로 가야 한다.
+      !identical(old.subjects, subjects) ||
+      !identical(old.lanes, lanes);
 }

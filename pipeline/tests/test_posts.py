@@ -643,7 +643,7 @@ def test_목적지가_참조하는_단계는_전부_실재한다():
     tree = config.techtree()
     valid = {s["id"] for t in tree["tracks"] for s in t["stages"]}
     dests = config.destinations()
-    assert len(dests) == 7
+    assert len(dests) == 6
     for d in dests:
         for subject, ids in d["requires"].items():
             assert ids, f"{d['id']} 의 {subject} 경로가 비었다"
@@ -652,12 +652,16 @@ def test_목적지가_참조하는_단계는_전부_실재한다():
 
 
 def test_근거가_얇은_목적지는_학원을_잇지_않는다():
-    """조기졸업 15건 · 예체능 28건. 길이 있다는 것은 보여 주되
-    누가 그 길인지는 말하지 않는다."""
+    """조기졸업 15건. 길이 있다는 것은 보여 주되 누가 그 길인지는
+    말하지 않는다.
+
+    예체능 입시도 여기 있었으나 목적지에서 뺐다 — 실기 중심이라 교과
+    테크트리와 축이 달라, 길만 그리고 학원을 안 잇는 칸이 판에서
+    '데이터가 빠진 자리' 로 읽혔다."""
     from edutree import config
     by = {d["id"]: d for d in config.destinations()}
     assert by["dest_early"]["linkable"] is False
-    assert by["dest_art"]["linkable"] is False
+    assert "dest_art" not in by
     # 근거가 선 목적지는 잇는다.
     for k in ("dest_medical", "dest_abroad", "dest_science_hs"):
         assert by[k]["linkable"] is True
