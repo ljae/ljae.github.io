@@ -187,6 +187,22 @@ class _MapSurface extends StatelessWidget {
         '${z.zoneName ?? ""} · 추첨이지만 통학 편의가 반영됩니다</span>';
   }
 
+  /// 지도 위 단지 이름. **짧을수록 많이 산다.**
+  ///
+  /// 원본은 '대치풍림아이원아파트 1.2단지' 처럼 길고, 앞의 학군 이름과
+  /// 끝의 '아파트' 는 이 지도에서 이미 아는 말이라 자리만 차지한다.
+  /// 이름표가 길면 겹쳐서 접히고, 접히면 화면에서 사라진 것처럼 보인다.
+  /// 누르면 뜨는 제목에는 **원래 이름을 그대로** 쓴다.
+  static String _shortAptName(String name) {
+    var s = name.replaceAll(RegExp(r'^(대치|목동|반포|잠실)\s*'), '');
+    s = s.replaceAll(RegExp(r'아파트'), '');
+    s = s.replaceAll(RegExp(r'\s+'), ' ').trim();
+    if (s.isEmpty) s = name;
+    return s.characters.length > 9
+        ? '${s.characters.take(9)}…'
+        : s;
+  }
+
   String _markers() {
     final items = <Map<String, dynamic>>[];
     for (final s in schools.where((s) => s.hasLocation)) {
@@ -211,7 +227,10 @@ class _MapSurface extends StatelessWidget {
       items.add({
         'lat': a.lat,
         'lng': a.lng,
-        'label': a.name,
+        'label': _shortAptName(a.name),
+        // 작은 이름표로 그린다. 한 화면에 학교 36곳 + 단지 79곳이 서는데
+        // 같은 크기로 두면 단지가 전부 접혀 '아파트가 없다' 로 보인다.
+        'small': true,
         'title': a.name,
         'subtitle': [
           [
