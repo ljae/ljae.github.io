@@ -1,0 +1,42 @@
+---
+url_hash: "5b92f47f3ff47ff3edfbb30c0ecdc8c7"
+url: https://blog.naver.com/blossombooks3/223986578215
+source: naver_blog
+title: 황소 레벨테스트 초2, 시험 유형별로 대비하는 꿀팁!
+posted_at: 2025-08-29
+author_hash: 26a1eec3fd9c5f182112dca84a0caafc
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 황소 레벨테스트 초2, 시험 유형별로 대비하는 꿀팁!
+
+원문: https://blog.naver.com/blossombooks3/223986578215
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.81 (긍정) · 신뢰도 0.70
+- 붙은 학원 1곳 · 과목 math
+- 진입난이도 신호: hard
+- 등급반 언급: top
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+초등 2학년 수학 레벨테스트 대비를 위한 블러섬 북스 문제집의 구성과 특징을 소개하는 홍보 글이다. 해당 교재는 예상 문제와 상세한 학부모용 해설이 포함되어 있으며 PDF 다운로드로 이용 가능하다고 안내한다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/20218|생각하는황소]] — 지점 불명 · 브랜드 공통 · 감성 +0.81
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

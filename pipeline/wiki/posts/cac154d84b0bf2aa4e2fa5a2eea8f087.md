@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 -0.01 (중립) · 신뢰도 0.45 · 스팸 0.18
-- 붙은 학원 1곳 · 과목 math
+- 붙은 학원 2곳 · 과목 math
 - 등급반 언급: advanced·regular
 <!-- /auto:digest -->
 
@@ -31,6 +31,7 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/3000021785|깊은생각]] — 글이 이 권역을 밝힘 · 감성 -0.01
+- [[../academies/3000041911|돌파수학학원]] — 글이 이 권역을 밝힘 · 감성 -0.01
 <!-- /auto:edges -->
 
 ## 검수
