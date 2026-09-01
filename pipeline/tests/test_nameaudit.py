@@ -1,0 +1,126 @@
+"""이름이 오염원인 학원을 전수로 찾는다.
+
+'새로운학원' 신고를 낱말 추가로 고쳤더니, 같은 성질의 학원이 여섯 곳 더
+있었다. 신고는 한 곳으로 오지만 원인은 낱말이다 — 그래서 매 실행 전수로
+잰다. 사전이 아니라 **코퍼스**로 재는 것이 요점이다.
+"""
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from edutree import nameaudit  # noqa: E402
+
+
+def post(title, body=""):
+    return {"title": title, "snippet": body}
+
+
+def mention(aid, title):
+    return {"academy_key": aid, "title": title, "snippet": ""}
+
+
+def academy(aid, name):
+    return {"id": aid, "name": name, "display_name": name, "region_id": "daechi"}
+
+
+def test_일반명사_이름은_코퍼스에서_넓게_퍼져_걸린다():
+    """'테스트' 는 레벨테스트 글마다 나온다 — 제 근거보다 훨씬 넓다."""
+    corpus = [post(f"에이프릴 레벨테스트 후기 {i}") for i in range(200)]
+    corpus += [post(f"테스트 학원 다녀왔어요 {i}") for i in range(10)]
+    mentions = [mention("a1", f"테스트 관련 글 {i}") for i in range(10)]
+
+    rows = nameaudit.measure(
+        [academy("a1", "테스트학원")], mentions, corpus, {"a1": {"테스트"}})
+
+    assert len(rows) == 1
+    r = rows[0]
+    assert r["token"] == "테스트"
+    assert r["wide"] == 210 and r["own"] == 10
+    assert r["spread"] == 21.0
+    assert "퍼짐" in r["why"]
+
+
+def test_제_이름만_가리키는_학원은_안_걸린다():
+    """'렉스김' 은 코퍼스에서도 제 근거만큼만 나온다 — 정상이다."""
+    corpus = [post(f"렉스김 어학원 레테 후기 {i}") for i in range(40)]
+    corpus += [post(f"대치 영어학원 고민 {i}") for i in range(300)]
+    mentions = [mention("a1", f"렉스김 어학원 후기 {i}") for i in range(35)]
+
+    rows = nameaudit.measure(
+        [academy("a1", "렉스김어학원")], mentions, corpus, {"a1": {"렉스김"}})
+    assert rows == []
+
+
+def test_사람_이름_학원은_제목에_이름이_없어서_걸린다():
+    """동명이인은 넓이로는 안 걸릴 수 있다. 그 글들의 **주인공이 남**이라
+    제목에 이름이 안 나오는 것으로 드러난다(윤도영·뮤지컬 배우)."""
+    corpus = [post(f"뮤지컬 커튼콜 후기 {i}", "배우 류다현") for i in range(60)]
+    mentions = [mention("a1", f"공연 관람기 {i}") for i in range(20)]
+
+    rows = nameaudit.measure(
+        [academy("a1", "류다현수학학원")], mentions, corpus, {"a1": {"류다현"}})
+
+    assert len(rows) == 1
+    assert rows[0]["title_ratio"] == 0.0
+    assert "제목에 이름 없음" in rows[0]["why"]
+
+
+def test_근거가_적으면_판단하지_않는다():
+    """비율이 요동친다. 모르는 것을 아는 척하지 않는다."""
+    corpus = [post("테스트") for _ in range(500)]
+    mentions = [mention("a1", "글") for _ in range(3)]
+    assert nameaudit.measure(
+        [academy("a1", "테스트학원")], mentions, corpus, {"a1": {"테스트"}}) == []
+
+
+def test_두_글자_후보는_보지_않는다():
+    """우연이 너무 잦다. 그건 EVERYDAY_ALIASES 가 다루는 층이다."""
+    corpus = [post("정상적인 면역기능") for _ in range(200)]
+    mentions = [mention("a1", "글") for _ in range(20)]
+    assert nameaudit.measure(
+        [academy("a1", "정상어학원")], mentions, corpus, {"a1": {"정상"}}) == []
+
+
+def test_보고는_이미_표시된_곳과_새로_걸린_곳을_가른다():
+    """매 실행 같은 목록을 다시 찍으면 새 신호가 묻힌다."""
+    rows = [
+        {"id": "a1", "name": "테스트", "region_id": "jamsil", "token": "테스트",
+         "own": 10, "wide": 210, "spread": 21.0, "title_ratio": 0.1, "why": "퍼짐"},
+        {"id": "a2", "name": "새로운학원", "region_id": "mokdong", "token": "새로운",
+         "own": 12, "wide": 61, "spread": 5.1, "title_ratio": 0.0, "why": "퍼짐"},
+    ]
+    lines = nameaudit.report(rows, 400, already={"a1"})
+    head = lines[0]
+    assert "2곳" in head and "새로 걸린 곳 1" in head
+    assert any("새로운학원" in x for x in lines)
+    assert not any("테스트" in x for x in lines[1:]), "이미 표시된 곳은 다시 안 적는다"
+
+
+def test_걸리는_곳이_없으면_그렇게_적는다():
+    assert "없음" in nameaudit.report([], 400, already=set())[0]
+
+
+def test_형제_지점이_많은_브랜드는_퍼져_보이지_않는다():
+    """넓이는 **그 이름 전체**를 세고 근거는 한 지점 몫이라, 그대로
+    나누면 지점이 많은 유명 브랜드가 무조건 걸린다.
+
+    실측에서 깊은생각(5.1배)·시대인재(4.8배)·한우리(4.5배)·시매쓰(4.4배)가
+    그렇게 걸렸다 — 전부 멀쩡한 학원이고 그 글들은 형제 지점 이야기였다.
+    같은 이름을 쓰는 학원의 근거를 모아서 견주면 사라진다(22곳 → 4곳).
+    """
+    corpus = [post(f"깊은생각 후기 {i}") for i in range(300)]
+    academies = [academy(f"a{i}", "깊은생각") for i in range(4)]
+    mentions = [mention(f"a{i}", f"깊은생각 후기 {j}")
+                for i in range(4) for j in range(30)]
+    cands = {f"a{i}": {"깊은생각"} for i in range(4)}
+
+    assert nameaudit.measure(academies, mentions, corpus, cands) == []
+
+    # 지점이 하나뿐이면 같은 숫자라도 걸린다 — 그때는 진짜 넓은 것이다.
+    solo = nameaudit.measure(
+        [academy("a0", "깊은생각")],
+        [mention("a0", f"깊은생각 후기 {j}") for j in range(30)],
+        corpus, {"a0": {"깊은생각"}})
+    assert len(solo) == 1

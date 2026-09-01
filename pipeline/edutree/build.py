@@ -1382,6 +1382,27 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         # 위키는 부산물이다. 위키가 깨져도 데이터 빌드는 나가야 한다.
         print(f"  ! 위키 갱신 실패: {exc}")
 
+    # 이름 위험 전수 점검 — '새로운학원' 처럼 이름이 오염원인 곳을 찾는다.
+    #
+    # 신고는 한 곳으로 오지만 원인은 낱말이라, 같은 성질의 다른 학원도
+    # 함께 오염돼 있다. 손으로 낱말을 넣는 방식은 신고가 온 곳만 고친다.
+    # 매 실행 전수로 재서 새로 걸린 곳을 알린다. **판정은 하지 않는다** —
+    # 게이트를 조이는 결정은 위키 frontmatter 로 사람이 한다.
+    from . import nameaudit
+    try:
+        risky = nameaudit.measure(
+            evaluated,
+            [m for m in mentions if not m.get("is_excluded")],
+            mentions,
+            candidates)
+        for line in nameaudit.report(
+                risky, len(evaluated),
+                {aid for aid, g in generic.items() if g}):
+            print(f"  {line}")
+    except Exception as exc:                                  # noqa: BLE001
+        # 점검은 부산물이다. 여기서 죽으면 채점까지 잃는다.
+        print(f"  ! 이름 위험 점검 실패: {exc}")
+
     # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
     from . import graph
     graph.audit(evaluated, [m for m in mentions if not m.get("is_excluded")])
