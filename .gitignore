@@ -29,7 +29,7 @@ app/android/local.properties
 *.iml
 
 # 파이프라인
-pipeline/.cache/
+pipeline/.cache
 __pycache__/
 *.pyc
 
