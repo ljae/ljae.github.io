@@ -98,7 +98,7 @@ class _Body extends StatelessWidget {
                   // 채워진 값이 큼직하게 떠 있었다(실측: 근거 0건인데 40).
                   // 카드와 같은 규칙으로 맞춘다 — 다이얼은 '—', 라벨은
                   // '근거 없음'.
-                  if (score.sampleSize == 0)
+                  if (!score.hasTotal)
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +156,7 @@ class _Body extends StatelessWidget {
               // ── 기둥별 점수 ─────────────────────────────────
               // 근거가 한 건도 없으면 점수를 내지 않는다. 코호트 평균으로
               // 채운 50점이 '평가 결과' 처럼 읽히면 그게 곧 거짓이다.
-              if (score.sampleSize == 0)
+              if (!score.hasTotal)
                 Card(
                   color: AppColors.estimated.withValues(alpha: 0.07),
                   child: Padding(
@@ -171,8 +171,14 @@ class _Body extends StatelessWidget {
                         const SizedBox(width: AppSpace.sm),
                         Expanded(
                           child: Text(
-                            '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 매기지 '
-                            '않았으며, 공식 등록 정보만 보여드립니다.',
+                            score.sampleSize == 0
+                                ? '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 '
+                                    '매기지 않았으며, 공식 등록 정보만 보여드립니다.'
+                                : '후기는 ${score.sampleSize}건 모았지만 진입난이도를 '
+                                    '잴 사건(레벨테스트·대기·마감)이 확인되지 않아 '
+                                    '네 기둥을 다 채우지 못했습니다. 채운 기둥만 더한 '
+                                    '값은 네 기둥 총점과 견줄 수 없어 순위를 매기지 '
+                                    '않습니다.',
                             style: text.bodyMedium,
                           ),
                         ),

@@ -215,8 +215,9 @@ class AcademyCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // 근거가 없으면 점수를 숫자로 내지 않는다.
-                      if (score.sampleSize == 0)
+                      // 근거가 없거나 네 기둥을 못 채웠으면 숫자를 내지
+                      // 않는다 — 견줄 수 없는 값이다.
+                      if (!score.hasTotal)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -230,7 +231,12 @@ class AcademyCard extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 5),
-                            RailLabel(spaced('근거없음')),
+                            // 두 상태를 같은 말로 적지 않는다. '근거 없음'
+                            // 은 아무것도 못 본 것이고, '기둥 미완' 은
+                            // 후기는 있는데 진입난이도를 잴 사건이 없어
+                            // 네 기둥을 못 채운 것이다.
+                            RailLabel(spaced(
+                                score.sampleSize == 0 ? '근거없음' : '기둥미완')),
                           ],
                         )
                       else ...[

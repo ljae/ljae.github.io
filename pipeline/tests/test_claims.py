@@ -408,8 +408,14 @@ def test_events_outrank_a_bare_level_test_mention():
     assert bare < 50            # 레테가 있다는 것만으로는 어렵지 않다
 
 
-def test_missing_pillar_is_dropped_not_filled():
-    """근거 없는 기둥은 남은 기둥으로 가중치를 다시 나눈다."""
+def test_missing_pillar_is_neither_filled_nor_renormalized():
+    """근거 없는 기둥은 채우지도, 남은 기둥으로 다시 나누지도 않는다.
+
+    재정규화하면 **없는 기둥이 유리해진다** — 남은 기둥의 몫이 커진다.
+    실측: 모닝에듀(투명 100)가 진입난이도가 없다는 이유로 투명성 몫을
+    15% → 23% 로 받아, 진입난이도를 실제로 가진 렉스김어학원을 앞질렀다.
+    학술 과목은 네 기둥을 다 채운 곳끼리만 순위를 맺는다.
+    """
     academy = {"id": "A1", "name": "가나수학학원", "region_id": "daechi",
                "subjects": ["math"], "reg_stttus_nm": "정상",
                "tofor_smtot": 200, "le_crse_list_nm": "수학"}
@@ -421,8 +427,11 @@ def test_missing_pillar_is_dropped_not_filled():
     out = scoring.compute(academy, quiet, cohort, subject="math")
     assert out["selectivity"] is None
     w = out["breakdown"]["weights"]
-    assert "selectivity" not in w
+    # 가중치는 공개한 넷 그대로다.
+    assert set(w) == {"reputation", "momentum", "transparency", "selectivity"}
     assert abs(sum(w.values()) - 1.0) < 1e-6
+    # 네 기둥을 못 채웠으니 순위에 서지 않는다.
+    assert out["is_complete"] is False and out["is_ranked"] is False
 
 
 # ── 게이트 B ───────────────────────────────────────────────────────

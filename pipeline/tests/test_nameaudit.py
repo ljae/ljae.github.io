@@ -124,3 +124,53 @@ def test_형제_지점이_많은_브랜드는_퍼져_보이지_않는다():
         [mention("a0", f"깊은생각 후기 {j}") for j in range(30)],
         corpus, {"a0": {"깊은생각"}})
     assert len(solo) == 1
+
+
+def test_좁게_퍼진_이름도_제목으로_걸린다():
+    """문턱(MIN_WIDE)은 **퍼짐 규칙의 것**이다. 제목 규칙까지 막으면 안 된다.
+
+    실측: 모닝에듀(표본 13 · 제목 비율 0.08)는 근거 대부분이 에듀윌
+    자격증 인강 글이었는데, 본문에 이름이 박힌 키워드 나열형 광고글이라
+    코퍼스에 넓게 깔리지 않았다. 넓이 문턱에 막혀 이 점검을 통과했다.
+    """
+    # 이름이 코퍼스에 몇 건 없다 — 퍼짐으로는 못 잡는다.
+    corpus = [post(f"에듀윌 소방시설관리사 인강 할인 {i}", "모닝에듀") for i in range(12)]
+    mentions = [mention("a1", f"에듀윌 자격증 글 {i}") for i in range(12)]
+
+    rows = nameaudit.measure(
+        [academy("a1", "모닝에듀")], mentions, corpus, {"a1": {"모닝에듀"}})
+
+    assert len(rows) == 1, "넓이가 작아도 제목 규칙으로 걸려야 한다"
+    assert rows[0]["why"] == "제목에 이름 없음"
+    assert rows[0]["wide"] < nameaudit.MIN_WIDE
+
+
+def test_넓이가_작으면_퍼짐으로는_걸리지_않는다():
+    """제목에 이름이 잘 나오면 좁게 퍼진 것은 문제가 아니다."""
+    corpus = [post(f"가나학원 후기 {i}") for i in range(12)]
+    mentions = [mention("a1", f"가나학원 후기 {i}") for i in range(10)]
+    assert nameaudit.measure(
+        [academy("a1", "가나학원")], mentions, corpus, {"a1": {"가나학원"}}) == []
+
+
+def test_제목은_모든_표기로_본다():
+    """대표 토큰 하나로만 재면 표기가 여럿인 학원이 통째로 오탐이 된다.
+
+    실측: 렉스김어학원의 대표 토큰이 별칭 '렉스킴' 으로 잡혀 제목 비율이
+    6% 로 나왔다 — 정작 제목에는 '렉스김' 으로 적혀 있었다. 근거 130건짜리
+    멀쩡한 학원이 그렇게 걸렸다.
+    """
+    corpus = [post(f"렉스김 어학원 레테 후기 {i}") for i in range(40)]
+    mentions = [mention("a1", f"렉스김 어학원 레테 후기 {i}") for i in range(30)]
+
+    # 후보에 두 표기가 다 있다.
+    rows = nameaudit.measure(
+        [academy("a1", "렉스김어학원")], mentions, corpus,
+        {"a1": {"렉스김", "렉스킴"}})
+    assert rows == [], "제목에 다른 표기로 적혀 있으면 걸리면 안 된다"
+
+    # 어느 표기도 제목에 없으면 그때는 걸린다.
+    quiet = [mention("a1", f"공연 관람기 {i}") for i in range(30)]
+    assert len(nameaudit.measure(
+        [academy("a1", "렉스김어학원")], quiet, corpus,
+        {"a1": {"렉스김", "렉스킴"}})) == 1
