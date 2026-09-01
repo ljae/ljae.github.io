@@ -609,12 +609,19 @@ def compute(academy: dict, mentions: list[dict], cohort: dict,
                                   cohort["mention_capacity_ratio"])
         w = dict(config.WEIGHTS)
         if sel is None:
-            # 진입 관련 후기가 없는 학원. 없는 기둥을 코호트 평균으로
-            # 채우면 '모른다' 가 '보통' 이 되고, 0 으로 치면 '쉽다' 가
-            # 된다. 대신 **남은 기둥으로 다시 나눈다** — 그러면 총점이
-            # '우리가 아는 것만으로 매긴 점수' 라고 말할 수 있다.
-            w.pop("selectivity")
-            w = _renormalize(w)
+            # ★ **재정규화하지 않는다.** 남은 기둥으로 다시 나누면 없는
+            #   기둥이 오히려 **유리해진다** — 남은 기둥의 몫이 커지기
+            #   때문이다.
+            #
+            #   실측: 모닝에듀(투명 100 · 표본 13)는 진입난이도가 없다는
+            #   이유로 투명성 가중치를 15% → 23% 로 받아 총점 57.9 가 됐고,
+            #   진입난이도 56.9 를 **실제로 가진** 렉스김어학원(표본 127,
+            #   총점 57.3)을 앞질렀다. 근거가 얇을수록 유리한 산식이었다.
+            #
+            #   학술 과목은 **네 기둥을 다 채운 곳끼리만** 순위를 맺는다
+            #   (예체능·기타는 애초에 두 기둥 산식이라 해당 없음).
+            #   여기서 내는 값은 '채운 기둥만 더한 것'(가중치 합 0.65)이라
+            #   4기둥 총점과 견줄 수 없고, 화면에도 총점으로 내지 않는다.
             total = (w["reputation"] * rep + w["momentum"] * mom
                      + w["transparency"] * tra)
         else:
@@ -641,7 +648,14 @@ def compute(academy: dict, mentions: list[dict], cohort: dict,
         "confidence": confidence_label(sample),
         # 과목을 정할 수 없는 곳은 순위에서 뺀다. 어느 과목으로 견줄지
         # 정할 수 없으면 등수도 매길 수 없다.
-        "is_ranked": rankable and sample >= config.MIN_SAMPLE_FOR_RANK,
+        #
+        # 학술 과목은 **네 기둥을 다 채운 곳끼리만** 순위를 맺는다. 기둥이
+        # 빈 채로 세우면 그 빈자리가 유리하게 작용한다(위 주석 참고).
+        # 예체능·기타는 두 기둥 산식이 정본이라 이 조건에 걸리지 않는다.
+        "is_ranked": (rankable and sample >= config.MIN_SAMPLE_FOR_RANK
+                      and (not academic or sel is not None)),
+        # 네 기둥을 다 채웠는가. 화면이 총점을 낼지 말지를 이 값으로 가른다.
+        "is_complete": (not academic) or sel is not None,
         "momentum_direction": direction,
         # 숫자 대신 화면에 낼 등급. 없으면 '진입 관련 후기 없음'.
         "selectivity_tier": (selectivity_tier(sel_bd) if academic else None),

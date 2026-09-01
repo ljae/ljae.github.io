@@ -46,6 +46,8 @@ frontmatter 의 `generic: true` 로 사람이 한다 — 엔진은 frontmatter �
 """
 from __future__ import annotations
 
+import re
+
 from . import analyze
 
 #: 이만큼도 안 퍼진 이름은 애초에 문제가 안 된다. 코퍼스가 5만 글쯤이라
@@ -106,6 +108,21 @@ def measure(academies: list[dict],
         if tok:
             brand_own[tok] = brand_own.get(tok, 0) + own_counts.get(aid, 0)
 
+    # ★ 넓이는 **한 번의 훑기**로 다 센다.
+    #
+    #   이름마다 코퍼스를 다시 훑으면 400곳 × 5만 글 = 2천만 번이다.
+    #   실제로 그렇게 짰다가 실행이 몇 분씩 늘어졌다. 정규식 하나에
+    #   이름을 모아 글마다 한 번만 훑으면 5만 번으로 끝난다.
+    wide_counts: dict[str, int] = {}
+    uniq = sorted({t for t in tokens.values() if t})
+    if uniq:
+        pattern = re.compile("|".join(re.escape(t) for t in uniq))
+        for b in blobs:
+            # 한 글에 같은 이름이 여러 번 나와도 한 건으로 센다 —
+            # 세는 것은 '몇 글에 나오는가' 다.
+            for t in set(pattern.findall(b)):
+                wide_counts[t] = wide_counts.get(t, 0) + 1
+
     rows = []
     for a in academies:
         aid = a["id"]
@@ -115,19 +132,40 @@ def measure(academies: list[dict],
         name = tokens.get(aid)
         if not name:
             continue
-        wide = sum(1 for b in blobs if name in b)
+        wide = wide_counts.get(name, 0)
         mine = titles.get(aid) or []
-        title_ratio = (sum(1 for t in mine if name in t) / len(mine)) if mine else 0.0
+        # ★ 제목은 **모든 표기**로 본다. 대표 하나로만 재면 표기가 여럿인
+        #   학원이 통째로 오탐이 된다.
+        #
+        #   실측: 렉스김어학원의 대표 토큰이 별칭 '렉스킴' 으로 잡혀 제목
+        #   비율이 6% 로 나왔다 — 정작 제목에는 '렉스김' 으로 적혀 있었다.
+        #   근거 130건짜리 멀쩡한 학원이 그렇게 걸렸다. 물어야 할 것은
+        #   '이 학원을 가리키는 **어떤** 표기라도 제목에 있는가' 다.
+        mine_cands = candidates.get(aid) or {name}
+        title_ratio = (
+            sum(1 for t in mine if any(c in t for c in mine_cands)) / len(mine)
+        ) if mine else 0.0
         spread = wide / max(1, brand_own.get(name, own))
 
         # 두 사유는 함께 걸릴 수 있다. 하나만 적으면 다음 사람이 나머지를
         # 다시 재야 한다 — 둘 다 남긴다.
+        # ★ 문턱은 **퍼짐 규칙의 것**이다. 제목 규칙까지 막으면 안 된다.
+        #
+        #   퍼짐은 '이름이 코퍼스에 넓게 깔렸는가' 라 넓이가 작으면 애초에
+        #   판단할 것이 없다. 하지만 제목 규칙은 '그 글들의 주인공이
+        #   남인가' 라서 **넓이와 무관하다.**
+        #
+        #   실측: 모닝에듀(표본 13 · 제목 비율 0.08)는 근거 대부분이
+        #   에듀윌 자격증 인강 글이었는데, '모닝에듀' 가 코퍼스에 30건도
+        #   안 깔려 있다는 이유로 이 점검을 통과했다. 본문에 이름이 박힌
+        #   키워드 나열형 광고글은 넓게 퍼지지 않는다 — 넓이로는 영원히
+        #   안 잡힌다.
         why = []
-        if spread >= SPREAD_LIMIT:
+        if wide >= MIN_WIDE and spread >= SPREAD_LIMIT:
             why.append("퍼짐")
         if title_ratio < TITLE_FLOOR:
             why.append("제목에 이름 없음")
-        if wide < MIN_WIDE or not why:
+        if not why:
             continue
         rows.append({
             "id": aid,

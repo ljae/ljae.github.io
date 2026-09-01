@@ -45,6 +45,10 @@ def mention(url_hash: str, academy: str, *, sentiment: float = 0.5,
         "academy_name": "가나수학학원" if academy == "A1" else "다라수학학원",
         "region_id": "daechi",
         "sentiment": sentiment,
+        # 학술 과목은 네 기둥을 다 채워야 순위에 선다. 이 시험이 보는 것은
+        # **반려가 표본·코호트·등수로 번지는가** 라, 진입 사건을 넣어
+        # 기둥을 채워 둔다.
+        "sel_events": ["sel.test_exists"],
         "credibility": 0.7,
         "spam_score": 0.0,
         "is_excluded": False,

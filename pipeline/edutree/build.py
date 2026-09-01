@@ -1814,6 +1814,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                 "sampleSize": s["sample_size"],
                 "confidence": s["confidence"],
                 "isRanked": s["is_ranked"],
+                # 네 기둥을 다 채웠는가. 학술 과목에서 진입난이도가 없으면
+                # 총점을 견줄 수 없다 — 화면이 이 값으로 '—' 를 낸다.
+                "isComplete": s.get("is_complete", True),
                 # academic | non_academic. 예체능·기타는 만족도·화제성만 본다.
                 "subjectGroup": s.get("subject_group", "academic"),
                 # 표본이 적으면 내보내지 않는다. 3건으로 만든 '긍정률 67%' 는
@@ -1840,6 +1843,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                     "sampleSize": v["sample_size"],
                     "confidence": v["confidence"],
                     "isRanked": v["is_ranked"],
+                    "isComplete": v.get("is_complete", True),
                     "subjectGroup": v.get("subject_group", "academic"),
                     "positiveRate": (
                         (v.get("breakdown", {}).get("reputation", {}) or {})

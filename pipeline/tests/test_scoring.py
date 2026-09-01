@@ -23,13 +23,17 @@ TODAY = scoring.TODAY
 
 def m(academy: str = "A", *, sentiment: float = 0.5, cred: float = 0.7,
       days: int | None = 30, subject: str | None = None,
-      src: str | None = None, sel: dict | None = None) -> dict:
+      src: str | None = None, sel: dict | None = None,
+      events: list[str] | None = None) -> dict:
     posted = None if days is None else (TODAY - timedelta(days=days)).isoformat()
     row = {
         "academy_key": academy, "sentiment": sentiment, "credibility": cred,
         "posted_at": posted, "is_excluded": False,
         "selectivity": sel or {}, "subjects": [subject] if subject else [],
         "subject": subject, "url_hash": f"{academy}{sentiment}{days}{subject}",
+        # 진입난이도는 '사건이 확인됐는가' 다. 학술 과목은 이게 없으면
+        # 네 기둥을 못 채워 순위에 서지 않는다.
+        "sel_events": events or [],
     }
     if src:
         row["date_source"] = src
@@ -67,7 +71,11 @@ def test_표본이_얇으면_순위에_넣되_표본_부족이라_적는다():
     assert s["is_ranked"] is False          # 10건 미만
     assert s["confidence"] == "low"
 
-    s10 = scoring.compute(academy(), [m() for _ in range(12)], cohort())
+    # 사건을 넣어 네 기둥을 채운다 — 이 시험이 보는 것은 **표본 수**다.
+    s10 = scoring.compute(
+        academy(),
+        [m(events=["rejected"], sentiment=0.5 + i * 0.01) for i in range(12)],
+        cohort())
     assert s10["is_ranked"] is True
     assert s10["confidence"] == "medium"
 
@@ -251,11 +259,11 @@ def test_총점은_공개된_가중치의_가중합이다():
     """산식을 공개하기로 했으면 총점이 **그 화면에 적힌 산식대로** 나와야 한다.
 
     ★ `config.WEIGHTS` 가 아니라 `breakdown['weights']` 로 견준다.
-      근거가 없는 기둥은 채우지 않고 빼며, 남은 기둥으로 가중치를 다시
-      나눈다. 그래서 학원마다 적용된 저울이 다를 수 있고, 화면은 그
-      저울을 그대로 찍는다 — 검증해야 하는 것은 화면에 적힌 쪽이다.
+      학술 과목은 넷을 그대로 쓰고, 예체능·기타는 두 기둥 산식이 정본이라
+      저울이 다르다. 화면은 그 저울을 그대로 찍는다 — 검증해야 하는 것은
+      화면에 적힌 쪽이다.
     """
-    ms = [m() for _ in range(15)]
+    ms = [m(events=["rejected"], sentiment=0.5 + i * 0.01) for i in range(15)]
     s = scoring.compute(academy(), ms, cohort())
     w = s["breakdown"]["weights"]
     assert abs(sum(w.values()) - 1.0) < 1e-9, "공개하는 가중치의 합은 정확히 1"
@@ -263,14 +271,26 @@ def test_총점은_공개된_가중치의_가중합이다():
     assert abs(s["total"] - sum(w[k] * s[k] for k in w)) < 0.06
 
 
-def test_근거가_없는_기둥은_채우지_않고_뺀다():
+def test_근거가_없는_기둥은_채우지도_재정규화하지도_않는다():
     """없는 값을 코호트 평균으로 채우면 '모른다' 가 '보통' 이 되고,
-    0 으로 치면 '쉽다' 가 된다. 진입 관련 후기가 없으면 그 기둥을 빼고
-    남은 것으로 다시 나눈다 — 그래야 총점이 '우리가 아는 것만으로 매긴
-    점수' 라고 말할 수 있다."""
+    0 으로 치면 '쉽다' 가 된다. 그렇다고 **남은 기둥으로 다시 나누면
+    없는 기둥이 유리해진다** — 남은 기둥의 몫이 커지기 때문이다.
+
+    실측 신고: 모닝에듀(투명 100 · 표본 13)가 진입난이도가 없다는 이유로
+    투명성 몫을 15% → 23% 로 받아, 진입난이도를 실제로 가진 렉스김어학원
+    (표본 127)을 총점에서 앞질렀다.
+
+    → 가중치는 넷 그대로 두고, 채운 기둥만 더한다(합 0.65). 그 값은
+      4기둥 총점과 견줄 수 없으므로 **순위에 넣지 않는다.**
+    """
     ms = [m() for _ in range(15)]          # 진입 사건이 없는 글들
     s = scoring.compute(academy(), ms, cohort())
     assert s["selectivity"] is None
-    assert "selectivity" not in s["breakdown"]["weights"]
+    # 가중치는 공개한 그대로다 — 화면과 산식 페이지가 이 값을 찍는다.
+    assert set(s["breakdown"]["weights"]) == {
+        "reputation", "momentum", "transparency", "selectivity"}
     assert abs(sum(s["breakdown"]["weights"].values()) - 1.0) < 1e-9
+    # 네 기둥을 못 채웠으므로 순위에 서지 않는다.
+    assert s["is_complete"] is False
+    assert s["is_ranked"] is False
     _ = (config, date)
