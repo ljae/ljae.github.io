@@ -177,14 +177,26 @@
       //
       // 순서는 z 가 정한다 — 학교(3)가 아파트(2)보다 먼저 이름을 얻는다.
       // 학군지도에 온 사람이 찾는 것은 학교고, 아파트는 맥락이다.
-      var LABEL_H = 22;
+      // 학교는 큰 이름표, 아파트는 작은 이름표. 같은 크기로 두면 단지가
+      // 전부 접혀 '아파트가 없다' 로 보인다 — 실제로 한 번 그렇게 됐다.
+      function metrics(it) {
+        return it.small
+          ? { font: 10, pad: 5, per: 9.8, h: 17 }
+          : { font: 11.5, pad: 9, per: 11.2, h: 22 };
+      }
+
+      function labelWidth(it) {
+        var m = metrics(it);
+        return String(it.label || '').length * m.per + m.pad * 2 + 4;
+      }
 
       function labelIcon(it) {
+        var m = metrics(it);
         return {
           content:
             '<div style="transform:translate(-50%,-50%);white-space:nowrap;' +
-            'font-family:Paperlogy,-apple-system,sans-serif;font-size:11.5px;' +
-            'font-weight:700;letter-spacing:-.3px;color:#fff;padding:4px 9px;' +
+            'font-family:Paperlogy,-apple-system,sans-serif;font-size:' + m.font + 'px;' +
+            'font-weight:700;letter-spacing:-.3px;color:#fff;padding:3px ' + m.pad + 'px;' +
             'border-radius:999px;background:' + it.color + ';' +
             'box-shadow:0 2px 8px rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.85)">' +
             it.label + '</div>',
@@ -196,7 +208,7 @@
         return {
           content:
             '<div title="' + (it.label || '') + '" ' +
-            'style="transform:translate(-50%,-50%);width:9px;height:9px;' +
+            'style="transform:translate(-50%,-50%);width:11px;height:11px;' +
             'border-radius:999px;background:' + it.color + ';' +
             'border:1.5px solid rgba(255,255,255,.9);' +
             'box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
@@ -215,11 +227,10 @@
           var it = m.__it;
           if (!it) return;
           var off = proj.fromCoordToOffset(m.getPosition());
-          // 한글은 대략 글자 크기만큼 넓다. 좌우 여백·테두리를 더한다.
-          var w = String(it.label || '').length * 11.5 + 22;
+          var w = labelWidth(it), h = metrics(it).h;
           var box = {
             l: off.x - w / 2, r: off.x + w / 2,
-            t: off.y - LABEL_H / 2, b: off.y + LABEL_H / 2
+            t: off.y - h / 2, b: off.y + h / 2
           };
           var hit = placed.some(function (p) {
             return !(box.r < p.l || box.l > p.r || box.b < p.t || box.t > p.b);
