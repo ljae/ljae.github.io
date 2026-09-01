@@ -703,6 +703,62 @@ def _bands_from_mentions(academies: list[dict],
     return n
 
 
+def _would_erase(path, data) -> bool:
+    """이번 결과가 **있던 것을 지우는가.**
+
+    목록형 산출물에만 건다. 지난 파일에 내용이 있는데 이번이 비었으면
+    가져오기가 실패한 것이지 '그 데이터가 없어진 것' 이 아니다.
+
+    딕셔너리(meta 등)는 대상이 아니다 — 비는 일이 정상인 값이 섞여 있다.
+    """
+    if not isinstance(data, list) or data:
+        return False
+    if not path.exists():
+        return False
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return False
+    return isinstance(old, list) and len(old) > 0
+
+
+#: 학구도 수집이 실패했을 때 **지난 값을 물려받을** 필드.
+#  학교 목록 자체는 NEIS 로 늘 채워지므로 행은 남는데, 학구 정보만
+#  통째로 비어 버린다 — 그러면 위 `_would_erase` 에 안 걸린다.
+_ZONE_FIELDS = ("zoneId", "zoneName", "eduOffice", "zonePeers",
+                "assignment", "apartments", "apartmentHouseholds")
+
+
+def _carry_zone_fields(path, rows: list[dict]) -> int:
+    """이번에 학구를 하나도 못 얻었으면 지난 파일에서 옮겨 온다.
+
+    실측(2026-08-31 야간): 학구도 API 가 ReadTimeout 이고 CI 에는 캐시가
+    없어 zoneId 가 140곳 모두 null 이 됐다. 지도의 중·고 배정이 통째로
+    사라졌는데 실행은 성공으로 끝났다.
+
+    **못 가져온 것과 없어진 것은 다르다.** 다음 회차가 성공하면 갱신된다.
+    """
+    if not isinstance(rows, list) or any(r.get("zoneId") for r in rows):
+        return 0
+    if not path.exists():
+        return 0
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return 0
+    by_id = {r.get("id"): r for r in old if isinstance(r, dict)}
+    moved = 0
+    for r in rows:
+        prev = by_id.get(r.get("id"))
+        if not prev or not prev.get("zoneId"):
+            continue
+        for f in _ZONE_FIELDS:
+            if f in prev:
+                r[f] = prev[f]
+        moved += 1
+    return moved
+
+
 def _previous_scores() -> dict:
     """직전 빌드의 랭킹 상태. app 번들에 이미 나가 있는 것을 읽는다."""
     path = config.EXPORT_DIR / "academies.json"
@@ -1879,5 +1935,30 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     }
     for name, data in files.items():
         path = out / name
+        # ★ 빈 결과로 **좋은 데이터를 덮지 않는다.**
+        #
+        #   외부 API 가 실패해도 파이프라인은 캐시로 계속 가도록 짜여 있다
+        #   (그건 맞다 — 한 번 끊겼다고 실행 전체를 잃을 이유가 없다).
+        #   그런데 CI 러너에는 캐시가 없다. 그래서 실패한 회차가 빈 목록을
+        #   그대로 내보내 **이미 배포된 좋은 파일을 지웠다.**
+        #
+        #   실측(2026-08-31 야간): 공동주택 API 가 HTTP 400, 학구도가
+        #   ReadTimeout 이었고 캐시가 비어 있어
+        #     apartments.json  795KB → 2바이트('[]')
+        #     schools.json     zoneId 140곳 → 0곳
+        #   이 되어 지도에서 아파트가 통째로 사라졌다. 실행은 **성공으로
+        #   끝났다** — 조용한 데이터 손실이다.
+        #
+        #   비어 있는 것과 '이번에 못 가져온 것' 은 다르다. 못 가져왔으면
+        #   지난 것을 그대로 둔다. 다음 회차가 성공하면 그때 갱신된다.
+        if name == "schools.json":
+            moved = _carry_zone_fields(path, data)
+            if moved:
+                print(f"  ! schools.json: 이번에 학구를 못 얻어 지난 값을 "
+                      f"{moved}곳에 물려받았습니다")
+        if _would_erase(path, data):
+            print(f"  ! {name}: 이번 결과가 비어 있어 **기존 파일을 유지**합니다 "
+                  f"(외부 API 실패 의심 — 위 상태 표를 볼 것)")
+            continue
         path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"  → {path.relative_to(config.ROOT)}  ({path.stat().st_size // 1024}KB)")
