@@ -216,6 +216,20 @@
         };
       }
 
+      /** 첫 화면을 울타리로 굳힌다. 맞추기가 끝난 뒤에만 부른다. */
+      function lock(map) {
+        if (!map.__relock) return;
+        map.__relock = false;
+        map.setOptions({
+          // 축소는 첫 화면까지. 그보다 멀어지면 학군 밖이 보인다.
+          minZoom: map.getZoom(),
+          // 이동은 첫 화면이 담은 범위 안에서. 마커 경계가 아니라
+          // **실제로 보이던 범위**를 쓴다 — 마커 경계로 묶으면 여백만큼
+          // 화면이 울타리보다 커서 지도가 계속 튕긴다.
+          maxBounds: map.getBounds()
+        });
+      }
+
       function declutter(map) {
         var proj = map.getProjection();
         if (!proj) return;
@@ -252,21 +266,23 @@
             mapTypeControl: false,
             scaleControl: false,
             mapDataControl: false,
-            // ★ 지도를 **고정한다.** 이 화면은 '어디든 볼 수 있는 지도' 가
-            //   아니라 '고른 학군을 보여주는 판' 이다. 끌고 다닐 수 있으면
-            //   길을 잃고, 되돌아오는 방법이 화면에 없다. 학군을 바꾸면
-            //   아래 fit() 이 그 학군에 맞춰 다시 잡아 준다.
+            // ★ **첫 화면이 바깥 울타리다.** 한때 통째로 잠갔는데, 밀집
+            //   구역에서 이름표가 겹쳐도 들여다볼 방법이 없었다. 그렇다고
+            //   다 열어 두면 서울 밖으로 끌고 나가 길을 잃는다.
             //
-            //   마커·경계 클릭은 그대로 된다 — 없앤 것은 이동이지 조작이
-            //   아니다.
-            draggable: false,
-            pinchZoom: false,
-            scrollWheel: false,
+            //   그래서 **안쪽으로만 연다.** 확대는 되고 축소는 첫 화면까지,
+            //   이동은 첫 화면이 담은 범위 안에서. 학군을 벗어날 수 없으니
+            //   '되돌아오는 버튼' 이 없어도 길을 잃지 않는다.
+            //
+            //   울타리 값(minZoom·maxBounds)은 여기서 정하지 못한다 —
+            //   fitBounds 가 끝나야 그 학군의 배율과 범위를 알 수 있다.
+            //   아래 idle 에서 잠근다.
+            draggable: true,
+            pinchZoom: true,
+            scrollWheel: true,
             keyboardShortcuts: false,
-            disableDoubleClickZoom: true,
-            disableDoubleTapZoom: true,
-            disableTwoFingerTapZoom: true,
-            zoomControl: false
+            zoomControl: true,
+            zoomControlOptions: { position: naver.maps.Position.TOP_RIGHT }
           });
           instances[id] = map;
 
@@ -297,8 +313,12 @@
             if (box === lastBox) return;
             lastBox = box;
             naver.maps.Event.trigger(map, 'resize');
-            // 고정 지도라 크기가 바뀌면 스스로 다시 맞춰야 한다.
+            // 크기가 바뀌면 울타리 값도 달라진다. 좁아진 화면에서 옛
+            // minZoom 을 그대로 두면 학군이 화면에 다 안 들어오는데
+            // 더 줄일 수도 없어 갇힌다. 풀고 다시 맞춘 뒤 다시 잠근다.
             if (map.__fit) {
+              map.__relock = true;
+              map.setOptions({ minZoom: 6, maxBounds: null });
               map.fitBounds(map.__fit,
                 { top: 48, right: 40, bottom: 48, left: 40 });
             }
@@ -384,28 +404,42 @@
         //
         //   경계(zones)까지 넣으면 학교군 폴리곤이 화면 밖까지 뻗어 있어
         //   지도가 한없이 멀어진다 — **마커만** 기준으로 잡는다.
+        // ★ 리스너를 **먼저** 단다.
+        //
+        //   처음에는 fitBounds 뒤에 달았는데, 그 사이에 idle 이 지나가
+        //   버려 울타리가 영영 안 잠겼다(실측: relock 이 계속 true).
+        //   맞추기 전에 달아 두면 놓칠 일이 없다.
+        if (map.__idle) naver.maps.Event.removeListener(map.__idle);
+        map.__idle = naver.maps.Event.addListener(map, 'idle', function () {
+          lock(map);
+          declutter(map);
+        });
+
         var pts = items.map(function (it) {
           return new naver.maps.LatLng(it.lat, it.lng);
         });
         if (pts.length >= 2) {
           var b = new naver.maps.LatLngBounds(pts[0], pts[0]);
           pts.forEach(function (p) { b.extend(p); });
-          // 창 크기가 바뀌면 다시 맞춰야 한다. 고정 지도라 사용자가
-          // 스스로 되돌릴 방법이 없다.
+          // 창 크기가 바뀌면 다시 맞춰야 한다.
           map.__fit = b;
+          // 울타리를 다시 잡아야 한다는 표시. 학군을 바꾸면 범위가 달라진다.
+          map.__relock = true;
+          // 먼저 풀어 준다. 지난 학군의 울타리가 남아 있으면 새 학군이
+          // 그 안에 안 들어가 fitBounds 가 엉뚱한 곳에 선다.
+          map.setOptions({ minZoom: 6, maxBounds: null });
           map.fitBounds(b, { top: 48, right: 40, bottom: 48, left: 40 });
         } else if (pts.length === 1) {
           map.__fit = null;
+          map.__relock = false;
+          map.setOptions({ minZoom: 6, maxBounds: null });
           map.setCenter(pts[0]);
           map.setZoom(zoom);
         }
 
-        // 배치가 끝난 뒤에 접는다. fitBounds 직후에는 아직 옛 배율이라
-        // 겹침 판정이 어긋난다.
-        if (map.__idle) naver.maps.Event.removeListener(map.__idle);
-        map.__idle = naver.maps.Event.addListener(map, 'idle', function () {
-          declutter(map);
-        });
+        // idle 이 안 오는 경우를 대비한다. 이벤트 하나에 기대면 그 하나가
+        // 안 왔을 때 울타리가 통째로 없는 지도가 나간다.
+        setTimeout(function () { lock(map); declutter(map); }, 400);
         declutter(map);
         return true;
       }
