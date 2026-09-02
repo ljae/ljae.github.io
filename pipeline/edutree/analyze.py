@@ -9,6 +9,7 @@
 """
 from __future__ import annotations
 
+import functools
 import math
 import re
 from collections import Counter, defaultdict
@@ -327,6 +328,35 @@ GENERIC_NAME_PARTS = (
 )
 
 
+# 낱말 하나가 아니라 **구(句) 전체가 일상어**인 이름.
+#
+# '깊은생각' 은 고유한 브랜드지만 띄어쓰기를 지우면 '깊은 생각을 했다' 의
+# '깊은생각' 과 같아진다. 실측: '삼시세끼 꼬마김밥 솔직 후기' 가 본문의
+# "깊은 생각 없이" 때문에 깊은생각의 근거였다. 부분 일치('생각')로 잡으면
+# 황소까지 걸리지만, 구 전체가 정확히 일치할 때만 보면 잃는 것이 없다 —
+# 학원 표지(학원·레테·선생님…)를 하나 더 요구할 뿐이고, 진짜 후기에는
+# 그 말이 거의 늘 들어 있다.
+GENERIC_PHRASES = ("깊은생각", "한우리")
+
+
+def is_generic_academy(academy: dict) -> bool:
+    """등록명만이 아니라 **브랜드·별칭**까지 본다.
+
+    '한우리독서토론논술교습소' 의 등록명 알맹이는 일상어가 아니지만, 후기는
+    '한우리' 라고 부르고 그 말은 샤브샤브 체인이기도 하다(실측: 목동
+    현대백화점 맛집 글이 목동 국어 1위의 근거였다). 검색어가 되는 표기
+    하나라도 일상어면 학원 표지를 요구한다.
+    """
+    if is_generic_name(academy.get("name") or ""):
+        return True
+    phrases = {_norm(g) for g in GENERIC_PHRASES} | {
+        _norm(g) for g in GENERIC_NAME_PARTS}
+    for label in (academy.get("brand"), *(academy.get("aliases") or [])):
+        if label and _norm(label) in phrases:
+            return True
+    return False
+
+
 def is_generic_name(name: str) -> bool:
     """학원명이 그 자체로 일상어인가.
 
@@ -338,7 +368,8 @@ def is_generic_name(name: str) -> bool:
     # 지역 접두어와 업종어를 뗀 알맹이로 판단한다.
     core = re.sub(r"^(대치|목동|반포|잠실|서울)", "", flat)
     core = re.sub(r"(학원|교습소|어학원)$", "", core)
-    return core in {_norm(g) for g in GENERIC_NAME_PARTS}
+    return (core in {_norm(g) for g in GENERIC_NAME_PARTS}
+            or core in {_norm(g) for g in GENERIC_PHRASES})
 
 
 # 이름 끝에 붙는 업종어. 짧은 것부터, 끝에서만 뗀다.
@@ -403,22 +434,210 @@ def weak_candidates(candidates: set[str]) -> set[str]:
     return {c for c in candidates if c in bad}
 
 
-def _mention_position(blob: str, candidates: set[str]) -> int:
-    """이름이 처음 나오는 위치. 없으면 -1."""
-    hits = [blob.find(c) for c in candidates if c in blob]
-    return min(hits) if hits else -1
+# ── 이름이 나온 자리 ──────────────────────────────────────────────
+#
+# 두 글자 이름(정상·시대·청담·강대)은 일상어와 구별이 안 된다. '정상인가요'
+# 의 '정상', '시대가 바뀌어' 의 '시대', '청담동' 의 '청담' 이 전부 그 학원
+# 이었다(실측: 대치정상수학학원의 근거에 '학원 맞춤 시공 청칠판' 광고와
+# '5월에는 학생부종합전형을 준비하자' 가 있었다 — 본문 어딘가의 '정상').
+# 두 글자는 **곁에 학원 표지가 있을 때만** 이름으로 친다. 세 글자부터는
+# 우연히 겹치는 일이 드물어 그대로 인정한다.
+_SHORT_MARKERS = ("학원", "어학원", "수학", "영어", "국어", "과학", "논술",
+                  "레테", "레벨", "입테", "테스트", "다니", "다녀", "다닌",
+                  "등록", "상담", "원장", "쌤", "선생", "캠퍼스", "센터",
+                  "지점", "후기", "수업", "숙제", "교습소",
+                  # 학원을 고르고 옮기는 말. '청담 vs 폴리 고민' 의 청담.
+                  "vs", "고민", "추천", "비교", "옮", "붙었", "합격", "떨어",
+                  "대기", "그만", "중에")
+_SHORT_WINDOW = 6
+
+
+def _short_ok(flat: str, i: int, n: int) -> bool:
+    after = flat[i + n: i + n + _SHORT_WINDOW]
+    before = flat[max(0, i - 4): i]
+    if after[:1] in ("반", "관", "점"):          # 정상반 · 청담관 · 폴리점
+        return True
+    return any(w in after or w in before for w in _SHORT_MARKERS)
+
+
+def name_spans(flat: str, candidates) -> list[tuple[int, int]]:
+    """정규화 문자열에서 이 학원 이름이 나온 (시작, 끝) 자리들.
+
+    **겹치지 않게** 센다. 긴 후보부터 잡아 '김선희꼼꼼국어교습소' 와 그
+    알맹이 '김선희꼼꼼국어' 가 같은 자리를 두 번 세지 않는다 — 예전에는
+    후보마다 count() 를 더해 한 번 나온 이름이 두 번으로 세어졌고, 그
+    부풀린 수가 '내 이름은 한 번뿐' 판정을 통째로 무력화했다(실측: 학원
+    이름을 수십 개 늘어놓은 '송파구 교습소 정보 총정리' 가 그렇게 통과했다).
+    """
+    spans: list[tuple[int, int]] = []
+    for c in sorted({_norm(x) for x in candidates if x}, key=len, reverse=True):
+        if len(c) < 2:
+            continue
+        i = flat.find(c)
+        while i >= 0:
+            j = i + len(c)
+            if not any(s < j and i < e for s, e in spans):
+                if len(c) >= 3 or _short_ok(flat, i, len(c)):
+                    spans.append((i, j))
+            i = flat.find(c, i + 1)
+    spans.sort()
+    return spans
+
+
+def name_occurrences(blob: str, candidates) -> int:
+    return len(name_spans(blob, candidates))
+
+
+def match_info(mention: dict, candidates) -> dict:
+    """이 글이 이 학원을 **어떻게** 부르는가. 화면의 발췌·근거 고르기가 쓴다.
+
+      in_title    제목에 이름이 있다 — 그 글의 주인공이다
+      count       겹치지 않게 센 등장 횟수
+      first_body  본문에서 처음 나온 자리(정규화 기준). 없으면 -1
+      body_len    정규화한 본문 길이
+    """
+    title = _norm(mention.get("title", ""))
+    body = _norm(mention.get("snippet", ""))
+    spans = name_spans(title + body, candidates)
+    return {
+        "count": len(spans),
+        "in_title": any(s < len(title) for s, _ in spans),
+        "first_body": min((s - len(title) for s, _ in spans if s >= len(title)),
+                          default=-1),
+        "body_len": len(body),
+    }
+
+
+# ── 남의 학원 이름 ────────────────────────────────────────────────
+#
+# 등록부 5천 곳의 이름 후보를 그대로 '남의 학원' 으로 쓰면 일반어가 섞인다.
+# 실측(2026-09-02, 제목 5만 건): '동영어'(2,711건) · '테스트'(1,815) ·
+# '원수학'(855) · '고수학' · '스터디' · '피아노' · '수학교습소' 가 남의
+# 학원 이름 행세를 했다 — 'OO동영어학원' 의 알맹이가 '동영어' 로 남은 것,
+# '테스트' 라는 이름의 교습소가 실제로 있는 것 등이다. 그 결과 '레벨테스트
+# 후기' 라는 제목마다 '테스트 학원' 이 등장한 셈이 되어, 비교글 판정이
+# 멀쩡한 후기를 버리고 진짜 비교글은 못 걸렀다.
+#
+# 이름에서 지역어·과목어·업종어·교육 일반어를 지웠을 때 두 글자 이상이
+# 남아야 남의 이름으로 인정한다. '동영어' → '동', '수학교습소' → '' 은
+# 못 쓰고 '와이즈만영재교육' → '와이즈만', '청담어학' → '청담' 은 쓴다.
+@functools.lru_cache(maxsize=1)
+def _rival_generic_words() -> tuple[str, ...]:
+    words = {
+        "학원", "교습소", "어학원", "아카데미", "에듀", "스쿨", "캠퍼스",
+        "센터", "연구소", "교실", "공부방", "테스트", "레벨", "스터디",
+        "피아노", "미술", "음악", "영재", "교육", "학습", "클래스", "러닝",
+        "리딩", "사고력", "창의", "입시", "보습", "종합", "전문", "과외",
+        "독서", "토론", "문해", "글쓰기", "코딩", "로봇", "체육", "태권도",
+        "발레", "무용", "보컬", "실용", "키즈", "주니어", "베이직",
+        "프리미엄", "초등", "중등", "고등", "유아", "어린이",
+        "수학", "영어", "국어", "과학", "논술", "어학", "잉글리시", "잉글리쉬",
+    }
+    words |= {w for ws in REGION_WORDS.values() for w in ws}
+    return tuple(sorted((_norm(w) for w in words if _norm(w)),
+                        key=len, reverse=True))
+
+
+def rival_eligible(cand: str) -> bool:
+    """남의 학원 이름 후보로 쓸 수 있는가 — 일반어를 걷어내고도 알맹이가 남아야."""
+    if len(cand) < 3:
+        return False
+    core = cand
+    for w in _rival_generic_words():
+        core = core.replace(w, "")
+    return len(core) >= 2
+
+
+class RivalIndex:
+    """남의 이름 색인. 앞 두 글자로 묶어 두고 글의 자리마다 그 묶음만 본다.
+
+    글마다 만 개 이름을 `in` 으로 훑으면 5만 건 × 1만 = 5억 번이다. 색인은
+    글자 수 × 묶음 크기라 수백 배 싸고, 결과는 같다.
+    """
+
+    def __init__(self, names) -> None:
+        self.names = frozenset(n for n in names if len(n) >= 2)
+        self._buckets: dict[str, list[str]] = defaultdict(list)
+        for n in self.names:
+            self._buckets[n[:2]].append(n)
+        for rows in self._buckets.values():
+            rows.sort(key=len, reverse=True)
+
+    def find(self, text: str) -> set[str]:
+        out: set[str] = set()
+        for i in range(max(0, len(text) - 1)):
+            for n in self._buckets.get(text[i:i + 2], ()):
+                if text.startswith(n, i):
+                    out.add(n)
+        return out
+
+    def __iter__(self):
+        return iter(self.names)
+
+    def __len__(self) -> int:
+        return len(self.names)
+
+    def __contains__(self, item) -> bool:
+        return item in self.names
+
+    def __bool__(self) -> bool:
+        return bool(self.names)
+
+
+def _find_rivals(text: str, rivals) -> set[str]:
+    if isinstance(rivals, RivalIndex):
+        return rivals.find(text)
+    return {r for r in rivals if r in text}
 
 
 # 한 글에 이만큼 많은 학원이 나오면 특정 학원의 후기가 아니라
 # 비교글·목록글·광고로 본다.
 RIVAL_CROWD = 3
 
+# 블로그 전문처럼 긴 글에서 이름이 **한 번**, 그것도 앞머리를 지나서 나오면
+# 그 글의 주제가 아니다. 실측: '[강남 대치] 학원 1만 개, 재건축 10조' 라는
+# 부동산 기사가 본문 중간의 '시대인재' 한 마디로 시대인재수학스쿨의 근거가
+# 됐다. 짧은 카페 스니펫(120자)에는 걸리지 않는다 — 길이 문턱이 그 뜻이다.
+LONG_TEXT = 600
+LATE_MENTION = 300
+
+# 학원 목록글의 제목. 카페 스니펫은 120자라 본문의 나열이 안 보이는데,
+# 제목이 그 글의 성격을 말한다('송파구 교습소 정보 총정리'). 내 이름이
+# 제목에 없고 본문에 한 번뿐일 때만 적용한다 — '대치 영어학원 추천 5곳' 에
+# 내 이름이 여러 번이면 그 글은 나를 다루는 글이다.
+_LISTING_TITLE = re.compile(
+    r"총정리|모음|목록|리스트|전체정리|정리\(|top\d|추천\d+곳|\d+곳비교|\d+곳정리")
+# 유선 전화번호가 둘 이상이면 업소 명부다. 광고 판정(PHONE)은 휴대폰만 본다.
+_LANDLINE = re.compile(r"0\d{1,2}-?\d{3,4}-?\d{4}")
+
+# 이름이 일상어인 학원의 표지는 **이름 곁**에 있어야 한다. 글 어디든 있으면
+# 되게 두면 블로그 본문 2,000자 어딘가의 '지점'·'학원' 한 마디로 샤브샤브
+# 맛집 글이 통과한다(실측: 한우리 목동 현대백화점점). 45자로 두었더니 그
+# 글의 "…한우리 HANWOORY 목동현대백화점 25년지기 … 근처 학원을 다녔기" 가
+# 40자 뒤에서 걸렸다 — 대치·목동 맛집 글은 늘 학원 이야기를 곁들인다.
+# 25자면 '한우리 다닌 지 1년' 은 잡고 저 글은 놓친다.
+GENERIC_MARKER_WINDOW = 25
+# 이름 곁에 이것이 있으면 그 자리는 학원이 아니라 가게다.
+_OFF_TOPIC_NEAR = ("맛집", "식당", "메뉴", "샤브", "배달", "주문", "뷔페",
+                   "회식", "브런치", "디저트", "카페거리")
+
+# 업종어가 이만큼 나오면 학원 목록글·지역 과외 광고다. 등록부 밖 학원을
+# 늘어놓은 글은 남의 이름 색인으로는 못 잡는다 — '보령 동대동 영수과외'
+# 글이 '시대인재2관학원' 한 마디로 시대인재수학스쿨의 근거였고, '송파구
+# 교습소 정보 총정리' 는 등록부 밖 동네 교습소 수십 곳을 늘어놓았다.
+# 보통 후기는 '학원' 을 서너 번 쓴다. 내 이름이 한 번뿐일 때만 적용한다.
+TRADE_CROWD = 8
+_TRADE_TOKEN = re.compile(r"학원|교습소|어학원|과외")
+
 
 # 권역을 가리키는 말. 유명 브랜드는 전국에 지점이 있어, 어느 지점
 # 이야기인지 가려야 한다. '분당 정상어학원' 후기가 대치 정상어학원의
 # 근거가 되면 안 된다.
 REGION_WORDS: dict[str, tuple[str, ...]] = {
-    "daechi": ("대치", "도곡", "개포", "역삼", "강남구", "은마", "선릉", "한티"),
+    # '강남' 은 넣지 않지만 '강남점·강남본점·강남역' 은 지점을 가리키는
+    # 말이라 넣는다. 잠실 아트아뜰리에의 근거에 강남점·홍대점 후기가 있었다.
+    "daechi": ("대치", "도곡", "개포", "역삼", "강남구", "은마", "선릉", "한티",
+               "강남점", "강남본점", "강남역"),
     "mokdong": ("목동", "신정", "양천", "오목교", "등촌"),
     "banpo": ("반포", "잠원", "서초", "고속터미널", "교대", "방배"),
     "jamsil": ("잠실", "신천", "방이", "송파", "가락", "석촌", "위례"),
@@ -436,6 +655,7 @@ OTHER_REGION_WORDS: tuple[str, ...] = (
     "상계", "은평", "마포", "성북", "강서", "구로", "관악", "동작", "성남",
     "군포", "안산", "시흥", "부천", "광명", "하남", "강동", "도봉", "금천",
     "중랑", "광진", "성동", "용산", "노원", "양주", "김해", "원주", "춘천",
+    "홍대", "신촌", "건대", "왕십리",
 )
 # '종로'는 넣지 않는다 — 종로학원은 전국 브랜드라 지역명이 아니다.
 # 브랜드에 지역 이름이 박힌 경우가 이렇게 있어, 새 지역어를 넣을 때는
@@ -515,16 +735,10 @@ def _nearest(flat: str, spots: list[int], words) -> int | None:
 
 
 def _name_spots(flat: str, names: set[str]) -> list[int]:
-    spots: list[int] = []
-    for name in names:
-        n = _norm(name)
-        if len(n) < 2:
-            continue
-        i = flat.find(n)
-        while i >= 0:
-            spots.append(i)
-            i = flat.find(n, i + 1)
-    return spots
+    """이름이 나온 자리들. 두 글자 이름의 표지 요구까지 name_spans 와 같다 —
+    과목·학급을 재는 창(窓)이 '정상인가요' 의 '정상' 을 중심으로 열리면
+    안 된다."""
+    return [s for s, _ in name_spans(flat, names)]
 
 
 def nearest_of(text: str, names: set[str], vocab: dict) -> str | None:
@@ -578,15 +792,7 @@ def subjects_near(text: str, names: set[str]) -> set[str]:
     같은 함정이다 — 낱말이 있다는 것과 그 학원 이야기라는 것은 다르다.
     """
     flat = _norm(text)
-    spots: list[int] = []
-    for name in names:
-        n = _norm(name)
-        if len(n) < 2:
-            continue
-        i = flat.find(n)
-        while i >= 0:
-            spots.append(i)
-            i = flat.find(n, i + 1)
+    spots = _name_spots(flat, names)
     if not spots:
         return set()
     windows = " ".join(
@@ -617,50 +823,86 @@ def is_relevant(mention: dict, candidates: set[str],
     가 '상담' 때문에 통과한다(실측).
     """
     title = _norm(mention.get("title", ""))
-    blob = _norm(f"{mention.get('title', '')} {mention.get('snippet', '')}")
-    if not any(c in blob for c in candidates):
+    body = _norm(mention.get("snippet", ""))
+    blob = title + body
+    # 이름 자리는 겹치지 않게, 두 글자 이름은 표지가 곁에 있을 때만 센다.
+    spans = name_spans(blob, candidates)
+    if not spans:
         return False
-    if generic and not any(_norm(k) in blob for k in _ACADEMY_MARKERS):
+    if generic and not _marker_near(blob, spans):
         return False
 
-    # 이름이 일상어인 학원은 '다른 학원이 주인공인 글'까지 걸린다.
-    # 제보받은 예: '기파랑 레벨테스트를 치고' — 본문의 "책읽기를 좋아하고"
-    # 때문에 책읽기 학원 근거가 됐다.
-    #
-    # 제목에 다른 학원 이름이 있는데 이 학원 이름은 제목에 없다면,
-    # 그 글의 주인공은 그쪽이다.
-    if generic and rivals:
-        rival_in_title = any(r in title for r in rivals)
-        mine_in_title = any(c in title for c in candidates)
-        if rival_in_title and not mine_in_title:
-            return False
+    mine_in_title = any(s < len(title) for s, _ in spans)
+    n = len(spans)
 
-    # 여러 학원을 늘어놓은 글은 어느 한 곳의 근거가 아니다.
-    #
-    # 제보받은 예: '대치 빅3의 프로그램! 피아이 해빛나인 지엘피 잉글리쉬'
-    # — 지엘피 후기인데 피아이 근거로 잡혔다. 비교글·학원 목록글·광고가
-    # 다 여기 해당한다.
     if rivals:
-        def strangers(text: str) -> set[str]:
-            return {r for r in rivals
-                    if r in text
-                    and not any(r in c or c in r for c in candidates)}
+        def strangers(found: set[str]) -> set[str]:
+            # 내 이름과 겹치는 후보는 남이 아니다 — '정상' 과 '정상어학원'.
+            others = {r for r in found
+                      if not any(r in c or c in r for c in candidates)}
+            # 한 학원의 여러 표기('청담'·'청담어학원')는 한 학원이다.
+            # 긴 표기에 포함되는 짧은 표기는 세지 않는다.
+            return {r for r in others
+                    if not any(r != o and r in o for o in others)}
 
-        mine_in_title = any(c in title for c in candidates)
-
-        # 1) 제목이 곧 나열인 경우. 내 이름이 제목에 없으면 곁다리다.
-        #    ('대치 깊은생각 레벨테스트 후기' 처럼 내 이름이 제목에 있으면
-        #     다른 학원이 함께 언급돼도 이 학원 글이 맞다)
-        if not mine_in_title and len(strangers(title)) >= 2:
-            return False
+        # 1) 제목의 주인공이 남이다.
+        #
+        #    제목은 글쓴이가 그 글을 무엇이라 부르는지다. 거기에 남의 학원이
+        #    있고 내 이름은 없으면, 내가 그 글의 주제일 가능성은 본문에서
+        #    내 이름이 **여러 번** 나올 때뿐이다('청담 vs 폴리' 비교글).
+        #    한 번 스칠 뿐이면 남의 글이다 — 실측: '캔비어학원 레벨테스트
+        #    엄마표영어 초3 테스트 후기' 가 본문의 '폴리어학원' 한 마디로
+        #    송파폴리어학원의 근거였다. 이름이 일상어인 학원(책읽기)은
+        #    횟수와 무관하게 버린다. 남의 학원이 둘 이상이면 나열이다.
+        in_title = strangers(_find_rivals(title, rivals))
+        if in_title and not mine_in_title:
+            if generic or n <= 1 or len(in_title) >= 2:
+                return False
 
         # 2) 본문에 학원이 잔뜩 나오는데 내 이름은 스치듯 한 번뿐인 경우.
         #    '에이프릴 vs 청담' 처럼 두 곳을 실제로 다루는 글은 남긴다 —
-        #    그때는 내 이름도 여러 번 나온다.
-        if len(strangers(blob)) >= RIVAL_CROWD:
-            if sum(blob.count(c) for c in candidates) <= 1:
-                return False
+        #    그때는 내 이름도 여러 번 나온다. 제보받은 예: '대치 빅3의
+        #    프로그램! 피아이 해빛나인 지엘피 잉글리쉬' — 지엘피 후기인데
+        #    피아이 근거로 잡혔다.
+        if n <= 1 and len(strangers(_find_rivals(blob, rivals))) >= RIVAL_CROWD:
+            return False
+
+    # 3) 긴 글의 스침. 블로그 전문 수천 자 가운데 이름이 한 번, 그것도
+    #    앞머리를 지나서 나오면 그 글은 다른 이야기다.
+    if len(body) > LONG_TEXT and not mine_in_title and n == 1:
+        first = spans[0][0] - len(title)
+        if first > LATE_MENTION:
+            return False
+
+    # 4) 학원 목록글·업소 명부. 내 이름이 한 번뿐이고 제목에도 없을 때:
+    #    업종어가 잔뜩이거나, 제목이 '총정리' 류이거나, 유선 번호가 둘 이상.
+    if n <= 1 and not mine_in_title:
+        if len(_TRADE_TOKEN.findall(blob)) >= TRADE_CROWD:
+            return False
+        if _LISTING_TITLE.search(title):
+            return False
+        if len(_LANDLINE.findall(mention.get("snippet") or "")) >= 2:
+            return False
     return True
+
+
+def _marker_near(flat: str, spans: list[tuple[int, int]],
+                 window: int = GENERIC_MARKER_WINDOW) -> bool:
+    """이름 자리 곁(±window)에 학원 표지가 있는가.
+
+    '후기'·'고민'·'추천' 같은 말은 여기서 표지가 아니다 — 어느 블로그 글에나
+    있다. '삼시세끼 꼬마김밥 솔직 후기' 의 '후기' 가 "깊은 생각 없이" 옆에
+    있었다. 다니는 말과 학원살이 말만 표지로 친다.
+    """
+    markers = {_norm(k) for k in _ACADEMY_MARKERS} | {
+        _norm(k) for k in ("다니", "다녀", "다닌", "수업", "쌤", "입테", "레벨")}
+    for s, e in spans:
+        near = flat[max(0, s - window): e + window]
+        if any(off in near for off in _OFF_TOPIC_NEAR):
+            continue
+        if any(k and k in near for k in markers):
+            return True
+    return False
 
 
 def analyze(mention: dict, academy_name: str = "",

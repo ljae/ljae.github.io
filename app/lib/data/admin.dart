@@ -276,7 +276,141 @@ class AdminService {
   Future<void> toggleRule(String id, bool active) async {
     await _db!.from('crawl_rules').update({'active': active}).eq('id', id);
   }
+
+  // ── 접수함: 예약 요청 · 근거 신고 ──────────────────────────────
+  //
+  // 둘 다 앱이 로그인 없이 넣고 운영자만 읽는다. 예약은 운영자가 학원에
+  // 연락해 잇고 회신하는 것이 처리이고, 신고는 파이프라인이 질문으로
+  // 올리므로 여기서는 보고 닫기만 한다.
+
+  Future<List<Reservation>> reservations({bool all = false}) async {
+    if (_db == null) return const [];
+    var q = _db.from('test_reservations').select();
+    if (!all) q = q.eq('status', 'open');
+    final rows = await q.order('created_at', ascending: false).limit(200);
+    return (rows as List)
+        .map((r) => Reservation.fromRow((r as Map).cast<String, dynamic>()))
+        .toList();
+  }
+
+  Future<void> closeReservation(String id, String status,
+      {String? note}) async {
+    await _db!.from('test_reservations').update({
+      'status': status,
+      'handler_note': note,
+      'handled_at': DateTime.now().toUtc().toIso8601String(),
+    }).eq('id', id);
+  }
+
+  Future<List<EvidenceReport>> reports() async {
+    if (_db == null) return const [];
+    final rows = await _db
+        .from('evidence_reports')
+        .select()
+        .inFilter('status', ['open', 'queued'])
+        .order('created_at', ascending: false)
+        .limit(200);
+    return (rows as List)
+        .map((r) => EvidenceReport.fromRow((r as Map).cast<String, dynamic>()))
+        .toList();
+  }
+
+  Future<void> closeReport(String id, String status) async {
+    await _db!.from('evidence_reports').update({'status': status}).eq('id', id);
+  }
 }
+
+/// 레벨테스트 예약 요청 한 건.
+class Reservation {
+  final String id;
+  final String academyKey;
+  final String academyName;
+  final String? parentName;
+  final String contact;
+  final String? childBand;
+  final String? subject;
+  final String? preferred;
+  final String? note;
+  final String status;
+  final DateTime? createdAt;
+
+  const Reservation({
+    required this.id,
+    required this.academyKey,
+    required this.academyName,
+    this.parentName,
+    required this.contact,
+    this.childBand,
+    this.subject,
+    this.preferred,
+    this.note,
+    required this.status,
+    this.createdAt,
+  });
+
+  factory Reservation.fromRow(Map<String, dynamic> r) => Reservation(
+        id: r['id'] as String,
+        academyKey: (r['academy_key'] ?? '') as String,
+        academyName: (r['academy_name'] ?? '') as String,
+        parentName: r['parent_name'] as String?,
+        contact: (r['contact'] ?? '') as String,
+        childBand: r['child_band'] as String?,
+        subject: r['subject'] as String?,
+        preferred: r['preferred'] as String?,
+        note: r['note'] as String?,
+        status: (r['status'] ?? 'open') as String,
+        createdAt: r['created_at'] == null
+            ? null
+            : DateTime.tryParse(r['created_at'] as String),
+      );
+}
+
+/// '이 학원 글이 아니에요' 신고 한 건.
+class EvidenceReport {
+  final String id;
+  final String urlHash;
+  final String academyKey;
+  final String? sourceUrl;
+  final String? title;
+  final String reason;
+  final String? note;
+  final String status;
+
+  const EvidenceReport({
+    required this.id,
+    required this.urlHash,
+    required this.academyKey,
+    this.sourceUrl,
+    this.title,
+    required this.reason,
+    this.note,
+    required this.status,
+  });
+
+  factory EvidenceReport.fromRow(Map<String, dynamic> r) => EvidenceReport(
+        id: r['id'] as String,
+        urlHash: (r['url_hash'] ?? '') as String,
+        academyKey: (r['academy_key'] ?? '') as String,
+        sourceUrl: r['source_url'] as String?,
+        title: r['title'] as String?,
+        reason: (r['reason'] ?? 'other') as String,
+        note: r['note'] as String?,
+        status: (r['status'] ?? 'open') as String,
+      );
+
+  String get reasonLabel => switch (reason) {
+        'other_academy' => '다른 학원 이야기',
+        'not_review' => '학원 후기 아님',
+        'ad' => '광고·홍보',
+        'outdated' => '오래된 이야기',
+        _ => '기타',
+      };
+}
+
+final reservationsProvider = FutureProvider<List<Reservation>>(
+    (ref) => ref.watch(adminServiceProvider).reservations());
+final evidenceReportsProvider = FutureProvider<List<EvidenceReport>>(
+    (ref) => ref.watch(adminServiceProvider).reports());
 
 final adminServiceProvider = Provider<AdminService>(
     (ref) => AdminService(Env.hasSupabase ? Supabase.instance.client : null));
