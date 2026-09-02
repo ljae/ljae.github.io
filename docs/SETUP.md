@@ -292,6 +292,10 @@ supabase/07_verified_reviews.sql  인증 후기
 supabase/08_leveltests.sql    레벨테스트 일정
 supabase/09_admin_review.sql  검수 큐 · 크롤 규칙 · 운영자
 supabase/10_reclassify.sql    검수 재분류(reassign_to)
+supabase/11_questions.sql     질문 큐
+supabase/12_grade_bands_finish.sql  학년 구간 뷰·RPC 마무리
+supabase/13_claim_disputes.sql  주장 이의 · 취소 판정
+supabase/14_reservations_reports.sql  레벨테스트 예약 요청 · 근거 신고 · 행동 기록
 ```
 
 **번호는 순서다.** 뒤 파일이 앞 파일의 표를 고치므로 건너뛰면 실패한다.

@@ -245,6 +245,23 @@ class MethodPage extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: AppSpace.xl),
+                  const SectionHeader('근거 발췌는 어떻게 고르나요'),
+                  _Prose(
+                    '학원 상세의 근거는 학원 이름이 실제로 나온 대목을 그대로 발췌합니다. '
+                    '한때 글의 앞 120자를 실었더니 학원 이름이 한 번도 안 나오는 글이 근거로 '
+                    '걸려 있었습니다. 지금은 발췌마다 이름을 품는지 매 수집 뒤에 다시 잽니다.\n\n'
+                    '제목에 그 학원이 있는 글, 이름이 여러 번 나오는 글을 앞에 둡니다. '
+                    '제목의 주인공이 다른 학원인데 이 학원은 본문에 한 번 스칠 뿐인 글, '
+                    '학원 수십 곳을 늘어놓은 목록글, 긴 글 중간에 이름이 한 번 지나가는 글은 '
+                    '근거로 치지 않습니다.\n\n'
+                    '${meta.evidenceRows > 0 ? '이번 집계: 근거 발췌 ${meta.evidenceRows}건 중 '
+                        '이름을 품은 발췌 ${meta.evidenceNamed}건, 제목에 학원이 있는 발췌 '
+                        '${meta.evidenceInTitle}건 · 근거가 있는 학원 ${meta.academiesWithEvidence}곳. ' : ''}'
+                    '잘못 붙은 글은 근거 줄의 깃발로 신고하실 수 있고, 운영자가 확인하면 '
+                    '다음 갱신에서 빠집니다.',
+                  ),
+
+                  const SizedBox(height: AppSpace.xl),
                   const SectionHeader('순위 이력은 언제부터인가요'),
                   const _Prose(
                     '2026년 8월 23일부터 매 수집마다 순위를 기록합니다. 그 이전 기록은 없습니다 — '

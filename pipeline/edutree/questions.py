@@ -64,11 +64,18 @@ def _title_words(title: str) -> set[str]:
 
 
 # ── 질문 생성 ───────────────────────────────────────────────────
+REPORT_REASON_KO = {
+    "other_academy": "다른 학원 이야기", "not_review": "학원 후기 아님",
+    "ad": "광고·홍보", "outdated": "오래된 이야기", "other": "기타",
+}
+
+
 def generate(mentions: list[dict], academies: list[dict],
              generic: dict[str, bool], verdicts: dict[str, str],
              rules: list[dict],
              wiki_locality: dict[str, set[str]] | None = None,
-             claim_rows: list[dict] | None = None) -> list[dict]:
+             claim_rows: list[dict] | None = None,
+             reports: list[dict] | None = None) -> list[dict]:
     """이번 실행의 질문 후보를 만든다. 우선순위 큰 것부터 QUESTION_LIMIT 개."""
     by_id = {a["id"]: a for a in academies}
     name_of = {a["id"]: (a.get("display_name") or a.get("name") or "")
@@ -86,6 +93,35 @@ def generate(mentions: list[dict], academies: list[dict],
             "options": options, "priority": round(priority, 2),
             "status": "pending",
         })
+
+    # 0) 학부모 신고 — '이 글은 이 학원 글이 아니에요'. 맨 앞에 선다.
+    #
+    #    신고가 곧 삭제가 되면 학원이 불리한 글만 지우는 통로가 된다. 대신
+    #    운영자가 한 번 보게 하고, 답은 기존 경로(confirm_post → 판정)로
+    #    들어간다. 같은 글에 신고가 여럿이면 한 질문으로 묶는다.
+    by_mention = {(m.get("url_hash"), m.get("academy_key")): m for m in mentions}
+    grouped: dict[tuple, list[dict]] = defaultdict(list)
+    for r in reports or []:
+        grouped[(str(r.get("url_hash")), str(r.get("academy_key")))].append(r)
+    for (h, aid), rows in grouped.items():
+        if aid not in name_of:
+            continue
+        m = by_mention.get((h, aid)) or {}
+        reasons = sorted({REPORT_REASON_KO.get(r.get("reason"), "기타")
+                          for r in rows})
+        notes = [r["note"] for r in rows if r.get("note")][:2]
+        add("confirm_post", f"cp|{h}|{aid}", aid,
+            f"학부모 신고 {len(rows)}건({' · '.join(reasons)}). "
+            f"이 글은 {name_of.get(aid)} 글이 맞나요?",
+            {"review_key": f"{h}|{aid}",
+             "title": (m.get("title") or rows[0].get("title") or "")[:200],
+             "snippet": (m.get("snippet") or "")[:300],
+             "source_url": m.get("source_url") or rows[0].get("source_url"),
+             "reports": len(rows), "reasons": reasons, "notes": notes},
+            [{"value": "yes", "label": "맞음"},
+             {"value": "exclude", "label": "아님 — 제외"},
+             {"value": "ad", "label": "광고·홍보"}],
+            100 + 10 * len(rows))
 
     # 1) confirm_post — 자동 판정이 약한 부류의 고신뢰 글
     risky = [m for m in mentions

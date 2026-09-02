@@ -21,6 +21,48 @@ class RankingPage extends ConsumerStatefulWidget {
 /// 정렬 기준. 트리스코어가 기본이고, 나머지는 보조 축이다.
 enum _Sort { score, selectivity, positive, sample }
 
+/// 우리 아이 맞춤 조건. **데이터가 실제로 있는 축만** 둔다.
+///
+/// 셔틀·시설처럼 수집원에 없는 축은 만들지 않는다 — 빈 화면만 남는다.
+/// 여기 것은 전부 화면의 다른 자리(진입난이도·관점·사실 카드·정원·표본)에서
+/// 이미 보여 주는 값이고, 조건은 그 값을 걸러 볼 뿐 등수를 다시 매기지
+/// 않는다. 값을 모르는 학원은 조건에 **안 맞는 것으로** 본다 — '모른다'
+/// 를 '맞다' 로 읽으면 조건이 아무것도 거르지 않는다.
+enum _Fit {
+  easyEntry('레테 부담 적은', '후기에서 탈락 사례가 확인되지 않은 곳'),
+  goodTeacher('선생님 평 좋은', '후기 2건 이상이 선생님을 좋게 말한 곳'),
+  goodCare('관리 평 좋은', '후기 2건 이상이 관리·피드백을 좋게 말한 곳'),
+  lightHomework('숙제 부담 적은', '후기 기준 숙제 하루 1시간 이내이거나 숙제량을 좋게 말한 곳'),
+  small('소수정예', '등록 정원 60명 이하'),
+  manyReviews('후기 많은', '유효 후기 30건 이상');
+
+  const _Fit(this.label, this.help);
+  final String label;
+  final String help;
+
+  bool matches(Academy a, String subject) {
+    final score = a.scoreFor(subject);
+    switch (this) {
+      case _Fit.easyEntry:
+        return score.sampleSize > 0 && score.selectivityTier != 'high';
+      case _Fit.goodTeacher:
+        return (a.aspects['강사']?.mean ?? -1) >= 0.25;
+      case _Fit.goodCare:
+        return (a.aspects['관리']?.mean ?? -1) >= 0.25;
+      case _Fit.lightHomework:
+        final hw = a.facts['fact.homework'];
+        if (hw != null && hw.hasValue && hw.value != null) {
+          return hw.value! <= 60;
+        }
+        return (a.aspects['숙제량']?.mean ?? -1) >= 0.1;
+      case _Fit.small:
+        return a.capacity != null && a.capacity! <= 60;
+      case _Fit.manyReviews:
+        return score.sampleSize >= 30;
+    }
+  }
+}
+
 class _RankingPageState extends ConsumerState<RankingPage> {
   String _subject = 'math';
 
@@ -29,6 +71,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
   static bool _isAcademic(String s) => isAcademicSubject(s);
   _Sort _sort = _Sort.score;
   bool _onlyVerified = false; // 공식 검증(NEIS 대조) 학원만
+  final Set<_Fit> _fits = {};
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +95,13 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         final rankOf = {
           for (var i = 0; i < ranked.length; i++) ranked[i].id: i + 1,
         };
+        // 맞춤 조건. 등수는 위에서 이미 정해졌다 — 조건은 걸러 볼 뿐이다.
+        final before = ranked.length;
+        if (_fits.isNotEmpty) {
+          ranked = ranked
+              .where((a) => _fits.every((f) => f.matches(a, _subject)))
+              .toList();
+        }
         switch (_sort) {
           case _Sort.score:
             break;
@@ -142,6 +192,20 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         onSort: (v) => setState(() => _sort = v),
                         onVerified: (v) => setState(() => _onlyVerified = v),
                       ),
+                      const SizedBox(height: AppSpace.sm),
+                      _FitBar(
+                        academic: _isAcademic(_subject),
+                        fits: _fits,
+                        matched: ranked.length,
+                        total: before,
+                        onToggle: (f, on) => setState(() {
+                          if (on) {
+                            _fits.add(f);
+                          } else {
+                            _fits.remove(f);
+                          }
+                        }),
+                      ),
                       const SizedBox(height: AppSpace.md),
                       _MethodNote(
                         meta: data.meta,
@@ -158,7 +222,14 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
                   child: Center(
-                    child: Text('조건에 맞는 학원이 없습니다', style: text.bodyMedium),
+                    child: Text(
+                      _fits.isNotEmpty
+                          ? '맞춤 조건에 맞는 학원이 없습니다. 조건은 후기에서 '
+                              '확인된 것만 세므로, 조건을 하나 풀어 보세요.'
+                          : '조건에 맞는 학원이 없습니다',
+                      style: text.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               )
@@ -295,6 +366,56 @@ class _MethodNote extends StatelessWidget {
                 ],
               ),
       ),
+    );
+  }
+}
+
+/// 우리 아이 맞춤 조건 줄.
+///
+/// 조건마다 무엇을 근거로 거르는지 툴팁으로 밝힌다. '관리 평 좋은' 이
+/// 무엇인지 모르면 조건이 아니라 광고다.
+class _FitBar extends StatelessWidget {
+  final bool academic;
+  final Set<_Fit> fits;
+  final int matched;
+  final int total;
+  final void Function(_Fit, bool) onToggle;
+  const _FitBar({
+    required this.academic,
+    required this.fits,
+    required this.matched,
+    required this.total,
+    required this.onToggle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Wrap(
+      spacing: AppSpace.sm,
+      runSpacing: AppSpace.sm,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        RailLabel(spaced('맞춤')),
+        for (final f in _Fit.values)
+          // 예체능·기타는 진입난이도를 채점하지 않는다. 없는 값으로 거르면
+          // 전부 빠진다.
+          if (academic || f != _Fit.easyEntry)
+            Tooltip(
+              message: f.help,
+              child: RuledToggle(
+                label: f.label,
+                value: fits.contains(f),
+                onChanged: (v) => onToggle(f, v),
+              ),
+            ),
+        if (fits.isNotEmpty)
+          Text(
+            '$total곳 중 $matched곳',
+            style: text.bodySmall?.copyWith(color: AppColors.mutedOn(dark)),
+          ),
+      ],
     );
   }
 }

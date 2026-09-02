@@ -7,6 +7,7 @@ import '../data/models.dart';
 import '../data/repository.dart';
 import 'annals.dart';
 import 'common.dart';
+import 'contact.dart';
 
 /// 랭킹 · 검색 · 단계 상세에서 공통으로 쓰는 학원 카드.
 ///
@@ -203,6 +204,9 @@ class AcademyCard extends StatelessWidget {
                                 color: AppColors.slate,
                                 icon: Icons.groups_outlined,
                               ),
+                            // 목록에서 바로 건다. 상세로 들어가 번호를
+                            // 옮겨 적는 것이 학부모의 실제 다음 동작이었다.
+                            CallTag(academy: academy),
                           ],
                         ),
                       ],

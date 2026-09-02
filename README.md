@@ -98,5 +98,16 @@ flutter build web --release
 ```bash
 python3 pipeline/run.py --check      # 자격 증명 상태
 python3 pipeline/run.py              # 수집 → 채점 → 앱 번들
+python3 pipeline/run.py --from-cache # 저장소·캐시로 재채점 (API 호출 없음)
 python3 pipeline/run.py --with-cafe  # 카페 로컬 모듈 포함 (옵트인)
+python3 pipeline/corrections_report.py   # 정정 요청 · 이의 · 예약 요청 대장
 ```
+
+근거는 `pipeline/.cache/mention_store.json.gz` 에 회차마다 쌓인다. 한 번
+찾은 후기는 다음 회차에 그 학원이 수집 대상에서 빠져도 남는다 — 채점 대상은
+매일 조금씩 는다.
+
+학원 상세의 근거는 **학원 이름이 나온 대목**을 번호([1]·[2]…)와 함께
+발췌한다. 잘못 붙은 글은 줄마다 신고할 수 있고, 신고는 운영자 질문 큐 맨
+앞에 선다. 전화·레벨테스트 예약 문의는 상세 머리에서 바로 한다(예약은
+요청 접수이고 확정은 학원이 한다).

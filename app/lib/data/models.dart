@@ -432,6 +432,48 @@ class FactCard {
   bool get hasValue => text != null;
 }
 
+/// 학부모가 말한 관점 하나 — 선생님·관리·숙제량….
+///
+/// 점수가 아니다. '선생님은 좋은데 숙제가 많다' 를 한 숫자로 뭉개지 않고
+/// 나눠 보여 주려는 것이다. 두 건부터만 온다 — 한 사람의 아이 이야기가
+/// 학원의 성격으로 읽히면 안 된다.
+class AspectStat {
+  final String key;
+  final String label;
+  final int n;
+
+  /// 신뢰도 가중 평균 감성 [-1, 1].
+  final double mean;
+  final int positive;
+  final int negative;
+
+  const AspectStat({
+    required this.key,
+    required this.label,
+    required this.n,
+    required this.mean,
+    required this.positive,
+    required this.negative,
+  });
+
+  factory AspectStat.fromJson(String key, Map<String, dynamic> j) =>
+      AspectStat(
+        key: key,
+        label: (j['label'] ?? key) as String,
+        n: (j['n'] as num?)?.toInt() ?? 0,
+        mean: (j['mean'] as num?)?.toDouble() ?? 0,
+        positive: (j['positive'] as num?)?.toInt() ?? 0,
+        negative: (j['negative'] as num?)?.toInt() ?? 0,
+      );
+
+  /// 화면 말. 숫자보다 정직하다 — 0.31 은 아무것도 말하지 않는다.
+  String get tone => mean >= 0.25
+      ? '좋게 말함'
+      : mean <= -0.25
+          ? '아쉽다고 말함'
+          : '엇갈림';
+}
+
 /// 이 학원 근거 중 이의로 빠진 비율.
 class DisputeRate {
   final int total;
@@ -451,6 +493,12 @@ class DisputeRate {
   );
 }
 
+/// 근거 한 건. 파이프라인 evidence.py 가 고르고 발췌한다.
+///
+/// [snippet] 은 글의 앞머리가 아니라 **학원 이름이 나온 대목**이다. 앞
+/// 120자를 실었을 때는 이름이 한 번도 안 나오는 글이 근거로 걸려 있었다.
+/// [ref] 는 화면의 번호([1]·[2]…)다. 같은 학원 페이지의 다른 인용이
+/// 같은 원문이면 같은 번호를 쓴다 — URL 로 잇는다.
 class Evidence {
   final String source;
   final String url;
@@ -465,6 +513,22 @@ class Evidence {
   /// 같은 브랜드의 여러 지점에 함께 반영됐다.
   final String? branchBasis;
 
+  /// 화면 번호. 옛 데이터에는 없어 목록 순서로 채운다.
+  final int ref;
+
+  /// 신고·판정의 키. 파이프라인의 url_hash 와 같다.
+  final String? urlHash;
+
+  /// 제목에 학원 이름이 있다 — 그 글의 주인공이다.
+  final bool inTitle;
+
+  /// 겹치지 않게 센 이름 등장 횟수.
+  final int mentions;
+
+  /// 이 글이 이 학원에 대해 말하는 과목·학년 구간(있으면).
+  final String? subject;
+  final String? band;
+
   const Evidence({
     required this.source,
     required this.url,
@@ -474,6 +538,12 @@ class Evidence {
     required this.sentiment,
     required this.credibility,
     this.branchBasis,
+    this.ref = 0,
+    this.urlHash,
+    this.inTitle = false,
+    this.mentions = 0,
+    this.subject,
+    this.band,
   });
 
   factory Evidence.fromJson(Map<String, dynamic> j) => Evidence(
@@ -485,10 +555,23 @@ class Evidence {
     sentiment: (j['sentiment'] as num?)?.toDouble() ?? 0,
     credibility: (j['credibility'] as num?)?.toDouble() ?? 0,
     branchBasis: j['branch_basis'] as String?,
+    ref: (j['ref'] as num?)?.toInt() ?? 0,
+    urlHash: j['url_hash'] as String?,
+    inTitle: (j['in_title'] ?? false) as bool,
+    mentions: (j['mentions'] as num?)?.toInt() ?? 0,
+    subject: j['subject'] as String?,
+    band: j['band'] as String?,
   );
 
   /// 지점이 특정되지 않은 글인가.
   bool get isBrandWide => branchBasis == 'brand';
+
+  /// 이 글이 이 학원을 얼마나 분명히 말하는가 — 화면 꼬리표.
+  String get matchLabel => inTitle
+      ? '제목에 언급'
+      : mentions >= 2
+          ? '본문 $mentions회 언급'
+          : '본문에 언급';
 
   String get sourceLabel => switch (source) {
     'naver_cafe' => '네이버 카페',
@@ -546,6 +629,9 @@ class Academy {
   final Map<String, Score> subjectScores;
   final List<Evidence> evidence;
 
+  /// 학부모가 말한 관점별 감성. 점수에 들어가지 않는다.
+  final Map<String, AspectStat> aspects;
+
   /// 학부모가 실제로 묻는 것 — 숙제량·시험 횟수·수업 시간.
   ///
   /// 점수가 아니라 **사실**이라 트리스코어에 들어가지 않는다. 숙제가 많은
@@ -586,6 +672,7 @@ class Academy {
     required this.score,
     this.subjectScores = const {},
     required this.evidence,
+    this.aspects = const {},
     this.facts = const {},
     this.selectivityEvidence = const [],
     this.disputeRate,
@@ -624,9 +711,18 @@ class Academy {
           (e.value as Map).cast<String, dynamic>(),
         ),
     },
-    evidence: ((j['evidence'] as List?) ?? const [])
-        .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
-        .toList(),
+    evidence: _numbered(
+      ((j['evidence'] as List?) ?? const [])
+          .map((e) => Evidence.fromJson((e as Map).cast<String, dynamic>()))
+          .toList(),
+    ),
+    aspects: {
+      for (final e in ((j['aspects'] as Map?) ?? const {}).entries)
+        e.key as String: AspectStat.fromJson(
+          e.key as String,
+          (e.value as Map).cast<String, dynamic>(),
+        ),
+    },
     facts: {
       for (final e in ((j['facts'] as Map?) ?? const {}).entries)
         e.key as String: FactCard.fromJson(
@@ -642,6 +738,58 @@ class Academy {
             (j['disputeRate'] as Map).cast<String, dynamic>(),
           ),
   );
+
+  /// 옛 번들(ref 없음)도 번호를 갖는다 — 목록 순서가 곧 번호다.
+  static List<Evidence> _numbered(List<Evidence> rows) => [
+        for (var i = 0; i < rows.length; i++)
+          rows[i].ref > 0
+              ? rows[i]
+              : Evidence(
+                  source: rows[i].source,
+                  url: rows[i].url,
+                  title: rows[i].title,
+                  snippet: rows[i].snippet,
+                  postedAt: rows[i].postedAt,
+                  sentiment: rows[i].sentiment,
+                  credibility: rows[i].credibility,
+                  branchBasis: rows[i].branchBasis,
+                  ref: i + 1,
+                  urlHash: rows[i].urlHash,
+                  inTitle: rows[i].inTitle,
+                  mentions: rows[i].mentions,
+                  subject: rows[i].subject,
+                  band: rows[i].band,
+                ),
+      ];
+
+  /// 원문 URL → 화면 번호. 사실 카드·진입난이도 인용이 같은 원문이면
+  /// 같은 번호를 쓴다. 근거 목록에 없는 원문은 그 뒤 번호를 새로 받는다.
+  Map<String, int> get sourceRefs {
+    final refs = <String, int>{};
+    for (final e in evidence) {
+      refs.putIfAbsent(e.url, () => e.ref);
+    }
+    var next = refs.isEmpty ? 1 : (refs.values.reduce((a, b) => a > b ? a : b) + 1);
+    void add(String? url) {
+      if (url == null || url.isEmpty || refs.containsKey(url)) return;
+      refs[url] = next++;
+    }
+
+    for (final c in selectivityEvidence) {
+      add(c.url);
+    }
+    for (final f in facts.values) {
+      for (final q in f.quotes) {
+        add(q.url);
+      }
+      for (final b in f.byBand.values) {
+        for (final q in b.quotes) {
+          add(q.url);
+        }
+      }
+    }
+    return refs;
+  }
 
   /// 큐레이션 브랜드명(brand)을 표시에 쓰지 않는다. 브랜드는 지점을
   /// 구분하지 못해서, 서로 다른 CMS 지점 두 곳이 같은 이름으로 나왔다.
@@ -711,6 +859,10 @@ class Meta {
   final int reputationPriorCount;
   final int recencyHalflifeDays;
 
+  /// 근거 품질. 파이프라인이 매 실행 잰다 — 발췌 몇 건 중 몇 건이 학원
+  /// 이름을 품는지. 숨기면 그 자체가 왜곡이라 산식 페이지가 그대로 밝힌다.
+  final Map<String, dynamic> evidenceQuality;
+
   const Meta({
     required this.mode,
     required this.generatedAt,
@@ -721,9 +873,16 @@ class Meta {
     required this.minSampleForRank,
     required this.reputationPriorCount,
     required this.recencyHalflifeDays,
+    this.evidenceQuality = const {},
   });
 
   bool get isDemo => mode == 'demo';
+
+  int _q(String k) => ((evidenceQuality[k] as num?) ?? 0).toInt();
+  int get evidenceRows => _q('rows');
+  int get evidenceNamed => _q('nameInExcerpt');
+  int get evidenceInTitle => _q('inTitle');
+  int get academiesWithEvidence => _q('withEvidence');
 
   factory Meta.fromJson(Map<String, dynamic> j) => Meta(
     mode: (j['mode'] ?? 'demo') as String,
@@ -737,6 +896,8 @@ class Meta {
     minSampleForRank: (j['minSampleForRank'] as num?)?.toInt() ?? 10,
     reputationPriorCount: (j['reputationPriorCount'] as num?)?.toInt() ?? 12,
     recencyHalflifeDays: (j['recencyHalflifeDays'] as num?)?.toInt() ?? 180,
+    evidenceQuality:
+        ((j['evidenceQuality'] as Map?) ?? const {}).cast<String, dynamic>(),
   );
 }
 

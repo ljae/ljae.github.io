@@ -519,7 +519,9 @@ def test_학급도_이름_근처에서_하나만_읽는다():
     from edutree import analyze
     assert analyze.band_near_one("아이엘이 초3 파닉스반 후기", {"아이엘이"}) == "elem_low"
     assert analyze.band_near_one("시대인재 고3 재종반", {"시대인재"}) == "high"
-    assert analyze.band_near_one("중2 내신 대비로 다원", {"다원"}) == "middle"
+    # 두 글자 이름은 곁에 학원 표지가 있어야 이름으로 친다(analyze.name_spans).
+    # '다원' 홀로는 일상어와 구별이 안 되므로 세 글자 이름으로 잰다.
+    assert analyze.band_near_one("중2 내신 대비로 다원수학", {"다원수학"}) == "middle"
     # 학원 이름이 없으면 아무것도 읽지 않는다.
     assert analyze.band_near_one("고3 수능 이야기", {"없는학원"}) is None
     # 구간을 못 정하는 말은 넘기지 않는다 — '초등'은 저·고학년 어느 쪽도 아니다.

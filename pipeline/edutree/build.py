@@ -672,8 +672,15 @@ def _previous_scores() -> dict:
             for r in rows}
 
 
+# 순위에 든 학원을 다시 보는 주기(일). 근거가 저장소에 남으므로 매일 볼
+# 필요가 없다 — 그 자리를 아직 안 본 곳에 준다. 너무 길면 화제성(최근 90일
+# 언급)이 늦게 움직인다.
+REFRESH_DAYS = 7
+
+
 def select_for_mentions(academies: list[dict],
-                        prev_scores: dict | None = None
+                        prev_scores: dict | None = None,
+                        known: set[str] | None = None,
                         ) -> tuple[list[dict], list[dict]]:
     """네이버 수집 대상을 예산 안에서 고른다.
 
@@ -714,9 +721,29 @@ def select_for_mentions(academies: list[dict],
     #   없는 자리에서 일어나야 한다.
     ranked_now = {aid for aid, v in (prev_scores or {}).items()
                   if v.get("is_ranked")}
+    known = known or set()
+
+    def _days(a: dict) -> int | None:
+        return coverage.days_since(hist.get(a["id"]))
+
+    def _stale(a: dict) -> bool:
+        d = _days(a)
+        return d is None or d >= REFRESH_DAYS
+
+    def _recent(a: dict) -> bool:
+        d = _days(a)
+        return d is not None and d < REFRESH_DAYS
     # 이미 수집한 글에 이름이 나오는 미수집 학원 — 정원보다 강한 신호다.
     # 지난 회차가 남긴 파일을 읽는다(coverage 와 같은 방식).
     want = demand.load()
+    # 학부모가 전화·예약 버튼을 누른 학원. 글에 이름이 나오는 것(demand)과
+    # 같은 층의 신호다 — 근거를 더 찾아야 할 곳이지 점수가 높은 곳이 아니다.
+    from . import actions
+    acted = actions.load()
+    for aid, bonus in acted.items():
+        want[aid] = want.get(aid, 0) + bonus
+    if acted:
+        print(f"  행동 신호: {len(acted):,}곳에 전화·예약 기록 (수집 우선순위에 반영)")
 
     bands = list(config.GRADE_BANDS)
     # 학년 구간에 76%, 예체능·기타에 12%, 구간 미상에 12%.
@@ -748,7 +775,11 @@ def select_for_mentions(academies: list[dict],
         # 테크트리 화면이 전자에 의존하고, 후자는 학부모가 실제로 찾는 이름이다.
         for rows in by_subject.values():
             rows.sort(key=lambda a: (
-                0 if a["id"] in ranked_now else 1,
+                # ★ 순위에 든 곳은 REFRESH_DAYS 마다 다시 본다. 매일 볼 필요는
+                #   없다 — 근거가 저장소(mention_store)에 남으므로 안 봐도
+                #   화면에서 사라지지 않는다. 예전에는 '자리를 지킨다' 가
+                #   400칸 중 상당수를 같은 학원을 매일 다시 보는 데 썼다.
+                0 if (a["id"] in ranked_now and _stale(a)) else 1,
                 0 if a.get("curated_stages") else 1,
                 # ★ 시드인데 한 번도 수집된 적 없으면 최우선.
                 #   시드는 사람이 '중요하다'고 지목한 곳이다. 정원이 작으면
@@ -757,6 +788,8 @@ def select_for_mentions(academies: list[dict],
                 #   뒤에는 다른 시드와 똑같이 경쟁한다.
                 0 if (a.get("curated_stages") and a["id"] not in hist) else 1,
                 *coverage.priority_bonus(a, hist, gaps),
+                # 최근 REFRESH_DAYS 안에 본 곳은 뒤로. 아직 안 본 곳이 먼저다.
+                1 if _recent(a) else 0,
                 # ★ 수요 신호가 정원보다 앞선다. 정원은 규모의 대리
                 #   지표일 뿐이지만, 이미 수집한 글에 이름이 나온다는 것은
                 #   학부모가 실제로 그 이름을 말한다는 직접 증거다.
@@ -834,30 +867,46 @@ def select_for_mentions(academies: list[dict],
     return selected, skipped
 
 
+def reattribute(rows: list[dict], academies: list[dict]) -> int:
+    """통합으로 id 가 바뀐 학원의 언급을 대표 id 로 옮긴다.
+
+    옮기지 않으면 통합된 쪽 언급이 통째로 사라진다. 저장소에 쌓인 옛 회차의
+    글도 같은 지도를 지나야 한다 — 통합 규칙은 계속 바뀐다.
+    """
+    alias: dict[str, str] = {}
+    for a in academies:
+        for rid in a.get("registration_ids") or []:
+            if rid and rid != a["id"]:
+                alias[str(rid)] = a["id"]
+    moved = 0
+    for r in rows:
+        new = alias.get(str(r.get("academy_key")))
+        if new:
+            r["academy_key"] = new
+            moved += 1
+    return moved
+
+
 def load_mentions(academies: list[dict], mode: str,
                   with_cafe: bool = False,
                   from_cache: bool = False) -> list[dict]:
     mentions: list[dict] = []
 
-    cache = config.CACHE_DIR / "naver_mentions.json"
-    if from_cache and cache.exists():
-        rows = json.loads(cache.read_text(encoding="utf-8"))
-        # 통합으로 id 가 바뀐 학원의 언급을 대표 id 로 옮긴다.
-        # 옮기지 않으면 통합된 쪽 언급이 통째로 사라진다.
-        alias: dict[str, str] = {}
-        for a in academies:
-            for rid in a.get("registration_ids") or []:
-                if rid and rid != a["id"]:
-                    alias[str(rid)] = a["id"]
-        moved = 0
-        for r in rows:
-            new = alias.get(str(r.get("academy_key")))
-            if new:
-                r["academy_key"] = new
-                moved += 1
-        print(f"캐시에서 언급 {len(rows):,}건 로드 (API 호출 없음)"
-              + (f" · 통합에 따라 {moved:,}건 재귀속" if moved else ""))
-        return rows
+    if from_cache:
+        # 저장소가 있으면 저장소를, 없으면 마지막 수집 캐시를 읽는다.
+        # 어느 쪽도 API 를 부르지 않고, 어느 쪽도 저장소에 쓰지 않는다 —
+        # 캐시 실행은 수집 시도가 아니다.
+        from . import mention_store
+        rows = mention_store.rows() if mention_store.exists() else []
+        src = "언급 저장소"
+        if not rows:
+            cache = config.CACHE_DIR / "naver_mentions.json"
+            if cache.exists():
+                rows = json.loads(cache.read_text(encoding="utf-8"))
+                src = "수집 캐시"
+        if rows:
+            print(f"{src}에서 언급 {len(rows):,}건 로드 (API 호출 없음)")
+            return rows
 
     if config.HAS_NAVER:
         from . import naver
@@ -944,16 +993,46 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     academies, mode = load_academies(from_cache=from_cache)
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
 
+    # 이번 회차에 API 로 새로 온 글의 url_hash. 수집 이력(coverage)은 이것만
+    # 센다 — 저장소의 옛 근거까지 세면 '검색했는데 0건' 이 영영 안 잡힌다.
+    fresh_hashes: set[str] = set()
     if mode == "live":
+        from . import mention_store
         # 지난 회차 랭킹을 커버리지 계산의 기준으로 쓴다. 없으면(첫 실행)
         # 빈 dict 라 모든 단계가 '비어 있음'으로 잡혀 골고루 뽑힌다.
         prev = _previous_scores()
-        evaluated, registry_only = select_for_mentions(academies, prev)
+        # 저장소에 근거가 있는 학원. 이번 회차에 안 뽑혀도 채점은 계속된다.
+        known = mention_store.academy_keys()
+        selected, _rest = select_for_mentions(academies, prev, known=known)
+        selected_ids = {a["id"] for a in selected}
+        fresh = load_mentions(selected, mode, with_cafe=with_cafe,
+                              from_cache=from_cache)
+        if from_cache:
+            mentions = fresh
+        else:
+            fresh_hashes = {m.get("url_hash") for m in fresh}
+            mentions = mention_store.merge(fresh)
+        moved = reattribute(mentions, academies)
+        if moved:
+            print(f"  통합에 따라 언급 {moved:,}건 재귀속")
+        # ★ 채점 대상 = 근거가 있는 곳 ∪ 이번 회차 수집 대상.
+        #   예전에는 이번 회차 400곳만 채점했고, 안 뽑힌 곳은 지난 근거까지
+        #   잃었다. 이제 근거는 저장소에 남으므로 회차가 쌓일수록 채점 대상이
+        #   는다. 근거 0건인 곳은 여전히 등록부에만 남는다.
+        have = {m.get("academy_key") for m in mentions}
+        evaluated = [a for a in academies
+                     if a["id"] in have or a["id"] in selected_ids]
+        ev_ids = {a["id"] for a in evaluated}
+        registry_only = [a for a in academies if a["id"] not in ev_ids]
+        print(f"  채점 대상 {len(evaluated):,}곳 — 이번 회차 수집 "
+              f"{len(selected):,} · 저장소 근거 보유 "
+              f"{len(have & {a['id'] for a in academies}):,} · "
+              f"등록부만 {len(registry_only):,}곳")
     else:
         evaluated, registry_only = academies, []
-
-    mentions = load_mentions(evaluated, mode, with_cafe=with_cafe,
-                             from_cache=from_cache)
+        selected = evaluated
+        mentions = load_mentions(evaluated, mode, with_cafe=with_cafe,
+                                 from_cache=from_cache)
 
     # 블로그 본문 보강 — 관련성 게이트보다 먼저 한다.
     # 스니펫에는 학원명이 안 나와도 본문에는 나오는 글이 많아서, 순서가
@@ -978,8 +1057,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 관련성 게이트 — 학원명이 실제로 등장하는 글만 근거로 인정한다.
     candidates = {a["id"]: analyze.name_candidates(a) for a in evaluated}
     # 이름이 그 자체로 일상어인 학원('책읽기')은 학원 표지를 함께 요구한다.
-    generic = {a["id"]: analyze.is_generic_name(a.get("name") or "")
-               for a in evaluated}
+    generic = {a["id"]: analyze.is_generic_academy(a) for a in evaluated}
 
     # 분류 위키 — 페이지 frontmatter 의 힌트를 게이트에 공급한다.
     # 구조와 규약은 pipeline/wiki/SCHEMA.md.
@@ -1005,13 +1083,23 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     #  - 모든 학원: 여러 학원을 늘어놓은 비교글·목록글·광고인가
     #
     # 등록부까지 넣는다. 글에 나오는 학원이 채점 대상이 아닐 수 있다.
-    rival_names: set[str] = set()
+    rival_pool: set[str] = set()
+    junk = 0
     for a in evaluated + registry_only:
         if analyze.is_generic_name(a.get("name") or ""):
             continue
         for c in analyze.name_candidates(a):
-            if len(c) >= 3:          # 짧은 이름은 우연히 겹친다
-                rival_names.add(c)
+            if len(c) < 3:           # 짧은 이름은 우연히 겹친다
+                continue
+            # 'OO동영어학원' 의 알맹이 '동영어', '테스트교습소' 의 '테스트'
+            # 같은 일반어는 남의 이름이 못 된다 — 제목마다 남의 학원이
+            # 나오는 셈이 되어 비교글 판정이 멀쩡한 후기를 버린다.
+            if not analyze.rival_eligible(c):
+                junk += 1
+                continue
+            rival_pool.add(c)
+    rival_names = analyze.RivalIndex(rival_pool)
+    print(f"  남의 학원 이름 색인 {len(rival_names):,}개 (일반어 {junk:,}개 제외)")
 
     before = len(mentions)
     mentions = [m for m in mentions
@@ -1171,7 +1259,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         #   오염돼, 실제로는 한 번도 검색해 보지 않았는데 후순위로 밀린다.
         #   그로튼에밀튼(리딩타운)이 정확히 이렇게 밀렸다.
         from . import coverage, demand
-        coverage.record(evaluated, mentions)
+        # 이번 회차에 실제로 검색한 학원의, 이번 회차에 새로 온 글만 센다.
+        coverage.record(selected, [m for m in mentions
+                                   if m.get("url_hash") in fresh_hashes])
         # 이번 회차 글로 수요 신호를 갱신한다. 등록부 전체를 대상으로
         # 재므로, 아직 한 번도 안 본 학원이 다음 회차에 앞으로 나온다.
         demand.save(demand.measure(evaluated + registry_only, mentions))
@@ -1183,12 +1273,19 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             print(f"  검수 큐: {queued:,}건 대기")
 
         # 질문 생성 — 글더미 대신 판단이 필요한 지점만 올린다.
+        # 학부모의 '이 학원 글이 아니에요' 신고가 맨 앞에 선다.
+        from . import actions
+        reports = actions.open_reports()
         qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
-                           wiki_locality, claim_rows)
+                           wiki_locality, claim_rows, reports=reports)
         asked = qmod.enqueue(qs)
         if asked:
             print(f"  질문 큐: {asked}건 ("
                   + " · ".join(sorted({q['kind'] for q in qs})) + ")")
+        if reports:
+            actions.mark_reports_queued([str(r["id"]) for r in reports
+                                         if r.get("id")])
+            print(f"  근거 신고 {len(reports):,}건을 질문으로 올림")
 
     # 학원실록 자체 후기를 같은 채점 로직에 태운다.
     # 스크랩 글보다 신뢰도를 높게 주되, 별도 기둥을 만들지는 않는다 —
@@ -1228,7 +1325,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores, claim_rows)
+           subject_scores, claim_rows, candidates=candidates)
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -1480,7 +1577,7 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores=None, claim_rows=None) -> None:
+           subject_scores=None, claim_rows=None, candidates=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -1497,23 +1594,27 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     # 근거만 지우는 통로가 된다.
     dispute_rates = claims_mod.dispute_rate(claim_rows or [])
 
-    # 언급은 학원별 상위 근거 몇 건만 앱에 싣는다(원문 전재 금지 · 번들 크기).
-    top_evidence: dict[str, list] = defaultdict(list)
-    for m in sorted(mentions, key=lambda x: -x.get("credibility", 0)):
-        key = m["academy_key"]
-        if len(top_evidence[key]) < 5 and not m["is_excluded"]:
-            top_evidence[key].append({
-                "source": m["source"],
-                "url": m["source_url"],
-                "title": m["title"],
-                "snippet": m["snippet"][:120],
-                "posted_at": m["posted_at"],
-                "sentiment": m["sentiment"],
-                "credibility": m["credibility"],
-                # 지역을 밝히지 않은 글은 같은 브랜드의 여러 지점에 함께
-                # 붙는다. 그 사실을 화면에서 밝혀야 '중복'으로 읽히지 않는다.
-                "branch_basis": m.get("branch_basis"),
-            })
+    # 언급은 학원별 근거 몇 건만 앱에 싣는다(원문 전재 금지 · 번들 크기).
+    #
+    # 어느 글을 싣고 어디를 발췌할지는 evidence.py 가 정한다. 예전에는
+    # 신뢰도 순 다섯 건의 **앞 120자**를 실었는데, 게이트는 본문 2,000자
+    # 어디든 이름이 있으면 통과시키므로 화면에는 학원 이름이 한 번도 안
+    # 나오는 글이 근거로 걸렸다. 이름을 품은 대목을 잘라야 그 학원 이야기로
+    # 읽힌다. 지역을 밝히지 않은 글의 branch_basis 도 함께 나간다 — 같은
+    # 브랜드 여러 지점에 붙은 사실을 밝혀야 '중복' 으로 읽히지 않는다.
+    from . import evidence as evidence_mod
+    by_ac_all: dict[str, list[dict]] = defaultdict(list)
+    for m in mentions:
+        by_ac_all[m["academy_key"]].append(m)
+    cand_of = dict(candidates or {})
+    top_evidence: dict[str, list] = {}
+    aspect_profiles: dict[str, dict] = {}
+    for a in evaluated:
+        rows = by_ac_all.get(a["id"], [])
+        cands = cand_of.get(a["id"]) or analyze.name_candidates(a)
+        top_evidence[a["id"]] = evidence_mod.export_rows(
+            evidence_mod.select(rows, cands), cands)
+        aspect_profiles[a["id"]] = evidence_mod.aspect_profile(rows)
 
     # 표시명은 채점 대상과 등록부를 한꺼번에 놓고 정해야 한다.
     # 따로 정하면 두 목록에 같은 이름이 남는다.
@@ -1652,6 +1753,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                 for sub, v in ((subject_scores or {}).get(key) or {}).items()
             },
             "evidence": top_evidence.get(key, []),
+            # 학부모가 말한 관점별 감성(선생님·관리·숙제량…). 점수에 안 쓴다 —
+            # '선생님은 좋은데 숙제가 많다' 를 한 숫자로 뭉개지 않으려는 것이다.
+            "aspects": aspect_profiles.get(key, {}),
             # 학부모가 실제로 묻는 것. 점수가 아니라 사실이므로 트리스코어에
             # 들어가지 않는다. 모든 줄이 인용문과 원문 링크를 갖는다 —
             # 근거를 못 보여주는 사실은 싣지 않는다.
@@ -1667,6 +1771,14 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     # 등록부: 수집 대상이 아니었던 학원. 점수를 붙이지 않는다.
     # '평가했는데 낮음'과 '아직 보지 않음'은 다르고, 섞으면 그게 곧 왜곡이다.
     payload_registry = [base(a) for a in registry_only]
+
+    # 근거 품질 — 매 실행 잰다. 오귀속은 한 번 고치고 끝나는 것이 아니라
+    # 새 낱말·새 학원·새 글이 매일 들어오므로 회차마다 다시 재야 나빠지는
+    # 순간을 잡는다. meta.json 에도 실어 화면(산식 페이지)이 그대로 밝힌다.
+    quality = evidence_mod.audit(payload_academies)
+    print(f"  근거 품질: 학원 {quality['withEvidence']:,}/{quality['academies']:,}곳에 "
+          f"근거 · 발췌 {quality['rows']:,}건 중 이름 포함 "
+          f"{quality['nameInExcerpt']:,}건 · 제목 언급 {quality['inTitle']:,}건")
 
     files = {
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
@@ -1731,6 +1843,17 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "sources": {
                 "official": "NEIS 학원교습소정보 (open.neis.go.kr)" if config.HAS_NEIS else None,
                 "community": "네이버 검색 API" if config.HAS_NAVER else None,
+            },
+            # 근거 품질. 숨기면 그 자체가 왜곡이다.
+            "evidenceQuality": quality,
+            "coverage": {
+                "evaluated": len(payload_academies),
+                "withMentions": sum(
+                    1 for a in payload_academies
+                    if (a.get("score") or {}).get("sampleSize")),
+                "ranked": sum(
+                    1 for a in payload_academies
+                    if (a.get("score") or {}).get("isRanked")),
             },
         },
     }

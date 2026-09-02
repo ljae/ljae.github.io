@@ -51,12 +51,17 @@ def record(selected: list[dict], mentions: list[dict]) -> dict:
             counts[key] = counts.get(key, 0) + 1
 
     hist = load()
+    from datetime import date
+    today = date.today().isoformat()
     for a in selected:
         aid = a["id"]
         row = hist.setdefault(aid, {"tries": 0, "dry": 0, "last": 0})
         row["tries"] += 1
         row["last"] = counts.get(aid, 0)
         row["dry"] = 0 if row["last"] else row["dry"] + 1
+        # 언제 마지막으로 봤는지. 근거가 저장소에 쌓이면서부터는 '봤던 곳을
+        # 다시 볼 때' 를 정하는 것이 이 값이다(build.select_for_mentions).
+        row["last_at"] = today
 
     PATH.parent.mkdir(parents=True, exist_ok=True)
     PATH.write_text(json.dumps(hist, ensure_ascii=False), encoding="utf-8")
@@ -88,6 +93,18 @@ def stage_gaps(academies: list[dict], scores: dict) -> dict[tuple, int]:
                 key = (st["id"], r["id"])
                 gaps[key] = max(0, TARGET_PER_STAGE - have.get(key, 0))
     return gaps
+
+
+def days_since(row: dict | None, today=None) -> int | None:
+    """마지막 수집 이후 며칠. 기록이 없으면 None."""
+    from datetime import date
+    if not row or not row.get("last_at"):
+        return None
+    try:
+        last = date.fromisoformat(str(row["last_at"])[:10])
+    except ValueError:
+        return None
+    return ((today or date.today()) - last).days
 
 
 def priority_bonus(academy: dict, hist: dict, gaps: dict[tuple, int]) -> tuple:

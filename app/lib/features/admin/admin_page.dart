@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme.dart';
 import '../../data/admin.dart';
+import '../../data/models.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
 
@@ -67,6 +68,7 @@ class _AdminPageState extends ConsumerState<AdminPage> {
                     ButtonSegment(value: 0, label: Text('질문')),
                     ButtonSegment(value: 1, label: Text('글별 검수')),
                     ButtonSegment(value: 2, label: Text('크롤 규칙')),
+                    ButtonSegment(value: 3, label: Text('예약·신고')),
                   ],
                   selected: {_tab},
                   onSelectionChanged: (v) => setState(() => _tab = v.first),
@@ -76,8 +78,10 @@ class _AdminPageState extends ConsumerState<AdminPage> {
                   const _QuestionList()
                 else if (_tab == 1)
                   const _PendingList()
+                else if (_tab == 2)
+                  const _RulesPanel()
                 else
-                  const _RulesPanel(),
+                  const _InboxPanel(),
               ],
               const SizedBox(height: AppSpace.xxl),
             ],
@@ -1004,6 +1008,155 @@ class _RulesPanel extends ConsumerWidget {
                   ),
                 ),
           ]),
+    );
+  }
+}
+
+/// 접수함 — 레벨테스트 예약 요청과 '이 학원 글이 아니에요' 신고.
+///
+/// 예약은 운영자가 학원에 연락해 잇고 연락처로 회신하는 것이 처리다.
+/// 여기서 닫는 것은 그 뒤다. 신고는 파이프라인이 다음 야간 실행에서
+/// 질문으로 올리므로, 여기서는 무엇이 들어왔는지 보고 잘못 들어온 것을
+/// 닫을 뿐이다 — 신고가 곧 삭제가 되면 학원이 불리한 글만 지우는 통로가
+/// 된다.
+class _InboxPanel extends ConsumerWidget {
+  const _InboxPanel();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final text = Theme.of(context).textTheme;
+    final res = ref.watch(reservationsProvider);
+    final rep = ref.watch(evidenceReportsProvider);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('레벨테스트 예약 요청', style: text.titleMedium),
+        const SizedBox(height: 4),
+        Text(
+          '학원에 연락해 일정을 확인하고 연락처로 회신한 뒤 닫습니다. '
+          '확정은 학원이 합니다 — 우리는 요청을 전달하고 답을 전합니다.',
+          style: text.bodySmall,
+        ),
+        const SizedBox(height: AppSpace.sm),
+        res.when(
+          loading: () => const Padding(
+            padding: EdgeInsets.all(AppSpace.md),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+          error: (e, _) => Text('불러오지 못했습니다: $e', style: text.bodyMedium),
+          data: (rows) => rows.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpace.md),
+                  child: Text('미처리 예약 요청이 없습니다.', style: text.bodyMedium),
+                )
+              : Column(
+                  children: [
+                    for (final r in rows)
+                      Card(
+                        margin: const EdgeInsets.only(bottom: AppSpace.sm),
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSpace.md),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Wrap(
+                                spacing: 6,
+                                runSpacing: 4,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Text(r.academyName, style: text.titleMedium),
+                                  if (r.childBand != null)
+                                    Chip2(gradeBandNames[r.childBand] ?? r.childBand!,
+                                        color: AppColors.navy),
+                                  if (r.subject != null)
+                                    Chip2(subjectNames[r.subject] ?? r.subject!,
+                                        color: AppColors.slate),
+                                  if (r.createdAt != null)
+                                    Text(
+                                      '${r.createdAt!.month}/${r.createdAt!.day}',
+                                      style: text.bodySmall,
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text('보호자 ${r.parentName ?? "미기재"} · 회신 ${r.contact}',
+                                  style: text.bodyMedium),
+                              if (r.preferred != null)
+                                Text('희망 일시 · ${r.preferred}', style: text.bodyMedium),
+                              if (r.note != null)
+                                Text(r.note!, style: text.bodySmall),
+                              const SizedBox(height: AppSpace.sm),
+                              Wrap(
+                                spacing: AppSpace.sm,
+                                children: [
+                                  for (final (status, label) in const [
+                                    ('contacted', '학원에 연락함'),
+                                    ('done', '회신 완료'),
+                                    ('declined', '진행 불가'),
+                                  ])
+                                    OutlinedButton(
+                                      onPressed: () async {
+                                        await ref
+                                            .read(adminServiceProvider)
+                                            .closeReservation(r.id, status);
+                                        ref.invalidate(reservationsProvider);
+                                      },
+                                      child: Text(label),
+                                    ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+        ),
+        const SizedBox(height: AppSpace.lg),
+        Text('근거 신고', style: text.titleMedium),
+        const SizedBox(height: 4),
+        Text(
+          '다음 야간 실행이 신고된 글을 질문 큐 맨 앞에 올립니다. 판정은 '
+          '\'질문\' 탭에서 합니다. 여기서는 잘못 들어온 신고만 닫습니다.',
+          style: text.bodySmall,
+        ),
+        const SizedBox(height: AppSpace.sm),
+        rep.when(
+          loading: () => const SizedBox.shrink(),
+          error: (e, _) => Text('불러오지 못했습니다: $e', style: text.bodyMedium),
+          data: (rows) => rows.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpace.md),
+                  child: Text('신고가 없습니다.', style: text.bodyMedium),
+                )
+              : Column(
+                  children: [
+                    for (final r in rows)
+                      Card(
+                        margin: const EdgeInsets.only(bottom: AppSpace.sm),
+                        child: ListTile(
+                          title: Text(r.title ?? r.urlHash,
+                              maxLines: 1, overflow: TextOverflow.ellipsis),
+                          subtitle: Text(
+                            '${r.academyKey} · ${r.reasonLabel}'
+                            '${r.status == "queued" ? " · 질문으로 올라감" : ""}'
+                            '${r.note != null ? "\n${r.note}" : ""}',
+                          ),
+                          trailing: TextButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(adminServiceProvider)
+                                  .closeReport(r.id, 'declined');
+                              ref.invalidate(evidenceReportsProvider);
+                            },
+                            child: const Text('닫기'),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+        ),
+      ],
     );
   }
 }
