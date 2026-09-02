@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme.dart';
 import '../../data/models.dart';
@@ -11,7 +10,10 @@ import '../../widgets/common.dart';
 import '../../data/claim_disputes.dart';
 import '../../data/corrections.dart';
 import '../../data/leveltests.dart';
+import '../../data/reservations.dart';
+import '../../widgets/contact.dart';
 import '../../widgets/rank_history_chart.dart';
+import 'contact.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -151,6 +153,12 @@ class _Body extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: AppSpace.lg),
+
+              // ── 전화 · 레벨테스트 예약 ───────────────────────
+              // 학부모가 다음에 하는 일은 둘이다. 전화번호를 글자로만
+              // 보여 주면 옮겨 적어야 한다.
+              ContactCard(academy: academy),
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
@@ -220,6 +228,20 @@ class _Body extends StatelessWidget {
               ],
               const SizedBox(height: AppSpace.xl),
 
+              // ── 학부모가 말한 것 ────────────────────────────
+              // 선생님·관리·숙제량… 관점별로 갈라 보여 준다. 한 숫자로
+              // 뭉개면 '선생님은 좋은데 숙제가 많다' 가 사라진다.
+              if (academy.aspects.isNotEmpty) ...[
+                const SectionHeader(
+                  '학부모가 말한 것',
+                  subtitle:
+                      '후기에서 관점별로 읽은 감성입니다. 점수에는 들어가지 않습니다. '
+                      '두 건부터만 보여 드립니다.',
+                ),
+                _AspectPanel(academy: academy),
+                const SizedBox(height: AppSpace.xl),
+              ],
+
               // ── 학부모가 묻는 것 ────────────────────────────
               // 점수가 아니라 사실이다. 트리스코어에 들어가지 않는다 —
               // 숙제가 많은 것은 좋은 것도 나쁜 것도 아니다.
@@ -246,6 +268,18 @@ class _Body extends StatelessWidget {
                 _SelectivityEvidence(academy: academy),
                 const SizedBox(height: AppSpace.xl),
               ],
+
+              // ── 상담 전에 물어볼 것 ─────────────────────────
+              // 후기가 이미 말해 준 것은 '확인' 으로, 아직 모르는 것은
+              // '질문' 으로 적는다. 전화 한 통의 값어치를 높이는 목록이다.
+              const SectionHeader(
+                '상담 전에 물어볼 것',
+                subtitle:
+                    '후기에서 확인된 것과 아직 모르는 것을 나눠 적었습니다. '
+                    '전화하실 때 그대로 물어보세요.',
+              ),
+              ConsultChecklist(academy: academy),
+              const SizedBox(height: AppSpace.xl),
 
               // ── 공식 정보 ──────────────────────────────────
               SectionHeader(
@@ -343,12 +377,19 @@ class _Body extends StatelessWidget {
               // ── 근거 ───────────────────────────────────────
               const SectionHeader(
                 '평판 점수에 반영된 근거',
-                subtitle: '신뢰도 상위 게시물입니다. 원문 링크로만 제공하며 본문을 전재하지 않습니다.',
+                subtitle:
+                    '학원 이름이 나온 대목을 그대로 발췌했습니다. 번호는 아래 '
+                    '출처 목록과 같습니다. 원문 링크로만 제공하며 본문을 전재하지 '
+                    '않습니다.',
               ),
               if (academy.evidence.isEmpty)
                 Text('표시할 근거가 없습니다.', style: text.bodyMedium)
-              else
-                for (final e in academy.evidence) _EvidenceTile(evidence: e),
+              else ...[
+                for (final e in academy.evidence)
+                  _EvidenceTile(evidence: e, academy: academy),
+                const SizedBox(height: AppSpace.sm),
+                _SourceList(academy: academy),
+              ],
 
               const SizedBox(height: AppSpace.xl),
               _RankTrend(academyId: academy.id, region: region?.nameKo ?? ''),
@@ -576,62 +617,271 @@ class _StageLink extends StatelessWidget {
   }
 }
 
-class _EvidenceTile extends StatelessWidget {
+/// 근거 한 줄. 번호 · 제목 · 이름을 품은 발췌 · 출처.
+///
+/// 발췌 안의 학원 이름을 굵게 찍는다. 이 글이 왜 이 학원의 근거인지가
+/// 발췌 자체에서 읽혀야 한다 — 이름이 안 보이면 학부모는 오귀속으로
+/// 읽고, 실제로 그렇게 신고가 들어왔다. 아래 '잘못 붙은 글' 로 신고하면
+/// 다음 갱신 전에 운영자가 본다.
+class _EvidenceTile extends ConsumerWidget {
   final Evidence evidence;
-  const _EvidenceTile({required this.evidence});
+  final Academy academy;
+  const _EvidenceTile({required this.evidence, required this.academy});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final positive = evidence.sentiment >= 0;
+    final canReport = ref.watch(evidenceReportServiceProvider).enabled;
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpace.md,
-          vertical: AppSpace.sm,
-        ),
-        title: Text(
-          evidence.title,
-          style: text.titleMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: Column(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(AppSpace.md, AppSpace.sm,
+            AppSpace.sm, AppSpace.sm),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 4),
-            Text(evidence.snippet, style: text.bodyMedium, maxLines: 2),
-            const SizedBox(height: 6),
-            Wrap(
-              spacing: 6,
+            RefMark(evidence.ref),
+            const SizedBox(width: AppSpace.sm),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () => openExternal(evidence.url),
+                    child: Text(
+                      evidence.title,
+                      style: text.titleMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  HighlightedText(
+                    evidence.snippet,
+                    terms: nameTerms(academy),
+                    style: text.bodyMedium,
+                    highlight: text.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.accentOn(dark),
+                    ),
+                    maxLines: 4,
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    children: [
+                      Chip2(evidence.matchLabel,
+                          color: evidence.inTitle
+                              ? AppColors.verified
+                              : AppColors.slate),
+                      Chip2(evidence.sourceLabel, color: AppColors.slate),
+                      if (evidence.postedAt != null)
+                        Chip2(evidence.postedAt!, color: AppColors.mist),
+                      Chip2(
+                        positive ? '긍정' : '부정',
+                        color:
+                            positive ? AppColors.verified : AppColors.momentum,
+                      ),
+                      Chip2(
+                        '신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
+                        color: AppColors.reputation,
+                      ),
+                      // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
+                      // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
+                      if (evidence.isBrandWide)
+                        const Chip2('지점 불명 · 브랜드 공통',
+                            color: AppColors.mist),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Chip2(evidence.sourceLabel, color: AppColors.slate),
-                if (evidence.postedAt != null)
-                  Chip2(evidence.postedAt!, color: AppColors.mist),
-                Chip2(
-                  positive ? '긍정' : '부정',
-                  color: positive ? AppColors.verified : AppColors.momentum,
+                IconButton(
+                  tooltip: '원문 보기 [${evidence.ref}]',
+                  icon: const Icon(Icons.open_in_new, size: 16),
+                  onPressed: () => openExternal(evidence.url),
                 ),
-                Chip2(
-                  '신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
-                  color: AppColors.reputation,
-                ),
-                // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
-                // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
-                if (evidence.isBrandWide)
-                  const Chip2('지점 불명 · 브랜드 공통', color: AppColors.mist),
+                if (canReport)
+                  IconButton(
+                    tooltip: '이 학원 글이 아니에요',
+                    icon: const Icon(Icons.flag_outlined, size: 16),
+                    onPressed: () => showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      showDragHandle: true,
+                      constraints: const BoxConstraints(maxWidth: 640),
+                      builder: (_) => EvidenceReportSheet(
+                        academy: academy,
+                        evidence: evidence,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ],
         ),
-        trailing: const Icon(Icons.open_in_new, size: 16),
-        onTap: () {
-          final uri = Uri.tryParse(evidence.url);
-          if (uri != null && (uri.scheme == 'http' || uri.scheme == 'https')) {
-            launchUrl(uri, mode: LaunchMode.externalApplication);
-          }
-        },
+      ),
+    );
+  }
+}
+
+/// 출처 목록. 근거·사실·진입난이도 인용이 가리키는 원문을 번호순으로.
+class _SourceList extends StatelessWidget {
+  final Academy academy;
+  const _SourceList({required this.academy});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final refs = academy.sourceRefs;
+    if (refs.isEmpty) return const SizedBox.shrink();
+    final titles = {for (final e in academy.evidence) e.url: e.title};
+    final rows = refs.entries.toList()..sort((a, b) => a.value - b.value);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: AppSpace.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('출처', style: text.labelMedium),
+            const SizedBox(height: 4),
+            for (final r in rows)
+              InkWell(
+                onTap: () => openExternal(r.key),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RefMark(r.value, small: true),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          titles[r.key] ?? r.key,
+                          style: text.bodySmall?.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.ruleOn(dark),
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// 학부모가 말한 관점 — 막대 하나가 '좋게 말한 사람 / 아쉽다고 말한 사람'.
+class _AspectPanel extends StatelessWidget {
+  final Academy academy;
+  const _AspectPanel({required this.academy});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final rows = academy.aspects.values.toList()
+      ..sort((a, b) => b.n.compareTo(a.n));
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpace.md),
+        child: Column(
+          children: [
+            for (final a in rows)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 110,
+                      child: Text(a.label, style: text.labelMedium),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _ToneBar(
+                            positive: a.positive,
+                            negative: a.negative,
+                            total: a.n,
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            '${a.tone} · 후기 ${a.n}건'
+                            '${a.positive > 0 ? " · 긍정 ${a.positive}" : ""}'
+                            '${a.negative > 0 ? " · 부정 ${a.negative}" : ""}',
+                            style: text.bodySmall?.copyWith(
+                              color: AppColors.mutedOn(dark),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// 긍정·부정 비율 막대. 색을 넓게 칠하지 않는다 — 계선 위에 두 칸.
+class _ToneBar extends StatelessWidget {
+  final int positive;
+  final int negative;
+  final int total;
+  const _ToneBar({
+    required this.positive,
+    required this.negative,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final n = total == 0 ? 1 : total;
+    final neutral = (total - positive - negative).clamp(0, total);
+    return SizedBox(
+      height: 6,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (positive > 0)
+            Expanded(
+              flex: positive * 100 ~/ n,
+              child: const ColoredBox(color: AppColors.verified),
+            ),
+          if (neutral > 0)
+            Expanded(
+              flex: neutral * 100 ~/ n,
+              child: ColoredBox(color: AppColors.ruleOn(dark)),
+            ),
+          if (negative > 0)
+            Expanded(
+              flex: negative * 100 ~/ n,
+              child: const ColoredBox(color: AppColors.momentum),
+            ),
+        ],
       ),
     );
   }
@@ -1249,15 +1499,19 @@ class _ClaimQuote extends ConsumerWidget {
               ],
             ),
           ),
-          if (claim.url != null)
+          if (claim.url != null) ...[
+            // 같은 원문은 근거 목록과 같은 번호를 쓴다.
+            if (academy.sourceRefs[claim.url!] case final n?)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: RefMark(n, small: true),
+              ),
             IconButton(
               tooltip: '원문 보기',
               icon: const Icon(Icons.open_in_new, size: 16),
-              onPressed: () => launchUrl(
-                Uri.parse(claim.url!),
-                mode: LaunchMode.externalApplication,
-              ),
+              onPressed: () => openExternal(claim.url!),
             ),
+          ],
           if (!dead && ref.read(claimDisputeServiceProvider).enabled)
             TextButton(
               onPressed: () => _openDisputeSheet(context, ref),

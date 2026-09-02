@@ -74,7 +74,12 @@ def test_일상어_이름은_전체가_일상어일_때만():
     assert analyze.is_generic_name("책읽기교습소") is True
     assert analyze.is_generic_name("대치책읽기") is True
     assert analyze.is_generic_name("생각하는황소") is False
-    assert analyze.is_generic_name("깊은생각") is False
+    # '깊은생각' 은 **구 전체가 정확히 일치**하는 경우라 다르다(부분 일치가
+    # 아니다). 띄어쓰기를 지우면 '깊은 생각 없이' 와 같아져 '삼시세끼
+    # 꼬마김밥 솔직 후기' 가 근거였다(2026-09-02). 학원 표지를 이름 곁에
+    # 요구할 뿐이라 진짜 후기('깊은생각 레테 후기')는 그대로 산다.
+    assert analyze.is_generic_name("깊은생각") is True
+    assert analyze.is_generic_name("깊은생각256학원") is False
 
 
 def test_레벨테스트가_테스트학원의_근거가_되지_않는다():

@@ -98,14 +98,60 @@ def show_disputes(show_all: bool = False) -> list[dict]:
     return rows
 
 
+BAND = {"elem_low": "예비초~초3", "elem_high": "초4~초6",
+        "middle": "중등", "high": "고등"}
+
+
+def show_reservations(show_all: bool = False) -> list[dict]:
+    """레벨테스트 예약 요청. 운영자가 학원에 연락해 잇고 연락처로 회신한다.
+
+    접수는 확정이 아니다 — 여기 남아 있는 동안은 학부모가 답을 기다리는
+    중이다. 정정 요청과 같은 창구이고 같은 알림을 탄다.
+    """
+    q = "test_reservations?select=*&order=created_at.desc"
+    if not show_all:
+        q += "&status=eq.open"
+    rows = _req("GET", q)
+    if not rows:
+        print("미처리 레벨테스트 예약 요청 없음.")
+        return []
+    print(f"\n미처리 예약 요청 {len(rows)}건\n" + "─" * 72)
+    for r in rows:
+        who = " · ".join(x for x in (BAND.get(r.get("child_band") or ""),
+                                     r.get("subject")) if x)
+        print(f"[{r['id'][:8]}] {r.get('academy_name')}  · {who or '학년 미기재'}"
+              f"  · {(r.get('created_at') or '')[:10]}")
+        print(f"    보호자: {r.get('parent_name') or '미기재'}   회신: {r.get('contact')}")
+        if r.get("preferred"):
+            print(f"    희망 일시: {r['preferred']}")
+        if r.get("note"):
+            print(f"    메모: {(r['note'] or '')[:100]}")
+    print("처리: python3 pipeline/corrections_report.py --reservation-done <ID앞8자> --note '...'")
+    return rows
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--done", metavar="ID")
+    ap.add_argument("--reservation-done", metavar="ID",
+                    help="예약 요청을 처리 완료로 닫는다 (id 앞자리)")
     ap.add_argument("--note", default="")
     ap.add_argument("--fail-on-open", action="store_true",
                     help="미처리가 있으면 종료 코드 2 (CI 알림용)")
     a = ap.parse_args()
+
+    if a.reservation_done:
+        found = [r for r in _req("GET", "test_reservations?select=id,academy_name")
+                 if str(r["id"]).startswith(a.reservation_done)]
+        if len(found) != 1:
+            sys.exit(f"'{a.reservation_done}' 로 {len(found)}건이 잡혔습니다. "
+                     "id 앞자리를 더 길게 주세요.")
+        rows = _req("PATCH", f"test_reservations?id=eq.{found[0]['id']}",
+                    json={"status": "done", "handler_note": a.note,
+                          "handled_at": "now()"})
+        print(f"처리 완료: {found[0].get('academy_name')} ({len(rows)}건)")
+        return
 
     if a.done:
         # id 가 uuid 라 like 를 못 쓴다. 앞자리로 찾아 전체 id 를 구한 뒤
@@ -135,9 +181,10 @@ def main() -> None:
     # 주장 이의도 같은 창구다. 접수만 되고 아무도 안 보면 정정 요청이
     # 조용히 묻히던 것과 똑같은 일이 반복된다.
     disputes = show_disputes(a.all)
+    reservations = show_reservations(a.all)
     # 미처리가 있으면 0 이 아닌 코드로 끝낸다. 야간 작업이 실패로 표시되고
     # 깃허브가 알림을 보낸다 — 로그에만 찍히면 아무도 안 본다.
-    if (rows or disputes) and a.fail_on_open:
+    if (rows or disputes or reservations) and a.fail_on_open:
         sys.exit(2)
 
 
