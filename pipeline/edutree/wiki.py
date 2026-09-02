@@ -65,6 +65,18 @@ def load() -> dict[str, dict]:
             "generic": bool(meta.get("generic")),
             "exclude_title": [str(w) for w in (meta.get("exclude_title") or [])],
             "exclude_any": [str(w) for w in (meta.get("exclude_any") or [])],
+            # ★ 이 이름으로는 근거를 모을 수 없다.
+            #
+            #   낱말을 빼는 방식이 끝나지 않는 이름이 있다. '클라우드'(대치)는
+            #   붙은 글 227건 중 **제목에 이름이 든 22건마저** 전부 IT·국비
+            #   취업 글이었고, 넓은 제외어를 넣어 31건까지 줄였지만 남은
+            #   것들은 주식·유학원·육아처럼 공통 낱말이 없었다.
+            #
+            #   그런 이름은 조이는 것이 아니라 **모으지 않는 것**이 맞다.
+            #   표본 0 이 되어 점수도 등수도 없어지는데, 그것이 정직한
+            #   상태다 — 우리는 그 학원에 대해 아직 아무것도 모른다.
+            #   등록부에는 그대로 남는다.
+            "unusable": bool(meta.get("unusable")),
             "locality": [str(w) for w in (meta.get("locality") or [])],
             # 공식 홈페이지. NEIS 가 주지 않으므로 사람이 적는 값이다.
             # 엔진은 적힌 것만 읽고, 이름으로 추측해 채우지 않는다.
@@ -146,7 +158,8 @@ def sanity(hints: dict[str, dict], academies: list[dict]) -> list[str]:
 
 def apply_gate(mentions: list[dict], hints: dict[str, dict]) -> tuple[list[dict], int]:
     """위키 제외 힌트를 적용한다. 규칙(crawl_rules)과 같은 지위의 게이트다."""
-    if not any(h["exclude_title"] or h["exclude_any"] for h in hints.values()):
+    if not any(h["exclude_title"] or h["exclude_any"] or h.get("unusable")
+               for h in hints.values()):
         return mentions, 0
     out, dropped = [], 0
     for m in mentions:
@@ -154,7 +167,8 @@ def apply_gate(mentions: list[dict], hints: dict[str, dict]) -> tuple[list[dict]
         if h:
             title = m.get("title", "") or ""
             blob = f"{title} {m.get('snippet', '')}"
-            if (any(w in title for w in h["exclude_title"])
+            if (h.get("unusable")
+                    or any(w in title for w in h["exclude_title"])
                     or any(w in blob for w in h["exclude_any"])):
                 dropped += 1
                 continue
