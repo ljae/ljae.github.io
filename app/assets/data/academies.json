@@ -41,7 +41,7 @@
   "dataSource": "neis",
   "score": {
    "total": 43.8,
-   "reputation": 38.1,
+   "reputation": 38.0,
    "momentum": 62.8,
    "transparency": 39.0,
    "selectivity": 43.4,
@@ -118,7 +118,7 @@
   "subjectScores": {
    "korean": {
     "total": 43.8,
-    "reputation": 38.1,
+    "reputation": 38.0,
     "momentum": 62.8,
     "transparency": 39.0,
     "selectivity": 43.4,
@@ -586,11 +586,11 @@
   "establishedOn": "2020-11-25",
   "dataSource": "neis",
   "score": {
-   "total": 50.0,
+   "total": 49.9,
    "reputation": 56.6,
    "momentum": 48.2,
    "transparency": 91.0,
-   "selectivity": 26.5,
+   "selectivity": 26.4,
    "sampleSize": 79,
    "confidence": "high",
    "isRanked": true,
@@ -610,20 +610,20 @@
     },
     "reputation": {
      "표본": 75,
-     "유효표본": 32.6,
+     "유효표본": 32.5,
      "긍정률": 100.0,
-     "의견_표명_가중치": 4.55,
+     "의견_표명_가중치": 4.53,
      "제외된_스팸": 34,
-     "가중_감성합": 2.86,
-     "가중치_총합": 6.75,
+     "가중_감성합": 2.84,
+     "가중치_총합": 6.73,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.423 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 32.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.422 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 32.5건)"
     },
     "momentum": {
      "최근90일_언급": 6,
-     "최신성_가중합": 26.6,
+     "최신성_가중합": 26.5,
      "전체_유효언급": 79,
      "코호트_z점수": -0.07,
      "월별_추세_상대기울기": -0.095,
@@ -662,11 +662,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 50.0,
+    "total": 49.9,
     "reputation": 56.6,
     "momentum": 48.2,
     "transparency": 91.0,
-    "selectivity": 26.5,
+    "selectivity": 26.4,
     "sampleSize": 79,
     "confidence": "high",
     "isRanked": true,
@@ -892,9 +892,9 @@
   "establishedOn": "2020-04-27",
   "dataSource": "neis",
   "score": {
-   "total": 48.0,
-   "reputation": 46.8,
-   "momentum": 49.9,
+   "total": 48.2,
+   "reputation": 46.1,
+   "momentum": 51.4,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 10,
@@ -920,16 +920,16 @@
      "제외된_스팸": 3,
      "가중_감성합": 0.31,
      "가중치_총합": 1.95,
-     "코호트_평균감성": 0.222,
-     "코호트_감성표준편차": 0.109,
+     "코호트_평균감성": 0.232,
+     "코호트_감성표준편차": 0.103,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.159 를 코호트 평균 0.222 쪽으로 12건만큼 축소 (유효표본 6.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.159 를 코호트 평균 0.232 쪽으로 12건만큼 축소 (유효표본 6.9건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 6.0,
      "전체_유효언급": 10,
-     "코호트_z점수": -0.01,
+     "코호트_z점수": 0.15,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -943,9 +943,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 48.0,
-    "reputation": 46.8,
-    "momentum": 49.9,
+    "total": 48.2,
+    "reputation": 46.1,
+    "momentum": 51.4,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 10,
@@ -1312,9 +1312,9 @@
   "establishedOn": "2004-07-20",
   "dataSource": "neis",
   "score": {
-   "total": 50.2,
-   "reputation": 44.8,
-   "momentum": 58.3,
+   "total": 51.0,
+   "reputation": 43.6,
+   "momentum": 62.1,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 44,
@@ -1340,16 +1340,16 @@
      "제외된_스팸": 21,
      "가중_감성합": 0.89,
      "가중치_총합": 5.48,
-     "코호트_평균감성": 0.222,
-     "코호트_감성표준편차": 0.109,
+     "코호트_평균감성": 0.232,
+     "코호트_감성표준편차": 0.103,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.163 를 코호트 평균 0.222 쪽으로 12건만큼 축소 (유효표본 21.3건)"
+     "설명": "신뢰도·최신성 가중 감성 0.163 를 코호트 평균 0.232 쪽으로 12건만큼 축소 (유효표본 21.3건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 25.8,
      "전체_유효언급": 44,
-     "코호트_z점수": 0.92,
+     "코호트_z점수": 1.34,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -1363,9 +1363,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 50.2,
-    "reputation": 44.8,
-    "momentum": 58.3,
+    "total": 51.0,
+    "reputation": 43.6,
+    "momentum": 62.1,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 44,
@@ -1618,10 +1618,10 @@
      "표본": 67,
      "유효표본": 26.2,
      "긍정률": 100.0,
-     "의견_표명_가중치": 4.17,
+     "의견_표명_가중치": 4.16,
      "제외된_스팸": 33,
-     "가중_감성합": 2.65,
-     "가중치_총합": 5.43,
+     "가중_감성합": 2.64,
+     "가중치_총합": 5.41,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
@@ -1629,9 +1629,9 @@
     },
     "momentum": {
      "최근90일_언급": 6,
-     "최신성_가중합": 21.8,
+     "최신성_가중합": 21.7,
      "전체_유효언급": 69,
-     "코호트_z점수": -0.2,
+     "코호트_z점수": -0.21,
      "월별_추세_상대기울기": -0.095,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -1852,7 +1852,7 @@
      "의견_표명_가중치": 9.58,
      "제외된_스팸": 132,
      "가중_감성합": 2.14,
-     "가중치_총합": 14.46,
+     "가중치_총합": 14.45,
      "코호트_평균감성": 0.195,
      "코호트_감성표준편차": 0.038,
      "축소_사전표본": 12,
@@ -2103,13 +2103,13 @@
    "reputation": 50.3,
    "momentum": 49.3,
    "transparency": 94.0,
-   "selectivity": 47.4,
+   "selectivity": 47.3,
    "sampleSize": 63,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 83.5,
+   "positiveRate": 83.4,
    "momentumDirection": "stable",
    "selectivityTier": "medium",
    "rankInRegion": 12,
@@ -2124,15 +2124,15 @@
     "reputation": {
      "표본": 47,
      "유효표본": 27.6,
-     "긍정률": 83.5,
-     "의견_표명_가중치": 5.13,
+     "긍정률": 83.4,
+     "의견_표명_가중치": 5.12,
      "제외된_스팸": 23,
-     "가중_감성합": 2.49,
-     "가중치_총합": 7.03,
+     "가중_감성합": 2.48,
+     "가중치_총합": 7.02,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.354 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 27.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.353 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 27.6건)"
     },
     "momentum": {
      "최근90일_언급": 2,
@@ -2179,13 +2179,13 @@
     "reputation": 50.3,
     "momentum": 49.3,
     "transparency": 94.0,
-    "selectivity": 47.4,
+    "selectivity": 47.3,
     "sampleSize": 63,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 83.5,
+    "positiveRate": 83.4,
     "momentumDirection": "stable",
     "selectivityTier": "medium",
     "rankInRegion": 12,
@@ -2352,7 +2352,7 @@
   "dataSource": "neis",
   "score": {
    "total": 55.0,
-   "reputation": 57.3,
+   "reputation": 57.4,
    "momentum": 56.3,
    "transparency": 99.0,
    "selectivity": 33.2,
@@ -2427,7 +2427,7 @@
   "subjectScores": {
    "korean": {
     "total": 55.0,
-    "reputation": 57.3,
+    "reputation": 57.4,
     "momentum": 56.3,
     "transparency": 99.0,
     "selectivity": 33.2,
@@ -2831,7 +2831,7 @@
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 86.4,
+   "positiveRate": 86.3,
    "momentumDirection": "falling",
    "selectivityTier": "mentioned",
    "rankInRegion": 17,
@@ -2846,15 +2846,15 @@
     "reputation": {
      "표본": 11,
      "유효표본": 9.4,
-     "긍정률": 86.4,
+     "긍정률": 86.3,
      "의견_표명_가중치": 2.09,
      "제외된_스팸": 6,
-     "가중_감성합": 1.1,
+     "가중_감성합": 1.09,
      "가중치_총합": 2.66,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.413 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 9.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.412 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 9.4건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -2906,7 +2906,7 @@
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 86.4,
+    "positiveRate": 86.3,
     "momentumDirection": "falling",
     "selectivityTier": "mentioned",
     "rankInRegion": 17,
@@ -3344,14 +3344,14 @@
      "표본": 116,
      "유효표본": 73.4,
      "긍정률": 86.7,
-     "의견_표명_가중치": 13.9,
+     "의견_표명_가중치": 13.88,
      "제외된_스팸": 104,
-     "가중_감성합": 5.61,
-     "가중치_총합": 17.48,
+     "가중_감성합": 5.6,
+     "가중치_총합": 17.46,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.321 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 73.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.32 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 73.4건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -3412,11 +3412,11 @@
     "regionRankedCount": 19
    },
    "english": {
-    "total": 56.0,
+    "total": 55.9,
     "reputation": 48.0,
     "momentum": 52.1,
     "transparency": 89.0,
-    "selectivity": 51.4,
+    "selectivity": 51.3,
     "sampleSize": 89,
     "confidence": "high",
     "isRanked": true,
@@ -3645,11 +3645,11 @@
   "establishedOn": "2013-12-02",
   "dataSource": "neis",
   "score": {
-   "total": 69.6,
+   "total": 69.5,
    "reputation": 74.8,
    "momentum": 54.3,
    "transparency": 97.0,
-   "selectivity": 59.1,
+   "selectivity": 59.0,
    "sampleSize": 165,
    "confidence": "high",
    "isRanked": true,
@@ -3671,14 +3671,14 @@
      "표본": 108,
      "유효표본": 36.7,
      "긍정률": 94.9,
-     "의견_표명_가중치": 9.0,
+     "의견_표명_가중치": 8.97,
      "제외된_스팸": 90,
-     "가중_감성합": 5.85,
-     "가중치_총합": 9.53,
+     "가중_감성합": 5.82,
+     "가중치_총합": 9.5,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.614 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 36.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.613 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 36.7건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -3723,11 +3723,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 69.6,
+    "total": 69.5,
     "reputation": 74.8,
     "momentum": 54.3,
     "transparency": 97.0,
-    "selectivity": 59.1,
+    "selectivity": 59.0,
     "sampleSize": 165,
     "confidence": "high",
     "isRanked": true,
@@ -4232,11 +4232,11 @@
   "establishedOn": "2012-07-19",
   "dataSource": "neis",
   "score": {
-   "total": 55.9,
+   "total": 55.8,
    "reputation": 45.5,
    "momentum": 55.6,
    "transparency": 97.0,
-   "selectivity": 48.7,
+   "selectivity": 48.6,
    "sampleSize": 111,
    "confidence": "high",
    "isRanked": true,
@@ -4309,11 +4309,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 55.9,
+    "total": 55.8,
     "reputation": 45.5,
     "momentum": 55.6,
     "transparency": 97.0,
-    "selectivity": 48.7,
+    "selectivity": 48.6,
     "sampleSize": 111,
     "confidence": "high",
     "isRanked": true,
@@ -4659,11 +4659,11 @@
   "establishedOn": "2016-07-05",
   "dataSource": "neis",
   "score": {
-   "total": 53.8,
+   "total": 53.7,
    "reputation": 60.4,
    "momentum": 43.0,
    "transparency": 95.0,
-   "selectivity": 34.1,
+   "selectivity": 33.9,
    "sampleSize": 15,
    "confidence": "medium",
    "isRanked": true,
@@ -4687,12 +4687,12 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 2.07,
      "제외된_스팸": 9,
-     "가중_감성합": 1.65,
+     "가중_감성합": 1.64,
      "가중치_총합": 2.62,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.629 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 5.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.628 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 5.4건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -4734,11 +4734,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 53.8,
+    "total": 53.7,
     "reputation": 60.4,
     "momentum": 43.0,
     "transparency": 95.0,
-    "selectivity": 34.1,
+    "selectivity": 33.9,
     "sampleSize": 15,
     "confidence": "medium",
     "isRanked": true,
@@ -5153,11 +5153,11 @@
   "establishedOn": "2000-11-22",
   "dataSource": "neis",
   "score": {
-   "total": 57.6,
+   "total": 57.5,
    "reputation": 56.3,
    "momentum": 50.3,
    "transparency": 100.0,
-   "selectivity": 43.8,
+   "selectivity": 43.7,
    "sampleSize": 77,
    "confidence": "high",
    "isRanked": true,
@@ -5229,11 +5229,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 57.6,
+    "total": 57.5,
     "reputation": 56.3,
     "momentum": 50.3,
     "transparency": 100.0,
-    "selectivity": 43.8,
+    "selectivity": 43.7,
     "sampleSize": 77,
     "confidence": "high",
     "isRanked": true,
@@ -5469,7 +5469,7 @@
    "reputation": 50.1,
    "momentum": 53.4,
    "transparency": 96.0,
-   "selectivity": 56.3,
+   "selectivity": 56.2,
    "sampleSize": 100,
    "confidence": "high",
    "isRanked": true,
@@ -5489,20 +5489,20 @@
     },
     "reputation": {
      "표본": 76,
-     "유효표본": 42.8,
+     "유효표본": 42.9,
      "긍정률": 82.1,
-     "의견_표명_가중치": 10.28,
+     "의견_표명_가중치": 10.25,
      "제외된_스팸": 51,
-     "가중_감성합": 4.13,
-     "가중치_총합": 13.31,
+     "가중_감성합": 4.12,
+     "가중치_총합": 13.27,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.311 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 42.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.31 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 42.9건)"
     },
     "momentum": {
      "최근90일_언급": 8,
-     "최신성_가중합": 45.3,
+     "최신성_가중합": 45.2,
      "전체_유효언급": 100,
      "코호트_z점수": 0.42,
      "월별_추세_상대기울기": -0.033,
@@ -5546,7 +5546,7 @@
     "reputation": 50.1,
     "momentum": 53.4,
     "transparency": 96.0,
-    "selectivity": 56.3,
+    "selectivity": 56.2,
     "sampleSize": 100,
     "confidence": "high",
     "isRanked": true,
@@ -5677,22 +5677,28 @@
     "unit": "분"
    },
    "fact.homework": {
-    "n": 1,
-    "sources": 1,
+    "n": 2,
+    "sources": 2,
     "quotes": [
      {
       "quote": "일단 숙제는 반드시 해가야 되는데, 숙제에만 소요되는 시간이 2~3시간이 걸리는 편이었죠.",
       "url": "https://blog.naver.com/rnrbfll11/223081381178",
       "claimId": "108ea887c3c7e177",
       "postedAt": "2023-04-21"
+     },
+     {
+      "quote": "〔과제 분량〕 1시간정도(교재 숙제도 있고 프린트 숙제도 있음)",
+      "url": "https://cafe.naver.com/sjmaengmo/39445",
+      "claimId": "39db63adab23fe1d",
+      "postedAt": null
      }
     ],
     "stale": true,
     "value": null,
-    "low": null,
-    "high": null,
-    "text": null,
-    "disputed": false,
+    "low": 60.0,
+    "high": 180.0,
+    "text": "1시간~3시간 · 후기마다 다름",
+    "disputed": true,
     "label": "숙제량",
     "unit": "분/일"
    }
@@ -5831,7 +5837,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 52.2,
      "전체_유효언급": 92,
-     "코호트_z점수": 0.52,
+     "코호트_z점수": 0.53,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -5956,6 +5962,26 @@
     "disputed": false,
     "label": "수업 횟수",
     "unit": "회/주"
+   },
+   "fact.class_minutes": {
+    "n": 1,
+    "sources": 1,
+    "quotes": [
+     {
+      "quote": "수업시간은 총 90분입니다.",
+      "url": "https://blog.naver.com/yonseiqueen/222145701641",
+      "claimId": "fa91f2f86125e598",
+      "postedAt": "2020-11-16"
+     }
+    ],
+    "stale": true,
+    "value": null,
+    "low": null,
+    "high": null,
+    "text": null,
+    "disputed": false,
+    "label": "1회 수업",
+    "unit": "분"
    }
   },
   "selectivityEvidence": [
@@ -6087,16 +6113,16 @@
     },
     "reputation": {
      "표본": 63,
-     "유효표본": 31.9,
+     "유효표본": 32.0,
      "긍정률": 94.8,
-     "의견_표명_가중치": 6.84,
+     "의견_표명_가중치": 6.83,
      "제외된_스팸": 63,
-     "가중_감성합": 4.01,
-     "가중치_총합": 8.54,
+     "가중_감성합": 4.0,
+     "가중치_총합": 8.52,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.47 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 31.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.469 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 32.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -6236,8 +6262,8 @@
     "unit": "회/월"
    },
    "fact.class_freq": {
-    "n": 2,
-    "sources": 2,
+    "n": 3,
+    "sources": 3,
     "quotes": [
      {
       "quote": "시간표: 주 3회 각 110분(월/수/금) 또는 주 2회 각 160분 (화/목)",
@@ -6250,6 +6276,12 @@
       "url": "https://blog.naver.com/tabong98/222039379193",
       "claimId": "504171ac3c3b234a",
       "postedAt": "2020-07-23"
+     },
+     {
+      "quote": "수업 시간은 학년과 단계에 따라 달라지지만, 주 3회 1시간 30분~2시간 20분 정도가 일반적이다.",
+      "url": "https://blog.naver.com/bogjo22/150034413468",
+      "claimId": "6857e763047c44f3",
+      "postedAt": "2008-08-19"
      }
     ],
     "stale": true,
@@ -6262,8 +6294,8 @@
     "unit": "회/주"
    },
    "fact.class_minutes": {
-    "n": 2,
-    "sources": 2,
+    "n": 3,
+    "sources": 3,
     "quotes": [
      {
       "quote": "시간표: 주 3회 각 110분(월/수/금) 또는 주 2회 각 160분 (화/목)",
@@ -6276,13 +6308,19 @@
       "url": "https://blog.naver.com/tabong98/222039379193",
       "claimId": "fa651d4dd7b60c62",
       "postedAt": "2020-07-23"
+     },
+     {
+      "quote": "수업 시간은 학년과 단계에 따라 달라지지만, 주 3회 1시간 30분~2시간 20분 정도가 일반적이다.",
+      "url": "https://blog.naver.com/bogjo22/150034413468",
+      "claimId": "748d6e1c89b491e0",
+      "postedAt": "2008-08-19"
      }
     ],
     "stale": true,
-    "value": 115.0,
-    "low": 110.0,
-    "high": 120.0,
-    "text": "115분 · 110분~120분",
+    "value": 110.0,
+    "low": 90.0,
+    "high": 140.0,
+    "text": "110분 · 90분~140분",
     "disputed": false,
     "label": "1회 수업",
     "unit": "분"
@@ -6290,9 +6328,9 @@
    "derived.class_hours": {
     "label": "주당 수업시간",
     "unit": "시간/주",
-    "text": "5.8시간",
-    "value": 5.8,
-    "n": 2,
+    "text": "5.5시간",
+    "value": 5.5,
+    "n": 3,
     "derivedFrom": [
      "fact.class_freq",
      "fact.class_minutes"
@@ -6432,14 +6470,14 @@
      "표본": 25,
      "유효표본": 16.8,
      "긍정률": 89.9,
-     "의견_표명_가중치": 4.56,
+     "의견_표명_가중치": 4.54,
      "제외된_스팸": 11,
-     "가중_감성합": 2.59,
-     "가중치_총합": 5.62,
+     "가중_감성합": 2.58,
+     "가중치_총합": 5.6,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.461 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 16.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.46 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 16.8건)"
     },
     "momentum": {
      "최근90일_언급": 2,
@@ -6669,7 +6707,7 @@
   "score": {
    "total": 49.8,
    "reputation": 39.1,
-   "momentum": 57.2,
+   "momentum": 57.3,
    "transparency": 100.0,
    "selectivity": 35.8,
    "sampleSize": 215,
@@ -6693,14 +6731,14 @@
      "표본": 96,
      "유효표본": 63.6,
      "긍정률": 77.1,
-     "의견_표명_가중치": 13.13,
+     "의견_표명_가중치": 13.12,
      "제외된_스팸": 134,
-     "가중_감성합": 3.91,
-     "가중치_총합": 15.84,
+     "가중_감성합": 3.9,
+     "가중치_총합": 15.83,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.247 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 63.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.246 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 63.6건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -6745,7 +6783,7 @@
    "english": {
     "total": 49.8,
     "reputation": 39.1,
-    "momentum": 57.2,
+    "momentum": 57.3,
     "transparency": 100.0,
     "selectivity": 35.8,
     "sampleSize": 215,
@@ -6814,8 +6852,8 @@
   ],
   "facts": {
    "fact.class_freq": {
-    "n": 2,
-    "sources": 2,
+    "n": 3,
+    "sources": 3,
     "quotes": [
      {
       "quote": "자체교재 에이프릴(영어) 주3회 15:45-17:15 369,000 (교재비 추가로 월 5만원 선).",
@@ -6827,6 +6865,12 @@
       "quote": "초등학원8편 청담 에이프릴 --도곡 럭키아파트 10명 28만원(주3회 1시간 30분) 저학년 기본다지기에 유명하다",
       "url": "https://cafe.naver.com/story82/1879",
       "claimId": "3617c0ae45af24c1",
+      "postedAt": null
+     },
+     {
+      "quote": "영어는 월수금 에이프릴 다니기루 했어용",
+      "url": "https://cafe.naver.com/helioedu/1121",
+      "claimId": "2b017c73cd620051",
       "postedAt": null
      }
     ],
@@ -7010,7 +7054,7 @@
    "reputation": 54.8,
    "momentum": 54.8,
    "transparency": 94.0,
-   "selectivity": 64.1,
+   "selectivity": 64.0,
    "sampleSize": 164,
    "confidence": "high",
    "isRanked": true,
@@ -7032,18 +7076,18 @@
      "표본": 108,
      "유효표본": 56.4,
      "긍정률": 96.0,
-     "의견_표명_가중치": 10.02,
+     "의견_표명_가중치": 10.0,
      "제외된_스팸": 62,
-     "가중_감성합": 4.96,
-     "가중치_총합": 12.51,
+     "가중_감성합": 4.95,
+     "가중치_총합": 12.49,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.397 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 56.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.396 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 56.4건)"
     },
     "momentum": {
      "최근90일_언급": 3,
-     "최신성_가중합": 87.6,
+     "최신성_가중합": 87.5,
      "전체_유효언급": 164,
      "코호트_z점수": 0.74,
      "월별_추세_상대기울기": -0.151,
@@ -7087,7 +7131,7 @@
     "reputation": 54.8,
     "momentum": 54.8,
     "transparency": 94.0,
-    "selectivity": 64.1,
+    "selectivity": 64.0,
     "sampleSize": 164,
     "confidence": "high",
     "isRanked": true,
@@ -7154,7 +7198,7 @@
   ],
   "facts": {
    "fact.class_freq": {
-    "n": 4,
+    "n": 5,
     "sources": 4,
     "quotes": [
      {
@@ -7192,8 +7236,8 @@
     "unit": "회/주"
    },
    "fact.class_minutes": {
-    "n": 20,
-    "sources": 9,
+    "n": 22,
+    "sources": 10,
     "quotes": [
      {
       "quote": "아이엔은 주2회 3시간씩 수업합니다.",
@@ -7495,8 +7539,8 @@
     "unit": "회/주"
    },
    "fact.class_minutes": {
-    "n": 2,
-    "sources": 2,
+    "n": 4,
+    "sources": 4,
     "quotes": [
      {
       "quote": "…반 정 원] 4-6 [과 제 분 량] 과제없음 [수 업 시 수] 주1회 90분 [셔 틀 여 부] 없음 [레벨테스트] 없음 [수 강 료] 분기별 수강으…",
@@ -7509,13 +7553,25 @@
       "url": "https://cafe.naver.com/cjsam/5050129",
       "claimId": "990965e0c1a386e2",
       "postedAt": null
+     },
+     {
+      "quote": "[수업시간] ➡ 2시간",
+      "url": "https://cafe.naver.com/clever09/161717",
+      "claimId": "8d768fe02836f379",
+      "postedAt": null
+     },
+     {
+      "quote": "[수업시간] ➡ 2시간",
+      "url": "https://cafe.naver.com/food100/438155",
+      "claimId": "87b9214af99b371f",
+      "postedAt": null
      }
     ],
     "stale": false,
-    "value": 75.0,
+    "value": 105.0,
     "low": 60.0,
-    "high": 90.0,
-    "text": "75분 · 60분~90분",
+    "high": 120.0,
+    "text": "105분 · 60분~120분",
     "disputed": false,
     "label": "1회 수업",
     "unit": "분"
@@ -7523,8 +7579,8 @@
    "derived.class_hours": {
     "label": "주당 수업시간",
     "unit": "시간/주",
-    "text": "1.2시간",
-    "value": 1.2,
+    "text": "1.8시간",
+    "value": 1.8,
     "n": 2,
     "derivedFrom": [
      "fact.class_freq",
@@ -7612,11 +7668,11 @@
   "establishedOn": "2002-05-09",
   "dataSource": "neis",
   "score": {
-   "total": 60.6,
-   "reputation": 38.7,
+   "total": 60.5,
+   "reputation": 38.6,
    "momentum": 60.5,
    "transparency": 100.0,
-   "selectivity": 65.6,
+   "selectivity": 65.5,
    "sampleSize": 336,
    "confidence": "high",
    "isRanked": true,
@@ -7636,20 +7692,20 @@
     },
     "reputation": {
      "표본": 194,
-     "유효표본": 124.4,
+     "유효표본": 124.6,
      "긍정률": 77.0,
-     "의견_표명_가중치": 34.54,
+     "의견_표명_가중치": 34.42,
      "제외된_스팸": 159,
-     "가중_감성합": 10.95,
-     "가중치_총합": 43.66,
+     "가중_감성합": 10.9,
+     "가중치_총합": 43.54,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.251 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 124.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.25 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 124.6건)"
     },
     "momentum": {
      "최근90일_언급": 20,
-     "최신성_가중합": 184.6,
+     "최신성_가중합": 184.4,
      "전체_유효언급": 336,
      "코호트_z점수": 1.25,
      "월별_추세_상대기울기": -0.064,
@@ -7678,7 +7734,7 @@
       "어렵게 통과": 1,
       "대기·웨이팅": 2
      },
-     "사건_강도": 1.21,
+     "사건_강도": 1.2,
      "서로_다른_작성자": 63,
      "확인율": 1.0,
      "최신_사건": "2026-08-31",
@@ -7690,11 +7746,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 60.6,
-    "reputation": 38.7,
+    "total": 60.5,
+    "reputation": 38.6,
     "momentum": 60.5,
     "transparency": 100.0,
-    "selectivity": 65.6,
+    "selectivity": 65.5,
     "sampleSize": 336,
     "confidence": "high",
     "isRanked": true,
@@ -7761,35 +7817,35 @@
   ],
   "facts": {
    "fact.class_freq": {
-    "n": 11,
-    "sources": 9,
+    "n": 18,
+    "sources": 15,
     "quotes": [
      {
-      "quote": "Critical Learning 주 2회 수업",
-      "url": "https://blog.naver.com/echoesofgreen/100102415085",
-      "claimId": "e97f3b1d9294f134",
-      "postedAt": "2010-03-24"
+      "quote": "수업은 주 1일 또는 주 2일 과정으로 나뉘고",
+      "url": "https://blog.naver.com/ebxll/224316611578",
+      "claimId": "5a3709033fa57453",
+      "postedAt": "2026-06-17"
      },
      {
-      "quote": "크리티컬 러닝과 크리티컬 워크샵 주 3회 수업을 통해 글로벌 인재가 되기 위한 언어적 역량을 단기간에 구출할 뿐…",
-      "url": "https://blog.naver.com/echoesofgreen/100102415085",
-      "claimId": "70dadcd358d82ed3",
-      "postedAt": "2010-03-24"
+      "quote": "교습 과정은 주 1일, 주 2일 수업이 있으며",
+      "url": "https://blog.naver.com/lettuce0904/224248059120",
+      "claimId": "ec43db9f1e05a82a",
+      "postedAt": "2026-04-14"
      },
      {
-      "quote": "청담은 별로라 제외했고 , 잠실, 잠실새내에서 다닐만한 주 2회 다독하며 재밌게 다닐만한.",
-      "url": "https://cafe.naver.com/songpalogue/375885",
-      "claimId": "49d403d4e8344888",
-      "postedAt": null
+      "quote": "이 학원에서는 외국어(영어) 교육과 보습/논술 과정을 제공하고 있으며, 주 1일 또는 2일 수업을 선택할 수 있다.",
+      "url": "https://blog.naver.com/spxkzjs12/224229464879",
+      "claimId": "69ab6f656241b875",
+      "postedAt": "2026-03-29"
      },
      {
-      "quote": "대치동 청담어학원 대치 청담어학원 HE OPEN 프로그램은 주 2회로 구성되어 있어요.",
-      "url": "https://cafe.naver.com/coodos9/120957",
-      "claimId": "6ab196206e06dbb2",
-      "postedAt": null
+      "quote": "청담어학원 대치브랜치는 주 1일 혹은 주 2일로 수업을 진행하며",
+      "url": "https://blog.naver.com/spxkzjs12/224229464319",
+      "claimId": "a74ce4e66e121189",
+      "postedAt": "2026-03-29"
      }
     ],
-    "stale": true,
+    "stale": false,
     "value": null,
     "low": 1.0,
     "high": 4.0,
@@ -7857,8 +7913,8 @@
     }
    },
    "fact.class_minutes": {
-    "n": 9,
-    "sources": 7,
+    "n": 12,
+    "sources": 10,
     "quotes": [
      {
       "quote": "학교 도서관은 일찍 닫아서 학원 셔틀 연계도 안되고, 동네 도서관에 있다가 보내자니 학교 셔틀 2번에 학원셔틀 2번까지 하루에 셔틀만 1시간 반 넘게 타는 ㅠㅠㅠ",
@@ -7873,16 +7929,16 @@
       "postedAt": "2026-08-16"
      },
      {
-      "quote": "청담어학원 대치브랜치는 주 1일 또는 주 2일 수업을 제공하며, 170분의 집중적인 수업이 진행된다.",
-      "url": "https://blog.naver.com/matcha2943/224184291309",
-      "claimId": "a94f63eebfd99cf3",
-      "postedAt": "2026-02-18"
+      "quote": "하루 170분씩 진행되는데",
+      "url": "https://blog.naver.com/ebxll/224316611578",
+      "claimId": "e2da28c67d7e8863",
+      "postedAt": "2026-06-17"
      },
      {
-      "quote": "이 학원은 평일과 주말에 다양한 시간대에 수업을 제공하며, 교습비는 주 1일 수업 기준으로 140,000원에…",
-      "url": "https://blog.naver.com/giyang1951/224132755147",
-      "claimId": "4cb8c36c682af5bf",
-      "postedAt": "2026-01-04"
+      "quote": "2일에 각 3시간 수업이고",
+      "url": "https://blog.naver.com/memset_/224189545720",
+      "claimId": "579cda45d9ae3359",
+      "postedAt": "2026-02-23"
      }
     ],
     "stale": false,
@@ -7893,6 +7949,26 @@
     "disputed": true,
     "label": "1회 수업",
     "unit": "분"
+   },
+   "fact.test_freq": {
+    "n": 1,
+    "sources": 1,
+    "quotes": [
+     {
+      "quote": "매주 실시하는 리뷰 테스트",
+      "url": "https://blog.naver.com/bogjo22/150034413426",
+      "claimId": "9c3645252d5f5441",
+      "postedAt": "2008-08-19"
+     }
+    ],
+    "stale": true,
+    "value": null,
+    "low": null,
+    "high": null,
+    "text": null,
+    "disputed": false,
+    "label": "시험 횟수",
+    "unit": "회/월"
    }
   },
   "selectivityEvidence": [
@@ -7999,11 +8075,11 @@
   "establishedOn": "2007-09-17",
   "dataSource": "neis",
   "score": {
-   "total": 57.8,
+   "total": 57.7,
    "reputation": 43.3,
    "momentum": 56.9,
    "transparency": 100.0,
-   "selectivity": 54.5,
+   "selectivity": 54.4,
    "sampleSize": 141,
    "confidence": "high",
    "isRanked": true,
@@ -8023,16 +8099,16 @@
     },
     "reputation": {
      "표본": 78,
-     "유효표본": 52.6,
+     "유효표본": 52.7,
      "긍정률": 97.2,
-     "의견_표명_가중치": 8.44,
+     "의견_표명_가중치": 8.43,
      "제외된_스팸": 66,
      "가중_감성합": 3.14,
-     "가중치_총합": 13.58,
+     "가중치_총합": 13.57,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.232 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 52.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.231 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 52.7건)"
     },
     "momentum": {
      "최근90일_언급": 2,
@@ -8075,11 +8151,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 57.8,
+    "total": 57.7,
     "reputation": 43.3,
     "momentum": 56.9,
     "transparency": 100.0,
-    "selectivity": 54.5,
+    "selectivity": 54.4,
     "sampleSize": 141,
     "confidence": "high",
     "isRanked": true,
@@ -8184,7 +8260,7 @@
     "unit": "회/주"
    },
    "fact.class_minutes": {
-    "n": 13,
+    "n": 14,
     "sources": 11,
     "quotes": [
      {
@@ -8372,14 +8448,14 @@
      "표본": 34,
      "유효표본": 21.8,
      "긍정률": 79.1,
-     "의견_표명_가중치": 4.71,
+     "의견_표명_가중치": 4.7,
      "제외된_스팸": 26,
-     "가중_감성합": 1.93,
-     "가중치_총합": 6.3,
+     "가중_감성합": 1.92,
+     "가중치_총합": 6.29,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.306 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 21.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.305 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 21.8건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -8442,7 +8518,7 @@
     "reputation": 54.1,
     "momentum": 50.8,
     "transparency": 100.0,
-    "selectivity": 20.1,
+    "selectivity": 20.0,
     "sampleSize": 18,
     "confidence": "medium",
     "isRanked": true,
@@ -8509,9 +8585,15 @@
   ],
   "facts": {
    "fact.class_minutes": {
-    "n": 2,
-    "sources": 2,
+    "n": 3,
+    "sources": 3,
     "quotes": [
+     {
+      "quote": "미래탐구는 대체적으로 일주일 2번 3시간씩 운영되는데",
+      "url": "https://blog.naver.com/vljlx/224295285159",
+      "claimId": "525634cfa5ecc71b",
+      "postedAt": "2026-05-24"
+     },
      {
       "quote": "20분쯤 늦게 들어갔다.",
       "url": "https://blog.naver.com/invisiblewoman/223464423130",
@@ -8525,7 +8607,7 @@
       "postedAt": null
      }
     ],
-    "stale": true,
+    "stale": false,
     "value": null,
     "low": 20.0,
     "high": 180.0,
@@ -8535,9 +8617,21 @@
     "unit": "분"
    },
    "fact.class_freq": {
-    "n": 2,
-    "sources": 1,
+    "n": 4,
+    "sources": 3,
     "quotes": [
+     {
+      "quote": "미래탐구는 대체적으로 일주일 2번 3시간씩 운영되는데",
+      "url": "https://blog.naver.com/vljlx/224295285159",
+      "claimId": "e750b1d5acc0073b",
+      "postedAt": "2026-05-24"
+     },
+     {
+      "quote": "백주현T의 100창수 강의는 입테없고 주1회라 부담없이 들을 수 있어서 시작.",
+      "url": "https://blog.naver.com/redgenie/224289942739",
+      "claimId": "4f330724f5fb926f",
+      "postedAt": "2026-05-19"
+     },
      {
       "quote": "황소 주2회, 미래탐구 주1회 지인 자녀가 황소 주2회, 미래탐구 주1회를 보낸다고 하더라구요~ 왜 그렇게 보내는지는 많이 친한사이가 아니라서 물어보진 못했는데.",
       "url": "https://cafe.naver.com/fm0rm1/41523",
@@ -8674,7 +8768,7 @@
    "reputation": 57.9,
    "momentum": 61.1,
    "transparency": 100.0,
-   "selectivity": 48.8,
+   "selectivity": 48.7,
    "sampleSize": 267,
    "confidence": "high",
    "isRanked": true,
@@ -8694,20 +8788,20 @@
     },
     "reputation": {
      "표본": 162,
-     "유효표본": 105.9,
+     "유효표본": 106.0,
      "긍정률": 94.9,
-     "의견_표명_가중치": 25.47,
+     "의견_표명_가중치": 25.37,
      "제외된_스팸": 163,
-     "가중_감성합": 13.15,
-     "가중치_총합": 33.45,
+     "가중_감성합": 13.09,
+     "가중치_총합": 33.34,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.393 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 105.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.393 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 106.0건)"
     },
     "momentum": {
      "최근90일_언급": 27,
-     "최신성_가중합": 156.0,
+     "최신성_가중합": 155.8,
      "전체_유효언급": 267,
      "코호트_z점수": 1.34,
      "월별_추세_상대기울기": -0.082,
@@ -8751,7 +8845,7 @@
     "reputation": 57.9,
     "momentum": 61.1,
     "transparency": 100.0,
-    "selectivity": 48.8,
+    "selectivity": 48.7,
     "sampleSize": 267,
     "confidence": "high",
     "isRanked": true,
@@ -9186,9 +9280,7 @@
   "lng": 127.0519194,
   "brand": null,
   "aliases": [],
-  "gradeBands": [
-   "high"
-  ],
+  "gradeBands": [],
   "stages": [],
   "stageBasis": {},
   "flagship": [],
@@ -9196,17 +9288,17 @@
   "establishedOn": "2024-02-15",
   "dataSource": "neis",
   "score": {
-   "total": 52.4,
-   "reputation": 42.4,
-   "momentum": 67.3,
+   "total": 53.8,
+   "reputation": 47.4,
+   "momentum": 63.5,
    "transparency": null,
    "selectivity": null,
-   "sampleSize": 191,
+   "sampleSize": 52,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "non_academic",
-   "positiveRate": 82.8,
+   "positiveRate": 81.1,
    "momentumDirection": "stable",
    "selectivityTier": null,
    "rankInRegion": 1,
@@ -9217,23 +9309,23 @@
      "momentum": 0.4
     },
     "reputation": {
-     "표본": 45,
-     "유효표본": 30.2,
-     "긍정률": 82.8,
-     "의견_표명_가중치": 4.57,
-     "제외된_스팸": 154,
-     "가중_감성합": 1.12,
-     "가중치_총합": 7.7,
-     "코호트_평균감성": 0.222,
-     "코호트_감성표준편차": 0.109,
+     "표본": 15,
+     "유효표본": 12.2,
+     "긍정률": 81.1,
+     "의견_표명_가중치": 2.73,
+     "제외된_스팸": 44,
+     "가중_감성합": 0.6,
+     "가중치_총합": 3.05,
+     "코호트_평균감성": 0.232,
+     "코호트_감성표준편차": 0.103,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.145 를 코호트 평균 0.222 쪽으로 12건만큼 축소 (유효표본 30.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.197 를 코호트 평균 0.232 쪽으로 12건만큼 축소 (유효표본 12.2건)"
     },
     "momentum": {
      "최근90일_언급": 0,
-     "최신성_가중합": 112.8,
-     "전체_유효언급": 191,
-     "코호트_z점수": 1.93,
+     "최신성_가중합": 31.2,
+     "전체_유효언급": 52,
+     "코호트_z점수": 1.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -9247,17 +9339,17 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 52.4,
-    "reputation": 42.4,
-    "momentum": 67.3,
+    "total": 53.8,
+    "reputation": 47.4,
+    "momentum": 63.5,
     "transparency": null,
     "selectivity": null,
-    "sampleSize": 191,
+    "sampleSize": 52,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "non_academic",
-    "positiveRate": 82.8,
+    "positiveRate": 81.1,
     "momentumDirection": "stable",
     "selectivityTier": null,
     "rankInRegion": 1,
@@ -9266,94 +9358,64 @@
   },
   "evidence": [
    {
-    "source": "naver_blog",
-    "url": "https://blog.naver.com/supapa13/221980419953",
-    "title": "프리미엄 3D 게이밍 헤드셋, 하이퍼엑스 클라우드 오르빗 에스(HyperX ....",
-    "snippet": "헐 2:1 상황!! \n ​ \n 배틀그라운드는 여러 가지 게이밍 기어 중에서도 어떤 헤드셋을 착용하는지에 따라 몰입감의 차원이 크게 달라지는 것 같습니다. 게임의 흐름이 전체적으로 좀 고요한 편이고, 갑작스레 등장하는",
-    "posted_at": "2020-05-27",
-    "sentiment": 0.808,
-    "credibility": 0.7,
-    "branch_basis": "region"
-   },
-   {
     "source": "naver_cafe",
-    "url": "https://cafe.naver.com/8weeks/8077",
-    "title": "지난 5년간 출시된 모든 Pro Tools 버전 : 레코딩 엔지니어를 위한 참고 자료",
-    "snippet": "Pro Tools의 역사 - 2012년부터 2018년까지는 Pro Tools 11의 64비트 전환, Pro Tools 12의 클라우드 협업 및 구독 시대, 12.8 HD의 Atmos 통합, 그리고 2018년부터 시작",
+    "url": "https://cafe.naver.com/junggambok/15786",
+    "title": "2023년 감리사 필기 합격에 이르는데 2,000여 시간을 돌아 왔습니다.",
+    "snippet": "IoT, 클라우드, HW 연계 등 깊이는 부족하지만 비교적 다양한 분야 경험 - SW 개발 프로젝트 관련 코딩 경험은... 09 ~ 11 : 기술사 시험 대비 학원 (기본반) - 2022.11 ~ 12 : 기술사 시",
     "posted_at": null,
-    "sentiment": 0.0,
-    "credibility": 0.56,
+    "sentiment": 0.446,
+    "credibility": 0.555,
     "branch_basis": "direct"
    },
    {
     "source": "naver_cafe",
-    "url": "https://cafe.naver.com/bluesail/16933",
-    "title": "K디지털 클라우드(AWS) 아키텍처 부트캠프, 리눅스 쌩노베인데 AWS 자격증(SAA)....",
-    "snippet": "비전공자인데 개발은 머리 아플 것 같아서 클라우드 인프라(AWS) 엔지니어 6개월 국비 과정을... 따고 클라우드 MSP(메가존 등) 업체 신입으로 뚫을 수 있을까요? 포트폴리오는 어떻게 채워야 서류 통과되는지 현실",
+    "url": "https://cafe.naver.com/ircall/27086",
+    "title": "자람테크놀러지--주담통화(0620)",
+    "snippet": "- 25GS-PON 자체 칩: 2025년 12월 삼성파운드리에서 샘플칩을 수령해 칩 레벨 테스트를 완료했고, 현재 저희... KT 클라우드 등과 협의를 진행하고 있습니다. - 기가와이어: 북미 고객사가 Verizon",
     "posted_at": null,
-    "sentiment": 0.273,
-    "credibility": 0.557,
+    "sentiment": 0.0,
+    "credibility": 0.546,
     "branch_basis": "direct"
    },
    {
     "source": "naver_cafe",
-    "url": "https://cafe.naver.com/aistockaz/596",
-    "title": "2021년 6월 2일, 수요일, 오늘의 관심종목, 진짜전략주식, 증권, 글로벌 이슈 ....",
-    "snippet": "FIDO인증서비스와 클라우드 전자서명서비스를 론칭함. 최근 글로벌자체 인증서비스인 CCMPKI를 개발하여... 호환되는 클라우드 전자서명 기술 등을 개발함. 주요제품 매출구성 * 단위 : % 공동인증서비스 62.97",
+    "url": "https://cafe.naver.com/livearmy/372668",
+    "title": "7개월차 복스코어 후기",
+    "snippet": "요즘 연말에 친구들과 약속을 잡고있는데 제가 토요일은 안된다고 하자 친구들이 물어봅니다 친구 : 너 학원... 마치 10기 클라우드가 존재하는 듯한. 아무리 노트에쓰고 레슨일기에 써도 오리무중이였을 때 동기의...",
     "posted_at": null,
     "sentiment": 0.0,
-    "credibility": 0.556,
+    "credibility": 0.527,
     "branch_basis": "direct"
    },
    {
     "source": "naver_cafe",
-    "url": "https://cafe.naver.com/beetlekidhomeschool/1927",
-    "title": "이미 온 미래, AI 시대: 무엇을 어떻게 가르쳐야 할까?-1",
-    "snippet": "Amazon 2024년까지의 총 해고 규모: 약 27,000명/AWS 클라우드 부서 10% 감원... AWS (클라우드 컴퓨팅): AI 서비스 통합 재편, 인력 재배치: 15% 생성형 AI 클라우드 솔루션 강화 물류",
+    "url": "https://cafe.naver.com/hikicks/2122428",
+    "title": "클라우드엔지니어국비지원과정 <취업,연봉,취업률> 걱정이라면?",
+    "snippet": "클라우드 엔지니어로의 성공적인 첫걸음은 어떤 국비지원 학원을 선택하느냐에 달려 있습니다. 교육기관을 선택할 때는 몇 가지 중요한 기준을 반드시 고려해야 합니다. 첫째, 이론 중심이 아닌 실무 중심의 교육을...",
     "posted_at": null,
     "sentiment": 0.0,
-    "credibility": 0.556,
+    "credibility": 0.491,
+    "branch_basis": "direct"
+   },
+   {
+    "source": "naver_cafe",
+    "url": "https://cafe.naver.com/uccplus/2401454",
+    "title": "국민내일배움카드 사용처 어디서 쓰나? 2026 총정리",
+    "snippet": "직업전문학원. 정해진 시간에 출석하는 현장 수업 온라인 원격훈련 고용24 등록 인터넷 과정. 출퇴근·육아로 바쁠 때 활용. 동영상 시청시간으로 출석 인정 KDT AI·데이터·클라우드 등 디지털 신기술 집중 과정 (K",
+    "posted_at": null,
+    "sentiment": 0.0,
+    "credibility": 0.49,
     "branch_basis": "direct"
    }
   ],
   "facts": {},
   "selectivityEvidence": [
    {
-    "claimId": "7d3e8152c977829e",
-    "kind": "sel.waitlist",
-    "label": "대기·웨이팅",
-    "quote": "…센터 4단 체인: 클라우드/빅테크: 애플 강세, MS·메타·아마존 실적 대기 속 관망 반도체: 마이크론 급락 등 미 증시 내 반도체 약세였으나 주말…",
-    "url": "https://cafe.naver.com/todaybigboss/5899",
-    "postedAt": null,
-    "status": "active",
-    "revokedReason": null
-   },
-   {
     "claimId": "7ef744f7e8391d2d",
     "kind": "sel.waitlist",
     "label": "대기·웨이팅",
     "quote": "오늘은 대기업 IT회사출신 복영일 팀장입니다.",
     "url": "https://cafe.naver.com/nomacomnovels2/2326",
-    "postedAt": null,
-    "status": "active",
-    "revokedReason": null
-   },
-   {
-    "claimId": "42fc2d5078f9d181",
-    "kind": "sel.full",
-    "label": "정원 마감",
-    "quote": "[구인정보/도쿄 근무] ISF NET - 일영 바이링구얼 IT 인프라 엔지니어 (8/24 마감.",
-    "url": "https://cafe.naver.com/kotratokyo/44022",
-    "postedAt": null,
-    "status": "active",
-    "revokedReason": null
-   },
-   {
-    "claimId": "9ed28f62ddda5da1",
-    "kind": "sel.full",
-    "label": "정원 마감",
-    "quote": "그러나 장 마감 직후.",
-    "url": "https://cafe.naver.com/todaybigboss/5664",
     "postedAt": null,
     "status": "active",
     "revokedReason": null
@@ -10212,17 +10274,17 @@
   "establishedOn": "2014-05-01",
   "dataSource": "neis",
   "score": {
-   "total": 60.8,
+   "total": 60.7,
    "reputation": 42.3,
    "momentum": 51.9,
    "transparency": 96.0,
-   "selectivity": 67.9,
+   "selectivity": 67.8,
    "sampleSize": 170,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 83.9,
+   "positiveRate": 83.8,
    "momentumDirection": "falling",
    "selectivityTier": "high",
    "rankInRegion": 5,
@@ -10237,11 +10299,11 @@
     "reputation": {
      "표본": 112,
      "유효표본": 56.0,
-     "긍정률": 83.9,
-     "의견_표명_가중치": 8.93,
+     "긍정률": 83.8,
+     "의견_표명_가중치": 8.92,
      "제외된_스팸": 68,
-     "가중_감성합": 3.08,
-     "가중치_총합": 11.16,
+     "가중_감성합": 3.07,
+     "가중치_총합": 11.15,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
@@ -10290,17 +10352,17 @@
   },
   "subjectScores": {
    "english": {
-    "total": 60.8,
+    "total": 60.7,
     "reputation": 42.3,
     "momentum": 51.9,
     "transparency": 96.0,
-    "selectivity": 67.9,
+    "selectivity": 67.8,
     "sampleSize": 170,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 83.9,
+    "positiveRate": 83.8,
     "momentumDirection": "falling",
     "selectivityTier": "high",
     "rankInRegion": 5,
@@ -10557,10 +10619,10 @@
      "표본": 94,
      "유효표본": 55.8,
      "긍정률": 89.7,
-     "의견_표명_가중치": 7.52,
+     "의견_표명_가중치": 7.51,
      "제외된_스팸": 48,
      "가중_감성합": 3.14,
-     "가중치_총합": 9.66,
+     "가중치_총합": 9.65,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
@@ -10843,11 +10905,11 @@
   "establishedOn": "2006-07-12",
   "dataSource": "neis",
   "score": {
-   "total": 72.2,
+   "total": 72.1,
    "reputation": 65.1,
    "momentum": 59.1,
    "transparency": 100.0,
-   "selectivity": 72.9,
+   "selectivity": 72.7,
    "sampleSize": 269,
    "confidence": "high",
    "isRanked": true,
@@ -10867,20 +10929,20 @@
     },
     "reputation": {
      "표본": 186,
-     "유효표본": 62.7,
+     "유효표본": 62.8,
      "긍정률": 95.2,
-     "의견_표명_가중치": 16.91,
+     "의견_표명_가중치": 16.85,
      "제외된_스팸": 111,
-     "가중_감성합": 9.9,
-     "가중치_총합": 20.0,
+     "가중_감성합": 9.86,
+     "가중치_총합": 19.95,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.495 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 62.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.494 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 62.8건)"
     },
     "momentum": {
      "최근90일_언급": 13,
-     "최신성_가중합": 118.7,
+     "최신성_가중합": 118.6,
      "전체_유효언급": 269,
      "코호트_z점수": 0.95,
      "월별_추세_상대기울기": 0.045,
@@ -10921,11 +10983,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 72.2,
+    "total": 72.1,
     "reputation": 65.1,
     "momentum": 59.1,
     "transparency": 100.0,
-    "selectivity": 72.9,
+    "selectivity": 72.7,
     "sampleSize": 269,
     "confidence": "high",
     "isRanked": true,
@@ -11203,7 +11265,7 @@
    "reputation": 34.5,
    "momentum": 54.0,
    "transparency": 96.0,
-   "selectivity": 48.7,
+   "selectivity": 48.6,
    "sampleSize": 151,
    "confidence": "high",
    "isRanked": true,
@@ -11225,10 +11287,10 @@
      "표본": 107,
      "유효표본": 61.5,
      "긍정률": 77.3,
-     "의견_표명_가중치": 10.12,
+     "의견_표명_가중치": 10.11,
      "제외된_스팸": 52,
      "가중_감성합": 2.66,
-     "가중치_총합": 13.16,
+     "가중치_총합": 13.15,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
@@ -11279,7 +11341,7 @@
     "reputation": 34.5,
     "momentum": 54.0,
     "transparency": 96.0,
-    "selectivity": 48.7,
+    "selectivity": 48.6,
     "sampleSize": 151,
     "confidence": "high",
     "isRanked": true,
@@ -11293,7 +11355,7 @@
    },
    "math": {
     "total": 48.4,
-    "reputation": 46.2,
+    "reputation": 46.1,
     "momentum": 42.0,
     "transparency": 96.0,
     "selectivity": 33.0,
@@ -11943,11 +12005,11 @@
   "establishedOn": "2011-10-10",
   "dataSource": "neis",
   "score": {
-   "total": 56.6,
+   "total": 56.5,
    "reputation": 42.5,
    "momentum": 55.9,
    "transparency": 98.0,
-   "selectivity": 53.2,
+   "selectivity": 53.1,
    "sampleSize": 165,
    "confidence": "high",
    "isRanked": true,
@@ -11967,16 +12029,16 @@
     },
     "reputation": {
      "표본": 123,
-     "유효표본": 62.4,
+     "유효표본": 62.5,
      "긍정률": 90.6,
-     "의견_표명_가중치": 8.24,
+     "의견_표명_가중치": 8.22,
      "제외된_스팸": 51,
-     "가중_감성합": 3.45,
-     "가중치_총합": 15.34,
+     "가중_감성합": 3.44,
+     "가중치_총합": 15.32,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.225 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 62.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.224 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 62.5건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -12021,11 +12083,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 56.6,
+    "total": 56.5,
     "reputation": 42.5,
     "momentum": 55.9,
     "transparency": 98.0,
-    "selectivity": 53.2,
+    "selectivity": 53.1,
     "sampleSize": 165,
     "confidence": "high",
     "isRanked": true,
@@ -12039,7 +12101,7 @@
    },
    "korean": {
     "total": 40.8,
-    "reputation": 56.2,
+    "reputation": 56.1,
     "momentum": 43.1,
     "transparency": 98.0,
     "selectivity": null,
@@ -12048,7 +12110,7 @@
     "isRanked": false,
     "isComplete": false,
     "subjectGroup": "academic",
-    "positiveRate": 71.8,
+    "positiveRate": 71.7,
     "momentumDirection": "stable",
     "selectivityTier": null,
     "rankInRegion": null,
@@ -12280,11 +12342,11 @@
   "establishedOn": "2005-04-13",
   "dataSource": "neis",
   "score": {
-   "total": 60.4,
+   "total": 60.5,
    "reputation": 53.1,
-   "momentum": 58.8,
+   "momentum": 59.5,
    "transparency": 100.0,
-   "selectivity": 51.4,
+   "selectivity": 51.3,
    "sampleSize": 251,
    "confidence": "high",
    "isRanked": true,
@@ -12304,23 +12366,23 @@
     },
     "reputation": {
      "표본": 167,
-     "유효표본": 52.2,
+     "유효표본": 52.3,
      "긍정률": 88.5,
-     "의견_표명_가중치": 11.38,
+     "의견_표명_가중치": 11.34,
      "제외된_스팸": 103,
-     "가중_감성합": 5.59,
-     "가중치_총합": 14.67,
+     "가중_감성합": 5.56,
+     "가중치_총합": 14.64,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.381 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 52.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.38 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 52.3건)"
     },
     "momentum": {
      "최근90일_언급": 8,
      "최신성_가중합": 118.9,
      "전체_유효언급": 251,
      "코호트_z점수": 0.95,
-     "월별_추세_상대기울기": 0.021,
+     "월별_추세_상대기울기": 0.081,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
     "transparency": {
@@ -12358,11 +12420,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 60.4,
+    "total": 60.5,
     "reputation": 53.1,
-    "momentum": 58.8,
+    "momentum": 59.5,
     "transparency": 100.0,
-    "selectivity": 51.4,
+    "selectivity": 51.3,
     "sampleSize": 251,
     "confidence": "high",
     "isRanked": true,
@@ -12772,11 +12834,11 @@
   "establishedOn": "2008-01-10",
   "dataSource": "neis",
   "score": {
-   "total": 61.4,
+   "total": 61.3,
    "reputation": 57.9,
    "momentum": 61.1,
    "transparency": 99.0,
-   "selectivity": 48.8,
+   "selectivity": 48.7,
    "sampleSize": 267,
    "confidence": "high",
    "isRanked": true,
@@ -12796,20 +12858,20 @@
     },
     "reputation": {
      "표본": 162,
-     "유효표본": 105.9,
+     "유효표본": 106.0,
      "긍정률": 94.9,
-     "의견_표명_가중치": 25.47,
+     "의견_표명_가중치": 25.37,
      "제외된_스팸": 163,
-     "가중_감성합": 13.15,
-     "가중치_총합": 33.45,
+     "가중_감성합": 13.09,
+     "가중치_총합": 33.34,
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.393 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 105.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.393 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 106.0건)"
     },
     "momentum": {
      "최근90일_언급": 27,
-     "최신성_가중합": 156.0,
+     "최신성_가중합": 155.8,
      "전체_유효언급": 267,
      "코호트_z점수": 1.34,
      "월별_추세_상대기울기": -0.082,
@@ -12849,11 +12911,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 61.4,
+    "total": 61.3,
     "reputation": 57.9,
     "momentum": 61.1,
     "transparency": 99.0,
-    "selectivity": 48.8,
+    "selectivity": 48.7,
     "sampleSize": 267,
     "confidence": "high",
     "isRanked": true,
@@ -13039,7 +13101,7 @@
   "dataSource": "neis",
   "score": {
    "total": 44.9,
-   "reputation": 47.5,
+   "reputation": 47.6,
    "momentum": 56.7,
    "transparency": 99.0,
    "selectivity": 14.0,
@@ -13114,7 +13176,7 @@
   "subjectScores": {
    "math": {
     "total": 44.9,
-    "reputation": 47.5,
+    "reputation": 47.6,
     "momentum": 56.7,
     "transparency": 99.0,
     "selectivity": 14.0,
@@ -13320,7 +13382,7 @@
    "reputation": 50.6,
    "momentum": 60.0,
    "transparency": 96.0,
-   "selectivity": 78.0,
+   "selectivity": 77.9,
    "sampleSize": 276,
    "confidence": "high",
    "isRanked": true,
@@ -13340,20 +13402,20 @@
     },
     "reputation": {
      "표본": 188,
-     "유효표본": 92.9,
+     "유효표본": 93.0,
      "긍정률": 91.5,
-     "의견_표명_가중치": 18.74,
+     "의견_표명_가중치": 18.7,
      "제외된_스팸": 109,
-     "가중_감성합": 8.73,
-     "가중치_총합": 24.55,
+     "가중_감성합": 8.7,
+     "가중치_총합": 24.5,
      "코호트_평균감성": 0.35,
      "코호트_감성표준편차": 0.12,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.356 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 92.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.355 를 코호트 평균 0.35 쪽으로 12건만큼 축소 (유효표본 93.0건)"
     },
     "momentum": {
-     "최근90일_언급": 10,
-     "최신성_가중합": 144.7,
+     "최근90일_언급": 9,
+     "최신성_가중합": 144.6,
      "전체_유효언급": 276,
      "코호트_z점수": 1.08,
      "월별_추세_상대기울기": 0.017,
@@ -13399,7 +13461,7 @@
     "reputation": 50.6,
     "momentum": 60.0,
     "transparency": 96.0,
-    "selectivity": 78.0,
+    "selectivity": 77.9,
     "sampleSize": 276,
     "confidence": "high",
     "isRanked": true,
@@ -13661,9 +13723,9 @@
   "establishedOn": "2026-06-23",
   "dataSource": "neis",
   "score": {
-   "total": 45.1,
+   "total": 44.3,
    "reputation": 50.0,
-   "momentum": 37.8,
+   "momentum": 35.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 0,
@@ -13689,7 +13751,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.36,
+     "코호트_z점수": -1.57,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -13703,9 +13765,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 45.1,
+    "total": 44.3,
     "reputation": 50.0,
-    "momentum": 37.8,
+    "momentum": 35.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 0,
@@ -14371,7 +14433,7 @@
   "score": {
    "total": 35.8,
    "reputation": 47.5,
-   "momentum": 30.9,
+   "momentum": 31.0,
    "transparency": 97.0,
    "selectivity": null,
    "sampleSize": 1,
@@ -14439,7 +14501,7 @@
    "math": {
     "total": 35.8,
     "reputation": 47.5,
-    "momentum": 30.9,
+    "momentum": 31.0,
     "transparency": 97.0,
     "selectivity": null,
     "sampleSize": 1,
@@ -14644,9 +14706,9 @@
   "establishedOn": "1998-06-29",
   "dataSource": "neis",
   "score": {
-   "total": 46.3,
+   "total": 45.8,
    "reputation": 50.0,
-   "momentum": 40.7,
+   "momentum": 39.6,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 1,
@@ -14672,7 +14734,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.03,
+     "코호트_z점수": -1.16,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -14686,9 +14748,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 46.3,
+    "total": 45.8,
     "reputation": 50.0,
-    "momentum": 40.7,
+    "momentum": 39.6,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 1,
@@ -14958,9 +15020,9 @@
   "establishedOn": "2020-08-31",
   "dataSource": "neis",
   "score": {
-   "total": 45.1,
+   "total": 44.3,
    "reputation": 50.0,
-   "momentum": 37.8,
+   "momentum": 35.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 0,
@@ -14986,7 +15048,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.36,
+     "코호트_z점수": -1.57,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -15000,9 +15062,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 45.1,
+    "total": 44.3,
     "reputation": 50.0,
-    "momentum": 37.8,
+    "momentum": 35.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 0,
@@ -15576,9 +15638,9 @@
   "establishedOn": "1998-06-18",
   "dataSource": "neis",
   "score": {
-   "total": 46.3,
+   "total": 45.8,
    "reputation": 50.0,
-   "momentum": 40.7,
+   "momentum": 39.6,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 1,
@@ -15604,7 +15666,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.03,
+     "코호트_z점수": -1.16,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -15618,9 +15680,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 46.3,
+    "total": 45.8,
     "reputation": 50.0,
-    "momentum": 40.7,
+    "momentum": 39.6,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 1,
@@ -16147,7 +16209,7 @@
   "score": {
    "total": 35.6,
    "reputation": 50.0,
-   "momentum": 30.9,
+   "momentum": 31.0,
    "transparency": 90.0,
    "selectivity": null,
    "sampleSize": 1,
@@ -16206,7 +16268,7 @@
    "math": {
     "total": 35.6,
     "reputation": 50.0,
-    "momentum": 30.9,
+    "momentum": 31.0,
     "transparency": 90.0,
     "selectivity": null,
     "sampleSize": 1,
@@ -17580,11 +17642,11 @@
      "코호트_평균감성": 0.309,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.623 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 4.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.622 를 코호트 평균 0.309 쪽으로 12건만큼 축소 (유효표본 4.8건)"
     },
     "momentum": {
      "최근90일_언급": 1,
-     "최신성_가중합": 2.5,
+     "최신성_가중합": 2.4,
      "전체_유효언급": 6,
      "코호트_z점수": -1.54,
      "월별_추세_상대기울기": -0.167,
@@ -17863,8 +17925,8 @@
   "establishedOn": "2006-11-07",
   "dataSource": "neis",
   "score": {
-   "total": 41.3,
-   "reputation": 57.3,
+   "total": 41.4,
+   "reputation": 57.4,
    "momentum": 41.8,
    "transparency": 100.0,
    "selectivity": null,
@@ -17931,8 +17993,8 @@
   },
   "subjectScores": {
    "english": {
-    "total": 41.3,
-    "reputation": 57.3,
+    "total": 41.4,
+    "reputation": 57.4,
     "momentum": 41.8,
     "transparency": 100.0,
     "selectivity": null,
@@ -18514,9 +18576,9 @@
   "establishedOn": "2013-06-18",
   "dataSource": "neis",
   "score": {
-   "total": 53.8,
+   "total": 53.9,
    "reputation": 58.6,
-   "momentum": 46.5,
+   "momentum": 46.9,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 5,
@@ -18542,16 +18604,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.63,
      "가중치_총합": 1.45,
-     "코호트_평균감성": 0.222,
-     "코호트_감성표준편차": 0.109,
+     "코호트_평균감성": 0.232,
+     "코호트_감성표준편차": 0.103,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.435 를 코호트 평균 0.222 쪽으로 12건만큼 축소 (유효표본 4.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.435 를 코호트 평균 0.232 쪽으로 12건만큼 축소 (유효표본 4.9건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 3.0,
      "전체_유효언급": 5,
-     "코호트_z점수": -0.39,
+     "코호트_z점수": -0.34,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -18565,9 +18627,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 53.8,
+    "total": 53.9,
     "reputation": 58.6,
-    "momentum": 46.5,
+    "momentum": 46.9,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 5,
@@ -18852,9 +18914,9 @@
   "establishedOn": "2016-10-13",
   "dataSource": "neis",
   "score": {
-   "total": 48.3,
-   "reputation": 49.5,
-   "momentum": 46.5,
+   "total": 48.2,
+   "reputation": 49.1,
+   "momentum": 46.9,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 5,
@@ -18880,16 +18942,16 @@
      "제외된_스팸": 1,
      "가중_감성합": 0.19,
      "가중치_총합": 0.93,
-     "코호트_평균감성": 0.222,
-     "코호트_감성표준편차": 0.109,
+     "코호트_평균감성": 0.232,
+     "코호트_감성표준편차": 0.103,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.222 쪽으로 12건만큼 축소 (유효표본 4.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.232 쪽으로 12건만큼 축소 (유효표본 4.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 3.0,
      "전체_유효언급": 5,
-     "코호트_z점수": -0.39,
+     "코호트_z점수": -0.34,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -18903,9 +18965,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 48.3,
-    "reputation": 49.5,
-    "momentum": 46.5,
+    "total": 48.2,
+    "reputation": 49.1,
+    "momentum": 46.9,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 5,
@@ -19170,9 +19232,9 @@
   "establishedOn": "2014-04-04",
   "dataSource": "neis",
   "score": {
-   "total": 45.1,
+   "total": 44.3,
    "reputation": 50.0,
-   "momentum": 37.8,
+   "momentum": 35.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 0,
@@ -19198,7 +19260,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.36,
+     "코호트_z점수": -1.57,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -19212,9 +19274,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 45.1,
+    "total": 44.3,
     "reputation": 50.0,
-    "momentum": 37.8,
+    "momentum": 35.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 0,
@@ -20063,9 +20125,9 @@
   "establishedOn": "2011-07-11",
   "dataSource": "neis",
   "score": {
-   "total": 45.1,
+   "total": 44.3,
    "reputation": 50.0,
-   "momentum": 37.8,
+   "momentum": 35.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 0,
@@ -20091,7 +20153,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -1.36,
+     "코호트_z점수": -1.57,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -20105,9 +20167,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 45.1,
+    "total": 44.3,
     "reputation": 50.0,
-    "momentum": 37.8,
+    "momentum": 35.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 0,
@@ -20166,10 +20228,10 @@
   "dataSource": "neis",
   "score": {
    "total": 67.7,
-   "reputation": 57.6,
-   "momentum": 56.2,
+   "reputation": 57.5,
+   "momentum": 56.3,
    "transparency": 92.0,
-   "selectivity": 72.4,
+   "selectivity": 72.3,
    "sampleSize": 198,
    "confidence": "high",
    "isRanked": true,
@@ -20191,20 +20253,20 @@
      "표본": 135,
      "유효표본": 72.1,
      "긍정률": 94.2,
-     "의견_표명_가중치": 13.73,
+     "의견_표명_가중치": 13.71,
      "제외된_스팸": 81,
-     "가중_감성합": 6.02,
-     "가중치_총합": 18.02,
+     "가중_감성합": 6.01,
+     "가중치_총합": 18.0,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.334 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 72.1건)"
     },
     "momentum": {
-     "최근90일_언급": 5,
-     "최신성_가중합": 91.9,
+     "최근90일_언급": 4,
+     "최신성_가중합": 91.8,
      "전체_유효언급": 198,
-     "코호트_z점수": 0.8,
+     "코호트_z점수": 0.81,
      "월별_추세_상대기울기": -0.082,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -20245,10 +20307,10 @@
   "subjectScores": {
    "english": {
     "total": 67.7,
-    "reputation": 57.6,
-    "momentum": 56.2,
+    "reputation": 57.5,
+    "momentum": 56.3,
     "transparency": 92.0,
-    "selectivity": 72.4,
+    "selectivity": 72.3,
     "sampleSize": 198,
     "confidence": "high",
     "isRanked": true,
@@ -20524,11 +20586,11 @@
   "establishedOn": "2024-09-06",
   "dataSource": "neis",
   "score": {
-   "total": 58.8,
-   "reputation": 53.0,
-   "momentum": 57.5,
+   "total": 58.4,
+   "reputation": 51.3,
+   "momentum": 58.5,
    "transparency": 59.0,
-   "selectivity": 65.2,
+   "selectivity": 65.1,
    "sampleSize": 177,
    "confidence": "high",
    "isRanked": true,
@@ -20548,22 +20610,22 @@
     },
     "reputation": {
      "표본": 136,
-     "유효표본": 96.9,
+     "유효표본": 97.0,
      "긍정률": 84.9,
-     "의견_표명_가중치": 20.17,
+     "의견_표명_가중치": 20.1,
      "제외된_스팸": 46,
-     "가중_감성합": 7.73,
-     "가중치_총합": 28.77,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "가중_감성합": 7.7,
+     "가중치_총합": 28.69,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.269 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 96.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.268 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 97.0건)"
     },
     "momentum": {
      "최근90일_언급": 9,
-     "최신성_가중합": 84.5,
+     "최신성_가중합": 84.4,
      "전체_유효언급": 177,
-     "코호트_z점수": 0.95,
+     "코호트_z점수": 1.06,
      "월별_추세_상대기울기": -0.085,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -20602,11 +20664,11 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 58.8,
-    "reputation": 53.0,
-    "momentum": 57.5,
+    "total": 58.4,
+    "reputation": 51.3,
+    "momentum": 58.5,
     "transparency": 59.0,
-    "selectivity": 65.2,
+    "selectivity": 65.1,
     "sampleSize": 177,
     "confidence": "high",
     "isRanked": true,
@@ -20903,10 +20965,10 @@
   "dataSource": "neis",
   "score": {
    "total": 61.0,
-   "reputation": 54.0,
-   "momentum": 56.4,
+   "reputation": 53.9,
+   "momentum": 56.5,
    "transparency": 100.0,
-   "selectivity": 53.3,
+   "selectivity": 53.2,
    "sampleSize": 147,
    "confidence": "high",
    "isRanked": true,
@@ -20928,20 +20990,20 @@
      "표본": 82,
      "유효표본": 30.5,
      "긍정률": 94.4,
-     "의견_표명_가중치": 6.04,
+     "의견_표명_가중치": 6.03,
      "제외된_스팸": 145,
      "가중_감성합": 2.5,
-     "가중치_총합": 8.29,
+     "가중치_총합": 8.28,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.302 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 30.5건)"
     },
     "momentum": {
      "최근90일_언급": 4,
-     "최신성_가중합": 80.6,
+     "최신성_가중합": 80.5,
      "전체_유효언급": 147,
-     "코호트_z점수": 0.7,
+     "코호트_z점수": 0.72,
      "월별_추세_상대기울기": 0.008,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -20979,10 +21041,10 @@
   "subjectScores": {
    "english": {
     "total": 61.0,
-    "reputation": 54.0,
-    "momentum": 56.4,
+    "reputation": 53.9,
+    "momentum": 56.5,
     "transparency": 100.0,
-    "selectivity": 53.3,
+    "selectivity": 53.2,
     "sampleSize": 147,
     "confidence": "high",
     "isRanked": true,
@@ -21673,9 +21735,9 @@
   "establishedOn": "2021-01-08",
   "dataSource": "neis",
   "score": {
-   "total": 52.7,
-   "reputation": 47.0,
-   "momentum": 53.0,
+   "total": 52.4,
+   "reputation": 45.7,
+   "momentum": 54.0,
    "transparency": 91.0,
    "selectivity": 41.9,
    "sampleSize": 62,
@@ -21703,16 +21765,16 @@
      "제외된_스팸": 55,
      "가중_감성합": 0.71,
      "가중치_총합": 4.69,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.152 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 25.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.152 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 25.5건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 36.6,
      "전체_유효언급": 62,
-     "코호트_z점수": 0.33,
+     "코호트_z점수": 0.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -21748,9 +21810,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 52.7,
-    "reputation": 47.0,
-    "momentum": 53.0,
+    "total": 52.4,
+    "reputation": 45.7,
+    "momentum": 54.0,
     "transparency": 91.0,
     "selectivity": 41.9,
     "sampleSize": 62,
@@ -22011,9 +22073,9 @@
   "establishedOn": "2007-01-12",
   "dataSource": "neis",
   "score": {
-   "total": 47.9,
+   "total": 48.0,
    "reputation": 48.8,
-   "momentum": 42.0,
+   "momentum": 42.2,
    "transparency": 100.0,
    "selectivity": 27.3,
    "sampleSize": 15,
@@ -22024,7 +22086,7 @@
    "positiveRate": 100.0,
    "momentumDirection": "stable",
    "selectivityTier": "mentioned",
-   "rankInRegion": 8,
+   "rankInRegion": 7,
    "regionRankedCount": 10,
    "breakdown": {
     "weights": {
@@ -22042,7 +22104,7 @@
      "가중_감성합": 0.44,
      "가중치_총합": 1.95,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.224 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 10.0건)"
     },
@@ -22050,7 +22112,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 8.4,
      "전체_유효언급": 15,
-     "코호트_z점수": -0.88,
+     "코호트_z점수": -0.86,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -22086,9 +22148,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 47.9,
+    "total": 48.0,
     "reputation": 48.8,
-    "momentum": 42.0,
+    "momentum": 42.2,
     "transparency": 100.0,
     "selectivity": 27.3,
     "sampleSize": 15,
@@ -22099,7 +22161,7 @@
     "positiveRate": 100.0,
     "momentumDirection": "stable",
     "selectivityTier": "mentioned",
-    "rankInRegion": 8,
+    "rankInRegion": 7,
     "regionRankedCount": 10
    }
   },
@@ -22263,7 +22325,7 @@
    "reputation": 46.3,
    "momentum": 44.8,
    "transparency": 100.0,
-   "selectivity": 27.4,
+   "selectivity": 27.3,
    "sampleSize": 17,
    "confidence": "medium",
    "isRanked": true,
@@ -22287,18 +22349,18 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 0.18,
      "제외된_스팸": 11,
-     "가중_감성합": 0.15,
+     "가중_감성합": 0.14,
      "가중치_총합": 0.81,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.18 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 5.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.179 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 5.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 9.4,
      "전체_유효언급": 17,
-     "코호트_z점수": -0.58,
+     "코호트_z점수": -0.57,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -22338,7 +22400,7 @@
     "reputation": 46.3,
     "momentum": 44.8,
     "transparency": 100.0,
-    "selectivity": 27.4,
+    "selectivity": 27.3,
     "sampleSize": 17,
     "confidence": "medium",
     "isRanked": true,
@@ -22591,9 +22653,9 @@
   "establishedOn": "2004-12-13",
   "dataSource": "neis",
   "score": {
-   "total": 50.7,
-   "reputation": 49.4,
-   "momentum": 61.3,
+   "total": 50.4,
+   "reputation": 47.9,
+   "momentum": 62.4,
    "transparency": 100.0,
    "selectivity": 26.4,
    "sampleSize": 220,
@@ -22619,18 +22681,18 @@
      "긍정률": 86.9,
      "의견_표명_가중치": 8.04,
      "제외된_스팸": 123,
-     "가중_감성합": 2.54,
+     "가중_감성합": 2.53,
      "가중치_총합": 12.23,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 51.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 51.5건)"
     },
     "momentum": {
      "최근90일_언급": 1,
      "최신성_가중합": 127.6,
      "전체_유효언급": 220,
-     "코호트_z점수": 1.25,
+     "코호트_z점수": 1.37,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -22668,9 +22730,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 50.7,
-    "reputation": 49.4,
-    "momentum": 61.3,
+    "total": 50.4,
+    "reputation": 47.9,
+    "momentum": 62.4,
     "transparency": 100.0,
     "selectivity": 26.4,
     "sampleSize": 220,
@@ -22889,7 +22951,7 @@
   "score": {
    "total": 45.5,
    "reputation": 52.0,
-   "momentum": 40.1,
+   "momentum": 40.2,
    "transparency": 93.0,
    "selectivity": 21.0,
    "sampleSize": 10,
@@ -22918,7 +22980,7 @@
      "가중_감성합": 0.49,
      "가중치_총합": 1.59,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.307 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 5.8건)"
     },
@@ -22926,7 +22988,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 6.0,
      "전체_유효언급": 10,
-     "코호트_z점수": -1.1,
+     "코호트_z점수": -1.08,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -22964,7 +23026,7 @@
    "english": {
     "total": 45.5,
     "reputation": 52.0,
-    "momentum": 40.1,
+    "momentum": 40.2,
     "transparency": 93.0,
     "selectivity": 21.0,
     "sampleSize": 10,
@@ -23141,7 +23203,8 @@
   "dong": "신정동",
   "subjects": [
    "math",
-   "english"
+   "english",
+   "korean"
   ],
   "address": "서울특별시 양천구 목동동로 65",
   "capacity": 48,
@@ -23164,17 +23227,17 @@
   "establishedOn": "2022-03-31",
   "dataSource": "neis",
   "score": {
-   "total": 58.1,
-   "reputation": 61.0,
-   "momentum": 58.1,
+   "total": 57.5,
+   "reputation": 60.0,
+   "momentum": 56.8,
    "transparency": 89.0,
    "selectivity": 41.9,
-   "sampleSize": 120,
+   "sampleSize": 96,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 93.9,
+   "positiveRate": 92.7,
    "momentumDirection": "stable",
    "selectivityTier": "mentioned",
    "rankInRegion": 2,
@@ -23187,24 +23250,24 @@
      "transparency": 0.15
     },
     "reputation": {
-     "표본": 72,
-     "유효표본": 36.5,
-     "긍정률": 93.9,
-     "의견_표명_가중치": 7.4,
-     "제외된_스팸": 56,
-     "가중_감성합": 3.52,
-     "가중치_총합": 8.48,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "표본": 54,
+     "유효표본": 30.0,
+     "긍정률": 92.7,
+     "의견_표명_가중치": 6.05,
+     "제외된_스팸": 47,
+     "가중_감성합": 2.79,
+     "가중치_총합": 6.82,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.415 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 36.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.408 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 30.0건)"
     },
     "momentum": {
      "최근90일_언급": 1,
-     "최신성_가중합": 66.8,
-     "전체_유효언급": 120,
-     "코호트_z점수": 0.89,
-     "월별_추세_상대기울기": -0.0,
+     "최신성_가중합": 54.6,
+     "전체_유효언급": 96,
+     "코호트_z점수": 0.76,
+     "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
     "transparency": {
@@ -23239,38 +23302,55 @@
   },
   "subjectScores": {
    "math": {
-    "total": 58.1,
-    "reputation": 61.0,
-    "momentum": 58.1,
+    "total": 57.5,
+    "reputation": 60.0,
+    "momentum": 56.8,
     "transparency": 89.0,
     "selectivity": 41.9,
-    "sampleSize": 120,
+    "sampleSize": 96,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 93.9,
+    "positiveRate": 92.7,
     "momentumDirection": "stable",
     "selectivityTier": "mentioned",
     "rankInRegion": 2,
     "regionRankedCount": 9
    },
    "english": {
-    "total": 49.2,
-    "reputation": 54.2,
-    "momentum": 48.8,
+    "total": 46.7,
+    "reputation": 54.1,
+    "momentum": 47.3,
     "transparency": 89.0,
-    "selectivity": 27.3,
-    "sampleSize": 44,
+    "selectivity": 21.0,
+    "sampleSize": 34,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 97.9,
+    "positiveRate": 99.0,
     "momentumDirection": "stable",
     "selectivityTier": "mentioned",
-    "rankInRegion": 7,
+    "rankInRegion": 8,
     "regionRankedCount": 10
+   },
+   "korean": {
+    "total": 38.2,
+    "reputation": 52.9,
+    "momentum": 42.4,
+    "transparency": 89.0,
+    "selectivity": null,
+    "sampleSize": 11,
+    "confidence": "medium",
+    "isRanked": false,
+    "isComplete": false,
+    "subjectGroup": "academic",
+    "positiveRate": 100.0,
+    "momentumDirection": "stable",
+    "selectivityTier": null,
+    "rankInRegion": null,
+    "regionRankedCount": null
    }
   },
   "evidence": [
@@ -23306,16 +23386,6 @@
    },
    {
     "source": "naver_blog",
-    "url": "https://blog.naver.com/sugaye/224136004589",
-    "title": "2025 페리온영어 100점 후기 5탄 모음 (목운중, 덕원중, 선유중, 목동중....",
-    "snippet": "안녕하세요. \n 언제나 결과로 증명하는 학원, \n 페리온 입니다! \n ​ \n 맞춤형 학습 관리와 꼼꼼한 피드백으로 \n 이번 2학기 기말고사에서도 \n 또 한 번의 100점 소식을 전하게 되었어요. \n ​ \n 페리온을 ",
-    "posted_at": "2026-01-06",
-    "sentiment": 0.38,
-    "credibility": 0.7,
-    "branch_basis": "region"
-   },
-   {
-    "source": "naver_blog",
     "url": "https://blog.naver.com/greensum-md/223339048916",
     "title": "고2부터 시작하여 동덕여대 수시 합격한 후기 [ 2024 동덕여대 고3 수....",
     "snippet": "선생님께 질문할 때도 고민스러웠던 나에게 \n 꼼꼼한 피드백은 \n 그림에 대한 자신감과 합격을 가져다주었다. \n 2024 동덕여자대학교/ 미디어디자인 수시 합격 \n 백암고 3 전0영 \n 2024 동덕여자대학교 미디어디",
@@ -23323,29 +23393,19 @@
     "sentiment": 0.641,
     "credibility": 0.7,
     "branch_basis": "region"
+   },
+   {
+    "source": "naver_blog",
+    "url": "https://blog.naver.com/seasoned-julie/223107852585",
+    "title": "목동 소그룹 초등영어 학원-쥴리잉글리시 학부모님 후기",
+    "snippet": "​ \n 쥴리키즈들이랑 즐거운 수업하고 있는 요즘 \n 부모님들에게 수업 내용 보내드리고 \n ​ \n 답장에 보내주신 피드백들 읽으며 \n 행복하답니다. :) \n ​ \n 수업에서 배우고 간 내용으로 숙제를 하니 \n 더욱 자",
+    "posted_at": "2023-05-21",
+    "sentiment": 0.31,
+    "credibility": 0.68,
+    "branch_basis": "region"
    }
   ],
   "facts": {
-   "fact.test_freq": {
-    "n": 1,
-    "sources": 1,
-    "quotes": [
-     {
-      "quote": "매주 테스트 결과가 문자로 오니까 확인하기 편하고, 단원평가 있는 날에는 선생님이 직접 전화로 피드백을 주십니다.",
-      "url": "https://cafe.naver.com/sgmom/340380",
-      "claimId": "3c80424af0b9d079",
-      "postedAt": null
-     }
-    ],
-    "stale": false,
-    "value": null,
-    "low": null,
-    "high": null,
-    "text": null,
-    "disputed": false,
-    "label": "시험 횟수",
-    "unit": "회/월"
-   },
    "fact.class_freq": {
     "n": 1,
     "sources": 1,
@@ -23419,11 +23479,11 @@
     "revokedReason": null
    },
    {
-    "claimId": "68c91cd800f1f37d",
+    "claimId": "273a06cc5caba61c",
     "kind": "sel.test_exists",
     "label": "레벨테스트 있음",
-    "quote": "정확한 진단을 위한 '레벨테스트' 현재 아이의 학습 수준을 객관적으로.",
-    "url": "https://cafe.naver.com/sejong34class/19442",
+    "quote": "CMS에듀 목동경시관 학원비, 레벨테스트 등 ] - 수강과목 : 수학 - 수강강좌명 : 수학 고등선행+경시반.",
+    "url": "https://cafe.naver.com/mokdongmomschool/271",
     "postedAt": null,
     "status": "active",
     "revokedReason": null
@@ -23491,10 +23551,10 @@
      "제외된_스팸": 24,
      "가중_감성합": 0.21,
      "가중치_총합": 3.02,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.071 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 11.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.071 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 11.2건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -23638,9 +23698,9 @@
   "establishedOn": "2005-01-21",
   "dataSource": "neis",
   "score": {
-   "total": 53.0,
-   "reputation": 49.6,
-   "momentum": 55.5,
+   "total": 52.9,
+   "reputation": 48.7,
+   "momentum": 56.5,
    "transparency": 100.0,
    "selectivity": 35.3,
    "sampleSize": 90,
@@ -23668,16 +23728,16 @@
      "제외된_스팸": 43,
      "가중_감성합": 0.47,
      "가중치_총합": 2.27,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 12.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.207 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 12.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 53.4,
      "전체_유효언급": 90,
-     "코호트_z점수": 0.61,
+     "코호트_z점수": 0.72,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -23715,9 +23775,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 53.0,
-    "reputation": 49.6,
-    "momentum": 55.5,
+    "total": 52.9,
+    "reputation": 48.7,
+    "momentum": 56.5,
     "transparency": 100.0,
     "selectivity": 35.3,
     "sampleSize": 90,
@@ -23901,14 +23961,14 @@
      "표본": 13,
      "유효표본": 2.7,
      "긍정률": 99.5,
-     "의견_표명_가중치": 0.88,
+     "의견_표명_가중치": 0.87,
      "제외된_스팸": 5,
      "가중_감성합": 0.74,
-     "가중치_총합": 0.89,
-     "코호트_평균감성": 0.425,
+     "가중치_총합": 0.88,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.838 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 2.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.838 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 2.7건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -24237,9 +24297,9 @@
   "establishedOn": "2015-07-21",
   "dataSource": "neis",
   "score": {
-   "total": 55.4,
+   "total": 55.5,
    "reputation": 40.3,
-   "momentum": 58.6,
+   "momentum": 58.8,
    "transparency": 95.0,
    "selectivity": 52.3,
    "sampleSize": 187,
@@ -24263,20 +24323,20 @@
      "표본": 104,
      "유효표본": 62.0,
      "긍정률": 92.2,
-     "의견_표명_가중치": 7.09,
+     "의견_표명_가중치": 7.08,
      "제외된_스팸": 118,
      "가중_감성합": 2.68,
-     "가중치_총합": 14.27,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "가중치_총합": 14.26,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.188 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 62.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.188 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 62.0건)"
     },
     "momentum": {
      "최근90일_언급": 1,
-     "최신성_가중합": 98.1,
+     "최신성_가중합": 98.0,
      "전체_유효언급": 187,
-     "코호트_z점수": 1.19,
+     "코호트_z점수": 1.22,
      "월별_추세_상대기울기": -0.182,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -24315,9 +24375,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 55.4,
+    "total": 55.5,
     "reputation": 40.3,
-    "momentum": 58.6,
+    "momentum": 58.8,
     "transparency": 95.0,
     "selectivity": 52.3,
     "sampleSize": 187,
@@ -24550,15 +24610,15 @@
      "의견_표명_가중치": 2.57,
      "제외된_스팸": 20,
      "가중_감성합": 1.24,
-     "가중치_총합": 2.9,
-     "코호트_평균감성": 0.425,
+     "가중치_총합": 2.89,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.429 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 8.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.429 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 8.2건)"
     },
     "momentum": {
      "최근90일_언급": 1,
-     "최신성_가중합": 16.5,
+     "최신성_가중합": 16.4,
      "전체_유효언급": 28,
      "코호트_z점수": 1.32,
      "월별_추세_상대기울기": 0.0,
@@ -24691,11 +24751,11 @@
   "establishedOn": "2005-05-16",
   "dataSource": "neis",
   "score": {
-   "total": 63.0,
+   "total": 62.9,
    "reputation": 47.3,
-   "momentum": 63.1,
+   "momentum": 63.2,
    "transparency": 100.0,
-   "selectivity": 62.7,
+   "selectivity": 62.5,
    "sampleSize": 373,
    "confidence": "high",
    "isRanked": true,
@@ -24715,22 +24775,22 @@
     },
     "reputation": {
      "표본": 223,
-     "유효표본": 111.7,
+     "유효표본": 111.9,
      "긍정률": 77.5,
-     "의견_표명_가중치": 31.31,
+     "의견_표명_가중치": 31.2,
      "제외된_스팸": 164,
-     "가중_감성합": 8.79,
-     "가중치_총합": 39.98,
+     "가중_감성합": 8.76,
+     "가중치_총합": 39.87,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.22 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 111.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.22 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 111.9건)"
     },
     "momentum": {
      "최근90일_언급": 19,
-     "최신성_가중합": 196.3,
+     "최신성_가중합": 196.2,
      "전체_유효언급": 373,
-     "코호트_z점수": 1.35,
+     "코호트_z점수": 1.36,
      "월별_추세_상대기울기": 0.077,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -24757,7 +24817,7 @@
       "어렵게 통과": 1,
       "대기·웨이팅": 2
      },
-     "사건_강도": 1.06,
+     "사건_강도": 1.05,
      "서로_다른_작성자": 71,
      "확인율": 1.0,
      "최신_사건": "2026-08-28",
@@ -24769,11 +24829,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 63.0,
+    "total": 62.9,
     "reputation": 47.3,
-    "momentum": 63.1,
+    "momentum": 63.2,
     "transparency": 100.0,
-    "selectivity": 62.7,
+    "selectivity": 62.5,
     "sampleSize": 373,
     "confidence": "high",
     "isRanked": true,
@@ -25009,7 +25069,7 @@
   "score": {
    "total": 53.6,
    "reputation": 44.1,
-   "momentum": 67.8,
+   "momentum": 67.9,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 58,
@@ -25035,10 +25095,10 @@
      "제외된_스팸": 34,
      "가중_감성합": 1.73,
      "가중치_총합": 5.45,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.317 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 24.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.317 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 24.7건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -25060,7 +25120,7 @@
    "arts": {
     "total": 53.6,
     "reputation": 44.1,
-    "momentum": 67.8,
+    "momentum": 67.9,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 58,
@@ -25296,7 +25356,7 @@
     },
     "reputation": {
      "표본": 13,
-     "유효표본": 3.5,
+     "유효표본": 3.4,
      "긍정률": 100.0,
      "의견_표명_가중치": 0.45,
      "제외된_스팸": 4,
@@ -25305,7 +25365,7 @@
      "코호트_평균감성": 0.445,
      "코호트_감성표준편차": 0.251,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.494 를 코호트 평균 0.445 쪽으로 12건만큼 축소 (유효표본 3.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.494 를 코호트 평균 0.445 쪽으로 12건만큼 축소 (유효표본 3.4건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -25502,12 +25562,12 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 0.56,
      "제외된_스팸": 6,
-     "가중_감성합": 0.31,
+     "가중_감성합": 0.3,
      "가중치_총합": 0.95,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.321 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 3.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.32 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 3.8건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -25969,7 +26029,7 @@
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "non_academic",
-   "positiveRate": 86.9,
+   "positiveRate": 86.8,
    "momentumDirection": "stable",
    "selectivityTier": null,
    "rankInRegion": 4,
@@ -25982,19 +26042,19 @@
     "reputation": {
      "표본": 13,
      "유효표본": 9.2,
-     "긍정률": 86.9,
+     "긍정률": 86.8,
      "의견_표명_가중치": 1.46,
      "제외된_스팸": 10,
      "가중_감성합": 0.5,
      "가중치_총합": 1.7,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.292 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 9.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.292 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 9.2건)"
     },
     "momentum": {
      "최근90일_언급": 3,
-     "최신성_가중합": 10.7,
+     "최신성_가중합": 10.6,
      "전체_유효언급": 20,
      "코호트_z점수": 0.95,
      "월별_추세_상대기울기": 0.05,
@@ -26020,7 +26080,7 @@
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "non_academic",
-    "positiveRate": 86.9,
+    "positiveRate": 86.8,
     "momentumDirection": "stable",
     "selectivityTier": null,
     "rankInRegion": 4,
@@ -26128,9 +26188,9 @@
   "score": {
    "total": 48.1,
    "reputation": 41.4,
-   "momentum": 54.5,
+   "momentum": 54.7,
    "transparency": 72.0,
-   "selectivity": 41.7,
+   "selectivity": 41.6,
    "sampleSize": 101,
    "confidence": "high",
    "isRanked": true,
@@ -26150,22 +26210,22 @@
     },
     "reputation": {
      "표본": 73,
-     "유효표본": 44.8,
+     "유효표본": 44.9,
      "긍정률": 88.0,
      "의견_표명_가중치": 5.46,
      "제외된_스팸": 35,
      "가중_감성합": 1.99,
-     "가중치_총합": 10.27,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "가중치_총합": 10.26,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.194 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 44.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.194 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 44.9건)"
     },
     "momentum": {
      "최근90일_언급": 1,
      "최신성_가중합": 52.2,
      "전체_유효언급": 101,
-     "코호트_z점수": 0.7,
+     "코호트_z점수": 0.72,
      "월별_추세_상대기울기": -0.15,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -26203,9 +26263,9 @@
    "math": {
     "total": 48.1,
     "reputation": 41.4,
-    "momentum": 54.5,
+    "momentum": 54.7,
     "transparency": 72.0,
-    "selectivity": 41.7,
+    "selectivity": 41.6,
     "sampleSize": 101,
     "confidence": "high",
     "isRanked": true,
@@ -26220,7 +26280,7 @@
    "english": {
     "total": 30.8,
     "reputation": 40.0,
-    "momentum": 39.8,
+    "momentum": 40.0,
     "transparency": 72.0,
     "selectivity": null,
     "sampleSize": 11,
@@ -26236,8 +26296,8 @@
    },
    "korean": {
     "total": 33.2,
-    "reputation": 46.2,
-    "momentum": 41.6,
+    "reputation": 45.8,
+    "momentum": 42.5,
     "transparency": 72.0,
     "selectivity": null,
     "sampleSize": 10,
@@ -26502,10 +26562,10 @@
      "제외된_스팸": 3,
      "가중_감성합": 0.77,
      "가중치_총합": 2.03,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.379 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 8.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.379 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 8.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -26655,9 +26715,9 @@
   "establishedOn": "2022-09-23",
   "dataSource": "neis",
   "score": {
-   "total": 55.0,
-   "reputation": 45.2,
-   "momentum": 55.0,
+   "total": 55.1,
+   "reputation": 45.3,
+   "momentum": 55.2,
    "transparency": 88.0,
    "selectivity": 50.7,
    "sampleSize": 72,
@@ -26685,16 +26745,16 @@
      "제외된_스팸": 32,
      "가중_감성합": 1.03,
      "가중치_총합": 4.54,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.227 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 24.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.227 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 24.6건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 43.2,
      "전체_유효언급": 72,
-     "코호트_z점수": 0.56,
+     "코호트_z점수": 0.58,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -26732,9 +26792,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 55.0,
-    "reputation": 45.2,
-    "momentum": 55.0,
+    "total": 55.1,
+    "reputation": 45.3,
+    "momentum": 55.2,
     "transparency": 88.0,
     "selectivity": 50.7,
     "sampleSize": 72,
@@ -26939,17 +26999,17 @@
   "establishedOn": "2007-10-04",
   "dataSource": "neis",
   "score": {
-   "total": 73.5,
-   "reputation": 76.0,
-   "momentum": 66.0,
+   "total": 73.6,
+   "reputation": 76.1,
+   "momentum": 66.3,
    "transparency": 100.0,
-   "selectivity": 63.0,
+   "selectivity": 62.9,
    "sampleSize": 212,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 97.0,
+   "positiveRate": 96.9,
    "momentumDirection": "rising",
    "selectivityTier": "medium",
    "rankInRegion": 1,
@@ -26963,22 +27023,22 @@
     },
     "reputation": {
      "표본": 144,
-     "유효표본": 70.9,
-     "긍정률": 97.0,
-     "의견_표명_가중치": 29.45,
+     "유효표본": 71.0,
+     "긍정률": 96.9,
+     "의견_표명_가중치": 29.31,
      "제외된_스팸": 77,
-     "가중_감성합": 18.18,
-     "가중치_총합": 33.05,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "가중_감성합": 18.09,
+     "가중치_총합": 32.9,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.55 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 70.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.55 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 71.0건)"
     },
     "momentum": {
      "최근90일_언급": 44,
-     "최신성_가중합": 131.2,
+     "최신성_가중합": 130.9,
      "전체_유효언급": 212,
-     "코호트_z점수": 1.42,
+     "코호트_z점수": 1.45,
      "월별_추세_상대기울기": 0.271,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -27016,28 +27076,28 @@
   },
   "subjectScores": {
    "math": {
-    "total": 73.5,
-    "reputation": 76.0,
-    "momentum": 66.0,
+    "total": 73.6,
+    "reputation": 76.1,
+    "momentum": 66.3,
     "transparency": 100.0,
-    "selectivity": 63.0,
+    "selectivity": 62.9,
     "sampleSize": 212,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 97.0,
+    "positiveRate": 96.9,
     "momentumDirection": "rising",
     "selectivityTier": "medium",
     "rankInRegion": 1,
     "regionRankedCount": 9
    },
    "english": {
-    "total": 74.1,
-    "reputation": 74.9,
-    "momentum": 59.0,
+    "total": 74.0,
+    "reputation": 74.8,
+    "momentum": 59.1,
     "transparency": 100.0,
-    "selectivity": 68.7,
+    "selectivity": 68.5,
     "sampleSize": 170,
     "confidence": "high",
     "isRanked": true,
@@ -27324,11 +27384,11 @@
   "establishedOn": "2008-10-28",
   "dataSource": "neis",
   "score": {
-   "total": 55.1,
-   "reputation": 48.0,
-   "momentum": 48.7,
+   "total": 54.8,
+   "reputation": 46.8,
+   "momentum": 49.7,
    "transparency": 99.0,
-   "selectivity": 46.0,
+   "selectivity": 45.9,
    "sampleSize": 47,
    "confidence": "high",
    "isRanked": true,
@@ -27350,20 +27410,20 @@
      "표본": 29,
      "유효표본": 22.0,
      "긍정률": 74.4,
-     "의견_표명_가중치": 3.8,
+     "의견_표명_가중치": 3.79,
      "제외된_스팸": 32,
      "가중_감성합": 0.93,
-     "가중치_총합": 5.38,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "가중치_총합": 5.37,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.173 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 22.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.172 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 22.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 23.9,
      "전체_유효언급": 47,
-     "코호트_z점수": 0.02,
+     "코호트_z점수": 0.12,
      "월별_추세_상대기울기": -0.12,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -27400,11 +27460,11 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 55.1,
-    "reputation": 48.0,
-    "momentum": 48.7,
+    "total": 54.8,
+    "reputation": 46.8,
+    "momentum": 49.7,
     "transparency": 99.0,
-    "selectivity": 46.0,
+    "selectivity": 45.9,
     "sampleSize": 47,
     "confidence": "high",
     "isRanked": true,
@@ -27471,9 +27531,15 @@
   ],
   "facts": {
    "fact.class_freq": {
-    "n": 2,
-    "sources": 1,
+    "n": 3,
+    "sources": 2,
     "quotes": [
+     {
+      "quote": "일주일에 3번 2시간 20분씩",
+      "url": "https://blog.naver.com/dalbong13/223989612843",
+      "claimId": "d874c168ba9ad7e8",
+      "postedAt": "2025-08-31"
+     },
      {
       "quote": "황소 주2회, 미래탐구 주1회 지인 자녀가 황소 주2회, 미래탐구 주1회를 보낸다고 하더라구요~ 왜 그렇게 보내는지는 많이 친한사이가 아니라서 물어보진 못했는데.",
       "url": "https://cafe.naver.com/fm0rm1/41523",
@@ -27487,19 +27553,25 @@
       "postedAt": null
      }
     ],
-    "stale": false,
-    "value": 1.5,
+    "stale": true,
+    "value": null,
     "low": 1.0,
-    "high": 2.0,
-    "text": "1회~2회",
-    "disputed": false,
+    "high": 3.0,
+    "text": "1회~3회 · 후기마다 다름",
+    "disputed": true,
     "label": "수업 횟수",
     "unit": "회/주"
    },
    "fact.class_minutes": {
-    "n": 1,
-    "sources": 1,
+    "n": 2,
+    "sources": 2,
     "quotes": [
+     {
+      "quote": "일주일에 3번 2시간 20분씩",
+      "url": "https://blog.naver.com/dalbong13/223989612843",
+      "claimId": "e005de25656074a0",
+      "postedAt": "2025-08-31"
+     },
      {
       "quote": "…작년 목동미래탐구에서 빈칸추론 특강으로 만난 과천외고를 다니던 학생이, 3시간 빈칸추론 특강 수업을 듣고 그 멀리 평촌에서 목동 미래탐구(광장점)까지…",
       "url": "https://blog.naver.com/dongsu0505/223323065579",
@@ -27508,10 +27580,10 @@
      }
     ],
     "stale": true,
-    "value": null,
-    "low": null,
-    "high": null,
-    "text": null,
+    "value": 160.0,
+    "low": 140.0,
+    "high": 180.0,
+    "text": "160분 · 140분~180분",
     "disputed": false,
     "label": "1회 수업",
     "unit": "분"
@@ -27610,7 +27682,7 @@
   "score": {
    "total": 46.3,
    "reputation": 40.0,
-   "momentum": 42.0,
+   "momentum": 42.2,
    "transparency": 89.0,
    "selectivity": 36.1,
    "sampleSize": 20,
@@ -27618,7 +27690,7 @@
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 59.6,
+   "positiveRate": 59.5,
    "momentumDirection": "falling",
    "selectivityTier": "mentioned",
    "rankInRegion": 9,
@@ -27632,22 +27704,22 @@
     },
     "reputation": {
      "표본": 12,
-     "유효표본": 9.2,
-     "긍정률": 59.6,
+     "유효표본": 9.3,
+     "긍정률": 59.5,
      "의견_표명_가중치": 2.4,
      "제외된_스팸": 9,
      "가중_감성합": 0.08,
      "가중치_총합": 2.99,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.028 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 9.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.027 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 9.3건)"
     },
     "momentum": {
      "최근90일_언급": 1,
      "최신성_가중합": 11.0,
      "전체_유효언급": 20,
-     "코호트_z점수": -0.71,
+     "코호트_z점수": -0.69,
      "월별_추세_상대기울기": -0.133,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -27685,7 +27757,7 @@
    "english": {
     "total": 46.3,
     "reputation": 40.0,
-    "momentum": 42.0,
+    "momentum": 42.2,
     "transparency": 89.0,
     "selectivity": 36.1,
     "sampleSize": 20,
@@ -27693,7 +27765,7 @@
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 59.6,
+    "positiveRate": 59.5,
     "momentumDirection": "falling",
     "selectivityTier": "mentioned",
     "rankInRegion": 9,
@@ -27889,11 +27961,11 @@
   "establishedOn": "2005-11-14",
   "dataSource": "neis",
   "score": {
-   "total": 67.6,
-   "reputation": 58.6,
-   "momentum": 59.2,
+   "total": 67.5,
+   "reputation": 58.5,
+   "momentum": 59.5,
    "transparency": 100.0,
-   "selectivity": 66.2,
+   "selectivity": 66.0,
    "sampleSize": 339,
    "confidence": "high",
    "isRanked": true,
@@ -27913,23 +27985,23 @@
     },
     "reputation": {
      "표본": 233,
-     "유효표본": 100.0,
+     "유효표본": 100.1,
      "긍정률": 83.1,
-     "의견_표명_가중치": 22.78,
+     "의견_표명_가중치": 22.72,
      "제외된_스팸": 218,
-     "가중_감성합": 9.67,
-     "가중치_총합": 28.31,
+     "가중_감성합": 9.63,
+     "가중치_총합": 28.25,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.342 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 100.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.341 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 100.1건)"
     },
     "momentum": {
      "최근90일_언급": 10,
-     "최신성_가중합": 146.5,
+     "최신성_가중합": 146.4,
      "전체_유효언급": 339,
-     "코호트_z점수": 1.14,
-     "월별_추세_상대기울기": -0.082,
+     "코호트_z점수": 1.15,
+     "월별_추세_상대기울기": -0.067,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
     "transparency": {
@@ -27968,11 +28040,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 67.6,
-    "reputation": 58.6,
-    "momentum": 59.2,
+    "total": 67.5,
+    "reputation": 58.5,
+    "momentum": 59.5,
     "transparency": 100.0,
-    "selectivity": 66.2,
+    "selectivity": 66.0,
     "sampleSize": 339,
     "confidence": "high",
     "isRanked": true,
@@ -28279,9 +28351,9 @@
   "establishedOn": "2001-12-08",
   "dataSource": "neis",
   "score": {
-   "total": 45.4,
-   "reputation": 45.9,
-   "momentum": 48.4,
+   "total": 45.2,
+   "reputation": 45.0,
+   "momentum": 49.3,
    "transparency": 100.0,
    "selectivity": 20.3,
    "sampleSize": 33,
@@ -28309,16 +28381,16 @@
      "제외된_스팸": 19,
      "가중_감성합": 0.2,
      "가중치_총합": 2.25,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.088 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 10.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.088 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 10.9건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 18.0,
      "전체_유효언급": 33,
-     "코호트_z점수": -0.18,
+     "코호트_z점수": -0.08,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -28355,9 +28427,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 45.4,
-    "reputation": 45.9,
-    "momentum": 48.4,
+    "total": 45.2,
+    "reputation": 45.0,
+    "momentum": 49.3,
     "transparency": 100.0,
     "selectivity": 20.3,
     "sampleSize": 33,
@@ -28594,8 +28666,8 @@
   "dataSource": "neis",
   "score": {
    "total": 48.9,
-   "reputation": 54.3,
-   "momentum": 50.1,
+   "reputation": 54.4,
+   "momentum": 50.2,
    "transparency": 100.0,
    "selectivity": 21.0,
    "sampleSize": 36,
@@ -28623,16 +28695,16 @@
      "제외된_스팸": 19,
      "가중_감성합": 0.89,
      "가중치_총합": 2.43,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.368 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 10.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.368 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 10.5건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 21.0,
      "전체_유효언급": 36,
-     "코호트_z점수": 0.01,
+     "코호트_z점수": 0.02,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -28669,8 +28741,8 @@
   "subjectScores": {
    "math": {
     "total": 48.9,
-    "reputation": 54.3,
-    "momentum": 50.1,
+    "reputation": 54.4,
+    "momentum": 50.2,
     "transparency": 100.0,
     "selectivity": 21.0,
     "sampleSize": 36,
@@ -28864,7 +28936,7 @@
   "score": {
    "total": 56.1,
    "reputation": 48.6,
-   "momentum": 57.4,
+   "momentum": 57.5,
    "transparency": 100.0,
    "selectivity": 44.3,
    "sampleSize": 173,
@@ -28891,9 +28963,9 @@
      "의견_표명_가중치": 5.76,
      "제외된_스팸": 83,
      "가중_감성합": 2.31,
-     "가중치_총합": 9.97,
+     "가중치_총합": 9.96,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.232 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 53.7건)"
     },
@@ -28901,7 +28973,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 94.7,
      "전체_유효언급": 173,
-     "코호트_z점수": 0.82,
+     "코호트_z점수": 0.83,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -28941,7 +29013,7 @@
    "english": {
     "total": 56.1,
     "reputation": 48.6,
-    "momentum": 57.4,
+    "momentum": 57.5,
     "transparency": 100.0,
     "selectivity": 44.3,
     "sampleSize": 173,
@@ -29204,8 +29276,8 @@
   "dataSource": "neis",
   "score": {
    "total": 56.6,
-   "reputation": 54.4,
-   "momentum": 55.4,
+   "reputation": 54.5,
+   "momentum": 55.6,
    "transparency": 97.0,
    "selectivity": 41.9,
    "sampleSize": 82,
@@ -29233,16 +29305,16 @@
      "제외된_스팸": 38,
      "가중_감성합": 2.61,
      "가중치_총합": 7.65,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.341 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 31.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.341 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 31.6건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 45.5,
      "전체_유효언급": 82,
-     "코호트_z점수": 0.6,
+     "코호트_z점수": 0.62,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -29279,8 +29351,8 @@
   "subjectScores": {
    "math": {
     "total": 56.6,
-    "reputation": 54.4,
-    "momentum": 55.4,
+    "reputation": 54.5,
+    "momentum": 55.6,
     "transparency": 97.0,
     "selectivity": 41.9,
     "sampleSize": 82,
@@ -29557,16 +29629,16 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.11,
      "가중치_총합": 0.21,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.537 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.537 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 0.3,
      "전체_유효언급": 1,
-     "코호트_z점수": -1.05,
+     "코호트_z점수": -1.06,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -29647,9 +29719,9 @@
   "establishedOn": "2025-11-10",
   "dataSource": "neis",
   "score": {
-   "total": 31.2,
+   "total": 31.3,
    "reputation": 48.4,
-   "momentum": 35.3,
+   "momentum": 35.5,
    "transparency": 60.0,
    "selectivity": null,
    "sampleSize": 4,
@@ -29678,7 +29750,7 @@
      "가중_감성합": 0.06,
      "가중치_총합": 0.47,
      "코호트_평균감성": 0.249,
-     "코호트_감성표준편차": 0.144,
+     "코호트_감성표준편차": 0.145,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.139 를 코호트 평균 0.249 쪽으로 12건만큼 축소 (유효표본 2.0건)"
     },
@@ -29686,7 +29758,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 2.4,
      "전체_유효언급": 4,
-     "코호트_z점수": -1.63,
+     "코호트_z점수": -1.61,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -29715,9 +29787,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 31.2,
+    "total": 31.3,
     "reputation": 48.4,
-    "momentum": 35.3,
+    "momentum": 35.5,
     "transparency": 60.0,
     "selectivity": null,
     "sampleSize": 4,
@@ -29945,7 +30017,7 @@
      "가중_감성합": 0.01,
      "가중치_총합": 0.93,
      "코호트_평균감성": 0.383,
-     "코호트_감성표준편차": 0.321,
+     "코호트_감성표준편차": 0.322,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.008 를 코호트 평균 0.383 쪽으로 12건만큼 축소 (유효표본 3.1건)"
     },
@@ -30060,9 +30132,9 @@
   "establishedOn": "2008-08-11",
   "dataSource": "neis",
   "score": {
-   "total": 36.6,
+   "total": 36.7,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 99.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -30090,7 +30162,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -30119,9 +30191,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 36.6,
+    "total": 36.7,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 99.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -30211,10 +30283,10 @@
      "제외된_스팸": 2,
      "가중_감성합": 0.14,
      "가중치_총합": 1.8,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.076 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 5.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.076 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 5.4건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -30392,7 +30464,7 @@
   "score": {
    "total": 36.4,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 98.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -30420,7 +30492,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -30451,7 +30523,7 @@
    "math": {
     "total": 36.4,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 98.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -30624,7 +30696,7 @@
   "score": {
    "total": 35.1,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 90.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -30652,7 +30724,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -30683,7 +30755,7 @@
    "english": {
     "total": 35.1,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 90.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -30700,7 +30772,7 @@
    "math": {
     "total": 35.2,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 90.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -30924,9 +30996,9 @@
   "establishedOn": "2021-06-25",
   "dataSource": "neis",
   "score": {
-   "total": 35.3,
+   "total": 35.4,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 90.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -30954,7 +31026,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -30983,9 +31055,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 35.3,
+    "total": 35.4,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 90.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -31137,9 +31209,9 @@
   "establishedOn": "2019-02-18",
   "dataSource": "neis",
   "score": {
-   "total": 35.5,
+   "total": 35.6,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 93.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -31167,7 +31239,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -31196,9 +31268,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 35.5,
+    "total": 35.6,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 93.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -31424,9 +31496,9 @@
   "establishedOn": "2023-04-28",
   "dataSource": "neis",
   "score": {
-   "total": 34.8,
+   "total": 34.9,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 87.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -31454,7 +31526,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -31483,9 +31555,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 34.8,
+    "total": 34.9,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 87.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -31545,9 +31617,9 @@
   "establishedOn": "2013-02-13",
   "dataSource": "neis",
   "score": {
-   "total": 36.3,
+   "total": 36.2,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 97.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -31575,7 +31647,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -31604,9 +31676,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 36.3,
+    "total": 36.2,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 97.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -31873,9 +31945,9 @@
   "establishedOn": "2013-08-16",
   "dataSource": "neis",
   "score": {
-   "total": 36.1,
+   "total": 36.2,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 97.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -31903,7 +31975,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -31932,9 +32004,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 36.1,
+    "total": 36.2,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 97.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32066,9 +32138,9 @@
   "establishedOn": "2023-12-06",
   "dataSource": "neis",
   "score": {
-   "total": 31.7,
+   "total": 31.8,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 66.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32096,7 +32168,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32125,9 +32197,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 31.7,
+    "total": 31.8,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 66.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32188,7 +32260,7 @@
   "score": {
    "total": 35.5,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 92.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32216,7 +32288,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32247,7 +32319,7 @@
    "math": {
     "total": 35.5,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 92.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32396,9 +32468,9 @@
   "establishedOn": "2009-03-17",
   "dataSource": "neis",
   "score": {
-   "total": 36.4,
+   "total": 36.5,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 99.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32426,7 +32498,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32455,9 +32527,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 36.4,
+    "total": 36.5,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 99.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32612,7 +32684,7 @@
   "score": {
    "total": 32.5,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 72.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32640,7 +32712,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32671,7 +32743,7 @@
    "math": {
     "total": 32.5,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 72.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32744,9 +32816,9 @@
   "establishedOn": "2020-11-11",
   "dataSource": "neis",
   "score": {
-   "total": 35.4,
+   "total": 35.5,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 91.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32774,7 +32846,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32803,9 +32875,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 35.4,
+    "total": 35.5,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 91.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -32866,9 +32938,9 @@
   "establishedOn": "2022-01-26",
   "dataSource": "neis",
   "score": {
-   "total": 35.1,
+   "total": 35.0,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 89.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -32896,7 +32968,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -32925,9 +32997,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 35.1,
+    "total": 35.0,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 89.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -33225,9 +33297,9 @@
   "establishedOn": "2015-08-31",
   "dataSource": "neis",
   "score": {
-   "total": 35.8,
+   "total": 35.9,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 95.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -33255,7 +33327,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -33284,9 +33356,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 35.8,
+    "total": 35.9,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 95.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -33367,7 +33439,7 @@
      "가중_감성합": 0.02,
      "가중치_총합": 0.03,
      "코호트_평균감성": 0.383,
-     "코호트_감성표준편차": 0.321,
+     "코호트_감성표준편차": 0.322,
      "축소_사전표본": 12,
      "설명": "신뢰도·최신성 가중 감성 0.793 를 코호트 평균 0.383 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
@@ -33466,9 +33538,9 @@
   "establishedOn": "2021-01-06",
   "dataSource": "neis",
   "score": {
-   "total": 35.4,
+   "total": 35.5,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 91.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -33496,7 +33568,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -33525,9 +33597,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 35.4,
+    "total": 35.5,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 91.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -33585,7 +33657,7 @@
   "score": {
    "total": 36.4,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 98.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -33613,7 +33685,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -33644,7 +33716,7 @@
    "math": {
     "total": 36.4,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 98.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -33801,9 +33873,9 @@
   "establishedOn": "2022-03-08",
   "dataSource": "neis",
   "score": {
-   "total": 34.9,
+   "total": 35.0,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 89.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -33831,7 +33903,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -33860,9 +33932,9 @@
   },
   "subjectScores": {
    "english": {
-    "total": 34.9,
+    "total": 35.0,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 89.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -34006,7 +34078,7 @@
   "score": {
    "total": 47.8,
    "reputation": 50.0,
-   "momentum": 44.4,
+   "momentum": 44.5,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 1,
@@ -34094,9 +34166,9 @@
   "establishedOn": "2024-09-05",
   "dataSource": "neis",
   "score": {
-   "total": 30.6,
+   "total": 30.7,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 59.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -34124,7 +34196,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -34153,9 +34225,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 30.6,
+    "total": 30.7,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 59.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -34214,9 +34286,9 @@
   "establishedOn": "2021-11-22",
   "dataSource": "neis",
   "score": {
-   "total": 35.1,
+   "total": 35.0,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 89.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -34244,7 +34316,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -34273,9 +34345,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 35.1,
+    "total": 35.0,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 89.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -34468,10 +34540,10 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.11,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.462 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.462 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -34559,7 +34631,7 @@
   "score": {
    "total": 36.0,
    "reputation": 50.0,
-   "momentum": 27.2,
+   "momentum": 27.4,
    "transparency": 96.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -34587,7 +34659,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.53,
+     "코호트_z점수": -2.51,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -34618,7 +34690,7 @@
    "english": {
     "total": 36.0,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 96.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -34750,9 +34822,9 @@
   "establishedOn": "2019-12-12",
   "dataSource": "neis",
   "score": {
-   "total": 35.6,
+   "total": 35.7,
    "reputation": 50.0,
-   "momentum": 28.5,
+   "momentum": 29.1,
    "transparency": 92.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -34780,7 +34852,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.39,
+     "코호트_z점수": -2.32,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -34809,9 +34881,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 35.6,
+    "total": 35.7,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 92.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -34870,9 +34942,9 @@
   "establishedOn": "2022-07-14",
   "dataSource": "neis",
   "score": {
-   "total": 36.1,
+   "total": 36.2,
    "reputation": 47.6,
-   "momentum": 41.9,
+   "momentum": 42.0,
    "transparency": 88.0,
    "selectivity": null,
    "sampleSize": 10,
@@ -34900,16 +34972,16 @@
      "제외된_스팸": 7,
      "가중_감성합": 0.15,
      "가중치_총합": 0.81,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.182 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 2.9건)"
+     "설명": "신뢰도·최신성 가중 감성 0.182 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 2.9건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 6.0,
      "전체_유효언급": 10,
-     "코호트_z점수": -0.9,
+     "코호트_z점수": -0.89,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -34938,9 +35010,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 36.1,
+    "total": 36.2,
     "reputation": 47.6,
-    "momentum": 41.9,
+    "momentum": 42.0,
     "transparency": 88.0,
     "selectivity": null,
     "sampleSize": 10,
@@ -35066,10 +35138,10 @@
      "제외된_스팸": 5,
      "가중_감성합": 0.1,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.414 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.414 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -35352,9 +35424,9 @@
      "가중_감성합": 0.19,
      "가중치_총합": 0.54,
      "코호트_평균감성": 0.383,
-     "코호트_감성표준편차": 0.321,
+     "코호트_감성표준편차": 0.322,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.349 를 코호트 평균 0.383 쪽으로 12건만큼 축소 (유효표본 2.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.348 를 코호트 평균 0.383 쪽으로 12건만큼 축소 (유효표본 2.7건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -35505,10 +35577,10 @@
      "제외된_스팸": 0,
      "가중_감성합": 0.08,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.345 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.345 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -35886,9 +35958,9 @@
   "establishedOn": "2013-12-17",
   "dataSource": "neis",
   "score": {
-   "total": 49.8,
+   "total": 49.9,
    "reputation": 51.9,
-   "momentum": 46.7,
+   "momentum": 46.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 4,
@@ -35914,10 +35986,10 @@
      "제외된_스팸": 1,
      "가중_감성합": 0.33,
      "가중치_총합": 0.55,
-     "코호트_평균감성": 0.425,
+     "코호트_평균감성": 0.424,
      "코호트_감성표준편차": 0.184,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.587 를 코호트 평균 0.425 쪽으로 12건만큼 축소 (유효표본 2.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.587 를 코호트 평균 0.424 쪽으로 12건만큼 축소 (유효표본 2.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -35937,9 +36009,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 49.8,
+    "total": 49.9,
     "reputation": 51.9,
-    "momentum": 46.7,
+    "momentum": 46.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 4,
@@ -36051,9 +36123,9 @@
   "establishedOn": "2024-12-31",
   "dataSource": "neis",
   "score": {
-   "total": 31.2,
+   "total": 31.1,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 63.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -36081,7 +36153,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -36110,9 +36182,9 @@
   },
   "subjectScores": {
    "math": {
-    "total": 31.2,
+    "total": 31.1,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 63.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -36127,9 +36199,9 @@
     "regionRankedCount": null
    },
    "english": {
-    "total": 31.0,
+    "total": 31.1,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 63.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -36144,9 +36216,9 @@
     "regionRankedCount": null
    },
    "korean": {
-    "total": 31.2,
+    "total": 31.3,
     "reputation": 50.0,
-    "momentum": 28.5,
+    "momentum": 29.1,
     "transparency": 63.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -36330,7 +36402,7 @@
   "score": {
    "total": 36.7,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 100.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -36358,7 +36430,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -36389,7 +36461,7 @@
    "math": {
     "total": 36.7,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 100.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -36446,9 +36518,9 @@
   "establishedOn": "2014-10-17",
   "dataSource": "neis",
   "score": {
-   "total": 37.6,
-   "reputation": 52.7,
-   "momentum": 31.6,
+   "total": 37.7,
+   "reputation": 52.6,
+   "momentum": 32.4,
    "transparency": 96.0,
    "selectivity": null,
    "sampleSize": 2,
@@ -36476,16 +36548,16 @@
      "제외된_스팸": 4,
      "가중_감성합": 0.0,
      "가중치_총합": 0.0,
-     "코호트_평균감성": 0.219,
-     "코호트_감성표준편차": 0.226,
+     "코호트_평균감성": 0.247,
+     "코호트_감성표준편차": 0.228,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.751 를 코호트 평균 0.219 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.751 를 코호트 평균 0.247 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
      "최신성_가중합": 0.6,
      "전체_유효언급": 2,
-     "코호트_z점수": -2.04,
+     "코호트_z점수": -1.96,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -36514,9 +36586,9 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 37.6,
-    "reputation": 52.7,
-    "momentum": 31.6,
+    "total": 37.7,
+    "reputation": 52.6,
+    "momentum": 32.4,
     "transparency": 96.0,
     "selectivity": null,
     "sampleSize": 2,
@@ -36635,10 +36707,10 @@
      "제외된_스팸": 1,
      "가중_감성합": 0.1,
      "가중치_총합": 0.24,
-     "코호트_평균감성": 0.288,
-     "코호트_감성표준편차": 0.13,
+     "코호트_평균감성": 0.287,
+     "코호트_감성표준편차": 0.129,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.414 를 코호트 평균 0.288 쪽으로 12건만큼 축소 (유효표본 1.0건)"
+     "설명": "신뢰도·최신성 가중 감성 0.414 를 코호트 평균 0.287 쪽으로 12건만큼 축소 (유효표본 1.0건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -36999,7 +37071,7 @@
   "score": {
    "total": 35.8,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 94.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -37027,7 +37099,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -37058,7 +37130,7 @@
    "math": {
     "total": 35.8,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 94.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -37075,7 +37147,7 @@
    "english": {
     "total": 35.7,
     "reputation": 50.0,
-    "momentum": 27.2,
+    "momentum": 27.4,
     "transparency": 94.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -37226,7 +37298,7 @@
   "score": {
    "total": 35.8,
    "reputation": 50.0,
-   "momentum": 28.1,
+   "momentum": 28.0,
    "transparency": 94.0,
    "selectivity": null,
    "sampleSize": 0,
@@ -37254,7 +37326,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0,
      "전체_유효언급": 0,
-     "코호트_z점수": -2.43,
+     "코호트_z점수": -2.44,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -37285,7 +37357,7 @@
    "math": {
     "total": 35.8,
     "reputation": 50.0,
-    "momentum": 28.1,
+    "momentum": 28.0,
     "transparency": 94.0,
     "selectivity": null,
     "sampleSize": 0,
@@ -37346,7 +37418,7 @@
    "reputation": 49.4,
    "momentum": 57.1,
    "transparency": 81.0,
-   "selectivity": 49.8,
+   "selectivity": 49.7,
    "sampleSize": 191,
    "confidence": "high",
    "isRanked": true,
@@ -37368,10 +37440,10 @@
      "표본": 85,
      "유효표본": 52.8,
      "긍정률": 94.8,
-     "의견_표명_가중치": 5.45,
+     "의견_표명_가중치": 5.44,
      "제외된_스팸": 134,
      "가중_감성합": 2.82,
-     "가중치_총합": 12.28,
+     "가중치_총합": 12.27,
      "코호트_평균감성": 0.236,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
@@ -37406,7 +37478,7 @@
       "레벨테스트 있음": 10,
       "대기·웨이팅": 3
      },
-     "사건_강도": 0.73,
+     "사건_강도": 0.72,
      "서로_다른_작성자": 12,
      "확인율": 1.0,
      "최신_사건": "2026-06-06",
@@ -37439,7 +37511,7 @@
     "reputation": 49.4,
     "momentum": 57.1,
     "transparency": 81.0,
-    "selectivity": 49.8,
+    "selectivity": 49.7,
     "sampleSize": 191,
     "confidence": "high",
     "isRanked": true,
@@ -37678,7 +37750,7 @@
    "reputation": 60.6,
    "momentum": 55.5,
    "transparency": 92.0,
-   "selectivity": 39.0,
+   "selectivity": 38.9,
    "sampleSize": 72,
    "confidence": "high",
    "isRanked": true,
@@ -37700,10 +37772,10 @@
      "표본": 44,
      "유효표본": 21.1,
      "긍정률": 98.7,
-     "의견_표명_가중치": 3.56,
+     "의견_표명_가중치": 3.55,
      "제외된_스팸": 36,
-     "가중_감성합": 2.01,
-     "가중치_총합": 5.11,
+     "가중_감성합": 2.0,
+     "가중치_총합": 5.1,
      "코호트_평균감성": 0.236,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
@@ -37753,7 +37825,7 @@
     "reputation": 60.6,
     "momentum": 55.5,
     "transparency": 92.0,
-    "selectivity": 39.0,
+    "selectivity": 38.9,
     "sampleSize": 72,
     "confidence": "high",
     "isRanked": true,
@@ -38095,16 +38167,16 @@
     },
     "reputation": {
      "표본": 100,
-     "유효표본": 57.2,
+     "유효표본": 57.3,
      "긍정률": 88.7,
-     "의견_표명_가중치": 10.76,
+     "의견_표명_가중치": 10.75,
      "제외된_스팸": 127,
-     "가중_감성합": 3.88,
-     "가중치_총합": 14.24,
+     "가중_감성합": 3.87,
+     "가중치_총합": 14.23,
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.272 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 57.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.272 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 57.3건)"
     },
     "momentum": {
      "최근90일_언급": 2,
@@ -38217,8 +38289,8 @@
   ],
   "facts": {
    "fact.class_freq": {
-    "n": 5,
-    "sources": 3,
+    "n": 6,
+    "sources": 4,
     "quotes": [
      {
       "quote": "…어 - 수강강좌명 : 영어 - 수강인원 : 10 - 수업시간(주당) : 주3회 1시간 30분 - 수강료 : 45 - 입학시험.",
@@ -38412,7 +38484,7 @@
   "dataSource": "neis",
   "score": {
    "total": 45.0,
-   "reputation": 45.5,
+   "reputation": 45.6,
    "momentum": 47.6,
    "transparency": 90.0,
    "selectivity": 24.0,
@@ -38488,7 +38560,7 @@
   "subjectScores": {
    "english": {
     "total": 45.0,
-    "reputation": 45.5,
+    "reputation": 45.6,
     "momentum": 47.6,
     "transparency": 90.0,
     "selectivity": 24.0,
@@ -38662,7 +38734,7 @@
    "reputation": 48.8,
    "momentum": 53.0,
    "transparency": 100.0,
-   "selectivity": 49.9,
+   "selectivity": 49.8,
    "sampleSize": 38,
    "confidence": "high",
    "isRanked": true,
@@ -38682,20 +38754,20 @@
     },
     "reputation": {
      "표본": 28,
-     "유효표본": 20.3,
+     "유효표본": 20.4,
      "긍정률": 69.1,
-     "의견_표명_가중치": 5.17,
+     "의견_표명_가중치": 5.16,
      "제외된_스팸": 10,
-     "가중_감성합": 1.63,
-     "가중치_총합": 5.88,
+     "가중_감성합": 1.62,
+     "가중치_총합": 5.87,
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.277 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 20.3건)"
+     "설명": "신뢰도·최신성 가중 감성 0.276 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 20.4건)"
     },
     "momentum": {
      "최근90일_언급": 3,
-     "최신성_가중합": 20.1,
+     "최신성_가중합": 20.0,
      "전체_유효언급": 38,
      "코호트_z점수": 0.46,
      "월별_추세_상대기울기": -0.095,
@@ -38737,7 +38809,7 @@
     "reputation": 48.8,
     "momentum": 53.0,
     "transparency": 100.0,
-    "selectivity": 49.9,
+    "selectivity": 49.8,
     "sampleSize": 38,
     "confidence": "high",
     "isRanked": true,
@@ -39008,16 +39080,16 @@
     },
     "reputation": {
      "표본": 146,
-     "유효표본": 79.7,
+     "유효표본": 79.8,
      "긍정률": 73.7,
-     "의견_표명_가중치": 12.79,
+     "의견_표명_가중치": 12.78,
      "제외된_스팸": 93,
-     "가중_감성합": 3.34,
-     "가중치_총합": 19.18,
+     "가중_감성합": 3.33,
+     "가중치_총합": 19.17,
      "코호트_평균감성": 0.236,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.174 를 코호트 평균 0.236 쪽으로 12건만큼 축소 (유효표본 79.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.174 를 코호트 평균 0.236 쪽으로 12건만큼 축소 (유효표본 79.8건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -39378,16 +39450,16 @@
     },
     "reputation": {
      "표본": 120,
-     "유효표본": 55.6,
+     "유효표본": 55.8,
      "긍정률": 80.1,
-     "의견_표명_가중치": 9.01,
+     "의견_표명_가중치": 9.0,
      "제외된_스팸": 133,
      "가중_감성합": 2.42,
-     "가중치_총합": 12.91,
+     "가중치_총합": 12.9,
      "코호트_평균감성": 0.269,
      "코호트_감성표준편차": 0.116,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.188 를 코호트 평균 0.269 쪽으로 12건만큼 축소 (유효표본 55.6건)"
+     "설명": "신뢰도·최신성 가중 감성 0.188 를 코호트 평균 0.269 쪽으로 12건만큼 축소 (유효표본 55.8건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -39858,7 +39930,7 @@
    "reputation": 54.2,
    "momentum": 56.7,
    "transparency": 56.0,
-   "selectivity": 55.8,
+   "selectivity": 55.7,
    "sampleSize": 44,
    "confidence": "high",
    "isRanked": true,
@@ -39880,14 +39952,14 @@
      "표본": 32,
      "유효표본": 15.5,
      "긍정률": 90.8,
-     "의견_표명_가중치": 3.22,
+     "의견_표명_가중치": 3.21,
      "제외된_스팸": 14,
-     "가중_감성합": 2.06,
+     "가중_감성합": 2.05,
      "가중치_총합": 4.95,
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.415 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 15.5건)"
+     "설명": "신뢰도·최신성 가중 감성 0.414 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 15.5건)"
     },
     "momentum": {
      "최근90일_언급": 2,
@@ -39935,7 +40007,7 @@
     "reputation": 54.2,
     "momentum": 56.7,
     "transparency": 56.0,
-    "selectivity": 55.8,
+    "selectivity": 55.7,
     "sampleSize": 44,
     "confidence": "high",
     "isRanked": true,
@@ -40143,7 +40215,7 @@
      "표본": 62,
      "유효표본": 44.3,
      "긍정률": 90.8,
-     "의견_표명_가중치": 2.95,
+     "의견_표명_가중치": 2.94,
      "제외된_스팸": 12,
      "가중_감성합": 1.27,
      "가중치_총합": 9.29,
@@ -40494,7 +40566,7 @@
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.203 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 4.7건)"
+     "설명": "신뢰도·최신성 가중 감성 0.202 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 4.7건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -41190,11 +41262,11 @@
   "establishedOn": "2009-04-28",
   "dataSource": "neis",
   "score": {
-   "total": 53.2,
-   "reputation": 50.2,
+   "total": 53.1,
+   "reputation": 50.1,
    "momentum": 47.3,
    "transparency": 99.0,
-   "selectivity": 39.1,
+   "selectivity": 39.0,
    "sampleSize": 10,
    "confidence": "medium",
    "isRanked": true,
@@ -41218,12 +41290,12 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 1.22,
      "제외된_스팸": 2,
-     "가중_감성합": 0.68,
+     "가중_감성합": 0.67,
      "가중치_총합": 2.18,
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.311 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 7.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.31 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 7.4건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -41265,11 +41337,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 53.2,
-    "reputation": 50.2,
+    "total": 53.1,
+    "reputation": 50.1,
     "momentum": 47.3,
     "transparency": 99.0,
-    "selectivity": 39.1,
+    "selectivity": 39.0,
     "sampleSize": 10,
     "confidence": "medium",
     "isRanked": true,
@@ -42628,7 +42700,7 @@
      "표본": 91,
      "유효표본": 54.5,
      "긍정률": 89.1,
-     "의견_표명_가중치": 7.79,
+     "의견_표명_가중치": 7.78,
      "제외된_스팸": 59,
      "가중_감성합": 3.11,
      "가중치_총합": 10.83,
@@ -42935,7 +43007,7 @@
    "reputation": 43.1,
    "momentum": 53.9,
    "transparency": 96.0,
-   "selectivity": 55.0,
+   "selectivity": 54.9,
    "sampleSize": 108,
    "confidence": "high",
    "isRanked": true,
@@ -42955,16 +43027,16 @@
     },
     "reputation": {
      "표본": 64,
-     "유효표본": 27.1,
+     "유효표본": 27.2,
      "긍정률": 75.2,
-     "의견_표명_가중치": 4.09,
+     "의견_표명_가중치": 4.08,
      "제외된_스팸": 56,
      "가중_감성합": 1.06,
-     "가중치_총합": 7.44,
+     "가중치_총합": 7.43,
      "코호트_평균감성": 0.236,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.143 를 코호트 평균 0.236 쪽으로 12건만큼 축소 (유효표본 27.1건)"
+     "설명": "신뢰도·최신성 가중 감성 0.142 를 코호트 평균 0.236 쪽으로 12건만큼 축소 (유효표본 27.2건)"
     },
     "momentum": {
      "최근90일_언급": 1,
@@ -43011,7 +43083,7 @@
     "reputation": 43.1,
     "momentum": 53.9,
     "transparency": 96.0,
-    "selectivity": 55.0,
+    "selectivity": 54.9,
     "sampleSize": 108,
     "confidence": "high",
     "isRanked": true,
@@ -43028,7 +43100,7 @@
     "reputation": 51.3,
     "momentum": 68.6,
     "transparency": 96.0,
-    "selectivity": 45.9,
+    "selectivity": 45.8,
     "sampleSize": 66,
     "confidence": "high",
     "isRanked": true,
@@ -43798,11 +43870,11 @@
   "establishedOn": "2005-03-14",
   "dataSource": "neis",
   "score": {
-   "total": 63.3,
-   "reputation": 45.5,
+   "total": 63.2,
+   "reputation": 45.4,
    "momentum": 70.0,
    "transparency": 100.0,
-   "selectivity": 62.4,
+   "selectivity": 62.2,
    "sampleSize": 336,
    "confidence": "high",
    "isRanked": true,
@@ -43822,20 +43894,20 @@
     },
     "reputation": {
      "표본": 182,
-     "유효표본": 114.8,
+     "유효표본": 115.0,
      "긍정률": 77.6,
-     "의견_표명_가중치": 35.77,
+     "의견_표명_가중치": 35.65,
      "제외된_스팸": 164,
-     "가중_감성합": 9.9,
-     "가중치_총합": 42.87,
+     "가중_감성합": 9.87,
+     "가중치_총합": 42.75,
      "코호트_평균감성": 0.305,
      "코호트_감성표준편차": 0.22,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.231 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 114.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.231 를 코호트 평균 0.305 쪽으로 12건만큼 축소 (유효표본 115.0건)"
     },
     "momentum": {
      "최근90일_언급": 20,
-     "최신성_가중합": 194.9,
+     "최신성_가중합": 194.8,
      "전체_유효언급": 336,
      "코호트_z점수": 2.05,
      "월별_추세_상대기울기": 0.129,
@@ -43875,11 +43947,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 63.3,
-    "reputation": 45.5,
+    "total": 63.2,
+    "reputation": 45.4,
     "momentum": 70.0,
     "transparency": 100.0,
-    "selectivity": 62.4,
+    "selectivity": 62.2,
     "sampleSize": 336,
     "confidence": "high",
     "isRanked": true,
@@ -44447,10 +44519,10 @@
   "dataSource": "neis",
   "score": {
    "total": 59.6,
-   "reputation": 48.4,
+   "reputation": 48.5,
    "momentum": 58.2,
    "transparency": 99.0,
-   "selectivity": 54.5,
+   "selectivity": 54.4,
    "sampleSize": 116,
    "confidence": "high",
    "isRanked": true,
@@ -44523,10 +44595,10 @@
   "subjectScores": {
    "math": {
     "total": 59.6,
-    "reputation": 48.4,
+    "reputation": 48.5,
     "momentum": 58.2,
     "transparency": 99.0,
-    "selectivity": 54.5,
+    "selectivity": 54.4,
     "sampleSize": 116,
     "confidence": "high",
     "isRanked": true,
@@ -46165,10 +46237,10 @@
      "표본": 15,
      "유효표본": 11.4,
      "긍정률": 94.9,
-     "의견_표명_가중치": 2.12,
+     "의견_표명_가중치": 2.11,
      "제외된_스팸": 6,
-     "가중_감성합": 1.37,
-     "가중치_총합": 2.29,
+     "가중_감성합": 1.36,
+     "가중치_총합": 2.28,
      "코호트_평균감성": 0.236,
      "코호트_감성표준편차": 0.142,
      "축소_사전표본": 12,
@@ -46231,8 +46303,8 @@
     "regionRankedCount": 14
    },
    "english": {
-    "total": 42.1,
-    "reputation": 63.3,
+    "total": 42.2,
+    "reputation": 63.4,
     "momentum": 40.2,
     "transparency": 93.0,
     "selectivity": null,
@@ -50324,9 +50396,9 @@
   "score": {
    "total": 51.4,
    "reputation": 55.9,
-   "momentum": 46.8,
+   "momentum": 46.7,
    "transparency": 99.0,
-   "selectivity": 28.5,
+   "selectivity": 28.4,
    "sampleSize": 5,
    "confidence": "low",
    "isRanked": false,
@@ -50347,7 +50419,7 @@
     "reputation": {
      "표본": 4,
      "유효표본": 3.8,
-     "긍정률": 68.2,
+     "긍정률": 68.3,
      "의견_표명_가중치": 1.33,
      "제외된_스팸": 1,
      "가중_감성합": 0.61,
@@ -50355,7 +50427,7 @@
      "코호트_평균감성": 0.269,
      "코호트_감성표준편차": 0.116,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.458 를 코호트 평균 0.269 쪽으로 12건만큼 축소 (유효표본 3.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.459 를 코호트 평균 0.269 쪽으로 12건만큼 축소 (유효표본 3.8건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -50399,9 +50471,9 @@
    "korean": {
     "total": 51.4,
     "reputation": 55.9,
-    "momentum": 46.8,
+    "momentum": 46.7,
     "transparency": 99.0,
-    "selectivity": 28.5,
+    "selectivity": 28.4,
     "sampleSize": 5,
     "confidence": "low",
     "isRanked": false,
@@ -54403,8 +54475,8 @@
   "establishedOn": "1982-02-13",
   "dataSource": "neis",
   "score": {
-   "total": 50.7,
-   "reputation": 40.7,
+   "total": 50.8,
+   "reputation": 40.8,
    "momentum": 65.7,
    "transparency": null,
    "selectivity": null,
@@ -54454,8 +54526,8 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 50.7,
-    "reputation": 40.7,
+    "total": 50.8,
+    "reputation": 40.8,
     "momentum": 65.7,
     "transparency": null,
     "selectivity": null,
@@ -54682,7 +54754,7 @@
    "reputation": 37.3,
    "momentum": 58.6,
    "transparency": 100.0,
-   "selectivity": 36.3,
+   "selectivity": 36.2,
    "sampleSize": 137,
    "confidence": "high",
    "isRanked": true,
@@ -54758,7 +54830,7 @@
     "reputation": 37.3,
     "momentum": 58.6,
     "transparency": 100.0,
-    "selectivity": 36.3,
+    "selectivity": 36.2,
     "sampleSize": 137,
     "confidence": "high",
     "isRanked": true,
@@ -55507,9 +55579,9 @@
   "establishedOn": "2010-06-30",
   "dataSource": "neis",
   "score": {
-   "total": 53.6,
+   "total": 53.5,
    "reputation": 54.0,
-   "momentum": 52.9,
+   "momentum": 52.8,
    "transparency": null,
    "selectivity": null,
    "sampleSize": 11,
@@ -55533,7 +55605,7 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 1.07,
      "제외된_스팸": 3,
-     "가중_감성합": 0.87,
+     "가중_감성합": 0.86,
      "가중치_총합": 1.07,
      "코호트_평균감성": 0.472,
      "코호트_감성표준편차": 0.294,
@@ -55542,7 +55614,7 @@
     },
     "momentum": {
      "최근90일_언급": 1,
-     "최신성_가중합": 3.6,
+     "최신성_가중합": 3.5,
      "전체_유효언급": 11,
      "코호트_z점수": 0.32,
      "월별_추세_상대기울기": 0.0,
@@ -55558,9 +55630,9 @@
   },
   "subjectScores": {
    "arts": {
-    "total": 53.6,
+    "total": 53.5,
     "reputation": 54.0,
-    "momentum": 52.9,
+    "momentum": 52.8,
     "transparency": null,
     "selectivity": null,
     "sampleSize": 11,
@@ -55671,7 +55743,7 @@
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "non_academic",
-   "positiveRate": 82.3,
+   "positiveRate": 82.4,
    "momentumDirection": "stable",
    "selectivityTier": null,
    "rankInRegion": 2,
@@ -55684,7 +55756,7 @@
     "reputation": {
      "표본": 14,
      "유효표본": 11.1,
-     "긍정률": 82.3,
+     "긍정률": 82.4,
      "의견_표명_가중치": 1.61,
      "제외된_스팸": 7,
      "가중_감성합": 0.35,
@@ -55722,7 +55794,7 @@
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "non_academic",
-    "positiveRate": 82.3,
+    "positiveRate": 82.4,
     "momentumDirection": "stable",
     "selectivityTier": null,
     "rankInRegion": 2,
@@ -55853,17 +55925,17 @@
   "establishedOn": "2024-10-10",
   "dataSource": "neis",
   "score": {
-   "total": 55.5,
-   "reputation": 60.9,
+   "total": 55.4,
+   "reputation": 60.8,
    "momentum": 49.1,
    "transparency": 84.0,
-   "selectivity": 40.6,
+   "selectivity": 40.5,
    "sampleSize": 20,
    "confidence": "medium",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 84.4,
+   "positiveRate": 84.3,
    "momentumDirection": "falling",
    "selectivityTier": "mentioned",
    "rankInRegion": 4,
@@ -55878,15 +55950,15 @@
     "reputation": {
      "표본": 20,
      "유효표본": 15.8,
-     "긍정률": 84.4,
-     "의견_표명_가중치": 5.09,
+     "긍정률": 84.3,
+     "의견_표명_가중치": 5.07,
      "제외된_스팸": 4,
-     "가중_감성합": 2.48,
-     "가중치_총합": 5.42,
+     "가중_감성합": 2.47,
+     "가중치_총합": 5.4,
      "코호트_평균감성": 0.244,
      "코호트_감성표준편차": 0.168,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.458 를 코호트 평균 0.244 쪽으로 12건만큼 축소 (유효표본 15.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.457 를 코호트 평균 0.244 쪽으로 12건만큼 축소 (유효표본 15.8건)"
     },
     "momentum": {
      "최근90일_언급": 7,
@@ -55929,17 +56001,17 @@
   },
   "subjectScores": {
    "math": {
-    "total": 55.5,
-    "reputation": 60.9,
+    "total": 55.4,
+    "reputation": 60.8,
     "momentum": 49.1,
     "transparency": 84.0,
-    "selectivity": 40.6,
+    "selectivity": 40.5,
     "sampleSize": 20,
     "confidence": "medium",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 84.4,
+    "positiveRate": 84.3,
     "momentumDirection": "falling",
     "selectivityTier": "mentioned",
     "rankInRegion": 4,
@@ -56094,14 +56166,14 @@
      "표본": 42,
      "유효표본": 22.3,
      "긍정률": 88.7,
-     "의견_표명_가중치": 4.27,
+     "의견_표명_가중치": 4.25,
      "제외된_스팸": 71,
-     "가중_감성합": 2.37,
-     "가중치_총합": 6.24,
+     "가중_감성합": 2.36,
+     "가중치_총합": 6.23,
      "코호트_평균감성": 0.472,
      "코호트_감성표준편차": 0.294,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.38 를 코호트 평균 0.472 쪽으로 12건만큼 축소 (유효표본 22.3건)"
+     "설명": "신뢰도·최신성 가중 감성 0.379 를 코호트 평균 0.472 쪽으로 12건만큼 축소 (유효표본 22.3건)"
     },
     "momentum": {
      "최근90일_언급": 3,
@@ -56275,7 +56347,7 @@
      "의견_표명_가중치": 8.09,
      "제외된_스팸": 46,
      "가중_감성합": 1.79,
-     "가중치_총합": 11.6,
+     "가중치_총합": 11.59,
      "코호트_평균감성": 0.244,
      "코호트_감성표준편차": 0.168,
      "축소_사전표본": 12,
@@ -56592,11 +56664,11 @@
   "establishedOn": "2014-10-23",
   "dataSource": "neis",
   "score": {
-   "total": 57.0,
+   "total": 56.9,
    "reputation": 53.0,
    "momentum": 54.3,
    "transparency": 96.0,
-   "selectivity": 45.4,
+   "selectivity": 45.3,
    "sampleSize": 52,
    "confidence": "high",
    "isRanked": true,
@@ -56618,10 +56690,10 @@
      "표본": 34,
      "유효표본": 22.8,
      "긍정률": 85.0,
-     "의견_표명_가중치": 5.13,
+     "의견_표명_가중치": 5.11,
      "제외된_스팸": 22,
      "가중_감성합": 1.83,
-     "가중치_총합": 6.22,
+     "가중치_총합": 6.21,
      "코호트_평균감성": 0.244,
      "코호트_감성표준편차": 0.168,
      "축소_사전표본": 12,
@@ -56629,7 +56701,7 @@
     },
     "momentum": {
      "최근90일_언급": 3,
-     "최신성_가중합": 27.3,
+     "최신성_가중합": 27.2,
      "전체_유효언급": 52,
      "코호트_z점수": 0.75,
      "월별_추세_상대기울기": -0.206,
@@ -56656,7 +56728,7 @@
       "정원 마감": 1,
       "레벨테스트 있음": 14
      },
-     "사건_강도": 0.37,
+     "사건_강도": 0.36,
      "서로_다른_작성자": 11,
      "확인율": 1.0,
      "최신_사건": "2026-06-30",
@@ -56668,11 +56740,11 @@
   },
   "subjectScores": {
    "math": {
-    "total": 57.0,
+    "total": 56.9,
     "reputation": 53.0,
     "momentum": 54.3,
     "transparency": 96.0,
-    "selectivity": 45.4,
+    "selectivity": 45.3,
     "sampleSize": 52,
     "confidence": "high",
     "isRanked": true,
@@ -56803,6 +56875,26 @@
     "disputed": false,
     "label": "1회 수업",
     "unit": "분"
+   },
+   "fact.homework": {
+    "n": 1,
+    "sources": 1,
+    "quotes": [
+     {
+      "quote": "〔과제 분량〕 1시간정도",
+      "url": "https://cafe.naver.com/sjmaengmo/39445",
+      "claimId": "a45590efcef12202",
+      "postedAt": null
+     }
+    ],
+    "stale": false,
+    "value": null,
+    "low": null,
+    "high": null,
+    "text": null,
+    "disputed": false,
+    "label": "숙제량",
+    "unit": "분/일"
    }
   },
   "selectivityEvidence": [
@@ -56934,7 +57026,7 @@
     },
     "reputation": {
      "표본": 75,
-     "유효표본": 38.8,
+     "유효표본": 38.7,
      "긍정률": 86.9,
      "의견_표명_가중치": 5.93,
      "제외된_스팸": 53,
@@ -56943,7 +57035,7 @@
      "코호트_평균감성": 0.211,
      "코호트_감성표준편차": 0.095,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.285 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 38.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.285 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 38.7건)"
     },
     "momentum": {
      "최근90일_언급": 0,
@@ -57211,7 +57303,7 @@
      "최근90일_언급": 0,
      "최신성_가중합": 0.2,
      "전체_유효언급": 12,
-     "코호트_z점수": -0.76,
+     "코호트_z점수": -0.77,
      "월별_추세_상대기울기": 0.0,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
@@ -57635,7 +57727,7 @@
    "reputation": 48.4,
    "momentum": 62.9,
    "transparency": 95.0,
-   "selectivity": 66.5,
+   "selectivity": 66.4,
    "sampleSize": 146,
    "confidence": "high",
    "isRanked": true,
@@ -57655,20 +57747,20 @@
     },
     "reputation": {
      "표본": 98,
-     "유효표본": 63.4,
+     "유효표본": 63.5,
      "긍정률": 79.2,
-     "의견_표명_가중치": 10.23,
+     "의견_표명_가중치": 10.22,
      "제외된_스팸": 52,
      "가중_감성합": 3.33,
-     "가중치_총합": 14.95,
+     "가중치_총합": 14.94,
      "코호트_평균감성": 0.244,
      "코호트_감성표준편차": 0.168,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.223 를 코호트 평균 0.244 쪽으로 12건만큼 축소 (유효표본 63.4건)"
+     "설명": "신뢰도·최신성 가중 감성 0.223 를 코호트 평균 0.244 쪽으로 12건만큼 축소 (유효표본 63.5건)"
     },
     "momentum": {
      "최근90일_언급": 4,
-     "최신성_가중합": 83.5,
+     "최신성_가중합": 83.4,
      "전체_유효언급": 146,
      "코호트_z점수": 1.46,
      "월별_추세_상대기울기": -0.021,
@@ -57713,7 +57805,7 @@
     "reputation": 48.4,
     "momentum": 62.9,
     "transparency": 95.0,
-    "selectivity": 66.5,
+    "selectivity": 66.4,
     "sampleSize": 146,
     "confidence": "high",
     "isRanked": true,
@@ -57963,15 +58055,15 @@
   "score": {
    "total": 68.4,
    "reputation": 61.6,
-   "momentum": 60.2,
+   "momentum": 60.5,
    "transparency": 97.0,
-   "selectivity": 66.4,
+   "selectivity": 66.2,
    "sampleSize": 275,
    "confidence": "high",
    "isRanked": true,
    "isComplete": true,
    "subjectGroup": "academic",
-   "positiveRate": 83.5,
+   "positiveRate": 83.4,
    "momentumDirection": "stable",
    "selectivityTier": "medium",
    "rankInRegion": 1,
@@ -57985,23 +58077,23 @@
     },
     "reputation": {
      "표본": 175,
-     "유효표본": 104.2,
-     "긍정률": 83.5,
-     "의견_표명_가중치": 20.6,
+     "유효표본": 104.3,
+     "긍정률": 83.4,
+     "의견_표명_가중치": 20.56,
      "제외된_스팸": 143,
-     "가중_감성합": 7.85,
-     "가중치_총합": 26.76,
+     "가중_감성합": 7.83,
+     "가중치_총합": 26.72,
      "코호트_평균감성": 0.211,
      "코호트_감성표준편차": 0.095,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.293 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 104.2건)"
+     "설명": "신뢰도·최신성 가중 감성 0.293 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 104.3건)"
     },
     "momentum": {
      "최근90일_언급": 6,
-     "최신성_가중합": 146.6,
+     "최신성_가중합": 146.5,
      "전체_유효언급": 275,
      "코호트_z점수": 1.27,
-     "월별_추세_상대기울기": -0.1,
+     "월별_추세_상대기울기": -0.078,
      "설명": "코호트 내 언급량 z점수 60% + 12개월 월별 추세 40% (추세는 월평균 대비 상대 기울기)"
     },
     "transparency": {
@@ -58042,15 +58134,15 @@
    "english": {
     "total": 68.4,
     "reputation": 61.6,
-    "momentum": 60.2,
+    "momentum": 60.5,
     "transparency": 97.0,
-    "selectivity": 66.4,
+    "selectivity": 66.2,
     "sampleSize": 275,
     "confidence": "high",
     "isRanked": true,
     "isComplete": true,
     "subjectGroup": "academic",
-    "positiveRate": 83.5,
+    "positiveRate": 83.4,
     "momentumDirection": "stable",
     "selectivityTier": "medium",
     "rankInRegion": 1,
@@ -58777,10 +58869,10 @@
      "표본": 45,
      "유효표본": 22.9,
      "긍정률": 95.7,
-     "의견_표명_가중치": 2.9,
+     "의견_표명_가중치": 2.89,
      "제외된_스팸": 50,
      "가중_감성합": 1.46,
-     "가중치_총합": 4.38,
+     "가중치_총합": 4.37,
      "코호트_평균감성": 0.211,
      "코호트_감성표준편차": 0.095,
      "축소_사전표본": 12,
@@ -59025,11 +59117,11 @@
   "establishedOn": "2005-05-25",
   "dataSource": "neis",
   "score": {
-   "total": 65.0,
+   "total": 64.9,
    "reputation": 50.1,
    "momentum": 61.6,
    "transparency": 100.0,
-   "selectivity": 66.4,
+   "selectivity": 66.2,
    "sampleSize": 373,
    "confidence": "high",
    "isRanked": true,
@@ -59049,20 +59141,20 @@
     },
     "reputation": {
      "표본": 194,
-     "유효표본": 120.8,
+     "유효표본": 121.0,
      "긍정률": 78.4,
-     "의견_표명_가중치": 30.54,
+     "의견_표명_가중치": 30.44,
      "제외된_스팸": 190,
-     "가중_감성합": 8.39,
-     "가중치_총합": 39.62,
+     "가중_감성합": 8.36,
+     "가중치_총합": 39.52,
      "코호트_평균감성": 0.211,
      "코호트_감성표준편차": 0.095,
      "축소_사전표본": 12,
-     "설명": "신뢰도·최신성 가중 감성 0.212 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 120.8건)"
+     "설명": "신뢰도·최신성 가중 감성 0.212 를 코호트 평균 0.211 쪽으로 12건만큼 축소 (유효표본 121.0건)"
     },
     "momentum": {
      "최근90일_언급": 15,
-     "최신성_가중합": 214.8,
+     "최신성_가중합": 214.7,
      "전체_유효언급": 373,
      "코호트_z점수": 1.46,
      "월별_추세_상대기울기": -0.124,
@@ -59103,11 +59195,11 @@
   },
   "subjectScores": {
    "english": {
-    "total": 65.0,
+    "total": 64.9,
     "reputation": 50.1,
     "momentum": 61.6,
     "transparency": 100.0,
-    "selectivity": 66.4,
+    "selectivity": 66.2,
     "sampleSize": 373,
     "confidence": "high",
     "isRanked": true,
@@ -62235,10 +62327,10 @@
   "establishedOn": "2026-02-19",
   "dataSource": "neis",
   "score": {
-   "total": 29.2,
+   "total": 29.4,
    "reputation": 50.0,
    "momentum": 20.0,
-   "transparency": 58.0,
+   "transparency": 59.0,
    "selectivity": null,
    "sampleSize": 0,
    "confidence": "low",
@@ -62274,7 +62366,7 @@
       "등록상태 정상": 30,
       "정원 공시": 0,
       "교습과정 상세": 25,
-      "운영 지속기간": 3
+      "운영 지속기간": 4
      },
      "만점": {
       "등록상태 정상": 30,
@@ -62294,10 +62386,10 @@
   },
   "subjectScores": {
    "korean": {
-    "total": 29.2,
+    "total": 29.4,
     "reputation": 50.0,
     "momentum": 20.0,
-    "transparency": 58.0,
+    "transparency": 59.0,
     "selectivity": null,
     "sampleSize": 0,
     "confidence": "low",
@@ -67593,7 +67685,7 @@
      "긍정률": 100.0,
      "의견_표명_가중치": 0.3,
      "제외된_스팸": 0,
-     "가중_감성합": 0.26,
+     "가중_감성합": 0.25,
      "가중치_총합": 0.3,
      "코호트_평균감성": 0.472,
      "코호트_감성표준편차": 0.294,
