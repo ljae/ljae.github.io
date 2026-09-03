@@ -1,0 +1,40 @@
+---
+url_hash: "ff36e0afc21997e64bff2bf12a0cdc8b"
+url: https://blog.naver.com/hr4165310/223956418933
+source: naver_blog
+title: 목동 바이올린 학원 아이가 재미있어 하는 곳
+posted_at: 2025-08-02
+author_hash: 36e951980eaf9c0c57eb2e87c06db615
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 목동 바이올린 학원 아이가 재미있어 하는 곳
+
+원문: https://blog.naver.com/hr4165310/223956418933
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.84 (긍정) · 신뢰도 0.75
+- 붙은 학원 1곳 · 과목 english
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+바이올린 수업에서 '예쁜새', '아기펭귄' 곡을 배웠으며, 강사가 연주 영상 전달과 함께 활 쓸 때 힘주는 법을 직접 시범 보이며 지도해 주었다고 만족감을 나타낸 홍보성 글이다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000033062|에스제이음악학원]] — 글이 이 권역을 밝힘 · 감성 +0.84
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

@@ -1,0 +1,40 @@
+---
+url_hash: "c4bbba4a9cd03f8d14bdd3d981e8ba06"
+url: https://cafe.naver.com/rpdlarhtn/10263
+source: naver_cafe
+title: 중1 아이 수학학원 고르는 기준 4가지
+posted_at: 2026-08-29
+author_hash: 95b49c193cae61bc215b9fb7b0c31cf4
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 중1 아이 수학학원 고르는 기준 4가지
+
+원문: https://cafe.naver.com/rpdlarhtn/10263
+
+## 요약
+<!-- auto:digest -->
+- 감성 -0.48 (부정) · 신뢰도 0.35 · 스팸 0.12
+- 붙은 학원 1곳 · 과목 math
+- 등급반 언급: top
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000023303|최상위권수학학원]] — 이름이 본문에 등장 · 감성 -0.48
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
