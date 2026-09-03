@@ -931,10 +931,39 @@ def select_for_mentions(academies: list[dict],
                     cursors[sub] = i + 1
         return out
 
+    # ★ 이름만으로 못 가려내는 곳은 수집하지 않는다.
+    #
+    #   '대치학원'·'목동학원'·'잠실피아노학원' 은 지역어·업종어뿐이라 글에
+    #   그 말이 있어도 이 학원 이야기인지 알 수 없다(`analyze.name_core`).
+    #   게이트가 어차피 전부 버리므로 수집하면 API 호출만 태운다 — 실측
+    #   대치학원 191건·목동학원 212건이 그렇게 모였다가 근거가 됐다.
+    #   위키 `unusable` 도 같은 뜻이다(이름으로는 근거를 못 모은다).
+    #   학부모가 실제로 쓰는 표기를 위키 `aliases` 에 적으면 다시 모은다.
+    from . import wiki as wiki_mod
+    hints = wiki_mod.load()
+
+    def _matchable(a: dict) -> bool:
+        h = hints.get(a["id"]) or {}
+        if h.get("unusable"):
+            return False
+        cands = analyze.name_candidates(a) | {
+            analyze._norm(x) for x in h.get("aliases") or []
+            if len(analyze._norm(x)) >= 2}
+        return bool(cands - analyze.weak_candidates(cands))
+
+    unmatchable = [a for a in academies if not _matchable(a)]
+    if unmatchable:
+        by_place = sum(1 for a in unmatchable if analyze.is_place_name(a))
+        print(f"  이름만으로 못 가려내는 학원 {len(unmatchable):,}곳은 수집하지 않는다 "
+              f"(지역어·업종어뿐인 이름 {by_place:,}곳 · 위키 unusable "
+              f"{len(unmatchable) - by_place:,}곳) — 위키 aliases 로 표기를 주면 다시 모은다")
+    unmatchable_ids = {a["id"] for a in unmatchable}
+
     selected, skipped = [], []
     band_counts: dict[str, int] = {}
     for region_id in regions:
-        rows = [a for a in academies if a.get("region_id") == region_id]
+        rows = [a for a in academies
+                if a.get("region_id") == region_id and a["id"] not in unmatchable_ids]
         chosen: set[str] = set()
         picked: list[dict] = []
 
@@ -994,6 +1023,7 @@ def select_for_mentions(academies: list[dict],
 
     other = [a for a in academies if a.get("region_id") not in regions]
     skipped.extend(other)
+    skipped.extend(a for a in unmatchable if a.get("region_id") in regions)
 
     print(f"  네이버 수집 대상 {len(selected)}곳 선별 "
           f"(학군당 {per_region}곳, 구간당 {per_band}곳, 예산 {budget})")
@@ -1220,6 +1250,21 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                     candidates[aid].add(normed)
             if h["generic"]:
                 generic[aid] = True
+
+    # ★ 후보가 빈 학원은 어떤 글도 잇지 않는다 — 표본 0 · 근거 없음.
+    #
+    #   지역어·업종어만으로 된 이름('대치학원')은 글에 그 말이 있어도 이
+    #   학원 이야기인지 알 수 없다(`analyze.name_core`). 조용히 비면
+    #   화면에서 '학원이 없다' 로만 보이므로 여기서 이름을 찍는다.
+    nameless = [a for a in evaluated if not candidates.get(a["id"])]
+    if nameless:
+        shown = " · ".join(
+            f"{a.get('display_name') or a.get('name')}({a.get('region_id')})"
+            for a in nameless[:8])
+        print(f"  ! 이름만으로 못 가려내는 학원 {len(nameless)}곳 — 지역어·업종어뿐이라 "
+              f"근거를 잇지 않는다(표본 0): {shown}"
+              + (f" … 외 {len(nameless) - 8}곳" if len(nameless) > 8 else ""))
+        print("    → 학부모가 실제로 쓰는 표기가 있으면 위키 frontmatter aliases 에 적을 것")
 
     # 다른 학원 이름 후보. 모든 학원에 쓴다.
     #

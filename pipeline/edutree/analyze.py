@@ -393,14 +393,18 @@ def name_candidates(academy: dict) -> set[str]:
         flat = _norm(n)
         out.add(flat)
         # 지역 접두어를 뗀 형태
-        stripped = _norm(re.sub(r"^(대치|목동|반포|잠실|서울)\s*", "", n))
+        stripped = _norm(re.sub(r"^(대치|목동|반포|잠실|서울)동?\s*", "", n))
         out.add(stripped)
         # 업종어를 뗀 알맹이. 너무 짧아지면(2자 미만) 오매칭이 나므로 버린다.
         for base in (flat, stripped):
             core = _TRADE_SUFFIX.sub("", base)
             if len(core) >= 3:
                 out.add(core)
-    return {c for c in out if len(c) >= 2}
+    # ★ 알맹이 없는 표기는 이름이 아니다 — `name_core` 참고.
+    #   '대치학원' 의 지역 접두어를 뗀 형태는 '학원' 이고, 이름 전체도
+    #   '대치 학원(가)' 라는 구(句)와 같다. 둘 다 여기서 걸러져 후보가
+    #   비고, 후보가 비면 게이트가 아무 글도 잇지 않는다(표본 0).
+    return {c for c in out if len(c) >= 2 and name_core(c)}
 
 
 # 사람이 시드·위키에 적었지만 **그 자체로 일상어인 별칭.**
@@ -431,7 +435,9 @@ def weak_candidates(candidates: set[str]) -> set[str]:
     ('정상어학원')을 갖고 있고 별칭만 일상어일 수 있다.
     """
     bad = {_norm(g) for g in (*GENERIC_NAME_PARTS, *EVERYDAY_ALIASES)}
-    return {c for c in candidates if c in bad}
+    # 위키 별칭으로 들어온 '학원'·'수학학원' 같은 구(句)도 여기서 뺀다 —
+    # 사람이 적었어도 알맹이가 없으면 그 말로는 글을 가려낼 수 없다.
+    return {c for c in candidates if c in bad or not name_core(c)}
 
 
 # ── 이름이 나온 자리 ──────────────────────────────────────────────
@@ -538,14 +544,64 @@ def _rival_generic_words() -> tuple[str, ...]:
                         key=len, reverse=True))
 
 
+# ── 이름의 알맹이 ────────────────────────────────────────────────
+#
+# 지역어·업종어·과목어·교육 일반어를 전부 걷어내고 남는 것이 이름의
+# 알맹이(브랜드)다. **알맹이가 없는 이름은 이름이 아니라 구(句)다.**
+#
+# 실측(2026-09-02): '대치학원'(강남구 삼성로 347)이 대치 수학 11위 · 표본
+# 191건이었는데, 근거가 '역삼이편한세상 임장후기 #대치학원가' · '대치
+# 학원들은 시험 수준이…' · '이맥스어학원 레벨테스트 후기' 였다. 두 겹이다.
+#
+#   1. 지역 접두어를 뗀 형태 **'학원'** 이 후보에 들어갔다. 두 글자라 표지
+#      검사를 받지만 곁에 '수학'·'다니'·'후기' 가 있으면 통과하므로, 학원
+#      이야기라면 무엇이든 이 학원의 글이 됐다.
+#   2. 이름 자체가 '대치 학원(가)' 라는 흔한 말과 같다. flat 이 공백을
+#      지우므로 '대치 학원가 누리는' 도 '대치학원' 을 품는다. 원문에서
+#      붙여 쓴 68건을 열어 봐도 강한대치학원·서울대치학원·고려대치학원
+#      같은 **남의 이름의 일부**와 '2점대 대치학원' 같은 구가 대부분이었다.
+#
+# 같은 꼴이 채점 대상 400곳 중 8곳(목동학원 212 · 대치학원 191 ·
+# 잠실피아노학원 64 · 서울음악학원 58 · 대치피아노교습소 44 · 피아노교습소
+# 42 · 서울아카데미학원 16 · 고등학원 15 — 셋이 학군 1위였다), 등록부에
+# 162곳이다. 낱말을 빼는 방식으로는 끝나지 않는다('클라우드' 와 같다).
+#
+# → 알맹이 없는 표기는 후보에서 뺀다. 이름 전체가 그러면 후보가 비어
+#   표본 0 이 된다 — '아직 모른다' 가 정직한 상태다. 학부모가 실제로
+#   쓰는 다른 표기가 있으면 위키 frontmatter `aliases` 로 다시 잇는다.
+#
+# 남의 이름(`rival_eligible`)은 같은 알맹이로 판정하되 두 글자를 요구한다 —
+# 한 글자 알맹이('곰수학' 의 곰)는 제 이름으로는 쓸 만하지만 남의 이름으로
+# 글마다 훑기에는 우연이 잦다.
+@functools.lru_cache(maxsize=1)
+def _place_pattern() -> re.Pattern:
+    """권역어 + '서울'·'강남'. 뒤에 붙은 '동' 까지 한 덩어리로 본다
+    ('대치동영어교습소' 의 알맹이는 '동영어' 가 아니라 없음)."""
+    words = {w for ws in REGION_WORDS.values() for w in ws} | {"서울", "강남"}
+    alts = "|".join(re.escape(_norm(w))
+                    for w in sorted(words, key=len, reverse=True) if _norm(w))
+    return re.compile(rf"(?:{alts})동?")
+
+
+def name_core(cand: str) -> str:
+    """표기에서 지역어·업종어·과목어·교육 일반어를 걷어낸 알맹이."""
+    core = _place_pattern().sub("", _norm(cand))
+    for w in _rival_generic_words():
+        core = core.replace(w, "")
+    return core
+
+
+def is_place_name(academy: dict) -> bool:
+    """등록명이 지역어·업종어만으로 된 학원인가 ('대치학원'·'잠실피아노학원')."""
+    name = _norm(academy.get("name") or "")
+    return bool(name) and not name_core(name)
+
+
 def rival_eligible(cand: str) -> bool:
     """남의 학원 이름 후보로 쓸 수 있는가 — 일반어를 걷어내고도 알맹이가 남아야."""
     if len(cand) < 3:
         return False
-    core = cand
-    for w in _rival_generic_words():
-        core = core.replace(w, "")
-    return len(core) >= 2
+    return len(name_core(cand)) >= 2
 
 
 class RivalIndex:
