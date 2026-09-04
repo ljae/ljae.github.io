@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+서울과고 합격 후기와 영어학원비 관련 게시글 링크 등이 포함된 카페 매거진 글입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
