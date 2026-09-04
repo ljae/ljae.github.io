@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from edutree import nameaudit  # noqa: E402
+from edutree import nameaudit, questions, wiki  # noqa: E402
 
 
 def post(title, body=""):
@@ -84,7 +84,15 @@ def test_두_글자_후보는_보지_않는다():
 
 
 def test_보고는_이미_표시된_곳과_새로_걸린_곳을_가른다():
-    """매 실행 같은 목록을 다시 찍으면 새 신호가 묻힌다."""
+    """매 실행 같은 목록을 뒤섞어 찍으면 새 신호가 묻힌다 — **가른다.**
+
+    ★ 2026-09-03 정정. 예전에는 이미 표시된 곳을 **아예 안 찍었다.**
+      그래서 '새로운학원' 이 8/31 에 generic 으로 표시된 뒤에도 계속
+      퍼지고 있다는 사실이 로그에서 한 번도 보이지 않았고, 그동안 그
+      학원은 목동 영어 순위에 남아 있었다. 조여 놓았는데도 퍼진다는 것은
+      **조이는 것이 안 먹는다는 신호**다 — 새로 걸린 곳과 나란히 두되
+      섞지 않고, 다른 말을 붙여 따로 적는다.
+    """
     rows = [
         {"id": "a1", "name": "테스트", "region_id": "jamsil", "token": "테스트",
          "own": 10, "wide": 210, "spread": 21.0, "title_ratio": 0.1, "why": "퍼짐"},
@@ -95,7 +103,13 @@ def test_보고는_이미_표시된_곳과_새로_걸린_곳을_가른다():
     head = lines[0]
     assert "2곳" in head and "새로 걸린 곳 1" in head
     assert any("새로운학원" in x for x in lines)
-    assert not any("테스트" in x for x in lines[1:]), "이미 표시된 곳은 다시 안 적는다"
+
+    # 이미 표시된 곳은 **따로, 다른 말과 함께** 적는다.
+    warn = [i for i, x in enumerate(lines) if "generic 인데 여전히" in x]
+    assert warn, "조여 놓았는데도 퍼지면 그것이 신호다"
+    assert any("테스트" in x for x in lines[warn[0]:])
+    # 새로 걸린 곳이 먼저다 — 급한 것이 위에 온다.
+    assert next(i for i, x in enumerate(lines) if "새로운학원" in x) < warn[0]
 
 
 def test_걸리는_곳이_없으면_그렇게_적는다():
@@ -174,3 +188,58 @@ def test_제목은_모든_표기로_본다():
     assert len(nameaudit.measure(
         [academy("a1", "렉스김어학원")], quiet, corpus,
         {"a1": {"렉스김", "렉스킴"}})) == 1
+
+
+# ── 알림에서 질문으로 ─────────────────────────────────────────────
+#
+# 이 장치는 매 실행 "새로 걸린 곳 11" 을 찍었고 아무도 보지 않았다.
+# 알림은 읽히지 않으면 없는 것과 같다.
+def test_이름_위험은_답할_수_있는_질문이_된다():
+    risky = [{"id": "a1", "name": "새로운학원", "region_id": "mokdong",
+              "token": "새로운", "own": 24, "wide": 166, "spread": 5.1,
+              "title_ratio": 0.04, "why": "퍼짐 · 제목에 이름 없음"}]
+    qs = questions.generate(
+        mentions=[], academies=[{"id": "a1", "name": "새로운학원",
+                                 "region_id": "mokdong"}],
+        generic={"a1": True}, verdicts={}, rules=[], name_risk=risky)
+    q = [x for x in qs if x["kind"] == "name_risk"]
+    assert len(q) == 1
+    assert "새로운" in q[0]["question"] and "166" in q[0]["question"]
+    # 답이 곧 frontmatter 다 — 세 갈래를 그대로 준다.
+    assert {o["value"] for o in q[0]["options"]} == {"ok", "generic", "unusable"}
+    # 이미 조여 놓았는데도 퍼지는 곳이 더 급하다.
+    assert q[0]["priority"] > 60
+
+
+def test_한_실행이_이름_위험을_두_건까지만_묻는다():
+    """열한 건을 한꺼번에 물으면 그것도 다시 노동이다."""
+    risky = [{"id": f"a{i}", "name": f"학원{i}", "region_id": "mokdong",
+              "token": f"토큰{i}", "own": 10, "wide": 100, "spread": 10.0 - i,
+              "title_ratio": 0.1, "why": "퍼짐"} for i in range(11)]
+    qs = questions.generate(
+        mentions=[], academies=[{"id": f"a{i}", "name": f"학원{i}"}
+                                for i in range(11)],
+        generic={}, verdicts={}, rules=[], name_risk=risky)
+    assert len([x for x in qs if x["kind"] == "name_risk"]) == questions.NAME_RISK_LIMIT
+
+
+def test_답은_위키_frontmatter_에_적히고_산문은_그대로다(tmp_path, monkeypatch):
+    monkeypatch.setattr(wiki, "ACADEMY_DIR", tmp_path)
+    page = tmp_path / "a1.md"
+    page.write_text('---\nid: "a1"\nname: 새로운학원\n---\n# 새로운학원\n\n'
+                    "사람이 쓴 산문. 엔진이 건드리면 안 된다.\n", encoding="utf-8")
+
+    assert questions._write_flag("a1", "unusable") is True
+    text = page.read_text(encoding="utf-8")
+    assert "generic: true" in text and "unusable: true" in text
+    assert "사람이 쓴 산문. 엔진이 건드리면 안 된다." in text
+    # 두 번 적지 않는다.
+    assert questions._write_flag("a1", "unusable") is False
+
+
+def test_generic_답은_unusable_까지_적지_않는다(tmp_path, monkeypatch):
+    """조이는 것과 모으지 않는 것은 다른 층이다."""
+    monkeypatch.setattr(wiki, "ACADEMY_DIR", tmp_path)
+    assert questions._write_flag("a2", "generic") is True
+    text = (tmp_path / "a2.md").read_text(encoding="utf-8")
+    assert "generic: true" in text and "unusable" not in text

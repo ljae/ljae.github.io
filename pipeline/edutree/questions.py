@@ -13,6 +13,8 @@
                 확인된 글에는 없는 낱말. 답 '예' 가 곧 crawl_rule 이 된다.
   locality      같은 학군 형제 지점인데 변별어가 없는 지점 — 답이 곧
                 위키 frontmatter `locality:` 가 된다(방배점이 이 경우였다).
+  name_risk     이름이 코퍼스에 넓게 퍼져 근거를 가려내지 못하는 학원 —
+                답이 곧 위키 frontmatter `generic:` · `unusable:` 이 된다.
   author        같은 작성자가 한 학원에 글을 쏟아냄 — 홍보 계정 확인.
   compare       감성이 갈리는 고신뢰 글 2건 — 어느 쪽이 현재를 더 잘
                 보여주는지. 답은 두 글의 신뢰도 보정으로만 쓴다(±20%,
@@ -35,6 +37,7 @@ import requests
 from . import config
 
 QUESTION_LIMIT = 12          # 한 실행이 만드는 질문 수. 많으면 다시 노동이 된다.
+NAME_RISK_LIMIT = 2          # 이름 위험은 한 번에 둘까지. 판단이 무거운 질문이다.
 COMPARE_GAP = 0.8            # 감성 차이가 이만큼 나야 비교를 묻는다
 AUTHOR_MIN = 8               # 같은 작성자 글이 이만큼이면 홍보 계정을 묻는다
 
@@ -75,7 +78,8 @@ def generate(mentions: list[dict], academies: list[dict],
              rules: list[dict],
              wiki_locality: dict[str, set[str]] | None = None,
              claim_rows: list[dict] | None = None,
-             reports: list[dict] | None = None) -> list[dict]:
+             reports: list[dict] | None = None,
+             name_risk: list[dict] | None = None) -> list[dict]:
     """이번 실행의 질문 후보를 만든다. 우선순위 큰 것부터 QUESTION_LIMIT 개."""
     by_id = {a["id"]: a for a in academies}
     name_of = {a["id"]: (a.get("display_name") or a.get("name") or "")
@@ -186,6 +190,36 @@ def generate(mentions: list[dict], academies: list[dict],
                 n * 5)
             n_word += 1
             break
+
+    # 2.5) name_risk — 이름이 오염원인 학원. `nameaudit` 이 전수로 재서 올린다.
+    #
+    # ★ 이 장치는 지금까지 **로그에만** 찍혔다. 매 실행 "새로 걸린 곳 11" 이
+    #   찍혔고 아무도 보지 않았다. 그동안 '새로운학원' 은 순위에 남아 있었다.
+    #   알림은 읽히지 않으면 없는 것과 같다 — 답할 수 있는 질문으로 만든다.
+    #
+    # 답이 곧 위키 frontmatter 다. 엔진은 판정하지 않는다는 규칙은 그대로다
+    # (nameaudit 모듈 docstring) — 사람이 답하고, 엔진은 그 답을 적을 뿐이다.
+    n_risk = 0
+    for r in sorted(name_risk or [], key=lambda x: -x.get("spread", 0)):
+        if n_risk >= NAME_RISK_LIMIT:
+            break
+        aid = str(r.get("id"))
+        if aid not in name_of:
+            continue
+        add("name_risk", f"nr|{aid}|{r.get('token')}", aid,
+            f"'{r.get('token')}' 이(가) 우리가 모은 글 {r.get('wide'):,}건에 나오는데 "
+            f"{name_of.get(aid)} 의 근거는 {r.get('own'):,}건입니다"
+            f"(퍼짐 {r.get('spread')}배 · 제목에 이름 {r.get('title_ratio', 0):.0%}). "
+            f"이 이름으로 이 학원의 글을 가려낼 수 있나요?",
+            {"token": r.get("token"), "own": r.get("own"), "wide": r.get("wide"),
+             "spread": r.get("spread"), "title_ratio": r.get("title_ratio"),
+             "why": r.get("why")},
+            [{"value": "ok", "label": "가려낼 수 있음 — 그대로"},
+             {"value": "generic", "label": "일상어 — 학원 표지를 요구"},
+             {"value": "unusable", "label": "못 가려냄 — 근거를 모으지 않음"}],
+            # 이미 조여 놓았는데도 퍼져 있으면 그 학원이 더 급하다.
+            60 + (10 if r.get("id") in {a for a, g in generic.items() if g} else 0))
+        n_risk += 1
 
     # 3) locality — 같은 학군 형제 지점인데 변별어가 없는 지점
     from . import branches
@@ -430,7 +464,7 @@ def apply_answers() -> dict:
     status=applied 로 밀봉하고, compare 는 계속 살아 신뢰도 보정을 준다.
     """
     stats = {"verdicts": 0, "rules": 0, "locality": 0, "compare": 0,
-             "claims": 0}
+             "claims": 0, "name_risk": 0}
     boost: dict[str, float] = {}
     if not config.HAS_SUPABASE:
         return {**stats, "boost": boost}
@@ -474,6 +508,13 @@ def apply_answers() -> dict:
             word = (ans.get("text") or "").strip().rstrip("동")
             if word and _write_locality(aid, word):
                 stats["locality"] += 1
+            done.append(q["id"])
+
+        elif kind == "name_risk":
+            # 답이 곧 frontmatter 다. 'ok' 는 아무것도 안 적는다 —
+            # 건너뛰기도 답이고, 같은 질문은 두 번 오지 않는다.
+            if val in ("generic", "unusable") and _write_flag(aid, val):
+                stats["name_risk"] += 1
             done.append(q["id"])
 
         elif kind == "claim_check":
@@ -559,6 +600,50 @@ def _add_rule(aid, kind, pattern, reason) -> bool:
         return r.status_code < 300
     except requests.RequestException:
         return False
+
+
+def _write_flag(aid: str, field: str) -> bool:
+    """`generic: true` · `unusable: true` 를 위키 frontmatter 에 적는다.
+
+    `_write_locality` 와 같은 규칙 — frontmatter 만 줄 단위로 고치고
+    **마커 밖 산문은 건드리지 않는다.** `unusable` 은 `generic` 을 포함하는
+    상태라 함께 적는다(조이는 것이 아니라 모으지 않는 것이다).
+    """
+    from . import wiki as wiki_mod
+    if field not in ("generic", "unusable"):
+        return False
+    fields = ["generic"] if field == "generic" else ["generic", "unusable"]
+    path = wiki_mod.ACADEMY_DIR / f"{aid}.md"
+    if not path.exists():
+        wiki_mod.ACADEMY_DIR.mkdir(parents=True, exist_ok=True)
+        body = "".join(f"{f}: true\n" for f in fields)
+        path.write_text(
+            f'---\nid: "{aid}"\n{body}---\n# {aid}\n\n'
+            f"(질문 답변으로 생성 — 근거는 실행 로그의 이름 위험 점검. "
+            f"규약은 ../SCHEMA.md)\n\n"
+            f"## 판정 이력\n<!-- auto:review -->\n<!-- /auto:review -->\n\n"
+            f"## 통계\n<!-- auto:stats -->\n<!-- /auto:stats -->\n",
+            encoding="utf-8")
+        return True
+    lines = path.read_text(encoding="utf-8").split("\n")
+    if lines[0] != "---":
+        return False
+    end = lines[1:].index("---") + 1
+    changed = False
+    for f in fields:
+        for i in range(1, end):
+            if re.match(rf"{f}:\s*", lines[i]):
+                if lines[i].strip() != f"{f}: true":
+                    lines[i] = f"{f}: true"
+                    changed = True
+                break
+        else:
+            lines.insert(end, f"{f}: true")
+            end += 1
+            changed = True
+    if changed:
+        path.write_text("\n".join(lines), encoding="utf-8")
+    return changed
 
 
 def _write_locality(aid: str, word: str) -> bool:

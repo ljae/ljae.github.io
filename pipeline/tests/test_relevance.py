@@ -209,7 +209,28 @@ def test_품질_감사는_발췌에_이름이_있는_줄을_센다():
         ]}, {"name": "없음", "evidence": []}]
     q = evidence.audit(payload)
     assert q == {"academies": 2, "withEvidence": 1, "rows": 2,
-                 "nameInExcerpt": 1, "inTitle": 1, "basis": {"direct": 2}}
+                 "nameInExcerpt": 1, "inTitle": 1, "spacedName": 0,
+                 "basis": {"direct": 2}}
+
+
+def test_품질_감사는_이름이_띄어_쓰인_발췌를_따로_센다():
+    """'이름 포함' 만 세면 만점이 나온다 — 정규화가 공백을 지우기 때문이다.
+
+    9/3 실측: 발췌 1,309건 중 '이름 포함' 이 1,309건(만점)이었는데 그중
+    셋은 '새로운 학원' 이라는 구였다. 게이트를 고쳐도 이 지표로는
+    나빠지는 순간을 볼 수 없었다.
+    """
+    payload = [{
+        "name": "새로운학원", "brand": None, "aliases": [],
+        "evidence": [
+            {"title": "초보 강사, 새로운 학원 제안", "snippet": "조교로 근무",
+             "in_title": True},
+            {"title": "새로운학원 레벨테스트 후기", "snippet": "원장님 상담",
+             "in_title": True},
+        ]}]
+    q = evidence.audit(payload)
+    assert q["nameInExcerpt"] == 2, "옛 지표로는 둘 다 '이름 포함' 이다"
+    assert q["spacedName"] == 1, "구(句)로 걸린 발췌가 따로 세어져야 한다"
 
 
 # ── 언급 저장소 ───────────────────────────────────────────────────

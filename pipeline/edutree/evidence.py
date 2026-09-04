@@ -236,14 +236,16 @@ def audit(payload: list[dict]) -> dict:
     named = 0
     titled = 0
     with_ev = 0
+    spaced = 0
     basis: dict[str, int] = defaultdict(int)
     for a in payload:
         ev = a.get("evidence") or []
         if ev:
             with_ev += 1
-        cands = analyze.name_candidates({
-            "name": a.get("name"), "brand": a.get("brand"),
-            "aliases": a.get("aliases") or []})
+        who = {"name": a.get("name"), "brand": a.get("brand"),
+               "aliases": a.get("aliases") or []}
+        cands = analyze.name_candidates(who)
+        generic = analyze.is_generic_academy(who)
         for e in ev:
             rows += 1
             blob = analyze._norm(f"{e.get('title', '')} {e.get('snippet', '')}")
@@ -251,6 +253,15 @@ def audit(payload: list[dict]) -> dict:
                 named += 1
             if e.get("in_title"):
                 titled += 1
+            # ★ '이름 포함' 만으로는 모자란다. 정규화가 공백을 지우므로
+            #   '새로운 학원' 이라는 구도 '이름 포함' 으로 세어졌다 —
+            #   게이트를 고쳐도 이 지표는 1,309/1,309 로 만점이었다.
+            #   일상어 학원에서 업종어 앞이 벌어진 발췌를 따로 센다.
+            #   게이트가 제대로 돌면 0 이다.
+            if generic and not analyze.name_spans_in(
+                    e.get("title", ""), e.get("snippet", ""), cands,
+                    drop_trade_seam=True):
+                spaced += 1
             basis[e.get("branch_basis") or "direct"] += 1
     return {
         "academies": len(payload),
@@ -258,5 +269,6 @@ def audit(payload: list[dict]) -> dict:
         "rows": rows,
         "nameInExcerpt": named,
         "inTitle": titled,
+        "spacedName": spaced,
         "basis": dict(basis),
     }
