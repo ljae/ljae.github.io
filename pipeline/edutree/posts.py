@@ -32,12 +32,15 @@ frontmatter 의 verdict·reject_reason·reassign_to·stale_after 는 **사람이
 """
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
 
 import yaml
+
+from . import config
 
 WIKI_DIR = Path(__file__).resolve().parent.parent / "wiki"
 POST_DIR = WIKI_DIR / "posts"
@@ -416,7 +419,8 @@ def _page_academies(path: Path) -> set[str]:
 
 def audit(mentions: list[dict], overrides: dict[str, dict],
           evaluated: list[dict] | None = None,
-          retrieved: set[str] | None = None) -> list[str]:
+          retrieved: set[str] | None = None,
+          names: dict[str, str] | None = None) -> list[str]:
     """디스크의 글 페이지와 이번 실행의 근거가 어긋나는지 본다.
 
     **고아 페이지 자체는 오류가 아니다.** 우리가 반려했거나 기한을 넘긴 글은
@@ -468,11 +472,32 @@ def audit(mentions: list[dict], overrides: dict[str, dict],
         drifted = missing
 
     if drifted:
+        # ★ 해시 세 개로는 아무것도 알 수 없다. 4,106장이 빠졌다는 말은
+        #   '규칙이 바뀌었다' 일 수도 있고 '한 학원이 통째로 빠졌다' 일 수도
+        #   있는데, 그 둘은 사람이 할 일이 전혀 다르다. **학원별로 접는다** —
+        #   어느 학원이 얼마나 잃었는지가 보여야 조용히 비는 학원을 잡는다.
+        by_academy: dict[str, int] = defaultdict(int)
+        for h in drifted:
+            for owner in _page_academies(POST_DIR / f"{h}.md") or {"(불명)"}:
+                by_academy[owner] += 1
+        top = sorted(by_academy.items(), key=lambda kv: -kv[1])[:10]
+        names = names or {}
         out.append(
-            f"글 페이지 {len(drifted)}장이 이번 근거에 없다 — 수집은 했는데 "
-            f"게이트에서 빠졌다(규칙 변경 의심): "
-            + ", ".join(h[:8] for h in drifted[:3])
-            + (" …" if len(drifted) > 3 else ""))
+            f"글 페이지 {len(drifted):,}장이 이번 근거에 없다 — 수집은 했는데 "
+            f"게이트에서 빠졌다(규칙 변경 의심). 많이 잃은 학원: "
+            + " · ".join(f"{names.get(a, a)} {n:,}장" for a, n in top))
+        # 전체 목록은 파일로. 로그에 수천 줄을 쏟으면 아무도 안 읽는다.
+        try:
+            path = config.CACHE_DIR / "posts_drifted.json"
+            path.write_text(json.dumps(
+                {"total": len(drifted),
+                 "by_academy": dict(sorted(by_academy.items(),
+                                           key=lambda kv: -kv[1])),
+                 "hashes": drifted}, ensure_ascii=False, indent=1),
+                encoding="utf-8")
+            out.append(f"(어느 글인지는 {path.name} 에 적었다)")
+        except OSError as exc:
+            out.append(f"(목록 저장 실패: {exc})")
     if rotated:
         # 경고가 아니라 사실 보고다. 줄 하나로 줄여 더미를 만들지 않는다.
         out.append(f"(수집 대상 순환으로 이번에 안 본 학원의 글 {rotated:,}장은 정상)")

@@ -325,6 +325,20 @@ GENERIC_NAME_PARTS = (
     # 이름을 지우는 게 아니라 **조건을 더한다**(학원 표지 요구 + 제목의
     # 주인공 판정). 진짜 근거는 대개 제목에 그 이름이 있어 살아남는다.
     "새로운", "테스트", "피아노", "음악", "로드맵", "포인트", "갈무리",
+    # 2026-09-03 추가. `nameaudit` 이 올린 곳의 근거 글을 하나씩 열어
+    # 확인했다(CLAUDE.md 규칙). 둘 다 **알맹이만 빠지고 온전한 이름은
+    # 남는다** — 진짜 후기는 전체 이름으로 적히기 때문이다.
+    #
+    #   마스터  대치마스터학원 표본 81 · 대치 13위. 근거 6/6 이 남의 글이었다 —
+    #           '수영 몇년정도 다니면 **마스터** 할까요' · '서울대 공부
+    #           **마스터**들의 N회독' · '과외**마스터** 교재 추천' ·
+    #           '핵심유형**마스터** 과정' · '프렙 **마스터** 보카 1000'.
+    #           제목에 제 이름이 있는 글은 8% 뿐이었다.
+    #   레벨업  레벨업아카데미학원 표본 46 · 대치 21위. 6건 중 5건이 남의 글 —
+    #           '꼬마빌딩 **레벨업** 재테크' · '영어 실력을 **레벨업**시키는'
+    #           · '애님 **레벨업** 신청' · 아일랜드 어학원 후기.
+    #           온전한 이름으로 적힌 진짜 후기 한 건은 그대로 남는다.
+    "마스터", "레벨업",
 )
 
 
@@ -364,10 +378,12 @@ def is_generic_name(name: str) -> bool:
     '생각하는황소' 처럼 고유한 이름까지 걸려 정상 근거가 사라진다.
     실제로 그렇게 짰다가 황소·깊은생각이 함께 잡혔다.
     """
-    flat = _norm(name)
-    # 지역 접두어와 업종어를 뗀 알맹이로 판단한다.
-    core = re.sub(r"^(대치|목동|반포|잠실|서울)", "", flat)
-    core = re.sub(r"(학원|교습소|어학원)$", "", core)
+    # ★ 알맹이는 `name_core` 하나로 구한다. 예전에는 여기만 접두어 다섯 개와
+    #   업종어 셋을 따로 적어, 같은 학원인데 지점마다 판정이 갈렸다 —
+    #   '깊은생각' 은 일상어인데 '깊은생각목동학원' 은 아니었고, '한우리…'
+    #   네 곳 중 둘만 걸렸다(9/3 등록부 전수: 12곳이 이렇게 새어 있었다).
+    #   목록과 **정확히 일치**할 때만이라는 원칙은 그대로다.
+    core = name_core(name)
     return (core in {_norm(g) for g in GENERIC_NAME_PARTS}
             or core in {_norm(g) for g in GENERIC_PHRASES})
 
@@ -488,6 +504,94 @@ def name_spans(flat: str, candidates) -> list[tuple[int, int]]:
             i = flat.find(c, i + 1)
     spans.sort()
     return spans
+
+
+# ── 이름인가, 구(句)인가 ──────────────────────────────────────────
+#
+# 정규화는 공백을 지운다. 그래서 **'새로운 학원' 과 '새로운학원' 이 같은
+# 글자열**이 되고, 학원을 옮기고 고르는 이야기가 전부 '새로운학원'(목동)의
+# 근거가 됐다(9/3 배포 표본 24건 중 실린 근거 전부). `claims._contiguous`
+# 가 사건 낱말에서 이미 겪은 함정이다 — '8대 기능성' 이 '대기' 가 됐다.
+#
+# ★ 그렇다고 '공백이 있으면 이름이 아니다' 로 두면 진짜 근거가 죽는다.
+#   9/3 실측으로 확인한 반례:
+#
+#       '깊은 생각' 수학학원 입학테스트 후기      ← 진짜 후기. 브랜드를 띄어 쓴다
+#       집으로 찾아가는 한우리 독서토론 논술       ← 진짜 후기
+#       양천구 목동 로드맵학원 후기              ← 진짜 후기
+#
+#   가르는 것은 **공백이 어디에 있는가** 다. 위 셋은 이름 몸통 안에서
+#   띄어 썼고, '새로운 학원' 은 **몸통과 업종어 사이**가 벌어져 있다.
+#   그 자리의 공백은 'X라는 이름의 학원' 이 아니라 '어떠한 학원' 이라는
+#   뜻이다 — 한국어에서 관형어와 명사는 띄어 쓰기 때문이다.
+#
+# 이 검사는 **일상어 이름에만** 쓴다. 보통 이름은 띄어 써도 그 학원이 맞다
+# (9/3 실측: 띄어 쓴 근거만 가진 학원 94곳, 대부분 정상 — '다원교육 중등학원').
+_TRADE_TAILS = ("어학원", "교습소", "아카데미", "캠퍼스", "연구소", "교실",
+                "학원", "에듀", "스쿨", "센터")
+
+
+def _keeps(ch: str) -> bool:
+    """`_norm` 이 남기는 글자인가. 두 곳이 어긋나면 자리가 밀린다."""
+    return _NORM.match(ch) is None
+
+
+def norm_map(text: str) -> tuple[str, list[int]]:
+    """정규화 문자열과 **원문 위치 대응표**.
+
+    `_norm` 과 반드시 같은 글자를 남긴다(`test_gates` 가 대조한다).
+    원문을 되짚어야 '붙여 썼는가' 를 물을 수 있다.
+    """
+    chars: list[str] = []
+    idx: list[int] = []
+    for i, ch in enumerate(text or ""):
+        if _keeps(ch):
+            chars.append(ch.lower())
+            idx.append(i)
+    return "".join(chars), idx
+
+
+def trade_seam(segment: str) -> bool:
+    """원문 조각이 '몸통 + 공백 + 업종어' 로 벌어져 있는가.
+
+    '새로운 학원' → True (이름이 아니라 구)
+    '목동 로드맵학원' → False (공백이 업종어 앞이 아니다)
+    '깊은 생각' → False (업종어로 끝나지 않는다)
+    """
+    s = (segment or "").rstrip()
+    for tail in _TRADE_TAILS:
+        if s.endswith(tail) and len(s) > len(tail):
+            head = s[: -len(tail)]
+            return bool(head.strip()) and head != head.rstrip()
+    return False
+
+
+def name_spans_in(title: str, body: str, candidates,
+                  drop_trade_seam: bool = False) -> list[tuple[int, int]]:
+    """제목+본문을 정규화해 이은 문자열 기준의 이름 자리.
+
+    [drop_trade_seam] 이면 원문에서 업종어 앞이 벌어진 자리는 세지 않는다.
+    제목과 본문의 경계를 넘는 자리도 뺀다 — 원문에서 이어진 적이 없다.
+    """
+    flat_t, idx_t = norm_map(title)
+    flat_b, idx_b = norm_map(body)
+    spans = name_spans(flat_t + flat_b, candidates)
+    if not drop_trade_seam:
+        return spans
+
+    n = len(flat_t)
+    kept: list[tuple[int, int]] = []
+    for s, e in spans:
+        if e <= n:
+            seg = title[idx_t[s]: idx_t[e - 1] + 1]
+        elif s >= n:
+            seg = body[idx_b[s - n]: idx_b[e - 1 - n] + 1]
+        else:
+            continue
+        if trade_seam(seg):
+            continue
+        kept.append((s, e))
+    return kept
 
 
 def name_occurrences(blob: str, candidates) -> int:
@@ -718,6 +822,59 @@ OTHER_REGION_WORDS: tuple[str, ...] = (
 # 그 이름의 학원이 있는지부터 확인해야 한다.
 
 
+# ── 목록에 없는 동(洞) ────────────────────────────────────────────
+#
+# `OTHER_REGION_WORDS` 는 사람이 채우는 유한 목록이라 거기 없는 동네의
+# **동명 학원**이 그대로 붙는다. 실측(9/3):
+#
+#   '불당동 새로운 학원' · '불당동 교육의 끝판왕(새로운학원…)'
+#       천안 불당동의 동명 학원 홍보글(본문 전화 041-909-4624)이
+#       목동 새로운학원의 근거였다. 목록에 '천안' 은 있지만 제목에는 없다.
+#   '정자동 한국영재교육원'      분당 → 대치 한국영재학원
+#   '서대문구 북가좌동 플라즈마학원 후기'  → 대치 플라즈마
+#   '영등포구 양평동 최상위수학교습소 후기' → 대치·목동·잠실 세 곳에 함께
+#
+# 뒤집어서 본다. **우리 학군의 동이 아니면 남의 동네다.** 우리 동은
+# `regions.yaml` 의 dong_list 로 정해져 있어 목록을 채울 일이 없다.
+#
+# ★ 두 글자는 보지 않는다. '운동'·'활동'·'아동'·'행동'·'이동'·'자동' 처럼
+#   동으로 끝나는 흔한 말이 전부 두 글자다. 앞뒤가 경계여야 하는 것도
+#   같은 이유다 — '동아리활동' 의 '리활동' 은 낱말 속이다.
+_DONG_TOKEN = re.compile(
+    r"(?:^|[\s\[\(\{<«\"'·,/|+&~\-–—])([가-힣]{2,3}동)"
+    r"(?=[\s\]\)\}>»\"'·,/|+&~\-–—.!?:;]|$)")
+
+
+def dong_tokens(title: str) -> set[str]:
+    """제목에서 지역 표지로 쓰인 '○○동' 들."""
+    return set(_DONG_TOKEN.findall(title or ""))
+
+
+def foreign_dong(title: str, ours, mine=()) -> bool:
+    """제목이 우리 학군 밖의 동을 가리키는가.
+
+    [ours] 우리 학군의 법정동(regions.yaml dong_list + 권역어).
+    [mine] 이 학원의 이름 표기들. **이름에 지역명이 박힌 학원**의 그 말은
+      지역이 아니라 이름의 일부다 — '러셀목동'·'글로벌에듀둔촌오륜학원'·
+      '대치청담어학학원'. CLAUDE.md 가 '[송도 논술 학원] 대치메이드학원
+      송도점' 에서 배운 함정의 뒷면이다.
+    """
+    ours_n = {_norm(d) for d in ours if d}
+    mine_n = " ".join(_norm(x) for x in mine if x)
+    for tok in dong_tokens(title):
+        t = _norm(tok)
+        if not t or t in ours_n:
+            continue
+        # '러셀목동' 은 브랜드 + 우리 동이다.
+        if any(d and t.endswith(d) for d in ours_n):
+            continue
+        stem = t.rstrip("동")
+        if t in mine_n or (stem and stem in mine_n):
+            continue
+        return True
+    return False
+
+
 def region_hints(text: str) -> tuple[set[str], bool]:
     """본문이 가리키는 권역. (우리 권역 집합, 타지역 언급 여부)
 
@@ -871,7 +1028,10 @@ def is_relevant(mention: dict, candidates: set[str],
 
     [generic] 이면 이름만으로는 부족하다. '책읽기' 처럼 일상어와 겹치는
     이름은 육아 글·독서 후기가 전부 걸리므로, 학원 표지가 함께 있어야
-    근거로 인정한다.
+    근거로 인정한다. 표지는 **이름 바깥**에 있어야 하고(`_marker_near`),
+    이름은 원문에서 **업종어 앞이 붙어 있어야** 한다(`trade_seam`) —
+    'X학원' 꼴 이름은 제 이름 안의 '학원' 이 스스로의 표지가 되고,
+    정규화가 공백을 지우면 'X 학원' 이라는 구까지 제 이름이 된다.
 
     일상어 별칭('정상')은 애초에 [candidates] 에서 빠져서 들어온다 —
     `weak_candidates` 와 build 의 게이트 준비 부분 참고. 여기서 학원 표지를
@@ -882,7 +1042,12 @@ def is_relevant(mention: dict, candidates: set[str],
     body = _norm(mention.get("snippet", ""))
     blob = title + body
     # 이름 자리는 겹치지 않게, 두 글자 이름은 표지가 곁에 있을 때만 센다.
-    spans = name_spans(blob, candidates)
+    #
+    # ★ 일상어 이름은 **원문에서 업종어 앞이 벌어지지 않은** 자리만 센다.
+    #   '새로운 학원 상담이 부담' 의 '새로운 학원' 은 이름이 아니라 구다
+    #   (`trade_seam`). 보통 이름에는 걸지 않는다 — 띄어 써도 그 학원이 맞다.
+    spans = name_spans_in(mention.get("title", ""), mention.get("snippet", ""),
+                          candidates, drop_trade_seam=generic)
     if not spans:
         return False
     if generic and not _marker_near(blob, spans):
@@ -952,11 +1117,24 @@ def _marker_near(flat: str, spans: list[tuple[int, int]],
     """
     markers = {_norm(k) for k in _ACADEMY_MARKERS} | {
         _norm(k) for k in ("다니", "다녀", "다닌", "수업", "쌤", "입테", "레벨")}
+    # ★ 표지는 **이름 바깥**에서 와야 한다. 'X학원' 꼴 이름은 제 이름 안의
+    #   '학원' 이 스스로의 표지가 되어 이 검사를 통째로 무력화한다 —
+    #   실측(9/3): '초보 강사, 새로운 학원 제안 왔는데 … 새로운 학원에서
+    #   근무' 는 이름 자리 바깥에 표지가 하나도 없는데 통과했다.
+    #   한 자리만 가려서는 모자란다. **같은 이름의 다른 등장**이 창 안에서
+    #   '학원' 을 대신 공급하기 때문에 자리를 전부 가린다. 가리는 글자는
+    #   `_norm` 이 절대 남기지 않는 것이라 없던 낱말이 생기지 않는다.
+    chars = list(flat)
+    for s, e in spans:
+        for i in range(s, e):
+            chars[i] = "\x00"
+    masked = "".join(chars)
+
     for s, e in spans:
         near = flat[max(0, s - window): e + window]
         if any(off in near for off in _OFF_TOPIC_NEAR):
             continue
-        if any(k and k in near for k in markers):
+        if any(k and k in masked[max(0, s - window): e + window] for k in markers):
             return True
     return False
 

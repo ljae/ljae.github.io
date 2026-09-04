@@ -65,6 +65,10 @@ TITLE_FLOOR = 0.15
 #: 근거가 이보다 적으면 비율이 요동쳐 판단할 수 없다.
 MIN_SAMPLE = 8
 
+#: 로그에 몇 줄까지 펼칠까. 여덟 줄로 두었더니 "외 3곳" 안에 든 학원은
+#: 이름조차 안 보여 확인할 수가 없었다.
+SHOW = 20
+
 
 def _weakest(cands: set[str]) -> str | None:
     """가장 **헐거운** 후보 이름. 짧을수록 아무 데나 걸린다.
@@ -186,17 +190,35 @@ def measure(academies: list[dict],
 def report(rows: list[dict], total: int, already: set[str]) -> list[str]:
     """실행 로그에 찍을 줄. 조용히 지나가면 아무도 안 본다."""
     fresh = [r for r in rows if r["id"] not in already]
+    stale = [r for r in rows if r["id"] in already]
     if not rows:
         return [f"이름 위험 점검: 채점 {total:,}곳 중 걸리는 곳 없음 ✓"]
+
+    def line(r: dict) -> str:
+        return (f"    · {r['name']}({r['region_id']}) '{r['token']}' "
+                f"근거 {r['own']} · 코퍼스 {r['wide']} · 퍼짐 {r['spread']}배 "
+                f"· 제목 {r['title_ratio']:.0%} — {r['why']}")
+
     out = [f"이름 위험 점검: {len(rows)}곳 "
-           f"(이미 표시된 곳 {len(rows) - len(fresh)} · **새로 걸린 곳 {len(fresh)}**)"]
-    for r in fresh[:8]:
-        out.append(f"    · {r['name']}({r['region_id']}) '{r['token']}' "
-                   f"근거 {r['own']} · 코퍼스 {r['wide']} · 퍼짐 {r['spread']}배 "
-                   f"· 제목 {r['title_ratio']:.0%} — {r['why']}")
-    if len(fresh) > 8:
-        out.append(f"    … 외 {len(fresh) - 8}곳")
+           f"(이미 표시된 곳 {len(stale)} · **새로 걸린 곳 {len(fresh)}**)"]
+    for r in fresh[:SHOW]:
+        out.append(line(r))
+    if len(fresh) > SHOW:
+        out.append(f"    … 외 {len(fresh) - SHOW}곳")
     if fresh:
         out.append("    → 확인 후 위키 frontmatter 에 generic: true "
                    "(엔진은 frontmatter 를 건드리지 않는다)")
+
+    # ★ 이미 조여 놓았는데도 퍼져 있으면 **조이는 것이 안 먹는다는 뜻**이다.
+    #   예전에는 이것을 '이미 표시된 곳' 한 마디로 접어 버렸다. 그래서
+    #   '새로운학원' 은 8/31 에 generic 으로 표시된 뒤에도 계속 걸리고
+    #   있었는데 그 사실이 로그에서 한 번도 보이지 않았다 —
+    #   그 이름은 조일 것이 아니라 모으지 않을 것이었다(unusable).
+    if stale:
+        out.append(f"    ! generic 인데 여전히 퍼지는 곳 {len(stale)}곳 — "
+                   f"표지 요구가 안 먹는다. unusable 또는 aliases 를 볼 것")
+        for r in stale[:SHOW]:
+            out.append(line(r))
+        if len(stale) > SHOW:
+            out.append(f"    … 외 {len(stale) - SHOW}곳")
     return out

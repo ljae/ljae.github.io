@@ -23,7 +23,7 @@ from edutree import wiki  # noqa: E402
 def hint(**kw):
     base = {"name": "가나", "aliases": [], "generic": False,
             "exclude_title": [], "exclude_any": [], "locality": [],
-            "unusable": False}
+            "unusable": False, "excluded": False, "moved_to": None}
     base.update(kw)
     return base
 
@@ -61,3 +61,26 @@ def test_unusable_만_있어도_게이트가_돈다():
     rows = [m("a1", "글")]
     _, dropped = wiki.apply_gate(rows, {"a1": hint(unusable=True)})
     assert dropped == 1
+
+
+# ── 답한 경고는 다시 묻지 않는다 ──────────────────────────────────
+#
+# 9/3 실측: 매 실행 위키 경고 12줄이 찍혔고 그중 11줄은 답이 정해진 것
+# (제외 분류·폐업·이관 완료)이었다. 답한 경고를 계속 찍으면 그 옆의
+# 진짜 경고가 함께 안 읽힌다.
+def test_제외_분류로_확인한_페이지는_다시_경고하지_않는다():
+    acs = [{"id": "a1", "name": "가나학원", "aliases": [], "registration_ids": []}]
+    assert wiki.sanity({"zz": hint(name="변리사스쿨")}, acs), "확인 전에는 경고한다"
+    assert wiki.sanity({"zz": hint(name="변리사스쿨", excluded=True)}, acs) == []
+
+
+def test_이관을_마친_페이지는_다시_경고하지_않는다():
+    acs = [{"id": "a1", "name": "아이엘이", "aliases": [],
+            "registration_ids": ["a1", "old"]}]
+    warned = wiki.sanity({"old": hint(name="아이엘이별관")}, acs)
+    assert warned and "a1" in warned[0], "이관 전에는 어디로 갈지 알려 준다"
+
+    hints = {"old": hint(name="아이엘이별관", moved_to="a1")}
+    assert wiki.sanity(hints, acs) == []
+    # 경고를 멈춰도 힌트는 대표 id 로 넘어간다 — 별칭이 죽으면 안 된다.
+    assert "a1" in hints

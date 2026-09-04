@@ -821,8 +821,13 @@ def audit_contribution(subject_scores: dict) -> list[str]:
     if not any(v["n"] for v in table.values()):
         return []
 
+    # ★ 표본 수를 함께 적는다. 기둥마다 **채점한 모집단이 다르다** —
+    #   진입난이도는 사건이 0건이면 점수를 내지 않아(None) 있는 것만 세고,
+    #   평판은 전부 센다. 그 차이를 모르면 sd 를 잘못 읽는다.
+    #   (실측 9/3: 진입 n=151 sd 16.7 · 평판 n=232 sd 5.4. 네 기둥이 모두
+    #    있는 151개만 견줘도 2.9배라 모집단 차이가 원인은 아니었다.)
     line = " · ".join(
-        f"{p} {v['weight']:.2f}×{v['sd']:.1f}={v['effective']:.2f}"
+        f"{p} {v['weight']:.2f}×{v['sd']:.1f}={v['effective']:.2f}(n={v['n']})"
         for p, v in sorted(table.items(), key=lambda kv: -kv[1]["effective"]))
     out = [f"실효 기여(가중치×표준편차): {line}"]
 

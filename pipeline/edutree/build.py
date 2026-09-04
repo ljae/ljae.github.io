@@ -1345,7 +1345,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
                  if bstat.get("sibling") else "")
               + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
-                 if bstat.get("rehomed") else ""))
+                 if bstat.get("rehomed") else "")
+              + (f" · 목록에 없는 동 {bstat['foreign_dong']:,}건 제외"
+                 if bstat.get("foreign_dong") else ""))
 
     names = {a["id"]: a.get("name", "") for a in evaluated}
     # 운영자 판정과 크롤 규칙을 반영한다. 관련성 게이트가 못 거르는
@@ -1469,6 +1471,22 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     claims_mod.attach_events(mentions, claim_rows)
     print(f"  {claims_mod.summary(claim_rows)}")
 
+    # 이름 위험 전수 점검 — **질문 생성보다 앞에** 둔다.
+    #
+    # 뒤에 두면 이번 회차에 걸린 학원을 `questions` 가 못 봐서 답이 한
+    # 회차 늦게 반영된다(`apply_answers` 를 `load_rules` 앞에 둔 것과 같은
+    # 이유). 재는 것과 알리는 것은 나뉘어 있다 — 보고는 채점 뒤에 한다.
+    from . import nameaudit
+    risky: list[dict] = []
+    try:
+        risky = nameaudit.measure(
+            evaluated,
+            [m for m in mentions if not m.get("is_excluded")],
+            mentions,
+            candidates)
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 이름 위험 점검 실패: {exc}")
+
     if mode == "live" and not from_cache:
         # 이번 회차 결과를 남긴다. 다음 회차 선정이 이걸 보고 순환한다.
         #
@@ -1495,7 +1513,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         from . import actions
         reports = actions.open_reports()
         qs = qmod.generate(mentions, evaluated, generic, verdicts, rules,
-                           wiki_locality, claim_rows, reports=reports)
+                           wiki_locality, claim_rows, reports=reports,
+                           name_risk=risky)
         asked = qmod.enqueue(qs)
         if asked:
             print(f"  질문 큐: {asked}건 ("
@@ -1590,20 +1609,14 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 함께 오염돼 있다. 손으로 낱말을 넣는 방식은 신고가 온 곳만 고친다.
     # 매 실행 전수로 재서 새로 걸린 곳을 알린다. **판정은 하지 않는다** —
     # 게이트를 조이는 결정은 위키 frontmatter 로 사람이 한다.
-    from . import nameaudit
     try:
-        risky = nameaudit.measure(
-            evaluated,
-            [m for m in mentions if not m.get("is_excluded")],
-            mentions,
-            candidates)
         for line in nameaudit.report(
                 risky, len(evaluated),
                 {aid for aid, g in generic.items() if g}):
             print(f"  {line}")
     except Exception as exc:                                  # noqa: BLE001
         # 점검은 부산물이다. 여기서 죽으면 채점까지 잃는다.
-        print(f"  ! 이름 위험 점검 실패: {exc}")
+        print(f"  ! 이름 위험 보고 실패: {exc}")
 
     # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
     from . import graph
@@ -1614,7 +1627,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 했는데 게이트에서 빠진 글'(신호)이 갈린다. 안 가르면 경고가 수천
     # 장씩 찍혀 진짜 신호가 묻힌다.
     for w in posts_mod.audit(mentions, post_overrides, evaluated,
-                             retrieved_hashes):
+                             retrieved_hashes,
+                             names={a["id"]: (a.get("display_name") or a.get("name"))
+                                    for a in evaluated + registry_only}):
         print(f"  ! 글 노드: {w}")
     return {
         "mode": mode,
@@ -2033,7 +2048,25 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     quality = evidence_mod.audit(payload_academies)
     print(f"  근거 품질: 학원 {quality['withEvidence']:,}/{quality['academies']:,}곳에 "
           f"근거 · 발췌 {quality['rows']:,}건 중 이름 포함 "
-          f"{quality['nameInExcerpt']:,}건 · 제목 언급 {quality['inTitle']:,}건")
+          f"{quality['nameInExcerpt']:,}건 · 제목 언급 {quality['inTitle']:,}건"
+          + (f" · ! 이름이 띄어 쓰인 발췌 {quality['spacedName']:,}건(일상어 학원)"
+             if quality.get("spacedName") else ""))
+
+    # 일상어 이름 학원은 **매 실행 이름과 표본을 함께** 찍는다. 열두어 줄이라
+    # 사람이 훑을 수 있고, 조용히 커지는 것을 눈으로 잡는다 — '새로운학원'
+    # 은 표본 20 으로 사흘을 버텼고 아무도 보지 못했다.
+    watch = [a for a in payload_academies
+             if analyze.is_generic_academy(
+                 {"name": a.get("name"), "brand": a.get("brand"),
+                  "aliases": a.get("aliases") or []})]
+    if watch:
+        print(f"  일상어 이름 학원 {len(watch)}곳 — 표본이 늘면 게이트를 다시 볼 것")
+        for a in sorted(watch, key=lambda x: -((x.get("score") or {}).get("sampleSize") or 0)):
+            sc = a.get("score") or {}
+            rank = sc.get("rankInRegion")
+            print(f"    · {a.get('displayName') or a.get('name')}({a.get('regionId')}) "
+                  f"표본 {sc.get('sampleSize') or 0} · "
+                  + (f"{rank}위" if rank else "순위 밖"))
 
     files = {
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부

@@ -77,6 +77,11 @@ def load() -> dict[str, dict]:
             #   상태다 — 우리는 그 학원에 대해 아직 아무것도 모른다.
             #   등록부에는 그대로 남는다.
             "unusable": bool(meta.get("unusable")),
+            # 등록부에 없는 것이 **정상인** 페이지. 성인 직업·전문 학원은
+            # 분야 필터로 의도적으로 뺐고 폐업도 돌아오지 않는다. 사람이
+            # 한 번 확인했다는 표시이고, 그 뒤로는 경고하지 않는다.
+            "excluded": bool(meta.get("excluded")),
+            "moved_to": str(meta.get("moved_to") or "") or None,
             "locality": [str(w) for w in (meta.get("locality") or [])],
             # 공식 홈페이지. NEIS 가 주지 않으므로 사람이 적는 값이다.
             # 엔진은 적힌 것만 읽고, 이름으로 추측해 채우지 않는다.
@@ -109,7 +114,11 @@ def sanity(hints: dict[str, dict], academies: list[dict]) -> list[str]:
             all_names.setdefault(c, a["id"])
 
     warnings: list[str] = []
-    for aid, h in hints.items():
+    # ★ 스냅숏을 돈다. 아래에서 흡수된 페이지의 힌트를 대표 id 로 넘기며
+    #   `hints` 에 키를 더하는데, 그 대표 페이지가 아직 없으면 사전 크기가
+    #   바뀌어 `RuntimeError` 로 **빌드 전체가 죽는다.** 지금까지 안 터진 것은
+    #   대표 페이지가 늘 먼저 있었기 때문이고, 그건 우연이다.
+    for aid, h in list(hints.items()):
         a = by_id.get(aid)
         if a is None:
             # ★ '등록부에 없다' 에는 성격이 다른 셋이 섞여 있었다. 한 문구로
@@ -119,17 +128,30 @@ def sanity(hints: dict[str, dict], academies: list[dict]) -> list[str]:
             if merged is not None:
                 # 통합으로 대표 id 가 바뀌었다. 힌트는 살려서 넘긴다 —
                 # 사람이 옮길 때까지 별칭·동네 말이 죽어 있을 이유가 없다.
-                warnings.append(
-                    f"{aid}: 통합으로 대표 id 가 바뀜 → {merged['id']} "
-                    f"({merged.get('name')}) · 페이지 이관 권장")
+                #
+                # ★ 사람이 이관을 마치고 `moved_to` 를 적었으면 더 묻지
+                #   않는다. 답한 경고를 계속 찍으면 그 옆의 진짜 경고가
+                #   함께 안 읽힌다.
+                if h.get("moved_to") != merged["id"]:
+                    warnings.append(
+                        f"{aid}: 통합으로 대표 id 가 바뀜 → {merged['id']} "
+                        f"({merged.get('name')}) · 페이지 이관 권장 "
+                        f"→ 옮겼으면 frontmatter 에 moved_to: \"{merged['id']}\"")
                 hints.setdefault(merged["id"], h)
                 continue
             # 등록부에서 아예 빠진 곳. 성인 직업·전문 학원(편입·승무원·
             # 고시·변리사…)은 분야 필터로 **의도적으로** 뺐으므로 이관할
             # 것이 없다. 폐업도 마찬가지다.
+            #
+            # ★ 사람이 한 번 보고 `excluded: true` 를 적었으면 다시 묻지
+            #   않는다. 답이 정해진 경고를 매 실행 되풀이하면 그 옆의
+            #   **진짜 경고**가 함께 안 읽힌다.
+            if h.get("excluded") or h.get("moved_to"):
+                continue
             warnings.append(
                 f"{aid}: 등록부에 없는 id — 제외 분류이거나 폐업 "
-                f"(위키 name '{h.get('name') or '?'}')")
+                f"(위키 name '{h.get('name') or '?'}') "
+                f"→ 확인했으면 frontmatter 에 excluded: true")
             continue
         if h.get("name") and h["name"] != a.get("name"):
             warnings.append(

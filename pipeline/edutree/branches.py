@@ -128,10 +128,16 @@ def apply(mentions: list[dict], academies: list[dict],
             # 형제만 가진 말이 곧 '나는 아니다' 의 신호다.
             local[a["id"]] = others - mine[a["id"]]
 
+    # 우리 학군의 법정동. 여기 없는 '○○동' 이 제목에 있으면 남의 동네다
+    # (`analyze.foreign_dong`). 목록을 채우는 것이 아니라 **뒤집어서** 본다.
+    our_dongs = {a.get("dong") for a in academies if a.get("dong")}
+    our_dongs |= {w if w.endswith("동") else w + "동"
+                  for ws in analyze.REGION_WORDS.values() for w in ws}
+
     kept: list[dict] = []
     seen: set[tuple[str, str]] = set()
     stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "sibling": 0,
-             "rehomed": 0, "branches": len(siblings)}
+             "rehomed": 0, "foreign_dong": 0, "branches": len(siblings)}
 
     for m in mentions:
         key = m.get("academy_key")
@@ -152,6 +158,14 @@ def apply(mentions: list[dict], academies: list[dict],
         # 아니다. 여기서 '대치'는 지역이 아니라 학원 이름의 일부다.
         if t_other:
             stats["other_region"] += 1
+            continue
+
+        # 그 목록에 없는 동네도 있다. '불당동 새로운 학원'(천안)이 목동
+        # 새로운학원의 근거였다 — 사람이 채우는 목록으로는 끝이 없으므로
+        # **뒤집어서** 본다: 우리 학군의 동이 아니면 남의 동네다.
+        if analyze.foreign_dong(m.get("title", ""), our_dongs,
+                                candidates.get(key) or ()):
+            stats["foreign_dong"] += 1
             continue
 
         ours, other = t_ours, False
