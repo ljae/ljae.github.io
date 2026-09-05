@@ -121,6 +121,23 @@ if __name__ == "__main__":
         # 컬럼 매핑을 고쳤을 때. 원본 캐시에서 다시 읽어 해석만 바꾼다.
         from edutree import neis
         neis.renormalize()
+    elif "--trend" in sys.argv:
+        # 검색어 트렌드 점검. 구독이 붙었는지, 값이 어떻게 오는지 눈으로 본다.
+        from edutree import naver
+        got = naver.trend(
+            [{"groupName": "시매쓰", "keywords": ["시매쓰"]},
+             {"groupName": "청담어학원", "keywords": ["청담어학원"]},
+             {"groupName": "대치 수학학원", "keywords": ["대치 수학학원"]}],
+            "2026-03-01", "2026-08-31", "month")
+        if not got:
+            print("트렌드를 받지 못했습니다 — 구독 또는 키를 확인하세요.")
+        else:
+            for g in got:
+                pts = " ".join(f"{d['period'][:7]}:{d['ratio']:.0f}"
+                               for d in g.get("data", []))
+                print(f"  {g.get('title'):16} {pts}")
+            print("\n  ※ 값은 이 요청 안에서의 상대비다(최댓값 100). "
+                  "요청이 다르면 비교할 수 없다.")
     elif "--careers" in sys.argv:
         # 학교알리미 진로 공시 수집. 차단에 민감해 본 수집과 분리해 둔다.
         # 2초 간격, 75곳 — 몇 분이면 끝나고 캐시에 이어받는다.

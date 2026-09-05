@@ -17,7 +17,12 @@ academies:
     stages: [math_el_thinking]
     flagship: [math_el_thinking]
   - name: 시매쓰수학
-    aliases: [시매쓰]
+    # '사고력수학시매쓰' 는 시매쓰 **대치점**의 등록명이다(cmath.co.kr 공식
+    # 지점 목록). 접두가 '사고력' 이라 브랜드 매칭에 안 걸렸고, 그래서
+    # 이 한 곳만 형제 키가 'token:사고력시매쓰' 로 갈렸다. 형제가 아니면
+    # 동네 말로 지점을 가르는 규칙이 아예 돌지 않아, '초1 시매쓰 대치점
+    # 레벨테스트 후기' 가 도곡점(표본 178 · 수학 4위) 근거가 됐다.
+    aliases: [시매쓰, 사고력수학시매쓰]
     regions: [daechi, mokdong, banpo, jamsil]
     subjects: [math]
     stages: [math_el_basic, math_el_thinking]

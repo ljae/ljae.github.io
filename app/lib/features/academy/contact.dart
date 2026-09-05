@@ -6,17 +6,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
 import '../../data/models.dart';
+// 근거 신고 시트가 쓴다. 레벨테스트 예약 대행은 없앴지만(2026-09-05)
+// 신고 접수는 남는다 — 그쪽은 우리가 처리해야 하는 일이다.
 import '../../data/reservations.dart';
 import '../../widgets/contact.dart';
 
-/// 전화 · 레벨테스트 예약 카드.
+/// 전화 · 학원 홈페이지 카드.
 ///
 /// 학부모가 학원 정보에서 다음에 하는 일은 둘이다 — 전화를 걸거나,
 /// 레벨테스트를 잡거나. 번호를 글자로만 보여 주면 옮겨 적어야 한다.
 ///
-/// 예약은 **요청 접수**다. 학원과 제휴가 없고, 확정처럼 보이는 접수는
-/// 헛걸음의 책임을 우리에게 가져온다. 운영자가 학원에 연락해 잇고
-/// 연락처로 회신한다. 화면이 그렇게 말한다.
+/// ★ 2026-09-05: **레벨테스트 예약 대행을 없앴다.**
+///   예전에는 이 화면에서 요청을 접수하고 운영자가 학원에 확인해 회신했다.
+///   학원과 제휴가 없는데 중간에 서면, 학부모는 우리에게 신청했다고
+///   여기고 학원은 그런 신청을 받은 적이 없다. **레벨테스트는 학원에
+///   직접 신청한다** — 우리는 닿는 곳(전화·공식 페이지)만 준다.
+///
+///   전화도 링크도 없으면 **버튼을 만들지 않는다.** 아무 일도 안 일어나는
+///   버튼이 가장 나쁘다.
 class ContactCard extends ConsumerWidget {
   final Academy academy;
   const ContactCard({super.key, required this.academy});
@@ -26,7 +33,7 @@ class ContactCard extends ConsumerWidget {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final tel = academy.tel;
-    final canReserve = ref.watch(reservationServiceProvider).enabled;
+    final homepage = academy.homepage;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -55,11 +62,11 @@ class ContactCard extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              tel != null
-                  ? 'NEIS 등록 번호입니다. 레벨테스트 예약은 학원이 확정합니다 — '
-                      '요청을 남기시면 운영자가 학원에 확인해 회신드립니다.'
-                  : '공시에 전화번호가 없습니다. 예약 요청을 남기시면 운영자가 '
-                      '연락처를 찾아 잇습니다.',
+              tel != null || homepage != null
+                  ? '레벨테스트는 학원에 직접 신청합니다. '
+                      '학원실록은 신청을 대신 받지 않습니다.'
+                  : '학원이 공시한 연락처가 없습니다. '
+                      '알고 계신 연락처가 있으면 정정 요청으로 알려 주세요.',
               style: text.bodySmall,
             ),
             const SizedBox(height: AppSpace.sm),
@@ -74,20 +81,14 @@ class ContactCard extends ConsumerWidget {
                   icon: const Icon(Icons.call, size: 16),
                   label: const Text('전화하기'),
                 ),
-                OutlinedButton.icon(
-                  onPressed: () => showModalBottomSheet<void>(
-                    context: context,
-                    isScrollControlled: true,
-                    showDragHandle: true,
-                    constraints: const BoxConstraints(maxWidth: 640),
-                    builder: (_) => ReserveSheet(
-                      academy: academy,
-                      enabled: canReserve,
-                    ),
+                // 공식 페이지가 있을 때만. 없으면 만들지 않는다 —
+                // 링크 없는 '신청하기' 는 아무 일도 일어나지 않는다.
+                if (homepage != null)
+                  OutlinedButton.icon(
+                    onPressed: () => openHomepage(context, ref, academy),
+                    icon: const Icon(Icons.open_in_new, size: 16),
+                    label: const Text('학원 홈페이지 · 레벨테스트 신청'),
                   ),
-                  icon: const Icon(Icons.event_available_outlined, size: 16),
-                  label: const Text('레벨테스트 예약 문의'),
-                ),
                 if (tel != null)
                   TextButton.icon(
                     onPressed: () => copyTel(context, ref, academy),
@@ -305,248 +306,12 @@ class ConsultChecklist extends StatelessWidget {
   }
 }
 
-/// 레벨테스트 예약 요청 시트.
+/// ★ 2026-09-05: `ReserveSheet`(레벨테스트 예약 요청 폼)를 없앴다.
 ///
-/// 위에는 전화로 물어볼 것, 아래에는 요청 폼. 접수 기능이 없어도(Supabase
-/// 미연결) 전화 안내는 나온다 — 빈 시트는 정보가 아니다.
-class ReserveSheet extends ConsumerStatefulWidget {
-  final Academy academy;
-  final bool enabled;
-  const ReserveSheet({super.key, required this.academy, required this.enabled});
-
-  @override
-  ConsumerState<ReserveSheet> createState() => _ReserveSheetState();
-}
-
-class _ReserveSheetState extends ConsumerState<ReserveSheet> {
-  final _name = TextEditingController();
-  final _contact = TextEditingController();
-  final _preferred = TextEditingController();
-  final _note = TextEditingController();
-  String? _band;
-  String? _subject;
-  bool _sending = false;
-  bool _sent = false;
-  String? _error;
-
-  @override
-  void initState() {
-    super.initState();
-    final bands = widget.academy.gradeBands;
-    if (bands.length == 1) _band = bands.first;
-    final subs = orderedSubjects(widget.academy.subjects)
-        .where((s) => subjectNames.containsKey(s))
-        .toList();
-    if (subs.length == 1) _subject = subs.first;
-  }
-
-  @override
-  void dispose() {
-    _name.dispose();
-    _contact.dispose();
-    _preferred.dispose();
-    _note.dispose();
-    super.dispose();
-  }
-
-  Future<void> _submit() async {
-    if (_contact.text.trim().length < 5) {
-      setState(() => _error = '회신받으실 연락처를 입력해 주세요.');
-      return;
-    }
-    setState(() {
-      _sending = true;
-      _error = null;
-    });
-    try {
-      await ref.read(reservationServiceProvider).submit(
-            academyKey: widget.academy.id,
-            academyName: widget.academy.displayName,
-            contact: _contact.text.trim(),
-            parentName:
-                _name.text.trim().isEmpty ? null : _name.text.trim(),
-            childBand: _band,
-            subject: _subject,
-            preferred: _preferred.text.trim().isEmpty
-                ? null
-                : _preferred.text.trim(),
-            note: _note.text.trim().isEmpty ? null : _note.text.trim(),
-          );
-      unawaited(ref.read(actionLogProvider).log(widget.academy.id, 'reserve'));
-      if (mounted) setState(() => _sent = true);
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _sending = false;
-          _error = '접수에 실패했습니다. 잠시 후 다시 시도해 주세요.';
-        });
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    final a = widget.academy;
-    final subs = orderedSubjects(a.subjects)
-        .where((s) => subjectNames.containsKey(s))
-        .toList();
-    final bands = a.gradeBands.isEmpty ? gradeBandNames.keys.toList() : a.gradeBands;
-    final ask = buildChecklist(a).take(4).toList();
-
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AppSpace.md,
-        right: AppSpace.md,
-        bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpace.lg,
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('${a.displayName} — 레벨테스트 예약 문의', style: text.titleLarge),
-            const SizedBox(height: 4),
-            Text(
-              '가장 빠른 길은 전화입니다. 전화하실 때 이것부터 물어보세요.',
-              style: text.bodySmall,
-            ),
-            const SizedBox(height: AppSpace.sm),
-            for (final it in ask)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Text('· ${it.label}'
-                    '${it.note != null ? "  (${it.note})" : ""}',
-                    style: text.bodyMedium),
-              ),
-            const SizedBox(height: AppSpace.sm),
-            Wrap(
-              spacing: AppSpace.sm,
-              children: [
-                FilledButton.icon(
-                  onPressed: a.tel == null
-                      ? null
-                      : () => callAcademy(context, ref, a),
-                  icon: const Icon(Icons.call, size: 16),
-                  label: Text(a.tel != null ? '전화 ${a.tel}' : '전화번호 미공시'),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpace.lg),
-            Text('전화가 어려우시면 요청을 남겨 주세요', style: text.titleMedium),
-            const SizedBox(height: 4),
-            Text(
-              '운영자가 학원에 확인해 연락처로 회신드립니다. 예약 확정은 학원이 '
-              '합니다. 접수 내용은 공개되지 않습니다.',
-              style: text.bodySmall,
-            ),
-            const SizedBox(height: AppSpace.md),
-            if (!widget.enabled)
-              Text('현재 접수 기능을 사용할 수 없습니다. 전화로 문의해 주세요.',
-                  style: text.bodyMedium)
-            else if (_sent) ...[
-              Text(
-                '접수됐습니다. 확인되는 대로 회신드립니다.\n'
-                '확정된 일정이 아닙니다 — 학원의 답을 받은 뒤에 알려 드립니다.',
-                style: text.bodyMedium,
-              ),
-              const SizedBox(height: AppSpace.md),
-              Align(
-                alignment: Alignment.centerRight,
-                child: FilledButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('닫기'),
-                ),
-              ),
-            ] else ...[
-              Text('아이 학년', style: text.labelMedium),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: AppSpace.sm,
-                runSpacing: AppSpace.xs,
-                children: [
-                  for (final b in bands)
-                    ChoiceChip(
-                      label: Text(gradeBandNames[b] ?? b),
-                      selected: _band == b,
-                      onSelected: (on) => setState(() => _band = on ? b : null),
-                    ),
-                ],
-              ),
-              if (subs.length > 1) ...[
-                const SizedBox(height: AppSpace.sm),
-                Text('과목', style: text.labelMedium),
-                const SizedBox(height: 4),
-                Wrap(
-                  spacing: AppSpace.sm,
-                  runSpacing: AppSpace.xs,
-                  children: [
-                    for (final s in subs)
-                      ChoiceChip(
-                        label: Text(subjectNames[s] ?? s),
-                        selected: _subject == s,
-                        onSelected: (on) =>
-                            setState(() => _subject = on ? s : null),
-                      ),
-                  ],
-                ),
-              ],
-              const SizedBox(height: AppSpace.md),
-              TextField(
-                controller: _contact,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '회신받으실 연락처 (전화 또는 이메일) *',
-                ),
-              ),
-              const SizedBox(height: AppSpace.sm),
-              TextField(
-                controller: _name,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '보호자 성함 (선택)',
-                ),
-              ),
-              const SizedBox(height: AppSpace.sm),
-              TextField(
-                controller: _preferred,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '희망 일시 (선택)',
-                  helperText: '예: 이번 주 토요일 오전, 평일 5시 이후',
-                ),
-              ),
-              const SizedBox(height: AppSpace.sm),
-              TextField(
-                controller: _note,
-                maxLines: 3,
-                maxLength: 1000,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: '덧붙일 말 (선택)',
-                  helperText: '현재 다니는 학원, 목표, 궁금한 점',
-                ),
-              ),
-              if (_error != null) ...[
-                const SizedBox(height: AppSpace.sm),
-                Text(_error!,
-                    style: text.bodySmall?.copyWith(color: AppColors.rising)),
-              ],
-              const SizedBox(height: AppSpace.md),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: _sending ? null : _submit,
-                  child: Text(_sending ? '접수 중…' : '예약 요청 남기기'),
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
+/// 학원과 제휴가 없는데 중간에 서면, 학부모는 우리에게 신청했다고 여기고
+/// 학원은 그런 신청을 받은 적이 없다. 레벨테스트는 **학원에 직접** 신청한다 —
+/// 이 화면은 닿는 곳(전화·공식 페이지)만 준다. 이미 들어온 접수는 지우지
+/// 않고 `/admin` 예약 탭과 corrections_report 에서 처리한다.
 
 /// '이 학원 글이 아니에요' 신고 시트.
 ///

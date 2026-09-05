@@ -273,6 +273,30 @@ _TRADE_TAIL = re.compile(
 _BRANCH = re.compile(r"(브랜치|캠퍼스|센터|지점|\d*관|\d+호점|점)")
 
 
+# ── 전화번호 ──────────────────────────────────────────────────────
+#
+# NEIS 공시에는 자리를 채우려고 적은 번호가 섞여 있다. 실측(2026-09-04):
+# 채점 956곳 중 **187곳이 `02-0000-0000` 류**였고, 화면의 '전화하기' 가
+# 아무 데도 안 걸었다. **아무 일도 안 일어나는 버튼이 가장 나쁘다**
+# (CLAUDE.md). 걸 수 없는 번호는 없는 번호로 내보낸다 — 화면은
+# '전화번호 미공시' 라고 정직하게 적는다.
+_TEL_OK = re.compile(r"^0\d{1,2}-\d{3,4}-\d{4}$")
+
+
+def clean_tel(value) -> str | None:
+    """걸 수 있는 번호만 남긴다. 아니면 None."""
+    tel = str(value or "").strip()
+    if not tel or tel.lower() == "none":
+        return None
+    if not _TEL_OK.match(tel):
+        return None
+    digits = tel.replace("-", "")
+    # 지역번호를 뺀 나머지가 전부 0 이면 자리를 채운 값이다.
+    if set(digits[2:]) <= {"0"}:
+        return None
+    return tel
+
+
 def matches_brand(name: str, brand_key: str, strict: bool = False) -> str | None:
     """NEIS 학원명이 큐레이션 브랜드에 해당하는가.
 

@@ -621,6 +621,10 @@ class Academy {
   final List<String> flagship;
   final String? address;
   final String? tel;
+
+  /// 학원 공식 링크. 레벨테스트 신청도 여기로 보낸다 — 학원실록이 대신
+  /// 접수하지 않는다. 없으면 버튼을 만들지 않는다.
+  final String? homepage;
   final int? capacity;
   final String? registrationStatus;
   final String? establishedOn;
@@ -676,6 +680,7 @@ class Academy {
     required this.flagship,
     this.address,
     this.tel,
+    this.homepage,
     this.capacity,
     this.registrationStatus,
     this.establishedOn,
@@ -710,6 +715,7 @@ class Academy {
     flagship: ((j['flagship'] as List?) ?? const []).cast<String>(),
     address: j['address'] as String?,
     tel: j['tel'] as String?,
+    homepage: j['homepage'] as String?,
     capacity: (j['capacity'] as num?)?.toInt(),
     registrationStatus: j['registrationStatus'] as String?,
     establishedOn: j['establishedOn'] as String?,
@@ -963,6 +969,10 @@ class RegistryEntry {
   final bool isVerified;
   final int registrationCount;
 
+  /// 랭킹 대상이 아닌 이유. 비어 있으면 '아직 수집하지 않았다' 는 뜻이다.
+  /// 둘은 다른 상태다 — 같은 말로 적으면 학부모가 낮은 평가로 읽는다.
+  final String? notRanked;
+
   const RegistryEntry({
     required this.id,
     required this.name,
@@ -976,6 +986,7 @@ class RegistryEntry {
     this.registrationStatus,
     required this.isVerified,
     this.registrationCount = 1,
+    this.notRanked,
   });
 
   factory RegistryEntry.fromJson(Map<String, dynamic> j) => RegistryEntry(
@@ -989,6 +1000,7 @@ class RegistryEntry {
     capacity: (j['capacity'] as num?)?.toInt(),
     registrationStatus: j['registrationStatus'] as String?,
     isVerified: (j['isVerified'] ?? false) as bool,
+    notRanked: j['notRanked'] as String?,
   );
 }
 

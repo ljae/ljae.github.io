@@ -277,9 +277,16 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                             ),
                           // 등록부에서 채운 곳. 수집한 적이 없어 상세에
                           // 보여줄 것이 등록 정보뿐이라 눌러도 그쪽으로 간다.
+                          //
+                          // ★ '아직 안 봤다' 와 '이 랭킹의 대상이 아니다' 는
+                          //   다른 상태다. 학습지·방문수업 프랜차이즈는
+                          //   낮은 평가를 받은 것이 아니라 줄에 세우지
+                          //   않는 것이므로 그 이유를 함께 적는다.
                           for (final r in fill)
                             NameChip(
-                              label: r.displayName,
+                              label: r.notRanked == null
+                                  ? r.displayName
+                                  : '${r.displayName} · ${r.notRanked}',
                               tentative: true,
                               onTap: () => context.go('/academy/${r.id}'),
                             ),

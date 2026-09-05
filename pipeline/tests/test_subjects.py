@@ -87,6 +87,39 @@ def test_진짜_어학원은_영어로_남는다():
     assert "english" in build._infer_subjects(row("윌로우잉글리쉬외국어학원"))
 
 
+def test_실용외국어는_국어가_아니다():
+    """9/5 신고: '그로튼아카데미는 영어학원인데 국어 3위에 있다'.
+
+    NEIS 표준 교습과정 '실용외국어' 안에 **'국어' 가 부분 문자열**로 들어
+    있다. `_infer_subjects` 에 '외국어 → english' 규칙이 이미 있는데,
+    그 앞의 교습과정 힌트 검사에서 '국어' 가 먼저 걸려 거기까지 가지
+    못했다. 전수 74건 · 그중 25곳이 실제 국어 랭킹에 있었다
+    (반포 국어 1·2위, 대치 3위).
+    """
+    grotten = row("그로튼아카데미학원", realm="종합(대)",
+                  course="실용외국어(유아/초·중·고)")
+    assert build._infer_subjects(grotten) == ["english"]
+
+    # 중국어·일본어 교습소도 같은 자리에서 국어가 됐다.
+    for name, realm in (("대치해법중국어교습소", "국제화"),
+                        ("동경일본어교습소", "국제화"),
+                        ("밍중국어교습소", "입시.검정 및 보습")):
+        got = build._infer_subjects(row(name, realm=realm,
+                                        course="실용외국어(유아/초·중·고)"))
+        assert "korean" not in got, (name, got)
+
+    # 공시가 '국제화' 면 이름의 '언어' 한 낱말로 국어를 붙이지 않는다.
+    forty = row("포티언어학원", realm="국제화", course="실용외국어(유아/초·중·고)")
+    assert build._infer_subjects(forty) == ["english"]
+
+
+def test_진짜_국어_학원은_그대로_국어다():
+    """반대쪽을 깨지 않는지. 이 셋은 이름이 국어라고 말한다."""
+    for name in ("권미나국어학원", "기파랑문해원", "예섬독서논술학원"):
+        assert "korean" in build._infer_subjects(
+            row(name, course="보습·논술")), name
+
+
 def test_과학논술은_국어가_아니다():
     """앞말이 뒷말을 한정한다. '과학논술' 은 과학 글쓰기이지 국어 논술이 아니다."""
     assert build._infer_subjects(row("주광호샘네모과학논술교습소")) == ["science"]

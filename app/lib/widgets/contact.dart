@@ -51,6 +51,33 @@ Future<void> callAcademy(
   }
 }
 
+/// 학원 공식 페이지로 보낸다. **레벨테스트 신청도 여기서 한다** —
+/// 학원실록이 대신 접수하지 않는다(2026-09-05).
+///
+/// 링크가 없으면 호출되지 않는다. 화면이 버튼을 만들지 않기 때문이다.
+Future<void> openHomepage(
+  BuildContext context,
+  WidgetRef ref,
+  Academy academy,
+) async {
+  final url = academy.homepage;
+  if (url == null || url.isEmpty) return;
+  unawaited(ref.read(actionLogProvider).log(academy.id, 'homepage'));
+  final messenger = ScaffoldMessenger.maybeOf(context);
+  var ok = false;
+  try {
+    ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } catch (_) {
+    ok = false;
+  }
+  if (!ok) {
+    await Clipboard.setData(ClipboardData(text: url));
+    messenger?.showSnackBar(
+      SnackBar(content: Text('페이지를 열 수 없어 주소를 복사했습니다: $url')),
+    );
+  }
+}
+
 Future<void> copyTel(
   BuildContext context,
   WidgetRef ref,

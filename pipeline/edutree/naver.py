@@ -214,6 +214,144 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     return out
 
 
+# ── 지역(로컬) 검색 ──────────────────────────────────────────────
+#
+# 학원의 **공식 링크와 전화번호**를 얻는 유일한 조회 경로다. NEIS 는
+# 홈페이지를 주지 않고, 이름으로 웹을 검색해 맞히는 것은 추측이라
+# 하지 않기로 했다(`official.py` 의 'URL 을 추측하지 않는다').
+#
+# 지역검색은 다르다 — 상호와 함께 **주소**를 돌려준다. 우리가 아는
+# 도로명주소와 대조해 **맞을 때만** 쓴다. 그건 추측이 아니라 조회다.
+# 같은 검색 API 라 새 키가 필요 없다.
+# 부번('418-3')은 남기고 층·호는 버려야 한다. '-' 를 지우면 '418-3' 과
+# '418 3층' 이 구별되지 않으므로 '-' 를 남긴 채 자른다.
+_ADDR_NOISE = re.compile(r"[^0-9가-힣\-]")
+_ADDR_KEY = re.compile(r"(서울\s*\S+구\s*\S+(?:로|길)\s*\d+(?:-\d+)?)")
+
+
+def addr_key(addr: str | None) -> str | None:
+    """도로명주소 비교 키. **건물번호까지만** 본다 — 층·호는 표기가 제각각이라
+    '서울특별시 강남구 도곡로 418' 과 '서울 강남구 도곡로 418 3층' 이 같은
+    곳으로 읽혀야 한다."""
+    if not addr:
+        return None
+    s = _ADDR_NOISE.sub(" ", str(addr)).strip()
+    s = re.sub(r"^서울특별시", "서울", s)
+    m = _ADDR_KEY.match(s)
+    return re.sub(r"\s+", "", m.group(1)) if m else None
+
+
+# 교육 업종. 지역검색 category 는 '어학교육>영어교육' 처럼 계층으로 온다.
+_EDU_CATEGORY = ("교육", "학원", "교습", "어학", "학문", "입시", "유치원", "논술")
+
+_local_disabled = False
+
+
+def local_lookup(name: str, road_address: str | None) -> dict | None:
+    """상호+주소로 한 곳을 찾는다. **주소가 안 맞으면 None.**
+
+    돌려주는 것: {'title', 'link', 'telephone', 'road_address', 'category'}
+    """
+    if not config.HAS_NAVER or not name:
+        return None
+    want = addr_key(road_address)
+    if not want:                      # 대조할 것이 없으면 쓰지 않는다
+        return None
+    global _local_disabled
+    if _local_disabled:
+        return None
+    mode = resolve_mode()
+    params = {"query": f"{name} {road_address}".strip(), "display": 5}
+    try:
+        resp = requests.get(_url(mode, "local"), params=params,
+                            headers=_headers(mode), timeout=TIMEOUT)
+        if resp.status_code in (401, 403):
+            # 콘솔에서 '지역' 검색을 켜야 쓸 수 있다. 한 번만 알리고 만다 —
+            # 수백 번 같은 줄을 찍으면 정작 무엇이 문제인지가 안 보인다.
+            _local_disabled = True
+            print("    ! 네이버 **지역검색**이 이 애플리케이션에서 활성화되어 "
+                  "있지 않습니다 — 홈페이지·전화 보강을 건너뜁니다.")
+            print("      콘솔에서 '검색 > 지역' 을 추가하면 다음 실행부터 채워집니다.")
+            return None
+        if resp.status_code != 200:
+            return None
+        rows = resp.json().get("items", []) or []
+    except Exception:                                          # noqa: BLE001
+        return None
+    from . import neis, analyze
+    core = analyze.name_core(name)
+    for r in rows:
+        if addr_key(r.get("roadAddress") or r.get("address")) != want:
+            continue
+        # ★ 주소만으로는 모자란다. 한 건물에 여러 업소가 있다 — 실측:
+        #   '메이플'(반포 · 표본 390)이 같은 주소의 **미용실**로 잡혔다.
+        #   상호까지 '메이플…' 이라 이름 대조로도 안 걸렸다.
+        #   → **업종이 교육이어야 한다.** 업종이 아예 없을 때만 이름으로
+        #     대조한다. 표본 40곳에서 교육이 아닌 것은 그 미용실 하나였다.
+        cat = r.get("category") or ""
+        title = analyze._norm(clean(r.get("title")))
+        if cat:
+            if not any(w in cat for w in _EDU_CATEGORY):
+                continue
+        elif not (core and core in title):
+            continue
+        link = (r.get("link") or "").strip()
+        return {
+            "title": clean(r.get("title")),
+            "link": link or None,
+            "telephone": neis.clean_tel(r.get("telephone")),
+            "road_address": r.get("roadAddress"),
+            "category": r.get("category"),
+        }
+    return None
+
+
+# ── 검색어 트렌드 (데이터랩) ──────────────────────────────────────
+#
+# 검색량은 후기 수와 **다른 것을 잰다.** 후기는 누가 썼는가(공급), 검색은
+# 누가 찾았는가(수요)다. 화제성에 쓸 수 있는지는 별도 문서에서 검증했다
+# (docs/TREND_VERIFICATION_2026-09-05.md) — 요지는 **점수에는 못 쓰고
+# 수집 우선순위에는 쓸 수 있다** 이다.
+#
+# ★ 값이 절대량이 아니다. 한 요청 안에서 최댓값을 100 으로 놓은 **상대비**라,
+#   요청이 다르면 비교할 수 없다. 여러 학원을 견주려면 모든 요청에 같은
+#   기준 낱말(anchor)을 넣고 그 값으로 나눠야 한다.
+#
+# 엔드포인트가 검색과 다르다. 검색은 naverapihub, 데이터랩은 naveropenapi 다.
+DATALAB_URL = "https://naveropenapi.apigw.ntruss.com/datalab/v1/search"
+DATALAB_MAX_GROUPS = 5          # 한 요청에 키워드 그룹 5개까지
+_datalab_disabled = False
+
+
+def trend(groups: list[dict], start: str, end: str,
+          unit: str = "month") -> list[dict] | None:
+    """검색어 트렌드. [groups] 는 [{'groupName':..., 'keywords':[...]}] 최대 5개.
+
+    돌려주는 것은 그룹별 `{'title','data':[{'period','ratio'}]}`.
+    구독이 없으면 한 번만 알리고 None.
+    """
+    global _datalab_disabled
+    if _datalab_disabled or not config.HAS_NAVER or not groups:
+        return None
+    body = {"startDate": start, "endDate": end, "timeUnit": unit,
+            "keywordGroups": groups[:DATALAB_MAX_GROUPS]}
+    headers = {**_headers("hub"), "Content-Type": "application/json"}
+    try:
+        resp = requests.post(DATALAB_URL, headers=headers, json=body,
+                             timeout=TIMEOUT)
+    except Exception:                                          # noqa: BLE001
+        return None
+    if resp.status_code in (401, 403):
+        _datalab_disabled = True
+        print("    ! 네이버 **검색어 트렌드(데이터랩)** 구독이 이 키에 없습니다 "
+              "— 건너뜁니다.")
+        print(f"      응답: {resp.text[:120]}")
+        return None
+    if resp.status_code != 200:
+        return None
+    return resp.json().get("results") or None
+
+
 def queries_for(academy: dict, region_name: str) -> list[str]:
     """학원 하나에 대한 검색 질의어들.
 

@@ -477,6 +477,16 @@ _NAME_SEAMS = (
     ("재수학원", "재수 학원"),        # 재수 + 학원 ('수학' 아님)
     ("국어학원", "국어 학원"),        # 국어 + 학원 ('어학' 아님)
     ("독서실", " "),                  # 독서실은 국어 학원이 아니다
+    # ★ '외국어' 안에 '국어' 가 들어 있다 (2026-09-05).
+    #   NEIS 표준 교습과정이 '실용외국어(유아/초·중·고)' 라 **어학원 전부**가
+    #   국어 학원이 될 수 있었다. 실측: 등록 74건이 그렇게 잡혔고 그중
+    #   25곳이 국어 랭킹에 있었다 — 반포 국어 1위 청담아이가르텐(영유),
+    #   2위 세인트폴, 대치 3위 그로튼아카데미(신고받은 곳).
+    #   '외국어 → english' 규칙은 이미 있었는데, 그 **앞**의 힌트 검사에서
+    #   '국어' 가 먼저 걸려 거기까지 가지 못했다.
+    ("외국어", "외국 어"),            # 외국 + 어 ('국어' 아님)
+    ("중국어", "중국 어"),            # 중국어 교습소도 국어가 됐다
+    ("일본어", "일본 어"),
 )
 
 # 앞말이 뒷말을 한정하는 복합어. 뒷말 쪽 과목을 지운다.
@@ -577,6 +587,11 @@ def _infer_subjects(row: dict) -> list[str]:
     # 이름의 낱말만 보고 예체능으로 넘기면 안 된다 — '수영수학교습소' 가
     # '수영' 때문에 예체능이 됐다.
     found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in name for h in hints)]
+    # ★ 공시 분야가 '국제화' 면 외국어 학원이다. 이름의 '언어' 한 낱말로
+    #   국어 학원이라 적을 근거가 없다 — '포티언어학원'(국제화)이 영어이자
+    #   국어였다. 공시가 이름을 이긴다는 `_subject_from_realm` 과 같은 규칙.
+    if (row.get("realm_sc_nm") or "").strip() == "국제화" and len(found) > 1:
+        found = [s for s in found if s != "korean"]
     if found:
         return found
 
@@ -588,7 +603,12 @@ def _infer_subjects(row: dict) -> list[str]:
         return ["arts"]
 
     course = _course_signal(row)
-    found = [s for s, hints in _SUBJECT_HINTS.items() if any(h in course for h in hints)]
+    # ★ 교습과정에도 이름과 **같은 이음매 정리**를 건다. 이름에만 걸어
+    #   두었더니 '실용외국어' 의 '국어' 가 그대로 통과했다.
+    #   아래 '외국어 → english' 는 정리 전 원문을 봐야 하므로 course 는
+    #   그대로 두고, 힌트 검사에만 정리본을 쓴다.
+    found = [s for s, hints in _SUBJECT_HINTS.items()
+             if any(h in _subject_text(course) for h in hints)]
     if found:
         return found
 
@@ -859,6 +879,46 @@ def select_for_mentions(academies: list[dict],
     if acted:
         print(f"  행동 신호: {len(acted):,}곳에 전화·예약 기록 (수집 우선순위에 반영)")
 
+    # ★ 형제 신호 — 같은 브랜드가 이미 두껍게 확인된 곳의 **미수집 지점**을
+    #   앞으로 당긴다 (2026-09-05).
+    #
+    #   선정은 수요·정원·수집 이력을 보는데, '이 브랜드는 이미 중요한 것으로
+    #   확인됐다' 는 사실을 안 썼다. 그래서 대치 기파랑 **본원**이 한 번도
+    #   수집되지 않은 채, 표본 0 짜리 중등관만 채점 대상에 있었다 —
+    #   '대치 국어에 기파랑이 없다' 는 신고의 뿌리다.
+    #
+    #   실측(2026-09-04): 같은 브랜드가 다른 학군에서 표본 30건 이상인데
+    #   등록부에만 있는 곳이 **50곳**이었다(기파랑 대치본원·서초 · 폴리어수학 ·
+    #   시매쓰목동 · 와이즈만 3곳 · 리틀팍스 3곳 · 시대인재반포센터서초관 …).
+    #
+    #   수요 신호와 같은 층이다 — 수집 우선순위에만 쓰고 점수에는 안 쓴다.
+    from . import dedupe as _dedupe
+
+    def _brand_key(a: dict) -> str | None:
+        return a.get("brand") or (_dedupe.brand_token(a.get("name") or "") or None)
+
+    brand_best: dict[str, int] = {}
+    for a in academies:
+        key = _brand_key(a)
+        if not key:
+            continue
+        seen_n = (hist.get(a["id"]) or {}).get("last") or 0
+        if seen_n > brand_best.get(key, 0):
+            brand_best[key] = seen_n
+    SIBLING_MIN = config.MIN_SAMPLE_FOR_RANK * 3      # 형제가 이만큼은 모였어야
+    n_sib = 0
+    for a in academies:
+        if hist.get(a["id"]):                          # 이미 본 곳은 대상이 아니다
+            continue
+        key = _brand_key(a)
+        best = brand_best.get(key or "", 0)
+        if best >= SIBLING_MIN:
+            want[a["id"]] = want.get(a["id"], 0) + min(best, 60)
+            n_sib += 1
+    if n_sib:
+        print(f"  형제 신호: 같은 브랜드가 이미 두껍게 확인된 미수집 지점 "
+              f"{n_sib:,}곳을 앞으로 당긴다")
+
     bands = list(config.GRADE_BANDS)
     # 학년 구간에 76%, 예체능·기타에 12%, 구간 미상에 12%.
     #
@@ -946,6 +1006,9 @@ def select_for_mentions(academies: list[dict],
         h = hints.get(a["id"]) or {}
         if h.get("unusable"):
             return False
+        # 랭킹 대상이 아닌 곳은 모아도 쓸 데가 없다 — API 만 태운다.
+        if config.is_homeschool_franchise(a):
+            return False
         cands = analyze.name_candidates(a) | {
             analyze._norm(x) for x in h.get("aliases") or []
             if len(analyze._norm(x)) >= 2}
@@ -954,9 +1017,11 @@ def select_for_mentions(academies: list[dict],
     unmatchable = [a for a in academies if not _matchable(a)]
     if unmatchable:
         by_place = sum(1 for a in unmatchable if analyze.is_place_name(a))
-        print(f"  이름만으로 못 가려내는 학원 {len(unmatchable):,}곳은 수집하지 않는다 "
-              f"(지역어·업종어뿐인 이름 {by_place:,}곳 · 위키 unusable "
-              f"{len(unmatchable) - by_place:,}곳) — 위키 aliases 로 표기를 주면 다시 모은다")
+        by_fr = sum(1 for a in unmatchable if config.is_homeschool_franchise(a))
+        rest = len(unmatchable) - by_place - by_fr
+        print(f"  수집하지 않는 학원 {len(unmatchable):,}곳 — 지역어·업종어뿐인 이름 "
+              f"{by_place:,}곳 · 학습지·방문 프랜차이즈 {by_fr:,}곳 · "
+              f"위키 unusable {rest:,}곳 (aliases 로 표기를 주면 다시 모은다)")
     unmatchable_ids = {a["id"] for a in unmatchable}
 
     selected, skipped = [], []
@@ -1186,10 +1251,20 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         #   잃었다. 이제 근거는 저장소에 남으므로 회차가 쌓일수록 채점 대상이
         #   는다. 근거 0건인 곳은 여전히 등록부에만 남는다.
         have = {m.get("academy_key") for m in mentions}
+        # ★ 학습지·방문수업 프랜차이즈는 **랭킹 대상이 아니다** (2026-09-05).
+        #   학원이 아니라 공부방이라 학원과 한 줄에 세우면 그 등수가
+        #   무엇을 뜻하는지 설명할 수 없다. 등록부에는 그대로 남는다 —
+        #   학부모가 검색하면 나와야 하고, 화면에 '이 랭킹의 대상이 아님'
+        #   이라고 적는다. '낮은 점수' 가 아니라 다른 상태다.
         evaluated = [a for a in academies
-                     if a["id"] in have or a["id"] in selected_ids]
+                     if (a["id"] in have or a["id"] in selected_ids)
+                     and not config.is_homeschool_franchise(a)]
         ev_ids = {a["id"] for a in evaluated}
         registry_only = [a for a in academies if a["id"] not in ev_ids]
+        n_fr = sum(1 for a in registry_only if config.is_homeschool_franchise(a))
+        if n_fr:
+            print(f"  학습지·방문 프랜차이즈 {n_fr:,}곳은 랭킹 대상이 아니다 "
+                  f"(등록부에는 남는다)")
         print(f"  채점 대상 {len(evaluated):,}곳 — 이번 회차 수집 "
               f"{len(selected):,} · 저장소 근거 보유 "
               f"{len(have & {a['id'] for a in academies}):,} · "
@@ -1341,7 +1416,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  지점 게이트: 다권역 지점 {bstat['branches']}곳 · "
               f"타권역 지점 글 {bstat['elsewhere']:,}건 · "
               f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
-              f"지역 불명 {bstat['shared']:,}건은 지점 공유"
+              f"지역 불명 {bstat['brand_unknown']:,}건은 근거로 쓰지 않음"
               + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
                  if bstat.get("sibling") else "")
               + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
@@ -1566,6 +1641,24 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
+
+    # 연락처 — 학원에 **직접** 닿을 곳을 붙인다. 예약 대행을 없앴으므로
+    # 전화든 신청 페이지든 여기서 채워지지 않으면 화면에 버튼이 없다.
+    # 위키 `homepage:` 가 언제나 이긴다.
+    for a in evaluated + registry_only:
+        h = (wiki_hints.get(a["id"]) or {}).get("homepage")
+        if h:
+            a["homepage"] = h
+    try:
+        from . import official as official_mod
+        cstat = official_mod.lookup_contacts(
+            evaluated, live=(mode == "live" and not from_cache))
+        print(f"  연락처 조회: {cstat['asked']:,}곳 질의 · 홈페이지 "
+              f"{cstat['homepage']:,}곳 · 전화 {cstat['tel']:,}곳 · 업종 "
+              f"{cstat['category']:,}곳 (누적 {cstat['cached']:,}곳)")
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 연락처 조회 실패: {exc}")
+
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
            subject_scores, claim_rows, candidates=candidates)
 
@@ -1617,6 +1710,35 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     except Exception as exc:                                  # noqa: BLE001
         # 점검은 부산물이다. 여기서 죽으면 채점까지 잃는다.
         print(f"  ! 이름 위험 보고 실패: {exc}")
+
+    # ★ 범위 감사 (2026-09-05). **빠진 학원은 아무도 신고하지 않는다** —
+    #   잘못 들어간 곳은 학부모가 신고하지만 빠진 곳은 화면에 없으므로
+    #   아무 말도 안 들어온다. 그래서 숫자로 봐야 한다. 전부 조용했다.
+    try:
+        _tree = config.techtree()
+        _grade = {s["id"]: s["grade"] for tr in _tree["tracks"] for s in tr["stages"]}
+        n_stage_out = 0
+        for a in evaluated:
+            gb = set(a.get("grade_bands") or [])
+            if not gb:
+                continue
+            for sid in a.get("stages") or []:
+                g = _grade.get(sid)
+                if g and not (set(config.bands_for_range(g[0], g[1])) & gb):
+                    n_stage_out += 1
+                    break
+        n_general = sum(1 for a in evaluated
+                        if (a.get("subjects") or []) == [config.UNRANKED_SUBJECT])
+        n_noband = sum(1 for a in evaluated if not a.get("grade_bands"))
+        n_wrong_kor = sum(
+            1 for a in evaluated
+            if "korean" in (a.get("subjects") or [])
+            and "외국어" in f"{a.get('le_crse_nm') or ''} {a.get('le_crse_list_nm') or ''}")
+        print(f"  범위 감사: 과목 오분류('외국어'→국어) {n_wrong_kor}곳 · "
+              f"단계 ⊄ 구간 {n_stage_out}곳 · 구간 모름 {n_noband}곳 · "
+              f"과목 미상 {n_general}곳")
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 범위 감사 실패: {exc}")
 
     # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
     from . import graph
@@ -1950,6 +2072,16 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                                 if str(r) != a["id"]] or None,
             "lat": a.get("lat"),
             "lng": a.get("lng"),
+            # 랭킹 대상이 아닌 이유. '아직 안 봤다'(미수집)와 다른 상태다 —
+            # 화면이 둘을 같은 말로 적으면 학부모가 낮은 평가로 읽는다.
+            "notRanked": (
+                "학습지·방문수업" if config.is_homeschool_franchise(a)
+                # 과목을 못 정한 곳은 **빠진 것이 아니라 아직 모르는 것**이다.
+                # 채점 956곳 중 140곳(15%)이 여기 해당하는데 화면에 그 사실을
+                # 적을 자리가 없었다 — 학부모 눈에는 그냥 없는 학원이다.
+                else "과목 미상" if (a.get("subjects") or []) == [
+                    config.UNRANKED_SUBJECT]
+                else None),
         }
 
     payload_academies = []
@@ -1967,7 +2099,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             # 적지 않으면 추정이 큐레이션처럼 읽힌다.
             "stageBasis": a.get("stage_basis") or {},
             "flagship": a.get("flagship", []),
-            "tel": a.get("tel"),
+            "tel": neis.clean_tel(a.get("tel")),
+            # 학원 공식 링크. 레벨테스트 신청도 여기로 보낸다 —
+            # 학원실록이 대신 접수하지 않는다.
+            "homepage": a.get("homepage"),
             "establishedOn": a.get("estbl_ymd"),
             "dataSource": a.get("data_source", "seed"),
             "score": {

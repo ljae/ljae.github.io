@@ -18,6 +18,8 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 
+from . import config
+
 # 브랜드를 식별하지 못하는 일반 낱말. 이것만 겹치는 건 같은 학원의 근거가 아니다.
 STOPWORDS = (
     "학원", "교습소", "보습학원", "어학원", "교육원", "교육센터", "센터", "캠퍼스",
@@ -395,8 +397,35 @@ def merge(rows: list[dict]) -> dict:
     dates = [r.get("estbl_ymd") for r in rows if r.get("estbl_ymd")]
     base["estbl_ymd"] = min(dates) if dates else None          # 가장 이른 개설일
 
+    # ★ 학년 구간만 합집합이 아니다 (2026-09-05).
+    #
+    #   빈 grade_bands 는 '아무 구간도 아님' 이 아니라 **'모름'** 이다 —
+    #   앱은 그것을 '어느 필터에도 걸림' 으로 읽는다. 그런데 합집합은
+    #   `[] ∪ [middle] = [middle]` 이라 **모름을 해당 없음으로 바꾼다.**
+    #
+    #   실측(2026-09-04): 기파랑문해원(목동)은 센트럴관(과정 공시 없음 →
+    #   구간 모름) + 중등관(이름에 '중등' → [middle]) 이 묶여 구간이
+    #   [middle] 하나가 됐다. 표본 202 · 목동 국어 1위인데 **초등 국어
+    #   랭킹에서 사라졌다.** 기파랑은 초등 독서논술로 알려진 곳이다.
+    #   같은 상태가 15곳(메이플 390 · 아이엘이 304 · 트윈클 302 …).
+    #
+    #   하나라도 모르는 등록이 섞여 있으면 통합체도 모르는 것으로 둔다.
+    #   비워 두면 앱이 네 구간에 다 내보내고, 후기가 쌓이면
+    #   `_bands_from_mentions` 가 정한다 — 이미 있는 경로다.
+    known_bands = [r.get("grade_bands") or [] for r in rows]
+    if all(known_bands):
+        merged, seen = [], set()
+        for bands in known_bands:
+            for v in bands:
+                if v not in seen:
+                    seen.add(v)
+                    merged.append(v)
+        base["grade_bands"] = merged
+    else:
+        base["grade_bands"] = []
+
     # 과목·단계는 합집합. 관마다 담당 과정이 다르므로 합쳐야 실제 모습이 된다.
-    for field in ("subjects", "grade_bands", "stages", "flagship", "aliases"):
+    for field in ("subjects", "stages", "flagship", "aliases"):
         merged, seen = [], set()
         for r in rows:
             for v in r.get(field) or []:
@@ -415,6 +444,36 @@ def merge(rows: list[dict]) -> dict:
             if rank.get(kind, 0) >= rank.get(basis.get(sid), -1):
                 basis[sid] = kind
     base["stage_basis"] = {s: basis[s] for s in base["stages"] if s in basis}
+
+    # ★ 통합체의 구간 밖으로 나간 **추정** 단계는 뺀다 (2026-09-05).
+    #
+    #   구간이 비어 있는 등록에는 `_auto_stages` 가 **네 구간 전부**의 대표
+    #   단계를 붙인다 — 빈 구간은 '모름' 이므로 그 자체는 옳다. 문제는 그
+    #   다음이다. 단계는 합집합으로 가져오는데 통합체는 구간이 확정돼 있어,
+    #   '모름' 시절에 붙은 중등·고등 단계가 초등 학원에 그대로 남는다.
+    #
+    #   실측(2026-09-04): 트윈클어학원(대치)은 구간이 초등 저·고학년인데
+    #   단계에 중등 내신·고등 내신이 `inferred` 로 붙어 있었다. 랭킹은
+    #   구간만 보므로 안 나오지만 **테크트리는 단계로 붙어** 중등·고등에
+    #   섰다. 화면 두 곳이 같은 학원을 다르게 말한다. 전수 64곳.
+    #
+    #   `curated` 는 사람이 적은 것이라 남긴다 — 지우면 사람의 판단을
+    #   기계가 덮는 것이 된다. 추정만 거른다.
+    if base.get("grade_bands") and base.get("stages"):
+        keep_bands = set(base["grade_bands"])
+        tree = config.techtree()
+        grade = {s["id"]: s["grade"] for t in tree["tracks"] for s in t["stages"]}
+        kept = []
+        for sid in base["stages"]:
+            g = grade.get(sid)
+            if g and base["stage_basis"].get(sid) == "inferred":
+                if not (set(config.bands_for_range(g[0], g[1])) & keep_bands):
+                    continue
+            kept.append(sid)
+        base["stages"] = kept
+        base["stage_basis"] = {s: k for s, k in base["stage_basis"].items()
+                               if s in kept}
+        base["flagship"] = [s for s in base.get("flagship") or [] if s in kept]
 
     if any(r.get("reg_stttus_nm") == "정상" for r in rows):
         base["reg_stttus_nm"] = "정상"
