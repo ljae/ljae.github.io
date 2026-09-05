@@ -160,3 +160,32 @@ def test_정원은_합산_개설일은_가장_이른_것():
     out, _ = dedupe.apply(rows)
     assert out[0]["tofor_smtot"] == 150
     assert out[0]["estbl_ymd"] == "2009-05-01"
+
+
+# ── 빈 구간은 '모름' 이다 ─────────────────────────────────────────
+def test_통합에서_모르는_구간이_섞이면_통합체도_모른다():
+    """`[] ∪ [middle] = [middle]` 은 **모름을 해당 없음으로** 바꾼다.
+
+    실측(2026-09-04): 기파랑문해원(목동)이 그래서 [middle] 하나가 됐고,
+    표본 202 · 목동 국어 1위인데 초등 국어 랭킹에서 사라졌다.
+    """
+    rows = [
+        {"id": "a", "name": "기파랑문해원센트럴관학원", "grade_bands": [],
+         "subjects": ["korean"], "estbl_ymd": "20100101"},
+        {"id": "b", "name": "기파랑문해원중등관학원", "grade_bands": ["middle"],
+         "subjects": ["korean"], "estbl_ymd": "20200101"},
+    ]
+    merged = dedupe.merge(rows)
+    assert merged["grade_bands"] == [], "모르는 것이 섞이면 모른다"
+    assert merged["subjects"] == ["korean"], "과목은 그대로 합집합"
+
+
+def test_구간을_전부_아는_통합은_합집합_그대로():
+    rows = [
+        {"id": "a", "name": "가나1관학원", "grade_bands": ["elem_low"],
+         "subjects": ["math"], "estbl_ymd": "20100101"},
+        {"id": "b", "name": "가나2관학원", "grade_bands": ["middle"],
+         "subjects": ["math"], "estbl_ymd": "20200101"},
+    ]
+    merged = dedupe.merge(rows)
+    assert merged["grade_bands"] == ["elem_low", "middle"]

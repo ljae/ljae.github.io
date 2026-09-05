@@ -128,6 +128,85 @@ def _observe(html: str, base_url: str) -> dict:
     }
 
 
+# ── 연락처 조회 (2026-09-05) ──────────────────────────────────────
+#
+# 위의 '**URL 을 추측하지 않는다**' 는 그대로다. 여기서 하는 것은 추측이
+# 아니라 **조회**다 — 네이버 지역검색은 상호와 함께 **주소**를 돌려주므로,
+# 우리가 아는 도로명주소와 대조해 맞을 때만 쓴다. 이름만 보고 웹 검색
+# 결과의 첫 줄을 집는 것과는 다른 일이다.
+#
+# 이것이 필요한 이유(실측 2026-09-04):
+#   홈페이지가 적힌 학원  **0곳** — 사람이 적은 것만 읽는데 아무도 안 적었다
+#   전화번호 894곳 중     **187곳이 `02-0000-0000` 류** — 걸리지 않는다
+# 레벨테스트를 학원에 **직접** 신청하게 하려면(예약 대행 폐지) 전화든
+# 신청 페이지든 닿을 곳이 있어야 한다.
+CONTACT_CACHE = config.CACHE_DIR / "local_lookup.json"
+CONTACT_PER_RUN = 120
+CONTACT_REVISIT_DAYS = 90
+
+
+def _load_contacts() -> dict:
+    if CONTACT_CACHE.exists():
+        try:
+            return json.loads(CONTACT_CACHE.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+    return {}
+
+
+def lookup_contacts(academies: list[dict], live: bool = True,
+                    limit: int = CONTACT_PER_RUN) -> dict:
+    """학원에 `homepage` 를 붙이고 가짜 전화번호를 조회값으로 갈아 끼운다.
+
+    ★ 위키 `homepage:` 가 언제나 이긴다 — 사람이 적은 것이 먼저다.
+      여기서는 **비어 있는 자리만** 채운다.
+    """
+    from . import naver, neis
+    cache = _load_contacts()
+    today = date.today().isoformat()
+
+    def stale(aid: str) -> bool:
+        row = cache.get(aid) or {}
+        seen = row.get("checked")
+        if not seen:
+            return True
+        try:
+            return (date.today() - date.fromisoformat(seen)).days >= CONTACT_REVISIT_DAYS
+        except ValueError:
+            return True
+
+    # 화면에 이미 보이는 곳(근거가 있는 곳)과 **걸 수 없는 곳**이 먼저다.
+    def priority(a: dict) -> tuple:
+        no_tel = 0 if neis.clean_tel(a.get("tel")) else -1
+        return (no_tel, -(a.get("sample_size") or 0))
+
+    asked = 0
+    if live and config.HAS_NAVER:
+        todo = [a for a in academies
+                if a.get("road_address") and stale(a["id"])]
+        todo.sort(key=priority)
+        for a in todo[:limit]:
+            got = naver.local_lookup(a.get("name") or "", a.get("road_address"))
+            cache[a["id"]] = {"checked": today, **(got or {})}
+            asked += 1
+        if asked:
+            CONTACT_CACHE.parent.mkdir(parents=True, exist_ok=True)
+            CONTACT_CACHE.write_text(
+                json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    filled_hp = filled_tel = 0
+    for a in academies:
+        row = cache.get(a["id"]) or {}
+        if not a.get("homepage") and row.get("link"):
+            a["homepage"] = row["link"]
+            filled_hp += 1
+        if not neis.clean_tel(a.get("tel")) and row.get("telephone"):
+            a["tel"] = row["telephone"]
+            filled_tel += 1
+    return {"asked": asked, "homepage": filled_hp, "tel": filled_tel,
+            "cached": len(cache)}
+
+
 def collect(homepages: dict[str, str], limit: int = PER_RUN) -> dict:
     """{학원 id: 홈페이지} → {학원 id: 관찰}. 캐시에 누적한다.
 

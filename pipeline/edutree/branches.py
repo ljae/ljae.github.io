@@ -137,7 +137,8 @@ def apply(mentions: list[dict], academies: list[dict],
     kept: list[dict] = []
     seen: set[tuple[str, str]] = set()
     stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "sibling": 0,
-             "rehomed": 0, "foreign_dong": 0, "branches": len(siblings)}
+             "rehomed": 0, "foreign_dong": 0, "brand_unknown": 0,
+             "branches": len(siblings)}
 
     for m in mentions:
         key = m.get("academy_key")
@@ -224,30 +225,27 @@ def apply(mentions: list[dict], academies: list[dict],
             stats["other_region"] += 1
             continue
 
-        # 지역을 알 수 없는 글. 걸리는 지점 전부의 근거로 삼는다.
+        # 지역을 알 수 없는 글.
         #
-        # '브랜드 공통' 딱지는 실제로 형제 지점이 있을 때만 붙인다.
-        # 지점이 하나뿐인 학원에 붙이면 화면의 '지점 불명 · 브랜드 공통'
-        # 칩이 거짓말이 된다 — 불명일 것이 없다.
-        m["branch_basis"] = "brand" if siblings.get(key) else "direct"
+        # ★ 2026-09-05 결정: 형제 지점이 있으면 **근거로 쓰지 않는다.**
+        #
+        #   예전에는 걸리는 지점 전부에 똑같이 붙이고 화면에 '지점 불명 ·
+        #   브랜드 공통' 이라 적었다. 버리는 것보다 낫다고 보았지만, 지점
+        #   **별로** 순위를 매기면서 어느 지점인지 모르는 글을 나눠 주면
+        #   그 등수가 무엇을 뜻하는지 설명할 수 없다. 실측(2026-09-04):
+        #   시매쓰 네 지점의 표본 146~178 의 상당 부분이 이 글들이었고,
+        #   네 지점이 같은 근거로 2·3·4위에 나란히 섰다.
+        #
+        #   이름이 우연히 겹쳤을 뿐인 남남을 형제로 묶는 문제(최상위수학
+        #   세 곳이 문제집 후기 6건을 공유)도 같은 통로였다. 그쪽은
+        #   후보 이름을 고쳐서도 막았지만, 통로 자체를 닫는 것이 낫다.
+        #
+        #   지점이 하나뿐인 학원에는 불명일 것이 없으므로 그대로 근거다.
+        if siblings.get(key):
+            stats["brand_unknown"] += 1
+            continue
+        m["branch_basis"] = "direct"
         kept.append(m)
-
-        for sib in siblings.get(key, []):
-            pair = (m.get("url_hash", ""), sib["id"])
-            if pair in seen:
-                continue
-            # 그 지점 이름으로도 실제로 걸리는 글인지 다시 확인한다.
-            if not analyze.is_relevant(m, candidates.get(sib["id"], set()),
-                                       generic.get(sib["id"], False), rivals):
-                continue
-            seen.add(pair)
-            copy = dict(m)
-            copy["academy_key"] = sib["id"]
-            copy["academy_name"] = sib.get("name")
-            copy["region_id"] = sib.get("region_id")
-            copy["branch_basis"] = "brand"
-            kept.append(copy)
-            stats["shared"] += 1
 
     _ = by_id
     return kept, stats

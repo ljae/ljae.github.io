@@ -313,14 +313,29 @@ def test_지역을_밝힌_글은_그_권역_지점의_근거로_옮겨진다():
     assert stats["rehomed"] == 1
 
 
-def test_지역_불명은_형제_지점_전부에_붙고_그렇게_표시된다():
-    """한 곳에 몰아주면 추측이고, 버리면 브랜드 근거가 사라진다.
-    '지점 불명 · 브랜드 공통' 이라 **적어야** 중복 신고가 안 들어온다."""
+def test_지역_불명은_형제가_있으면_근거로_쓰지_않는다():
+    """★ 2026-09-05 정정. 예전에는 걸리는 지점 전부에 붙이고 '지점 불명 ·
+    브랜드 공통' 이라 적었다. 버리는 것보다 낫다고 보았지만, **지점별로**
+    순위를 매기면서 어느 지점인지 모르는 글을 나눠 주면 그 등수가 무엇을
+    뜻하는지 설명할 수 없다 — 시매쓰 네 지점이 같은 근거로 2·3·4위에
+    나란히 섰다(표본 146~178).
+    """
     m = post("정상어학원 레벨테스트 후기", "정상어학원 레테 봤어요", academy_key="D")
     kept, stats = _apply([m])
-    assert sorted(k["academy_key"] for k in kept) == ["D", "M"]
-    assert all(k["branch_basis"] == "brand" for k in kept)
-    assert stats["shared"] == 1
+    assert kept == []
+    assert stats["brand_unknown"] == 1
+
+
+def test_지점이_하나뿐이면_지역_불명도_그대로_근거다():
+    """불명일 것이 없다. 형제가 없으면 그 글은 그 학원 글이다."""
+    solo = {"id": "S", "name": "가나수학학원", "region_id": "daechi",
+            "brand": None, "aliases": [], "dong": "대치동"}
+    m = post("가나수학학원 레벨테스트 후기", "가나수학학원 다녀왔어요", academy_key="S")
+    kept, stats = branches.apply(
+        [m], [solo], {"S": cands("가나수학학원")}, {"S": False}, frozenset())
+    assert [k["academy_key"] for k in kept] == ["S"]
+    assert kept[0]["branch_basis"] == "direct"
+    assert stats["brand_unknown"] == 0
 
 
 def test_목록에_없는_동은_제목에_있으면_남의_동네다():
