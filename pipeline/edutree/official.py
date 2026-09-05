@@ -189,12 +189,13 @@ def lookup_contacts(academies: list[dict], live: bool = True,
             got = naver.local_lookup(a.get("name") or "", a.get("road_address"))
             cache[a["id"]] = {"checked": today, **(got or {})}
             asked += 1
+            time.sleep(0.15)          # 초당 한도를 넘기지 않는다
         if asked:
             CONTACT_CACHE.parent.mkdir(parents=True, exist_ok=True)
             CONTACT_CACHE.write_text(
                 json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    filled_hp = filled_tel = 0
+    filled_hp = filled_tel = filled_cat = 0
     for a in academies:
         row = cache.get(a["id"]) or {}
         if not a.get("homepage") and row.get("link"):
@@ -203,8 +204,14 @@ def lookup_contacts(academies: list[dict], live: bool = True,
         if not neis.clean_tel(a.get("tel")) and row.get("telephone"):
             a["tel"] = row["telephone"]
             filled_tel += 1
+        # 업종(category)도 남긴다. '어학교육>영어교육'·'교습학원,교습소>수학교육'
+        # 처럼 **과목을 말해 주는** 값이라, 과목 미상 학원의 단서가 된다.
+        # 지금은 저장만 한다 — 과목 판정에 넣는 것은 전수 확인 뒤에.
+        if row.get("category"):
+            a["place_category"] = row["category"]
+            filled_cat += 1
     return {"asked": asked, "homepage": filled_hp, "tel": filled_tel,
-            "cached": len(cache)}
+            "category": filled_cat, "cached": len(cache)}
 
 
 def collect(homepages: dict[str, str], limit: int = PER_RUN) -> dict:

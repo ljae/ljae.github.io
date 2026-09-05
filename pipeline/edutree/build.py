@@ -1654,8 +1654,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         cstat = official_mod.lookup_contacts(
             evaluated, live=(mode == "live" and not from_cache))
         print(f"  연락처 조회: {cstat['asked']:,}곳 질의 · 홈페이지 "
-              f"{cstat['homepage']:,}곳 · 전화 {cstat['tel']:,}곳 보강 "
-              f"(누적 {cstat['cached']:,}곳)")
+              f"{cstat['homepage']:,}곳 · 전화 {cstat['tel']:,}곳 · 업종 "
+              f"{cstat['category']:,}곳 (누적 {cstat['cached']:,}곳)")
     except Exception as exc:                                  # noqa: BLE001
         print(f"  ! 연락처 조회 실패: {exc}")
 
