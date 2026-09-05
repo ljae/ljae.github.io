@@ -13,6 +13,7 @@
 - [지점-구분](concepts/지점-구분.md)
 
 ## 학원
+- [클래식음악](academies/1000028284.md) — jamsil
 - [김영편입잠실캠퍼스학원](academies/1000028653.md) — jamsil
 - [아드폰테스](academies/1000033209.md) — mokdong
 - [김종길국어논술](academies/1000034806.md) — mokdong
@@ -62,6 +63,7 @@
 - [수찬학원](academies/2242.md) — daechi
 - [청어람수](academies/22514.md) — jamsil
 - [구주이배](academies/22600.md) — jamsil
+- [예섬학원](academies/22806.md) — daechi
 - [씨앤씨미술학원](academies/22911.md) — mokdong
 - [다함영재원학원](academies/2343.md) — daechi
 - [아이엘이(별관)어학원](academies/23598.md) — daechi
@@ -72,6 +74,7 @@
 - [목동로드맵학원](academies/24356.md) — mokdong
 - [송파1관정상어학학원](academies/24925.md) — jamsil
 - [포티언어학원](academies/25121.md) — mokdong
+- [목동야마하음악학원](academies/25432.md) — mokdong
 - [서초1관정상어학원](academies/25640.md) — banpo
 - [시리우스](academies/25801.md) — daechi
 - [알파잉글리쉬학원](academies/26427.md) — daechi

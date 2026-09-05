@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원과 관련된 내용이 아니며, 딸기밭에 가기 위해 씻는 상황을 다룬 팬픽 글입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
