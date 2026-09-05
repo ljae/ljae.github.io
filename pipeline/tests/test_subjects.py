@@ -238,3 +238,37 @@ def test_네이버_업종이_과목을_말하면_모르는_곳만_채운다():
     assert build.subjects_from_category(rows) == 2
     assert [r["subjects"] for r in rows] == [
         ["korean"], ["math"], ["general"], ["math"]]
+
+
+# ── 못 찾은 조회는 오래 붙들지 않는다 ─────────────────────────────
+def test_질의어가_늘면_다시_묻는다(tmp_path, monkeypatch):
+    """MSC 를 위키 aliases 로 이어 놓고 다음 회차를 돌렸는데 여전히 과목
+    미상이었다. 앞 회차에서 **등록명으로 물어 못 찾은 결과**가 캐시에 남아
+    90일간 다시 묻지 않았기 때문이다 — 고친 보람이 90일 뒤에나 온다."""
+    import json as _json
+    from datetime import date
+    from edutree import official
+    cache = tmp_path / "local_lookup.json"
+    monkeypatch.setattr(official, "CONTACT_CACHE", cache)
+    cache.write_text(_json.dumps({
+        "A": {"checked": date.today().isoformat(), "tried": ["엠에스씨학원"]},
+    }), encoding="utf-8")
+
+    from edutree import naver as _naver
+    asked = []
+    monkeypatch.setattr(_naver, "local_lookup",
+                        lambda n, a, al=(): asked.append((n, al)) or None)
+
+    row = {"id": "A", "name": "엠에스씨학원", "road_address": "서울 양천구 목동서로 349",
+           "lookup_aliases": ("MSC",), "tel": None}
+    official.lookup_contacts([row], live=True, limit=5)
+    assert asked, "별칭이 늘었으면 다시 물어야 한다"
+
+    # 같은 표기로 이미 물었고 찾았으면 다시 묻지 않는다.
+    cache.write_text(_json.dumps({
+        "A": {"checked": date.today().isoformat(),
+              "tried": ["엠에스씨학원", "MSC"], "link": "https://x"},
+    }), encoding="utf-8")
+    asked.clear()
+    official.lookup_contacts([row], live=True, limit=5)
+    assert not asked, "찾았고 표기도 그대로면 다시 묻지 않는다"

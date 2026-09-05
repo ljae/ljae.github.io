@@ -143,6 +143,13 @@ def _observe(html: str, base_url: str) -> dict:
 CONTACT_CACHE = config.CACHE_DIR / "local_lookup.json"
 CONTACT_PER_RUN = 120
 CONTACT_REVISIT_DAYS = 90
+# ★ **못 찾은 것은 찾은 것보다 빨리 다시 본다.**
+#
+#   실측(2026-09-05): MSC 를 위키 `aliases: [MSC]` 로 이어 놓고 다음 회차를
+#   돌렸는데 여전히 과목 미상이었다. 앞 회차에서 등록명으로 물어 **못 찾은
+#   결과가 그대로 캐시에 남아** 90일간 다시 묻지 않았기 때문이다.
+#   질의를 고쳐도 고친 보람이 90일 뒤에나 온다 — 조용한 고장이다.
+CONTACT_MISS_DAYS = 7
 
 
 def _load_contacts() -> dict:
@@ -165,15 +172,28 @@ def lookup_contacts(academies: list[dict], live: bool = True,
     cache = _load_contacts()
     today = date.today().isoformat()
 
-    def stale(aid: str) -> bool:
-        row = cache.get(aid) or {}
+    def stale(a: dict) -> bool:
+        row = cache.get(a["id"]) or {}
         seen = row.get("checked")
         if not seen:
             return True
+        # ★ 질의어가 늘었으면 다시 묻는다. 위키에 별칭을 적는 것은 '이 이름
+        #   으로는 안 잡힌다' 는 사람의 판단인데, 캐시가 그것을 90일 막았다.
+        tried = set(row.get("tried") or [])
+        if set(_terms(a)) - tried:
+            return True
+        found = bool(row.get("link") or row.get("telephone") or row.get("category"))
+        limit = CONTACT_REVISIT_DAYS if found else CONTACT_MISS_DAYS
         try:
-            return (date.today() - date.fromisoformat(seen)).days >= CONTACT_REVISIT_DAYS
+            return (date.today() - date.fromisoformat(seen)).days >= limit
         except ValueError:
             return True
+
+
+    def _terms(a: dict) -> list[str]:
+        """이번에 물어볼 표기들. 캐시가 '무엇으로 물었는지' 를 기억한다."""
+        return [a.get("name") or "", *[x for x in (a.get("lookup_aliases") or ())
+                                       if x and x != a.get("name")]]
 
     # 순서: ① 사람이 위키에 별칭을 적어 둔 곳 ② 걸 수 없는 곳 ③ 표본 큰 곳.
     #
@@ -188,12 +208,13 @@ def lookup_contacts(academies: list[dict], live: bool = True,
     asked = 0
     if live and config.HAS_NAVER:
         todo = [a for a in academies
-                if a.get("road_address") and stale(a["id"])]
+                if a.get("road_address") and stale(a)]
         todo.sort(key=priority)
         for a in todo[:limit]:
             got = naver.local_lookup(a.get("name") or "", a.get("road_address"),
                                      tuple(a.get("lookup_aliases") or ()))
-            cache[a["id"]] = {"checked": today, **(got or {})}
+            cache[a["id"]] = {"checked": today, "tried": _terms(a),
+                              **(got or {})}
             asked += 1
             time.sleep(0.15)          # 초당 한도를 넘기지 않는다
         if asked:
