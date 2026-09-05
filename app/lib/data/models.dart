@@ -625,6 +625,11 @@ class Academy {
   /// 학원 공식 링크. 레벨테스트 신청도 여기로 보낸다 — 학원실록이 대신
   /// 접수하지 않는다. 없으면 버튼을 만들지 않는다.
   final String? homepage;
+
+  /// 영유(영어유치원) 몇 년차를 받는 곳인가. 후기가 반복해 말한 것만 붙는다.
+  /// **점수에 들어가지 않는다** — 영유 3년차를 받는 것은 좋은 것도 나쁜 것도
+  /// 아니고, 학부모가 자기 아이에 맞는 곳을 고르는 데 쓰는 표시다.
+  final List<String> entryTags;
   final int? capacity;
   final String? registrationStatus;
   final String? establishedOn;
@@ -681,6 +686,7 @@ class Academy {
     this.address,
     this.tel,
     this.homepage,
+    this.entryTags = const [],
     this.capacity,
     this.registrationStatus,
     this.establishedOn,
@@ -716,6 +722,7 @@ class Academy {
     address: j['address'] as String?,
     tel: j['tel'] as String?,
     homepage: j['homepage'] as String?,
+    entryTags: ((j['entryTags'] as List?) ?? const []).cast<String>(),
     capacity: (j['capacity'] as num?)?.toInt(),
     registrationStatus: j['registrationStatus'] as String?,
     establishedOn: j['establishedOn'] as String?,
@@ -955,6 +962,14 @@ class Meta {
 ///
 /// 점수를 갖지 않는다. '평가했는데 낮은 점수'와 '아직 보지 않음'은 다르고,
 /// 둘을 같은 화면에 같은 모양으로 두면 그 자체가 왜곡이다.
+/// 영유 연차 표시 → 화면 문구. 파이프라인의 `analyze.ENTRY_LABEL_KO` 와 짝이다.
+const entryTagLabels = <String, String>{
+  'eng_kinder_3y': '영유 3년차',
+  'eng_kinder_2y': '영유 2년차',
+  'eng_kinder_1y': '영유 1년차',
+  'eng_kinder_out': '영유 출신',
+};
+
 class RegistryEntry {
   final String id;
   final String name;

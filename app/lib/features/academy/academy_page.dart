@@ -155,7 +155,31 @@ class _Body extends StatelessWidget {
               ),
               const SizedBox(height: AppSpace.lg),
 
-              // ── 전화 · 레벨테스트 예약 ───────────────────────
+              // ── 영유 연차 ───────────────────────────────────
+              // 대치·목동의 초등 저학년 영어학원은 **영유를 몇 년 다닌
+              // 아이를 받는가**로 갈린다. 공시에는 없고 후기에만 있는
+              // 사실이라, 서로 다른 학부모 둘 이상이 말한 것만 붙는다.
+              // **점수에는 들어가지 않는다** — 좋고 나쁨이 아니라 사실이다.
+              if (academy.entryTags.isNotEmpty) ...[
+                Wrap(
+                  spacing: AppSpace.sm,
+                  runSpacing: 4,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text('대상 ', style: text.bodySmall),
+                    for (final t in academy.entryTags)
+                      TagMark(
+                        entryTagLabels[t] ?? t,
+                        color: AppColors.accentOn(dark),
+                        icon: Icons.school_outlined,
+                      ),
+                    Text('  후기에서 확인', style: text.bodySmall),
+                  ],
+                ),
+                const SizedBox(height: AppSpace.lg),
+              ],
+
+              // ── 전화 · 학원 홈페이지 ────────────────────────
               // 학부모가 다음에 하는 일은 둘이다. 전화번호를 글자로만
               // 보여 주면 옮겨 적어야 한다.
               ContactCard(academy: academy),

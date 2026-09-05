@@ -1001,6 +1001,61 @@ def band_near_one(text: str, names: set[str]) -> str | None:
     return nearest_of(text, names, BAND_WORDS)
 
 
+# ── 영유(영어유치원) 연차 ─────────────────────────────────────────
+#
+# 대치·목동의 초등 저학년 영어학원은 **영유를 몇 년 다닌 아이를 받는가**로
+# 갈린다. 학부모가 실제로 그렇게 묻는다 — '영유 3년차인데 어디로?'.
+# NEIS 공시에는 없고 후기에만 있는 사실이다.
+#
+# 실측(캐시 5만 글): 영유3년차 48 · 영유 3년 38 · 영유출신 30 · 영유졸업 26 ·
+# 영유2년차 18 · 영유 2년 19 · 영유1년 15.
+#
+# ★ 과목·학급과 같은 규칙을 쓴다 — **이름 근처(±45자)에서만** 센다.
+#   글 어디든 있으면 되게 두면 '영유 3년차인데 수학은…' 이 영어학원의
+#   근거가 된다(CLAUDE.md: '낱말이 있다는 것과 그 학원 이야기라는 것은 다르다').
+#
+# ★ **점수에 넣지 않는다.** 영유 3년차를 받는 것이 좋은 것도 나쁜 것도
+#   아니다 — 사실 카드와 같은 자리다. 학부모가 자기 아이에 맞는 곳을
+#   고르는 데 쓰는 표시일 뿐이다.
+ENTRY_WORDS: dict[str, tuple[str, ...]] = {
+    # 영유를 3년(5~7세) 다닌 아이. 이 학군에서 가장 흔한 표현이다.
+    "eng_kinder_3y": ("영유3년", "영유 3년", "영유3년차", "영유 3년차"),
+    "eng_kinder_2y": ("영유2년", "영유 2년", "영유2년차", "영유 2년차"),
+    "eng_kinder_1y": ("영유1년", "영유 1년", "영유1년차", "영유 1년차"),
+    # 연차를 안 밝힌 영유 출신. 연차 태그와 함께 쓰지 않는다.
+    "eng_kinder_out": ("영유출신", "영유 출신", "영유졸업", "영유 졸업",
+                       "영유아웃", "영유 아웃"),
+}
+
+ENTRY_LABEL_KO = {
+    "eng_kinder_3y": "영유 3년차",
+    "eng_kinder_2y": "영유 2년차",
+    "eng_kinder_1y": "영유 1년차",
+    "eng_kinder_out": "영유 출신",
+}
+
+
+def entry_tags_near(text: str, names: set[str]) -> set[str]:
+    """이 글이 **이 학원을 말하며** 곁에 둔 영유 연차 표시.
+
+    과목·학급과 같은 창(±45자)을 쓴다. 하나도 없으면 빈 집합.
+    """
+    flat = _norm(text)
+    spots = _name_spots(flat, names)
+    if not spots:
+        return set()
+    windows = " ".join(
+        flat[max(0, i - SUBJECT_WINDOW): i + SUBJECT_WINDOW] for i in spots)
+    out = set()
+    for tag, words in ENTRY_WORDS.items():
+        if any(_norm(w) in windows for w in words):
+            out.add(tag)
+    # 연차를 아는 것이 더 구체적인 사실이다. 함께 잡히면 연차만 남긴다.
+    if out - {"eng_kinder_out"}:
+        out.discard("eng_kinder_out")
+    return out
+
+
 def subjects_near(text: str, names: set[str]) -> set[str]:
     """**학원 이름 근처**의 과목어만.
 
