@@ -175,10 +175,15 @@ def lookup_contacts(academies: list[dict], live: bool = True,
         except ValueError:
             return True
 
-    # 화면에 이미 보이는 곳(근거가 있는 곳)과 **걸 수 없는 곳**이 먼저다.
+    # 순서: ① 사람이 위키에 별칭을 적어 둔 곳 ② 걸 수 없는 곳 ③ 표본 큰 곳.
+    #
+    # ★ ①이 먼저인 이유. 별칭은 '등록명으로는 안 잡힌다' 는 사람의 표시다
+    #   (MSC → 네이버 상호 'MSC브레인컨설팅그룹'). 그런 곳은 표본이 작아도
+    #   조회가 가장 값지다 — 업종이 과목을 말해 주면 랭킹에 처음 들어온다.
     def priority(a: dict) -> tuple:
+        flagged = -1 if a.get("lookup_aliases") else 0
         no_tel = 0 if neis.clean_tel(a.get("tel")) else -1
-        return (no_tel, -(a.get("sample_size") or 0))
+        return (flagged, no_tel, -(a.get("sample_size") or 0))
 
     asked = 0
     if live and config.HAS_NAVER:
@@ -186,7 +191,8 @@ def lookup_contacts(academies: list[dict], live: bool = True,
                 if a.get("road_address") and stale(a["id"])]
         todo.sort(key=priority)
         for a in todo[:limit]:
-            got = naver.local_lookup(a.get("name") or "", a.get("road_address"))
+            got = naver.local_lookup(a.get("name") or "", a.get("road_address"),
+                                     tuple(a.get("lookup_aliases") or ()))
             cache[a["id"]] = {"checked": today, **(got or {})}
             asked += 1
             time.sleep(0.15)          # 초당 한도를 넘기지 않는다

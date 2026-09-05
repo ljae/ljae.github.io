@@ -634,6 +634,94 @@ _SUBJ_MIN_HITS = 5          # 그 과목을 말한 글이 최소 몇 건
 _SUBJ_MIN_SHARE = 0.15      # 과목을 말한 글 중 몇 할 이상
 
 
+# 네이버 지역검색 업종 → 과목. **잎이 과목을 말할 때만** 쓴다.
+#
+# '교습학원,교습소>입시교육'·'교육,학문>학원 등 교습시설' 은 업종 전부가
+# 갖는 값이라 신호가 아니다 — '보습·논술' 과 같은 처지다(CLAUDE.md).
+# 실측(2026-09-05, 과목 미상 60곳 조회): 업종을 받은 51곳 중 과목을 말하는
+# 잎은 15곳이었다(수학교육 8 · 영어교육 6 · 중국어교육 1). 나머지는 못 쓴다.
+#
+# ★ 과목을 **모르는 학원에만** 쓴다. 이미 아는 곳을 업종으로 덮지 않는다 —
+#   업종은 학원이 네이버에 등록한 값이고 우리 이름·후기 판정보다 거칠다.
+_CATEGORY_SUBJECT = (
+    ("수학교육", "math"),
+    ("영어교육", "english"),
+    ("논술", "korean"),          # '교육,학문>논술' — MSC브레인컨설팅그룹
+    ("독서", "korean"),
+    ("과학교육", "science"),
+)
+
+
+# 영유 연차 표시를 붙이려면 서로 다른 작성자가 이만큼 말해야 한다.
+# 한 사람 말은 아직 한 사람 말이다(진입난이도 확인율과 같은 규칙).
+_ENTRY_MIN_AUTHORS = 2
+
+
+def entry_tags_from_mentions(academies: list[dict],
+                             by_key: dict[str, list[dict]],
+                             cand_of: dict[str, set[str]]) -> int:
+    """후기가 반복해 말한 **영유 연차**를 학원에 붙인다.
+
+    신고: '영유 2년차·3년차 대상의 초등 저학년 학원이 있으니 뱃지를 달아
+    달라'. NEIS 공시에는 없고 후기에만 있는 사실이다.
+
+    ★ **영어 학원에만** 붙인다. 영유는 영어유치원이고, 이 표시는 그 학원이
+      받는 영어 수준을 말한다. 수학 학원 후기에 '영유 3년차인데 수학은…'
+      이 나오는 것은 그 아이 이야기이지 그 학원 이야기가 아니다.
+    ★ **점수에 넣지 않는다.** 영유 3년차를 받는 것이 좋은 것도 나쁜 것도
+      아니다 — 사실 카드와 같은 자리다.
+    """
+    n = 0
+    for a in academies:
+        if "english" not in (a.get("subjects") or []):
+            continue
+        names = cand_of.get(a["id"]) or analyze.name_candidates(a)
+        if not names:
+            continue
+        authors: dict[str, set[str]] = defaultdict(set)
+        for m in by_key.get(a["id"]) or []:
+            if m.get("is_excluded"):
+                continue
+            blob = f"{m.get('title', '')} {m.get('snippet', '')}"
+            for tag in analyze.entry_tags_near(blob, names):
+                authors[tag].add(m.get("author_hash") or m.get("url_hash") or "")
+        tags = [t for t, who in authors.items()
+                if len(who) >= _ENTRY_MIN_AUTHORS]
+        if not tags:
+            continue
+        # 연차를 아는 것이 더 구체적이다. 함께 잡히면 연차만 남긴다.
+        if [t for t in tags if t != "eng_kinder_out"]:
+            tags = [t for t in tags if t != "eng_kinder_out"]
+        order = list(analyze.ENTRY_WORDS)
+        a["entry_tags"] = sorted(tags, key=order.index)
+        n += 1
+    return n
+
+
+def subjects_from_category(academies: list[dict]) -> int:
+    """과목 미상 학원의 과목을 **네이버 업종**으로 정한다.
+
+    신고: '국어 논술 MSC 학원이 왜 없는지 이해가 안 된다'.
+    MSC 는 4개 학군에 있는데 NEIS 교습과정이 전부 '보습·논술' 이라
+    과목 미상(`general`)이었고, 그래서 **어느 과목 랭킹에도 없었다.**
+    이름에도 단서가 없고(엠에스씨), 후기 문턱(5건·15%)도 못 넘었다.
+    네이버 업종은 `교육,학문>논술` 이라고 분명히 말한다 — 주소까지 맞춰
+    확인한 값이라 추측이 아니다.
+    """
+    n = 0
+    for a in academies:
+        if (a.get("subjects") or []) != [config.UNRANKED_SUBJECT]:
+            continue
+        cat = a.get("place_category") or ""
+        for word, subject in _CATEGORY_SUBJECT:
+            if word in cat:
+                a["subjects"] = [subject]
+                a["subject_basis"] = "place_category"
+                n += 1
+                break
+    return n
+
+
 def _subjects_from_mentions(academies: list[dict],
                             by_key: dict[str, list[dict]]) -> int:
     """과목 미상(general) 학원의 과목을 **후기로** 정한다.
@@ -1617,6 +1705,35 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         by_key[m["academy_key"]].append(m)
 
     # 종합·보습 학원의 과목을 **후기가 말해 준 것**으로 채운다.
+    # 연락처·업종 — 학원에 **직접** 닿을 곳을 붙인다. 예약 대행을 없앴으므로
+    # 전화든 신청 페이지든 여기서 채워지지 않으면 화면에 버튼이 없다.
+    #
+    # ★ 과목 확정 **앞**에 둔다. 지역검색이 주는 업종(`교육,학문>논술`)이
+    #   과목 미상 학원의 근거가 되기 때문이다 — 뒤에 두면 한 회차 늦는다.
+    #   위키 `homepage:` 는 언제나 사람이 적은 것이 이긴다.
+    for a in evaluated + registry_only:
+        h = (wiki_hints.get(a["id"]) or {}).get("homepage")
+        if h:
+            a["homepage"] = h
+    try:
+        from . import official as official_mod
+        for a in evaluated:
+            a["sample_size"] = len(by_key.get(a["id"]) or [])
+            a["lookup_aliases"] = tuple(
+                (wiki_hints.get(a["id"]) or {}).get("aliases") or ())
+        cstat = official_mod.lookup_contacts(
+            evaluated, live=(mode == "live" and not from_cache))
+        print(f"  연락처 조회: {cstat['asked']:,}곳 질의 · 홈페이지 "
+              f"{cstat['homepage']:,}곳 · 전화 {cstat['tel']:,}곳 · 업종 "
+              f"{cstat['category']:,}곳 (누적 {cstat['cached']:,}곳)")
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 연락처 조회 실패: {exc}")
+
+    # 업종이 과목을 말해 주는 곳. **모르는 학원에만** 쓴다.
+    by_cat = subjects_from_category(evaluated)
+    if by_cat:
+        print(f"  과목 확정(네이버 업종): {by_cat}곳 — 과목 미상이던 곳만")
+
     promoted = _subjects_from_mentions(evaluated, by_key)
     if promoted:
         print(f"  종합학원 과목 확정: {promoted}곳 (후기가 말한 과목으로)")
@@ -1625,6 +1742,12 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     banded = _bands_from_mentions(evaluated, by_key)
     if banded:
         print(f"  학년 구간 확정: {banded}곳 (후기가 말한 학급으로)")
+
+    # 영유 연차 표시. 과목이 확정된 뒤에 붙인다 — 영어 학원에만 단다.
+    tagged = entry_tags_from_mentions(evaluated, by_key, candidates)
+    if tagged:
+        print(f"  영유 연차 표시: {tagged}곳 (서로 다른 작성자 "
+              f"{_ENTRY_MIN_AUTHORS}명 이상이 말한 것만)")
 
     cohorts = scoring.build_cohorts(evaluated, by_key)
     scores, subject_scores = {}, {}
@@ -1641,23 +1764,6 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
-
-    # 연락처 — 학원에 **직접** 닿을 곳을 붙인다. 예약 대행을 없앴으므로
-    # 전화든 신청 페이지든 여기서 채워지지 않으면 화면에 버튼이 없다.
-    # 위키 `homepage:` 가 언제나 이긴다.
-    for a in evaluated + registry_only:
-        h = (wiki_hints.get(a["id"]) or {}).get("homepage")
-        if h:
-            a["homepage"] = h
-    try:
-        from . import official as official_mod
-        cstat = official_mod.lookup_contacts(
-            evaluated, live=(mode == "live" and not from_cache))
-        print(f"  연락처 조회: {cstat['asked']:,}곳 질의 · 홈페이지 "
-              f"{cstat['homepage']:,}곳 · 전화 {cstat['tel']:,}곳 · 업종 "
-              f"{cstat['category']:,}곳 (누적 {cstat['cached']:,}곳)")
-    except Exception as exc:                                  # noqa: BLE001
-        print(f"  ! 연락처 조회 실패: {exc}")
 
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
            subject_scores, claim_rows, candidates=candidates)
@@ -2165,6 +2271,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             # 들어가지 않는다. 모든 줄이 인용문과 원문 링크를 갖는다 —
             # 근거를 못 보여주는 사실은 싣지 않는다.
             "facts": facts.get(key, {}),
+            # 영유 연차 표시. 점수에 안 들어간다 — 사실 카드와 같은 자리다.
+            "entryTags": a.get("entry_tags") or None,
             # 진입난이도의 근거 인용문. 줄마다 claimId 가 있어 화면에서
             # '이의' 를 받을 수 있다. 취소된 줄도 함께 나간다 — 왜 빠졌는지가
             # 보여야 한다.

@@ -171,3 +171,70 @@ def test_뷰티풀마인드는_미용학원이_아니다():
     """'뷰티' 를 낱말 목록에 넣으면 뷰티풀마인드수학학원이 사라진다.
     낱말 하나 차이로 멀쩡한 학원이 없어진다."""
     assert config.is_vocational(row("뷰티풀마인드수학학원")) is False
+
+
+# ── 영유 연차 표시 ────────────────────────────────────────────────
+#
+# 신고(2026-09-05): '영유 2년차·3년차 대상의 초등 저학년 학원이 있으니
+# 뱃지를 달아 달라'. NEIS 공시에는 없고 후기에만 있는 사실이다.
+def test_영유_연차는_이름_근처에서만_센다():
+    from edutree import analyze
+    names = {analyze._norm("트윈클")}
+    near = "대치동 초1, 영유3년차 영어학원 어디로? 트윈클 어떤가요"
+    assert analyze.entry_tags_near(near, names) == {"eng_kinder_3y"}
+
+    # 이름에서 먼 자리의 낱말은 그 학원 이야기가 아니다.
+    far = ("영유 3년차 아이 키우는 이야기입니다. " + "그냥 잡담 " * 20
+           + "트윈클은 나중에 알아볼게요")
+    assert analyze.entry_tags_near(far, names) == set()
+
+    # 이름이 없으면 아무것도 아니다.
+    assert analyze.entry_tags_near(near, {analyze._norm("가나")}) == set()
+
+
+def test_연차를_알면_출신보다_구체적이다():
+    from edutree import analyze
+    names = {analyze._norm("트윈클")}
+    both = "트윈클 영유출신 영유3년차 아이들이 많아요"
+    assert analyze.entry_tags_near(both, names) == {"eng_kinder_3y"}
+
+
+def test_영유_표시는_작성자_둘_이상이_말해야_붙는다():
+    """한 사람 말은 아직 한 사람 말이다 — 진입난이도 확인율과 같은 규칙."""
+    a = {"id": "A", "name": "트윈클어학원", "subjects": ["english"],
+         "brand": None, "aliases": []}
+    def m(author):
+        return {"academy_key": "A", "author_hash": author,
+                "title": "트윈클 후기", "snippet": "영유 3년차 아이가 다녀요"}
+    one = build.entry_tags_from_mentions([dict(a)], {"A": [m("u1")]}, {})
+    assert one == 0, "한 사람이면 안 붙는다"
+
+    acad = dict(a)
+    build.entry_tags_from_mentions([acad], {"A": [m("u1"), m("u2")]}, {})
+    assert acad["entry_tags"] == ["eng_kinder_3y"]
+
+
+def test_영유_표시는_영어_학원에만_붙는다():
+    """영유는 영어유치원이다. '영유 3년차인데 수학은…' 은 그 아이 이야기다."""
+    math = {"id": "B", "name": "가나수학학원", "subjects": ["math"],
+            "brand": None, "aliases": []}
+    rows = {"B": [{"academy_key": "B", "author_hash": f"u{i}",
+                   "title": "가나수학학원 후기",
+                   "snippet": "영유 3년차인데 수학은 여기 다녀요"} for i in range(3)]}
+    assert build.entry_tags_from_mentions([math], rows, {}) == 0
+
+
+def test_네이버_업종이_과목을_말하면_모르는_곳만_채운다():
+    """MSC 신고. 교습과정이 '보습·논술' 뿐이라 과목 미상이었는데,
+    네이버 업종은 '교육,학문>논술' 이라고 분명히 말한다."""
+    rows = [
+        {"subjects": ["general"], "place_category": "교육,학문>논술"},
+        {"subjects": ["general"], "place_category": "교습학원,교습소>수학교육"},
+        # 업종 전부가 갖는 값은 신호가 아니다 — '보습·논술' 과 같은 처지다.
+        {"subjects": ["general"], "place_category": "교습학원,교습소>입시교육"},
+        # 이미 아는 곳은 덮지 않는다.
+        {"subjects": ["math"], "place_category": "교육,학문>논술"},
+    ]
+    assert build.subjects_from_category(rows) == 2
+    assert [r["subjects"] for r in rows] == [
+        ["korean"], ["math"], ["general"], ["math"]]

@@ -247,8 +247,15 @@ _EDU_CATEGORY = ("교육", "학원", "교습", "어학", "학문", "입시", "�
 _local_disabled = False
 
 
-def local_lookup(name: str, road_address: str | None) -> dict | None:
+def local_lookup(name: str, road_address: str | None,
+                 aliases: tuple[str, ...] = ()) -> dict | None:
     """상호+주소로 한 곳을 찾는다. **주소가 안 맞으면 None.**
+
+    ★ NEIS 등록명과 네이버 상호가 다른 곳이 있다. 실측: '엠에스씨학원'
+      (목동서로 349)은 0건인데 네이버에는 **'MSC브레인컨설팅그룹 목동센터'**
+      로 올라 있다(업종 `교육,학문>논술`). 등록명만 물으면 못 찾는다.
+      → 별칭으로도 차례로 물어본다. 위키 `aliases` 가 이 자리를 위한
+        것이다(CLAUDE.md 의 영문 약칭 PEAI 사례와 같다).
 
     돌려주는 것: {'title', 'link', 'telephone', 'road_address', 'category'}
     """
@@ -257,11 +264,20 @@ def local_lookup(name: str, road_address: str | None) -> dict | None:
     want = addr_key(road_address)
     if not want:                      # 대조할 것이 없으면 쓰지 않는다
         return None
+    for term in (name, *[a for a in aliases if a and a != name]):
+        got = _local_once(term, road_address, want, name)
+        if got:
+            return got
+    return None
+
+
+def _local_once(term: str, road_address: str, want: str,
+                own_name: str) -> dict | None:
     global _local_disabled
     if _local_disabled:
         return None
     mode = resolve_mode()
-    params = {"query": f"{name} {road_address}".strip(), "display": 5}
+    params = {"query": f"{term} {road_address}".strip(), "display": 5}
     try:
         resp = requests.get(_url(mode, "local"), params=params,
                             headers=_headers(mode), timeout=TIMEOUT)
@@ -279,7 +295,7 @@ def local_lookup(name: str, road_address: str | None) -> dict | None:
     except Exception:                                          # noqa: BLE001
         return None
     from . import neis, analyze
-    core = analyze.name_core(name)
+    core = analyze.name_core(own_name)
     for r in rows:
         if addr_key(r.get("roadAddress") or r.get("address")) != want:
             continue
