@@ -1,0 +1,40 @@
+---
+url_hash: "bebeeceead01a36c9d580819c1ffd795"
+url: https://blog.naver.com/ja3biz/40191509959
+source: naver_blog
+title: '[자쓰리 아카데미] 레벨 3....... 테스트 후~~~~'
+posted_at: 2013-06-21
+author_hash: e194b933999e7182b3a6e6b3dc716675
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[자쓰리 아카데미] 레벨 3....... 테스트 후~~~~'
+
+원문: https://blog.naver.com/ja3biz/40191509959
+
+## 요약
+<!-- auto:digest -->
+- 감성 -0.04 (중립) · 신뢰도 0.55
+- 붙은 학원 1곳 · 과목 korean
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+레벨 3 마무리 날에 이론 시험과 발표 테스트를 진행했으며, 도실장과 반실장이 시험 중 힌트를 주거나 조언을 건넸습니다. 모든 과정이 끝난 후에는 점심 식사를 사주며 수료를 마쳤습니다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/1507|우리들]] — 이름이 본문에 등장 · 감성 -0.04
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
