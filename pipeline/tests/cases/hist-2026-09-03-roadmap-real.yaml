@@ -1,0 +1,12 @@
+case: hist-2026-09-03-roadmap-real
+entity_type: academy
+kind: relevance
+why: |
+  반대쪽. 일상어 이름을 조일 때 붙여 쓴 진짜 후기까지 죽이면 안 된다.
+  9/3 실측에서 로드맵학원의 근거는 전부 붙여 쓴 진짜 후기였다. 이 픽스처가
+  깨지면 게이트가 과하게 조여진 것이다.
+academy: {name: 로드맵학원, aliases: [목동로드맵, 목동로드맵학원], region_id: mokdong}
+mention:
+  title: "양천구 목동 로드맵학원 후기 - 믿고 다니기 좋은 학원입니다"
+  snippet: "[ 로드맵학원 전화번호 및 주소 ] 서울 양천구 목동동로 387"
+expect: {relevant: true}

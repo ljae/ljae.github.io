@@ -1,0 +1,15 @@
+case: hist-2026-08-24-sejong-branch
+entity_type: academy
+kind: branch
+why: |
+  지점 게이트의 첫 함정. 제목+본문을 합쳐 봤더니 '세종 엄마표영어' 글이 본문의
+  다른 학원 상호 '대치M수학' 때문에 대치 근거가 됐다. 본문의 지역명은 대개
+  남의 상호다 — 제목이 우선이고, 권역 밖 지역이 제목에 있으면 어디에도 안 붙인다.
+academies:
+  - {id: D, name: 대치정상어학원, region_id: daechi, brand: 정상어학원, dong: 대치동}
+  - {id: M, name: 목동정상어학원, region_id: mokdong, brand: 정상어학원, dong: 목동}
+mention:
+  title: "세종 엄마표영어 정리"
+  snippet: "대치M수학 이야기도 들었고 정상어학원도 봤어요"
+  academy_key: D
+expect: {kept_for: []}

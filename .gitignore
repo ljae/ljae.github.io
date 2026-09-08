@@ -42,8 +42,11 @@ app/.idea/
 # 옵시디언(위키를 볼 때 생기는 로컬 편집기 상태)
 .obsidian/
 
-# Claude Code 세션 로컬 상태(워크트리 등)
-.claude/
+# Claude Code — 프로젝트 에이전트(.claude/agents)·스킬(.claude/skills)·
+# 공용 설정(.claude/settings.json)은 **커밋한다**. 분류 에이전트가 곧 이
+# 저장소의 운영 절차다. 세션 로컬 상태만 뺀다.
+.claude/worktrees/
+.claude/settings.local.json
 
 # 파이썬 가상환경 (로컬 전용)
 .venv/

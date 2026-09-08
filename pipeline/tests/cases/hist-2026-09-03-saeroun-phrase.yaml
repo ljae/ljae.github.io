@@ -1,0 +1,13 @@
+case: hist-2026-09-03-saeroun-phrase
+entity_type: academy
+kind: relevance
+why: |
+  2026-09-03 신고 '새로운학원 후기가 대부분 일반적인 new academy 를 뜻한다'.
+  8/31 에 낱말을 넣어 고쳤다고 적었는데 그것은 --from-cache 수치였고 야간
+  실데이터에는 20건이 남았다. 이름 전체가 학원 이야기 속의 구(句)라 표지는
+  늘 곁에 있다 — 몸통과 업종어 사이의 공백(trade_seam)으로 가른다.
+academy: {name: 새로운학원, region_id: mokdong}
+mention:
+  title: "레벨테스트란?"
+  snippet: "아이들에게 레벨테스트, 새로운 학원 상담이 엄청난 부담감일 줄은 몰랐어요."
+expect: {relevant: false}

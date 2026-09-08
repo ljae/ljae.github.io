@@ -1,0 +1,9 @@
+case: hist-2026-09-02-daechi-hakwon-name
+entity_type: academy
+kind: name
+why: |
+  2026-09-02 신고 '대치학원도 지역명으로 이루어진 학원으로 잘못된 후기 매칭'.
+  지역어·업종어를 걷어 아무것도 안 남는 이름은 이름이 아니다. 후보가 비어
+  표본 0 이 된다 — 채점 대상 400곳 중 8곳(셋이 학군 1위)이 같은 상태였다.
+academy: {name: 대치학원, region_id: daechi}
+expect: {candidates: []}

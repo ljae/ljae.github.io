@@ -1,0 +1,12 @@
+case: hist-2026-09-05-groton-foreign
+entity_type: academy
+kind: subject
+why: |
+  2026-09-05 신고 '그로튼아카데미는 영어학원인데 대치 국어 3위'. NEIS 표준
+  교습과정 '실용외국어(유아/초·중·고)' 의 '외국어' 안의 '국어' 가 먼저 걸렸다.
+  이음매 정리를 이름에만 걸고 교습과정에는 안 건 것이 뿌리 — 등록 74건,
+  실제 국어 랭킹 25곳이 같은 상태였다.
+academy: {name: 그로튼아카데미학원, realm: "국제화", course: "실용외국어(유아/초·중·고)"}
+expect:
+  subjects_include: [english]
+  subjects_exclude: [korean]

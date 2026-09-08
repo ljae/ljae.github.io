@@ -1,0 +1,13 @@
+case: hist-2026-08-30-jeongsang-merge
+entity_type: academy
+kind: merge
+why: |
+  2026-08-30 신고 '대치정상수학학원은 수학·영어를 결합했는데 이름이 수학학원'.
+  hall_key 가 과목어('수학학원'·'어학원')까지 업종어로 알고 떼서 영어관과
+  수학관이 '대치정상' 으로 같아졌다. 과목은 두 학원을 가르는 정보다 —
+  같은 주소여도 묶이면 안 된다. 반대 방향(남남 결합)은 전수 점검이 통과하므로
+  신고로만 드러난다.
+rows:
+  - {name: 대치정상수학학원, addr: "서울특별시 강남구 도곡로 1", region_id: daechi, estbl: "2005-01-01"}
+  - {name: 대치1관정상어학원, addr: "서울특별시 강남구 도곡로 1", region_id: daechi, estbl: "2008-01-01"}
+expect: {merged: false}

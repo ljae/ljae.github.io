@@ -7,6 +7,7 @@
     python pipeline/run.py --test      # 발급받은 키가 실제로 통하는지 호출해 확인
     python pipeline/run.py --from-cache # 캐시로 재채점 (API 호출 없음, 산식 실험용)
     python pipeline/run.py --skip-blog-text  # 블로그 본문 수집 생략
+    python pipeline/run.py --cases     # 웹 신고를 사례 파일(wiki/cases)로 옮기고 대장을 찍는다
 """
 import sys
 from pathlib import Path
@@ -138,6 +139,17 @@ if __name__ == "__main__":
                 print(f"  {g.get('title'):16} {pts}")
             print("\n  ※ 값은 이 요청 안에서의 상대비다(최댓값 100). "
                   "요청이 다르면 비교할 수 없다.")
+    elif "--cases" in sys.argv:
+        # 사례 대장. 세 창구(정정·근거 신고·주장 이의)의 미처리 접수를 파일로
+        # 옮기고, 열린 사례와 감사 경고를 찍는다. 진단·조치는 Claude Code 의
+        # /triage-reports 가 한다 — 여기서는 판단하지 않는다.
+        from edutree import cases
+        got = cases.intake()
+        if got["fetched"] or got["created"]:
+            print(f"접수 {got['fetched']}건 → 사례 신규 {got['created']} · 갱신 {got['updated']}")
+        elif not config.HAS_SUPABASE:
+            print("Supabase 키 없음 — 접수를 가져오지 못했다. 파일에 있는 사례만 보여준다.")
+        print(cases.report())
     elif "--careers" in sys.argv:
         # 학교알리미 진로 공시 수집. 차단에 민감해 본 수집과 분리해 둔다.
         # 2초 간격, 75곳 — 몇 분이면 끝나고 캐시에 이어받는다.

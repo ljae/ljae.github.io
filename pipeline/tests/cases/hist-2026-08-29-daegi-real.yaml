@@ -1,0 +1,13 @@
+case: hist-2026-08-29-daegi-real
+entity_type: academy
+kind: claim
+why: |
+  반대쪽. '대기' 오탐을 막을 때 진짜 사건('레테 떨어졌어요. 대기 걸었어요')까지
+  죽이면 진입난이도 기둥이 통째로 빈다. 이 픽스처가 깨지면 사건 추출이 과하게
+  조여진 것이다.
+academy: {name: 가나수학학원}
+mention:
+  title: "가나수학학원 레테 후기"
+  snippet: "가나수학학원 레테 떨어졌어요. 다음 달 대기 걸었어요"
+expect:
+  claim_kinds_include: [sel.test_failed, sel.waitlist]

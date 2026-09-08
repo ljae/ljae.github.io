@@ -99,6 +99,19 @@ jobs:
             python pipeline/corrections_report.py --fail-on-open
           fi
 
+      # 신고를 사례 파일로 옮긴다(pipeline/wiki/cases). 파일은 pipeline/wiki 와
+      # 함께 커밋되므로 다음 날 사람이 Claude Code 에서 /triage-reports 를
+      # 열면 접수가 이미 대장에 있다. 여기서는 판단하지 않는다 — 옮기고 센다.
+      - name: 신고 → 사례 대장
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -n "$SUPABASE_URL" ]; then
+            python pipeline/run.py --cases
+          fi
+
       - name: 변경분 커밋
         run: |
           git config user.name  "edutree-bot"

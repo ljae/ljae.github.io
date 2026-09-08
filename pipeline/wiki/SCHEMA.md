@@ -20,6 +20,7 @@ log.md              실행 일지 (자동 append — 손대지 말 것)
 concepts/*.md       분류 개념·함정. 사람/LLM 이 쓴다. CLAUDE.md 의 교훈 중
                     '글을 학원에 붙이는 일' 에 관한 것의 상세판.
 academies/<id>.md   학원 엔티티 페이지. id 는 NEIS 학원지정번호.
+cases/<id>.md       사례 페이지. 웹·대화로 받은 신고 한 건. 아래 '사례 노드' 참고.
 ```
 
 ## 학원 페이지 구조
@@ -190,3 +191,49 @@ NEIS 는 홈페이지 주소를 주지 않는다. 학원 페이지 frontmatter �
 채운다. 거부하면 읽지 않는다(도구를 바꿔 우회하지 않는다). **본문은 저장하지
 않는다** — 남의 저작물이다. 남기는 것은 '무엇이 몇 개 있고 지난 확인 대비
 얼마나 달라졌나' 라는 관찰과 출처 URL·확인 날짜뿐이다.
+
+---
+
+# 사례 노드 (cases/)
+
+신고 한 건이 파일 한 장이다. `pipeline/edutree/cases.py` 가 접수를 옮기고,
+Claude Code 의 `/triage-reports` 와 `.claude/agents/` 가 진단·조치·검증을 산문에
+적는다. 운영 절차는 `docs/AGENTS.md`.
+
+```
+cases/<id>.md   id 는 접수 창구 접두(co·er·cd·ma) + 접수 id 앞 8자. 같은 접수는 한 번만.
+```
+
+## 페이지 구조
+
+```markdown
+---
+id: er-1a2b3c4d
+source: evidence_report        # correction | evidence_report | claim_dispute | manual
+entity_type: academy           # academy | textbook
+entity_key: "1000035161"
+reason: other_academy          # 접수 화면의 사유 코드
+# ↓ 상태 기계. 에이전트·사람이 바꾼다. 엔진은 요약·감사에만 읽는다.
+status: open                   # open → triaged → fixed → verified → closed | declined
+category:                      # relevance | branch | subject | merge | claim | score | coverage | data_lag | display | other
+resolution: []                 # post | wiki | rule | code | fixture | data | none
+fixture:                       # tests/cases/<id>.yaml
+landed_in:                     # 화면이 바뀐 데이터 커밋 sha
+---
+## 신고      <!-- auto:report -->  접수 원문 (엔진)
+## 진단      case-triage — 어느 층인가, 근거는 파일:줄·수치·URL
+## 조치      gate-* — 무엇을 어느 층에 바꿨나, 같은 원인의 다른 학원, 픽스처
+## 확인      pipeline-verifier — 테스트·--from-cache(캐시라고 적는다)·데이터 커밋
+```
+
+## 규약
+
+1. `auto:report` 안은 엔진 영역. 나머지는 사람·에이전트가 **날짜와 함께 덧붙인다**
+   (`cases.append_section`) — 진단이 바뀐 경위가 남아야 같은 신고가 다시 왔을 때
+   어디서 틀렸는지 안다.
+2. frontmatter 는 `cases.set_fields` 로 줄 단위로 고친다. 없는 상태·종류는 거부된다.
+3. **`fixed` 이상인데 `resolution` 이 code·rule·wiki 를 품으면 픽스처가 있어야 한다.**
+   `cases.audit()` 이 매 실행 경고한다.
+4. `verified` 는 `landed_in`(야간 데이터 커밋)이 있어야 한다. 캐시 수치로 올리지 않는다.
+5. 사람이 정할 것(규칙 판정·가중치·형제 지점 확인)은 `## 조치` 에 질문으로 적고
+   `triaged` 에 둔다. 에이전트가 대신 정하지 않는다.

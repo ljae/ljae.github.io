@@ -1,0 +1,14 @@
+case: hist-2026-09-02-canbi-poly
+entity_type: academy
+kind: relevance
+why: |
+  2026-09-02 전수 점검. '캔비어학원 레벨테스트 엄마표영어 초3 테스트 후기' 가
+  본문의 '폴리어학원' 한 마디로 송파폴리어학원의 근거였다. 제목의 주인공이
+  남이고 나는 본문에 한 번 스칠 뿐이면 남의 글이다. (CLAUDE.md '근거가 엉뚱한
+  학원에 붙는다 — 원인이 넷')
+academy: {name: 송파폴리어학원, brand: 폴리어학원, aliases: [폴리], region_id: jamsil}
+rivals: [캔비어학원, 청담어학원, 청담, 시대인재, 에이프릴어학원, 정상어학원, 리드101]
+mention:
+  title: "캔비어학원 레벨테스트 엄마표영어 초3 테스트 후기"
+  snippet: "폴리어학원 다니다가 캔비로 옮겼어요. 캔비 동대문캠퍼스 레테는…"
+expect: {relevant: false}

@@ -1,0 +1,13 @@
+case: cd-d21e3add
+entity_type: academy
+kind: relevance
+why: |
+  반대쪽. '청담' 을 조일 때 학부모가 실제로 쓰는 두 글자 호칭까지 죽이면 안 된다
+  ('소마·폴리·필즈·청담' 은 두 글자지만 진짜 — 길이로 자르지 않는다). 제목의
+  '청담어학원' 과 본문의 '청담 레테' 가 각각 한 자리씩 잡혀야 한다. 이 픽스처가
+  깨지면 게이트가 과하게 조여진 것이다.
+academy: {name: 대치청담어학학원, brand: 청담어학원, aliases: [청담], region_id: daechi}
+mention:
+  title: "청담어학원 레테 후기"
+  snippet: "청담 레테 봤어요. 초3인데 생각보다 어려웠다고 하네요."
+expect: {relevant: true}

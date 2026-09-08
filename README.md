@@ -39,6 +39,8 @@ cd app && flutter run -d chrome
 | `openedu/` | 기존 Open Edu 정적 사이트 |
 | `docs/SPEC.md` | 제품 사양 · 산식 정의 |
 | `docs/SETUP.md` | API 키 발급 체크리스트 |
+| `docs/AGENTS.md` | 분류 에이전트 · 사례 대장 운영 절차 |
+| `.claude/agents/` · `.claude/skills/` | Claude Code 프로젝트 에이전트 · 슬래시 명령 (커밋 대상) |
 
 ---
 
@@ -48,7 +50,8 @@ cd app && flutter run -d chrome
 TreeScore = 0.35·평판 + 0.20·화제성 + 0.25·투명성 + 0.20·진입난이도
 ```
 
-산식은 서비스 안에서 전부 공개됩니다 (`/method`). 자세한 정의는
+산식은 서비스 안에서 전부 공개됩니다 (`/method` — 상단 메뉴가 아니라 첫 화면
+'산식' 절의 링크에서 연다). 자세한 정의는
 [docs/SPEC.md §4](docs/SPEC.md).
 
 핵심 설계 두 가지:
@@ -101,7 +104,13 @@ python3 pipeline/run.py              # 수집 → 채점 → 앱 번들
 python3 pipeline/run.py --from-cache # 저장소·캐시로 재채점 (API 호출 없음)
 python3 pipeline/run.py --with-cafe  # 카페 로컬 모듈 포함 (옵트인)
 python3 pipeline/corrections_report.py   # 정정 요청 · 이의 · 예약 요청 대장
+python3 pipeline/run.py --cases          # 웹 신고 → 사례 대장 (pipeline/wiki/cases)
 ```
+
+**신고는 사례가 된다.** 웹 신고는 `run.py --cases` 가 파일로 옮기고, Claude Code 의
+`/triage-reports` 가 프로젝트 에이전트(`.claude/agents/` — 진단·게이트별 담당·
+검증)로 진단 → 조치 → 회귀 픽스처(`pipeline/tests/cases/`)까지 처리한다.
+절차와 에이전트 표는 [docs/AGENTS.md](docs/AGENTS.md).
 
 근거는 `pipeline/.cache/mention_store.json.gz` 에 회차마다 쌓인다. 한 번
 찾은 후기는 다음 회차에 그 학원이 수집 대상에서 빠져도 남는다 — 채점 대상은
