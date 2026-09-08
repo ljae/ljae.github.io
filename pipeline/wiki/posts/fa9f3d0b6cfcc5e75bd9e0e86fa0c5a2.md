@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.64 (긍정) · 신뢰도 0.70
-- 붙은 학원 1곳 · 과목 math
+- 붙은 학원 2곳 · 과목 math
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -30,6 +30,7 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/3000021785|깊은생각]] — 글이 이 권역을 밝힘 · 감성 +0.64
+- [[../academies/3000027539|하이원학원]] — 글이 이 권역을 밝힘 · 감성 +0.64
 <!-- /auto:edges -->
 
 ## 검수
