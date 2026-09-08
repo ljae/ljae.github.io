@@ -100,9 +100,27 @@ SEL_WEIGHT = {k: w for k, w, _t, _c in SEL_EVENTS}
 
 # 촉발 낱말 바로 뒤에 이것이 오면 다른 뜻이다.
 # '대기실 비디오에서 보니' 는 대기자 명단이 아니라 **방** 이야기다(실측).
+# '대기업에서 20년을 일하시고' 는 회사다 — 2026-09-07 근거 125건 중 4건.
+# 코퍼스 57건 전부 그 뜻이고 '대기' 뒤에 '업' 이 붙는 다른 쓰임은 없다.
 SEL_NOT_AFTER = {
-    "대기": ("실", "오염", "질", "중일"),
+    "대기": ("실", "오염", "질", "중일", "업"),
     "마감": ("일", "기한"),
+}
+
+# ★ 촉발 낱말 **앞**에 한글이 붙어 있으면(원문 기준) 남의 낱말 안쪽이다.
+#   '손대기 어려운'(손대다) · '강대기숙'(강대+기숙) · '경북대기준' · '일대기' ·
+#   '덧대기' 의 '대기' 가 대기·웨이팅 근거였다(실측 2026-09-07, 근거 125건 중
+#   13건 — 사례 cd-c31f042d). SEL_NOT_AFTER 는 뒤만 봤다.
+#   앞 글자를 무조건 막으면 합성어가 죽는다 — 코퍼스(5.6만 글)에서 붙여 쓴
+#   '대기' 97건 중 '수업대기'·'레벨테스트대기중'·'학원대기'·'예약대기'·
+#   '입반대기'·'마감대기등록'·'원내대기'·'전형대기신청'·'이동대기'·'(2인대기)'
+#   가 진짜다. 대기가 합성어의 머리일 때 앞 낱말은 **무엇을 기다리는지**
+#   (시험·수업·학원 말)를 말한다. 그것만 허용한다.
+#   낱말 목록('손·강·의·일…')이 아니라 경계 규칙이라 코퍼스에 없던 '손대기'
+#   도 걸린다. '마감' 에는 걸지 않는다 — 붙여 쓴 128건이 거의 전부 '조기마감·
+#   접수마감·선착순마감' 같은 합성어다.
+SEL_COMPOUND_HEAD = {
+    "대기": SEL_TEST_WORDS + ("수업", "예약", "학원", "마감", "원내", "전형", "이동"),
 }
 SEL_LABEL = {
     "sel.test_failed": "레벨테스트 탈락",
@@ -507,6 +525,23 @@ def _contiguous(idx: list[int], i: int, n: int, trig: str) -> bool:
     return idx[i + n - 1] - idx[i] == n - 1
 
 
+def _own_word(text: str, orig: int, trig: str) -> bool:
+    """촉발 낱말이 남의 낱말 안쪽에서 시작하지 않는가 (SEL_COMPOUND_HEAD).
+
+    원문에서 바로 앞이 경계(공백·문장부호·글머리)면 제 낱말이다. 한글이
+    붙어 있으면 그 낱말 전체를 보고, 허용된 머리('수업'·'레테'…)로 끝날
+    때만 합성어로 인정한다. '(2인대기)' 처럼 사람 수 뒤의 대기도 남긴다.
+    """
+    heads = SEL_COMPOUND_HEAD.get(trig)
+    if heads is None:
+        return True
+    m = re.search(r"[가-힣0-9]+$", text[:orig])
+    if not m:
+        return True
+    run = m.group(0)
+    return any(run.endswith(h) for h in heads) or bool(re.search(r"\d인$", run))
+
+
 def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
                     owner_ok) -> list[dict]:
     """진입난이도 사건. 세 조건을 **모두** 통과해야 근거가 된다.
@@ -531,6 +566,7 @@ def _extract_events(text: str, flat: str, idx: list[int], spots: list[int],
                     tail.startswith(x) for x in SEL_NOT_AFTER.get(trig, ()))
                 if (not wrong_sense
                         and _contiguous(idx, i, len(t), trig)
+                        and _own_word(text, orig, trig)
                         and owner_ok(orig, SEL_WINDOW)
                         and not _sel_negated(flat, i, len(t))
                         and (not needs_test or _has_test_context(flat, i))):

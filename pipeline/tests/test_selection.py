@@ -111,14 +111,15 @@ def test_순위권은_주기가_지났을_때만_다시_보고_그_자리를_안
     from edutree import coverage, demand
     monkeypatch.setattr(coverage, "load", lambda: hist)
     monkeypatch.setattr(demand, "load", lambda: {})
-    import datetime as _dt
-    real_date = _dt.date
-
-    class _Today(_dt.date):
-        @classmethod
-        def today(cls):
-            return real_date(2026, 9, 2)
-    monkeypatch.setattr(coverage, "date", _Today, raising=False)
+    # ★ `coverage.days_since` 는 `date` 를 함수 안에서 import 한다. 모듈 속성
+    #   `coverage.date` 를 갈아끼워도 아무 효과가 없어, 이 테스트는 실제
+    #   달력에 따라 갈렸다(실측 2026-09-08: last_at 09-01 이 정확히 7일이라
+    #   '어제 본 순위권' 이 주기가 지난 것으로 잡혀 실패). 오늘을 함수
+    #   인자로 고정한다 — 시험은 달력을 보면 안 된다.
+    from datetime import date as _date
+    _real = coverage.days_since
+    monkeypatch.setattr(coverage, "days_since",
+                        lambda row, today=None: _real(row, _date(2026, 9, 2)))
 
     prev = {a["id"]: {"is_ranked": True} for a in stale + recent}
     selected, skipped = build.select_for_mentions(stale + recent + unseen, prev,

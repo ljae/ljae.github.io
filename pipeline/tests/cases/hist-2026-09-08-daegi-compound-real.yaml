@@ -1,0 +1,13 @@
+case: hist-2026-09-08-daegi-compound-real
+entity_type: academy
+kind: claim
+why: |
+  반대쪽(cd-c31f042d). '대기' 앞 글자를 막을 때 붙여 쓴 합성어 '수업대기'·'레벨테스트대기중'
+  까지 죽이면 진짜 대기가 사라진다(코퍼스 붙여쓰기 97건 중 ~18건이 이런 꼴). 제목에 띄어 쓴
+  '대기' 를 두지 않았다 — 첫 '대기' 가 합성어여야 그 경로를 지난다. 깨지면 과하게 조인 것이다.
+academy: {name: 가나수학학원}
+mention:
+  title: "가나수학학원 등록 후기"
+  snippet: "가나수학학원 수업대기 평균 2년이에요. #레벨테스트대기중 인 분들 참고하세요"
+expect:
+  claim_kinds_include: [sel.waitlist]
