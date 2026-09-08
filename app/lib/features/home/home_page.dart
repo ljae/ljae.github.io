@@ -624,6 +624,23 @@ class _RegionRowState extends State<_RegionRow> {
 /// 값이 화면에 뜬다. 잠깐이라도 틀린 가중치를 보여 주는 것은, 근거 없는
 /// 숫자를 내지 않는다는 이 서비스의 규칙과 정면으로 어긋난다.
 /// 참값을 **흐림에서 꺼낸다**(획이 그 칸을 지나가면 드러난다).
+/// 산식 전문으로 가는 링크.
+///
+/// 산식(`/method`)은 메뉴에서 뺐다(app_shell.dart `navItems`). 산식은 이
+/// 서비스의 존재 이유지만 학부모가 매번 찾는 화면은 아니라, 첫 화면의
+/// '산식' 절 설명에서 이 링크 하나로 들어간다. 라우트는 그대로다 —
+/// 메뉴에서 빠졌다고 링크까지 사라지면 산식 공개가 말뿐이 된다.
+class MethodLink extends StatelessWidget {
+  static const label = '산식 전문 보기 →';
+  const MethodLink({super.key});
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+    onPressed: () => context.go('/method'),
+    child: const Text(label),
+  );
+}
+
 class _WeightRuler extends StatelessWidget {
   final Meta meta;
   const _WeightRuler({required this.meta});
@@ -663,10 +680,7 @@ class _WeightRuler extends StatelessWidget {
                     subtitle:
                         '가중치는 화면에 박아 두지 않고 산식 파일에서 읽습니다. '
                         '내려 보세요 — 획이 지나가는 길이가 곧 가중치입니다.',
-                    trailing: TextButton(
-                      onPressed: () => context.go('/method'),
-                      child: const Text('전문 보기 →'),
-                    ),
+                    trailing: const MethodLink(),
                   ),
                 ),
 
@@ -1134,7 +1148,9 @@ class _Principles extends StatelessWidget {
               '베이지안 축소 — 모든 평판 점수를 같은 지역·과목 코호트 평균 쪽으로 '
               '${meta.reputationPriorCount}건만큼 끌어당깁니다. 후기 3건짜리 학원이 '
               '1위로 튀지 않습니다.',
-              style: text.bodySmall?.copyWith(color: AppColors.slate),
+              // 먹 판(#14161C) 위의 재색. slate(#6B675E)는 3.2:1 로 12.5px
+              // 글자의 AA 에 못 미친다. mist 는 5:1.
+              style: text.bodySmall?.copyWith(color: AppColors.mist),
             ),
           ],
         ),
@@ -1303,9 +1319,14 @@ class _Footer extends StatelessWidget {
                               onPressed: () => context.go('/method'),
                               child: const Text('산식 · 데이터 출처'),
                             ),
+                            // 정정 요청 폼은 산식 페이지 맨 아래에 있다
+                            // (method_page.dart `_CorrectionForm`). 학원별
+                            // 시트는 상세 화면에 따로 있다. 같은 주소로
+                            // 보내면서 '정정 요청' 이라고만 적으면 산식
+                            // 페이지가 열리는 것이 오작동처럼 읽힌다.
                             TextButton(
                               onPressed: () => context.go('/method'),
-                              child: const Text('정정 요청'),
+                              child: const Text('정정 요청 (산식 페이지 하단)'),
                             ),
                             TextButton(
                               onPressed: _openOperatorSite,
@@ -1324,7 +1345,8 @@ class _Footer extends StatelessWidget {
             const SizedBox(height: AppSpace.md),
             Text(
               '© ${Brand.operator} · ${Brand.domain}',
-              style: text.labelSmall?.copyWith(color: AppColors.slate),
+              // 남색 판 위의 slate 는 2.7:1 — 앱에서 가장 낮은 대비였다.
+              style: text.labelSmall?.copyWith(color: AppColors.mist),
             ),
           ],
         ),

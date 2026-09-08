@@ -91,7 +91,11 @@ class _PostBody extends ConsumerWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         Chip2(post.categoryLabel,
-            color: post.isOfficial ? AppColors.navy : AppColors.slate),
+            color: post.isOfficial
+                ? AppColors.navyOn(
+                    Theme.of(context).brightness == Brightness.dark)
+                : AppColors.mutedOn(
+                    Theme.of(context).brightness == Brightness.dark)),
         if (post.isOfficial) ...[
           const SizedBox(width: 5),
           const Chip2('학원실록 작성',

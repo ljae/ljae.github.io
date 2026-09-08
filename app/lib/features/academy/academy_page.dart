@@ -569,6 +569,8 @@ class _PillarPanel extends StatelessWidget {
                       width: 130,
                       child: Text(
                         entry.key,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: text.labelMedium?.copyWith(color: color),
                       ),
                     ),
@@ -836,7 +838,12 @@ class _AspectPanel extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 110,
-                      child: Text(a.label, style: text.labelMedium),
+                      child: Text(
+                        a.label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: text.labelMedium,
+                      ),
                     ),
                     Expanded(
                       child: Column(
@@ -1376,7 +1383,12 @@ class _FactCards extends StatelessWidget {
           children: [
             SizedBox(
               width: 96,
-              child: Text(card.label, style: t.textTheme.labelMedium),
+              child: Text(
+                card.label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: t.textTheme.labelMedium,
+              ),
             ),
             Expanded(
               child: Column(
@@ -1687,7 +1699,12 @@ class _Row extends StatelessWidget {
       children: [
         SizedBox(
           width: 88,
-          child: Text(label, style: Theme.of(context).textTheme.labelMedium),
+          child: Text(
+            label,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.labelMedium,
+          ),
         ),
         Expanded(
           child: Text(value, style: Theme.of(context).textTheme.bodyLarge),

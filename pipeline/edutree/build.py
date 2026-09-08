@@ -846,9 +846,7 @@ def _carry_zone_fields(path, rows: list[dict]) -> int:
 
     **못 가져온 것과 없어진 것은 다르다.** 다음 회차가 성공하면 갱신된다.
     """
-    if not isinstance(rows, list) or any(r.get("zoneId") for r in rows):
-        return 0
-    if not path.exists():
+    if not isinstance(rows, list) or not path.exists():
         return 0
     try:
         old = json.loads(path.read_text(encoding="utf-8"))
@@ -856,14 +854,33 @@ def _carry_zone_fields(path, rows: list[dict]) -> int:
         return 0
     by_id = {r.get("id"): r for r in old if isinstance(r, dict)}
     moved = 0
+    # ★ 학구(zoneId)와 배정 아파트(apartments)는 **다른 출처**다 (2026-09-07).
+    #   학구는 학구도 API, 아파트는 공동주택 API + 지오코딩 캐시. 학구를
+    #   얻은 회차에 아파트 캐시가 없으면 zoneId 는 채워지고 apartments 만
+    #   빈 채로 나간다 — 그런데 옛 판단은 zoneId 가 하나라도 있으면 통째로
+    #   물려받기를 건너뛰었다. 실측: 140곳 전부 `apartments: []` 인 채 배포돼
+    #   '학교별 배정 아파트가 안 보인다' 는 신고가 들어왔다.
+    #   → 필드마다 따로 본다. 이번에 하나라도 얻은 필드는 이번 값이 이기고,
+    #     이번에 아무도 못 얻은 필드만 지난 파일에서 옮겨 온다.
+    zone_got = any(r.get("zoneId") for r in rows)
+    apt_got = any(r.get("apartments") for r in rows)
     for r in rows:
         prev = by_id.get(r.get("id"))
-        if not prev or not prev.get("zoneId"):
+        if not prev:
             continue
-        for f in _ZONE_FIELDS:
-            if f in prev:
-                r[f] = prev[f]
-        moved += 1
+        touched = False
+        if not zone_got and prev.get("zoneId"):
+            for f in _ZONE_FIELDS:
+                if f in prev and f not in ("apartments", "apartmentHouseholds"):
+                    r[f] = prev[f]
+            touched = True
+        if not apt_got and prev.get("apartments"):
+            r["apartments"] = prev["apartments"]
+            if "apartmentHouseholds" in prev:
+                r["apartmentHouseholds"] = prev["apartmentHouseholds"]
+            touched = True
+        if touched:
+            moved += 1
     return moved
 
 
@@ -1845,6 +1862,20 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               f"과목 미상 {n_general}곳")
     except Exception as exc:                                  # noqa: BLE001
         print(f"  ! 범위 감사 실패: {exc}")
+
+    # ★ 사례 대장 (2026-09-07). 웹 신고는 `run.py --cases` 가 파일로 옮긴다
+    #   (pipeline/wiki/cases). 여기서는 **파일만 읽어** 열린 것과 조용히 묻힌
+    #   것(오래 열림 · 고쳤는데 픽스처 없음)을 센다. 네트워크 없음, 판단 없음.
+    #   진단·조치는 Claude Code 의 /triage-reports 와 .claude/agents 가 한다.
+    try:
+        from . import cases as cases_mod
+        _cases = cases_mod.load()
+        if _cases:
+            print(f"  {cases_mod.summary(_cases)}")
+            for w in cases_mod.audit(_cases):
+                print(f"  ! 사례: {w}")
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 사례 대장 점검 실패: {exc}")
 
     # 지식 그래프 감사 — 노드 유일성·결합 정당성·엣지 연결을 매 실행 증명한다.
     from . import graph

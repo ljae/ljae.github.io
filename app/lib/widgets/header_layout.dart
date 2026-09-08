@@ -18,9 +18,11 @@ class HeaderLayout {
   // 휠 두 개 + 사이 간격. 학년 휠은 '예비초~초3' 이 들어가야 해서 넓다.
   static const _wheels = 204.0;
   static const _byOperator = 96.0;
-  // 메뉴 6개. TextButton 최소 폭(64)이 홈·랭킹·산식에 걸려
-  // 글자 폭으로 계산한 값보다 넓다.
-  static const _nav = 450.0;
+  // 메뉴 5개(홈·테크트리·랭킹·게시판·학군지도). TextButton 최소 폭(64)이
+  // 홈·랭킹에 걸려 글자 폭으로 계산한 값보다 넓다. 메뉴 6개일 때 450 이었고
+  // 산식을 메뉴에서 빼며 한 칸(75)을 뺐다 — 그대로 두면 헤더가 실제보다
+  // 75px 일찍 하단 바로 물러난다.
+  static const _nav = 375.0;
   static const _gap = 16.0;
 
   final double logo;

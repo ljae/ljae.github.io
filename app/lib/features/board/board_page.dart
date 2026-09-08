@@ -115,12 +115,14 @@ class _LoopNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final navy = AppColors.navyOn(dark);
     return Card(
-      color: AppColors.navy.withValues(alpha: 0.05),
+      color: navy.withValues(alpha: 0.05),
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.sync_alt, size: 18, color: AppColors.navy),
+          Icon(Icons.sync_alt, size: 18, color: navy),
           const SizedBox(width: AppSpace.sm),
           Expanded(
             child: Text(
@@ -154,7 +156,11 @@ class _PostTile extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Chip2(post.categoryLabel,
-                  color: post.isOfficial ? AppColors.navy : AppColors.slate),
+                  color: post.isOfficial
+                      ? AppColors.navyOn(
+                          Theme.of(context).brightness == Brightness.dark)
+                      : AppColors.mutedOn(
+                          Theme.of(context).brightness == Brightness.dark)),
               if (post.isOfficial) ...[
                 const SizedBox(width: 5),
                 const Chip2('학원실록 작성',

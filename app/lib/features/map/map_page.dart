@@ -8,6 +8,7 @@ import '../../core/env.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
+import '../../widgets/annals_controls.dart';
 import '../../widgets/common.dart';
 import 'naver_map.dart';
 
@@ -78,33 +79,59 @@ class _MapPageState extends ConsumerState<MapPage> {
                         '학군은 학원이 아니라 학교로 정해집니다. '
                         '초·중·고 위치를 보고, 필요하면 학원을 겹쳐 보세요.',
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ChipRow<String?>(
-                          options: const [
-                            (null, '초·중·고 전체'),
-                            ('elementary', '초등학교'),
-                            ('middle', '중학교'),
-                            ('high', '고등학교'),
+                  // 학교급 탭과 겹쳐 보기 토글. 넓으면 한 줄, 좁으면 두 줄.
+                  //
+                  // 토글 둘이 고정폭(약 175px)이라 한 줄에 두면 375px 에서
+                  // 학교급 탭 넷이 150px 안에 구겨진다. 자리가 없으면 줄을
+                  // 바꾼다 — 기능을 빼지 않는다.
+                  LayoutBuilder(
+                    builder: (context, c) {
+                      final tabs = ChipRow<String?>(
+                        options: const [
+                          (null, '초·중·고 전체'),
+                          ('elementary', '초등학교'),
+                          ('middle', '중학교'),
+                          ('high', '고등학교'),
+                        ],
+                        selected: _level,
+                        onChanged: (v) => setState(() => _level = v),
+                      );
+                      final toggles = Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          RuledToggle(
+                            label: '아파트',
+                            value: _showApartments,
+                            onChanged: (v) =>
+                                setState(() => _showApartments = v),
+                          ),
+                          const SizedBox(width: AppSpace.sm),
+                          RuledToggle(
+                            label: '학원',
+                            value: _showAcademies,
+                            onChanged: (v) =>
+                                setState(() => _showAcademies = v),
+                          ),
+                        ],
+                      );
+                      if (c.maxWidth < 600) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            tabs,
+                            const SizedBox(height: AppSpace.sm),
+                            toggles,
                           ],
-                          selected: _level,
-                          onChanged: (v) => setState(() => _level = v),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpace.md),
-                      FilterChip(
-                        label: const Text('아파트'),
-                        selected: _showApartments,
-                        onSelected: (v) => setState(() => _showApartments = v),
-                      ),
-                      const SizedBox(width: AppSpace.sm),
-                      FilterChip(
-                        label: const Text('학원'),
-                        selected: _showAcademies,
-                        onSelected: (v) => setState(() => _showAcademies = v),
-                      ),
-                    ],
+                        );
+                      }
+                      return Row(
+                        children: [
+                          Expanded(child: tabs),
+                          const SizedBox(width: AppSpace.md),
+                          toggles,
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: AppSpace.md),
                   _MapSurface(
@@ -119,9 +146,20 @@ class _MapPageState extends ConsumerState<MapPage> {
                   ),
                   const SizedBox(height: AppSpace.lg),
                   if (apartments.isNotEmpty)
-                    _ApartmentList(apartments: apartments),
+                    _ApartmentList(apartments: apartments)
+                  else if (_showApartments)
+                    // 켜 두었는데 비었다면 자료가 없는 것이다. 조용히 비우면
+                    // '이 기능이 없다' 로 읽힌다 — 없는 것은 없다고 적는다.
+                    Text(
+                      '이 학군의 아파트 배정 자료가 아직 없습니다.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   const SizedBox(height: AppSpace.lg),
-                  _SchoolList(schools: schools, region: region),
+                  _SchoolList(
+                    schools: schools,
+                    region: region,
+                    mapData: mapData,
+                  ),
                   const SizedBox(height: AppSpace.xl),
                   const _PendingNotice(),
                   const SizedBox(height: AppSpace.xxl),
@@ -182,8 +220,11 @@ class _MapSurface extends StatelessWidget {
       for (var i = 0; i < top.length; i++)
         '${i + 1}. ${top[i].name} ${top[i].distanceLabel}${top[i].coedTag}',
     ].join(' · ');
-    return '<span style="color:#0B1020">${z.levelLabel} 가까운 순 $names</span>'
-        '<br><span style="font-size:10.5px">'
+    // 색은 여기서 정하지 않는다. 정보창의 판(밝음·어둠)은 index.html 의
+    // CSS 가 prefers-color-scheme 으로 고르므로, 여기서 색을 박으면 한쪽
+    // 판에서 반드시 안 읽힌다. 뜻만 class 로 적는다.
+    return '<span class="nm-main">${z.levelLabel} 가까운 순 $names</span>'
+        '<br><span class="nm-sub">'
         '${z.zoneName ?? ""} · 추첨이지만 통학 편의가 반영됩니다</span>';
   }
 
@@ -328,6 +369,7 @@ class _Schematic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final located = schools.where((s) => s.hasLocation).toList();
 
     return LayoutBuilder(
@@ -348,7 +390,9 @@ class _Schematic extends StatelessWidget {
 
         return Stack(
           children: [
-            Positioned.fill(child: Container(color: const Color(0xFFEFF1EC))),
+            Positioned.fill(
+              child: ColoredBox(color: AppColors.canvasDeepOn(dark)),
+            ),
             for (final s in located)
               Positioned(
                 left:
@@ -401,8 +445,12 @@ class _Schematic extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.92),
+                  color: AppColors.surfaceOn(dark).withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(AppRadius.sm),
+                  border: Border.all(
+                    color: AppColors.ruleOn(dark),
+                    width: AppRule.hair,
+                  ),
                 ),
                 child: Text('네이버 지도 키가 없어 모식도로 표시 중입니다', style: text.bodySmall),
               ),
@@ -422,6 +470,7 @@ class _ApartmentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final rows = apartments.take(40).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -449,21 +498,29 @@ class _ApartmentList extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 6,
-                    children: [
-                      for (final z in a.zones)
-                        Chip2(
-                          '${z.levelLabel} · ${z.assignmentText}',
-                          color: z.certain
-                              ? AppColors.verified
-                              : (z.level == 'elementary'
-                                    ? AppColors.reputation
-                                    : AppColors.estimated),
-                          icon: z.certain ? Icons.verified_rounded : null,
-                        ),
-                    ],
+                  // Wrap 은 자식에게 폭을 주지 않는다. '중학교 · 강남서초2학교군
+                  // · 11개교 중 추첨' 한 칩이 360px 를 넘으면 그대로 잘려
+                  // 나갔다. 칸 폭을 상한으로 묶어 줄임표로 접히게 한다.
+                  LayoutBuilder(
+                    builder: (context, c) => Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: [
+                        for (final z in a.zones)
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: c.maxWidth),
+                            child: Chip2(
+                              '${z.levelLabel} · ${z.assignmentText}',
+                              color: z.certain
+                                  ? AppColors.verifiedOn(dark)
+                                  : (z.level == 'elementary'
+                                        ? AppColors.subjectOn('math', dark)
+                                        : AppColors.estimatedOn(dark)),
+                              icon: z.certain ? Icons.verified_rounded : null,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   for (final z in a.zones)
                     if (z.nearby.isNotEmpty) _NearbyRow(zone: z),
@@ -498,6 +555,7 @@ class _NearbyRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Column(
@@ -505,15 +563,17 @@ class _NearbyRow extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.near_me_outlined,
                 size: 13,
-                color: AppColors.mist,
+                color: AppColors.mutedOn(dark),
               ),
               const SizedBox(width: 4),
-              Text(
-                '${zone.levelLabel} 배정 가능성 높은 순 (추첨이지만 통학 편의 반영)',
-                style: text.bodySmall?.copyWith(fontSize: 11),
+              Expanded(
+                child: Text(
+                  '${zone.levelLabel} 배정 가능성 높은 순 (추첨이지만 통학 편의 반영)',
+                  style: text.bodySmall?.copyWith(fontSize: 11),
+                ),
               ),
             ],
           ),
@@ -528,10 +588,13 @@ class _NearbyRow extends StatelessWidget {
                 Text(
                   '${i + 1}. ${zone.nearby[i].name} '
                   '${zone.nearby[i].distanceLabel}${zone.nearby[i].coedTag}',
+                  // 1순위는 굵게, 색은 **먹**으로. 남색(#182448)을 그대로
+                  // 썼더니 먹빛 바탕(#101218)에서 대비 1.3:1 — 가장 중요한
+                  // 한 줄이 모바일 다크 모드에서 보이지 않았다.
                   style: text.bodySmall?.copyWith(
                     fontSize: 11.5,
                     fontWeight: i == 0 ? FontWeight.w700 : FontWeight.w400,
-                    color: i == 0 ? AppColors.navy : null,
+                    color: i == 0 ? AppColors.inkOn(dark) : null,
                   ),
                 ),
             ],
@@ -545,11 +608,17 @@ class _NearbyRow extends StatelessWidget {
 class _SchoolList extends StatelessWidget {
   final List<School> schools;
   final Region? region;
-  const _SchoolList({required this.schools, required this.region});
+  final MapData mapData;
+  const _SchoolList({
+    required this.schools,
+    required this.region,
+    required this.mapData,
+  });
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final byLevel = <String, List<School>>{};
     for (final s in schools) {
       byLevel.putIfAbsent(s.level, () => []).add(s);
@@ -586,57 +655,80 @@ class _SchoolList extends StatelessWidget {
                 ],
               ),
             ),
-            Wrap(
-              spacing: AppSpace.sm,
-              runSpacing: AppSpace.sm,
-              children: [
-                for (final s in byLevel[level]!)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(AppRadius.sm),
-                    onTap: () => showModalBottomSheet<void>(
-                      context: context,
-                      isScrollControlled: true,
-                      showDragHandle: true,
-                      constraints: const BoxConstraints(maxWidth: 640),
-                      builder: (_) => _SchoolSheet(school: s),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 11,
-                        vertical: 7,
+            // 학교 한 칸이 이름 + 설립·성별 + 학교군 칩 + 배정 칩이라
+            // 360px 를 쉽게 넘는다. 칸 폭을 판 폭으로 묶고 글자는 접는다.
+            LayoutBuilder(
+              builder: (context, c) => Wrap(
+                spacing: AppSpace.sm,
+                runSpacing: AppSpace.sm,
+                children: [
+                  for (final s in byLevel[level]!)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      onTap: () => showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true,
+                        showDragHandle: true,
+                        constraints: const BoxConstraints(maxWidth: 640),
+                        builder: (_) =>
+                            _SchoolSheet(school: s, mapData: mapData),
                       ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.line),
-                        borderRadius: BorderRadius.circular(AppRadius.sm),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(s.name, style: text.labelLarge),
-                          const SizedBox(width: 6),
-                          Text(
-                            [
-                              s.foundation,
-                              s.coed,
-                            ].whereType<String>().join(' · '),
-                            style: text.bodySmall?.copyWith(fontSize: 11),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: c.maxWidth),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 11,
+                            vertical: 7,
                           ),
-                          if (s.zoneName != null) ...[
-                            const SizedBox(width: 6),
-                            Chip2(s.zoneName!, color: AppColors.navy),
-                          ],
-                          if (s.apartments.isNotEmpty) ...[
-                            const SizedBox(width: 6),
-                            Chip2(
-                              '배정 ${s.apartments.length}단지',
-                              color: AppColors.navy,
-                            ),
-                          ],
-                        ],
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.ruleOn(dark)),
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  s.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: text.labelLarge,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                [
+                                  s.foundation,
+                                  s.coed,
+                                ].whereType<String>().join(' · '),
+                                style: text.bodySmall?.copyWith(fontSize: 11),
+                              ),
+                              if (s.zoneName != null) ...[
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: Chip2(
+                                    s.zoneName!,
+                                    color: AppColors.navyOn(dark),
+                                  ),
+                                ),
+                              ],
+                              // 배정 단지 수. 파이프라인 값이 비어도 색인으로
+                              // 잇는다 — 시트와 같은 수가 나와야 한다.
+                              if (mapData.zonedApartmentsFor(s)
+                                  case final apts when apts.isNotEmpty) ...[
+                                const SizedBox(width: 6),
+                                Chip2(
+                                  '배정 ${apts.length}단지',
+                                  color: AppColors.navyOn(dark),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ],
       ],
@@ -661,6 +753,10 @@ class _CareerRanking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    // 등수 22 + 막대 + 간격 8 + 퍼센트 52 가 고정폭이다. 328px 짜리 판에서
+    // 막대를 120 으로 두면 학교 이름에 126px 만 남는다. 좁으면 막대를 줄인다.
+    final barWidth = MediaQuery.sizeOf(context).width < 420 ? 72.0 : 120.0;
 
     double? metric(School s) {
       final c = s.careers;
@@ -704,14 +800,19 @@ class _CareerRanking extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Text(rows[i].$1.name, style: text.bodyLarge),
+                      child: Text(
+                        rows[i].$1.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: text.bodyLarge,
+                      ),
                     ),
                     SizedBox(
-                      width: 120,
+                      width: barWidth,
                       child: LinearProgressIndicator(
                         value: (rows[i].$2 / 100).clamp(0, 1),
                         minHeight: 6,
-                        backgroundColor: AppColors.line,
+                        backgroundColor: AppColors.ruleOn(dark),
                         color: Color(schoolLevelColors[level]!),
                       ),
                     ),
@@ -766,6 +867,7 @@ class _SchoolTrend extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     final rows =
         ref.watch(historyProvider).value?.forSchool(schoolId) ?? const [];
     if (rows.length < 2) return const SizedBox.shrink();
@@ -781,7 +883,9 @@ class _SchoolTrend extends ConsumerWidget {
           Icon(
             diff >= 0 ? Icons.trending_up : Icons.trending_down,
             size: 15,
-            color: diff >= 0 ? AppColors.rising : AppColors.falling,
+            color: diff >= 0
+                ? AppColors.risingOn(dark)
+                : AppColors.fallingOn(dark),
           ),
           const SizedBox(width: 4),
           Text(
@@ -890,7 +994,8 @@ class _CareersPanel extends StatelessWidget {
 
 class _SchoolSheet extends StatelessWidget {
   final School school;
-  const _SchoolSheet({required this.school});
+  final MapData mapData;
+  const _SchoolSheet({required this.school, required this.mapData});
 
   static String _won(int v) =>
       v >= 10000 ? '${(v / 10000).toStringAsFixed(1)}만' : '$v';
@@ -898,8 +1003,16 @@ class _SchoolSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    // 파이프라인이 실어 준 값이 있으면 그것을, 없으면 아파트 쪽 학교군에서
+    // 거꾸로 잇는다(`MapData.zonedApartmentsFor`). 같은 사실의 양방향이다.
+    final apartments = mapData.zonedApartmentsFor(school);
+    final households = school.apartmentHouseholds ??
+        (apartments.any((a) => a.households != null)
+            ? apartments.fold<int>(0, (n, a) => n + (a.households ?? 0))
+            : null);
     final certain =
-        school.level == 'elementary' && school.apartments.any((a) => a.certain);
+        school.level == 'elementary' && apartments.any((a) => a.certain);
 
     return DraggableScrollableSheet(
       expand: false,
@@ -923,10 +1036,10 @@ class _SchoolSheet extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               if (school.foundation != null)
-                Chip2(school.foundation!, color: AppColors.slate),
+                Chip2(school.foundation!, color: AppColors.mutedOn(dark)),
               if (school.coed != null) ...[
                 const SizedBox(width: 6),
-                Chip2(school.coed!, color: AppColors.slate),
+                Chip2(school.coed!, color: AppColors.mutedOn(dark)),
               ],
             ],
           ),
@@ -958,18 +1071,18 @@ class _SchoolSheet extends StatelessWidget {
             const SizedBox(height: AppSpace.lg),
           ],
 
-          if (school.apartments.isEmpty)
+          if (apartments.isEmpty)
             Text('연결된 배정 아파트 정보가 없습니다.', style: text.bodyMedium)
           else ...[
             SectionHeader(
               certain ? '이 학교로 배정되는 아파트' : '이 학교군에 속한 아파트',
-              subtitle: school.apartmentHouseholds != null
-                  ? '${school.apartments.length}단지 · '
-                        '${_won(school.apartmentHouseholds!)}세대'
+              subtitle: households != null
+                  ? '${apartments.length}단지 · '
+                        '${_won(households)}세대'
                         '${certain ? "" : " (추첨 대상)"}'
-                  : '${school.apartments.length}단지',
+                  : '${apartments.length}단지',
             ),
-            for (final a in school.apartments)
+            for (final a in apartments)
               Padding(
                 padding: const EdgeInsets.only(bottom: 7),
                 child: Row(
@@ -980,8 +1093,8 @@ class _SchoolSheet extends StatelessWidget {
                           : Icons.casino_outlined,
                       size: 14,
                       color: a.certain
-                          ? AppColors.verified
-                          : AppColors.estimated,
+                          ? AppColors.verifiedOn(dark)
+                          : AppColors.estimatedOn(dark),
                     ),
                     const SizedBox(width: 7),
                     Expanded(child: Text(a.name, style: text.bodyLarge)),
@@ -1014,8 +1127,9 @@ class _PendingNotice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Card(
-      color: AppColors.estimated.withValues(alpha: 0.07),
+      color: AppColors.estimatedOn(dark).withValues(alpha: 0.07),
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
         child: Column(
@@ -1023,10 +1137,10 @@ class _PendingNotice extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.info_outline,
                   size: 17,
-                  color: AppColors.estimated,
+                  color: AppColors.estimatedOn(dark),
                 ),
                 const SizedBox(width: AppSpace.sm),
                 Text('배정 정보를 읽는 법', style: text.titleMedium),

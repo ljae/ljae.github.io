@@ -735,16 +735,23 @@ class TagMark extends StatelessWidget {
             Icon(icon, size: 11.5, color: filled ? AppColors.cream : color),
             const SizedBox(width: 4),
           ],
-          Text(
-            label,
-            style: TextStyle(
-              fontFamily: 'Paperlogy',
-              fontSize: 11.5,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.1,
-              height: 1.25,
-              color: fg,
-              fontFeatures: ledgerFigures,
+          // 폭이 묶이면 글자를 줄임표로 접는다. 넓은 자리에서는 min 행이라
+          // 그대로 한 줄이고, 좁은 자리(360px 의 Wrap 칸)에서는 넘치는
+          // 대신 접힌다 — 넘친 글자는 그려지지 않아 '없는 것' 으로 읽힌다.
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'Paperlogy',
+                fontSize: 11.5,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.1,
+                height: 1.25,
+                color: fg,
+                fontFeatures: ledgerFigures,
+              ),
             ),
           ),
         ],

@@ -380,7 +380,7 @@ class MapData {
   final List<Apartment> apartments;
   final List<dynamic> zoneFeatures;
 
-  const MapData({
+  MapData({
     this.schools = const [],
     this.apartments = const [],
     this.zoneFeatures = const [],
@@ -397,6 +397,72 @@ class MapData {
       .where((a) => EduTreeData.matchRegion(a.regionId, regionId))
       .toList()
     ..sort((a, b) => (b.households ?? 0).compareTo(a.households ?? 0));
+
+  // 학교 → 아파트 색인. 처음 물을 때 한 번 만든다.
+  Map<String, List<(Apartment, ApartmentZone)>>? _byZone;
+  Map<String, List<(Apartment, ApartmentZone)>>? _bySchoolName;
+
+  void _index() {
+    final byZone = <String, List<(Apartment, ApartmentZone)>>{};
+    final byName = <String, List<(Apartment, ApartmentZone)>>{};
+    for (final a in apartments) {
+      for (final z in a.zones) {
+        if (z.zoneId != null) {
+          byZone.putIfAbsent(z.zoneId!, () => []).add((a, z));
+        }
+        for (final name in z.schools) {
+          byName.putIfAbsent(name, () => []).add((a, z));
+        }
+      }
+    }
+    _byZone = byZone;
+    _bySchoolName = byName;
+  }
+
+  /// 이 학교로 배정되는(또는 같은 학교군에 속한) 아파트.
+  ///
+  /// `School.apartments` 는 파이프라인이 채워 보내는 값인데, 학구 필드를
+  /// 옮겨 싣는 안전장치가 `zoneId` 가 있으면 건너뛰는 바람에 **140곳
+  /// 전부 빈 배열**로 나갔다(실측 2026-09-07). 그런데 같은 번들의
+  /// `apartments.json` 은 단지마다 학교군(zoneId·학교 이름)을 온전히
+  /// 갖고 있다 — 같은 사실을 반대편에서 잇는다.
+  ///
+  /// 두 길로 잇고 합친다. 학교군 id 가 같으면(중·고, 초등 대부분) 그것으로,
+  /// id 가 없거나 안 맞으면 학교군에 적힌 **학교 이름**으로. 초등 통학구역은
+  /// 학교 하나짜리 구역이라 이름으로만 이어지는 곳이 있다.
+  List<(Apartment, ApartmentZone)> apartmentsForSchool(School s) {
+    if (_byZone == null) _index();
+    final out = <(Apartment, ApartmentZone)>[];
+    final seen = <String>{};
+    void take(Iterable<(Apartment, ApartmentZone)> rows) {
+      for (final e in rows) {
+        final z = e.$2;
+        if (z.level != null && z.level != s.level) continue;
+        if (seen.add(e.$1.id)) out.add(e);
+      }
+    }
+
+    if (s.zoneId != null) take(_byZone![s.zoneId!] ?? const []);
+    take(_bySchoolName![s.name] ?? const []);
+    out.sort((a, b) =>
+        (b.$1.households ?? 0).compareTo(a.$1.households ?? 0));
+    return out;
+  }
+
+  /// 화면이 쓰는 모양. 파이프라인 값이 있으면 그것을, 없으면 색인으로 잇는다.
+  List<ZonedApartment> zonedApartmentsFor(School s) {
+    if (s.apartments.isNotEmpty) return s.apartments;
+    return [
+      for (final (a, z) in apartmentsForSchool(s))
+        ZonedApartment(
+          name: a.name,
+          dong: a.dong,
+          households: a.households,
+          // 초등 통학구역이면서 학교가 하나일 때만 '배정'이라 단정한다.
+          certain: z.certain && z.schools.length == 1,
+        ),
+    ];
+  }
 }
 
 /// 검색 결과 한 줄. 점수가 있는 학원과 등록부 학원을 함께 담는다.

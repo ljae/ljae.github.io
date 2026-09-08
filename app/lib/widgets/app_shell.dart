@@ -14,13 +14,18 @@ import 'scroll_stage.dart';
 import 'header_layout.dart';
 import 'wheel_selector.dart';
 
-const _navItems = <(String path, String label, IconData icon)>[
+/// 상단 헤더와 하단 바가 함께 쓰는 메뉴.
+///
+/// 산식(`/method`)은 메뉴에 두지 않는다. 산식은 서비스의 존재 이유지만
+/// 학부모가 매번 찾는 화면은 아니다 — 첫 화면의 '산식' 절 설명에서
+/// 링크로 들어가고, 라우트는 그대로 살아 있다(`core/router.dart`).
+/// 관리자 화면(`/admin`)이 같은 방식으로 메뉴 밖에 있다.
+const navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
   ('/tree', '테크트리', Icons.account_tree_outlined),
   ('/rank', '랭킹', Icons.leaderboard_outlined),
   ('/board', '게시판', Icons.forum_outlined),
   ('/map', '학군지도', Icons.map_outlined),
-  ('/method', '산식', Icons.calculate_outlined),
 ];
 
 /// 헤더 안쪽에서 실제로 쓸 수 있는 폭. [ContentWidth] 와 같은 계산이다.
@@ -146,7 +151,7 @@ class _TopBar extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            for (final (path, label, _) in _navItems)
+                            for (final (path, label, _) in navItems)
                               _NavLink(
                                 path: path,
                                 label: label,
@@ -491,7 +496,7 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    var index = _navItems.indexWhere(
+    var index = navItems.indexWhere(
       (i) => i.$1 == '/' ? location == '/' : location.startsWith(i.$1),
     );
     if (index < 0) index = 0;
@@ -514,10 +519,10 @@ class _BottomBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            for (var i = 0; i < _navItems.length; i++)
+            for (var i = 0; i < navItems.length; i++)
               Expanded(
                 child: InkWell(
-                  onTap: () => context.go(_navItems[i].$1),
+                  onTap: () => context.go(navItems[i].$1),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: i == index
@@ -534,7 +539,7 @@ class _BottomBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _navItems[i].$3,
+                          navItems[i].$3,
                           size: 20,
                           color: i == index
                               ? AppColors.inkOn(dark)
@@ -542,7 +547,7 @@ class _BottomBar extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          _navItems[i].$2,
+                          navItems[i].$2,
                           style: TextStyle(
                             fontFamily: 'Paperlogy',
                             fontSize: 11,

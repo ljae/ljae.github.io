@@ -134,6 +134,21 @@ class AppColors {
       dark ? const Color(0xFF0B0D12) : canvasDeep;
   static Color accentOn(bool dark) =>
       dark ? const Color(0xFFE05943) : vermilion;
+
+  /// 남색 꼬리표·강조 글자. **먹빛 바탕에서 남색은 안 보인다** — #182448 을
+  /// #101218 위에 두면 대비가 1.3:1 이다(실측: 학군지도의 '배정 가능성
+  /// 높은 순' 1순위 학교가 모바일 다크 모드에서 통째로 사라졌다).
+  /// 남색이 필요한 곳은 전부 이걸 쓴다.
+  static Color navyOn(bool dark) => dark ? const Color(0xFF8FA6D6) : navy;
+
+  /// 상태 색의 먹빛 판. 한지에 앉으라고 낮춘 안료색은 먹빛에서 가라앉는다.
+  static Color verifiedOn(bool dark) =>
+      dark ? const Color(0xFF63AF93) : verified;
+  static Color estimatedOn(bool dark) =>
+      dark ? const Color(0xFFC79A4B) : estimated;
+  static Color risingOn(bool dark) => accentOn(dark);
+  static Color fallingOn(bool dark) =>
+      dark ? const Color(0xFF5E86C8) : falling;
 }
 
 class AppSpace {
@@ -345,11 +360,18 @@ ThemeData buildTheme({required bool dark}) {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: Colors.transparent,
+      // 선택 상태를 안 정하면 Material 의 secondaryContainer 가 깔린다 —
+      // 두 판 어디에도 없는 색의 알약이 된다. 남은 Material 칩이 다
+      // 걷힐 때까지의 임시 처방이고, 정본은 RuledToggle·ChipRow 다.
+      selectedColor: accent.withValues(alpha: dark ? 0.14 : 0.07),
+      secondarySelectedColor: accent.withValues(alpha: dark ? 0.14 : 0.07),
+      checkmarkColor: accent,
       side: BorderSide(color: rule, width: AppRule.hair),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(AppRadius.sm)),
       ),
       labelStyle: t(12, FontWeight.w600, spacing: -0.1),
+      secondaryLabelStyle: t(12, FontWeight.w700, spacing: -0.1),
     ),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
