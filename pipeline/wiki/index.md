@@ -246,6 +246,7 @@
 - [메디컬수학연구소학원](academies/3000051205.md) — jamsil
 - [서로뮤지컬학원](academies/3000051385.md) — mokdong
 - [목동이화무용학원](academies/3000051729.md) — mokdong
+- [대치영독학원](academies/3000052713.md) — daechi
 - [메이플](academies/3000053056.md) — banpo
 - [띵킹(Think-Eng)2호점학원](academies/3000053235.md) — banpo
 - [시대인재반포센터서초관학원](academies/3000053355.md) — banpo
