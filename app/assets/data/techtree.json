@@ -59,15 +59,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 77,
+    "math_hi_naesin": 78,
     "math_hi_suneung": 7,
     "math_hi_top": 7,
-    "sci_hi_naesin": 39,
+    "sci_hi_naesin": 41,
     "sci_hi_suneung": 1,
     "sci_hi_two": 0,
-    "kor_hi_suneung": 7
+    "kor_hi_suneung": 8
    },
-   "academyCount": 124
+   "academyCount": 128
   },
   {
    "id": "dest_snu_top",
@@ -104,16 +104,16 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 77,
+    "math_hi_naesin": 78,
     "math_hi_suneung": 7,
     "math_hi_top": 7,
-    "kor_hi_suneung": 7,
-    "kor_hi_nonsul": 32,
+    "kor_hi_suneung": 8,
+    "kor_hi_nonsul": 34,
     "eng_hi_suneung": 5,
-    "eng_hi_adv": 15,
+    "eng_hi_adv": 16,
     "sci_hi_suneung": 1
    },
-   "academyCount": 139
+   "academyCount": 144
   },
   {
    "id": "dest_abroad",
@@ -145,13 +145,13 @@
    "linkable": true,
    "stageCounts": {
     "eng_el_phonics": 58,
-    "eng_el_academy": 137,
+    "eng_el_academy": 138,
     "eng_el_rw": 18,
     "eng_mid_test": 1,
-    "math_el_basic": 106,
+    "math_el_basic": 108,
     "math_mid_preview": 2
    },
-   "academyCount": 263
+   "academyCount": 266
   },
   {
    "id": "dest_science_hs",
@@ -183,15 +183,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_el_thinking": 16,
+    "math_el_thinking": 17,
     "math_el_competition": 7,
     "math_mid_kmo": 0,
     "math_mid_yeongjae": 0,
-    "sci_el_lab": 41,
+    "sci_el_lab": 43,
     "sci_el_gifted": 1,
     "sci_mid_olympiad": 3
    },
-   "academyCount": 65
+   "academyCount": 68
   },
   {
    "id": "dest_foreign_hs",
@@ -221,15 +221,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 137,
-    "eng_mid_naesin": 105,
+    "eng_el_academy": 138,
+    "eng_mid_naesin": 106,
     "eng_mid_test": 1,
-    "math_mid_naesin": 87,
+    "math_mid_naesin": 88,
     "math_mid_preview": 2,
-    "kor_mid_naesin": 82,
+    "kor_mid_naesin": 85,
     "kor_mid_deep": 8
    },
-   "academyCount": 335
+   "academyCount": 340
   },
   {
    "id": "dest_early",

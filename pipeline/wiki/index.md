@@ -96,6 +96,7 @@
 - [반포새움](academies/3000010730.md) — banpo
 - [해빛나인어학원](academies/3000011244.md) — daechi
 - [대치퍼스트학원](academies/3000011256.md) — daechi
+- [목동씨사이트학원](academies/3000011471.md) — mokdong
 - [시대인재](academies/3000012230.md) — daechi
 - [강남종로학원](academies/3000012367.md) — daechi
 - [브레인스쿨학원](academies/3000012627.md) — mokdong
