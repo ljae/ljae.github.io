@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원 관련 내용이 아니며, 여러 지역과 아파트 이름을 나열한 입주 및 이사 청소 업체의 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -1,0 +1,40 @@
+---
+url_hash: "b4af3bfe9512a59d1a3d5fcb0f4cf2a0"
+url: https://cafe.naver.com/ilovegm1/2491867
+source: naver_cafe
+title: 수학 가르치다 아이와 사이만 나빠지고 저와 같은 고민이 신분(광문초교 앞
+posted_at: 2026-09-11
+author_hash: 205c679e37d2766dd18b291cd0ec7080
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 수학 가르치다 아이와 사이만 나빠지고 저와 같은 고민이 신분(광문초교 앞
+
+원문: https://cafe.naver.com/ilovegm1/2491867
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.55
+- 붙은 학원 1곳 · 과목 math
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+수학 과목에 대한 레벨테스트 분석 결과를 바탕으로 부모 상담을 진행하며, 입회 기간과 관련된 내용을 안내하는 홍보성 글이다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000046558|메이드학원]] — 이름이 본문에 등장 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
