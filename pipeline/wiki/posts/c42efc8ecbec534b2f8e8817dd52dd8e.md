@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+목동 일타강사의 고백을 표방하며 과목당 및 자녀 1인당 발생하는 학원비 부담을 언급하는 홍보성 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
