@@ -151,12 +151,19 @@ def apply(mentions: list[dict], academies: list[dict],
         #   본문의 지역명은 남의 학원 이름에 박혀 있는 경우가 많다.
         #   '세종 엄마표영어 …' 글이 본문의 '대치M수학' 때문에 대치 근거로
         #   잡혔다. 제목은 글쓴이가 그 글을 무엇이라 부르는지이므로 더 세다.
-        t_ours, t_other = analyze.region_hints(m.get("title", ""))
+        #   ★ 이름에 박힌 지역명은 지역이 아니다(`mine`). '압구정애플수학
+        #   교습소'(목동) 의 글 '압구정애플수학 레테 후기' 를 압구정 글로
+        #   버리면 그 학원의 근거가 통째로 사라진다 — `foreign_dong` 과 같다.
+        mine_names = candidates.get(key) or ()
+        t_ours, t_other = analyze.region_hints(m.get("title", ""), mine_names)
 
         # 제목에 권역 밖 지역이 있으면 그쪽 지점 글이다. 제목에 우리 권역
         # 말이 함께 있어도 마찬가지다 — 그 말은 대개 브랜드에 박힌 것이다.
         # '[송도 논술 학원] 대치메이드학원 송도점' 은 송도 글이지 대치 글이
         # 아니다. 여기서 '대치'는 지역이 아니라 학원 이름의 일부다.
+        # '강남구' 는 대치 권역어지만 압구정·신사·논현은 강남구 안의 남의
+        # 동네다 — "[학원평가]서울시/강남구/압구정/초1/시매쓰수학압구정" 은
+        # 압구정점(수집 범위 밖) 글이지 대치 글이 아니다(2026-09-13).
         if t_other:
             stats["other_region"] += 1
             continue
@@ -164,15 +171,14 @@ def apply(mentions: list[dict], academies: list[dict],
         # 그 목록에 없는 동네도 있다. '불당동 새로운 학원'(천안)이 목동
         # 새로운학원의 근거였다 — 사람이 채우는 목록으로는 끝이 없으므로
         # **뒤집어서** 본다: 우리 학군의 동이 아니면 남의 동네다.
-        if analyze.foreign_dong(m.get("title", ""), our_dongs,
-                                candidates.get(key) or ()):
+        if analyze.foreign_dong(m.get("title", ""), our_dongs, mine_names):
             stats["foreign_dong"] += 1
             continue
 
         ours, other = t_ours, False
         if not ours:
             ours, other = analyze.region_hints(
-                f"{m.get('title', '')} {m.get('snippet', '')}")
+                f"{m.get('title', '')} {m.get('snippet', '')}", mine_names)
         mine = home.get(key)
 
         # 같은 학군 안 형제 지점의 동네 이름이 제목에 있으면 그쪽 글이다.

@@ -1,0 +1,23 @@
+case: ma-26091319-2
+entity_type: academy
+kind: branch
+why: |
+  2026-09-13. '강남구' 는 대치 권역어인데 강남구에는 dong_list 밖의 동네가 있다
+  (압구정·신사·논현·수서·일원·세곡). 시매쓰 **압구정점**(cmath.co.kr 공식 목록상
+  신사동, 수집 범위 밖) 글이 '강남구' 로 대치 권역이 되어 대치점·도곡점 두 지점에
+  basis 'region' 으로 붙었다. '압구정' 에는 '동' 이 안 붙어 `foreign_dong` 도 못
+  잡는다 — 캐시 5만 글 중 제목 236건, 관련성 통과분에서 foreign_dong 이 못 잡던
+  압구정 글 34건(파인만·ILE·CMS·시매쓰·소마·와이즈만 압구정점). `OTHER_REGION_WORDS`
+  에 압구정·신사동·논현·수서동·일원동·일원본동·세곡동 을 넣고, 이름에 박힌 경우
+  ('압구정애플수학교습소')는 `region_hints(mine=…)` 가 건너뛴다.
+academies:
+  - {id: "3000031703", name: 사고력수학시매쓰학원, region_id: daechi, brand: 시매쓰수학, aliases: [시매쓰], dong: 대치동}
+  - {id: "18350", name: 도곡시매쓰보습학원, region_id: daechi, brand: 시매쓰수학, aliases: [시매쓰], dong: 역삼동}
+mentions:
+  - title: "[학원평가]서울시/강남구/압구정/초1/시매쓰수학압구정"
+    snippet: "시매쓰 압구정점 초1 수업 후기입니다. 사고력 수학 교구 활동이 많아요."
+    academy_key: "18350"
+  - title: "[학원평가]서울시/강남구/압구정/초1/시매쓰수학압구정"
+    snippet: "시매쓰 압구정점 초1 수업 후기입니다. 사고력 수학 교구 활동이 많아요."
+    academy_key: "3000031703"
+expect: {kept_for: []}

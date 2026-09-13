@@ -574,30 +574,129 @@ def trade_seam(segment: str) -> bool:
     return False
 
 
+# ── 합성 후보 — 두 이름의 이어붙임 ─────────────────────────────────
+#
+# '그로튼에밀튼어학원'(323)의 후보 '그로튼에밀튼' 은 자매 브랜드 '그로튼'
+# (그로튼아카데미, 다른 등록)과 '에밀튼' 의 이어붙임이다. 정규화가 공백·
+# 기호를 지우므로 계열을 늘어놓은 글이 전부 이 학원의 근거가 됐다
+# (2026-09-13 신고, 네이버 재조회 310건 중 30건):
+#
+#     스와튼/그로튼/에밀튼 계열 셔틀 5시20수업
+#     프라우드7 스와튼 그로튼 에밀튼 순서
+#     그로튼? 에밀튼?  ·  예비초1 그로튼 ,에밀튼, 크레오 합격
+#
+# `claims._contiguous` 가 사건 낱말에서 겪은 것과 같은 함정이다('8대 기능성'
+# → '대기'). 이름에도 같은 검사를 두되 **합성 후보에만** 건다 — 보통 이름은
+# 띄어 써도 그 학원이 맞고(9/3 실측 94곳), 공백 하나('그로튼 에밀튼')는
+# 학원 자신이 2026년 블로그에 그렇게 쓴다. 기호(, / · ? > &)로 갈라진
+# 자리만 이름이 아니다.
+#
+# 어느 후보가 합성인가 — 등록부 전수(2026-09-13, 6,092건)로 기준을 좁혔다.
+#   1. 한쪽이 남의 학원 후보 + 다른 쪽에 알맹이   → 467곳. 같은 브랜드의
+#      관·분원('강남대성'+'퀀텀라이브러리독서실')이 전부 걸린다.
+#   2. 양쪽이 알맹이 그대로(지역어·업종어 없음)  → 172곳. '시대인재'+'커피관',
+#      '씨앤씨'+'11관' 이 남는다. 관·호점은 괄호로 붙여 쓰는 일이 흔하다
+#      ('씨앤씨(11관)') — 걸면 제 이름을 쓴 글이 죽는다.
+#   3. 관·점 꼬리·숫자를 빼고 **한글만**            → 66곳 → 아래 기준.
+#      '엘브라운(El.Brown)'·'피지에이네오(PGA NEO)' 처럼 등록명에 마침표·
+#      괄호가 든 곳은 영문 쪽을 빼야 산다.
+#   4. 양쪽 다 등록부 이름                         → 3곳뿐이고 신고 건을
+#      놓친다('에밀튼' 은 등록부에 없다).
+# → 후보 C = A + B 이고, A·B 모두 세 글자 이상 한글이며 알맹이 그대로이고
+#   관·점 꼬리가 아니며, **둘 중 하나가 남의 학원 후보**(등록부 색인에
+#   있고 내 후보에는 없음)일 때. 나머지 65곳('퍼스트'+'플러스', '미래탐구'+
+#   '논증과추론')은 기호로 갈라 쓸 일이 없어 조여도 잃는 것이 없다.
+_HANGUL_ONLY = re.compile(r"^[가-힣]+$")
+_HALL_TAIL = re.compile(r"(?:관|점|층|호|단지|반|부)$")
+# 이음매에 있어도 되는 것: 공백류와 괄호. 줄바꿈은 목록의 구분자라 안 된다.
+_SEAM_OK = re.compile(r"[ \u00a0\u3000\u200b\ufeff()\[\]【】（）]*")
+_SEAM_GAP = re.compile(r"[^가-힣A-Za-z0-9]+")
+
+
+def _pure_hangul_core(part: str) -> bool:
+    return (len(part) >= 3 and bool(_HANGUL_ONLY.match(part))
+            and name_core(part) == part and not _HALL_TAIL.search(part))
+
+
+@functools.lru_cache(maxsize=4096)
+def _composite_cached(candidates: frozenset, rivals) -> frozenset:
+    out: set[str] = set()
+    for c in candidates:
+        for i in range(3, len(c) - 2):
+            a, b = c[:i], c[i:]
+            if not (_pure_hangul_core(a) and _pure_hangul_core(b)):
+                continue
+            if ((a in rivals and a not in candidates)
+                    or (b in rivals and b not in candidates)):
+                out.add(c)
+                break
+    return frozenset(out)
+
+
+def composite_candidates(candidates, rivals) -> frozenset[str]:
+    """내 후보 중 **남의 이름과 이름의 이어붙임**인 것.
+
+    [rivals] 는 등록부까지 넣은 남의 이름 색인(`RivalIndex` 또는 집합).
+    비어 있으면 아무것도 합성으로 보지 않는다 — 판단할 근거가 없다.
+    """
+    if not rivals or not candidates:
+        return frozenset()
+    if not isinstance(rivals, RivalIndex):
+        rivals = frozenset(rivals)
+    return _composite_cached(frozenset(candidates), rivals)
+
+
+def split_seam(segment: str) -> bool:
+    """원문 조각의 글자 사이에 공백·괄호 말고 다른 것이 끼어 있는가.
+
+    '그로튼 에밀튼' → False (공백 하나는 이름)
+    '그로튼/에밀튼' · '그로튼 ,에밀튼' · '그로튼? 에밀튼' → True (나열)
+    """
+    # fullmatch — `$` 는 줄바꿈 앞에서도 맞아 '그로튼\n에밀튼' 이 이름이 된다.
+    return any(not _SEAM_OK.fullmatch(g) for g in _SEAM_GAP.findall(segment or ""))
+
+
 def name_spans_in(title: str, body: str, candidates,
-                  drop_trade_seam: bool = False) -> list[tuple[int, int]]:
+                  drop_trade_seam: bool = False,
+                  contiguous=frozenset()) -> list[tuple[int, int]]:
     """제목+본문을 정규화해 이은 문자열 기준의 이름 자리.
 
     [drop_trade_seam] 이면 원문에서 업종어 앞이 벌어진 자리는 세지 않는다.
+    [contiguous] 에 든 후보(합성 후보)는 원문에서 기호로 갈라진 자리를 세지
+    않는다 — 그 후보로 **시작하는** 긴 후보('그로튼에밀튼어학원')도 앞부분을
+    같은 기준으로 본다.
     제목과 본문의 경계를 넘는 자리도 뺀다 — 원문에서 이어진 적이 없다.
     """
     flat_t, idx_t = norm_map(title)
     flat_b, idx_b = norm_map(body)
-    spans = name_spans(flat_t + flat_b, candidates)
-    if not drop_trade_seam:
+    flat = flat_t + flat_b
+    spans = name_spans(flat, candidates)
+    if not drop_trade_seam and not contiguous:
         return spans
 
     n = len(flat_t)
+
+    def segment(s: int, e: int) -> str | None:
+        if e <= n:
+            return title[idx_t[s]: idx_t[e - 1] + 1]
+        if s >= n:
+            return body[idx_b[s - n]: idx_b[e - 1 - n] + 1]
+        return None
+
     kept: list[tuple[int, int]] = []
     for s, e in spans:
-        if e <= n:
-            seg = title[idx_t[s]: idx_t[e - 1] + 1]
-        elif s >= n:
-            seg = body[idx_b[s - n]: idx_b[e - 1 - n] + 1]
-        else:
+        seg = segment(s, e)
+        if seg is None:
             continue
-        if trade_seam(seg):
+        if drop_trade_seam and trade_seam(seg):
             continue
+        if contiguous:
+            text = flat[s:e]
+            head = next((k for k in contiguous if text.startswith(k)), None)
+            if head is not None:
+                part = segment(s, s + len(head))
+                if part is None or split_seam(part):
+                    continue
         kept.append((s, e))
     return kept
 
@@ -798,6 +897,71 @@ TRADE_CROWD = 8
 _TRADE_TOKEN = re.compile(r"학원|교습소|어학원|과외")
 
 
+# ── 교재 문맥 ────────────────────────────────────────────────────
+#
+# 사고력 브랜드는 출판사를 겸한다. 시매쓰(시매쓰출판: 1031·상위권연산960·
+# 빨강연산·생각수학)·소마(소마셈)·CMS·와이즈만·팩토(매스티안)·디딤돌
+# (최상위수학)·필즈. 그 교재의 후기·판매·체험단 글은 이름을 품지만 학원의
+# 근거가 아니다. 실측(2026-09-13, 시매쓰 네이버 재조회 957건): 게이트를
+# 지난 685건 중 **255건(37%)** 이 교재 글이었다 — '[교재평가]시매쓰/1학년/
+# 수학/영리한수학1 ‖ 출판사 : 시매쓰 6. 가격 : 14000원', '시매쓰출판 16기
+# 서포터즈 모집', '6~7세 시매쓰교재 판매할께요'.
+#
+# 가르는 규칙: 이름 곁(±45자)에 **교재 표지**가 있고, 이름 어느 곁에도
+# **학원 표지**가 없으면 교재 글이다. 학원 표지가 하나라도 곁에 있으면
+# 남긴다 — '대치 사고력 수학 시매쓰 레벨테스트 후기 (1031 기프티드 진도)'
+# 의 1031 은 교재 이름이자 반 이름이다.
+#
+# ★ 교재 표지는 좁게 잡는다. 넣기 전에 캐시 5만 글에서 **그 낱말로만**
+#   걸리는 글을 열어 봤다(CLAUDE.md 규칙). 못 넣은 것들:
+#     교재·문제집   학원 후기 템플릿의 항목이다('수업교재 : 자체교재',
+#                  '과제분량 : 사고력문제집'). 시매쓰 근거 704건 중 88건.
+#     가격(맨)      '시대인재 화학2 단과 후기, 가격'·'청담어학원 목동브랜치
+#                  후기 가격'·'김영편입 가격대가' — 진짜 후기 5건이 죽는다.
+#     정가(맨)      '1등급 최다인원 배출 **확정 가**운고' 가 걸린다.
+#     워크북        '아이엔 어학원 교재비 내역 … 워크북은 자체 제작'·
+#                  '미래엔영어 신진주 … 듣기 테스트, 워크북' — 학원 글이다.
+#     저자·발매     '저자 X 출판 Y 발매' 책 카드는 '출판' 이 이미 잡는다.
+#   값은 **구조화된 꼴만** 본다: '가격 : 14000원'·'각권 정가 8000원'·
+#   '가격 : 7천원'. 만원 단위('원비 45만원')는 학원비라 보지 않는다.
+TEXTBOOK_WINDOW = 45
+_TEXTBOOK_MARKERS = ("출판", "교재평가", "문제집이름", "개념서", "문제서")
+_TEXTBOOK_PRICE = re.compile(r"(?:정가|가격)(?:\d{1,2}천|\d{4,5})원")
+# 교재 글에서 이름 곁에 있으면 학원 이야기로 보는 말. `_marker_near` 의
+# 표지에 더한다 — 학원 후기가 교재를 말할 때 곁에 두는 말들이다.
+_TEXTBOOK_ACADEMY_EXTRA = ("입학테스트", "원비", "반배정", "직영", "센터",
+                           "수강료", "재원생")
+
+
+def _mask_spans(flat: str, spans: list[tuple[int, int]]) -> str:
+    """이름 자리를 가린 문자열. 가리는 글자는 `_norm` 이 절대 남기지 않는
+    것이라 없던 낱말이 생기지 않는다."""
+    chars = list(flat)
+    for s, e in spans:
+        for i in range(s, e):
+            chars[i] = "\x00"
+    return "".join(chars)
+
+
+@functools.lru_cache(maxsize=1)
+def _academy_near_words() -> frozenset[str]:
+    return frozenset(_norm(k) for k in (
+        *_ACADEMY_MARKERS, "다니", "다녀", "다닌", "수업", "쌤", "입테", "레벨",
+        *_TEXTBOOK_ACADEMY_EXTRA) if _norm(k))
+
+
+def textbook_context(flat: str, spans: list[tuple[int, int]],
+                     window: int = TEXTBOOK_WINDOW) -> bool:
+    """이름 곁에 교재 표지가 있고 학원 표지는 어느 곁에도 없는가."""
+    masked = _mask_spans(flat, spans)
+    near = [masked[max(0, s - window): e + window] for s, e in spans]
+    if not any(any(k in n for k in _TEXTBOOK_MARKERS) or _TEXTBOOK_PRICE.search(n)
+               for n in near):
+        return False
+    words = _academy_near_words()
+    return not any(any(w in n for w in words) for n in near)
+
+
 # 권역을 가리키는 말. 유명 브랜드는 전국에 지점이 있어, 어느 지점
 # 이야기인지 가려야 한다. '분당 정상어학원' 후기가 대치 정상어학원의
 # 근거가 되면 안 된다.
@@ -824,10 +988,38 @@ OTHER_REGION_WORDS: tuple[str, ...] = (
     "군포", "안산", "시흥", "부천", "광명", "하남", "강동", "도봉", "금천",
     "중랑", "광진", "성동", "용산", "노원", "양주", "김해", "원주", "춘천",
     "홍대", "신촌", "건대", "왕십리",
+    # ── 우리 구(區) 안의 남의 동네 (2026-09-13, 사례 ma-26091319-2) ──
+    # '강남구' 는 대치 권역어다(강남구 학원 글 대부분이 대치권 이야기다).
+    # 그런데 강남구에는 dong_list 밖의 동네가 있다 — 압구정·신사·논현·
+    # 수서·일원·세곡. 시매쓰 **압구정점**(공식 목록상 신사동, 수집 범위 밖)
+    # 글 "[학원평가]서울시/강남구/압구정/초1/시매쓰수학압구정" 이 '강남구'
+    # 로 대치 권역이 되어 대치·도곡 두 지점에 붙었다. '압구정' 에는 '동' 이
+    # 안 붙어 `foreign_dong` 도 못 잡는다(캐시 5만 글 중 제목 236건).
+    #
+    # 동(洞) 꼴은 제목에서 낱말로 떨어져 있으면 `foreign_dong` 이 이미
+    # 잡는다. 여기 두는 것은 붙여 쓴 꼴('논현동수학학원')과 제목이 지역을
+    # 안 말할 때의 본문 폴백을 위해서다.
+    "압구정", "신사동", "논현", "수서동", "일원동", "일원본동", "세곡동",
 )
 # '종로'는 넣지 않는다 — 종로학원은 전국 브랜드라 지역명이 아니다.
 # 브랜드에 지역 이름이 박힌 경우가 이렇게 있어, 새 지역어를 넣을 때는
 # 그 이름의 학원이 있는지부터 확인해야 한다.
+#
+# 강남구 안의 남의 동네 중 **넣지 않은 것**(캐시 5만 글에서 맥락을 열어 봄):
+#   '청담'  청담어학원이 브랜드다(채점 대상 5곳 · 제목 1,215건).
+#   '삼성'  삼성영어 프랜차이즈(셀레나 등) · 강남삼성학원 · 삼성점 ·
+#          삼성로 · 삼성전자. 삼성동은 `foreign_dong` 이 잡는다.
+#   맨 '신사'  통신사(200+) · 신사고(교재 출판사, 96) · 내신 사회.
+#   맨 '수서'  어학연수 서부동 · 필수 서초 · 국영수 서초 · 재수 서울대.
+#   맨 '일원'  일대일 원어민(12) · 김우일 원장 · 구성원의 일원.
+#   역 이름('일원역'·'수서역')  "혹시 일원역 부근에 대치 청담 어학원
+#          셔틀오나요?" 는 대치 지점 글이다 — 일원·수서는 대치 통학권이라
+#          역을 말하는 글은 대치 학원 이야기인 경우가 있다.
+#
+# 이름에 박힌 지역명은 지역이 아니다 — 등록부에 '압구정애플수학교습소'
+# (목동) · '서초압구정국어논술학원'(반포) · '대치세종학원' · '차이홍대치
+# 중국어교습소'('홍대') 가 있다. `region_hints(text, mine=…)` 가 그 학원의
+# 이름 표기에 든 말은 건너뛴다(`foreign_dong` 의 `mine` 과 같은 방식).
 
 
 # ── 목록에 없는 동(洞) ────────────────────────────────────────────
@@ -883,16 +1075,29 @@ def foreign_dong(title: str, ours, mine=()) -> bool:
     return False
 
 
-def region_hints(text: str) -> tuple[set[str], bool]:
+def region_hints(text: str, mine=()) -> tuple[set[str], bool]:
     """본문이 가리키는 권역. (우리 권역 집합, 타지역 언급 여부)
 
     둘 다 볼 수 있어야 한다. '분당 정상어학원' 은 타지역이고,
     '대치 정상어학원' 은 대치이고, 그냥 '정상어학원' 은 알 수 없다.
+
+    [mine] 이 학원의 이름 표기들. **이름에 박힌 지역명은 지역이 아니다** —
+      '압구정애플수학교습소'(목동) 의 '압구정', '대치세종학원' 의 '세종',
+      '차이홍대치중국어교습소' 의 '홍대'. 그 말은 타지역 표지로 세지 않는다
+      (`foreign_dong` 의 `mine` 과 같은 규칙). 우리 권역어에는 가드를 두지
+      않는다 — 그쪽은 '[송도 논술 학원] 대치메이드학원 송도점' 처럼 타지역이
+      함께 있으면 타지역이 이기는 것으로 이미 막혀 있다.
     """
     flat = _norm(text)
+    mine_n = " ".join(_norm(x) for x in mine if x)
     ours = {r for r, words in REGION_WORDS.items()
             if any(_norm(w) in flat for w in words)}
-    other = any(_norm(w) in flat for w in OTHER_REGION_WORDS)
+    other = False
+    for w in OTHER_REGION_WORDS:
+        w = _norm(w)
+        if w and w in flat and w not in mine_n:
+            other = True
+            break
     return ours, other
 
 
@@ -1109,11 +1314,21 @@ def is_relevant(mention: dict, candidates: set[str],
     # ★ 일상어 이름은 **원문에서 업종어 앞이 벌어지지 않은** 자리만 센다.
     #   '새로운 학원 상담이 부담' 의 '새로운 학원' 은 이름이 아니라 구다
     #   (`trade_seam`). 보통 이름에는 걸지 않는다 — 띄어 써도 그 학원이 맞다.
+    #
+    # ★ 합성 후보('그로튼에밀튼' = '그로튼' + '에밀튼')는 원문에서 기호로
+    #   갈라진 자리를 세지 않는다 — '스와튼/그로튼/에밀튼 계열 셔틀' 은
+    #   나열이다(`composite_candidates`). 공백 하나는 이름으로 친다.
     spans = name_spans_in(mention.get("title", ""), mention.get("snippet", ""),
-                          candidates, drop_trade_seam=generic)
+                          candidates, drop_trade_seam=generic,
+                          contiguous=composite_candidates(candidates, rivals))
     if not spans:
         return False
     if generic and not _marker_near(blob, spans):
+        return False
+    # 교재 글. 이름 곁에 출판사·교재평가·정가가 있고 학원 표지는 어느 곁에도
+    # 없으면 그 글은 문제집 이야기다(`textbook_context`). 시매쓰만이 아니라
+    # 출판을 겸하는 모든 브랜드에 건다.
+    if textbook_context(blob, spans):
         return False
 
     mine_in_title = any(s < len(title) for s, _ in spans)
@@ -1185,13 +1400,8 @@ def _marker_near(flat: str, spans: list[tuple[int, int]],
     #   실측(9/3): '초보 강사, 새로운 학원 제안 왔는데 … 새로운 학원에서
     #   근무' 는 이름 자리 바깥에 표지가 하나도 없는데 통과했다.
     #   한 자리만 가려서는 모자란다. **같은 이름의 다른 등장**이 창 안에서
-    #   '학원' 을 대신 공급하기 때문에 자리를 전부 가린다. 가리는 글자는
-    #   `_norm` 이 절대 남기지 않는 것이라 없던 낱말이 생기지 않는다.
-    chars = list(flat)
-    for s, e in spans:
-        for i in range(s, e):
-            chars[i] = "\x00"
-    masked = "".join(chars)
+    #   '학원' 을 대신 공급하기 때문에 자리를 전부 가린다(`_mask_spans`).
+    masked = _mask_spans(flat, spans)
 
     for s, e in spans:
         near = flat[max(0, s - window): e + window]

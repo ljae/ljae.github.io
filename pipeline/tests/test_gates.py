@@ -373,6 +373,80 @@ def test_이름에_박힌_지역명은_동네가_아니다():
     assert analyze.foreign_dong("청담동 영어학원 비교", ours, {"가나학원"}) is True
 
 
+# 같은 학군 안 시매쓰 두 지점(cmath.co.kr 공식 목록). 시드 aliases 로 형제.
+CMATH = [
+    {"id": "3000031703", "name": "사고력수학시매쓰학원", "region_id": "daechi",
+     "brand": "시매쓰수학", "dong": "대치동"},
+    {"id": "18350", "name": "도곡시매쓰보습학원", "region_id": "daechi",
+     "brand": "시매쓰수학", "dong": "역삼동"},
+]
+CMATH_CANDS = {a["id"]: used(a["name"], brand=a["brand"], aliases=["시매쓰"])
+               for a in CMATH}
+
+
+def _apply_cmath(mentions):
+    return branches.apply(mentions, CMATH, CMATH_CANDS,
+                          {a["id"]: False for a in CMATH}, set())
+
+
+def test_강남구_안의_남의_동네는_대치_권역이_아니다():
+    """사례 ma-26091319-2 (2026-09-13). '강남구' 는 대치 권역어인데 강남구에는
+    dong_list 밖의 동네가 있다. 시매쓰 **압구정점**(공식 목록상 신사동, 수집
+    범위 밖) 글이 '강남구' 로 대치가 되어 대치·도곡 두 지점에 붙었다.
+    '압구정' 에는 '동' 이 안 붙어 `foreign_dong` 도 못 잡는다(캐시 제목 236건).
+    """
+    title = "[학원평가]서울시/강남구/압구정/초1/시매쓰수학압구정"
+    assert analyze.region_hints(title) == ({"daechi"}, True)
+    for key in ("18350", "3000031703"):
+        kept, stats = _apply_cmath([post(title, "", academy_key=key)])
+        assert kept == [], key
+        assert stats["other_region"] == 1
+    # 붙여 쓴 동·'논현' 도 같다. 지점 광고는 압구정점이 함께 있으면 버린다.
+    for title in ("논현동수학학원 시매쓰 후기", "시매쓰 대치점, 압구정점, 잠실점 엘리베이터광고",
+                  "[지점별 비교] 2019 시매쓰 도곡 VS 대치 VS 압구정 지점별 비교"):
+        assert analyze.region_hints(title)[1] is True, title
+
+
+def test_강남구_안의_우리_동네_글은_그대로다():
+    """'대치동 …' 정상 글은 대치점 근거로 남는다(도곡점은 sibling 으로 빠진다)."""
+    m = post("대치동 시매쓰 레벨테스트 후기", "시매쓰 레테 봤어요", academy_key="3000031703")
+    kept, stats = _apply_cmath([m])
+    assert [k["academy_key"] for k in kept] == ["3000031703"]
+    assert kept[0]["branch_basis"] == "region"
+    assert stats["other_region"] == 0
+
+
+def test_이름에_박힌_타지역어는_지역이_아니다():
+    """등록부에 '압구정애플수학교습소'(목동) · '서초압구정국어논술학원'(반포) ·
+    '대치세종학원' · '차이홍대치중국어교습소'('홍대') 가 있다. 자기 글을
+    타지역 글로 버리면 그 학원의 근거가 통째로 사라진다 — `foreign_dong` 의
+    `mine` 과 같은 규칙. 그 낱말이 없는 학원에는 그대로 타지역이다."""
+    solo = {"id": "P", "name": "압구정애플수학교습소", "region_id": "mokdong",
+            "brand": None, "aliases": [], "dong": "목동"}
+    c = used(solo["name"])
+    m = post("압구정애플수학 레테 후기", "압구정애플수학 다녀왔어요", academy_key="P")
+    kept, stats = branches.apply([m], [solo], {"P": c}, {"P": False}, frozenset())
+    assert [k["academy_key"] for k in kept] == ["P"]
+    assert kept[0]["branch_basis"] == "direct"
+    assert stats["other_region"] == 0
+    assert analyze.region_hints("차이홍 대치 중국어 후기", used("차이홍대치중국어교습소")) \
+        == ({"daechi"}, False)
+    assert analyze.region_hints("대치세종학원 겨울특강", used("대치세종학원"))[1] is False
+    assert analyze.region_hints("압구정 애플수학 후기", used("가나수학학원"))[1] is True
+
+
+def test_브랜드와_흔한_말은_강남구_동네_목록에_넣지_않는다():
+    """'청담' 은 청담어학원(채점 대상 5곳), '삼성' 은 삼성영어·강남삼성학원·
+    삼성로. 맨 '신사'·'수서'·'일원' 은 통신사·신사고·어학연수 서부·일대일
+    원어민 속에 있다(캐시 5만 글 맥락). 역 이름은 대치 통학권 글을 죽인다."""
+    for w in ("청담", "삼성", "신사", "수서", "일원", "일원역", "수서역", "강남"):
+        assert w not in analyze.OTHER_REGION_WORDS, w
+    for title in ("청담어학원 레벨테스트 후기", "삼성영어 셀레나 후기",
+                  "신사고 쎈수학 문제집", "어학연수 서부동 후기", "일대일 원어민 수업",
+                  "혹시 일원역 부근에 대치 청담 어학원 셔틀오나요?"):
+        assert analyze.region_hints(title)[1] is False, title
+
+
 def test_구_이름은_변별어가_못_된다():
     """반포동·방배동이 모두 서초구다. '서초 시매쓰' 를 방배점 것으로만
     치면 반포점 근거가 통째로 날아간다(실측 135 → 62건)."""

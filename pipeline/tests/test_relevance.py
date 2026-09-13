@@ -344,3 +344,123 @@ def test_일상어_이름_곁에_가게_말이_있으면_그_자리는_학원이
             "근처 학원을 다녔기 때문에 자주 왔다. " + "고기가 부드럽다. " * 40)
     m = {"title": "[서울 목동 현대백화점] 한우리 목동샤브샤브 맛집", "snippet": body}
     assert analyze.is_relevant(m, {"한우리독서토론논술교습소", "한우리"}, True, RIVALS) is False
+
+
+# ── 교재 문맥 (2026-09-13, ma-26091319-2) ──────────────────────────
+#
+# 사고력 브랜드는 출판사를 겸한다. 시매쓰 네이버 재조회 957건 중 게이트를
+# 지난 685건의 37% 가 교재 글이었다. 이름 곁에 교재 표지가 있고 학원 표지는
+# 어느 곁에도 없으면 문제집 이야기다 — 브랜드를 가리지 않는다.
+_CMATH = {"사고력수학시매쓰학원", "사고력수학시매쓰", "시매쓰", "시매쓰수학"}
+
+
+def test_출판사_교재평가_글은_학원_근거가_아니다():
+    """cmath_rows 원문. '[교재평가]시매쓰/1학년/수학/영리한수학1'."""
+    m = {"title": "[교재평가]시매쓰/1학년/수학/영리한수학1",
+         "snippet": "출판사 : 시매쓰 6. 가격 : 14000원 * 평가 항목 * 1) 회원님이 느끼는 "
+                    "교재의 난이도는? 중 … 구입처 : 대치동 서점"}
+    assert analyze.is_relevant(m, _CMATH, False, RIVALS) is False
+    m = {"title": "시매쓰출판 16기 서포터즈 모집(~3/3)",
+         "snippet": "서포터즈 활동 혜택 - 체험 교재 4권 증정 - 시매쓰출판 서포터즈 기념 선물"}
+    assert analyze.is_relevant(m, _CMATH, False, RIVALS) is False
+    m = {"title": "6~7세 시매쓰교재 판매할께요~",
+         "snippet": "새책입니다..구겨진곳도 없어요.. 상위권연산 960 각권 정가 8000원(2012년인쇄)"}
+    assert analyze.is_relevant(m, _CMATH, False, RIVALS) is False
+
+
+def test_교재_규칙은_브랜드를_가리지_않는다():
+    """소마·CMS 도 교재를 낸다(소마셈·CMS 영재사고력). 원문이 캐시에 없어
+    카페 교재평가 템플릿 꼴로 지어 굳힌다."""
+    soma = {"소마사고력수학학원", "소마사고력수학", "소마"}
+    m = {"title": "[교재평가]소마/초1/수학/소마셈 A1",
+         "snippet": "문제집 이름 : 소마셈 A1 5. 출판사 : 소마 6. 가격 : 9000원"}
+    assert analyze.is_relevant(m, soma, False, RIVALS) is False
+    # 같은 이름이 학원 후기에서 '소마셈' 을 말하면 남는다 — 레테·학원이 곁에 있다.
+    m = {"title": "7세 소마 사고력수학 레벨테스트 후기",
+         "snippet": "집에서 소마셈A, 1031 pre로 공부하다가 아무래도 학원을 다니는게 좋을 것 같아"}
+    assert analyze.is_relevant(m, soma, False, RIVALS) is True
+
+
+def test_학원_표지가_곁에_있으면_교재_이야기가_있어도_남긴다():
+    """'1031' 은 교재 이름이자 반 이름이다. 레벨테스트 후기는 후기다."""
+    m = {"title": "대치 초등 사고력 수학 시매쓰 레벨테스트 후기 (1031 기프티드 진도)",
+         "snippet": "레테 보고 왔어요. 1031 기프티드 반 배정."}
+    assert analyze.is_relevant(m, _CMATH, False, RIVALS) is True
+    # 지점 블로그가 출판 교재 할인을 알려도 '학원입니다'·'재원생' 이 곁에 있다.
+    m = {"title": "[시매쓰 서초반포센터] 겨울방학기념 할인 이벤트",
+         "snippet": "안녕하세요, 반포시매쓰 학원입니다.^^ 시매쓰 출판에서 겨울방학을 맞아 "
+                    "시매쓰 재원생을 대상으로 세트 할인 이벤트를 진행하여 안내드립니다."}
+    assert analyze.is_relevant(m, {"반포시매쓰학원", "반포시매쓰", "시매쓰"}, False, RIVALS) is True
+
+
+def test_맨_가격_워크북_교재는_교재_표지가_아니다():
+    """캐시 실측 — 이 낱말들로 걸면 진짜 후기가 죽는다.
+    '시대인재 화학2 단과 후기, 가격' · '아이엔 어학원 교재비 내역 … 워크북' ·
+    학원 후기 템플릿의 '수업교재 : 자체교재'."""
+    m = {"title": "시대인재 화학2 강준호T 단과 (화2 서바이벌 후기, 가격)",
+         "snippet": "투과목 때문에 대치 단과 처음 다녀보는 마음에 공개적으로 적어봅니다. 1. 비용"}
+    assert analyze.is_relevant(m, {"시대인재"}, False, RIVALS) is True
+    m = {"title": "대치 IN 아이엔 어학원 초4 5월 수강료와 교재비 내역",
+         "snippet": "초4 교재비 G4 Workbook Vol.3 30,000원 워크북은 아이엔 어학원 자체 제작"}
+    assert analyze.is_relevant(m, {"아이엔어학원", "아이엔"}, False, RIVALS) is True
+    m = {"title": "양천구 목동 씨엠에스(CMS) 후기 - 좋아요",
+         "snippet": "[ 씨엠에스(CMS) 목동입시센터 수업방식 ] - 수업교재 : 원리해설 - 숙제분량 : 적당함"}
+    assert analyze.is_relevant(m, {"씨엠에스", "cms"}, False, RIVALS) is True
+    # 만원 단위는 원비다. 구조화된 교재 값(4~5자리 원·N천원)만 표지다.
+    assert analyze._TEXTBOOK_PRICE.search("원비45만원") is None
+    assert analyze._TEXTBOOK_PRICE.search("가격14000원") is not None
+    assert analyze._TEXTBOOK_PRICE.search("확정가운고") is None
+
+
+# ── 합성 후보 — 두 이름의 이어붙임 (2026-09-13, ma-26091319) ───────────
+#
+# '그로튼에밀튼' 은 자매 브랜드 '그로튼'(다른 등록)과 '에밀튼' 의 이어붙임이라
+# 계열을 늘어놓은 글이 정규화 뒤 이 이름과 같아졌다. 기호로 갈라진 자리는
+# 이름이 아니다. 공백 하나는 이름이다 — 학원 자신이 '그로튼 에밀튼' 이라 쓴다.
+_GROTON = {"그로튼에밀튼어학원", "그로튼에밀튼", "리딩타운", "대치리딩타운"}
+_GROTON_RIVALS = analyze.RivalIndex({"그로튼아카데미", "그로튼", "스와튼", "프라우드7", "프라우드7어퍼"})
+
+
+def test_합성_후보는_남의_이름과_알맹이의_이어붙임일_때만():
+    assert analyze.composite_candidates(_GROTON, _GROTON_RIVALS) == {"그로튼에밀튼"}
+    # 남의 이름 색인이 없으면 판단할 근거가 없다.
+    assert analyze.composite_candidates(_GROTON, analyze.RivalIndex(set())) == frozenset()
+    # 브랜드 + 관·점 꼬리는 합성이 아니다 — '씨앤씨(11관)' 처럼 괄호로 붙여 쓴다.
+    assert analyze.composite_candidates({"씨앤씨11관학원", "씨앤씨11관"},
+                                        analyze.RivalIndex({"씨앤씨"})) == frozenset()
+    assert analyze.composite_candidates({"시대인재커피관학원", "시대인재커피관"},
+                                        analyze.RivalIndex({"시대인재"})) == frozenset()
+    # 영문이 섞인 쪽은 보지 않는다 — '엘브라운(El.Brown)' 은 등록명에 마침표가 있다.
+    assert analyze.composite_candidates({"엘브라운elbrown"},
+                                        analyze.RivalIndex({"엘브라운"})) == frozenset()
+
+
+def test_기호로_갈라진_자리는_이름이_아니다():
+    for title in ("스와튼/그로튼/에밀튼 계열 셔틀 5시20수업",
+                  "예비초1 그로튼 ,에밀튼, 크레오 합격",
+                  "그로튼? 에밀튼? 어디가 나을까요",
+                  "스와튼 / 프라우드 7 / 그로튼 / 에밀튼 진급 순서"):
+        m = {"title": title, "snippet": "안녕하세요 수업시간이 변경될 예정이라"}
+        assert analyze.is_relevant(m, _GROTON, False, _GROTON_RIVALS) is False, title
+    assert analyze.split_seam("그로튼/에밀튼") and analyze.split_seam("그로튼>에밀튼")
+    assert analyze.split_seam("그로튼\n에밀튼")          # 줄바꿈은 목록의 구분자다
+    # 진짜 별칭('리딩타운')이 함께 있으면 그 표기로 산다 — 계열 글도 이 학원 글이다.
+    m = {"title": "스와튼 / 프라우드 7 / 그로튼 / 에밀튼 / 리딩타운", "snippet": ""}
+    assert analyze.is_relevant(m, _GROTON, False, _GROTON_RIVALS) is True
+
+
+def test_공백_하나와_붙여_쓴_것은_이름이다():
+    for title, body in (("★2027학년도 예비초 1학년 입학설명회", "그로튼에밀튼 아카데미 안녕하세요"),
+                        ("안녕하세요, 그로튼 에밀튼입니다", "2027 입학설명회"),
+                        ("그로튼 에밀튼 어학원 셔틀 문의", "")):
+        m = {"title": title, "snippet": body}
+        assert analyze.is_relevant(m, _GROTON, False, _GROTON_RIVALS) is True, title
+    assert not analyze.split_seam("그로튼 에밀튼")
+    assert not analyze.split_seam("시대인재(유니아나")   # 괄호는 이름에 붙는다
+
+
+def test_보통_이름은_기호가_끼어도_그대로다():
+    """이 검사는 합성 후보에만 건다. '깊은 생각' 수학학원·'씨앤씨(11관)' 은 그 학원이다."""
+    m = {"title": "씨앤씨(11관) 중등 수학 후기", "snippet": "씨앤씨/11관 다닌 지 1년"}
+    assert analyze.is_relevant(m, {"씨앤씨11관학원", "씨앤씨11관"}, False,
+                               analyze.RivalIndex({"씨앤씨"})) is True
