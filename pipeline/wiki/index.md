@@ -114,6 +114,7 @@
 - [트윈스놀이학원](academies/3000016162.md) — jamsil
 - [최상위수학교습소](academies/3000016399.md) — daechi
 - [안테나미술학원](academies/3000017482.md) — daechi
+- [콴다일로](academies/3000017660.md) — daechi
 - [송파폴리어학원](academies/3000018034.md) — jamsil
 - [키즈닥터창의성영재학원](academies/3000018261.md) — banpo
 - [에디센어학원](academies/3000018730.md) — daechi
@@ -193,6 +194,7 @@
 - [엠에스씨서초학원](academies/3000034197.md) — banpo
 - [원더스잉글리시아카데미(Wonders English Academy)학원](academies/3000034217.md) — banpo
 - [반포필즈수학교습소](academies/3000034445.md) — banpo
+- [손랩정보영재학원](academies/3000034626.md) — daechi
 - [성인취미미술아트아뜰리에학원](academies/3000035049.md) — jamsil
 - [생각하는황소](academies/3000035580.md) — mokdong
 - [엠에스씨학원](academies/3000035639.md) — mokdong
