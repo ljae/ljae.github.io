@@ -1,0 +1,40 @@
+---
+url_hash: "dd974106d5e7e5cf1dcf1faa33c30abc"
+url: https://cafe.naver.com/hinongusul/85904
+source: naver_cafe
+title: 학원에서 제공하는 논술무료공개수업 적극 활용하세요!
+posted_at: 2026-09-16
+author_hash: a3ac79be1631ab832a7063edaea15136
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 학원에서 제공하는 논술무료공개수업 적극 활용하세요!
+
+원문: https://cafe.naver.com/hinongusul/85904
+
+## 요약
+<!-- auto:digest -->
+- 감성 -0.28 (부정) · 신뢰도 0.01 · 스팸 0.20
+- 붙은 학원 1곳 · 과목 korean
+- 등급반 언급: basic
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/8095|토마스아카데미학원]] — 이름이 본문에 등장 · 감성 -0.28
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

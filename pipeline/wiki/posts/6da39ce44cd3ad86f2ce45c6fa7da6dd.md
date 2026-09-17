@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+학원 관련 내용이 전혀 없는 에어컨 가격 비교 및 기사 직거래 관련 홍보 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

@@ -1,0 +1,41 @@
+---
+url_hash: "bce07f0e64e96cf7e6d6d05ca6bd3bcc"
+url: https://cafe.naver.com/mapacademy/570510
+source: naver_cafe
+title: '[학원평가] 서울시/강남구/대치동/3학년/브레인밸리'
+posted_at: 
+author_hash: 411e10aeca4bba39d04cc13b2a2f95b5
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[학원평가] 서울시/강남구/대치동/3학년/브레인밸리'
+
+원문: https://cafe.naver.com/mapacademy/570510
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.55
+- 붙은 학원 1곳 · 과목 math
+- 등급반 언급: top
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+대치동에서 3학년 수학 최상위 반을 6개월간 수강한 후기입니다. 레벨테스트는 없었으며 한 반 정원은 4명입니다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000033040|브레인밸리]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
