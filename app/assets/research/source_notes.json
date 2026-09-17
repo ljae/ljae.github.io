@@ -10,21 +10,38 @@
         "title": "트윈클 입학안내",
         "summary": "지필은 읽기·쓰기·어휘·문법으로 구성하며 인터뷰도 함께 진행한다고 안내합니다. 전체 소요 시간은 약 2시간입니다. 일부 반은 평가 후에도 대기할 수 있습니다.",
         "url": "https://www.twinkledaechi.com/join-twin-kle",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch",
+        "shortSummary": "읽기·쓰기·어휘·문법 지필평가와 인터뷰"
       },
       {
         "topic": "수업·교재",
         "title": "트윈클 수업 및 교재 안내",
         "summary": "픽션 영역에 리딩 교재·노블·문법·작문·어휘, 논픽션 영역에 교과서·말하기·토론·듣기·어휘를 소개합니다. 반별 교재와 진도는 별도 확인이 필요합니다.",
         "url": "https://www.twinkledaechi.com/curriculum",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch",
+        "shortSummary": "노블·작문·문법과 논픽션·토론 수업"
       },
       {
         "topic": "운영·일정",
         "title": "트윈클 입학평가 예약",
         "summary": "확인 당시 초1~초6 대상 2026년 9월 입학평가 서비스가 게시돼 있습니다. 예약 페이지 게시만으로 현재 잔여 자리나 접수 가능 여부를 단정할 수 없습니다.",
         "url": "https://www.twinkledaechi.com/book-online",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch"
       }
     ]
   },
@@ -39,14 +56,25 @@
         "title": "ILE 입학 절차",
         "summary": "월요일 정오에 일정을 공지하고 화요일 정오에 홈페이지 신청을 받는 절차를 안내합니다. 초등부는 신규 등록 결과에 따라 인터뷰를 예약하고 결과를 확인합니다.",
         "url": "https://www.ileschool.com/ileschool/newentrance/entrance_step.asp",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch",
+        "shortSummary": "홈페이지 신청 후 평가·인터뷰 절차 확인"
       },
       {
         "topic": "입학·레벨테스트",
         "title": "ILE FAQ · 입학 및 수강",
         "summary": "FAQ는 초1 평가를 듣기·읽기·문법·어휘로 설명하며 Writing은 제외한다고 안내합니다. 대기는 기본 2개월이고 배정 레벨에 자리가 없으면 최대 2개월 더 연장될 수 있다고 설명합니다.",
         "url": "https://ileschool.com/ileschool/ileinfo/faq_list.asp",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch"
       },
       {
         "topic": "운영·일정",
@@ -54,7 +82,12 @@
         "summary": "2026년 8월 24일에 9월 신규입학 안내, 8월 25일에 초등부 9·10월 일정이 게시돼 있습니다. 공지 목록에서 해당 학년의 최신 안내를 확인해 주세요.",
         "url": "https://ileschool.com/ileschool/ileinfo/notice_list.asp?HomepageEnt=01&page=1",
         "publishedAt": "2026-08-24~25",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch"
       }
     ]
   },
@@ -69,21 +102,208 @@
         "title": "IN 전형 안내",
         "summary": "전형 안내에는 1차 응시일부터 60일 동안 성적이 유효하다고 적혀 있습니다. 공개 텍스트만으로 시험 난도나 합격 가능성을 평가할 수 없습니다.",
         "url": "https://www.inminds.co.kr/sub3_1.asp",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch",
+        "shortSummary": "1차 전형 성적은 응시일부터 60일 유효"
       },
       {
         "topic": "수업·교재",
         "title": "IN FAQ · 수업",
         "summary": "수업 중 평가 결과는 홈페이지나 앱으로 확인하며, 정확한 학사일정은 워크북에서 확인하도록 안내합니다. 같은 레벨의 반에 빈자리가 있을 때 반 변경이 가능합니다.",
         "url": "https://www.inminds.co.kr/sub5_1.asp",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch",
+        "shortSummary": "홈페이지·앱으로 수업 중 평가 결과 확인"
       },
       {
         "topic": "운영·일정",
         "title": "IN 홈페이지 · 문의 및 위치",
         "summary": "홈페이지에 전형 신청·결과 확인·설명회·온라인 문의 창구가 있습니다. 학원 소재지는 도곡로 526 남평빌딩 3~5층으로 안내돼 있습니다.",
         "url": "https://www.inminds.co.kr/",
-        "checkedAt": "2026-09-17"
+        "checkedAt": "2026-09-17",
+        "subjects": [
+          "english"
+        ],
+        "kind": "official",
+        "sourceScope": "branch"
+      }
+    ]
+  },
+  {
+    "academyId": "20218",
+    "name": "생각하는황소",
+    "scope": "대치 본관 주소 확인 후 적용한 브랜드 공통 안내",
+    "caveat": "수업 범위와 시험 운영 원칙은 브랜드 공통 FAQ 기준이며, 실제 반·시험일은 지점별로 다를 수 있습니다.",
+    "notes": [
+      {
+        "topic": "수업·교재",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "수학 지도 학년 범위",
+        "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내한다. 실제 개설 반과 학년은 지점 확인이 필요하다.",
+        "shortSummary": "초4~고1 수학 과정 안내",
+        "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      },
+      {
+        "topic": "입학·레벨테스트",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "입학·편입시험 확인 방식",
+        "summary": "공식 FAQ는 입학·편입시험 일정과 예약 방식이 지점마다 다르므로 각 지점 안내에서 확인해야 한다고 밝힌다.",
+        "shortSummary": "시험 일정·예약은 지점별 상이",
+        "url": "https://www.thinking-bull.com/faq/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&page=1",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      }
+    ]
+  },
+  {
+    "academyId": "3000035580",
+    "name": "생각하는황소",
+    "scope": "목동 지점 주소 확인 후 적용한 브랜드 공통 안내",
+    "caveat": "수업 범위와 시험 운영 원칙은 브랜드 공통 FAQ 기준이며, 실제 반·시험일은 지점별로 다를 수 있습니다.",
+    "notes": [
+      {
+        "topic": "수업·교재",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "수학 지도 학년 범위",
+        "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내한다. 실제 개설 반과 학년은 지점 확인이 필요하다.",
+        "shortSummary": "초4~고1 수학 과정 안내",
+        "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      },
+      {
+        "topic": "입학·레벨테스트",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "입학·편입시험 확인 방식",
+        "summary": "공식 FAQ는 입학·편입시험 일정과 예약 방식이 지점마다 다르므로 각 지점 안내에서 확인해야 한다고 밝힌다.",
+        "shortSummary": "시험 일정·예약은 지점별 상이",
+        "url": "https://www.thinking-bull.com/faq/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&page=1",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      }
+    ]
+  },
+  {
+    "academyId": "3000029897",
+    "name": "생각하는황소서초",
+    "scope": "서초4관 주소 확인 후 적용한 브랜드 공통 안내",
+    "caveat": "대상 주소는 공식 지점 목록의 ‘생각하는황소 서초4관’과 일치합니다. 수업·시험 원칙은 브랜드 공통 FAQ 기준입니다.",
+    "notes": [
+      {
+        "topic": "수업·교재",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "수학 지도 학년 범위",
+        "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내한다. 실제 개설 반과 학년은 지점 확인이 필요하다.",
+        "shortSummary": "초4~고1 수학 과정 안내",
+        "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      },
+      {
+        "topic": "입학·레벨테스트",
+        "subjects": [
+          "math"
+        ],
+        "sourceScope": "brand",
+        "title": "입학·편입시험 확인 방식",
+        "summary": "공식 FAQ는 입학·편입시험 일정과 예약 방식이 지점마다 다르므로 각 지점 안내에서 확인해야 한다고 밝힌다.",
+        "shortSummary": "시험 일정·예약은 지점별 상이",
+        "url": "https://www.thinking-bull.com/faq/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&page=1",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      }
+    ]
+  },
+  {
+    "academyId": "14212",
+    "name": "피아이어학원",
+    "scope": "대치 피아이어학원 자체 공식 사이트",
+    "caveat": "공식 페이지 하단에서 대상 주소와 피아이어학원 명칭을 함께 확인했습니다.",
+    "notes": [
+      {
+        "topic": "수업·교재",
+        "subjects": [
+          "english"
+        ],
+        "sourceScope": "branch",
+        "title": "정규 수업의 자료와 활동",
+        "summary": "공식 FAQ는 미국 교과서와 원서를 사용하며, 이해·분석·통합·적용과 토론·표현 활동을 지도한다고 안내한다.",
+        "shortSummary": "미국 교과서·원서 기반 활동",
+        "url": "http://www.peai-dc.co.kr/SEEO/Homepage/Ent_faq/ats_faq.asp?Navi=B6",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      },
+      {
+        "topic": "입학·레벨테스트",
+        "subjects": [
+          "english"
+        ],
+        "sourceScope": "branch",
+        "title": "초등 정규반 수강 신청",
+        "summary": "초등 정규반 신청은 외부 영어능력평가 PEAT 결과와 PEAT-SAT 등급 기준을 활용한다. 가능 등급 보유 후 상담과 반배정을 안내한다.",
+        "shortSummary": "PEAT 등급 기준으로 상담·반배정",
+        "url": "http://www.peai-dc.co.kr/SEEO/Homepage/Ent_faq/ats_faq.asp?Navi=B6",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      }
+    ]
+  },
+  {
+    "academyId": "9929",
+    "name": "청담어학원",
+    "scope": "목동 브랜치 공식 페이지 및 청담어학원 공통 입학 절차",
+    "caveat": "목동 브랜치의 정확한 주소는 공식 페이지에서 확인했습니다. 입학절차는 해당 브랜치가 연결한 청담어학원 공통 안내입니다.",
+    "notes": [
+      {
+        "topic": "수업·교재",
+        "subjects": [
+          "english"
+        ],
+        "sourceScope": "brand",
+        "title": "교실·온라인 연계 학습",
+        "summary": "목동 브랜치의 청담어학원 프로그램은 동일 토픽의 교실(c-Learning)·온라인(i-Learning) 학습을 연결하고, 읽기·듣기 분석과 쓰기·말하기 피드백을 제시한다.",
+        "shortSummary": "교실·온라인 연계 영어학습",
+        "url": "https://creverse.com/cdi/mokdong/curriculum/introduce",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
+      },
+      {
+        "topic": "입학·레벨테스트",
+        "subjects": [
+          "english"
+        ],
+        "sourceScope": "brand",
+        "title": "청담어학원 입학 절차",
+        "summary": "청담어학원은 입학시험 응시 뒤 결과상담과 단계·반 배정을 진행하고, 첫 수강월 수강료 납입 후 신입생 안내를 제공한다고 안내한다. 응시 일정은 학원별로 다를 수 있다.",
+        "shortSummary": "시험 후 단계·반 배정 절차",
+        "url": "https://creverse.com/entrance/step?brchType=CDI&brch=cdi/mokdong",
+        "checkedAt": "2026-09-17",
+        "kind": "official"
       }
     ]
   }

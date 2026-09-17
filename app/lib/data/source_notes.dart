@@ -7,6 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SourceNote {
   final String topic, title, summary, url, checkedAt;
   final String? publishedAt;
+  final String? shortSummary;
+  final String kind;
+  final String sourceScope;
+  final List<String> subjects;
   const SourceNote({
     required this.topic,
     required this.title,
@@ -14,6 +18,10 @@ class SourceNote {
     required this.url,
     required this.checkedAt,
     this.publishedAt,
+    this.shortSummary,
+    this.kind = 'official',
+    this.sourceScope = 'branch',
+    this.subjects = const [],
   });
 
   factory SourceNote.fromJson(Map<String, dynamic> j) => SourceNote(
@@ -23,7 +31,20 @@ class SourceNote {
     url: j['url'] as String,
     checkedAt: j['checkedAt'] as String,
     publishedAt: j['publishedAt'] as String?,
+    shortSummary: j['shortSummary'] as String?,
+    kind: (j['kind'] ?? 'official') as String,
+    sourceScope: (j['sourceScope'] ?? 'branch') as String,
+    subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
   );
+
+  bool supports(String? subject) =>
+      subject == null || subjects.contains(subject);
+  bool get isPrimary => kind == 'official' || kind == 'academy_blog';
+  String get sourceLabel => sourceScope == 'brand'
+      ? '브랜드 공통 안내'
+      : kind == 'academy_blog'
+      ? '학원 게시글'
+      : '공식 안내';
 }
 
 class AcademySources {
@@ -46,6 +67,16 @@ class AcademySources {
         .map((n) => SourceNote.fromJson(Map<String, dynamic>.from(n as Map)))
         .toList(),
   );
+
+  SourceNote? compactNote(String topic, {String? subject}) => notes
+      .where(
+        (n) =>
+            n.topic == topic &&
+            n.isPrimary &&
+            n.supports(subject) &&
+            (n.shortSummary?.trim().isNotEmpty ?? false),
+      )
+      .firstOrNull;
 }
 
 final sourceNotesProvider = FutureProvider<List<AcademySources>>((ref) async {
