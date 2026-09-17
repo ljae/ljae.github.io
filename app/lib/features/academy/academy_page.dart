@@ -15,7 +15,7 @@ import '../../widgets/contact.dart';
 import '../../widgets/rank_history_chart.dart';
 import 'contact.dart';
 import 'profile_section.dart';
-import '../sources/sources_page.dart';
+import '../../widgets/academy_positioning.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -86,7 +86,7 @@ class _Body extends StatelessWidget {
               TextButton.icon(
                 onPressed: () => context.go('/rank'),
                 icon: const Icon(Icons.arrow_back, size: 16),
-                label: const Text('랭킹으로'),
+                label: const Text('학원 탐색으로'),
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
               ),
               const SizedBox(height: AppSpace.sm),
@@ -97,37 +97,12 @@ class _Body extends StatelessWidget {
                 runSpacing: AppSpace.md,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  // 표본이 0 이면 숫자를 내지 않는다. 아래 안내는 '점수를
-                  // 매기지 않았습니다' 라고 적는데 머리에는 코호트 평균으로
-                  // 채워진 값이 큼직하게 떠 있었다(실측: 근거 0건인데 40).
-                  // 카드와 같은 규칙으로 맞춘다 — 다이얼은 '—', 라벨은
-                  // '근거 없음'.
-                  if (!score.hasTotal)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          '—',
-                          style: TextStyle(
-                            fontFamily: 'Paperlogy',
-                            fontSize: 56,
-                            height: 1.0,
-                            color: AppColors.mist,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(spaced('근거없음'), style: text.labelMedium),
-                      ],
-                    )
-                  else
-                    ScoreDial(score.total, size: 92),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(academy.displayName, style: text.displayMedium),
+                        Text(academy.displayName, style: text.headlineLarge),
                         const SizedBox(height: AppSpace.sm),
                         Wrap(
                           spacing: 6,
@@ -141,13 +116,6 @@ class _Body extends StatelessWidget {
                                 color: AppColors.subjectOn(s, dark),
                               ),
                             VerifiedChip(verified: academy.isVerified),
-                            ConfidenceChip(score: score),
-                            if (score.rankInRegion != null)
-                              Chip2(
-                                '${region?.nameKo ?? ""} ${score.rankInRegion}위'
-                                '${score.regionRankedCount != null ? " / ${score.regionRankedCount}곳" : ""}',
-                                color: AppColors.gold,
-                              ),
                           ],
                         ),
                       ],
@@ -157,36 +125,12 @@ class _Body extends StatelessWidget {
               ),
               const SizedBox(height: AppSpace.lg),
 
-              // ── 영유 연차 ───────────────────────────────────
-              // 대치·목동의 초등 저학년 영어학원은 **영유를 몇 년 다닌
-              // 아이를 받는가**로 갈린다. 공시에는 없고 후기에만 있는
-              // 사실이라, 서로 다른 학부모 둘 이상이 말한 것만 붙는다.
-              // **점수에는 들어가지 않는다** — 좋고 나쁨이 아니라 사실이다.
-              if (academy.entryTags.isNotEmpty) ...[
-                Wrap(
-                  spacing: AppSpace.sm,
-                  runSpacing: 4,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text('대상 ', style: text.bodySmall),
-                    for (final t in academy.entryTags)
-                      TagMark(
-                        entryTagLabels[t] ?? t,
-                        color: AppColors.accentOn(dark),
-                        icon: Icons.school_outlined,
-                      ),
-                    Text('  후기에서 확인', style: text.bodySmall),
-                  ],
-                ),
-                const SizedBox(height: AppSpace.lg),
-              ],
-
               // ── 전화 · 학원 홈페이지 ────────────────────────
               // 학부모가 다음에 하는 일은 둘이다. 전화번호를 글자로만
               // 보여 주면 옮겨 적어야 한다.
-              ContactCard(academy: academy),
+              AcademyPositioning(academy: academy),
               const SizedBox(height: AppSpace.lg),
-              AcademySourcePanel(academyId: academy.id),
+              ContactCard(academy: academy),
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
@@ -222,34 +166,42 @@ class _Body extends StatelessWidget {
                     ),
                   ),
                 )
-              else ...[
-                const SectionHeader(
-                  '점수 구성',
-                  subtitle:
-                      '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
-                      '펼쳐 볼 수 있습니다.',
-                ),
-                // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
-                // 예체능·기타는 채점하지 않은 기둥을 아예 내지 않는다 —
-                // 0 으로 그리면 '점수가 나쁘다'로 읽힌다.
-                for (final key
-                    in (pillarNames.keys.toList()..sort(
-                      (a, b) => (data.meta.weights[b] ?? 0).compareTo(
-                        data.meta.weights[a] ?? 0,
-                      ),
-                    )))
-                  if (score.pillarOrNull(key) != null)
-                    _PillarPanel(
-                      pillar: key,
-                      value: score.pillar(key),
-                      weight:
-                          data.meta.weightsFor(score.subjectGroup)[key] ?? 0,
-                      breakdown:
-                          (score.breakdown[key] as Map?)
-                              ?.cast<String, dynamic>() ??
-                          const {},
+              else
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    '트리스코어 ${score.total.toStringAsFixed(1)} · 점수 구성',
+                  ),
+                  children: [
+                    const SectionHeader(
+                      '점수 구성',
+                      subtitle:
+                          '가중치가 큰 순서입니다. 각 기둥의 계산 근거를 '
+                          '펼쳐 볼 수 있습니다.',
                     ),
-              ],
+                    // 무거운 기둥부터. 화면 순서가 곧 우선순위를 말한다.
+                    // 예체능·기타는 채점하지 않은 기둥을 아예 내지 않는다 —
+                    // 0 으로 그리면 '점수가 나쁘다'로 읽힌다.
+                    for (final key
+                        in (pillarNames.keys.toList()..sort(
+                          (a, b) => (data.meta.weights[b] ?? 0).compareTo(
+                            data.meta.weights[a] ?? 0,
+                          ),
+                        )))
+                      if (score.pillarOrNull(key) != null)
+                        _PillarPanel(
+                          pillar: key,
+                          value: score.pillar(key),
+                          weight:
+                              data.meta.weightsFor(score.subjectGroup)[key] ??
+                              0,
+                          breakdown:
+                              (score.breakdown[key] as Map?)
+                                  ?.cast<String, dynamic>() ??
+                              const {},
+                        ),
+                  ],
+                ),
               if (academy.subjectScores.length > 1) ...[
                 const SizedBox(height: AppSpace.lg),
                 _SubjectScores(academy: academy),
@@ -266,14 +218,13 @@ class _Body extends StatelessWidget {
               // 선생님·관리·숙제량… 관점별로 갈라 보여 준다. 한 숫자로
               // 뭉개면 '선생님은 좋은데 숙제가 많다' 가 사라진다.
               if (academy.aspects.isNotEmpty) ...[
-                const SectionHeader(
-                  '학부모가 말한 것',
-                  subtitle:
-                      '후기에서 관점별로 읽은 감성입니다. 점수에는 들어가지 않습니다. '
-                      '두 건부터만 보여 드립니다.',
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: const Text('후기에서 읽은 특징'),
+                  subtitle: const Text('선생님 · 수업 · 관리에 대한 공개 후기'),
+                  children: [_AspectPanel(academy: academy)],
                 ),
-                _AspectPanel(academy: academy),
-                const SizedBox(height: AppSpace.xl),
+                const SizedBox(height: AppSpace.lg),
               ],
 
               // ── 학부모가 묻는 것 ────────────────────────────

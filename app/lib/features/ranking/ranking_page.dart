@@ -22,8 +22,6 @@ class RankingPage extends ConsumerStatefulWidget {
 enum _Sort { score, selectivity, positive, sample }
 
 class _RankingPageState extends ConsumerState<RankingPage> {
-  String _subject = 'math';
-
   /// 학술 과목인가. 정의는 `models.academicSubjects` 하나뿐이다 —
   /// 여기 따로 두면 과목이 늘 때 한쪽만 고치게 된다.
   static bool _isAcademic(String s) => isAcademicSubject(s);
@@ -34,6 +32,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
   Widget build(BuildContext context) {
     final async = ref.watch(dataProvider);
     final sel = ref.watch(selectionProvider);
+    final subject = sel.subject;
 
     return async.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -41,7 +40,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       data: (data) {
         var ranked = data.ranking(
           regionId: sel.regionId,
-          subject: _subject,
+          subject: subject,
           gradeBand: sel.gradeBand, // 헤더 선택기와 연동
         );
         // 상세 필터. 정렬을 바꿔도 순위 숫자는 트리스코어 순위 그대로다 —
@@ -57,21 +56,21 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             break;
           case _Sort.positive:
             ranked.sort(
-              (a, b) => (b.scoreFor(_subject).positiveRate ?? -1).compareTo(
-                a.scoreFor(_subject).positiveRate ?? -1,
+              (a, b) => (b.scoreFor(subject).positiveRate ?? -1).compareTo(
+                a.scoreFor(subject).positiveRate ?? -1,
               ),
             );
           case _Sort.sample:
             ranked.sort(
               (a, b) => b
-                  .scoreFor(_subject)
+                  .scoreFor(subject)
                   .sampleSize
-                  .compareTo(a.scoreFor(_subject).sampleSize),
+                  .compareTo(a.scoreFor(subject).sampleSize),
             );
           case _Sort.selectivity:
             ranked.sort(
-              (a, b) => (b.scoreFor(_subject).selectivity ?? -1).compareTo(
-                a.scoreFor(_subject).selectivity ?? -1,
+              (a, b) => (b.scoreFor(subject).selectivity ?? -1).compareTo(
+                a.scoreFor(subject).selectivity ?? -1,
               ),
             );
         }
@@ -83,7 +82,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         // 학원이 셋뿐인 줄 안다. 다만 채우는 쪽에 등수를 붙이지는 않는다.
         final unranked = data.unscored(
           sel.regionId,
-          subject: _subject,
+          subject: subject,
           gradeBand: sel.gradeBand,
         );
         // 순위 + 미수집으로도 10곳이 안 되면 등록부에서 채운다.
@@ -93,7 +92,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         final fill = data.registryFill(
           registry,
           regionId: sel.regionId,
-          subject: _subject,
+          subject: subject,
           have: ranked.length + unranked.length,
         );
         final region = data.regionById[sel.regionId];
@@ -111,35 +110,19 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SectionHeader(
-                        '${region?.nameKo ?? "전체 학군"} 학원 랭킹',
-                        kicker: spaced('랭킹'),
-                        // 근거가 0건인 곳만 순위에서 빠진다. 표본이 얇은
-                        // 곳은 등수를 감추는 대신 두께를 함께 적는다 —
-                        // 아래 '미수집' 섹션 안내와 같은 말이어야 한다.
-                        subtitle: _isAcademic(_subject)
-                            ? '트리스코어 기준 · 근거가 0건인 곳은 순위를 매기지 않고, '
-                                  '${data.meta.minSampleForRank}건 미만은 "표본 부족"으로 '
-                                  '표기합니다'
-                            : '만족도·화제성 기준 · 근거가 0건인 곳은 순위를 매기지 않고, '
-                                  '${data.meta.minSampleForRank}건 미만은 "표본 부족"으로 '
-                                  '표기합니다. 국·영·수·과학 학원은 각 과목 랭킹에서 보세요.',
-                      ),
-                      TextButton.icon(
-                        onPressed: () => context.push('/sources'),
-                        icon: const Icon(
-                          Icons.library_books_outlined,
-                          size: 18,
-                        ),
-                        label: const Text('대치 영어학원 · 원출처로 비교'),
+                        '${region?.nameKo ?? "전체 학군"} 학원 탐색',
+                        kicker: spaced('학원 탐색'),
+                        subtitle:
+                            '학원의 과정과 입학 정보를 비교해보세요. 점수는 같은 과목 안에서만 비교합니다.',
                       ),
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
                       // 무엇을 뜻하는지 설명할 수 없다.
                       SubjectBar(
-                        selected: _subject,
+                        selected: subject,
                         onChanged: (v) => setState(() {
                           if (v == null) return; // 랭킹은 '전체'를 두지 않는다
-                          _subject = v;
+                          ref.read(selectionProvider.notifier).setSubject(v);
                           // 비학술 과목에는 없는 정렬이라 기본으로 되돌린다.
                           if (!_isAcademic(v) && (_sort == _Sort.selectivity)) {
                             _sort = _Sort.score;
@@ -148,16 +131,26 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                       ),
                       const SizedBox(height: AppSpace.sm),
                       _FilterBar(
-                        academic: _isAcademic(_subject),
+                        academic: _isAcademic(subject),
                         sort: _sort,
                         onlyVerified: _onlyVerified,
                         onSort: (v) => setState(() => _sort = v),
                         onVerified: (v) => setState(() => _onlyVerified = v),
                       ),
                       const SizedBox(height: AppSpace.md),
-                      _MethodNote(
-                        meta: data.meta,
-                        academic: _isAcademic(_subject),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${ranked.length}곳 · 표본과 평가 항목을 갖춘 학원부터 표시',
+                              style: text.bodySmall,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => context.go('/method'),
+                            child: const Text('평가 기준'),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: AppSpace.md),
                     ],
@@ -185,7 +178,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   child: AcademyCard(
                     key: ValueKey(ranked[i].id),
                     academy: ranked[i],
-                    subject: _subject,
+                    subject: subject,
                     index: i,
                     rank: rankOf[ranked[i].id] ?? i + 1,
                   ),
@@ -199,13 +192,10 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                     children: [
                       const SizedBox(height: AppSpace.xl),
                       SectionHeader(
-                        '아직 근거가 없어 순위를 매기지 않은 학원',
+                        '함께 살펴볼 학원',
                         kicker: spaced('미수집'),
                         subtitle:
-                            '커뮤니티 후기를 아직 한 건도 찾지 못한 곳입니다. 점수가 낮아서가 '
-                            '아니라 아직 보지 않았다는 뜻이라, 등수를 붙이지 않습니다. '
-                            '후기가 한 건이라도 잡히면 위 순위에 들어오고, '
-                            '${data.meta.minSampleForRank}건 미만이면 "표본 부족"이라 적습니다.',
+                            '분석 근거를 모으고 있는 학원입니다. 이름을 누르면 등록 정보를 볼 수 있습니다.',
                       ),
                       Wrap(
                         spacing: AppSpace.sm,
@@ -245,82 +235,6 @@ class _RankingPageState extends ConsumerState<RankingPage> {
   }
 }
 
-class _MethodNote extends StatelessWidget {
-  final Meta meta;
-  final bool academic;
-  const _MethodNote({required this.meta, required this.academic});
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    // 예체능·기타는 만족도와 화제성만 본다. 진학 경로가 없고 공시로
-    // 확인할 것도 적어, 네 기둥을 다 적용하면 없는 차이를 만들어 낸다.
-    // 저울 자체는 meta 가 준다 — 화면에 상수로 두지 않는다.
-    final weights = meta.weightsFor(academic ? 'academic' : 'non_academic');
-    final formula =
-        '트리스코어 = '
-        '${weights.entries.map((e) => '${(e.value * 100).toStringAsFixed(0)}%·${pillarNames[e.key]}').join('  +  ')}'
-        '${academic ? '' : '  (예체능·기타는 만족도·화제성만)'}';
-    // 좁은 화면에서는 한 줄에 산식과 버튼을 같이 두면 산식이 '20%·진 / 입난이도'
-    // 처럼 낱말 가운데서 끊긴다. 폭이 모자라면 아래로 내린다.
-    final narrow = MediaQuery.sizeOf(context).width < 640;
-
-    final dark = Theme.of(context).brightness == Brightness.dark;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceOn(dark),
-        border: Border(
-          left: BorderSide(
-            color: AppColors.accentOn(dark),
-            width: AppRule.stroke,
-          ),
-          top: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
-          right: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
-          bottom: BorderSide(
-            color: AppColors.ruleOn(dark),
-            width: AppRule.hair,
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpace.md),
-        child: narrow
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RailLabel(spaced('산식')),
-                      const SizedBox(width: AppSpace.sm),
-                      Expanded(child: Text(formula, style: text.bodySmall)),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () => context.go('/method'),
-                      child: const Text('산식 전체 보기'),
-                    ),
-                  ),
-                ],
-              )
-            : Row(
-                children: [
-                  RailLabel(spaced('산식')),
-                  const SizedBox(width: AppSpace.sm),
-                  Expanded(child: Text(formula, style: text.bodySmall)),
-                  TextButton(
-                    onPressed: () => context.go('/method'),
-                    child: const Text('산식 전체 보기'),
-                  ),
-                ],
-              ),
-      ),
-    );
-  }
-}
-
 /// 상세 필터 줄. 데이터가 실제로 있는 축만 내놓는다 —
 /// 시설·셔틀 같은 항목은 수집원(NEIS)에 없으므로 필터로 만들지 않는다.
 /// 없는 데이터로 필터를 만들면 빈 화면만 남는다.
@@ -340,26 +254,45 @@ class _FilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: AppSpace.sm,
-      runSpacing: AppSpace.sm,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    return Row(
       children: [
-        RailLabel(spaced('정렬')),
-        RuledSegments<_Sort>(
-          options: [
-            (_Sort.score, '트리스코어'),
-            if (academic) (_Sort.selectivity, '진입난이도'),
-            (_Sort.positive, '긍정률'),
-            (_Sort.sample, '표본 많은'),
+        PopupMenuButton<_Sort>(
+          tooltip: '정렬 기준 선택',
+          initialValue: sort,
+          onSelected: onSort,
+          itemBuilder: (_) => [
+            const PopupMenuItem(value: _Sort.score, child: Text('트리스코어순')),
+            if (academic)
+              const PopupMenuItem(
+                value: _Sort.selectivity,
+                child: Text('진입난이도순'),
+              ),
+            const PopupMenuItem(value: _Sort.positive, child: Text('긍정률순')),
+            const PopupMenuItem(value: _Sort.sample, child: Text('근거 많은 순')),
           ],
-          selected: sort,
-          onChanged: onSort,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.sort, size: 18),
+                const SizedBox(width: 8),
+                Text(switch (sort) {
+                  _Sort.score => '트리스코어순',
+                  _Sort.selectivity => '진입난이도순',
+                  _Sort.positive => '긍정률순',
+                  _Sort.sample => '근거 많은 순',
+                }),
+                const Icon(Icons.expand_more, size: 18),
+              ],
+            ),
+          ),
         ),
-        RuledToggle(
-          label: '공식 검증만',
-          value: onlyVerified,
-          onChanged: onVerified,
+        const Spacer(),
+        FilterChip(
+          label: const Text('공시 확인'),
+          selected: onlyVerified,
+          onSelected: onVerified,
         ),
       ],
     );

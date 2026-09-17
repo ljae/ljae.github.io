@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:url_launcher/url_launcher.dart';
-
 import '../core/brand.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
@@ -22,9 +20,8 @@ import 'wheel_selector.dart';
 /// 관리자 화면(`/admin`)이 같은 방식으로 메뉴 밖에 있다.
 const navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
-  ('/tree', '테크트리', Icons.account_tree_outlined),
-  ('/rank', '랭킹', Icons.leaderboard_outlined),
-  ('/board', '게시판', Icons.forum_outlined),
+  ('/tree', '학습 경로', Icons.account_tree_outlined),
+  ('/rank', '학원 탐색', Icons.leaderboard_outlined),
   ('/map', '학군지도', Icons.map_outlined),
 ];
 
@@ -86,10 +83,7 @@ class _AppShellState extends ConsumerState<AppShell> {
       ),
       // 판면은 앱 전체에 깔린다. 스크롤해도 계선은 제자리에 있고
       // 내용만 지나간다 — 종이 위를 읽는 느낌이 그래서 난다.
-      body: ReadingProgress(
-        notifier: _read,
-        child: PaperGround(child: widget.child),
-      ),
+      body: ReadingProgress(notifier: _read, child: widget.child),
       // 상단에 메뉴를 못 넣는 폭에서는 하단 바가 대신한다.
       bottomNavigationBar: layout.showNav ? null : const _BottomBar(),
     );
@@ -121,51 +115,42 @@ class _TopBar extends StatelessWidget {
         color: AppColors.surfaceOn(dark),
         // 계선 한 줄이 아니라 **굵은 획**으로 닫는다. 판면의 윗변이다.
         border: Border(
-          bottom: BorderSide(color: AppColors.inkOn(dark), width: AppRule.thin),
+          bottom: BorderSide(
+            color: AppColors.ruleOn(dark),
+            width: AppRule.thin,
+          ),
         ),
       ),
       child: ContentWidth(
         child: Row(
           children: [
             _Brand(layout: layout),
-            if (layout.showByOperator) ...[
-              const SizedBox(width: 9),
-              const _ByOperator(),
-            ],
-            const SizedBox(width: AppSpace.md),
-            _HeaderFilters(mode: layout.filterMode),
-            // 남는 자리는 전부 메뉴 몫이다.
-            //
-            // 여기서 한 번 틀렸다. Spacer 와 Flexible 을 나란히 뒀더니 둘 다
-            // flex 자식이라 남은 폭을 반씩 나눠 가졌다. 메뉴는 필요한 만큼의
-            // 절반만 받고, reverse 로 오른쪽에 붙어 있던 탓에 '홈'과 '테크트리'가
-            // 왼쪽으로 밀려 사라졌다. 자리가 없어서가 아니라 안 준 것이었다.
-            //
-            // 지금은 Expanded 하나가 남는 폭을 다 받고, 그 안에서 오른쪽 정렬한다.
-            // 그래도 넘치면 잘리는 대신 왼쪽부터 보이며 가로로 밀린다.
-            Expanded(
-              child: layout.showNav
-                  ? Align(
-                      alignment: Alignment.centerRight,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            for (final (path, label, _) in navItems)
-                              _NavLink(
-                                path: path,
-                                label: label,
-                                active: path == '/'
-                                    ? location == '/'
-                                    : location.startsWith(path),
-                              ),
-                            const SizedBox(width: AppSpace.xs),
-                          ],
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+            const SizedBox(width: AppSpace.sm),
+            Flexible(child: _HeaderFilters(mode: layout.filterMode)),
+            // 좁은 폭에서는 필터가 줄어들고 메뉴는 하단으로 이동한다.
+            if (layout.showNav)
+              Expanded(
+                flex: 3,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        for (final (path, label, _) in navItems)
+                          _NavLink(
+                            path: path,
+                            label: label,
+                            active: path == '/'
+                                ? location == '/'
+                                : location.startsWith(path),
+                          ),
+                        const SizedBox(width: AppSpace.xs),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             IconButton(
               tooltip: '학원 검색',
               onPressed: () =>
@@ -205,53 +190,6 @@ class _Brand extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// 운영사 표기. 제목 옆에 작게 붙이고 회사 소개로 연결한다.
-/// 브랜드를 가리지 않을 만큼만 — 크기와 색을 확실히 낮췄다.
-class _ByOperator extends StatelessWidget {
-  const _ByOperator();
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: '${Brand.operator} 회사 소개',
-      child: InkWell(
-        borderRadius: BorderRadius.circular(AppRadius.sm),
-        onTap: () => launchUrl(
-          Uri.base.resolve('openedu/'),
-          webOnlyWindowName: '_blank',
-        ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'by ',
-                style: TextStyle(
-                  fontFamily: 'Paperlogy',
-                  fontSize: 12,
-                  color: AppColors.mist,
-                ),
-              ),
-              Text(
-                Brand.operator,
-                style: TextStyle(
-                  fontFamily: 'Paperlogy',
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.gold,
-                ),
-              ),
-              SizedBox(width: 2),
-              Icon(Icons.north_east, size: 9.5, color: AppColors.gold),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -353,27 +291,23 @@ class _FilterButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.canvasOn(dark),
             borderRadius: BorderRadius.circular(AppRadius.sm),
-            border: Border(
-              left: BorderSide(
-                color: AppColors.accentOn(dark),
-                width: AppRule.bold,
-              ),
-              top: BorderSide(color: AppColors.ruleOn(dark)),
-              right: BorderSide(color: AppColors.ruleOn(dark)),
-              bottom: BorderSide(color: AppColors.ruleOn(dark)),
-            ),
+            border: Border.all(color: AppColors.ruleOn(dark)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                _label(),
-                style: TextStyle(
-                  fontFamily: 'Paperlogy',
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.3,
-                  color: AppColors.inkOn(dark),
+              Flexible(
+                child: Text(
+                  _label(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Paperlogy',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.3,
+                    color: AppColors.inkOn(dark),
+                  ),
                 ),
               ),
               const SizedBox(width: 3),

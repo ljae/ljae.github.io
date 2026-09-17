@@ -16,13 +16,13 @@ class HeaderLayout {
   // '대치 · 예비초~초3' 한 덩어리.
   static const _sheet = 180.0;
   // 휠 두 개 + 사이 간격. 학년 휠은 '예비초~초3' 이 들어가야 해서 넓다.
-  static const _wheels = 204.0;
+
   static const _byOperator = 96.0;
   // 메뉴 5개(홈·테크트리·랭킹·게시판·학군지도). TextButton 최소 폭(64)이
   // 홈·랭킹에 걸려 글자 폭으로 계산한 값보다 넓다. 메뉴 6개일 때 450 이었고
   // 산식을 메뉴에서 빼며 한 칸(75)을 뺐다 — 그대로 두면 헤더가 실제보다
   // 75px 일찍 하단 바로 물러난다.
-  static const _nav = 375.0;
+  static const _nav = 330.0;
   static const _gap = 16.0;
 
   final double logo;
@@ -42,16 +42,8 @@ class HeaderLayout {
   /// [available] 은 좌우 여백을 뺀 헤더 안쪽 폭이다.
   factory HeaderLayout.forWidth(double available) {
     // 로고와 제목은 항상 나온다. 브랜드가 먼저 사라지면 안 된다.
-    final logo = available >= 1000
-        ? 84.0
-        : available >= 700
-            ? 64.0
-            : 46.0;
-    final titleSize = available >= 1000
-        ? 30.0
-        : available >= 700
-            ? 25.0
-            : 20.0;
+    final logo = available >= 700 ? 42.0 : 32.0;
+    final titleSize = available >= 700 ? 22.0 : 18.0;
 
     // 제목 글자 폭은 '학원실록' 네 글자 기준으로 잡는다.
     var used = logo + _gap + titleSize * 4.1 + _search;
@@ -62,10 +54,8 @@ class HeaderLayout {
     //
     // 처음엔 '자리가 없으면 끈다'로 뒀는데, 375px 에서 필터가 통째로
     // 사라지고 운영사 표기만 남았다. 남길 것과 버릴 것이 뒤바뀐 셈이다.
-    final filterMode = used + _gap + _wheels <= available
-        ? FilterMode.wheels
-        : FilterMode.sheet;
-    used += _gap + (filterMode == FilterMode.wheels ? _wheels : _sheet);
+    const filterMode = FilterMode.sheet;
+    used += _gap + _sheet;
 
     // 내비는 좁은 화면에서 하단 바가 대신한다.
     final showNav = used + _gap + _nav <= available;
@@ -83,9 +73,8 @@ class HeaderLayout {
     );
   }
 
-  /// 상단 바 높이. 휠이 있으면 그만큼만 키운다.
-  double get barHeight =>
-      filterMode == FilterMode.wheels ? 96 : logo + 20;
+  /// 필터는 시트로 열고 헤더는 일정한 높이를 유지한다.
+  double get barHeight => 68;
 
   @override
   bool operator ==(Object other) =>

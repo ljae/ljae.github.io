@@ -7,7 +7,6 @@ import '../features/admin/admin_page.dart';
 import '../features/board/post_page.dart';
 import '../features/home/home_page.dart';
 import '../features/map/map_page.dart';
-import '../features/sources/sources_page.dart';
 import '../features/method/method_page.dart';
 import '../features/ranking/ranking_page.dart';
 import '../features/techtree/techtree_page.dart';
@@ -66,10 +65,7 @@ final router = GoRouter(
           pageBuilder: (context, state) => _fade(const TechTreePage()),
         ),
 
-        GoRoute(
-          path: '/sources',
-          pageBuilder: (context, state) => _fade(const SourcesPage()),
-        ),
+        GoRoute(path: '/sources', redirect: (context, state) => '/rank'),
 
         GoRoute(
           path: '/rank',

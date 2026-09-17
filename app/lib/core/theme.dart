@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// 학원실록 디자인 시스템 — 「實錄 / The Annals」
-///
-/// 이 서비스는 실명 사업자를 다루는 **기록물**이지 추천 광고가 아니다.
-/// 그래서 화면의 성격을 '앱'이 아니라 '문서'로 잡았다. 결정을 축마다
-/// 적어 둔다 — 나중에 하나만 바꾸면 나머지가 다 어긋나기 때문이다.
-///
-///   바탕   순백이 아니라 **한지**(#F4F0E6). 흰 화면은 값이 0 인 배경이지만
-///          종이는 그 자체로 '기록물'이라는 맥락을 깐다.
-///   구분   그림자가 아니라 **계선(界線)**. 실록 판면의 세로 괘선에서 왔다.
-///          카드를 띄우지 않고 줄로 가른다. 떠 있는 것은 광고지 기록이 아니다.
-///   모서리 알약(pill)을 쓰지 않는다. 2~4px. 종이에 그은 칸은 둥글지 않다.
-///   강조   **주묵(朱墨) 하나**(#C4392A). 인장의 색이다. 넓게 칠하지 않고
-///          찍는다 — 1위, 현재 위치, 검증 도장에만.
-///   회색   푸른 기 없는 **따뜻한 재색**. 종이 위에서 파란 회색은 뜬다.
-///   숫자   **장부 숫자**(tabular). 등수·점수·표본은 자리를 맞춰 세로로
-///          읽히게 한다. 비례폭 숫자는 줄이 바뀔 때마다 흔들린다.
-///
-/// 색 이름은 안료 이름을 따랐다. `blue600` 같은 이름은 다음 사람이
-/// '왜 이 파랑인가'를 물을 수 없게 만든다.
+/// 밝은 중립 배경, 선명한 문자, 절제된 테라코타 포인트.
+/// 데이터 시각화의 의미 색상은 유지하고 탐색 화면은 한 가지 강조색을 쓴다.
 class AppColors {
   // ── 브랜드 (로고에서 온 값 — 바꾸지 않는다)
   /// 실록의 표지. 이제 '깊은 바탕' 역할을 맡는다.
@@ -32,7 +15,7 @@ class AppColors {
 
   // ── 주묵(朱墨). 이 디자인의 단 하나뿐인 강조색.
   //    넓은 면을 칠하는 데 쓰지 않는다. 도장은 작아야 도장이다.
-  static const vermilion = Color(0xFFC4392A);
+  static const vermilion = Color(0xFFB64C38);
   static const vermilionDeep = Color(0xFF97281B);
   static const vermilionWash = Color(0xFFF3E0DB);
 
@@ -40,20 +23,20 @@ class AppColors {
   static const ink = Color(0xFF14161C);
   static const inkSoft = Color(0xFF2A2E38);
 
-  /// 본문 보조. 푸른 회색이 아니라 **따뜻한 재색**이다.
-  static const slate = Color(0xFF6B675E);
-  static const mist = Color(0xFF9C978B);
+  /// 보조 문구도 밝은 배경에서 충분한 대비를 유지한다.
+  static const slate = Color(0xFF666A70);
+  static const mist = Color(0xFF767B83);
 
   /// 계선. 종이 위의 괘선 두께로 쓴다 — 굵으면 표가 되고 얇으면 판면이 된다.
-  static const line = Color(0xFFDDD5C4);
-  static const lineSoft = Color(0xFFE9E2D3);
+  static const line = Color(0xFFE2E5E7);
+  static const lineSoft = Color(0xFFEEF0F2);
 
-  /// 카드 면. 종이보다 아주 조금 밝은 정도. 순백으로 두면 카드가 뜬다.
-  static const surface = Color(0xFFFCFAF4);
-  static const canvas = Color(0xFFF4F0E6);
+  /// 흰 카드 면과 옅은 회색 배경으로 정보 단위를 구분한다.
+  static const surface = Color(0xFFFFFFFF);
+  static const canvas = Color(0xFFF8F9FA);
 
   /// 한 단계 더 눌린 바탕. 섹션을 번갈아 눕힐 때 쓴다.
-  static const canvasDeep = Color(0xFFEBE4D3);
+  static const canvasDeep = Color(0xFFF0F2F3);
 
   // ── 다크 = 먹빛. 남색 화면이 아니라 **먹**이어야 종이의 반대편이 된다.
   static const darkCanvas = Color(0xFF101218);
@@ -76,7 +59,7 @@ class AppColors {
   static const selectivity = Color(0xFF6E3B6E);
 
   // ── 상태
-  static const rising = Color(0xFFC4392A); // 국내 관행: 상승=빨강
+  static const rising = Color(0xFFB64C38); // 국내 관행: 상승=빨강
   static const falling = Color(0xFF2E4E8A);
   static const verified = Color(0xFF3E7D66);
   static const estimated = Color(0xFF9A6C1E);
@@ -97,7 +80,7 @@ class AppColors {
     // 키가 'art' 였다. 표시 이름 쪽은 'arts' 라 색을 못 찾고
     // 회색으로 떨어졌다 — 예체능만 색 코드에서 빠져 있었다.
     'arts': Color(0xFF9A6C1E),
-    'etc': Color(0xFF6B675E),
+    'etc': Color(0xFF666A70),
   };
 
   /// 먹빛 바탕에서 쓰는 과목 색.
@@ -112,19 +95,18 @@ class AppColors {
     'korean': Color(0xFFA472A4),
     'science': Color(0xFF63AF93),
     'arts': Color(0xFFC79A4B),
-    'etc': Color(0xFF9C978B),
+    'etc': Color(0xFF767B83),
   };
 
   /// 과목 색을 밝기에 맞춰 고른다. **과목 색이 필요한 곳은 전부 이걸 쓴다** —
   /// `subjects[key]` 를 직접 읽으면 어두운 판에서만 조용히 가라앉는다.
   static Color subjectOn(String? key, bool dark) =>
-      (dark ? _subjectsDark[key] : subjects[key]) ??
-      (dark ? mist : slate);
+      (dark ? _subjectsDark[key] : subjects[key]) ?? (dark ? mist : slate);
 
   /// 밝기에 따라 갈리는 값을 한 곳에서 고른다. 화면마다
   /// `dark ? A : B` 를 반복하면 반드시 한 곳을 빠뜨린다.
   static Color inkOn(bool dark) => dark ? darkInk : ink;
-  static Color mutedOn(bool dark) => dark ? mist : slate;
+  static Color mutedOn(bool dark) => dark ? const Color(0xFFA4ABB5) : slate;
   static Color ruleOn(bool dark) => dark ? darkLine : line;
   static Color ruleSoftOn(bool dark) =>
       dark ? const Color(0xFF23262F) : lineSoft;
@@ -147,8 +129,7 @@ class AppColors {
   static Color estimatedOn(bool dark) =>
       dark ? const Color(0xFFC79A4B) : estimated;
   static Color risingOn(bool dark) => accentOn(dark);
-  static Color fallingOn(bool dark) =>
-      dark ? const Color(0xFF5E86C8) : falling;
+  static Color fallingOn(bool dark) => dark ? const Color(0xFF5E86C8) : falling;
 }
 
 class AppSpace {
@@ -171,13 +152,12 @@ class AppSpace {
   static const railMinWidth = 700.0;
 }
 
-/// 모서리. **알약을 쓰지 않는다** — 이 디자인이 흔한 핀테크 계열과
-/// 갈리는 가장 눈에 띄는 지점이다. 종이에 그은 칸은 둥글지 않다.
+/// 입력 요소와 카드의 모서리. 작은 컨트롤부터 큰 정보 카드까지 공유한다.
 class AppRadius {
   static const none = 0.0;
-  static const sm = 2.0;
-  static const md = 3.0;
-  static const lg = 4.0;
+  static const sm = 8.0;
+  static const md = 12.0;
+  static const lg = 16.0;
 
   /// 남겨 둔다 — 아바타·원형 다이얼처럼 **정말 원이어야 하는 곳**만.
   static const pill = 999.0;
