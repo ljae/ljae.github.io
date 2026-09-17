@@ -40,7 +40,7 @@ KEEP_PER_ACADEMY = 2000
 
 # 저장하는 원본 필드. 분석 결과(sentiment 등)는 넣지 않는다.
 RAW_FIELDS = ("source", "source_url", "url_hash", "author_hash", "title",
-              "snippet", "posted_at", "collected_at", "query",
+              "snippet", "posted_at", "date_source", "collected_at", "query",
               "academy_key", "academy_name", "region_id")
 
 
@@ -99,8 +99,14 @@ def merge(fresh: list[dict], today: str | None = None,
             # 날짜는 있는 쪽을 남긴다.
             if len(raw.get("snippet") or "") > len(row.get("snippet") or ""):
                 row["snippet"] = raw["snippet"]
-            if raw.get("posted_at") and not row.get("posted_at"):
+            if raw.get("posted_at") and (
+                    not row.get("posted_at") or (
+                        row.get("date_source") == "discovery"
+                        and raw.get("date_source") != "discovery")):
                 row["posted_at"] = raw["posted_at"]
+                row.pop("date_source", None)
+                if raw.get("date_source"):
+                    row["date_source"] = raw["date_source"]
             row["last_seen"] = day
             updated += 1
 

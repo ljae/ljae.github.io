@@ -21,9 +21,8 @@
      표본 1~9 건은 순위에 넣되 화면에 '표본 부족' 이라 적고, 목록에서는
      10건 이상 아래에 세운다 — 예전처럼 통째로 빼면 96개 조합 중 95개가
      빈 화면이 된다.
-  4. **근거가 없는 기둥은 채우지 않고 뺀다.** 없는 값을 코호트 평균으로
-     채우면 '모른다' 가 '보통' 이 되고, 0 으로 치면 '쉽다' 가 된다.
-     남은 기둥으로 가중치를 다시 나눈다(compute 참고).
+  4. **근거가 없는 기둥은 채우지 않는다.** 가중치는 그대로 두며,
+     필수 기둥이 없으면 비교 가능한 총점과 순위를 내지 않는다.
   5. 점수는 **(학원 × 과목)** 마다 따로 낸다. 수학 후기 496건짜리
      종합학원이 그 점수로 과학 랭킹에 오르면 안 된다.
 
@@ -49,12 +48,15 @@ from datetime import date, datetime, timezone
 from . import analyze, config
 
 TODAY = date.today()
+SCORING_VERSION = "2026-09-17.1"
 
 
 # ── 유틸 ───────────────────────────────────────────────────────────
 def _to_date(value) -> date | None:
     if not value:
         return None
+    if isinstance(value, datetime):
+        return value.date()
     if isinstance(value, date):
         return value
     try:
@@ -67,17 +69,18 @@ def _clamp(x: float, lo: float = 0.0, hi: float = 100.0) -> float:
     return max(lo, min(hi, x))
 
 
-def recency_weight(posted_at) -> float:
-    """반감기 180일 지수 감쇠.
-
-    날짜를 모르는 글(카페글 API는 날짜를 안 준다)은 0.6 — 6개월쯤 된 글과
-    같은 취급. 모르는 것을 최신으로도, 오래된 것으로도 취급하지 않는다.
-    """
+def recency_weight(posted_at, date_source: str | None = None) -> float:
+    """실제 작성일만 감쇠한다. 미상·발견일·미래 날짜는 중립값 0.6."""
     d = _to_date(posted_at)
-    if d is None:
+    if date_source == "discovery" or d is None or d > TODAY:
         return 0.6
-    days = max(0, (TODAY - d).days)
-    return math.exp(-days / config.RECENCY_HALFLIFE_DAYS)
+    return math.exp(-math.log(2) * (TODAY - d).days / config.RECENCY_HALFLIFE_DAYS)
+
+
+def publication_date(m: dict) -> date | None:
+    """작성 시점으로 확인할 수 있는 날짜만 반환한다."""
+    d = _to_date(m.get("posted_at"))
+    return d if m.get("date_source") != "discovery" and d and d <= TODAY else None
 
 
 # 코호트 z 점수를 0–100 으로 펼칠 때 쓰는 배수. **기둥이 공유한다.**
@@ -98,7 +101,7 @@ TREND_SCALE = 30
 
 def mention_weight(m: dict) -> float:
     """글 한 건의 무게. 신뢰도 × 최신성."""
-    return float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"))
+    return float(m.get("credibility", 0.5)) * recency_weight(m.get("posted_at"), m.get("date_source"))
 
 
 def weighted_sentiment(mentions: list[dict]) -> float | None:
@@ -229,16 +232,16 @@ def volume_of(mentions: list[dict]) -> float:
     """
     valid = [m for m in mentions if not m.get("is_excluded")]
     recent = [m for m in valid
-              if (d := _to_date(m.get("posted_at"))) and (TODAY - d).days <= 90]
-    weighted = sum(recency_weight(m.get("posted_at")) for m in valid)
+              if (d := publication_date(m)) and (TODAY - d).days <= 90]
+    weighted = sum(recency_weight(m.get("posted_at"), m.get("date_source")) for m in valid)
     return math.log1p(max(len(recent), weighted))
 
 
 def momentum(mentions: list[dict], cohort_volumes: list[float]) -> tuple[float, dict, str]:
     valid = [m for m in mentions if not m.get("is_excluded")]
     recent = [m for m in valid
-              if (d := _to_date(m.get("posted_at"))) and (TODAY - d).days <= 90]
-    weighted = sum(recency_weight(m.get("posted_at")) for m in valid)
+              if (d := publication_date(m)) and (TODAY - d).days <= 90]
+    weighted = sum(recency_weight(m.get("posted_at"), m.get("date_source")) for m in valid)
     volume = volume_of(mentions)
 
     if len(cohort_volumes) >= 3:
@@ -279,9 +282,7 @@ def _trend(mentions: list[dict]) -> tuple[float, str]:
       가리킨다 — 실측에서 발견 도장이 사흘(8/22~24)에 몰려 있어 추세가
       잡히는 학원 44곳 중 40곳이 '상승' 으로 나왔다.
 
-      최신성 가중치와 90일 창에는 발견일을 그대로 쓴다. 거기서는 '최근에
-      처음 본 글은 대체로 최근 글' 이라는 원래 논리가 성립한다. 시계열의
-      모양을 만들 때만 못 쓴다.
+      최신성 가중치와 90일 창도 실제 작성일만 쓴다. 발견일은 미상이다.
 
       그래서 대부분의 학원은 '보합' 으로 남는다. 실제 작성일을 아는 글이
       9%뿐이기 때문이다 — **모르는 것을 모른다고 두는 편이** 수집 일정을
@@ -303,7 +304,7 @@ def _trend(mentions: list[dict]) -> tuple[float, str]:
     for m in mentions:
         if m.get("date_source") == "discovery":
             continue          # 발견일 — 작성 시점의 근거가 아니다
-        d = _to_date(m.get("posted_at"))
+        d = publication_date(m)
         if d and 0 <= (TODAY - d).days <= 365:
             buckets[_month_index(d)] += 1
     if len(buckets) < 3:
@@ -442,13 +443,13 @@ def selectivity(mentions: list[dict], academy: dict,
         events = m.get("sel_events") or []
         if not events:
             continue
-        rw = recency_weight(m.get("posted_at"))
+        rw = recency_weight(m.get("posted_at"), m.get("date_source"))
         who = m.get("author_hash") or m.get("url_hash")
         for kind in events:
             counts[kind] += 1
             by_kind[kind][who] = max(by_kind[kind].get(who, 0.0), rw)
         authors.add(who)
-        d = _to_date(m.get("posted_at"))
+        d = publication_date(m)
         if d and (newest is None or d > newest):
             newest = d
 
@@ -666,6 +667,7 @@ def compute(academy: dict, mentions: list[dict], cohort: dict,
             "transparency": tra_bd,
             "selectivity": sel_bd,
         },
+        "scoring_version": SCORING_VERSION,
         "computed_at": datetime.now(timezone.utc).isoformat(),
     }
 

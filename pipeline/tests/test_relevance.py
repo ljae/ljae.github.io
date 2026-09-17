@@ -464,3 +464,14 @@ def test_보통_이름은_기호가_끼어도_그대로다():
     m = {"title": "씨앤씨(11관) 중등 수학 후기", "snippet": "씨앤씨/11관 다닌 지 1년"}
     assert analyze.is_relevant(m, {"씨앤씨11관학원", "씨앤씨11관"}, False,
                                analyze.RivalIndex({"씨앤씨"})) is True
+
+
+def test_stored_discovery_date_can_be_replaced_by_publication_date(store_path):
+    mention_store.merge([_m("h1", "A", posted_at="2026-09-01", date_source="discovery")], quiet=True)
+    assert mention_store.rows()[0]["date_source"] == "discovery"
+    rows = mention_store.merge([_m("h1", "A", posted_at="2026-01-01")], quiet=True)
+    assert rows[0]["posted_at"] == "2026-01-01"
+    assert "date_source" not in rows[0]
+    rows = mention_store.merge([_m("h1", "A", posted_at="2026-09-02", date_source="discovery")], quiet=True)
+    assert rows[0]["posted_at"] == "2026-01-01"
+    assert "date_source" not in rows[0]

@@ -1979,11 +1979,14 @@ def _destination_payload(academies: list[dict]) -> list[dict]:
 
 
 def _assign_ranks(academies: list[dict], scores: dict) -> None:
-    by_region: dict[str, list] = defaultdict(list)
+    by_region: dict[tuple, list] = defaultdict(list)
     for a in academies:
         s = scores[a["id"]]
+        s.pop("rank_in_region", None)
+        s.pop("region_ranked_count", None)
         if s["is_ranked"]:
-            by_region[a["region_id"]].append((s["total"], a["id"]))
+            by_region[(a["region_id"], s.get("subject") or scoring.primary_subject(a))].append(
+                (s["total"], a["id"]))
     for region_id, rows in by_region.items():
         # 동점일 때도 매 실행 같은 순서가 나오도록 (총점 내림차순, id 오름차순)
         rows.sort(key=lambda t: (-t[0], t[1]))
@@ -2122,6 +2125,8 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
     pools: dict[tuple, list[tuple[str, dict]]] = _dd(list)
     for a in academies:
         for sub, sc in (subject_scores.get(a["id"]) or {}).items():
+            sc.pop("rank_in_region", None)
+            sc.pop("region_ranked_count", None)
             if sc.get("is_ranked"):
                 pools[(a.get("region_id"), sub)].append((a["id"], sc))
     for rows in pools.values():
@@ -2209,7 +2214,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
 
     # 오늘 자 랭킹 스냅샷. 과거 이력이 없으므로 오늘부터 쌓는다.
     from . import history
-    history.record(evaluated, scores, school_rows)
+    if mode == "live":
+        history.record(evaluated, scores, school_rows)
 
     stats = assign_display_names(evaluated + registry_only)
     if stats:
@@ -2379,6 +2385,11 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                   f"표본 {sc.get('sampleSize') or 0} · "
                   + (f"{rank}위" if rank else "순위 밖"))
 
+    from . import ranking_quality
+    ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
+    if mode == "live":
+        ranking_quality.record(ranking_report)
+
     files = {
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
         # 전체(1.4MB)를 첫 화면에서 읽어야 했는데, 정작 쓰는 건 숫자 넷이다.
@@ -2435,6 +2446,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "registryCount": len(payload_academies) + len(payload_registry),
             "mentionCount": len(mentions),
             "naverBudget": config.NAVER_MAX_ACADEMIES,
+            "scoringVersion": scoring.SCORING_VERSION,
+            "rankingQuality": ranking_report,
             "weights": config.WEIGHTS,
             # 예체능·기타는 저울이 아예 다르다. 이것도 내보내야 화면이
             # 상수를 들고 있지 않는다 — 학술 가중치에서 이미 겪은 사고다
@@ -2454,8 +2467,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             # 본 날로 채운 것이라 추세(시계열)에는 쓰지 않는다.
             "realDatedShare": round(
                 sum(1 for m in mentions
-                    if m.get("posted_at")
-                    and m.get("date_source") != "discovery")
+                    if scoring.publication_date(m))
                 / max(1, len(mentions)), 3),
             "sources": {
                 "official": "NEIS 학원교습소정보 (open.neis.go.kr)" if config.HAS_NEIS else None,

@@ -92,7 +92,7 @@ TreeScore = 0.35·평판 + 0.35·진입난이도 + 0.15·화제성 + 0.15·투�
 w_i = credibility_i × recency_i
 credibility_i = f(본문 길이, 구체적 수치, 1인칭 경험, 수강 이력, 출처)
                 × (1 - spam_i)
-recency_i     = exp(-Δdays / 180)          # 반감기 6개월, 날짜 불명은 0.6
+recency_i     = exp(-ln(2) · Δdays / 180)  # 180일 후 0.5, 날짜 불명·발견일·미래일은 0.6
 
 obs   = Σ(w_i · s_i) / Σ(w_i)              # s_i ∈ [-1, 1]
 shrunk = (obs · n_eff + m · μ) / (n_eff + m)     # 베이지안 축소
@@ -115,7 +115,7 @@ Reputation = clamp(50 + 15 · (shrunk - μ) / σ)   # 코호트 z 점수
 ### 4.2 화제성 (Momentum) — 15%
 ```
 volume = log(1 + max(최근 90일 언급수, Σ recency_i))
-Momentum = 0.6 · clamp(50 + 18 · z(volume)) + 0.4 · clamp(50 + 12 · slope)
+Momentum = 0.6 · clamp(50 + 15 · z(volume)) + 0.4 · clamp(50 + 30 · slope)
 ```
 - 90일 창만 쓰면 91일 된 글과 89일 된 글이 딱딱하게 갈린다. 최신성
   가중합과 **큰 쪽**을 써서 경계를 무르게 한다.

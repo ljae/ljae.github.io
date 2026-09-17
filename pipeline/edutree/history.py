@@ -19,9 +19,9 @@
 from __future__ import annotations
 
 import json
-from datetime import date
+from datetime import date, timedelta
 
-from . import config
+from . import config, scoring
 
 # 앱 번들과 같은 곳에 둔다. 야간 워크플로가 이미 이 디렉터리를 커밋하므로
 # 이력이 실행 사이에 살아남는다. 캐시에 두면 캐시가 비워질 때 이력도 사라진다.
@@ -32,10 +32,8 @@ KEEP_DAYS = 180          # 6개월. 그 이전은 추이를 보는 데 쓰이지
 def _load() -> dict:
     if not PATH.exists():
         return {"academies": {}, "schools": {}}
-    try:
-        return json.loads(PATH.read_text(encoding="utf-8"))
-    except (ValueError, OSError):
-        return {"academies": {}, "schools": {}}
+    # 깨진 이력을 빈 값으로 읽으면 다음 기록이 정상 이력까지 지운다.
+    return json.loads(PATH.read_text(encoding="utf-8"))
 
 
 def record(academies: list[dict], scores: dict,
@@ -43,6 +41,11 @@ def record(academies: list[dict], scores: dict,
     """오늘 자 스냅샷을 남긴다. 같은 날짜는 덮어쓴다."""
     day = today or date.today().isoformat()
     hist = _load()
+
+    # 같은 날 재채점에서 탈락·삭제된 행도 지운다. 과거 날짜는 보존한다.
+    for bucket in ("academies", "schools"):
+        for rows in hist.setdefault(bucket, {}).values():
+            rows.pop(day, None)
 
     acad = hist.setdefault("academies", {})
     for a in academies:
@@ -54,6 +57,10 @@ def record(academies: list[dict], scores: dict,
             "r": s.get("rank_in_region"),
             "t": round(float(s["total"]), 1),
             "n": s.get("sample_size"),
+            "subject": s.get("subject") or scoring.primary_subject(a),
+            "region": a.get("region_id"),
+            "cohortSize": s.get("region_ranked_count"),
+            "version": scoring.SCORING_VERSION,
         }
 
     # 학교는 진로 공시가 붙은 곳만. 공시가 연 1회라 점이 드물게 찍힌다.
@@ -70,26 +77,26 @@ def record(academies: list[dict], scores: dict,
             continue
         sch.setdefault(s["id"], {})[day] = {"v": round(float(v), 1)}
 
-    _prune(hist)
+    _prune(hist, day)
     PATH.parent.mkdir(parents=True, exist_ok=True)
-    PATH.write_text(json.dumps(hist, ensure_ascii=False, separators=(",", ":")),
-                    encoding="utf-8")
+    tmp = PATH.with_suffix(".tmp")
+    tmp.write_text(json.dumps(hist, ensure_ascii=False, separators=(",", ":")),
+                   encoding="utf-8")
+    tmp.replace(PATH)
     days = {d for rows in acad.values() for d in rows}
     print(f"  랭킹 이력: {len(acad):,}곳 · {len(days)}일치 "
           f"({min(days) if days else '-'} ~ {max(days) if days else '-'})")
     return hist
 
 
-def _prune(hist: dict) -> None:
-    """오래된 점을 덜어낸다. 날짜 문자열이라 정렬 비교로 충분하다."""
+def _prune(hist: dict, today: str | None = None) -> None:
+    """관측 횟수가 아닌 실제 180일을 보존한다."""
+    day = date.fromisoformat(today) if today else date.today()
+    cutoff = (day - timedelta(days=KEEP_DAYS - 1)).isoformat()
     for bucket in ("academies", "schools"):
         rows = hist.get(bucket) or {}
-        days = sorted({d for r in rows.values() for d in r})
-        if len(days) <= KEEP_DAYS:
-            continue
-        cutoff = days[-KEEP_DAYS]
         for key, r in list(rows.items()):
-            kept = {d: v for d, v in r.items() if d >= cutoff}
+            kept = {d: v for d, v in r.items() if cutoff <= d <= day.isoformat()}
             if kept:
                 rows[key] = kept
             else:

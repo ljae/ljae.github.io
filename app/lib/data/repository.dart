@@ -619,10 +619,25 @@ class RankHistory {
     final acad = <String, List<RankPoint>>{};
     for (final e in ((j['academies'] as Map?) ?? const {}).entries) {
       final rows = <RankPoint>[];
-      for (final d in ((e.value as Map).cast<String, dynamic>()).entries) {
-        final day = DateTime.tryParse(d.key);
+      final entries = (e.value as Map).cast<String, dynamic>().entries
+          .where((d) => DateTime.tryParse(d.key) != null)
+          .toList()
+        ..sort((a, b) => a.key.compareTo(b.key));
+      // 산식·과목·지역이 달라진 점은 같은 추이로 연결할 수 없다.
+      // 과거 기록은 파일에 보존하고 화면에는 최신 기준의 연속 구간만 낸다.
+      final latest = entries.isEmpty ? null : entries.last.value as Map;
+      var start = entries.length;
+      while (start > 0) {
+        final v = entries[start - 1].value as Map;
+        if (['version', 'subject', 'region']
+            .any((key) => v[key] != latest?[key])) {
+          break;
+        }
+        start--;
+      }
+      for (final d in entries.skip(start)) {
+        final day = DateTime.parse(d.key);
         final v = (d.value as Map).cast<String, dynamic>();
-        if (day == null) continue;
         rows.add(RankPoint(
           day: day,
           rank: (v['r'] as num?)?.toInt(),

@@ -294,3 +294,39 @@ def test_근거가_없는_기둥은_채우지도_재정규화하지도_않는다
     assert s["is_complete"] is False
     assert s["is_ranked"] is False
     _ = (config, date)
+
+
+def test_actual_halflife_and_datetime(monkeypatch):
+    from datetime import datetime
+    import pytest
+    monkeypatch.setattr(scoring, "TODAY", date(2026, 9, 17))
+    for days, expected in [(0, 1), (180, 0.5), (360, 0.25)]:
+        d = scoring.TODAY - timedelta(days=days)
+        assert scoring.recency_weight(d) == pytest.approx(expected)
+        assert scoring.recency_weight(datetime.combine(d, datetime.min.time())) == pytest.approx(expected)
+
+
+def test_discovery_and_future_dates_do_not_inflate_scores():
+    import pytest
+    unknown = [m(days=None, events=["sel.waitlist"]) for _ in range(12)]
+    discovered = [dict(row, posted_at=TODAY.isoformat(), date_source="discovery") for row in unknown]
+    future = [dict(row, posted_at=(TODAY + timedelta(days=10)).isoformat()) for row in unknown]
+    for rows in (discovered, future):
+        assert scoring.volume_of(rows) == pytest.approx(scoring.volume_of(unknown))
+        assert scoring.reputation(rows, 0.3) == scoring.reputation(unknown, 0.3)
+        assert scoring.selectivity(rows, academy()) == scoring.selectivity(unknown, academy())
+        assert scoring.momentum(rows, [1, 2, 3])[1]["최근90일_언급"] == 0
+
+
+def test_region_ranks_compare_same_subject_and_clear_stale_ranks():
+    from edutree import build
+    academies = [academy("A"), academy("B"), academy("C", ("arts",))]
+    scores = {a["id"]: {"is_ranked": True, "total": total,
+                         "subject": scoring.primary_subject(a)}
+              for a, total in zip(academies, [60, 80, 90])}
+    build._assign_ranks(academies, scores)
+    assert [scores[k]["rank_in_region"] for k in "ABC"] == [2, 1, 1]
+    scores["B"]["is_ranked"] = False
+    build._assign_ranks(academies, scores)
+    assert "rank_in_region" not in scores["B"]
+    assert scores["A"]["region_ranked_count"] == 1

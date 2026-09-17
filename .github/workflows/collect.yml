@@ -24,6 +24,9 @@ jobs:
 
       - run: pip install -r pipeline/requirements.txt
 
+      - name: 랭킹 및 근거 회귀 검증
+        run: python -m pytest pipeline/tests -q
+
       # 수집 캐시를 실행 간에 유지한다.
       #  - blog_texts.json : 이미 받은 블로그 본문을 다시 받지 않는다
       #  - first_seen.json : 언급을 처음 본 시점. 화제성 계산의 시계다
