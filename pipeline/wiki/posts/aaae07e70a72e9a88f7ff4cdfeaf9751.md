@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 3학년 수학 학원으로 CMS와 시매쓰 중 어디를 보낼지 고민하며 조언을 구하는 글이다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
