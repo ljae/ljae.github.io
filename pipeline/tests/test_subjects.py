@@ -249,6 +249,7 @@ def test_질의어가_늘면_다시_묻는다(tmp_path, monkeypatch):
     from datetime import date
     from edutree import official
     cache = tmp_path / "local_lookup.json"
+    monkeypatch.setattr(official.config, "HAS_NAVER", True)
     monkeypatch.setattr(official, "CONTACT_CACHE", cache)
     cache.write_text(_json.dumps({
         "A": {"checked": date.today().isoformat(), "tried": ["엠에스씨학원"]},

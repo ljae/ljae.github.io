@@ -7,6 +7,11 @@ on:
   schedule:
     - cron: '0 19 * * *'      # UTC 19:00 = KST 04:00
   workflow_dispatch:
+    inputs:
+      rescore_only:
+        description: '최신 운영 캐시만 재채점 (신규 수집 생략)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -41,6 +46,7 @@ jobs:
 
       - name: 수집 · 채점
         env:
+          RESCORE_ONLY: ${{ inputs.rescore_only }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
@@ -68,7 +74,19 @@ jobs:
           OPENEDU_SUMMARY_MODEL: ${{ vars.OPENEDU_SUMMARY_MODEL }}
           OPENEDU_SUMMARY_PER_RUN: ${{ vars.OPENEDU_SUMMARY_PER_RUN }}
           OPENEDU_SUMMARY_WORKERS: ${{ vars.OPENEDU_SUMMARY_WORKERS }}
-        run: python pipeline/run.py
+        run: |
+          if [ "$RESCORE_ONLY" = "true" ]; then
+            # 캐시가 없으면 오래된 대체 자료나 합성 데이터로 게시하지 않는다.
+            python - <<'PY'
+          import json
+          from pipeline.edutree import config, mention_store
+          assert json.loads((config.CACHE_DIR / "neis_academies.json").read_text()), "NEIS 캐시 없음"
+          assert mention_store.rows(), "누적 언급 캐시 없음"
+          PY
+            python pipeline/run.py --from-cache
+          else
+            python pipeline/run.py
+          fi
 
       - name: Supabase 업로드 (키가 있을 때만)
         env:
@@ -84,6 +102,7 @@ jobs:
       # 진로 공시는 학교알리미가 연속 호출을 막는다. 6초 간격이라
       # 157곳이면 16분. 야간 작업에 얹어 두고 캐시로 이어받는다.
       - name: 진로 공시 수집 (이어받기)
+        if: ${{ !inputs.rescore_only }}
         continue-on-error: true
         env:
           SCHOOLINFO_API_KEY: ${{ secrets.SCHOOLINFO_API_KEY }}
