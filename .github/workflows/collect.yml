@@ -83,7 +83,7 @@ jobs:
           assert json.loads((config.CACHE_DIR / "neis_academies.json").read_text()), "NEIS 캐시 없음"
           assert mention_store.rows(), "누적 언급 캐시 없음"
           PY
-            python pipeline/run.py --from-cache
+            OPENEDU_CLAIM_LLM_LIMIT=0 OPENEDU_SUMMARY_PER_RUN=0 python pipeline/run.py --from-cache
           else
             python pipeline/run.py
           fi

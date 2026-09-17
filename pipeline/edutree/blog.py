@@ -122,7 +122,7 @@ def fetch_post(url: str) -> dict | None:
 
 
 def enrich(mentions: list[dict], limit: int | None = None,
-           workers: int = 3) -> int:
+           workers: int = 3, *, cached_only: bool = False) -> int:
     """블로그 언급에 본문과 날짜를 채워 넣는다. 채운 건수를 돌려준다."""
     cache_path = config.CACHE_DIR / "blog_texts.json"
     cache: dict[str, dict] = {}
@@ -130,7 +130,8 @@ def enrich(mentions: list[dict], limit: int | None = None,
         cache = json.loads(cache_path.read_text(encoding="utf-8"))
 
     targets = [m for m in mentions
-               if m.get("source") == "naver_blog" and m["source_url"] not in cache]
+               if not cached_only and m.get("source") == "naver_blog"
+               and m["source_url"] not in cache]
     if limit:
         targets = targets[:limit]
     print(f"  블로그 본문 수집 대상 {len(targets):,}건 (캐시 {len(cache):,}건)")

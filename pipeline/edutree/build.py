@@ -1385,7 +1385,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # 바뀌면 멀쩡한 근거를 게이트에서 버리게 된다.
     if mode == "live" and not skip_blog_text:
         from . import blog
-        filled = blog.enrich(mentions)
+        filled = blog.enrich(mentions, cached_only=from_cache)
         print(f"  블로그 본문 반영 {filled:,}건")
 
     # 날짜 보강 — 순서대로 신뢰도가 높은 출처를 먼저 쓴다.
