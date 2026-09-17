@@ -1782,8 +1782,40 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     _assign_ranks(evaluated, scores)
     _assign_subject_ranks(evaluated, subject_scores)
 
+    # 학원 프로필 — 후기 N건을 카드 한 장으로(레테·숙제·커리큘럼·잘 맞는 아이·
+    # 운영). **점수에 쓰지 않는다.** 요약·사실 추출과 같은 층이다: 인용이
+    # 발췌에 글자 그대로 없으면 버리고, 서로 다른 글 2건이 받치지 않는 절은
+    # 비운다(docs/PROFILES.md). 학원 자기 서술(directory)은 kind=self 로 따로.
+    profiles_out: dict = {}
+    try:
+        import os as _os
+        from . import profiles as profiles_mod
+        self_notes: dict = {}
+        try:
+            from . import directory as directory_mod
+            self_notes = directory_mod.collect(
+                evaluated, mentions, live=(mode == "live" and not from_cache))
+        except ImportError:
+            pass
+        except Exception as exc:                              # noqa: BLE001
+            print(f"  ! 학원 자기 서술 수집 실패: {exc}")
+        # --from-cache 는 요약처럼 LLM 을 안 부른다. 첫 백필은 run.py --profiles.
+        live_llm = mode == "live" and (not from_cache
+                                       or bool(_os.getenv("OPENEDU_PROFILE_FORCE")))
+        profiles_out = profiles_mod.collect(evaluated, by_key, candidates,
+                                            self_notes, live=live_llm)
+        if profiles_out:
+            n_full = sum(1 for p in profiles_out.values()
+                         if all(p.get(s) for s in ("levelTest", "homework", "fit")))
+            print(f"  프로필: {len(profiles_out):,}곳 실림 · "
+                  f"레테·숙제·적합 셋 다 찬 곳 {n_full:,}")
+    except Exception as exc:                                  # noqa: BLE001
+        # 부산물이다. 여기서 죽으면 채점까지 잃는다.
+        print(f"  ! 프로필 실패: {exc}")
+
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores, claim_rows, candidates=candidates)
+           subject_scores, claim_rows, candidates=candidates,
+           profiles=profiles_out)
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -1813,7 +1845,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                                 {"mentions": len(mentions),
                                  "wiki_dropped": by_wiki},
                                 post_links=posts_mod.backlinks(mentions),
-                                official_cache=official_cache)
+                                official_cache=official_cache,
+                                profiles=profiles_out)
         print(f"  위키: 페이지 신규 {wstat['created']} · 갱신 {wstat['updated']}")
     except Exception as exc:                                  # noqa: BLE001
         # 위키는 부산물이다. 위키가 깨져도 데이터 빌드는 나가야 한다.
@@ -2102,7 +2135,8 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores=None, claim_rows=None, candidates=None) -> None:
+           subject_scores=None, claim_rows=None, candidates=None,
+           profiles=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -2309,6 +2343,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             # 보여야 한다.
             "selectivityEvidence": sel_evidence.get(key, []),
             "disputeRate": dispute_rates.get(key),
+            # 학원 프로필. 없으면 null — 화면은 절을 그리지 않는다.
+            # 점수·순위·정렬 어디에도 쓰지 않는다(docs/PROFILES.md).
+            "profile": (profiles or {}).get(key),
         })
         payload_academies.append(row)
 

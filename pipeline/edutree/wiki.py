@@ -33,8 +33,8 @@ _FRONT = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 _AUTO = {
     name: re.compile(rf"<!-- auto:{name} -->.*?<!-- /auto:{name} -->", re.S)
     # review 판정 이력 · stats 표본/순위 · posts 이 학원의 근거 글(역링크)
-    # official 공식 홈페이지 관찰
-    for name in ("review", "stats", "posts", "official")
+    # official 공식 홈페이지 관찰 · profile 후기로 그린 카드(점수에 안 씀)
+    for name in ("review", "stats", "posts", "official", "profile")
 }
 
 
@@ -224,6 +224,10 @@ homepage:
 <!-- auto:stats -->
 <!-- /auto:stats -->
 
+## 학부모가 그리는 이 학원
+<!-- auto:profile -->
+<!-- /auto:profile -->
+
 ## 이 학원의 근거 글
 <!-- auto:posts -->
 <!-- /auto:posts -->
@@ -235,6 +239,7 @@ _SECTION = {
     "official": "## 공식 홈페이지",
     "review": "## 판정 이력",
     "stats": "## 통계",
+    "profile": "## 학부모가 그리는 이 학원",
     "posts": "## 이 학원의 근거 글",
 }
 
@@ -255,7 +260,8 @@ def _fill(text: str, block: str, body: str) -> str:
 def update(academies: list[dict], scores: dict, rules: list[dict],
            verdicts: dict[str, str], reassign: dict[str, list[str]],
            run_stats: dict, post_links: dict[str, list[str]] | None = None,
-           official_cache: dict | None = None) -> dict:
+           official_cache: dict | None = None,
+           profiles: dict | None = None) -> dict:
     """매 실행의 결과를 페이지에 되적는다. 마커 밖(산문)은 건드리지 않는다."""
     ACADEMY_DIR.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
@@ -332,6 +338,10 @@ def update(academies: list[dict], scores: dict, rules: list[dict],
         if official_cache is not None:
             from . import official as official_mod
             new = _fill(new, "official", official_mod.block(aid, official_cache))
+        # 프로필 카드. 엔진은 이 블록을 되읽지 않는다 — 다른 auto 블록과 같다.
+        if profiles is not None:
+            from . import profiles as profiles_mod
+            new = _fill(new, "profile", profiles_mod.block(aid, profiles))
         if new != text:
             path.write_text(new, encoding="utf-8")
             updated += 1

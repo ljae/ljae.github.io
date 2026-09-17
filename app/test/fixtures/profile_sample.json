@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-17",
+  "model": "gemini-3.7-flash",
+  "sample": 38,
+  "sources": 38,
+  "levelTest": {
+    "band": "S",
+    "hard": "컷·라이팅",
+    "note": "문제 자체보다 합격 컷과 라이팅 채점이 까다롭다는 평이 반복된다.",
+    "quotes": [
+      {"quote": "문제는 어렵지 않은데 라이팅 컷이 높아서 떨어졌어요", "url": "https://cafe.naver.com/x/1", "urlHash": "a1", "postedAt": "2026-02-11", "kind": "parent"},
+      {"quote": "레테 합격이 문제 난이도랑은 별개더라구요", "url": "https://cafe.naver.com/x/2", "urlHash": "a2", "postedAt": "2026-03-02", "kind": "parent"}
+    ]
+  },
+  "homework": {
+    "load": "중상",
+    "note": "날마다 편차가 있고 생각보다 학습량이 크지만, 재미있어 부담이 적다는 후기도 있다.",
+    "quotes": [
+      {"quote": "숙제가 날마다 달라서 어떤 날은 두 시간", "url": "https://blog.naver.com/y/3", "urlHash": "a3", "postedAt": "2026-01-20", "kind": "parent"},
+      {"quote": "양은 많은데 애가 재밌어해서 부담이 덜해요", "url": "https://cafe.naver.com/x/4", "urlHash": "a4", "postedAt": null, "kind": "parent"}
+    ]
+  },
+  "curriculum": {
+    "note": "주제 중심 자체교재로 리딩·라이팅을 잇고 노블 정독이 강점.",
+    "quotes": [
+      {"quote": "자체교재로 주제별로 리딩 라이팅을 같이", "url": "https://cafe.naver.com/x/5", "urlHash": "a5", "postedAt": "2025-12-01", "kind": "parent"},
+      {"quote": "노블 한 권을 정독하는 게 여기 특징", "url": "https://blog.naver.com/y/6", "urlHash": "a6", "postedAt": "2026-04-10", "kind": "parent"}
+    ]
+  },
+  "fit": {
+    "goodFor": ["말하고 참여하며 책을 좋아하는 아이", "균형형을 원하는 집"],
+    "caution": ["반·교사차를 확인할 것", "비문학·첨삭은 평범하다는 소수 의견"],
+    "quotes": [
+      {"quote": "책 좋아하고 발표 좋아하는 아이면 잘 맞아요", "url": "https://cafe.naver.com/x/7", "urlHash": "a7", "postedAt": "2026-02-28", "kind": "parent"},
+      {"quote": "반마다 선생님 편차가 커서 꼭 확인하세요", "url": "https://cafe.naver.com/x/8", "urlHash": "a8", "postedAt": "2026-05-05", "kind": "parent"}
+    ]
+  },
+  "ops": {
+    "note": "한티역권 · 셔틀 없음 · 주차 협소",
+    "shuttle": false,
+    "quotes": [
+      {"quote": "셔틀은 운행하지 않습니다", "url": "https://www.gangmom.kr/institute/abc", "urlHash": "s1", "postedAt": null, "kind": "self"}
+    ]
+  },
+  "oneLiner": "레테 S · 숙제 중상 · 자체교재 노블 정독"
+}

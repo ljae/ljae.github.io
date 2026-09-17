@@ -8,6 +8,7 @@
     python pipeline/run.py --from-cache # 캐시로 재채점 (API 호출 없음, 산식 실험용)
     python pipeline/run.py --skip-blog-text  # 블로그 본문 수집 생략
     python pipeline/run.py --cases     # 웹 신고를 사례 파일(wiki/cases)로 옮기고 대장을 찍는다
+    python pipeline/run.py --profiles  # 캐시로 재채점하되 학원 프로필(LLM)만 새로 만든다 (첫 백필용)
 """
 import sys
 from pathlib import Path
@@ -45,6 +46,10 @@ def check() -> None:
     print(f"     글 요약        {summarize.status()}")
     from edutree import claim_llm
     print(f"     사실 추출(LLM) {claim_llm.status()}")
+    from edutree import directory
+    print(f"     학원 자기서술   {directory.status()}")
+    from edutree import profiles
+    print(f"     학원 프로필(LLM) {profiles.status()}")
 
     print("─" * 62)
     print(f"  실행 모드: {mode}")
@@ -156,9 +161,17 @@ if __name__ == "__main__":
         from edutree import careers
         careers.collect()
     else:
+        # --profiles: 캐시 재채점 + 프로필 LLM 만 켠다. 요약·사실 추출은 그대로
+        # 캐시 규칙을 따른다. 첫 백필이나 프롬프트를 고친 뒤에 쓴다.
+        if "--profiles" in sys.argv:
+            import os
+            os.environ.setdefault("OPENEDU_PROFILE_FORCE", "1")
+            os.environ.setdefault("OPENEDU_CLAIM_LLM_LIMIT", "0")
+            os.environ.setdefault("OPENEDU_SUMMARY_PER_RUN", "0")
         from edutree.build import run
         check()
         result = run(with_cafe="--with-cafe" in sys.argv,
-                     from_cache="--from-cache" in sys.argv,
+                     from_cache=("--from-cache" in sys.argv
+                                 or "--profiles" in sys.argv),
                      skip_blog_text="--skip-blog-text" in sys.argv)
         print(f"\n완료: {result}")

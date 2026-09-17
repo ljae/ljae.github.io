@@ -1,9 +1,9 @@
 {
  "mode": "live",
- "generatedAt": "2026-09-12T21:48:40.550554+00:00",
- "evaluatedCount": 1574,
- "registryCount": 5340,
- "mentionCount": 18497,
+ "generatedAt": "2026-09-17T11:48:24.486427+00:00",
+ "evaluatedCount": 588,
+ "registryCount": 5334,
+ "mentionCount": 6812,
  "naverBudget": 400,
  "weights": {
   "reputation": 0.35,
@@ -18,27 +18,27 @@
  "minSampleForRank": 10,
  "reputationPriorCount": 12,
  "recencyHalflifeDays": 180,
- "datedShare": 0.716,
- "realDatedShare": 0.195,
+ "datedShare": 0.57,
+ "realDatedShare": 0.3,
  "sources": {
   "official": "NEIS 학원교습소정보 (open.neis.go.kr)",
   "community": "네이버 검색 API"
  },
  "evidenceQuality": {
-  "academies": 1574,
-  "withEvidence": 574,
-  "rows": 2265,
-  "nameInExcerpt": 2264,
-  "inTitle": 1727,
+  "academies": 588,
+  "withEvidence": 141,
+  "rows": 601,
+  "nameInExcerpt": 601,
+  "inTitle": 495,
   "spacedName": 0,
   "basis": {
-   "region": 1487,
-   "direct": 778
+   "region": 488,
+   "direct": 113
   }
  },
  "coverage": {
-  "evaluated": 1574,
-  "withMentions": 572,
-  "ranked": 187
+  "evaluated": 588,
+  "withMentions": 141,
+  "ranked": 66
  }
 }

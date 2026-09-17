@@ -1,4 +1,4 @@
-"""네이버 검색 오픈 API 수집기 — 카페글 · 블로그 · 지식iN.
+"""네이버 검색 오픈 API 수집기 — 카페글 · 블로그 · 지식iN · 웹문서 · 뉴스.
 
 키 발급: https://developers.naver.com/apps  (검색 API 선택, 무료)
 한도   : 앱당 일 25,000 호출. display 최대 100, start 최대 1000.
@@ -16,7 +16,9 @@ import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from typing import Iterable
+from urllib.parse import urlparse
 
 import requests
 
@@ -52,6 +54,32 @@ SOURCES = {
     "naver_cafe": "cafearticle",
     "naver_blog": "blog",
     "naver_kin": "kin",
+    # 2026-09-17 추가. 웹문서는 티스토리·강남엄마·디스쿨 같은 카페 밖 글,
+    # 뉴스는 보도(홍보 기사 포함 — analyze.score_credibility 가 신뢰도 상한을
+    # 건다). 둘 다 콘솔에서 따로 켜야 하고, 안 켜져 있으면 첫 호출의 401
+    # ('활성화되어 있지 않습니다')로 _disabled_sources 에 들어가 그 실행에서
+    # 빠진다 — 실측 2026-09-17: webkr·news·kin 셋 다 그 응답이었다.
+    "naver_web": "webkr",
+    "naver_news": "news",
+}
+# ★ 질의 예산. 카페·블로그·지식iN 은 학원당 3~5질의(queries_for)를 다 돌지만
+#   웹문서·뉴스는 **학원당 1질의**만 돈다(light_query). 소스가 셋에서 다섯이
+#   됐다고 호출이 5/3배로 늘면 400곳 예산이 하루 한도(25,000)를 위협한다 —
+#   지금 학원당 9~15회에 +2회라 400곳 기준 +800회다. 웹문서·뉴스는 카페처럼
+#   후기 표현이 다양하지 않아 질의를 늘려도 새 글이 잘 안 는다.
+LIGHT_SOURCES = ("naver_web", "naver_news")
+# 파이프라인 쪽 한국어 라벨. 앱은 자기 매핑을 따로 갖는다
+# (app/lib/data/models.dart `sourceLabel`, admin.dart 도 같은 꼴) — 새 소스를
+# 화면에 다른 이름으로 내려면 그쪽도 함께 고쳐야 한다. 여기서는 파이프라인
+# 로그·위키가 쓸 이름만 둔다.
+SOURCE_LABELS = {
+    "naver_cafe": "네이버 카페",
+    "naver_blog": "네이버 블로그",
+    "naver_kin": "지식iN",
+    "naver_web": "네이버 웹문서",
+    "naver_news": "네이버 뉴스",
+    "cafe_local": "카페 수집",
+    "edutree_review": "학원실록 후기",
 }
 DISPLAY = 100
 MAX_START = 1000
@@ -141,24 +169,80 @@ def _hash(value: str) -> str:
 
 
 def _parse_date(item: dict) -> str | None:
-    """블로그는 postdate(YYYYMMDD)를 준다.
+    """블로그는 postdate(YYYYMMDD), 뉴스는 pubDate(RFC 2822)를 준다.
 
-    카페글 검색 API는 날짜 필드를 주지 않는다. 없는 값을 수집일로 채우면
-    모든 카페글이 '오늘 글'이 되어 최신성 가중이 망가지므로 None으로 둔다.
-    점수 계산에서는 중립 가중치를 적용한다.
+    카페글·웹문서 검색 API는 날짜 필드를 주지 않는다. 없는 값을 수집일로
+    채우면 모든 카페글이 '오늘 글'이 되어 최신성 가중이 망가지므로 None으로
+    둔다. 점수 계산에서는 중립 가중치를 적용한다.
     """
     raw = item.get("postdate")
     if raw and re.fullmatch(r"\d{8}", raw):
         return f"{raw[:4]}-{raw[4:6]}-{raw[6:]}"
+    pub = item.get("pubDate")
+    if pub:
+        # 'Wed, 17 Sep 2026 09:12:00 +0900' — 시각은 버리고 날짜만 남긴다.
+        try:
+            return parsedate_to_datetime(pub).date().isoformat()
+        except (TypeError, ValueError, IndexError):
+            return None
     return None
 
 
-def _author_hash(item: dict) -> str | None:
-    """작성자 식별용 해시. 원본 ID는 저장하지 않는다(개인정보 최소수집)."""
+def _host(url: str | None) -> str:
+    try:
+        return (urlparse(url or "").netloc or "").lower().removeprefix("www.")
+    except ValueError:
+        return ""
+
+
+def _author_hash(item: dict, source: str = "") -> str | None:
+    """작성자 식별용 해시. 원본 ID는 저장하지 않는다(개인정보 최소수집).
+
+    뉴스는 기자가 아니라 **언론사 도메인**(originallink 의 host)이 작성자다 —
+    같은 매체의 홍보 기사 묶음을 작성자 버스트로 잡으려면 그 단위여야 한다.
+    웹문서는 host 로 — 티스토리 하나가 한 작성자다.
+    """
+    if source == "naver_news":
+        host = _host(item.get("originallink")) or _host(item.get("link"))
+        return _hash(host) if host else None
+    if source == "naver_web":
+        host = _host(item.get("link"))
+        return _hash(host) if host else None
     for key in ("bloggerlink", "bloggername", "cafename"):
         if item.get(key):
             return _hash(str(item[key]))
     return None
+
+
+def normalize_item(source: str, item: dict) -> dict | None:
+    """API 응답 한 건을 언급 행으로. 소스마다 응답 모양이 다르다.
+
+        cafearticle  title · link · description · cafename        (날짜 없음)
+        blog         title · link · description · postdate · bloggername
+        kin          title · link · description                    (날짜 없음)
+        webkr        title · link · description                    (날짜 없음)
+        news         title · originallink · link · description · pubDate
+
+    뉴스의 `link` 는 네이버 뉴스 주소(없으면 원문과 같다), `originallink` 가
+    언론사 원문이다. 원문을 `source_url` 로 둔다 — 같은 기사가 네이버 주소와
+    원문 주소로 두 번 잡히지 않게 하는 쪽이 원문이다.
+    """
+    if source == "naver_news":
+        link = (item.get("originallink") or item.get("link") or "").strip()
+    else:
+        link = (item.get("link") or "").strip()
+    if not link:
+        return None
+    return {
+        "source": source,
+        "source_url": link,
+        "url_hash": _hash(link),
+        "author_hash": _author_hash(item, source),
+        "title": clean(item.get("title")),
+        "snippet": clean(item.get("description")),
+        "posted_at": _parse_date(item),
+        "collected_at": datetime.now(timezone.utc).isoformat(),
+    }
 
 
 def search(source: str, query: str, max_results: int = 300) -> list[dict]:
@@ -196,19 +280,9 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
         if not items:
             break
         for item in items:
-            link = item.get("link") or ""
-            if not link:
-                continue
-            out.append({
-                "source": source,
-                "source_url": link,
-                "url_hash": _hash(link),
-                "author_hash": _author_hash(item),
-                "title": clean(item.get("title")),
-                "snippet": clean(item.get("description")),
-                "posted_at": _parse_date(item),
-                "collected_at": datetime.now(timezone.utc).isoformat(),
-            })
+            row = normalize_item(source, item)
+            if row:
+                out.append(row)
         start += len(items)
         time.sleep(SLEEP)
     return out
@@ -385,13 +459,27 @@ def queries_for(academy: dict, region_name: str) -> list[str]:
     return qs
 
 
+def light_query(academy: dict, region_name: str) -> str:
+    """웹문서·뉴스용 한 줄 질의. 등록명에 이미 업종어가 있어 맥락어는 따로
+    붙이지 않고, 지역명은 반드시 건다(브랜드 단독 질의는 타지역 글을 끌고 온다)."""
+    return f"{region_name} {academy['name']}".strip()
+
+
 def collect_for_academy(academy: dict, region_name: str,
                         per_query: int = 100) -> list[dict]:
-    """중복 제거된 언급 목록을 돌려준다."""
+    """중복 제거된 언급 목록을 돌려준다.
+
+    소스를 바깥 순환으로 둔다. 같은 URL 이 두 소스에서 오면(웹문서는 블로그
+    글도 돌려준다) **먼저 도는 소스가 임자**라, 블로그가 웹문서보다 앞에 있어
+    `naver_blog` 로 남는다 — 본문 보강(blog.enrich)이 그 값을 본다.
+    """
     seen: set[str] = set()
     mentions: list[dict] = []
-    for query in queries_for(academy, region_name):
-        for source in SOURCES:
+    full = queries_for(academy, region_name)
+    for source in SOURCES:
+        queries = [light_query(academy, region_name)] \
+            if source in LIGHT_SOURCES else full
+        for query in queries:
             try:
                 results = search(source, query, max_results=per_query)
             except NaverError as exc:

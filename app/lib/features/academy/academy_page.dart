@@ -14,6 +14,7 @@ import '../../data/reservations.dart';
 import '../../widgets/contact.dart';
 import '../../widgets/rank_history_chart.dart';
 import 'contact.dart';
+import 'profile_section.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -251,6 +252,16 @@ class _Body extends StatelessWidget {
                 _SubjectScores(academy: academy),
               ],
               const SizedBox(height: AppSpace.xl),
+
+              // ── 학부모가 그리는 이 학원 ─────────────────────
+              // 후기를 AI 가 네 칸으로 추린 것. 점수 바로 아래에 두는
+              // 이유는 점수가 답하지 못하는 질문('우리 애한테 맞나')이
+              // 여기서 시작되기 때문이다. 점수에는 들어가지 않는다.
+              // 다섯 절이 전부 비었거나 아직 안 만들었으면 그리지 않는다.
+              if (academy.profile?.hasContent ?? false) ...[
+                ProfilePanel(academy: academy),
+                const SizedBox(height: AppSpace.xl),
+              ],
 
               // ── 학부모가 말한 것 ────────────────────────────
               // 선생님·관리·숙제량… 관점별로 갈라 보여 준다. 한 숫자로

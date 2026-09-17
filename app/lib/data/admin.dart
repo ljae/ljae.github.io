@@ -53,6 +53,8 @@ class MentionReview {
         'naver_blog' => '네이버 블로그',
         'naver_cafe' => '네이버 카페',
         'naver_kin' => '네이버 지식iN',
+        'naver_web' => '네이버 웹문서',
+        'naver_news' => '네이버 뉴스',
         'edutree_review' => '학원실록 후기',
         _ => source,
       };

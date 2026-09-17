@@ -209,6 +209,21 @@ class AcademyCard extends StatelessWidget {
                             CallTag(academy: academy),
                           ],
                         ),
+                        // 프로필 한 줄('레테 S · 숙제 중상 · …'). 파이프라인이
+                        // 등급·숙제량·커리큘럼 앞머리로 결정적으로 짓는다 —
+                        // 모델 문장을 그대로 올리지 않는다. 없으면 아무것도
+                        // 그리지 않는다. 점수가 아니라 장부 숫자도 아니다.
+                        if (academy.profile?.oneLiner case final line?) ...[
+                          const SizedBox(height: 7),
+                          Text(
+                            line,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: text.bodySmall?.copyWith(
+                              color: AppColors.mutedOn(dark),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),

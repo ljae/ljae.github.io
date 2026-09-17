@@ -222,6 +222,9 @@ def score_spam(text: str, title: str = "") -> float:
     return round(min(1.0, score), 3)
 
 
+NEWS_CREDIBILITY_CAP = 0.35
+
+
 def score_credibility(text: str, title: str = "", source: str = "") -> float:
     """구체성 기반 신뢰도 [0,1]. 길고 구체적인 글에 더 큰 가중치."""
     blob = f"{title} {text}"
@@ -241,6 +244,13 @@ def score_credibility(text: str, title: str = "", source: str = "") -> float:
         score += 0.05                              # 카페가 블로그보다 광고 비중이 낮음
     if len(flat) < 40:
         score -= 0.15                              # 한 줄짜리는 신뢰도 낮음
+    # 뉴스는 학부모의 경험이 아니다. 학원 기사의 대부분이 보도자료·협찬
+    # 기사라('○○학원, 설명회 개최') 길고 수치가 많아 위 가산을 다 받는데,
+    # 그 길이와 수치는 홍보의 성질이지 근거의 두께가 아니다. 상한을 걸어
+    # 블로그(대개 0.5~0.8)의 절반 아래에 둔다 — 화제성에는 세고 평판에는
+    # 가볍게. 웹문서(티스토리·커뮤니티)는 블로그와 같은 성질이라 그대로 둔다.
+    if source == "naver_news":
+        score = min(score, NEWS_CREDIBILITY_CAP)
 
     return round(max(0.0, min(1.0, score)), 3)
 

@@ -509,6 +509,166 @@ class DisputeRate {
   );
 }
 
+/// 프로필의 인용 한 줄. 원문 글자 그대로(≤120자)이고 반드시 URL 을 갖는다.
+///
+/// [kind] 가 `self` 면 학원이 스스로 밝힌 것(디렉터리·홈페이지)이다.
+/// 학부모 후기와 같은 얼굴로 두면 안 된다 — 화면이 꼬리표로 가른다.
+class ProfileQuote {
+  final String quote;
+  final String url;
+  final String urlHash;
+  final String? postedAt;
+
+  /// parent | self
+  final String kind;
+
+  const ProfileQuote({
+    required this.quote,
+    required this.url,
+    this.urlHash = '',
+    this.postedAt,
+    this.kind = 'parent',
+  });
+
+  factory ProfileQuote.fromJson(Map<String, dynamic> j) => ProfileQuote(
+    quote: (j['quote'] ?? '') as String,
+    url: (j['url'] ?? '') as String,
+    urlHash: (j['urlHash'] ?? '') as String,
+    postedAt: j['postedAt'] as String?,
+    kind: (j['kind'] ?? 'parent') as String,
+  );
+
+  bool get isSelf => kind == 'self';
+}
+
+/// 프로필의 절 하나 — 레벨테스트·숙제·커리큘럼·잘 맞는 아이·위치·운영.
+///
+/// 파이프라인이 서로 다른 글 2건 이상(운영은 1건)이 받칠 때만 내보내고,
+/// 모자라면 절 자체가 `null` 로 온다. 그래서 여기 온 절은 [quotes] 가
+/// 비어 있지 않다 — 인용 없는 문장은 애초에 만들어지지 않는다.
+class ProfileSection {
+  /// 레벨테스트 난이도 등급. S+ · S · A+ · A · B+ · B · C
+  final String? band;
+
+  /// 무엇이 어려운가(≤12자). 문제 자체인지, 컷·인터뷰인지.
+  final String? hard;
+
+  /// 숙제량. 상·중상·중·중하·하
+  final String? load;
+  final String? note;
+  final List<String> goodFor;
+  final List<String> caution;
+  final bool? shuttle;
+  final List<ProfileQuote> quotes;
+
+  const ProfileSection({
+    this.band,
+    this.hard,
+    this.load,
+    this.note,
+    this.goodFor = const [],
+    this.caution = const [],
+    this.shuttle,
+    this.quotes = const [],
+  });
+
+  factory ProfileSection.fromJson(Map<String, dynamic> j) => ProfileSection(
+    band: _nonEmpty(j['band'] as String?),
+    hard: _nonEmpty(j['hard'] as String?),
+    load: _nonEmpty(j['load'] as String?),
+    note: _nonEmpty(j['note'] as String?),
+    goodFor: ((j['goodFor'] as List?) ?? const []).cast<String>(),
+    caution: ((j['caution'] as List?) ?? const []).cast<String>(),
+    shuttle: j['shuttle'] as bool?,
+    quotes: ((j['quotes'] as List?) ?? const [])
+        .map((e) => ProfileQuote.fromJson((e as Map).cast<String, dynamic>()))
+        .toList(),
+  );
+
+  /// 서로 다른 원문의 수. 같은 글의 인용 둘은 한 건이다.
+  int get sourceCount => {
+    for (final q in quotes) q.url.isNotEmpty ? q.url : q.urlHash,
+  }.length;
+
+  static String? _nonEmpty(String? s) =>
+      (s == null || s.trim().isEmpty) ? null : s;
+}
+
+/// 후기 N건을 AI 가 네 칸으로 추린 '학부모가 그리는 이 학원'.
+/// 파이프라인 profiles.py 가 만든다.
+///
+/// **점수·순위·정렬 어디에도 쓰지 않는다.** 모든 줄이 원문 인용을 갖고,
+/// 인용이 원문에 글자 그대로 없으면 파이프라인이 그 줄을 버린다. 근거가
+/// 모자란 절은 `null` 이다 — 화면은 그것을 '아직 근거 부족' 이라 적는다.
+/// 빈칸으로 두지 않는다.
+class AcademyProfile {
+  final int version;
+  final String generatedAt;
+
+  /// 어느 모델이 썼는지 밝힌다. 산식에 안 들어가므로 갈아끼워도 되지만,
+  /// 그래서 더 적어 둔다 — 문장의 임자가 누구인지가 보여야 한다.
+  final String model;
+
+  /// 모델이 읽은 발췌 수.
+  final int sample;
+
+  /// 그중 서로 다른 글 수. 부제의 '후기 N건' 이 이 값이다.
+  final int sources;
+  final ProfileSection? levelTest;
+  final ProfileSection? homework;
+  final ProfileSection? curriculum;
+  final ProfileSection? fit;
+  final ProfileSection? ops;
+
+  /// 카드 한 줄. 파이프라인이 band·load·curriculum 앞머리로 **결정적으로**
+  /// 짓는다 — 모델 문장을 그대로 카드에 올리지 않는다.
+  final String? oneLiner;
+
+  const AcademyProfile({
+    this.version = 1,
+    this.generatedAt = '',
+    this.model = '',
+    this.sample = 0,
+    this.sources = 0,
+    this.levelTest,
+    this.homework,
+    this.curriculum,
+    this.fit,
+    this.ops,
+    this.oneLiner,
+  });
+
+  factory AcademyProfile.fromJson(Map<String, dynamic> j) => AcademyProfile(
+    version: (j['version'] as num?)?.toInt() ?? 1,
+    generatedAt: (j['generatedAt'] ?? '') as String,
+    model: (j['model'] ?? '') as String,
+    sample: (j['sample'] as num?)?.toInt() ?? 0,
+    sources: (j['sources'] as num?)?.toInt() ?? 0,
+    levelTest: _section(j['levelTest']),
+    homework: _section(j['homework']),
+    curriculum: _section(j['curriculum']),
+    fit: _section(j['fit']),
+    ops: _section(j['ops']),
+    oneLiner: ProfileSection._nonEmpty(j['oneLiner'] as String?),
+  );
+
+  static ProfileSection? _section(Object? v) =>
+      v == null ? null : ProfileSection.fromJson((v as Map).cast<String, dynamic>());
+
+  /// 채워진 절만. 인용 번호를 매길 때 돈다.
+  List<ProfileSection> get sections => [
+    ?levelTest,
+    ?homework,
+    ?curriculum,
+    ?fit,
+    ?ops,
+  ];
+
+  /// 다섯 절이 전부 비었으면 절 자체를 그리지 않는다. '아직 근거 부족'
+  /// 여섯 줄만 늘어선 카드는 아무 말도 하지 않는다.
+  bool get hasContent => sections.isNotEmpty;
+}
+
 /// 근거 한 건. 파이프라인 evidence.py 가 고르고 발췌한다.
 ///
 /// [snippet] 은 글의 앞머리가 아니라 **학원 이름이 나온 대목**이다. 앞
@@ -593,6 +753,8 @@ class Evidence {
     'naver_cafe' => '네이버 카페',
     'naver_blog' => '네이버 블로그',
     'naver_kin' => '지식iN',
+    'naver_web' => '웹문서',
+    'naver_news' => '뉴스',
     'cafe_local' => '카페 수집',
     _ => source,
   };
@@ -671,6 +833,10 @@ class Academy {
   /// 이 학원 근거 중 이의로 빠진 비율. **숨기면 그 자체가 왜곡이다.**
   final DisputeRate? disputeRate;
 
+  /// 후기를 AI 가 네 칸으로 추린 프로필. 없으면 null — 아직 안 만들었거나
+  /// 표본이 문턱(15건) 미만이다. **점수에 들어가지 않는다.**
+  final AcademyProfile? profile;
+
   const Academy({
     required this.id,
     required this.name,
@@ -703,6 +869,7 @@ class Academy {
     this.facts = const {},
     this.selectivityEvidence = const [],
     this.disputeRate,
+    this.profile,
   });
 
   factory Academy.fromJson(Map<String, dynamic> j) => Academy(
@@ -766,6 +933,11 @@ class Academy {
         : DisputeRate.fromJson(
             (j['disputeRate'] as Map).cast<String, dynamic>(),
           ),
+    profile: j['profile'] == null
+        ? null
+        : AcademyProfile.fromJson(
+            (j['profile'] as Map).cast<String, dynamic>(),
+          ),
   );
 
   /// 옛 번들(ref 없음)도 번호를 갖는다 — 목록 순서가 곧 번호다.
@@ -791,8 +963,9 @@ class Academy {
                 ),
       ];
 
-  /// 원문 URL → 화면 번호. 사실 카드·진입난이도 인용이 같은 원문이면
-  /// 같은 번호를 쓴다. 근거 목록에 없는 원문은 그 뒤 번호를 새로 받는다.
+  /// 원문 URL → 화면 번호. 사실 카드·진입난이도·프로필 인용이 같은
+  /// 원문이면 같은 번호를 쓴다. 근거 목록에 없는 원문은 그 뒤 번호를
+  /// 새로 받는다.
   Map<String, int> get sourceRefs {
     final refs = <String, int>{};
     for (final e in evidence) {
@@ -815,6 +988,12 @@ class Academy {
         for (final q in b.quotes) {
           add(q.url);
         }
+      }
+    }
+    // 프로필 인용도 같은 장부다. 같은 원문이면 위와 같은 번호를 받는다.
+    for (final s in profile?.sections ?? const <ProfileSection>[]) {
+      for (final q in s.quotes) {
+        add(q.url);
       }
     }
     return refs;
