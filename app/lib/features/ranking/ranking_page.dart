@@ -124,6 +124,14 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                                   '${data.meta.minSampleForRank}건 미만은 "표본 부족"으로 '
                                   '표기합니다. 국·영·수·과학 학원은 각 과목 랭킹에서 보세요.',
                       ),
+                      TextButton.icon(
+                        onPressed: () => context.push('/sources'),
+                        icon: const Icon(
+                          Icons.library_books_outlined,
+                          size: 18,
+                        ),
+                        label: const Text('대치 영어학원 · 원출처로 비교'),
+                      ),
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
                       // 무엇을 뜻하는지 설명할 수 없다.

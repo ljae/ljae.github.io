@@ -75,8 +75,15 @@ void main() {
     );
     expect(data.zonedApartmentsFor(given).single.name, '어딘가');
 
-    final joined = data.schools.firstWhere(
-      (s) => s.apartments.isEmpty && data.apartmentsForSchool(s).isNotEmpty,
+    // 최신 번들은 모든 학교의 아파트를 채울 수 있다. 누락된 옛 번들의
+    // 조건을 명시적으로 만들어야 데이터 개선이 회귀 실패가 되지 않는다.
+    final original = data.schools.firstWhere(
+      (s) => data.apartmentsForSchool(s).isNotEmpty,
+    );
+    final joined = School(
+      id: original.id, name: original.name, level: original.level,
+      levelLabel: original.levelLabel, regionId: original.regionId,
+      zoneId: original.zoneId, zoneName: original.zoneName,
     );
     final rows = data.zonedApartmentsFor(joined);
     expect(rows, isNotEmpty);

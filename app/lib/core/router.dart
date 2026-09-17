@@ -7,6 +7,7 @@ import '../features/admin/admin_page.dart';
 import '../features/board/post_page.dart';
 import '../features/home/home_page.dart';
 import '../features/map/map_page.dart';
+import '../features/sources/sources_page.dart';
 import '../features/method/method_page.dart';
 import '../features/ranking/ranking_page.dart';
 import '../features/techtree/techtree_page.dart';
@@ -16,22 +17,26 @@ import '../widgets/app_shell.dart';
 /// 짧게 흐려 넘긴다. 그냥 툭 갈아 끼우면 어디가 바뀌었는지 눈이 못 따라간다.
 /// 위로 살짝 올리는 정도만 곁들인다 — 길어지면 그게 더 답답하다.
 CustomTransitionPage<void> _fade(Widget child) => CustomTransitionPage<void>(
-      child: child,
-      transitionDuration: const Duration(milliseconds: 180),
-      reverseTransitionDuration: const Duration(milliseconds: 120),
-      transitionsBuilder: (context, animation, secondary, child) {
-        final curved =
-            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
-        return FadeTransition(
-          opacity: curved,
-          child: SlideTransition(
-            position: Tween(begin: const Offset(0, 0.012), end: Offset.zero)
-                .animate(curved),
-            child: child,
-          ),
-        );
-      },
+  child: child,
+  transitionDuration: const Duration(milliseconds: 180),
+  reverseTransitionDuration: const Duration(milliseconds: 120),
+  transitionsBuilder: (context, animation, secondary, child) {
+    final curved = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
     );
+    return FadeTransition(
+      opacity: curved,
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(0, 0.012),
+          end: Offset.zero,
+        ).animate(curved),
+        child: child,
+      ),
+    );
+  },
+);
 
 /// 로그인 링크로 돌아왔을 때 갈 곳.
 ///
@@ -52,34 +57,46 @@ final router = GoRouter(
       builder: (context, state, child) => AppShell(child: child),
       routes: [
         GoRoute(
-            path: '/',
-            pageBuilder: (context, state) => _fade(const HomePage())),
+          path: '/',
+          pageBuilder: (context, state) => _fade(const HomePage()),
+        ),
 
         GoRoute(
-            path: '/tree',
-            pageBuilder: (context, state) => _fade(const TechTreePage())),
+          path: '/tree',
+          pageBuilder: (context, state) => _fade(const TechTreePage()),
+        ),
 
         GoRoute(
-            path: '/rank',
-            pageBuilder: (context, state) => _fade(const RankingPage())),
+          path: '/sources',
+          pageBuilder: (context, state) => _fade(const SourcesPage()),
+        ),
 
         GoRoute(
-            path: '/map',
-            pageBuilder: (context, state) => _fade(const MapPage())),
+          path: '/rank',
+          pageBuilder: (context, state) => _fade(const RankingPage()),
+        ),
 
         GoRoute(
-            path: '/board',
-            pageBuilder: (context, state) => _fade(const BoardPage())),
+          path: '/map',
+          pageBuilder: (context, state) => _fade(const MapPage()),
+        ),
 
         GoRoute(
-            path: '/method',
-            pageBuilder: (context, state) => _fade(const MethodPage())),
+          path: '/board',
+          pageBuilder: (context, state) => _fade(const BoardPage()),
+        ),
+
+        GoRoute(
+          path: '/method',
+          pageBuilder: (context, state) => _fade(const MethodPage()),
+        ),
 
         // 관리자 화면. 메뉴에 두지 않는다 — 주소를 아는 사람만 들어온다.
         // 데이터를 바꾸는 것은 service_role 이 필요하므로 RLS 가 막는다.
         GoRoute(
-            path: '/admin',
-            pageBuilder: (context, state) => _fade(const AdminPage())),
+          path: '/admin',
+          pageBuilder: (context, state) => _fade(const AdminPage()),
+        ),
         GoRoute(
           path: '/board/:id',
           pageBuilder: (_, state) =>
@@ -101,7 +118,9 @@ final router = GoRouter(
           const Text('페이지를 찾을 수 없습니다'),
           const SizedBox(height: 12),
           FilledButton(
-              onPressed: () => context.go('/'), child: const Text('홈으로')),
+            onPressed: () => context.go('/'),
+            child: const Text('홈으로'),
+          ),
         ],
       ),
     ),

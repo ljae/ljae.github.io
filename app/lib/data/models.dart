@@ -666,7 +666,8 @@ class AcademyProfile {
 
   /// 다섯 절이 전부 비었으면 절 자체를 그리지 않는다. '아직 근거 부족'
   /// 여섯 줄만 늘어선 카드는 아무 말도 하지 않는다.
-  bool get hasContent => sections.isNotEmpty;
+  bool get hasContent => [levelTest, homework, curriculum, ops]
+      .any((s) => s != null && s.quotes.isNotEmpty);
 }
 
 /// 근거 한 건. 파이프라인 evidence.py 가 고르고 발췌한다.

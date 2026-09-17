@@ -6,23 +6,7 @@ import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../widgets/contact.dart';
 
-/// '학부모가 그리는 이 학원' — 후기 N건을 AI 가 네 칸으로 추린 장부.
-///
-/// 조형은 사실 카드와 같은 **장부 행**이다: 왼쪽 라벨 셀, 오른쪽 본문,
-/// 행 사이 계선. 점수가 아니므로 다이얼도 막대도 없다.
-///
-/// 지키는 것 셋.
-///  - 근거가 모자란 절은 **'아직 근거 부족'** 이라 적는다. 빈칸으로 두면
-///    '그런 얘기가 없다' 로 읽히는데, 사실은 우리가 아직 모르는 것이다.
-///    다섯 절이 전부 비었으면 절 자체를 그리지 않는다 — '아직 근거 부족'
-///    여섯 줄만 늘어선 카드는 아무 말도 하지 않는다.
-///  - 인용은 사실 카드의 인용과 같은 얼굴이고 **같은 번호**를 쓴다
-///    (`Academy.sourceRefs`). 학원 자기 서술(`kind: self`)은 꼬리표로 가른다 —
-///    학원이 스스로 '숙제 적당' 이라 말한 것은 학부모 후기가 아니다.
-///  - 등급(S·중상)은 주묵이 아니라 추정색이다. 주묵은 1위·현재 위치에만.
-///
-/// 행을 누르면 그 절의 인용이 펼쳐진다. 한 번에 다 펼치는 버튼은 두지
-/// 않는다 — 인용은 문장을 의심할 때 여는 것이지 훑어 읽는 것이 아니다.
+/// 공개 글의 요약. 적합성 판단은 표시하지 않고 근거를 함께 보여준다.
 class ProfilePanel extends StatefulWidget {
   final Academy academy;
   const ProfilePanel({super.key, required this.academy});
@@ -31,8 +15,7 @@ class ProfilePanel extends StatefulWidget {
   State<ProfilePanel> createState() => _ProfilePanelState();
 }
 
-/// 장부의 여섯 행. '잘 맞는 아이' 와 '주의' 는 같은 절(fit)에서 갈라 나온다.
-enum _Row { levelTest, homework, curriculum, goodFor, caution, ops }
+enum _Row { levelTest, homework, curriculum, ops }
 
 class _ProfilePanelState extends State<ProfilePanel> {
   final Set<_Row> _open = {};
@@ -49,8 +32,6 @@ class _ProfilePanelState extends State<ProfilePanel> {
       (_Row.levelTest, '레벨테스트', profile.levelTest),
       (_Row.homework, '숙제', profile.homework),
       (_Row.curriculum, '커리큘럼', profile.curriculum),
-      (_Row.goodFor, '잘 맞는 아이', profile.fit),
-      (_Row.caution, '주의', profile.fit),
       (_Row.ops, '위치·운영', profile.ops),
     ];
 
@@ -58,11 +39,11 @@ class _ProfilePanelState extends State<ProfilePanel> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionHeader(
-          '학부모가 그리는 이 학원',
+          '공개 글에서 읽은 수업 정보',
           subtitle:
-              '후기 ${profile.sources}건을 AI가 추려 적었습니다. 모든 줄은 원문 '
-              '인용을 갖고, 점수에는 들어가지 않습니다. 근거가 모자란 칸은 '
-              '비워 둡니다.',
+              '자료 ${profile.sources}건을 읽고 AI가 요약했습니다. 아래 인용은 '
+              '요약의 근거이며, 요약 자체의 정확성을 보장하지 않습니다. '
+              '공식 안내와 작성 시점을 함께 확인해 주세요.',
         ),
         Card(
           child: Padding(
@@ -118,17 +99,14 @@ class _ProfileRow extends StatelessWidget {
     required this.onToggle,
   });
 
-  /// 이 행이 적을 것이 있는가. fit 절은 두 행이 나눠 쓰므로 절이 있어도
-  /// 제 목록이 비면 '아직 근거 부족' 이다 — '주의할 것 없음' 으로 읽히면
-  /// 안 된다. 우리가 모르는 것이지 없는 것이 아니다.
   bool get _empty {
     final s = section;
-    if (s == null) return true;
-    return switch (kind) {
-      _Row.goodFor => s.goodFor.isEmpty,
-      _Row.caution => s.caution.isEmpty,
-      _ => s.note == null && s.band == null && s.load == null && s.shuttle == null,
-    };
+    return s == null ||
+        s.quotes.isEmpty ||
+        (s.note == null &&
+            s.band == null &&
+            s.load == null &&
+            s.shuttle == null);
   }
 
   @override
@@ -142,7 +120,7 @@ class _ProfileRow extends StatelessWidget {
     final numbers = empty
         ? const <int>[]
         : (s!.quotes.map((q) => refs[q.url]).whereType<int>().toSet().toList()
-          ..sort());
+            ..sort());
 
     return InkWell(
       onTap: empty ? null : onToggle,
@@ -232,18 +210,9 @@ class _ProfileRow extends StatelessWidget {
     _ => const [],
   };
 
-  /// 본문. 서술 절은 한 문장, fit 절은 항목 나열.
-  List<Widget> _body(ProfileSection s, TextTheme text) => switch (kind) {
-    _Row.goodFor => [
-      for (final g in s.goodFor) Text('· $g', style: text.bodyMedium),
-    ],
-    _Row.caution => [
-      for (final c in s.caution) Text('· $c', style: text.bodyMedium),
-    ],
-    _ => [
-      if (s.note case final note?) Text(note, style: text.bodyMedium),
-    ],
-  };
+  List<Widget> _body(ProfileSection s, TextTheme text) => [
+    if (s.note case final note?) Text(note, style: text.bodyMedium),
+  ];
 }
 
 /// 인용 한 줄. 사실 카드의 인용(`_ClaimQuote`)과 같은 얼굴 — 따옴표·날짜·
@@ -274,13 +243,17 @@ class _ProfileQuoteTile extends StatelessWidget {
                   runSpacing: 2,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    if (quote.postedAt case final at?)
-                      Text(
-                        at,
-                        style: text.labelSmall?.copyWith(
-                          color: AppColors.mutedOn(dark),
-                        ),
+                    Text(
+                      quote.postedAt ?? '작성일 미상',
+                      style: text.labelSmall?.copyWith(
+                        color: AppColors.mutedOn(dark),
                       ),
+                    ),
+                    Text(
+                      Uri.tryParse(quote.url)?.host ?? '',
+                      style: text.labelSmall,
+                    ),
+                    if (!quote.isSelf) const Text('공개 글 · 작성자 성격 미확인'),
                     // 학원이 스스로 말한 것은 학부모 후기와 같은 얼굴로
                     // 두지 않는다.
                     if (quote.isSelf)

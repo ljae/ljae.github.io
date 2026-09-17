@@ -15,6 +15,7 @@ import '../../widgets/contact.dart';
 import '../../widgets/rank_history_chart.dart';
 import 'contact.dart';
 import 'profile_section.dart';
+import '../sources/sources_page.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -184,6 +185,8 @@ class _Body extends StatelessWidget {
               // 학부모가 다음에 하는 일은 둘이다. 전화번호를 글자로만
               // 보여 주면 옮겨 적어야 한다.
               ContactCard(academy: academy),
+              const SizedBox(height: AppSpace.lg),
+              AcademySourcePanel(academyId: academy.id),
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
@@ -206,12 +209,12 @@ class _Body extends StatelessWidget {
                           child: Text(
                             score.sampleSize == 0
                                 ? '아직 이 학원을 다룬 글을 찾지 못했습니다. 점수를 '
-                                    '매기지 않았으며, 공식 등록 정보만 보여드립니다.'
+                                      '매기지 않았으며, 공식 등록 정보만 보여드립니다.'
                                 : '후기는 ${score.sampleSize}건 모았지만 진입난이도를 '
-                                    '잴 사건(레벨테스트·대기·마감)이 확인되지 않아 '
-                                    '네 기둥을 다 채우지 못했습니다. 채운 기둥만 더한 '
-                                    '값은 네 기둥 총점과 견줄 수 없어 순위를 매기지 '
-                                    '않습니다.',
+                                      '잴 사건(레벨테스트·대기·마감)이 확인되지 않아 '
+                                      '네 기둥을 다 채우지 못했습니다. 채운 기둥만 더한 '
+                                      '값은 네 기둥 총점과 견줄 수 없어 순위를 매기지 '
+                                      '않습니다.',
                             style: text.bodyMedium,
                           ),
                         ),
@@ -253,11 +256,7 @@ class _Body extends StatelessWidget {
               ],
               const SizedBox(height: AppSpace.xl),
 
-              // ── 학부모가 그리는 이 학원 ─────────────────────
-              // 후기를 AI 가 네 칸으로 추린 것. 점수 바로 아래에 두는
-              // 이유는 점수가 답하지 못하는 질문('우리 애한테 맞나')이
-              // 여기서 시작되기 때문이다. 점수에는 들어가지 않는다.
-              // 다섯 절이 전부 비었거나 아직 안 만들었으면 그리지 않는다.
+              // 공개 글 요약은 공식 안내와 분리하고 적합성 판단을 표시하지 않는다.
               if (academy.profile?.hasContent ?? false) ...[
                 ProfilePanel(academy: academy),
                 const SizedBox(height: AppSpace.xl),
@@ -674,8 +673,12 @@ class _EvidenceTile extends ConsumerWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.sm),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(AppSpace.md, AppSpace.sm,
-            AppSpace.sm, AppSpace.sm),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.md,
+          AppSpace.sm,
+          AppSpace.sm,
+          AppSpace.sm,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -710,17 +713,20 @@ class _EvidenceTile extends ConsumerWidget {
                     spacing: 6,
                     runSpacing: 4,
                     children: [
-                      Chip2(evidence.matchLabel,
-                          color: evidence.inTitle
-                              ? AppColors.verified
-                              : AppColors.slate),
+                      Chip2(
+                        evidence.matchLabel,
+                        color: evidence.inTitle
+                            ? AppColors.verified
+                            : AppColors.slate,
+                      ),
                       Chip2(evidence.sourceLabel, color: AppColors.slate),
                       if (evidence.postedAt != null)
                         Chip2(evidence.postedAt!, color: AppColors.mist),
                       Chip2(
                         positive ? '긍정' : '부정',
-                        color:
-                            positive ? AppColors.verified : AppColors.momentum,
+                        color: positive
+                            ? AppColors.verified
+                            : AppColors.momentum,
                       ),
                       Chip2(
                         '신뢰도 ${(evidence.credibility * 100).toStringAsFixed(0)}',
@@ -729,8 +735,7 @@ class _EvidenceTile extends ConsumerWidget {
                       // 지점을 밝히지 않은 글은 같은 브랜드 지점 여럿에 함께
                       // 반영된다. 밝히지 않으면 '중복'으로 읽힌다.
                       if (evidence.isBrandWide)
-                        const Chip2('지점 불명 · 브랜드 공통',
-                            color: AppColors.mist),
+                        const Chip2('지점 불명 · 브랜드 공통', color: AppColors.mist),
                     ],
                   ),
                 ],

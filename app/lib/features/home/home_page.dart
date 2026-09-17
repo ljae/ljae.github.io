@@ -163,6 +163,10 @@ class _Frontispiece extends StatelessWidget {
                                   onPressed: () => context.go('/rank'),
                                   child: const Text('학군별 랭킹'),
                                 ),
+                                OutlinedButton(
+                                  onPressed: () => context.go('/sources'),
+                                  child: const Text('원출처로 비교'),
+                                ),
                               ],
                             ),
                           ),

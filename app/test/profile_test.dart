@@ -11,7 +11,7 @@ import 'package:edutree/features/academy/profile_section.dart';
 import 'package:edutree/widgets/academy_card.dart';
 import 'package:edutree/widgets/annals.dart';
 
-/// '학부모가 그리는 이 학원' — 파이프라인 계약(docs/PROFILES.md)의 화면 쪽.
+/// '공개 글에서 읽은 수업 정보' — 파이프라인 계약(docs/PROFILES.md)의 화면 쪽.
 ///
 /// 픽스처는 pipeline/tests/fixtures/profile_sample.json 의 사본이다. 계약이
 /// 바뀌면 양쪽을 함께 고친다.
@@ -133,7 +133,7 @@ void main() {
     });
   });
 
-  group('상세 — 학부모가 그리는 이 학원', () {
+  group('상세 — 공개 글에서 읽은 수업 정보', () {
     const firstQuote = '“문제는 어렵지 않은데 라이팅 컷이 높아서 떨어졌어요”';
 
     Future<void> pump(
@@ -153,16 +153,14 @@ void main() {
       await tester.pump();
     }
 
-    testWidgets('절이 뜨고, 빈 절은 "아직 근거 부족", 행을 누르면 인용이 펼쳐진다', (
-      tester,
-    ) async {
+    testWidgets('절이 뜨고, 빈 절은 "아직 근거 부족", 행을 누르면 인용이 펼쳐진다', (tester) async {
       final j = fixture();
       j['curriculum'] = null; // 근거 부족으로 온 절
       await pump(tester, academy(profile: AcademyProfile.fromJson(j)));
 
-      expect(find.text('학부모가 그리는 이 학원'), findsOneWidget);
-      expect(find.textContaining('후기 38건을 AI가 추려 적었습니다'), findsOneWidget);
-      for (final label in ['레벨테스트', '숙제', '커리큘럼', '잘 맞는 아이', '주의', '위치·운영']) {
+      expect(find.text('공개 글에서 읽은 수업 정보'), findsOneWidget);
+      expect(find.textContaining('자료 38건을 읽고 AI가 요약했습니다'), findsOneWidget);
+      for (final label in ['레벨테스트', '숙제', '커리큘럼', '위치·운영']) {
         expect(find.text(label), findsOneWidget, reason: '$label 행');
       }
       // 빈 절은 빈칸이 아니라 말로 적는다 — 커리큘럼 하나뿐.
@@ -173,13 +171,12 @@ void main() {
       expect(band.color, isNot(AppColors.accentOn(false)));
       expect(find.widgetWithText(TagMark, '중상'), findsOneWidget);
       // 본문과 근거 수.
-      expect(
-        find.text('문제 자체보다 합격 컷과 라이팅 채점이 까다롭다는 평이 반복된다.'),
-        findsOneWidget,
-      );
-      expect(find.text('· 말하고 참여하며 책을 좋아하는 아이'), findsOneWidget);
-      expect(find.text('· 반·교사차를 확인할 것'), findsOneWidget);
-      expect(find.text('근거 2건'), findsNWidgets(4)); // 레테·숙제·잘맞·주의
+      expect(find.text('문제 자체보다 합격 컷과 라이팅 채점이 까다롭다는 평이 반복된다.'), findsOneWidget);
+      expect(find.text('· 말하고 참여하며 책을 좋아하는 아이'), findsNothing);
+      expect(find.text('잘 맞는 아이'), findsNothing);
+      expect(find.text('주의'), findsNothing);
+      expect(find.text('· 반·교사차를 확인할 것'), findsNothing);
+      expect(find.text('근거 2건'), findsNWidgets(2)); // 레테·숙제
       expect(find.text('근거 1건'), findsOneWidget); // 운영
       // 맨 아래 한 줄.
       expect(find.text('생성 2026-09-17 · 모델 gemini-3.7-flash'), findsOneWidget);
@@ -208,14 +205,12 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('profile 이 없거나 다섯 절이 전부 비면 절 자체를 그리지 않는다', (
-      tester,
-    ) async {
+    testWidgets('profile 이 없거나 다섯 절이 전부 비면 절 자체를 그리지 않는다', (tester) async {
       await pump(tester, academy());
-      expect(find.text('학부모가 그리는 이 학원'), findsNothing);
+      expect(find.text('공개 글에서 읽은 수업 정보'), findsNothing);
 
       await pump(tester, academy(profile: const AcademyProfile(sources: 3)));
-      expect(find.text('학부모가 그리는 이 학원'), findsNothing);
+      expect(find.text('공개 글에서 읽은 수업 정보'), findsNothing);
       expect(find.text('아직 근거 부족'), findsNothing);
     });
 
@@ -225,7 +220,7 @@ void main() {
         academy(profile: AcademyProfile.fromJson(fixture())),
         brightness: Brightness.dark,
       );
-      expect(find.text('학부모가 그리는 이 학원'), findsOneWidget);
+      expect(find.text('공개 글에서 읽은 수업 정보'), findsOneWidget);
       final band = tester.widget<TagMark>(find.widgetWithText(TagMark, 'S'));
       expect(band.color, AppColors.estimatedOn(true));
       await tester.tap(find.text('숙제'));
@@ -257,9 +252,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: Scaffold(
-                body: AcademyCard(academy: a, showPillars: false),
-              ),
+              home: Scaffold(body: AcademyCard(academy: a, showPillars: false)),
             ),
           ),
         );

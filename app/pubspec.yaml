@@ -64,6 +64,7 @@ flutter:
 
   assets:
     - assets/data/
+    - assets/research/
     - assets/brand/
 
   fonts:
