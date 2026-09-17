@@ -1,10 +1,168 @@
 {
  "mode": "live",
- "generatedAt": "2026-09-17T11:48:24.486427+00:00",
- "evaluatedCount": 588,
- "registryCount": 5334,
- "mentionCount": 6812,
+ "generatedAt": "2026-09-17T14:11:31.067016+00:00",
+ "evaluatedCount": 1598,
+ "registryCount": 5340,
+ "mentionCount": 22836,
  "naverBudget": 400,
+ "scoringVersion": "2026-09-17.1",
+ "rankingQuality": {
+  "version": "2026-09-17.1",
+  "mentions": 22836,
+  "validMentions": 20722,
+  "datedMentions": 2623,
+  "datedShare": 0.1266,
+  "sources": {
+   "naver_blog": 2623,
+   "naver_cafe": 18099
+  },
+  "cohorts": {
+   "banpo:arts": {
+    "evaluated": 73,
+    "withEvidence": 25,
+    "ranked": 3,
+    "incomplete": 0
+   },
+   "banpo:english": {
+    "evaluated": 52,
+    "withEvidence": 30,
+    "ranked": 16,
+    "incomplete": 33
+   },
+   "banpo:etc": {
+    "evaluated": 49,
+    "withEvidence": 25,
+    "ranked": 6,
+    "incomplete": 0
+   },
+   "banpo:korean": {
+    "evaluated": 32,
+    "withEvidence": 9,
+    "ranked": 2,
+    "incomplete": 30
+   },
+   "banpo:math": {
+    "evaluated": 59,
+    "withEvidence": 32,
+    "ranked": 18,
+    "incomplete": 38
+   },
+   "banpo:science": {
+    "evaluated": 25,
+    "withEvidence": 6,
+    "ranked": 2,
+    "incomplete": 23
+   },
+   "daechi:arts": {
+    "evaluated": 84,
+    "withEvidence": 38,
+    "ranked": 3,
+    "incomplete": 0
+   },
+   "daechi:english": {
+    "evaluated": 66,
+    "withEvidence": 40,
+    "ranked": 28,
+    "incomplete": 36
+   },
+   "daechi:etc": {
+    "evaluated": 49,
+    "withEvidence": 21,
+    "ranked": 6,
+    "incomplete": 0
+   },
+   "daechi:korean": {
+    "evaluated": 37,
+    "withEvidence": 16,
+    "ranked": 3,
+    "incomplete": 32
+   },
+   "daechi:math": {
+    "evaluated": 106,
+    "withEvidence": 64,
+    "ranked": 44,
+    "incomplete": 58
+   },
+   "daechi:science": {
+    "evaluated": 29,
+    "withEvidence": 17,
+    "ranked": 7,
+    "incomplete": 22
+   },
+   "jamsil:arts": {
+    "evaluated": 89,
+    "withEvidence": 33,
+    "ranked": 5,
+    "incomplete": 0
+   },
+   "jamsil:english": {
+    "evaluated": 65,
+    "withEvidence": 25,
+    "ranked": 10,
+    "incomplete": 49
+   },
+   "jamsil:etc": {
+    "evaluated": 19,
+    "withEvidence": 8,
+    "ranked": 3,
+    "incomplete": 0
+   },
+   "jamsil:korean": {
+    "evaluated": 43,
+    "withEvidence": 12,
+    "ranked": 2,
+    "incomplete": 40
+   },
+   "jamsil:math": {
+    "evaluated": 44,
+    "withEvidence": 19,
+    "ranked": 8,
+    "incomplete": 33
+   },
+   "jamsil:science": {
+    "evaluated": 9,
+    "withEvidence": 2,
+    "ranked": 1,
+    "incomplete": 8
+   },
+   "mokdong:arts": {
+    "evaluated": 117,
+    "withEvidence": 37,
+    "ranked": 12,
+    "incomplete": 0
+   },
+   "mokdong:english": {
+    "evaluated": 99,
+    "withEvidence": 34,
+    "ranked": 19,
+    "incomplete": 76
+   },
+   "mokdong:etc": {
+    "evaluated": 36,
+    "withEvidence": 15,
+    "ranked": 4,
+    "incomplete": 0
+   },
+   "mokdong:korean": {
+    "evaluated": 83,
+    "withEvidence": 17,
+    "ranked": 7,
+    "incomplete": 74
+   },
+   "mokdong:math": {
+    "evaluated": 118,
+    "withEvidence": 47,
+    "ranked": 18,
+    "incomplete": 92
+   },
+   "mokdong:science": {
+    "evaluated": 37,
+    "withEvidence": 4,
+    "ranked": 0,
+    "incomplete": 36
+   }
+  }
+ },
  "weights": {
   "reputation": 0.35,
   "selectivity": 0.35,
@@ -18,27 +176,27 @@
  "minSampleForRank": 10,
  "reputationPriorCount": 12,
  "recencyHalflifeDays": 180,
- "datedShare": 0.57,
- "realDatedShare": 0.3,
+ "datedShare": 0.755,
+ "realDatedShare": 0.158,
  "sources": {
   "official": "NEIS 학원교습소정보 (open.neis.go.kr)",
   "community": "네이버 검색 API"
  },
  "evidenceQuality": {
-  "academies": 588,
-  "withEvidence": 141,
-  "rows": 601,
-  "nameInExcerpt": 601,
-  "inTitle": 495,
+  "academies": 1598,
+  "withEvidence": 592,
+  "rows": 2364,
+  "nameInExcerpt": 2363,
+  "inTitle": 1820,
   "spacedName": 0,
   "basis": {
-   "region": 488,
-   "direct": 113
+   "region": 1537,
+   "direct": 827
   }
  },
  "coverage": {
-  "evaluated": 588,
-  "withMentions": 141,
-  "ranked": 66
+  "evaluated": 1598,
+  "withMentions": 590,
+  "ranked": 202
  }
 }

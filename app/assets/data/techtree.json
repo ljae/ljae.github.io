@@ -59,15 +59,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 27,
-    "math_hi_suneung": 6,
-    "math_hi_top": 4,
-    "sci_hi_naesin": 23,
+    "math_hi_naesin": 83,
+    "math_hi_suneung": 7,
+    "math_hi_top": 8,
+    "sci_hi_naesin": 46,
     "sci_hi_suneung": 1,
     "sci_hi_two": 0,
-    "kor_hi_suneung": 5
+    "kor_hi_suneung": 8
    },
-   "academyCount": 57
+   "academyCount": 139
   },
   {
    "id": "dest_snu_top",
@@ -104,16 +104,16 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 27,
-    "math_hi_suneung": 6,
-    "math_hi_top": 4,
-    "kor_hi_suneung": 5,
-    "kor_hi_nonsul": 9,
-    "eng_hi_suneung": 4,
-    "eng_hi_adv": 9,
+    "math_hi_naesin": 83,
+    "math_hi_suneung": 7,
+    "math_hi_top": 8,
+    "kor_hi_suneung": 8,
+    "kor_hi_nonsul": 38,
+    "eng_hi_suneung": 5,
+    "eng_hi_adv": 20,
     "sci_hi_suneung": 1
    },
-   "academyCount": 59
+   "academyCount": 155
   },
   {
    "id": "dest_abroad",
@@ -144,14 +144,14 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_phonics": 42,
-    "eng_el_academy": 77,
-    "eng_el_rw": 19,
+    "eng_el_phonics": 59,
+    "eng_el_academy": 149,
+    "eng_el_rw": 18,
     "eng_mid_test": 1,
-    "math_el_basic": 52,
-    "math_mid_preview": 2
+    "math_el_basic": 118,
+    "math_mid_preview": 3
    },
-   "academyCount": 139
+   "academyCount": 285
   },
   {
    "id": "dest_science_hs",
@@ -183,15 +183,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_el_thinking": 11,
-    "math_el_competition": 4,
-    "math_mid_kmo": 0,
+    "math_el_thinking": 17,
+    "math_el_competition": 10,
+    "math_mid_kmo": 1,
     "math_mid_yeongjae": 0,
-    "sci_el_lab": 26,
-    "sci_el_gifted": 2,
-    "sci_mid_olympiad": 2
+    "sci_el_lab": 48,
+    "sci_el_gifted": 1,
+    "sci_mid_olympiad": 3
    },
-   "academyCount": 41
+   "academyCount": 76
   },
   {
    "id": "dest_foreign_hs",
@@ -221,15 +221,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 77,
-    "eng_mid_naesin": 37,
+    "eng_el_academy": 149,
+    "eng_mid_naesin": 113,
     "eng_mid_test": 1,
-    "math_mid_naesin": 36,
-    "math_mid_preview": 2,
-    "kor_mid_naesin": 21,
-    "kor_mid_deep": 7
+    "math_mid_naesin": 92,
+    "math_mid_preview": 3,
+    "kor_mid_naesin": 92,
+    "kor_mid_deep": 8
    },
-   "academyCount": 153
+   "academyCount": 358
   },
   {
    "id": "dest_early",
