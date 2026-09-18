@@ -13,6 +13,7 @@
 - [지점-구분](concepts/지점-구분.md)
 
 ## 학원
+- [모짜르트음악학원](academies/1000025095.md) — jamsil
 - [클래식음악](academies/1000028284.md) — jamsil
 - [김영편입잠실캠퍼스학원](academies/1000028653.md) — jamsil
 - [바로크음악학원](academies/1000029118.md) — jamsil
@@ -23,6 +24,7 @@
 - [미래탐구학원](academies/1000036288.md) — daechi
 - [짱솔학원](academies/1000036446.md) — daechi
 - [현재어학원](academies/1000036459.md) — banpo
+- [대치필](academies/1000036516.md) — daechi
 - [렉스김어학원](academies/1000036573.md) — daechi
 - [퍼스널학원](academies/1000036584.md) — banpo
 - [대치청담어학학원](academies/1000036728.md) — daechi
@@ -41,6 +43,7 @@
 - [돌체음악학원](academies/14281.md) — mokdong
 - [대치소마](academies/14435.md) — daechi
 - [피큐브](academies/14799.md) — mokdong
+- [세계로학원](academies/15032.md) — daechi
 - [우리들](academies/1507.md) — daechi
 - [늘푸른수](academies/15129.md) — jamsil
 - [에스비에스(SBS)아카데미](academies/15187.md) — banpo
@@ -259,6 +262,7 @@
 - [클라우드](academies/3000048781.md) — daechi
 - [대찬학원](academies/3000048783.md) — daechi
 - [강남은마한우리독서토론논술교습소](academies/3000050945.md) — daechi
+- [올바른인재학원](academies/3000051062.md) — daechi
 - [기파랑문해원](academies/3000051080.md) — mokdong
 - [대치스터디학원](academies/3000051166.md) — daechi
 - [메디컬수학연구소학원](academies/3000051205.md) — jamsil

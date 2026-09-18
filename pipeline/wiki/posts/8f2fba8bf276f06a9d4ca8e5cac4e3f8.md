@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+자녀가 학원 친구 두 명에게 놀림과 욕설을 듣고 와 가족이 학원에 사실 확인 전화를 했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

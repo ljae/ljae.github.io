@@ -59,15 +59,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 82,
+    "math_hi_naesin": 81,
     "math_hi_suneung": 7,
     "math_hi_top": 8,
-    "sci_hi_naesin": 46,
+    "sci_hi_naesin": 47,
     "sci_hi_suneung": 1,
     "sci_hi_two": 0,
-    "kor_hi_suneung": 8
+    "kor_hi_suneung": 7
    },
-   "academyCount": 138
+   "academyCount": 137
   },
   {
    "id": "dest_snu_top",
@@ -104,16 +104,16 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 82,
+    "math_hi_naesin": 81,
     "math_hi_suneung": 7,
     "math_hi_top": 8,
-    "kor_hi_suneung": 8,
-    "kor_hi_nonsul": 37,
+    "kor_hi_suneung": 7,
+    "kor_hi_nonsul": 36,
     "eng_hi_suneung": 5,
-    "eng_hi_adv": 20,
+    "eng_hi_adv": 19,
     "sci_hi_suneung": 1
    },
-   "academyCount": 154
+   "academyCount": 151
   },
   {
    "id": "dest_abroad",
@@ -145,13 +145,13 @@
    "linkable": true,
    "stageCounts": {
     "eng_el_phonics": 58,
-    "eng_el_academy": 149,
+    "eng_el_academy": 150,
     "eng_el_rw": 18,
     "eng_mid_test": 1,
-    "math_el_basic": 117,
+    "math_el_basic": 116,
     "math_mid_preview": 3
    },
-   "academyCount": 284
+   "academyCount": 285
   },
   {
    "id": "dest_science_hs",
@@ -187,11 +187,11 @@
     "math_el_competition": 10,
     "math_mid_kmo": 1,
     "math_mid_yeongjae": 0,
-    "sci_el_lab": 48,
+    "sci_el_lab": 49,
     "sci_el_gifted": 1,
     "sci_mid_olympiad": 3
    },
-   "academyCount": 76
+   "academyCount": 77
   },
   {
    "id": "dest_foreign_hs",
@@ -221,12 +221,12 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 149,
+    "eng_el_academy": 150,
     "eng_mid_naesin": 111,
     "eng_mid_test": 1,
-    "math_mid_naesin": 91,
+    "math_mid_naesin": 90,
     "math_mid_preview": 3,
-    "kor_mid_naesin": 90,
+    "kor_mid_naesin": 89,
     "kor_mid_deep": 8
    },
    "academyCount": 357
