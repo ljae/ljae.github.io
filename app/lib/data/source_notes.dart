@@ -38,7 +38,9 @@ class SourceNote {
   );
 
   bool supports(String? subject) =>
-      subject == null || subjects.contains(subject);
+      subject == null ||
+      subjects.contains(subject) ||
+      (kind == 'directory' && topic == '운영·일정');
   bool get isPrimary => kind == 'official' || kind == 'academy_blog';
   String get sourceLabel => kind == 'directory'
       ? '학원 소개 · 주소 대조'

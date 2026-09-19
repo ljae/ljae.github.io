@@ -9,6 +9,23 @@ import 'package:edutree/features/sources/sources_page.dart';
 import 'package:edutree/widgets/academy_sources_button.dart';
 
 void main() {
+  test(
+    'directory operating information remains visible with a subject filter',
+    () {
+      const note = SourceNote(
+        topic: '운영·일정',
+        title: '학원 소개',
+        summary: '셔틀 제공 안내',
+        url: 'https://www.gangmom.kr/institute/example',
+        checkedAt: '2026-09-19',
+        kind: 'directory',
+      );
+      expect(note.supports('math'), isTrue);
+      expect(note.isPrimary, isFalse);
+      expect(note.sourceLabel, '학원 소개 · 주소 대조');
+    },
+  );
+
   final raw =
       jsonDecode(File('assets/research/source_notes.json').readAsStringSync())
           as List;
