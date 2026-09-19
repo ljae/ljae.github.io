@@ -1,45 +1,47 @@
 {
  "mode": "live",
- "generatedAt": "2026-09-19T13:01:50.019419+00:00",
+ "generatedAt": "2026-09-19T13:19:12.629762+00:00",
  "evaluatedCount": 1919,
  "registryCount": 5340,
- "mentionCount": 31676,
+ "mentionCount": 31640,
  "naverBudget": 400,
- "scoringVersion": "2026-09-19.3",
+ "scoringVersion": "2026-09-19.4",
  "rankingQuality": {
-  "version": "2026-09-19.3",
-  "mentions": 31676,
-  "validMentions": 17009,
-  "datedMentions": 2324,
-  "datedShare": 0.1366,
-  "excludedMentions": 14667,
+  "version": "2026-09-19.4",
+  "mentions": 31640,
+  "validMentions": 16112,
+  "datedMentions": 2177,
+  "datedShare": 0.1351,
+  "excludedMentions": 15528,
   "exclusionReasons": {
-   "author_burst": 141,
-   "near_duplicate": 799,
+   "author_burst": 139,
+   "directory_information": 127,
+   "marketplace": 49,
+   "near_duplicate": 766,
    "news": 759,
-   "promotional": 1006,
-   "question_answer": 1640,
-   "question_only": 1491,
-   "self_promotion": 175,
+   "promotional": 1005,
+   "question_answer": 1641,
+   "question_only": 1793,
+   "self_promotion": 600,
    "sponsored": 41,
-   "web_information": 8615
+   "web_information": 8608
   },
   "sources": {
-   "naver_blog": 2324,
-   "naver_cafe": 14685
+   "naver_blog": 2177,
+   "naver_cafe": 13935
   },
   "cohorts": {
    "banpo:arts": {
     "evaluated": 102,
     "withEvidence": 24,
-    "ranked": 3,
+    "ranked": 2,
     "incomplete": 0
    },
    "banpo:english": {
-    "evaluated": 73,
-    "withEvidence": 32,
-    "ranked": 16,
-    "incomplete": 53
+    "evaluated": 72,
+    "withEvidence": 29,
+    "ranked": 15,
+    "incomplete": 52
    },
    "banpo:etc": {
     "evaluated": 49,
@@ -49,21 +51,21 @@
    },
    "banpo:korean": {
     "evaluated": 37,
-    "withEvidence": 10,
+    "withEvidence": 9,
     "ranked": 2,
     "incomplete": 34
    },
    "banpo:math": {
-    "evaluated": 75,
-    "withEvidence": 32,
-    "ranked": 16,
-    "incomplete": 55
+    "evaluated": 74,
+    "withEvidence": 30,
+    "ranked": 14,
+    "incomplete": 57
    },
    "banpo:science": {
-    "evaluated": 26,
-    "withEvidence": 5,
+    "evaluated": 27,
+    "withEvidence": 6,
     "ranked": 0,
-    "incomplete": 25
+    "incomplete": 26
    },
    "daechi:arts": {
     "evaluated": 99,
@@ -72,10 +74,10 @@
     "incomplete": 0
    },
    "daechi:english": {
-    "evaluated": 81,
-    "withEvidence": 42,
-    "ranked": 26,
-    "incomplete": 51
+    "evaluated": 80,
+    "withEvidence": 41,
+    "ranked": 25,
+    "incomplete": 50
    },
    "daechi:etc": {
     "evaluated": 49,
@@ -85,21 +87,21 @@
    },
    "daechi:korean": {
     "evaluated": 47,
-    "withEvidence": 23,
+    "withEvidence": 24,
     "ranked": 7,
-    "incomplete": 38
+    "incomplete": 37
    },
    "daechi:math": {
-    "evaluated": 124,
-    "withEvidence": 64,
-    "ranked": 37,
-    "incomplete": 80
+    "evaluated": 121,
+    "withEvidence": 60,
+    "ranked": 33,
+    "incomplete": 81
    },
    "daechi:science": {
-    "evaluated": 26,
-    "withEvidence": 9,
-    "ranked": 1,
-    "incomplete": 24
+    "evaluated": 25,
+    "withEvidence": 8,
+    "ranked": 2,
+    "incomplete": 23
    },
    "jamsil:arts": {
     "evaluated": 120,
@@ -121,15 +123,15 @@
    },
    "jamsil:korean": {
     "evaluated": 42,
-    "withEvidence": 12,
+    "withEvidence": 11,
     "ranked": 2,
     "incomplete": 39
    },
    "jamsil:math": {
     "evaluated": 57,
-    "withEvidence": 17,
+    "withEvidence": 18,
     "ranked": 5,
-    "incomplete": 49
+    "incomplete": 50
    },
    "jamsil:science": {
     "evaluated": 9,
@@ -140,30 +142,30 @@
    "mokdong:arts": {
     "evaluated": 147,
     "withEvidence": 30,
-    "ranked": 11,
+    "ranked": 10,
     "incomplete": 0
    },
    "mokdong:english": {
-    "evaluated": 117,
-    "withEvidence": 36,
+    "evaluated": 116,
+    "withEvidence": 33,
     "ranked": 16,
     "incomplete": 95
    },
    "mokdong:etc": {
     "evaluated": 36,
-    "withEvidence": 15,
+    "withEvidence": 14,
     "ranked": 4,
     "incomplete": 0
    },
    "mokdong:korean": {
-    "evaluated": 87,
-    "withEvidence": 15,
-    "ranked": 5,
+    "evaluated": 86,
+    "withEvidence": 14,
+    "ranked": 4,
     "incomplete": 81
    },
    "mokdong:math": {
     "evaluated": 134,
-    "withEvidence": 47,
+    "withEvidence": 46,
     "ranked": 17,
     "incomplete": 107
    },
@@ -176,17 +178,17 @@
   },
   "identityGates": {
    "irrelevant": 246863,
-   "elsewhere": 3440,
-   "other_region": 8158,
+   "elsewhere": 3431,
+   "other_region": 8277,
    "shared": 0,
-   "sibling": 931,
-   "rehomed": 538,
-   "foreign_dong": 1291,
-   "brand_unknown": 5025,
+   "sibling": 932,
+   "rehomed": 535,
+   "foreign_dong": 1281,
+   "brand_unknown": 4999,
    "branches": 519,
-   "local_unknown": 8929
+   "local_unknown": 8886
   },
-  "filterVersion": "2026-09-19.3",
+  "filterVersion": "2026-09-19.4",
   "sourceHealth": {
    "naver_cafe": {
     "requests": 65,
@@ -226,7 +228,7 @@
   }
  },
  "gradeTargetAudit": {
-  "version": "2026-09-19.3",
+  "version": "2026-09-19.4",
   "auditedAt": "2026-09-19",
   "total": 5340,
   "statuses": {
@@ -256,19 +258,19 @@
  },
  "evidenceQuality": {
   "academies": 1919,
-  "withEvidence": 588,
-  "rows": 2289,
-  "nameInExcerpt": 2289,
-  "inTitle": 1707,
+  "withEvidence": 574,
+  "rows": 2225,
+  "nameInExcerpt": 2225,
+  "inTitle": 1658,
   "spacedName": 0,
   "basis": {
-   "region": 1540,
-   "direct": 749
+   "region": 1508,
+   "direct": 717
   }
  },
  "coverage": {
   "evaluated": 1919,
-  "withMentions": 586,
-  "ranked": 175
+  "withMentions": 572,
+  "ranked": 167
  }
 }
