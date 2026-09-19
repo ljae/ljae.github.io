@@ -1,0 +1,9 @@
+case: hist-2026-09-19-owl-book
+entity_type: academy
+kind: relevance
+why: 황금부엉이 출판사 어린이 스도쿠 글의 초등 학년이 부엉이학원의 학년 단서로 잘못 연결됐다.
+academy: {name: 부엉이학원, region_id: daechi}
+mention:
+  title: 황금부엉이 초등2학년이상 어린이 스도쿠
+  snippet: 생물학적인 문제를 푸는 비영리 학원에서 일하는 작가입니다.
+expect: {relevant: false}

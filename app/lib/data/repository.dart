@@ -183,7 +183,8 @@ class EduTreeData {
 
     final direct = academies
         .where((a) =>
-            a.stages.contains(stageId) && matchRegion(a.regionId, regionId))
+            a.stages.contains(stageId) && matchRegion(a.regionId, regionId) &&
+            (stage == null || a.bandsForSubject(subject).any(stage.gradeBands.contains)))
         .toList()
       ..sort((a, b) {
         final fa = a.isFlagshipOf(stageId) ? 1 : 0;
@@ -210,10 +211,7 @@ class EduTreeData {
             !seen.contains(a.id) &&
             matchRegion(a.regionId, regionId) &&
             a.subjects.contains(subject) &&
-            // 구간이 비어 있는 학원은 '어느 학년대인지 공시에 없음'이다.
-            // 어느 구간에도 안 넣으면 통째로 사라진다 — 필터와 같게 읽는다.
-            (a.gradeBands.isEmpty ||
-                a.gradeBands.any((b) => bands.contains(b))))
+            a.bandsForSubject(subject).any((b) => bands.contains(b)))
         .toList()
       ..sort(byScore);
 
@@ -239,11 +237,9 @@ class EduTreeData {
   }) {
     if (!matchRegion(a.regionId, regionId)) return false;
     if (subject != null && !a.subjects.contains(subject)) return false;
-    // 구간이 비어 있는 학원은 특정 학년대에 한정되지 않는 곳으로 보고
-    // 어떤 필터에도 걸리게 둔다. 걸러내면 종합·보습 학원이 통째로 사라진다.
+    // 미확인은 전 학년 대상이 아니다. 학원 검색에는 남긴다.
     if (gradeBand != null &&
-        a.gradeBands.isNotEmpty &&
-        !a.gradeBands.contains(gradeBand)) {
+        !a.bandsForSubject(subject).contains(gradeBand)) {
       return false;
     }
     return true;
@@ -337,12 +333,12 @@ class EduTreeData {
   ///
   /// ★ 등록부 학원에는 **점수도 등수도 붙이지 않는다.** 수집한 적이
   ///   없으니 붙일 근거가 없다. 화면에도 '등록부 · 미수집' 이라 적는다.
-  ///   등록부 행에는 학년 구간이 없어 어느 구간에서나 나온다 — 필터가
-  ///   빈 구간을 '한정되지 않음' 으로 읽는 것과 같은 규칙이다.
+  ///   등록부 보충 목록도 같은 학년 근거를 요구한다.
   List<RegistryEntry> registryFill(
     List<RegistryEntry> registry, {
     required String regionId,
     String? subject,
+    String? gradeBand,
     required int have,
     int want = 10,
   }) {
@@ -350,6 +346,7 @@ class EduTreeData {
     final rows = registry
         .where((r) =>
             matchRegion(r.regionId, regionId) &&
+            (gradeBand == null || r.bandsForSubject(subject).contains(gradeBand)) &&
             (subject == null || r.subjects.contains(subject)))
         .toList()
       // 정원이 큰 곳부터. 학부모가 이름을 들어 봤을 확률이 그나마 높다.

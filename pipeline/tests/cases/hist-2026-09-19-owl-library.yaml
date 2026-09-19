@@ -1,0 +1,10 @@
+case: hist-2026-09-19-owl-library
+entity_type: academy
+kind: relevance
+why: 부엉이학원의 초등 랭킹 신고 조사에서 시대인재 부엉이라이브러리 글이 혼입된 것을 확인했다.
+academy: {name: 부엉이학원, region_id: daechi}
+rivals: [시대인재, 수학하는부엉이학원]
+mention:
+  title: 부엉이라이브러리 좌석신청을 기다리며
+  snippet: 시대인재 문자 기다리면서 부엉이 좌석 신청도 경쟁이 많이 치열할까?
+expect: {relevant: false}

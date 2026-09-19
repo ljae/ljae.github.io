@@ -103,6 +103,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                 registry,
                 regionId: sel.regionId,
                 subject: subject,
+                gradeBand: sel.gradeBand,
                 have: ranked.length + unranked.length,
               );
         final region = data.regionById[sel.regionId];
@@ -123,7 +124,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         '${region?.nameKo ?? "전체 학군"} 학원 탐색',
                         kicker: spaced('학원 탐색'),
                         subtitle:
-                            '학원의 과정과 입학 정보를 비교해보세요. 점수는 같은 과목 안에서만 비교합니다.',
+                            '선택한 과목·학년의 공시 근거가 있는 학원만 표시합니다. 대상 학년 미확인 학원은 전체 학원 검색에서 찾을 수 있습니다.',
                       ),
                       TextField(
                         onChanged: (value) =>

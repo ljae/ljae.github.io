@@ -16,6 +16,10 @@ on:
         description: '학원 소개 출처만 갱신 (검색·재채점 생략)'
         type: boolean
         default: false
+      refresh_neis:
+        description: '캐시 재채점 전 교육청 전체 공시를 새로 조회 (학년 전수 점검)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -55,6 +59,7 @@ jobs:
       - name: 수집 · 채점
         env:
           RESCORE_ONLY: ${{ inputs.rescore_only }}
+          REFRESH_NEIS: ${{ inputs.refresh_neis }}
           DIRECTORY_ONLY: ${{ inputs.directory_only }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
@@ -104,6 +109,10 @@ jobs:
           from pipeline.edutree import config, mention_store
           assert json.loads((config.CACHE_DIR / "neis_academies.json").read_text()), "NEIS 캐시 없음"
           assert mention_store.rows(), "누적 언급 캐시 없음"
+          import os
+          if os.environ.get('REFRESH_NEIS') == 'true':
+              from pipeline.edutree import neis
+              neis.fetch_all()
           PY
             OPENEDU_CLAIM_LLM_LIMIT=0 OPENEDU_SUMMARY_PER_RUN=0 python pipeline/run.py --from-cache
           else

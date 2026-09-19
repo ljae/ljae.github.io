@@ -351,6 +351,8 @@ GENERIC_NAME_PARTS = (
     # 이름을 지우는 게 아니라 **조건을 더한다**(학원 표지 요구 + 제목의
     # 주인공 판정). 진짜 근거는 대개 제목에 그 이름이 있어 살아남는다.
     "새로운", "테스트", "피아노", "음악", "로드맵", "포인트", "갈무리",
+    # 출판사 황금부엉이·시대인재 부엉이라이브러리와 혼동된 실측 사례.
+    "부엉이",
     # 2026-09-03 추가. `nameaudit` 이 올린 곳의 근거 글을 하나씩 열어
     # 확인했다(CLAUDE.md 규칙). 둘 다 **알맹이만 빠지고 온전한 이름은
     # 남는다** — 진짜 후기는 전체 이름으로 적히기 때문이다.
@@ -1347,6 +1349,14 @@ def is_relevant(mention: dict, candidates: set[str],
     spans = name_spans_in(mention.get("title", ""), mention.get("snippet", ""),
                           candidates, drop_trade_seam=generic,
                           contiguous=composite_candidates(candidates, rivals))
+    if generic and rivals:
+        # 일반명사의 온전한 이름도 긴 다른 학원명 안에 포함될 수 있다.
+        # 수학하는부엉이학원의 '부엉이학원'은 별도의 부엉이학원 언급이 아니다.
+        longer = {r for r in _find_rivals(blob, rivals)
+                  if r not in candidates and any(c in r and c != r for c in candidates)}
+        covering = name_spans(blob, longer) if longer else []
+        spans = [(s, e) for s, e in spans
+                 if not any(rs <= s and e <= re_ and (rs < s or e < re_) for rs, re_ in covering)]
     if not spans:
         return False
     if generic and not _marker_near(blob, spans):

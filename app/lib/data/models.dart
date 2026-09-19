@@ -773,6 +773,10 @@ class Academy {
   final String regionId;
   final List<String> subjects;
   final List<String> gradeBands;
+  final String gradeTargetBasis;
+  final Map<String, List<String>> gradeBandsBySubject;
+  List<String> bandsForSubject(String? subject) =>
+      subject == null ? gradeBands : gradeBandsBySubject[subject] ?? gradeBands;
   final List<String> stages;
 
   /// 단계마다 **왜** 붙었는지. `curated`(사람이 적은 큐레이션) ·
@@ -847,6 +851,8 @@ class Academy {
     required this.regionId,
     required this.subjects,
     required this.gradeBands,
+    this.gradeTargetBasis = '대상 학년 미확인',
+    this.gradeBandsBySubject = const {},
     required this.stages,
     this.stageBasis = const {},
     required this.flagship,
@@ -882,6 +888,10 @@ class Academy {
     regionId: (j['regionId'] ?? '') as String,
     subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
     gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
+    gradeTargetBasis: (j['gradeTarget']?['basis'] ?? '대상 학년 미확인') as String,
+    gradeBandsBySubject: ((j['gradeBandsBySubject'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, (v as List).cast<String>()),
+    ),
     stages: ((j['stages'] as List?) ?? const []).cast<String>(),
     stageBasis: ((j['stageBasis'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, v as String),
@@ -1157,6 +1167,10 @@ class RegistryEntry {
   final String regionId;
   final String? dong;
   final List<String> subjects;
+  final List<String> gradeBands;
+  final Map<String, List<String>> gradeBandsBySubject;
+  List<String> bandsForSubject(String? subject) =>
+      subject == null ? gradeBands : gradeBandsBySubject[subject] ?? gradeBands;
   final String? address;
   final int? capacity;
   final int? tuitionMonthly;
@@ -1175,6 +1189,8 @@ class RegistryEntry {
     required this.regionId,
     this.dong,
     required this.subjects,
+    this.gradeBands = const [],
+    this.gradeBandsBySubject = const {},
     this.address,
     this.capacity,
     this.tuitionMonthly,
@@ -1191,6 +1207,10 @@ class RegistryEntry {
     regionId: (j['regionId'] ?? '') as String,
     dong: j['dong'] as String?,
     subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
+    gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
+    gradeBandsBySubject: ((j['gradeBandsBySubject'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, (v as List).cast<String>()),
+    ),
     address: j['address'] as String?,
     capacity: (j['capacity'] as num?)?.toInt(),
     registrationStatus: j['registrationStatus'] as String?,

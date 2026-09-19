@@ -825,7 +825,7 @@ void main() {
       String id, {
       List<String> stages = const [],
       Map<String, String> basis = const {},
-      List<String> bands = const [],
+      List<String> bands = const ['elem_high'],
       double total = 50,
     }) => Academy(
       id: id,
@@ -931,13 +931,9 @@ void main() {
       expect(got.last.label, contains('같은 구간'));
     });
 
-    test('학년 구간이 비면 어느 구간에도 걸린다 — 필터와 같게 읽는다', () {
-      // 파이프라인이 빈 grade_bands 를 '아무 구간도 아님'으로 읽어
-      // 등록부 78%가 테크트리에서 통째로 사라진 적이 있다.
+    test('대상 학년 미확인은 단계 보충 목록에서도 제외한다', () {
       final data = dataWith([academy('구간미상', bands: const [])]);
-      final got = data.academiesForStage('comp', regionId: 'daechi', fillTo: 3);
-      expect(got.single.academy.id, '구간미상');
-      expect(got.single.basis, 'band');
+      expect(data.academiesForStage('comp', regionId: 'daechi', fillTo: 3), isEmpty);
     });
 
     test('근거가 충분하면 이어 붙이지 않는다', () {

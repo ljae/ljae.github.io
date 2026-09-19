@@ -1,0 +1,10 @@
+case: hist-2026-09-19-owl-other-academy
+entity_type: academy
+kind: relevance
+why: 역삼로 468 수학하는부엉이학원과 도곡로78길 7 부엉이학원은 서로 다른 등록이다.
+academy: {name: 부엉이학원, region_id: daechi}
+rivals: [수학하는부엉이학원, 수학하는부엉이]
+mention:
+  title: 대치동 수학하는부엉이학원 후기
+  snippet: 수학하는부엉이학원에서 초등 수학 수업을 들었습니다.
+expect: {relevant: false}

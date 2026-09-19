@@ -45,9 +45,21 @@ def load_academies(from_cache: bool = False) -> tuple[list[dict], str]:
 
 def _prepare_live(rows: list[dict]) -> list[dict]:
     """NEIS 원본 → 큐레이션 매핑 → 중복 등록 통합."""
-    from . import dedupe
+    from . import dedupe, grade_targets
+    registrations = {str(r.get('id') or r.get('aca_asnum')): dict(r) for r in rows}
     rows = _merge_seed_into_neis(rows)
     merged, saved = dedupe.apply(rows)
+    grade_targets.apply_all(merged, registrations)
+    stage_grades = {s['id']: (t['subject'], s['grade']) for t in config.techtree()['tracks'] for s in t['stages']}
+    for row in merged:
+        bands = set(row['grade_bands'])
+        row['stages'] = [s for s in row.get('stages', []) if s in stage_grades
+                         and set(row['grade_bands_by_subject'].get(stage_grades[s][0], bands)).intersection(
+                             config.bands_for_range(*stage_grades[s][1]))]
+        row['stage_basis'] = {s: b for s, b in row.get('stage_basis', {}).items() if s in row['stages']}
+        row['flagship'] = [s for s in row.get('flagship', []) if s in row['stages']]
+        if not row['stages']:
+            row['stages'], row['stage_basis'] = _auto_stages(row)
     if saved:
         multi = sum(1 for m in merged if m.get("registration_count", 1) > 1)
         print(f"  중복 등록 통합: {len(rows):,}곳 → {len(merged):,}곳 "
@@ -360,13 +372,9 @@ def _auto_stages(row: dict) -> tuple[list[str], dict[str, str]]:
     bands = row.get("grade_bands") or []
     if not subjects:
         return [], {}
-    # ★ 빈 grade_bands 는 '아무 구간도 아님' 이 아니라 '구간을 특정할 수
-    #   없음' 이다. 앱의 필터(_matchesFilters)는 이미 그렇게 읽어 어느
-    #   학년 필터에도 걸리게 두는데, 여기서만 반대로 읽어 단계를 하나도
-    #   안 붙였다. 같은 값을 두 곳이 반대로 읽고 있었고, 등록부 6,092곳 중
-    #   4,771곳(78%)이 여기 해당해 테크트리에서 통째로 사라졌다.
+    # 미확인은 전 학년을 뜻하지 않는다. 검색에는 남기되 학년 단계에 배정하지 않는다.
     if not bands:
-        bands = list(config.GRADE_BANDS)
+        return [], {}
 
     blob = _stage_blob(row)
     tree = config.techtree()
@@ -389,7 +397,7 @@ def _auto_stages(row: dict) -> tuple[list[str], dict[str, str]]:
             basis[sid] = kind
 
     for subject in subjects:
-        for band in bands:
+        for band in row.get('grade_bands_by_subject', {}).get(subject, bands):
             lo, hi = config.GRADE_BANDS[band][1], config.GRADE_BANDS[band][2]
             # 이 과목·구간에 걸치는 단계들
             fits = [sid for sid, (subj, st) in by_id.items()
@@ -774,40 +782,15 @@ def _subjects_from_mentions(academies: list[dict],
 
 def _bands_from_mentions(academies: list[dict],
                          by_key: dict[str, list[dict]]) -> int:
-    """학년 구간이 비어 있는 학원의 구간을 **후기로** 정한다.
-
-    빈 grade_bands 는 '어느 학년대인지 공시에 없음' 이고, 앱은 그것을
-    '어느 구간에도 한정되지 않음' 으로 읽어 **네 구간 모두**에 내보낸다.
-    그래서 수능 재종반인 시대인재가 '대치 예비초~초3 국어' 랭킹 1위로
-    올라 있었다(신고: '학급 매칭에 오류가 있다').
-
-    빈 값을 그대로 두는 것도, 임의로 한 구간에 몰아넣는 것도 답이 아니다.
-    남은 근거는 후기다 — band_near_one() 이 글마다 **학원 이름 근처**의
-    학년 말을 하나 뽑아 두므로, 충분히 반복되는 구간만 확정한다.
-
-    ★ 못 정하면 빈 채로 둔다. 종합·보습처럼 정말로 전 학년을 받는 곳이
-      있고, 그런 곳을 한 구간에 가두면 그게 또 다른 오류다.
-    """
+    """후기 속 학년은 검토 단서로만 저장한다. 선행 진도·형제 학년일 수 있다."""
     n = 0
     for a in academies:
-        if a.get("grade_bands"):
-            continue
-        rows = [m for m in by_key.get(a["id"], []) if not m.get("is_excluded")]
-        counts: dict[str, int] = defaultdict(int)
-        spoken = 0
-        for m in rows:
-            b = m.get("band")
-            if b:
-                spoken += 1
-                counts[b] += 1
-        if not spoken:
-            continue
-        found = [b for b, c in counts.items()
-                 if c >= _SUBJ_MIN_HITS and c / spoken >= _SUBJ_MIN_SHARE]
-        if not found:
-            continue
-        a["grade_bands"] = [b for b in config.GRADE_BANDS if b in found]
-        n += 1
+        for subject in a.get('subjects') or []:
+            a.setdefault('grade_bands_by_subject', {}).setdefault(subject, [])
+        counts = collections.Counter(m.get("band") for m in by_key.get(a["id"], [])
+                                     if not m.get("is_excluded") and m.get("band"))
+        a["grade_review_signals"] = dict(counts)
+        n += bool(counts)
     return n
 
 
@@ -1769,7 +1752,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     # '예비초~초3' 랭킹에 오른다.
     banded = _bands_from_mentions(evaluated, by_key)
     if banded:
-        print(f"  학년 구간 확정: {banded}곳 (후기가 말한 학급으로)")
+        print(f"  학년 검토 단서: {banded}곳 (후기 언급은 대상 학년으로 확정하지 않음)")
 
     # 영유 연차 표시. 과목이 확정된 뒤에 붙인다 — 영어 학원에만 단다.
     tagged = entry_tags_from_mentions(evaluated, by_key, candidates)
@@ -2251,6 +2234,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "regionId": a.get("region_id"),
             "dong": a.get("dong"),
             "subjects": a.get("subjects", []),
+            "gradeBands": a.get("grade_bands", []),
+            "gradeBandsBySubject": a.get("grade_bands_by_subject", {}),
+            "gradeTarget": a.get("grade_target") or {"status": "unknown", "basis": "대상 학년 미확인"},
             "address": a.get("road_address"),
             "capacity": a.get("tofor_smtot"),
             "registrationStatus": a.get("reg_stttus_nm"),
@@ -2401,14 +2387,16 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     from . import ranking_quality
     ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
     ranking_report["identityGates"] = gate_stats or {}
-    ranking_report["filterVersion"] = "2026-09-19.1"
+    ranking_report["filterVersion"] = "2026-09-19.2"
     from . import source_health
     ranking_report["sourceHealth"] = source_health.load()
     if mode == "live":
         ranking_quality.record(ranking_report)
 
-    from . import directory as directory_mod
+    from . import directory as directory_mod, grade_targets
+    grade_report = grade_targets.report(evaluated + registry_only)
     files = {
+        "grade_targets.json": grade_report,
         "directory_sources.json": directory_mod.source_notes(evaluated + registry_only),
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
         # 전체(1.4MB)를 첫 화면에서 읽어야 했는데, 정작 쓰는 건 숫자 넷이다.
@@ -2467,6 +2455,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "naverBudget": config.NAVER_MAX_ACADEMIES,
             "scoringVersion": scoring.SCORING_VERSION,
             "rankingQuality": ranking_report,
+            "gradeTargetAudit": {k: v for k, v in grade_report.items() if k != "rows"},
             "weights": config.WEIGHTS,
             # 예체능·기타는 저울이 아예 다르다. 이것도 내보내야 화면이
             # 상수를 들고 있지 않는다 — 학술 가중치에서 이미 겪은 사고다

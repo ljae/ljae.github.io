@@ -127,13 +127,9 @@ def test_과학논술은_국어가_아니다():
 
 
 # ── 학년 구간 ────────────────────────────────────────────────────
-def test_빈_구간은_모든_구간에_단계를_붙인다():
-    """★ 가장 크게 샜던 곳. 앱의 필터는 빈 구간을 '한정되지 않음' 으로
-    읽는데 _auto_stages 는 '해당 구간 없음' 으로 읽어 단계를 하나도 안
-    붙였다. 등록부 6,092곳 중 4,771곳(78%)이 여기 해당했다."""
-    stages, _ = build._auto_stages({"subjects": ["math"], "grade_bands": [],
-                                    "name": "가나수학학원"})
-    assert stages, "빈 grade_bands 는 '아무 구간도 아님' 이 아니다"
+def test_빈_구간은_학년_단계를_추정하지_않는다():
+    stages, basis = build._auto_stages({"subjects": ["math"], "grade_bands": [], "name": "가나수학학원"})
+    assert stages == [] and basis == {}
 
 
 def test_단서가_없으면_대표_단계_하나에만_붙인다():

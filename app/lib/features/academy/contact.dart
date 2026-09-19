@@ -212,12 +212,12 @@ List<ChecklistItem> buildChecklist(Academy a) {
     confirmed: place != null,
   ));
 
-  if (a.gradeBands.isNotEmpty) {
-    items.add(ChecklistItem(
-      '우리 아이 학년 반이 열려 있는지',
-      note: '공시·후기 기준 대상: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')}',
-    ));
-  }
+  items.add(ChecklistItem(
+    '우리 아이 학년 반이 열려 있는지',
+    note: a.gradeBands.isEmpty
+        ? '대상 학년 미확인 · 상담으로 확인해 주세요'
+        : '${a.gradeTargetBasis}: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')} · 현재 모집 학년은 확인이 필요합니다',
+  ));
   return items;
 }
 
