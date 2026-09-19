@@ -1154,6 +1154,14 @@ def select_for_mentions(academies: list[dict],
         for a in keep:
             chosen.add(a["id"])
         picked += keep
+        # 매 회차 지역 예산의 20%는 미수집/가장 오래된 학원에 보장한다.
+        # 규모·브랜드 우선순위 때문에 작은 학원이 영원히 밀리지 않게 한다.
+        exploration = sorted(
+            (a for a in rows if a["id"] not in chosen),
+            key=lambda a: ((hist.get(a["id"]) or {}).get("last_at") or "",
+                           a["id"]))[:max(0, min(per_region // 5, per_region - len(picked)))]
+        picked += exploration
+        chosen.update(a["id"] for a in exploration)
         per_band, per_arts = quotas(max(0, per_region - len(picked)))
 
         for band in bands:
@@ -1598,6 +1606,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     mentions = [analyze.analyze(m, names.get(m.get("academy_key"), ""),
                                 candidates.get(m.get("academy_key")))
                 for m in mentions]
+    from . import review_integrity
+    mentions = review_integrity.flag_duplicate_urls(mentions)
     mentions = analyze.flag_repeat_authors(mentions)
     # 홍보 게이트 — 글 하나가 아니라 묶음을 봐야 잡히는 두 가지.
     mentions, dup = analyze.flag_near_duplicates(mentions)
@@ -1795,7 +1805,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         try:
             from . import directory as directory_mod
             self_notes = directory_mod.collect(
-                evaluated, mentions, live=(mode == "live" and not from_cache))
+                evaluated + registry_only, mentions, live=(mode == "live" and not from_cache))
         except ImportError:
             pass
         except Exception as exc:                              # noqa: BLE001
@@ -1820,10 +1830,12 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
-        # 공식 홈페이지. frontmatter 에 적힌 곳만 본다 — 추측해 채우지 않는다.
+        # 등록 주소로 확인된 홈페이지와 사람이 검수한 홈페이지를 순환한다.
         official_cache = {}
-        homepages = {aid: h["homepage"] for aid, h in wiki_hints.items()
-                     if h.get("homepage")}
+        homepages = {a["id"]: a["homepage"] for a in evaluated
+                     if a.get("homepage")}
+        homepages.update({aid: h["homepage"] for aid, h in wiki_hints.items()
+                          if h.get("homepage")})
         if homepages and mode == "live" and not from_cache:
             from . import official as official_mod
             official_cache = official_mod.collect(homepages)
@@ -2389,11 +2401,15 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     from . import ranking_quality
     ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
     ranking_report["identityGates"] = gate_stats or {}
-    ranking_report["filterVersion"] = "2026-09-18.1"
+    ranking_report["filterVersion"] = "2026-09-19.1"
+    from . import source_health
+    ranking_report["sourceHealth"] = source_health.load()
     if mode == "live":
         ranking_quality.record(ranking_report)
 
+    from . import directory as directory_mod
     files = {
+        "directory_sources.json": directory_mod.source_notes(evaluated + registry_only),
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
         # 전체(1.4MB)를 첫 화면에서 읽어야 했는데, 정작 쓰는 건 숫자 넷이다.
         "regions.json": [{

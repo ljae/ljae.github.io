@@ -16,6 +16,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: nightly-data-collection
+  cancel-in-progress: false
+
 jobs:
   collect:
     runs-on: ubuntu-latest
@@ -87,6 +91,27 @@ jobs:
           else
             python pipeline/run.py
           fi
+
+      - name: 출처 접근 상태와 제외 사유 기록
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          lines = ['## 출처 접근 상태']
+          path = Path('pipeline/.cache/source_health.json')
+          if path.exists():
+              for source, row in json.loads(path.read_text()).items():
+                  lines.append(f"- {source}: {row['status']} · 결과 {row['results']}건 · 오류 {row['errors']}회 · 확인 {row['checkedAt']}")
+          else:
+              lines.append('- 확인 기록 없음 (수집 성공으로 간주하지 않음)')
+          path = Path('app/assets/data/meta.json')
+          if path.exists():
+              report = json.loads(path.read_text()).get('rankingQuality', {})
+              lines += ['## 후기 제외 사유', json.dumps(report.get('exclusionReasons', {}), ensure_ascii=False)]
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('\n'.join(lines) + '\n')
+          PY
 
       - name: Supabase 업로드 (키가 있을 때만)
         env:

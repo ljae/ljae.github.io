@@ -41,7 +41,7 @@ class _SourcesPageState extends ConsumerState<SourcesPage> {
                     Text('원출처로 비교하기', style: text.headlineLarge),
                     const SizedBox(height: AppSpace.sm),
                     Text(
-                      '대치 영어학원 ${rows.length}곳의 공식 안내를 먼저 확인했습니다. '
+                      '학원 ${rows.length}곳의 공식 안내와 소개 자료를 확인했습니다. '
                       '학교급·학군 공통 필터와 별도로 보는 조사 자료입니다. '
                       '학원의 설명은 학부모의 평가와 구분하며, 점수나 적합성 판단에 쓰지 않습니다.',
                       style: text.bodyMedium,
@@ -119,7 +119,7 @@ class AcademySourcePanel extends ConsumerWidget {
           loading: () => const SizedBox.shrink(),
           error: (_, _) => TextButton(
             onPressed: () => ref.invalidate(sourceNotesProvider),
-            child: const Text('공식 자료 다시 불러오기'),
+            child: const Text('출처 자료 다시 불러오기'),
           ),
           data: (rows) {
             final sources = rows
@@ -132,7 +132,7 @@ class AcademySourcePanel extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SectionHeader(
-                    '공식 안내에서 확인한 것',
+                    '학원 안내에서 확인한 것',
                     subtitle: '학원 자기 서술 · 후기 요약과 구분해 읽어 주세요.',
                   ),
                   SourceNoteCard(sources: sources),
@@ -181,7 +181,10 @@ class SourceNoteCard extends StatelessWidget {
               ),
             for (final note in notes) ...[
               const Divider(),
-              Text('${note.topic} · 학원 공식 안내', style: text.labelMedium),
+              Text(
+                '${note.topic} · ${note.sourceLabel}',
+                style: text.labelMedium,
+              ),
               const SizedBox(height: 6),
               Text(note.summary, style: text.bodyMedium),
               const SizedBox(height: 6),

@@ -49,7 +49,7 @@ from . import analyze, config
 
 TODAY = date.today()
 # 광고·지점 근거 필터 변경도 비교 이력의 경계로 기록한다.
-SCORING_VERSION = "2026-09-18.1"
+SCORING_VERSION = "2026-09-19.1"
 
 
 # ── 유틸 ───────────────────────────────────────────────────────────

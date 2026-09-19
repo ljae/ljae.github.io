@@ -20,7 +20,8 @@ from pathlib import Path
 import requests
 
 ROOT = Path(__file__).resolve().parent.parent
-for line in (ROOT / ".env").read_text(encoding="utf-8").splitlines():
+for line in ((ROOT / ".env").read_text(encoding="utf-8").splitlines()
+             if (ROOT / ".env").exists() else []):
     line = line.strip()
     if line and not line.startswith("#") and "=" in line:
         k, v = line.split("=", 1)

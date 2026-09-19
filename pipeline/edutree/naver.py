@@ -208,7 +208,8 @@ def _author_hash(item: dict, source: str = "") -> str | None:
     if source == "naver_web":
         host = _host(item.get("link"))
         return _hash(host) if host else None
-    for key in ("bloggerlink", "bloggername", "cafename"):
+    # 카페 이름은 수천 명이 함께 쓰는 공간이지 작성자가 아니다.
+    for key in ("bloggerlink",):
         if item.get(key):
             return _hash(str(item[key]))
     return None
@@ -250,10 +251,12 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     if source in _disabled_sources:
         return []
 
+    from . import source_health
     mode = resolve_mode()
     endpoint = SOURCES[source]
     out: list[dict] = []
     start = 1
+    retries = 0
     while start <= MAX_START and len(out) < max_results:
         params = {
             "query": query,
@@ -261,12 +264,24 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
             "start": start,
             "sort": "date" if source == "naver_blog" else "sim",
         }
-        resp = requests.get(_url(mode, endpoint), params=params,
-                            headers=_headers(mode), timeout=TIMEOUT)
+        try:
+            resp = requests.get(_url(mode, endpoint), params=params,
+                                headers=_headers(mode), timeout=TIMEOUT)
+        except requests.RequestException as exc:
+            source_health.record(source, "network_error")
+            raise NaverError(f"{source}: {type(exc).__name__}") from exc
         if resp.status_code == 429:
+            source_health.record(source, "rate_limited")
+            retries += 1
+            if retries >= 3:
+                _disabled_sources.add(source)
+                raise NaverError(f"{source}: 요청 한도 — 재시도 3회 종료")
             time.sleep(2.0)
             continue
+        retries = 0
         if resp.status_code != 200:
+            source_health.record(source, "disabled" if resp.status_code in (401, 403)
+                                 else f"http_{resp.status_code}")
             body = resp.text[:200]
             if resp.status_code in (401, 403) and "활성화" in body:
                 _disabled_sources.add(source)
@@ -277,6 +292,7 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
             raise NaverError(f"{source} {resp.status_code}: {body}")
 
         items = resp.json().get("items", [])
+        source_health.record(source, "available", len(items))
         if not items:
             break
         for item in items:
@@ -451,8 +467,8 @@ def queries_for(academy: dict, region_name: str) -> list[str]:
     name = academy["name"]
     qs = [
         f"{region_name} {name} 후기",
-        f"{name} 레벨테스트",
-        f"{name} 학원 어때요",
+        f"{region_name} {name} 레벨테스트",
+        f"{region_name} {name} 학원 어때요",
     ]
     for alias in (academy.get("aliases") or [])[:2]:
         qs.append(f"{region_name} {alias} 학원")
@@ -503,6 +519,9 @@ def collect_all(academies: Iterable[dict], region_names: dict[str, str],
     그 이상 올리면 429를 유발해 오히려 느려진다.
     """
     academies = list(academies)
+    from . import source_health
+    source_health.reset()
+    _disabled_sources.clear()
     all_mentions: list[dict] = []
     lock = threading.Lock()
     done = 0
@@ -541,4 +560,5 @@ def collect_all(academies: Iterable[dict], region_names: dict[str, str],
 
     cache = config.CACHE_DIR / "naver_mentions.json"
     cache.write_text(json.dumps(all_mentions, ensure_ascii=False, indent=2), encoding="utf-8")
+    source_health.save()
     return all_mentions

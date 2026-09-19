@@ -351,7 +351,22 @@ def collect(academies: list[dict], by_key: dict[str, list[dict]],
         if aid in names:
             p = _export(entry)
             if p:
-                out[aid] = p
+                # 이전 회차에서 만든 문장도 이번 회차의 근거 판정을 통과해야 한다.
+                # 지원 인용 하나라도 사라지면 문장 전체를 보류한다.
+                eligible = {m.get("url_hash") for m in by_key.get(aid, [])
+                            if not m.get("is_excluded")}
+                self_url = ((self_notes or {}).get(aid) or {}).get("url")
+                for sec in SECTIONS:
+                    section = p.get(sec)
+                    if section and any(
+                        not (q.get("urlHash") in eligible if q.get("kind") == "parent"
+                             else self_url and q.get("url") == self_url)
+                        for q in section.get("quotes", [])
+                    ):
+                        p[sec] = None
+                p["oneLiner"] = one_liner(p)
+                if any(p.get(sec) for sec in SECTIONS):
+                    out[aid] = p
     return out
 
 

@@ -196,7 +196,8 @@ def sponsorship_disclosed(text: str) -> bool:
     flat = re.sub(r"[\s\u200b\ufeff]+", "", text).lower()
     return bool(re.search(
         r"(?:원고료|수강권|수업료|수강료|체험권|서비스|경제적대가|소정의대가)"
-        r"(?:를|을)?(?:무상으로|무료로)?(?:제공|지원)받(?:아|았|은|고)|"
+        r"(?:를|을)?(?:무상으로|무료로)?(?:제공|지원|지급)받(?:아|았|은|고)|"
+        r"협찬(?:을)?받(?:아|았|은|고)|"
         r"(?:원고료|수강권|체험권|경제적대가)(?:를|을)?받(?:아|았|은|고)|"
         r"(?:유료광고|협찬)(?:를|을)?포함(?:하고|한|합니다|되어)",
         flat))
@@ -1460,6 +1461,10 @@ def analyze(mention: dict, academy_name: str = "",
     credibility *= max(0.0, 1.0 - spam)
 
     mention = dict(mention)
+    # 검색 API의 카페명/언론사/웹 도메인은 개인 식별자가 아니다.
+    # 누적 캐시의 잘못된 작성자도 매 재채점마다 정리한다.
+    if mention.get("source") in {"naver_cafe", "naver_web", "naver_news", "naver_kin"}:
+        mention["author_hash"] = None
     mention.update({
         "sentiment": sentiment,
         "aspects": aspects,
@@ -1486,6 +1491,12 @@ def analyze(mention: dict, academy_name: str = "",
             "sponsored" if sponsorship_disclosed(blob) else "promotional")
     else:
         mention.pop("exclude_reason", None)  # 캐시의 이전 판정은 재사용하지 않는다.
+    from . import review_integrity
+    reason = review_integrity.exclusion_reason(mention)
+    if reason and not mention["is_excluded"]:
+        mention["is_excluded"] = True
+        mention["exclude_reason"] = reason
+    mention["evidence_kind"] = review_integrity.evidence_kind(mention)
     return mention
 
 

@@ -40,7 +40,9 @@ class SourceNote {
   bool supports(String? subject) =>
       subject == null || subjects.contains(subject);
   bool get isPrimary => kind == 'official' || kind == 'academy_blog';
-  String get sourceLabel => sourceScope == 'brand'
+  String get sourceLabel => kind == 'directory'
+      ? '학원 소개 · 주소 대조'
+      : sourceScope == 'brand'
       ? '브랜드 공통 안내'
       : kind == 'academy_blog'
       ? '학원 게시글'
@@ -81,7 +83,24 @@ class AcademySources {
 
 final sourceNotesProvider = FutureProvider<List<AcademySources>>((ref) async {
   final raw = await rootBundle.loadString('assets/research/source_notes.json');
-  return (jsonDecode(raw) as List)
+  final directory = await rootBundle.loadString(
+    'assets/data/directory_sources.json',
+  );
+  final groups = [...jsonDecode(raw) as List, ...jsonDecode(directory) as List]
       .map((j) => AcademySources.fromJson(Map<String, dynamic>.from(j as Map)))
       .toList();
+  final merged = <String, AcademySources>{};
+  for (final group in groups) {
+    final previous = merged[group.academyId];
+    merged[group.academyId] = previous == null
+        ? group
+        : AcademySources(
+            academyId: group.academyId,
+            name: previous.name,
+            scope: previous.scope,
+            caveat: '${previous.caveat}\n${group.caveat}',
+            notes: [...previous.notes, ...group.notes],
+          );
+  }
+  return merged.values.toList();
 });

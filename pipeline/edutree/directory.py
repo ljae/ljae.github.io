@@ -150,6 +150,11 @@ def parse_page(html: str) -> dict:
     if m:
         out["name"] = unescape(m.group(1)).strip()
         out["gu"], out["dong"] = m.group(2), m.group(3)
+    else:
+        # 현재 페이지는 제목에서 (구 동)을 생략한다. 주소로만 대조한다.
+        title = re.search(r"<title>([^<]+?)\s*\|", html)
+        if title:
+            out["name"] = unescape(title.group(1)).strip()
 
     meta = _META_DESC.search(html)
     desc = unescape(meta.group(1)) if meta else ""
@@ -234,7 +239,7 @@ def match_academy(page: dict, reg: Registry,
     from . import analyze, naver
     core = analyze.name_core(page.get("name") or "")
     dong = page.get("dong")
-    if not core or not dong:
+    if not core:
         return None
     want = naver.addr_key(page.get("address"))
     found = [aid for aid in reg.by_key.get((core, dong), ())
@@ -243,12 +248,11 @@ def match_academy(page: dict, reg: Registry,
         for aid in reg.by_addr.get(want, ()):
             a = reg.by_id[aid]
             c = reg.core.get(aid) or ""
-            if a.get("dong") == dong and len(c) >= 2 and (c in core or core in c):
+            if (not dong or a.get("dong") == dong) and len(c) >= 3 and (c in core or core in c):
                 found.append(aid)
     if len(found) == 1:
         return found[0]
-    if prefer and prefer in found:
-        return prefer
+    # 검색된 학원을 prefer로 넘겼다는 사실은 동일 학원이라는 증거가 아니다.
     return None
 
 
@@ -369,9 +373,13 @@ def collect(academies: list[dict], mentions: list[dict],
 
     # (a) 언급 링크 → 후보 (학원 id → 정규 URL)
     cands: dict[str, tuple[str, str]] = {}
+    for aid, row in cache.items():
+        got = page_url(row.get("url")) if row else None
+        if got and aid in reg.by_id:
+            cands[aid] = got
     for m in mentions or ():
-        if m.get("is_excluded"):
-            continue
+        # 후기 점수에서 제외된 웹문서도 소개 URL의 발견 경로가 될 수 있다.
+        # 실제 연결은 아래 등록명·주소 대조를 반드시 거친다.
         got = page_url(m.get("source_url"))
         aid = m.get("academy_key")
         if got and aid in reg.by_id and aid not in cands:
@@ -450,6 +458,46 @@ def collect(academies: list[dict], mentions: list[dict],
         budget -= 1
         time.sleep(SLEEP)
 
+    # 공개 탐색 목록과 거기에 실제로 연결된 다음 페이지를 순환한다.
+    # URL을 추측하지 않고 큐를 캐시에 보존한다. 목록 순서/별점은 점수와 무관하다.
+    listing = "https://www.gangmom.kr/browse"
+    if budget > 0 and allowed("gangmom", listing):
+        store = _load(SITEMAP_CACHE)
+        progress = store.setdefault("browse", {"queue": [listing], "pages": {}, "details": {}})
+        queue = progress["queue"]
+        if not queue:
+            queue.append(listing)
+        linked = {r.get("url") for r in cache.values() if r and not _due(r, today)}
+        for _ in range(3):
+            if not queue or budget <= 0:
+                break
+            listing_url = queue.pop(0)
+            html, err = _fetch(session, listing_url)
+            if err or not html:
+                queue.append(listing_url)
+                break
+            progress["pages"][listing_url] = today.isoformat()
+            for path in dict.fromkeys(re.findall(r'href=["\'](/browse\?page=\d+)["\']', html)):
+                url = "https://www.gangmom.kr" + path
+                age = _age(progress["pages"].get(url), today)
+                if url not in queue and (age is None or age >= REVISIT_DAYS):
+                    queue.append(url)
+            paths = dict.fromkeys(re.findall(r'href=["\'](/institute/[a-f0-9]{24})["\']', html))
+            for path in paths:
+                url = "https://www.gangmom.kr" + path
+                if budget <= 0:
+                    # 예산 때문에 못 읽은 링크를 다음 회차에 잃지 않는다.
+                    queue.insert(0, listing_url)
+                    break
+                age = _age(progress["details"].get(url), today)
+                if url in linked or (age is not None and age < REVISIT_DAYS):
+                    continue
+                visit("gangmom", url, None)
+                progress["details"][url] = today.isoformat()
+                budget -= 1
+                time.sleep(SLEEP)
+        _save(SITEMAP_CACHE, store)
+
     # (b) sitemap — 작을 때만 걷는다. 남은 예산으로.
     pool_note = ""
     for src, spec in SOURCES.items():
@@ -501,3 +549,32 @@ def status() -> str:
     return (f"✓ 강남엄마 소개 {len(good)}곳"
             + (f" · 실패·불일치 {bad}곳" if bad else "")
             + f" · 마지막 확인 {last[:10]}" + note)
+
+
+def source_notes(academies: list[dict]) -> list[dict]:
+    """원문 복제 없이 구조화한 대상·과목·셔틀만 출처 카드로 공개한다."""
+    cache = _load(CACHE)
+    out = []
+    for a in academies:
+        row = cache.get(a["id"]) or {}
+        if not row or row.get("error"):
+            continue
+        parts = []
+        if row.get("target"):
+            parts.append("대상: " + " · ".join(row["target"]))
+        if row.get("subjects"):
+            parts.append("과목: " + " · ".join(row["subjects"]))
+        if row.get("shuttle") is not None:
+            parts.append("셔틀 " + ("제공 안내" if row["shuttle"] else "미제공 안내"))
+        if not parts:
+            continue
+        out.append({
+            "academyId": a["id"], "name": a.get("name") or row["name"],
+            "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+            "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요.",
+            "notes": [{"topic": "운영·일정", "title": "강남엄마 학원 소개",
+                       "summary": "; ".join(parts), "url": row["url"],
+                       "checkedAt": row["fetched_at"], "kind": "directory",
+                       "sourceScope": "branch", "subjects": []}],
+        })
+    return out

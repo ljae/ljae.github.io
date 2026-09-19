@@ -152,7 +152,7 @@ def test_collect_은_표본_문턱_아래는_만들지_않고_캐시만_돌려�
     (tmp_path / "profiles.json").write_text(json.dumps({"A": {
         "version": profiles.PROMPT_VERSION, "generated_at": "2026-09-17",
         "model": "m", "hashes": ["h1", "h2", "h3", "h4", "s1"], "sample": 5, "sources": 4,
-        "result": json.loads(FIXTURE.read_text(encoding="utf-8"))}}), encoding="utf-8")
+        "result": profiles.verify(_model_output(), _exs())}}), encoding="utf-8")
     out = profiles.collect(acs, by_key, {"A": CANDS, "B": set()}, live=False)
     assert out["A"]["oneLiner"].startswith("레테 S") and out["A"]["sources"] == 4
     assert "B" not in out

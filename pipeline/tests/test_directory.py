@@ -158,7 +158,7 @@ def test_주소를_모르는_동명_둘이면_어느_쪽도_잇지_않는다():
     page = directory.parse_page(HTML)
     assert directory.match_academy(page, directory.Registry([a, b])) is None
     # 후보를 낸 쪽이 둘 중 하나면 그것 — 페이지가 그 학원 검색에서 나온 것이다.
-    assert directory.match_academy(page, directory.Registry([a, b]), prefer="A2") == "A2"
+    assert directory.match_academy(page, directory.Registry([a, b]), prefer="A2") is None
 
 
 def test_언급_링크로_잇고_캐시에는_후기가_없다(monkeypatch, tmp_path):
@@ -248,3 +248,27 @@ def test_소개_페이지_링크_판별(url, ok):
     assert bool(got) is ok
     if ok:
         assert got == ("gangmom", PAGE)
+
+
+def test_public_listing_discovers_without_web_search(monkeypatch, tmp_path):
+    s = FakeSession({
+        'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK),
+        'https://www.gangmom.kr/browse': (200, '<a href="/institute/65b7afaeb836838137327ade">소개</a><a href="/browse?page=2">다음</a>'),
+        'https://www.gangmom.kr/browse?page=2': (200, '<p>없음</p>'),
+        PAGE: (200, HTML),
+    })
+    _wire(monkeypatch, tmp_path, s)
+    got = directory.collect([GROTON], [], live=True)
+    assert got['A1']['url'] == PAGE
+    assert 'https://www.gangmom.kr/browse?page=2' in s.calls
+    notes = directory.source_notes([GROTON])
+    assert notes[0]['notes'][0]['kind'] == 'directory'
+    assert '아이가 즐겁게' not in str(notes)
+
+
+def test_known_directory_is_revisited_without_new_mention(monkeypatch, tmp_path):
+    import json
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK), PAGE: (200, HTML)})
+    _wire(monkeypatch, tmp_path, s)
+    directory.CACHE.write_text(json.dumps({'A1': {'url': PAGE, 'fetched_at': '2020-01-01'}}))
+    assert directory.collect([GROTON], [], live=True)['A1']['url'] == PAGE
