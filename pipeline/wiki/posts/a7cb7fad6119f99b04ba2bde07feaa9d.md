@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+수강 과목은 영어 등이며, 학생들이 남긴 후기는 총 1개로 평균 점수는 5.0점입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

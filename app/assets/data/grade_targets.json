@@ -3951,7 +3951,11 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_low": 1,
+    "middle": 2,
+    "elem_high": 1
+   }
   },
   {
    "academyId": "3000030816",
@@ -4664,14 +4668,17 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "english": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_low": 3
+   }
   },
   {
    "academyId": "3000035327",
@@ -4910,7 +4917,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "3000041356",
@@ -7515,14 +7524,18 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "math": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1,
+    "elem_high": 1
+   }
   },
   {
    "academyId": "3000018551",
@@ -8710,7 +8723,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 1
+   }
   },
   {
    "academyId": "3000046545",
@@ -8937,9 +8952,9 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "elem_low": 104,
-    "high": 19,
-    "middle": 7,
+    "elem_low": 114,
+    "high": 17,
+    "middle": 8,
     "elem_high": 15
    }
   },
@@ -9069,9 +9084,9 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "middle": 14,
-    "elem_high": 11,
-    "high": 8,
+    "middle": 17,
+    "elem_high": 13,
+    "high": 9,
     "elem_low": 5
    }
   },
@@ -9253,10 +9268,10 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "middle": 18,
+    "middle": 19,
     "elem_low": 35,
-    "elem_high": 6,
-    "high": 27
+    "elem_high": 7,
+    "high": 28
    }
   },
   {
@@ -9347,10 +9362,10 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "elem_low": 28,
-    "elem_high": 4,
-    "high": 15,
-    "middle": 5
+    "elem_low": 42,
+    "elem_high": 7,
+    "high": 21,
+    "middle": 6
    }
   },
   {
@@ -9891,7 +9906,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_high": 1
+   }
   },
   {
    "academyId": "2274",
@@ -10191,7 +10208,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "5925",
@@ -10525,7 +10544,7 @@
    "reviewSignals": {
     "elem_low": 16,
     "middle": 24,
-    "high": 50,
+    "high": 51,
     "elem_high": 13
    }
   },
@@ -11317,7 +11336,11 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 5,
+    "middle": 1,
+    "elem_low": 1
+   }
   },
   {
    "academyId": "3000030268",
@@ -11401,7 +11424,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
     "middle": 41,
-    "elem_high": 93,
+    "elem_high": 94,
     "elem_low": 30,
     "high": 44
    }
@@ -14758,7 +14781,7 @@
    "reviewSignals": {
     "elem_high": 31,
     "middle": 15,
-    "elem_low": 35,
+    "elem_low": 36,
     "high": 16
    }
   },
@@ -15204,7 +15227,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
     "high": 24,
-    "elem_high": 30,
+    "elem_high": 31,
     "middle": 19,
     "elem_low": 14
    }
@@ -21902,14 +21925,19 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "korean": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_high": 1,
+    "high": 5,
+    "middle": 2
+   }
   },
   {
    "academyId": "3000044329",
@@ -22702,7 +22730,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 3
+   }
   },
   {
    "academyId": "13544",
@@ -22790,7 +22820,7 @@
    "reviewSignals": {
     "high": 45,
     "middle": 46,
-    "elem_low": 16,
+    "elem_low": 17,
     "elem_high": 15
    }
   },
@@ -23014,7 +23044,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 2,
+    "high": 1
+   }
   },
   {
    "academyId": "24633",
@@ -30311,7 +30344,8 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "high": 3
+    "high": 11,
+    "middle": 3
    }
   },
   {
@@ -34129,7 +34163,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 1
+   }
   },
   {
    "academyId": "14443",
@@ -34148,7 +34184,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 4,
+    "middle": 1
+   }
   },
   {
    "academyId": "3000022784",
@@ -39030,7 +39069,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 3
+   }
   },
   {
    "academyId": "10654",
@@ -44067,7 +44108,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 11,
+    "high": 5
+   }
   },
   {
    "academyId": "3000038668",
@@ -45369,7 +45413,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "3000043809",
@@ -48013,7 +48059,7 @@
    "reviewSignals": {
     "elem_low": 22,
     "high": 57,
-    "middle": 32,
+    "middle": 33,
     "elem_high": 36
    }
   },
@@ -48153,14 +48199,17 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "math": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "3000032862",
@@ -48293,14 +48342,19 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "korean": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 22,
+    "elem_low": 1,
+    "middle": 2
+   }
   },
   {
    "academyId": "1000034630",
@@ -49617,7 +49671,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "1000034542",
@@ -49761,7 +49817,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_low": 1
+   }
   },
   {
    "academyId": "11833",
@@ -49818,7 +49876,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
     "high": 27,
-    "elem_low": 79,
+    "elem_low": 80,
     "middle": 7,
     "elem_high": 13
    }
@@ -57231,7 +57289,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "3000030855",
@@ -58917,7 +58977,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 2
+   }
   },
   {
    "academyId": "3000020158",
@@ -61493,10 +61555,10 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "elem_low": 9,
-    "elem_high": 4,
-    "high": 8,
-    "middle": 1
+    "elem_low": 13,
+    "elem_high": 7,
+    "high": 9,
+    "middle": 3
    }
   },
   {
@@ -62244,9 +62306,9 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
     "middle": 27,
-    "elem_low": 32,
+    "elem_low": 33,
     "high": 58,
-    "elem_high": 130
+    "elem_high": 129
    }
   },
   {
@@ -64056,7 +64118,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1,
+    "elem_low": 1
+   }
   },
   {
    "academyId": "3000022308",
@@ -67742,7 +67807,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 1
+   }
   },
   {
    "academyId": "3000018495",
@@ -67827,7 +67894,12 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_high": 3,
+    "middle": 8,
+    "elem_low": 2,
+    "high": 2
+   }
   },
   {
    "academyId": "3000050199",
@@ -70127,7 +70199,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 1,
+    "high": 1
+   }
   },
   {
    "academyId": "3000024687",
@@ -73311,7 +73386,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "elem_low": 1
+   }
   },
   {
    "academyId": "18578",
@@ -73528,7 +73605,10 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 4,
+    "high": 1
+   }
   },
   {
    "academyId": "31007",
@@ -75518,7 +75598,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 1
+   }
   },
   {
    "academyId": "3000025561",
@@ -75624,7 +75706,7 @@
    "reviewSignals": {
     "elem_high": 5,
     "high": 19,
-    "elem_low": 46,
+    "elem_low": 47,
     "middle": 4
    }
   },
@@ -76708,7 +76790,9 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "middle": 1
+   }
   },
   {
    "academyId": "14551",
@@ -77019,7 +77103,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
     "middle": 22,
-    "elem_low": 23,
+    "elem_low": 22,
     "elem_high": 66,
     "high": 27
    }
@@ -77817,14 +77901,18 @@
    "bands": [],
    "evidence": [],
    "bySubject": {
-    "general": []
+    "general": [],
+    "math": []
    },
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 23,
+    "middle": 2
+   }
   },
   {
    "academyId": "3000019569",
@@ -77940,7 +78028,7 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "elem_low": 92,
+    "elem_low": 96,
     "high": 21,
     "elem_high": 5,
     "middle": 2
@@ -78291,7 +78379,11 @@
    "auditedAt": "2026-09-19",
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {}
+   "reviewSignals": {
+    "high": 2,
+    "middle": 5,
+    "elem_low": 1
+   }
   },
   {
    "academyId": "3000016023",
@@ -78327,7 +78419,7 @@
    "version": "2026-09-19.5",
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "high": 35,
+    "high": 36,
     "middle": 25,
     "elem_high": 3,
     "elem_low": 1
