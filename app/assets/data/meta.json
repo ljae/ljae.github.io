@@ -1,34 +1,34 @@
 {
  "mode": "live",
- "generatedAt": "2026-09-19T13:19:12.629762+00:00",
+ "generatedAt": "2026-09-19T13:32:28.409859+00:00",
  "evaluatedCount": 1919,
  "registryCount": 5340,
  "mentionCount": 31640,
  "naverBudget": 400,
- "scoringVersion": "2026-09-19.4",
+ "scoringVersion": "2026-09-19.5",
  "rankingQuality": {
-  "version": "2026-09-19.4",
+  "version": "2026-09-19.5",
   "mentions": 31640,
-  "validMentions": 16112,
-  "datedMentions": 2177,
-  "datedShare": 0.1351,
-  "excludedMentions": 15528,
+  "validMentions": 16032,
+  "datedMentions": 2143,
+  "datedShare": 0.1337,
+  "excludedMentions": 15608,
   "exclusionReasons": {
-   "author_burst": 139,
-   "directory_information": 127,
+   "author_burst": 123,
+   "directory_information": 146,
    "marketplace": 49,
-   "near_duplicate": 766,
+   "near_duplicate": 764,
    "news": 759,
    "promotional": 1005,
    "question_answer": 1641,
-   "question_only": 1793,
-   "self_promotion": 600,
+   "question_only": 1790,
+   "self_promotion": 682,
    "sponsored": 41,
    "web_information": 8608
   },
   "sources": {
-   "naver_blog": 2177,
-   "naver_cafe": 13935
+   "naver_blog": 2143,
+   "naver_cafe": 13889
   },
   "cohorts": {
    "banpo:arts": {
@@ -41,7 +41,7 @@
     "evaluated": 72,
     "withEvidence": 29,
     "ranked": 15,
-    "incomplete": 52
+    "incomplete": 53
    },
    "banpo:etc": {
     "evaluated": 49,
@@ -117,7 +117,7 @@
    },
    "jamsil:etc": {
     "evaluated": 19,
-    "withEvidence": 8,
+    "withEvidence": 7,
     "ranked": 3,
     "incomplete": 0
    },
@@ -158,10 +158,10 @@
     "incomplete": 0
    },
    "mokdong:korean": {
-    "evaluated": 86,
-    "withEvidence": 14,
+    "evaluated": 87,
+    "withEvidence": 15,
     "ranked": 4,
-    "incomplete": 81
+    "incomplete": 82
    },
    "mokdong:math": {
     "evaluated": 134,
@@ -177,9 +177,9 @@
    }
   },
   "identityGates": {
-   "irrelevant": 246863,
+   "irrelevant": 246864,
    "elsewhere": 3431,
-   "other_region": 8277,
+   "other_region": 8276,
    "shared": 0,
    "sibling": 932,
    "rehomed": 535,
@@ -188,7 +188,7 @@
    "branches": 519,
    "local_unknown": 8886
   },
-  "filterVersion": "2026-09-19.4",
+  "filterVersion": "2026-09-19.5",
   "sourceHealth": {
    "naver_cafe": {
     "requests": 65,
@@ -228,7 +228,7 @@
   }
  },
  "gradeTargetAudit": {
-  "version": "2026-09-19.4",
+  "version": "2026-09-19.5",
   "auditedAt": "2026-09-19",
   "total": 5340,
   "statuses": {
@@ -258,19 +258,19 @@
  },
  "evidenceQuality": {
   "academies": 1919,
-  "withEvidence": 574,
-  "rows": 2225,
-  "nameInExcerpt": 2225,
-  "inTitle": 1658,
+  "withEvidence": 573,
+  "rows": 2218,
+  "nameInExcerpt": 2218,
+  "inTitle": 1657,
   "spacedName": 0,
   "basis": {
-   "region": 1508,
-   "direct": 717
+   "region": 1505,
+   "direct": 713
   }
  },
  "coverage": {
   "evaluated": 1919,
-  "withMentions": 572,
+  "withMentions": 571,
   "ranked": 167
  }
 }
