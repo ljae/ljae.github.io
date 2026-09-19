@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+import re
 
 from . import analyze, dedupe
 
@@ -84,6 +85,9 @@ def locality_words(academy: dict) -> set[str]:
     실측: 방배점 수집분 415건 중 120건이 제목에 '반포' 가 든 반포점 글이었다.
     """
     words: set[str] = set(academy.get('branch_identity_words') or [])
+    road = re.search(r'([가-힣0-9]+(?:로|길)\s*\d+(?:-\d+)?)', academy.get('road_address') or '')
+    if road:
+        words.add(re.sub(r'\s+', '', road[1]))
     vocab = [w for ws in analyze.REGION_WORDS.values() for w in ws
              if w not in BROAD_WORDS]
     dong = (academy.get("dong") or "").rstrip("동")

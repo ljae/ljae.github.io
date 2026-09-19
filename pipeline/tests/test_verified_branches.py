@@ -71,3 +71,15 @@ def test_same_region_halls_require_specific_branch_even_when_not_scored():
         mentions=[{'academy_key':a['id'],'url_hash':'same','title':title,'snippet':'아이를 보내고 수업에 만족합니다.'} for a in academies[:2]]
         kept,_=branches.apply(mentions,academies,candidates,{},set())
         assert [m['academy_key'] for m in kept]==expected
+
+
+def test_banpo_middle_hall_review_cannot_enter_elementary_branch():
+    from pipeline.edutree import branches,analyze
+    academies=[
+        {'id':'14153','name':'기파랑문해원서초학원','road_address':'서울특별시 서초구 고무래로10길 10','region_id':'banpo','dong':'반포동','subjects':['korean']},
+        {'id':'3000051686','name':'기파랑국풀반포학원','road_address':'서울특별시 서초구 반포대로 300','region_id':'banpo','dong':'반포동','subjects':['korean']},
+    ]
+    verified_branches.apply(academies,today=date(2026,9,19))
+    m={'academy_key':'14153','url_hash':'middle','title':'기파랑중등관 서초반포원','snippet':'반포대로 300 중1 아람반. 아이가 수업을 잘 듣고 있습니다.'}
+    kept,_=branches.apply([m],academies,{a['id']:analyze.name_candidates(a) for a in academies},{},set())
+    assert kept==[]

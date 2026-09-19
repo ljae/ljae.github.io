@@ -10,7 +10,7 @@ from collections import Counter
 from datetime import date
 
 BANDS = ('elem_low', 'elem_high', 'middle', 'high')
-VERSION = '2026-09-19.3'
+VERSION = '2026-09-19.4'
 NEIS_URL = 'https://open.neis.go.kr/hub/acaInsTiInfo'
 SUBJECT_WORDS = {
     'math': ('수학', '수리'), 'english': ('영어',),

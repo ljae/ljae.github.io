@@ -90,3 +90,28 @@ def test_excluded_url_duplicates_do_not_trigger_author_burst():
     review_integrity.flag_duplicate_urls(rows)
     assert analyze.flag_author_bursts(rows)[1] == 0
     assert not rows[0].get('is_excluded')
+
+
+def test_marketplace_announcements_and_directories_are_not_reviews():
+    samples = [
+        ('msc학원 dna 교재 및 그외책 총30권', '목동msc 수업관련책 책상태 깨끗합니다. 수업 만족했습니다.', 'marketplace'),
+        ('[설명회] MSC 센터별 설명회!!', 'MSC브레인컨설팅그룹입니다. 우리 아이 수업 만족!', 'self_promotion'),
+        ('기파랑문해원 입학설명회!', '대치본원 원장님과 진행되는 설명회입니다.', 'self_promotion'),
+        ('[기파랑문해원] 시간표 안내 및 설명회 감사 인사', '저희 학원에 보내고 계신 부모님께 감사드립니다.', 'self_promotion'),
+        ('[서초구 학원 명단] 국어 수학 초중고 보습학원 명단', '학생들이 다니고 있습니다.', 'directory_information'),
+        ('[국어학원 추천] MSC 목동센터', '스터디홀릭 운영자 강명규입니다. 오늘 소개해드릴 학원은 MSC입니다.', 'directory_information'),
+        ('기파랑대치3관 일요일 1교시 시간 아시는분 계실까요?', '아이 수업 시간 궁금합니다.', 'question_only'),
+    ]
+    for title, snippet, reason in samples:
+        m=analyze.analyze({'title':title,'snippet':snippet,'source':'naver_cafe'},'MSC')
+        assert m['is_excluded'],title
+        assert review_integrity.evidence_kind(m)==reason,title
+
+
+def test_actual_event_experience_and_used_textbook_experience_survive():
+    for title,snippet in [
+        ('기파랑 입학설명회 다녀온 후기','제가 다녀왔는데 설명을 듣고 상담받았습니다.'),
+        ('MSC 중고 교재로 수업 준비한 후기','우리 아이는 수업에 만족했고 다니고 있습니다.'),
+        ('MSC 목동센터 후기','아이를 보내고 있습니다. 글쓰기 수업을 재밌어해요.'),
+    ]:
+        assert review_integrity.exclusion_reason({'title':title,'snippet':snippet,'source':'naver_blog'}) is None

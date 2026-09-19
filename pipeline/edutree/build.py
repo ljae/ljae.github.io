@@ -2389,7 +2389,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     from . import ranking_quality
     ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
     ranking_report["identityGates"] = gate_stats or {}
-    ranking_report["filterVersion"] = "2026-09-19.3"
+    ranking_report["filterVersion"] = "2026-09-19.4"
     from . import source_health
     ranking_report["sourceHealth"] = source_health.load()
     if mode == "live":

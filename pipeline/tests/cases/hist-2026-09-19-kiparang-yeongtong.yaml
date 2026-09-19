@@ -1,0 +1,11 @@
+case: hist-2026-09-19-kiparang-yeongtong
+entity_type: academy
+kind: branch
+why: 영통원 설명회 강사의 대치본원 약력이 대치 수강 후기가 되면 안 된다.
+academies:
+  - {id: daechi, name: 기파랑문해원대치본원학원, aliases: [기파랑], region_id: daechi, dong: 대치동}
+mention:
+  academy_key: daechi
+  title: '[중등기파랑문해원 영통원] 이준기원장과 함께하는 입시 전략'
+  snippet: '강사 약력: 현 기파랑문해원 대치본원 원장'
+expect: {kept_for: []}
