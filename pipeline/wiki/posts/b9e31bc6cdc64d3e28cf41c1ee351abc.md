@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.40 · 스팸 0.20
-- 붙은 학원 3곳 · 과목 english
+- 붙은 학원 2곳 · 과목 english
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -31,7 +31,6 @@ stale_after:
 <!-- auto:edges -->
 - [[../academies/13544|목동정상어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/19396|잠실1관정상어학학원]] — 글이 이 권역을 밝힘 · 감성 +0.34
-- [[../academies/24925|송파1관정상어학학원]] — 글이 이 권역을 밝힘 · 감성 +0.34
 <!-- /auto:edges -->
 
 ## 검수
