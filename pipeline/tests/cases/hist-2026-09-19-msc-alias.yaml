@@ -1,0 +1,9 @@
+case: hist-2026-09-19-msc-alias
+entity_type: academy
+kind: relevance
+why: 교육청 엠에스씨 등록명과 주소로 확인한 MSC 공개 상호를 연결한다.
+academy: {name: 엠에스씨서초학원, aliases: [MSC브레인컨설팅그룹 서초센터, MSC], region_id: banpo}
+mention:
+  title: 서초 MSC브레인컨설팅그룹 수강 후기
+  snippet: 고무래로 센터에서 아이가 책을 읽고 글쓰기 수업을 듣고 있습니다.
+expect: {relevant: true}

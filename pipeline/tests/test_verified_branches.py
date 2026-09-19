@@ -54,3 +54,20 @@ def test_targeted_collection_preserves_store_and_rejects_unknown_ids(monkeypatch
     import pytest
     for ids in ['unknown','12345',','.join(str(i) for i in range(21))]:
         with pytest.raises(ValueError):targeted.collect(ids)
+
+
+def test_same_region_halls_require_specific_branch_even_when_not_scored():
+    from pipeline.edutree import branches, analyze
+    academies=[
+        {'id':'5279','name':'기파랑문해원대치본원학원','road_address':'서울특별시 강남구 역삼로64길 9','region_id':'daechi','dong':'대치동','subjects':['korean']},
+        {'id':'3000041721','name':'기파랑문해원대치원3관학원','road_address':'서울특별시 강남구 도곡로 422','region_id':'daechi','dong':'대치동','subjects':['korean']},
+        {'id':'middle','name':'기파랑문해원대치원중등','road_address':'다른 주소','region_id':'daechi','dong':'대치동','subjects':['korean']},
+    ]
+    verified_branches.apply(academies,today=date(2026,9,19))
+    assert len({branches.sibling_key(a) for a in academies})==1
+    # 중등관이 수집되지 않았더라도 본원과 3관에 후기를 나눠주면 안 된다.
+    candidates={a['id']:analyze.name_candidates(a) for a in academies[:2]}
+    for title,expected in [('대치 기파랑 후기',[]),('대치 기파랑 대치본원 후기',['5279']),('대치 기파랑 대치3관 후기',['3000041721'])]:
+        mentions=[{'academy_key':a['id'],'url_hash':'same','title':title,'snippet':'아이를 보내고 수업에 만족합니다.'} for a in academies[:2]]
+        kept,_=branches.apply(mentions,academies,candidates,{},set())
+        assert [m['academy_key'] for m in kept]==expected

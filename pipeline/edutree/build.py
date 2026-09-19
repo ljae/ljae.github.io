@@ -1506,7 +1506,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     from . import branches
     wiki_locality = {aid: {w for w in h["locality"]}
                      for aid, h in wiki_hints.items() if h["locality"]}
-    mentions, bstat = branches.apply(mentions, evaluated,
+    mentions, bstat = branches.apply(mentions, evaluated + registry_only,
                                      candidates, generic, rival_names,
                                      extra_locality=wiki_locality)
     if bstat["branches"] or bstat["local_unknown"]:

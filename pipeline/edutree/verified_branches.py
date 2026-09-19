@@ -12,7 +12,12 @@ def load():
 def apply(academies, records=None, today=None):
     today = today or date.today()
     records = load() if records is None else records
+    active = [r for r in records if date.fromisoformat(r['checkedAt']) <= today <= date.fromisoformat(r['reviewBy'])]
     for a in academies:
+        # 가족 관계는 글을 더 붙이는 근거가 아니라 지점 불명 글을 보류하는 장치다.
+        for r in active:
+            if a.get('name', '').startswith(r['nameToken']):
+                a['identity_family'] = r['nameToken']
         ids = {str(a['id']), *map(str, a.get('registration_ids') or [])}
         for r in records:
             # 같은 건물의 다른 학원이나 같은 이름의 다른 지점으로 전파하지 않는다.
@@ -25,6 +30,7 @@ def apply(academies, records=None, today=None):
             a['aliases'] = list(dict.fromkeys([*(a.get('aliases') or []), *r['aliases']]))
             a['subjects'] = list(dict.fromkeys([s for s in a.get('subjects', []) if s != 'general'] + r['subjects']))
             a['homepage'] = r['homepage']
+            a['branch_identity_words'] = r.get('identityTerms', [])
             a['verified_branch'] = r
 
 

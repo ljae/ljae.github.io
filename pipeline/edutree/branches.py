@@ -36,6 +36,8 @@ def sibling_key(academy: dict) -> str | None:
     지역·업종어를 뗀 토큰을 쓴다 — '대치에이프릴어학원'과
     '서초에이프릴어학원'이 모두 '에이프릴'이 된다.
     """
+    if academy.get('identity_family'):
+        return f"verified:{academy['identity_family']}"
     brand = (academy.get("brand") or "").strip()
     if brand:
         return f"brand:{brand}"
@@ -81,7 +83,7 @@ def locality_words(academy: dict) -> set[str]:
     방배점이 모두 '반포' 학군이라 권역만으로는 갈리지 않는다.
     실측: 방배점 수집분 415건 중 120건이 제목에 '반포' 가 든 반포점 글이었다.
     """
-    words: set[str] = set()
+    words: set[str] = set(academy.get('branch_identity_words') or [])
     vocab = [w for ws in analyze.REGION_WORDS.values() for w in ws
              if w not in BROAD_WORDS]
     dong = (academy.get("dong") or "").rstrip("동")
