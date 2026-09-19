@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class HomePage extends ConsumerWidget {
     return ref
         .watch(dataProvider)
         .when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const ContentLoading(),
           error: (e, _) =>
               const Center(child: Text('데이터를 불러오지 못했습니다. 다시 시도해주세요.')),
           data: (data) {

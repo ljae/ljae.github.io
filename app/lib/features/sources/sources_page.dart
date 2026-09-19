@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class _SourcesPageState extends ConsumerState<SourcesPage> {
     return ref
         .watch(sourceNotesProvider)
         .when(
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const ContentLoading(),
           error: (_, _) => Center(
             child: TextButton(
               onPressed: () => ref.invalidate(sourceNotesProvider),

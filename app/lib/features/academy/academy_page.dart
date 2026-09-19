@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,7 @@ class AcademyPage extends ConsumerWidget {
     final async = ref.watch(dataProvider);
 
     return async.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('$e')),
       data: (data) {
         final academy = data.academyById[academyId];

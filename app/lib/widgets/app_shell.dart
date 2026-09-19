@@ -1,3 +1,4 @@
+import 'content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -532,7 +533,7 @@ class AcademySearch extends SearchDelegate<String> {
       builder: (context, ref, _) {
         final data = ref.watch(dataProvider).value;
         if (data == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const ContentLoading();
         }
         if (query.isEmpty) {
           return const Center(

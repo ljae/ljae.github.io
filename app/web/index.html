@@ -91,60 +91,99 @@
       .nm-info .nm-sub   { color: #9C978B; }
     }
 
-    /* CanvasKit 로딩 동안 흰 화면 대신 브랜드 화면을 보여준다.
-       Flutter 첫 프레임이 그려지면 스스로 사라진다. */
+    @font-face {
+      font-family: Paperlogy; font-style: normal; font-weight: 400;
+      src: url('assets/assets/fonts/Paperlogy-4Regular.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: Paperlogy; font-style: normal; font-weight: 800;
+      src: url('assets/assets/fonts/Paperlogy-8ExtraBold.ttf') format('truetype');
+      font-display: swap;
+    }
+    /* 앱의 canvas / ink / accent 토큰과 같은 첫 화면. */
     #boot {
-      position: fixed; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 18px;
-      background: #193E33;
-      color: #fff; z-index: 9999;
-      font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-      transition: opacity .45s ease; 
+      --boot-bg: #F5F7F5; --boot-surface: #FFFFFF; --boot-ink: #192D29;
+      --boot-muted: #586862; --boot-line: #E2E5E7; --boot-accent: #16705D;
+      position: fixed; inset: 0; z-index: 9999; overflow: auto;
+      display: flex; flex-direction: column; box-sizing: border-box;
+      background: var(--boot-bg); color: var(--boot-ink);
+      font-family: Paperlogy, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      transition: opacity .24s ease;
     }
     #boot.done { opacity: 0; pointer-events: none; }
-    #boot .mark {
-      width: 138px; height: 138px; border-radius: 30px; overflow: hidden;
-      background: transparent;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 10px 34px rgba(0,0,0,.45);
+    #boot .boot-header {
+      border-bottom: 1px solid var(--boot-line); padding: 18px 24px;
+      display: flex; align-items: center; gap: 12px;
     }
-    #boot .mark svg { width: 24px; height: 24px; fill: #fff; }
-    #boot .name { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
-    #boot .tag { font-size: 12.5px; color: rgba(255,255,255,.85); letter-spacing: -.2px; }
-    #boot .bar {
-      width: 132px; height: 3px; border-radius: 2px; overflow: hidden;
-      background: rgba(255,255,255,.16);
+    #boot .mark { width: 32px; height: 32px; flex: none; }
+    #boot .name { font-size: 20px; font-weight: 800; letter-spacing: -.5px; }
+    #boot .boot-main {
+      flex: 1; display: grid; place-items: center; padding: 40px 24px;
     }
-    #boot .bar i {
-      display: block; width: 40%; height: 100%; border-radius: 2px;
-      background: #74D3B6; animation: slide 1.15s ease-in-out infinite;
+    #boot .boot-card {
+      box-sizing: border-box; width: 100%; max-width: 420px;
+      background: var(--boot-surface); border: 1px solid var(--boot-line);
+      border-radius: 16px; padding: 32px;
     }
+    #boot .eyebrow { color: var(--boot-accent); font-size: 12px; line-height: 1.6; }
+    #boot h1 { margin: 14px 0 12px; font-size: 25px; font-weight: 800; line-height: 1.45; letter-spacing: -.8px; word-break: keep-all; }
+    #boot .description { color: var(--boot-muted); font-size: 14px; line-height: 1.8; margin: 0 0 28px; word-break: keep-all; }
+    #boot .bar { height: 3px; overflow: hidden; border-radius: 3px; background: var(--boot-line); }
+    #boot .bar i { display: block; width: 35%; height: 100%; background: var(--boot-accent); animation: boot-slide 1.6s ease-in-out infinite; }
+    #boot .status { margin: 14px 0 0; color: var(--boot-muted); font-size: 12px; line-height: 1.7; }
+    #boot .retry { display: inline-block; margin-top: 12px; color: var(--boot-accent); font-size: 13px; text-underline-offset: 4px; padding: 8px 0; }
+    #boot .retry[hidden] { display: none; }
+    #boot .boot-footer { text-align: center; padding: 20px 24px max(24px, env(safe-area-inset-bottom)); font-size: 12px; line-height: 1.8; color: var(--boot-muted); }
+    @media (prefers-color-scheme: dark) {
+      #boot { --boot-bg: #101218; --boot-surface: #181B23; --boot-ink: #EDE7D9;
+        --boot-muted: #A4ABB5; --boot-line: #2C303B; --boot-accent: #74D3B6; }
+    }
+    @media (max-width: 380px) { #boot .boot-card { padding: 24px; } #boot h1 { font-size: 23px; } }
     @media (prefers-reduced-motion: reduce) {
       #boot { transition: none; }
-      #boot .bar i { animation: none; width: 100%; }
+      #boot .bar i { animation: none; width: 35%; margin-left: 32.5%; }
     }
-    @keyframes slide {
-      0%   { transform: translateX(-100%); }
-      100% { transform: translateX(250%); }
-    }
+    @keyframes boot-slide { from { transform: translateX(-100%); } to { transform: translateX(390%); } }
   </style>
 </head>
 <body>
   <div id="boot">
-    <div class="mark"><img src="icons/Icon-512.png" alt="학원실록" width="138" height="138"></div>
-    <div class="name">학원실록</div>
-    <div class="tag">우리 아이에게 맞는 학원 찾기</div>
-    <div class="bar"><i></i></div>
+    <header class="boot-header">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <g fill="currentColor"><path d="M3 6h3v36H3zM42 6h3v36h-3zM12 27h6v15h-6zM12 27h15v6H12zM21 15h6v18h-6zM21 15h15v6H21z"/></g>
+        <path fill="var(--boot-accent)" d="M30 6h6v9h-6z"/>
+      </svg>
+      <span class="name">학원실록</span>
+    </header>
+    <main class="boot-main">
+      <section class="boot-card" aria-labelledby="boot-title">
+        <div class="eyebrow">우리 아이에게 맞는 학원 찾기</div>
+        <h1 id="boot-title">학원 정보를<br>불러오고 있어요</h1>
+        <p class="description">대상 학년부터 수업 특징, 통학 위치까지.<br>상담에 필요한 정보를 준비하고 있어요.</p>
+        <div class="bar" aria-hidden="true"><i></i></div>
+        <p id="boot-status" class="status" role="status" aria-live="polite">잠시만 기다려 주세요.</p>
+        <a class="retry" id="boot-retry" href="" hidden>다시 불러오기</a>
+        <noscript><p class="status">학원을 찾아보려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+      </section>
+    </main>
+    <footer class="boot-footer">대치 · 목동 · 반포 · 잠실</footer>
   </div>
 
   <script>
-    // Flutter 첫 프레임 이후 부팅 화면을 걷어낸다.
+    var bootWait = setTimeout(function () {
+      var status = document.getElementById('boot-status');
+      var retry = document.getElementById('boot-retry');
+      if (status) status.textContent = '연결이 평소보다 오래 걸리고 있어요. 잠시 후 다시 시도해 주세요.';
+      if (retry) retry.hidden = false;
+    }, 20000);
     window.addEventListener('flutter-first-frame', function () {
+      clearTimeout(bootWait);
       var boot = document.getElementById('boot');
       if (!boot) return;
       boot.classList.add('done');
-      setTimeout(function () { boot.remove(); }, 500);
-    });
+      setTimeout(function () { boot.remove(); }, 260);
+    }, { once: true });
   </script>
   <script>
     // 예전 배포에서 등록된 서비스워커가 낡은 main.dart.js 를 붙잡고 있어,

@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +26,7 @@ class MethodPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(dataProvider);
     return async.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('$e')),
       data: (data) {
         final text = Theme.of(context).textTheme;

@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -39,12 +40,12 @@ class _MapPageState extends ConsumerState<MapPage> {
       return Center(child: Text('${async.error ?? mapAsync.error}'));
     }
     if (!async.hasValue || !mapAsync.hasValue) {
-      return const Center(child: CircularProgressIndicator());
+      return const ContentLoading();
     }
     final mapData = mapAsync.requireValue;
 
     return async.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('$e')),
       data: (data) {
         final region = data.regionById[sel.regionId];

@@ -1,3 +1,4 @@
+import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,7 +30,7 @@ class TechTreePage extends ConsumerWidget {
     final sel = ref.watch(selectionProvider);
 
     return async.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('데이터를 불러오지 못했습니다\n$e')),
       data: (data) => ContentWidth(
         max: 1400,
