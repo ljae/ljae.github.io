@@ -93,10 +93,9 @@ jobs:
               academies.extend(json.loads((config.EXPORT_DIR / name).read_text()))
           directory.collect(academies, [], live=True)
           notes = directory.source_notes(academies)
-          if notes:
-              (config.EXPORT_DIR / 'directory_sources.json').write_text(json.dumps(notes, ensure_ascii=False, indent=2))
-          else:
-              print('확인한 소개 없음 — 기존 확인일을 유지하며 새 확인으로 표시하지 않음')
+          # source_notes가 통신 실패의 이전 자료를 개별 보존한다.
+          # 전부 폐쇄/불일치로 확인된 경우 빈 결과도 반영해야 한다.
+          (config.EXPORT_DIR / 'directory_sources.json').write_text(json.dumps(notes, ensure_ascii=False, indent=2))
           PY
           elif [ "$RESCORE_ONLY" = "true" ]; then
             # 캐시가 없으면 오래된 대체 자료나 합성 데이터로 게시하지 않는다.
@@ -118,6 +117,10 @@ jobs:
           import json, os
           from pathlib import Path
           lines = ['## 출처 접근 상태']
+          access = Path('pipeline/.cache/directory_access.json')
+          if access.exists():
+              for host, row in json.loads(access.read_text()).items():
+                  lines.append(f"- 학원 소개 직접 갱신 {host}: HTTP {row['status']} · 마지막 시도 {row['attempted_at']} (성공 확인일과 별도)")
           path = Path('pipeline/.cache/source_health.json')
           if path.exists():
               for source, row in json.loads(path.read_text()).items():

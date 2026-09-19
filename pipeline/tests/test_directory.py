@@ -45,6 +45,7 @@ def _wire(monkeypatch, tmp_path, session: FakeSession) -> None:
     monkeypatch.setattr(directory, "CACHE", tmp_path / "directory.json")
     monkeypatch.setattr(directory, "SITEMAP_CACHE", tmp_path / "sitemap.json")
     monkeypatch.setattr(directory, "PUBLISHED", tmp_path / "published.json")
+    monkeypatch.setattr(directory, "ACCESS_CACHE", tmp_path / "access.json")
     monkeypatch.setattr(directory.time, "sleep", lambda *_: None)
     import requests
     monkeypatch.setattr(requests, "Session", lambda: session)
@@ -282,3 +283,106 @@ def test_published_sources_are_rechecked_when_ci_cache_is_missing(monkeypatch, t
     directory.PUBLISHED.write_text(json.dumps([{'academyId':'A1','notes':[{'url':PAGE}]}]))
     assert directory.collect([GROTON], [], live=True)['A1']['url'] == PAGE
     assert PAGE in s.calls
+
+
+@pytest.mark.parametrize('status', [401, 403, 429])
+def test_access_denial_stops_host_and_survives_next_run(monkeypatch, tmp_path, status):
+    second = PAGE[:-1] + 'f'
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK),
+                     PAGE: (status, 'denied'), second: (200, HTML)})
+    _wire(monkeypatch, tmp_path, s)
+    academies = [GROTON, {**GROTON, 'id': 'A2'}]
+    mentions = [{'source_url': PAGE, 'academy_key': 'A1'},
+                {'source_url': second, 'academy_key': 'A2'}]
+    directory.collect(academies, mentions)
+    assert s.calls == ['https://www.gangmom.kr/robots.txt', PAGE]
+    s.calls.clear()
+    directory.collect(academies, mentions)
+    assert s.calls == []
+    assert directory._load(directory.ACCESS_CACHE)['www.gangmom.kr']['status'] == status
+
+
+def test_failed_refresh_keeps_success_date_and_separates_attempt(monkeypatch, tmp_path):
+    from datetime import date
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK), PAGE: (403, '')})
+    _wire(monkeypatch, tmp_path, s)
+    old = {'source': 'gangmom', 'url': PAGE, 'name': '그로튼아카데미',
+           'fetched_at': '2020-01-01', 'subjects': ['영어'], 'shuttle': None}
+    directory._save(directory.CACHE, {'A1': old})
+    got = directory.collect([GROTON], [])
+    assert got['A1']['fetched_at'] == '2020-01-01'
+    assert got['A1']['last_attempt_at'] == date.today().isoformat()
+    assert got['A1']['last_error'] == 'HTTP 403'
+    assert not directory._due(got['A1'], date.today())
+    note = directory.source_notes([GROTON])[0]
+    assert note['notes'][0]['checkedAt'] == '2020-01-01'
+    assert '최근 자동 재확인에 실패' in note['caveat']
+
+
+@pytest.mark.parametrize('status', [404, 410])
+def test_removed_page_invalidates_previous_success(monkeypatch, tmp_path, status):
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK), PAGE: (status, '')})
+    _wire(monkeypatch, tmp_path, s)
+    directory._save(directory.CACHE, {'A1': {'url': PAGE, 'name': '그로튼아카데미',
+                                            'fetched_at': '2020-01-01'}})
+    assert directory.collect([GROTON], []) == {}
+    assert directory.source_notes([GROTON]) == []
+
+
+def test_partial_success_keeps_other_published_notes(monkeypatch, tmp_path):
+    import json
+    s = FakeSession({})
+    _wire(monkeypatch, tmp_path, s)
+    directory.PUBLISHED.write_text(json.dumps([{'academyId': 'A1', 'caveat': '기존',
+        'notes': [{'url': PAGE, 'checkedAt': '2020-01-01'}]}]))
+    directory._save(directory.CACHE, {'A1': {'error': 'HTTP 403'},
+        'A2': {'name': '다른학원', 'subjects': ['수학'], 'url': PAGE, 'fetched_at': '2026-09-19'}})
+    notes = directory.source_notes([GROTON, {**GROTON, 'id': 'A2'}])
+    assert {n['academyId'] for n in notes} == {'A1', 'A2'}
+    old = next(n for n in notes if n['academyId'] == 'A1')
+    assert old['notes'][0]['checkedAt'] == '2020-01-01'
+    assert '최근 자동 재확인에 실패' in old['caveat']
+
+
+def test_host_recovers_after_cooldown(monkeypatch, tmp_path):
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK), PAGE: (200, HTML)})
+    _wire(monkeypatch, tmp_path, s)
+    directory._save(directory.ACCESS_CACHE, {'www.gangmom.kr': {'status': 403, 'attempted_at': '2020-01-01'}})
+    got = directory.collect([GROTON], [{'source_url': PAGE, 'academy_key': 'A1'}])
+    assert got['A1']['name']
+    assert 'last_error' not in got['A1']
+    assert directory._load(directory.ACCESS_CACHE)['www.gangmom.kr']['status'] != 403
+
+
+@pytest.mark.parametrize('value', ['정보없음', '정보 없음', '미확인', ''])
+def test_unknown_shuttle_is_not_a_service_claim(value):
+    html = '<meta name="description" content="소개, 셔틀 ' + value + '">'
+    assert directory.parse_page(html)['shuttle'] is None
+
+
+def test_collector_identifies_itself():
+    class RecordingSession(FakeSession):
+        def get(self, url, **kw):
+            assert kw['headers']['User-Agent'] == 'openedu-bot'
+            return super().get(url, **kw)
+    directory._fetch(RecordingSession({PAGE: (200, HTML)}), PAGE)
+
+
+def test_legacy_shuttle_claim_is_withheld_until_reparsed(monkeypatch, tmp_path):
+    import json
+    _wire(monkeypatch, tmp_path, FakeSession({}))
+    directory.PUBLISHED.write_text(json.dumps([{'academyId': 'A1', 'notes': [
+        {'kind': 'directory', 'summary': '과목: 영어; 셔틀 제공 안내', 'checkedAt': '2020-01-01'}]}]))
+    assert directory.source_notes([GROTON])[0]['notes'][0]['summary'] == '과목: 영어'
+    directory._save(directory.CACHE, {'A1': {'name': '그로튼', 'url': PAGE,
+        'fetched_at': '2020-01-01', 'shuttle': True, 'subjects': ['영어']}})
+    assert directory.collect([GROTON], [], live=False)['A1']['shuttle'] is None
+    assert '셔틀' not in directory.source_notes([GROTON])[0]['notes'][0]['summary']
+
+
+def test_current_parser_preserves_explicit_shuttle_value(monkeypatch, tmp_path):
+    _wire(monkeypatch, tmp_path, FakeSession({}))
+    directory._save(directory.CACHE, {'A1': {'name': '그로튼', 'url': PAGE,
+        'fetched_at': '2020-01-01', 'parser_version': 2, 'shuttle': False}})
+    assert directory.collect([GROTON], [], live=False)['A1']['shuttle'] is False
+    assert '셔틀 미제공 안내' in directory.source_notes([GROTON])[0]['notes'][0]['summary']

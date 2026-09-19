@@ -2528,7 +2528,9 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             if moved:
                 print(f"  ! schools.json: 이번에 학구를 못 얻어 지난 값을 "
                       f"{moved}곳에 물려받았습니다")
-        if _would_erase(path, data):
+        # 소개 출처는 source_notes가 항목별로 이전 검증 자료를 보존한다.
+        # 폐쇄/불일치로 전부 제거된 결과까지 되살리면 안 된다.
+        if name != "directory_sources.json" and _would_erase(path, data):
             print(f"  ! {name}: 이번 결과가 비어 있어 **기존 파일을 유지**합니다 "
                   f"(외부 API 실패 의심 — 위 상태 표를 볼 것)")
             continue

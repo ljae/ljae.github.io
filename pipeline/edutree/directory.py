@@ -42,9 +42,9 @@
 
 - robots.txt 를 **먼저** 본다(`official._allowed`). 거부·확인 실패면 페이지를
   한 장도 열지 않는다.
-- 봇 UA(`openedu-bot`)에는 403 이 온다(실측, robots.txt 는 200). 페이지는
-  `blog.UA`(브라우저 UA)로 읽되 robots 는 `*` 규칙으로 판정한다 — UA 를 바꿔
-  robots 를 우회하는 것이 아니라, robots 가 허용한 것을 읽는 것이다.
+- `openedu-bot`으로 수집기를 식별한다. robots 허용과 HTTP 접근 허용은 별개다.
+  401/403/429면 호스트 요청을 중단하고 하루 후 한 번 재확인한다.
+  브라우저 UA·프록시로 접근 거부를 우회하지 않는다.
 - 한 실행 `OPENEDU_DIRECTORY_PER_RUN`(기본 40)곳, 1초 간격, 14일 캐시. 실패는
   `error` 로 남기고 7일 뒤 다시 본다 — 실패를 성공만큼 오래 붙들지 않는다.
 - **본문을 저장하지 않는다.** 소개 단락 ≤1500자, 대상·과목·셔틀, 소식 제목
@@ -64,11 +64,13 @@ from html import unescape
 from urllib.parse import urlparse
 
 from . import config
-from .blog import UA as BROWSER_UA
+from .official import UA
 
 CACHE = config.CACHE_DIR / "directory.json"
 SITEMAP_CACHE = config.CACHE_DIR / "directory_sitemap.json"
 PUBLISHED = config.EXPORT_DIR / "directory_sources.json"
+ACCESS_CACHE = config.CACHE_DIR / "directory_access.json"
+ACCESS_RETRY_DAYS = 1
 # ★ 빈 환경변수와 미설정은 다르다 — Actions 는 미정의 vars 를 "" 로 넘긴다.
 PER_RUN = int(os.getenv("OPENEDU_DIRECTORY_PER_RUN") or "40")
 REVISIT_DAYS = 14
@@ -169,7 +171,7 @@ def parse_page(html: str) -> dict:
         elif seg.startswith("과목 "):
             out["subjects"] = [s.strip() for s in seg[3:].split("·") if s.strip()] or None
         elif seg.startswith("셔틀 "):
-            out["shuttle"] = "미제공" not in seg
+            out["shuttle"] = _shuttle(seg)
         elif seg.startswith(_ADDR_HEAD) and out["address"] is None:
             out["address"] = seg
 
@@ -185,9 +187,17 @@ def parse_page(html: str) -> dict:
         s = _NUXT_SHUTTLE.search(state)
         if s:
             val = _js(s.group(1))
-            out["shuttle"] = ("제공" in val and "미제공" not in val) if val else None
+            out["shuttle"] = _shuttle(val)
     out["events"] = _events(html)
     return out
+
+
+def _shuttle(value: str) -> bool | None:
+    if not value or any(word in value for word in ("정보없음", "정보 없음", "미확인")):
+        return None
+    if "미제공" in value:
+        return False
+    return True if "제공" in value else None
 
 
 def parse_sitemap(xml: str) -> tuple[str, list[str]]:
@@ -235,7 +245,7 @@ def match_academy(page: dict, reg: Registry,
     1. 알맹이가 같고 동이 같다. 양쪽에 주소가 있으면 건물번호도 같아야 한다.
     2. 1 이 없으면, 주소가 같고 동이 같고 알맹이가 서로를 품는다
        ('그로튼' ⊂ '그로튼프리미어'). 주소 없이는 품는 것으로 잇지 않는다.
-    둘 이상 남으면 [prefer](후보를 낸 학원)가 그중 하나일 때만 그것, 아니면 None.
+    둘 이상 남으면 None. 후보를 낸 학원(prefer)은 동일성 증거가 아니다.
     """
     from . import analyze, naver
     core = analyze.name_core(page.get("name") or "")
@@ -285,14 +295,18 @@ def _age(stamp: str | None, today: date) -> int | None:
 def _due(row: dict | None, today: date) -> bool:
     if not row:
         return True
-    age = _age(row.get("fetched_at"), today)
+    failed = row.get("error") or row.get("last_error")
+    age = _age(row.get("last_attempt_at") if failed else row.get("fetched_at"), today)
+    if age is None:
+        age = _age(row.get("fetched_at"), today)
     if age is None:
         return True
-    return age >= (RETRY_DAYS if row.get("error") else REVISIT_DAYS)
+    return age >= (RETRY_DAYS if failed else REVISIT_DAYS)
 
 
 def _ok_rows(cache: dict, ids) -> dict[str, dict]:
-    return {aid: row for aid, row in cache.items()
+    return {aid: {**row, "shuttle": row.get("shuttle") if row.get("parser_version") == 2 else None}
+            for aid, row in cache.items()
             if aid in ids and row and not row.get("error")}
 
 
@@ -306,14 +320,31 @@ def _ok_rows(cache: dict, ids) -> dict[str, dict]:
 _NEVER = re.compile(r"^/(review|user|internal)(/|$)")
 
 
+def _access_blocked(session, host: str) -> bool:
+    row = getattr(session, "_directory_access", {}).get(host) or {}
+    age = _age(row.get("attempted_at"), date.today())
+    return row.get("status") in (401, 403, 429) and age is not None and age < ACCESS_RETRY_DAYS
+
+
 def _fetch(session, url: str) -> tuple[str | None, str | None]:
-    """(html, error). 브라우저 UA — 봇 UA 는 403 이 온다(실측)."""
+    """(html, error). 수집기를 식별하고 접근 거부 시 같은 호스트 요청을 멈춘다."""
     if _NEVER.match(urlparse(url).path or ""):
         return None, "robots 거부 경로"
+    host = urlparse(url).netloc
+    if _access_blocked(session, host):
+        return None, f"HTTP {session._directory_access[host]['status']} (호스트 재시도 대기)"
     try:
-        r = session.get(url, headers={"User-Agent": BROWSER_UA}, timeout=TIMEOUT)
+        r = session.get(url, headers={"User-Agent": UA}, timeout=TIMEOUT)
     except Exception as exc:                              # noqa: BLE001
         return None, type(exc).__name__
+    if not hasattr(session, "_directory_access"):
+        session._directory_access = {}
+    if not hasattr(session, "_directory_requests"):
+        session._directory_requests = defaultdict(int)
+    session._directory_requests[host] += 1
+    session._directory_access[host] = {"status": r.status_code,
+        "attempted_at": date.today().isoformat(), "url": url,
+        "requests_in_run": session._directory_requests[host]}
     if r.status_code != 200:
         return None, f"HTTP {r.status_code}"
     try:
@@ -406,6 +437,7 @@ def collect(academies: list[dict], mentions: list[dict],
     try:
         import requests
         session = requests.Session()
+        session._directory_access = _load(ACCESS_CACHE)
     except Exception as exc:                              # noqa: BLE001
         print(f"  학원 자기서술: 세션을 못 열어 건너뜀 ({type(exc).__name__})")
         return _ok_rows(cache, reg.by_id)
@@ -415,6 +447,8 @@ def collect(academies: list[dict], mentions: list[dict],
 
     def allowed(src: str, url: str) -> bool:
         host = urlparse(url).netloc
+        if _access_blocked(session, host):
+            return False
         if host not in robots:
             robots[host] = official._allowed(url, session)
             if not robots[host][0]:
@@ -433,8 +467,15 @@ def collect(academies: list[dict], mentions: list[dict],
         if err or html is None:
             failed += 1
             if prefer:
-                cache[prefer] = {"source": src, "url": url, "fetched_at": stamp,
-                                 "error": err or "empty"}
+                previous = cache.get(prefer) or {}
+                if previous.get("name") and not previous.get("error") and err not in ("HTTP 404", "HTTP 410"):
+                    # 접근/통신 실패는 기존 사실이 틀렸다는 증거가 아니다.
+                    # 성공 확인일은 그대로 두고 시도일·오류만 분리한다.
+                    cache[prefer] = {**previous, "last_attempt_at": stamp,
+                                     "last_error": err or "empty"}
+                else:
+                    cache[prefer] = {"source": src, "url": url, "fetched_at": stamp,
+                                     "error": err or "empty"}
             return None
         page = parse_page(html)
         aid = match_academy(page, reg, prefer)
@@ -453,6 +494,7 @@ def collect(academies: list[dict], mentions: list[dict],
             return None
         ok += 1
         cache[aid] = {
+            "parser_version": 2,
             "source": src, "url": url, "fetched_at": stamp,
             "name": page["name"], "dong": page["dong"],
             "text": page["text"], "target": page["target"],
@@ -481,7 +523,7 @@ def collect(academies: list[dict], mentions: list[dict],
             queue.append(listing)
         linked = {r.get("url") for r in cache.values() if r and not _due(r, today)}
         for _ in range(3):
-            if not queue or budget <= 0:
+            if not queue or budget <= 0 or not allowed("gangmom", listing):
                 break
             listing_url = queue.pop(0)
             html, err = _fetch(session, listing_url)
@@ -500,6 +542,9 @@ def collect(academies: list[dict], mentions: list[dict],
                 print(f"  학원 자기서술: 공개 목록에서 소개 링크 0건 · {listing_url}")
             for path in paths:
                 url = "https://www.gangmom.kr" + path
+                if not allowed("gangmom", url):
+                    queue.insert(0, listing_url)
+                    break
                 if budget <= 0:
                     # 예산 때문에 못 읽은 링크를 다음 회차에 잃지 않는다.
                     queue.insert(0, listing_url)
@@ -529,7 +574,7 @@ def collect(academies: list[dict], mentions: list[dict],
         visited = pool.setdefault("visited", {})
         linked = {row.get("url") for row in cache.values() if row and row.get("url")}
         for url in pool.get("urls") or ():
-            if budget <= 0:
+            if budget <= 0 or not allowed(src, url):
                 break
             if url in visited or url in linked:
                 continue
@@ -543,6 +588,12 @@ def collect(academies: list[dict], mentions: list[dict],
 
     if ok or mismatch or failed:
         _save(CACHE, cache)
+    _save(ACCESS_CACHE, session._directory_access)
+    for host, row in session._directory_access.items():
+        if _access_blocked(session, host):
+            print(f"  ! 학원 소개 직접 갱신 중단: {host} HTTP {row['status']} · "
+                  f"시도 {row['attempted_at']} · 이번 실행 요청 {getattr(session, '_directory_requests', {}).get(host, 0)}회 · "
+                  "호스트당 하루 1회 재확인 · 기존 성공 확인일 유지")
     if due or ok or mismatch or failed or pool_note:
         print(f"  학원 자기서술: {ok}곳 확인"
               + (f" · 등록부 불일치 {mismatch}곳" if mismatch else "")
@@ -555,23 +606,48 @@ def status() -> str:
     """run.py --check 용 한 줄. 네트워크를 쓰지 않는다."""
     cache = _load(CACHE)
     good = [r for r in cache.values() if r and not r.get("error")]
-    bad = len(cache) - len(good)
+    bad = sum(bool(r.get("error") or r.get("last_error")) for r in cache.values() if r)
     note = " · 오늘학교는 ai-train=no 로 보류"
     if not cache:
         return ("✗ 캐시 없음 — 언급에 강남엄마 링크가 들어오면(웹문서 API) "
                 "다음 실행에서 읽는다" + note)
-    last = max((r.get("fetched_at") or "" for r in cache.values()), default="")
-    return (f"✓ 강남엄마 소개 {len(good)}곳"
+    last = max((r.get("fetched_at") or "" for r in good), default="없음")
+    return (f"{'✓' if good else '✗'} 강남엄마 소개 {len(good)}곳"
             + (f" · 실패·불일치 {bad}곳" if bad else "")
-            + f" · 마지막 확인 {last[:10]}" + note)
+            + f" · 마지막 성공 확인 {last[:10]}" + note)
 
 
 def source_notes(academies: list[dict]) -> list[dict]:
     """원문 복제 없이 구조화한 대상·과목·셔틀만 출처 카드로 공개한다."""
     cache = _load(CACHE)
-    out = []
-    for a in academies:
+    ids = {a["id"]: a for a in academies}
+    try:
+        published = json.loads(PUBLISHED.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        published = []
+    out = {g["academyId"]: g for g in published if g.get("academyId") in ids}
+    # 구 파서는 '정보 없음'도 제공으로 해석했다. 재확인 전 셔틀 주장을 보류한다.
+    for group in out.values():
+        for note in group.get("notes", []):
+            if note.get("kind") == "directory" and note.get("parserVersion") != 2:
+                note["summary"] = "; ".join(part for part in note.get("summary", "").split("; ")
+                                             if not part.startswith("셔틀 "))
+    access = _load(ACCESS_CACHE)
+    stale_note = " 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다."
+    for a in ids.values():
         row = cache.get(a["id"]) or {}
+        error = row.get("error") or row.get("last_error") or ""
+        if not row and a["id"] in out:
+            hosts = {urlparse(n.get("url", "")).netloc for n in out[a["id"]].get("notes", [])}
+            if any((access.get(host) or {}).get("status") in (401, 403, 429) for host in hosts):
+                error = "호스트 접근 제한"
+        if error in ("HTTP 404", "HTTP 410") or "등록부와 불일치" in error:
+            out.pop(a["id"], None)
+            continue
+        if error and a["id"] in out:
+            group = dict(out[a["id"]])
+            group["caveat"] = group.get("caveat", "").replace(stale_note, "") + stale_note
+            out[a["id"]] = group
         if not row or row.get("error"):
             continue
         parts = []
@@ -579,17 +655,18 @@ def source_notes(academies: list[dict]) -> list[dict]:
             parts.append("대상: " + " · ".join(row["target"]))
         if row.get("subjects"):
             parts.append("과목: " + " · ".join(row["subjects"]))
-        if row.get("shuttle") is not None:
+        if row.get("parser_version") == 2 and row.get("shuttle") is not None:
             parts.append("셔틀 " + ("제공 안내" if row["shuttle"] else "미제공 안내"))
         if not parts:
             continue
-        out.append({
+        out[a["id"]] = {
             "academyId": a["id"], "name": a.get("name") or row["name"],
             "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-            "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요.",
+            "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요." + (stale_note if error else ""),
             "notes": [{"topic": "운영·일정", "title": "강남엄마 학원 소개",
                        "summary": "; ".join(parts), "url": row["url"],
                        "checkedAt": row["fetched_at"], "kind": "directory",
+                       "parserVersion": row.get("parser_version", 1),
                        "sourceScope": "branch", "subjects": []}],
-        })
-    return out
+        }
+    return list(out.values())
