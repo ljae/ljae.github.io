@@ -293,6 +293,7 @@
 - [반포시매쓰학원](academies/4531.md) — banpo
 - [미래탐구](academies/4721.md) — daechi
 - [모닝에듀](academies/4978.md) — daechi
+- [기파랑문해원대치본원학원](academies/5279.md) — daechi
 - [윤도영](academies/5403.md) — daechi
 - [블루스카이학원](academies/5455.md) — daechi
 - [세정학원](academies/5657.md) — daechi
