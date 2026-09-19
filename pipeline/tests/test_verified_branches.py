@@ -83,3 +83,12 @@ def test_banpo_middle_hall_review_cannot_enter_elementary_branch():
     m={'academy_key':'14153','url_hash':'middle','title':'기파랑중등관 서초반포원','snippet':'반포대로 300 중1 아람반. 아이가 수업을 잘 듣고 있습니다.'}
     kept,_=branches.apply([m],academies,{a['id']:analyze.name_candidates(a) for a in academies},{},set())
     assert kept==[]
+
+
+def test_elementary_official_program_does_not_erase_registered_middle_hall():
+    a={'id':'3000051080','registration_ids':['3000054011'],'name':'기파랑문해원',
+       'road_address':'서울특별시 양천구 목동서로 349','subjects':['korean']}
+    verified_branches.apply([a],today=date(2026,9,19))
+    grade_targets.apply_all([a],{'3000054011':{'name':'기파랑문해원중등관국풀국어전문학원'}})
+    assert a['grade_bands_by_subject']['korean']==['elem_low','elem_high','middle']
+    assert a['grade_target']['evidence'][-1]['bands']==['elem_low','elem_high']
