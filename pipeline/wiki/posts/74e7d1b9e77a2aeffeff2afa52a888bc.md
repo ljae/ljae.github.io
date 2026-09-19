@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 -0.41 (부정) · 신뢰도 0.38
-- 붙은 학원 2곳 · 과목 korean
+- 붙은 학원 1곳 · 과목 korean
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -28,7 +28,6 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/1000036776|강남하이퍼학원]] — 글이 이 권역을 밝힘 · 감성 -0.41
 - [[../academies/3000033374|강남하이퍼의대관학원]] — 글이 이 권역을 밝힘 · 감성 -0.41
 <!-- /auto:edges -->
 

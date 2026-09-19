@@ -1,272 +1,272 @@
 [
-  {
-    "academyId": "3000025772",
-    "name": "잠룡승천학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 중3~고3; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/65b7af56b8368381372eff2e",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000020267",
-    "name": "함영원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초5~고2; 과목: 영어",
-        "url": "https://www.gangmom.kr/institute/65b7af56b8368381372eff66",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000051205",
-    "name": "메디컬수학연구소학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초3~고2; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/6732f73173c35619a8bc2388",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3002",
-    "name": "씨앤씨학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초1~중3; 과목: 영어",
-        "url": "https://www.gangmom.kr/institute/6646fc2f3e35976bdd78cc84",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000022869",
-    "name": "아이큐브학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초1~초6; 과목: 영어",
-        "url": "https://www.gangmom.kr/institute/65b7af57b8368381372f01be",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000026340",
-    "name": "주연학원1관학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초1~재수/N수; 과목: 국어",
-        "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a0ac",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000019253",
-    "name": "에프엠에이(FMA)수학교습소",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초4~재수/N수; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000050776",
-    "name": "프루브수학교습소",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초5~재수/N수; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000052956",
-    "name": "대치넥서스수학학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 중1~고3; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/68ede4dedf10845045ea7ebf",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000050852",
-    "name": "메멘토수학학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초4~고3; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000042667",
-    "name": "대치프라이드제이어학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초1~중3; 과목: 영어",
-        "url": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "25183",
-    "name": "배선영국어학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 중1~고3; 과목: 국어",
-        "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000032396",
-    "name": "황수비수학학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초4~재수/N수; 과목: 수학",
-        "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "23062",
-    "name": "휴브레인입시컨설팅센터학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 중1~고3; 과목: 컨설팅",
-        "url": "https://www.gangmom.kr/institute/65b7af56b8368381372f00ce",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  },
-  {
-    "academyId": "3000037112",
-    "name": "인비젼영어학원",
-    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
-    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
-    "notes": [
-      {
-        "topic": "운영·일정",
-        "title": "강남엄마 학원 소개",
-        "summary": "대상: 초5~중3; 과목: 영어",
-        "url": "https://www.gangmom.kr/institute/691a7cfcf713b0cfeca8ae73",
-        "checkedAt": "2026-09-19",
-        "kind": "directory",
-        "sourceScope": "branch",
-        "subjects": []
-      }
-    ]
-  }
+ {
+  "academyId": "3000025772",
+  "name": "잠룡승천학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 중3~고3; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/65b7af56b8368381372eff2e",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000020267",
+  "name": "함영원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초5~고2; 과목: 영어",
+    "url": "https://www.gangmom.kr/institute/65b7af56b8368381372eff66",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000051205",
+  "name": "메디컬수학연구소학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초3~고2; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/6732f73173c35619a8bc2388",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3002",
+  "name": "씨앤씨학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초1~중3; 과목: 영어",
+    "url": "https://www.gangmom.kr/institute/6646fc2f3e35976bdd78cc84",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000022869",
+  "name": "아이큐브학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초1~초6; 과목: 영어",
+    "url": "https://www.gangmom.kr/institute/65b7af57b8368381372f01be",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000026340",
+  "name": "주연학원1관학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초1~재수/N수; 과목: 국어",
+    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a0ac",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000019253",
+  "name": "에프엠에이(FMA)수학교습소",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초4~재수/N수; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000050776",
+  "name": "프루브수학교습소",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초5~재수/N수; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000052956",
+  "name": "대치넥서스수학학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 중1~고3; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/68ede4dedf10845045ea7ebf",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000050852",
+  "name": "메멘토수학학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초4~고3; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000042667",
+  "name": "대치프라이드제이어학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초1~중3; 과목: 영어",
+    "url": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "25183",
+  "name": "배선영국어학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 중1~고3; 과목: 국어",
+    "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000032396",
+  "name": "황수비수학학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초4~재수/N수; 과목: 수학",
+    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "23062",
+  "name": "휴브레인입시컨설팅센터학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 중1~고3; 과목: 컨설팅",
+    "url": "https://www.gangmom.kr/institute/65b7af56b8368381372f00ce",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ },
+ {
+  "academyId": "3000037112",
+  "name": "인비젼영어학원",
+  "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+  "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요. 최근 자동 재확인에 실패해 마지막 검증 자료와 확인일을 유지합니다.",
+  "notes": [
+   {
+    "topic": "운영·일정",
+    "title": "강남엄마 학원 소개",
+    "summary": "대상: 초5~중3; 과목: 영어",
+    "url": "https://www.gangmom.kr/institute/691a7cfcf713b0cfeca8ae73",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": []
+   }
+  ]
+ }
 ]
