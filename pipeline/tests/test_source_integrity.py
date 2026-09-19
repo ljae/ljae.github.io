@@ -74,6 +74,7 @@ def test_rate_limits_stop_after_three_requests(monkeypatch):
         status_code=429
     calls=[]
     monkeypatch.setattr(naver,'resolve_mode',lambda:'hub')
+    monkeypatch.setattr(naver,'_headers',lambda mode: {})
     monkeypatch.setattr(naver,'_disabled_sources',set())
     monkeypatch.setattr(naver.requests,'get',lambda *a,**kw: calls.append(1) or Resp())
     monkeypatch.setattr(naver.time,'sleep',lambda *_: None)
