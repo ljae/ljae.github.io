@@ -45,10 +45,11 @@ def load_academies(from_cache: bool = False) -> tuple[list[dict], str]:
 
 def _prepare_live(rows: list[dict]) -> list[dict]:
     """NEIS 원본 → 큐레이션 매핑 → 중복 등록 통합."""
-    from . import dedupe, grade_targets
+    from . import dedupe, grade_targets, verified_branches
     registrations = {str(r.get('id') or r.get('aca_asnum')): dict(r) for r in rows}
     rows = _merge_seed_into_neis(rows)
     merged, saved = dedupe.apply(rows)
+    verified_branches.apply(merged)
     grade_targets.apply_all(merged, registrations)
     stage_grades = {s['id']: (t['subject'], s['grade']) for t in config.techtree()['tracks'] for s in t['stages']}
     for row in merged:
@@ -444,7 +445,7 @@ def _infer_bands(row: dict) -> list[str]:
     found = [b for b, hints in _BAND_HINTS.items()
              if any(h in blob for h in hints)]
     # 아무것도 안 잡히면 특정 구간에 한정되지 않는 곳으로 본다.
-    # 빈 배열은 앱에서 '모든 구간에 해당'으로 처리한다.
+    # 실서비스에서는 _prepare_live의 근거 기반 학년 감사로 다시 판정한다.
     return found
 
 
@@ -1173,7 +1174,7 @@ def select_for_mentions(academies: list[dict],
         #   보통의 후보가 된다.
         newborn = [a for a in rows
                    if a["id"] not in chosen
-                   and a.get("curated_stages")
+                   and (a.get("curated_stages") or a.get("verified_branch"))
                    and a["id"] not in hist][:SEED_RESERVE]
         for a in newborn:
             chosen.add(a["id"])
@@ -2234,6 +2235,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "regionId": a.get("region_id"),
             "dong": a.get("dong"),
             "subjects": a.get("subjects", []),
+            "aliases": a.get("aliases", []),
             "gradeBands": a.get("grade_bands", []),
             "gradeBandsBySubject": a.get("grade_bands_by_subject", {}),
             "gradeTarget": a.get("grade_target") or {"status": "unknown", "basis": "대상 학년 미확인"},
@@ -2387,7 +2389,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     from . import ranking_quality
     ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
     ranking_report["identityGates"] = gate_stats or {}
-    ranking_report["filterVersion"] = "2026-09-19.2"
+    ranking_report["filterVersion"] = "2026-09-19.3"
     from . import source_health
     ranking_report["sourceHealth"] = source_health.load()
     if mode == "live":

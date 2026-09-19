@@ -16,6 +16,10 @@ on:
         description: '학원 소개 출처만 갱신 (검색·재채점 생략)'
         type: boolean
         default: false
+      target_academies:
+        description: '재채점 전 추가 수집할 등록번호 (쉼표 구분, 최대 20곳)'
+        type: string
+        default: ''
       refresh_neis:
         description: '캐시 재채점 전 교육청 전체 공시를 새로 조회 (학년 전수 점검)'
         type: boolean
@@ -59,6 +63,7 @@ jobs:
       - name: 수집 · 채점
         env:
           RESCORE_ONLY: ${{ inputs.rescore_only }}
+          TARGET_ACADEMIES: ${{ inputs.target_academies }}
           REFRESH_NEIS: ${{ inputs.refresh_neis }}
           DIRECTORY_ONLY: ${{ inputs.directory_only }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
@@ -113,6 +118,9 @@ jobs:
           if os.environ.get('REFRESH_NEIS') == 'true':
               from pipeline.edutree import neis
               neis.fetch_all()
+          if os.environ.get('TARGET_ACADEMIES', '').strip():
+              from pipeline.edutree.targeted import collect
+              collect(os.environ['TARGET_ACADEMIES'])
           PY
             OPENEDU_CLAIM_LLM_LIMIT=0 OPENEDU_SUMMARY_PER_RUN=0 python pipeline/run.py --from-cache
           else

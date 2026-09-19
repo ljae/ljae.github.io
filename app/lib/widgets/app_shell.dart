@@ -552,8 +552,7 @@ class AcademySearch extends SearchDelegate<String> {
           ...data.search(query),
           if (registry != null)
             for (final r in registry)
-              if (r.name.toLowerCase().contains(q) ||
-                  r.displayName.toLowerCase().contains(q))
+              if (r.matchesQuery(q))
                 SearchHit.listed(r),
         ];
 

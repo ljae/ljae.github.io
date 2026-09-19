@@ -23,6 +23,14 @@ EduTreeData data(List<Academy> rows) => EduTreeData(
   academies: rows,
 );
 void main() {
+  test('registry search finds the public MSC name without borrowing CMS', () {
+    final msc = RegistryEntry.fromJson({'id':'msc', 'name':'엠에스씨학원', 'aliases':['MSC브레인컨설팅그룹 목동센터', 'MSC']});
+    final cms = RegistryEntry.fromJson({'id':'cms', 'name':'씨엠에스학원'});
+    expect(msc.matchesQuery(' msc '), isTrue);
+    expect(msc.matchesQuery('브레인컨설팅'), isTrue);
+    expect(cms.matchesQuery('msc'), isFalse);
+    expect(msc.matchesQuery(''), isFalse);
+  });
   test('unknown and high-only academies do not enter elementary ranking', () {
     final d = data([
       row('unknown', []),

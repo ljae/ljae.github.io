@@ -1,0 +1,56 @@
+from copy import deepcopy
+from datetime import date
+from pipeline.edutree import verified_branches, grade_targets
+
+
+def academy():
+    return {'id':'3000015117','registration_ids':['3000023042'], 'name':'엠에스씨',
+            'road_address':'서울특별시 강남구 영동대로50길 10','subjects':['math','general']}
+
+
+def test_official_branch_uses_absorbed_registration_and_keeps_subject_grades_separate():
+    a=academy()
+    verified_branches.apply([a], today=date(2026,9,19))
+    grade_targets.apply_all([a], {})
+    assert 'MSC' in a['aliases']
+    assert 'korean' in a['subjects']
+    assert a['grade_bands_by_subject']['korean']==['elem_low','elem_high']
+    assert a['grade_bands_by_subject']['math']==[]
+    assert a['grade_target']['status']=='official_guidance'
+    assert a['grade_target']['evidence'][-1]['registrationId']=='3000023042'
+
+
+def test_same_name_or_building_cannot_borrow_official_evidence():
+    original=academy()
+    for change in ({'id':'other','registration_ids':[]}, {'road_address':'서울특별시 강남구 삼성로71길 9'}, {'name':'다른학원'}):
+        a={**deepcopy(original),**change}
+        verified_branches.apply([a], today=date(2026,9,19))
+        assert 'verified_branch' not in a
+
+
+def test_expired_or_future_official_evidence_is_not_reused():
+    for day in (date(2026,9,18),date(2026,12,19)):
+        a=academy();verified_branches.apply([a],today=day)
+        assert 'verified_branch' not in a
+
+
+def test_kiparang_daechi_elementary_intake_does_not_imply_low_grades():
+    a={'id':'5279','name':'기파랑문해원대치본원학원','road_address':'서울특별시 강남구 역삼로64길 9','subjects':['korean']}
+    verified_branches.apply([a],today=date(2026,9,19))
+    grade_targets.apply_all([a],{})
+    assert a['grade_bands']==['elem_high']
+    assert '기파랑' in a['aliases']
+
+
+def test_targeted_collection_preserves_store_and_rejects_unknown_ids(monkeypatch):
+    from pipeline.edutree import targeted
+    a=academy();events=[]
+    monkeypatch.setattr(targeted.build,'load_academies',lambda **kw:([a],'live'))
+    monkeypatch.setattr(targeted.naver,'collect_all',lambda academies,regions:[{'academy_key':academies[0]['id']}])
+    monkeypatch.setattr(targeted.mention_store,'merge',lambda rows:events.append(('merge',rows)))
+    monkeypatch.setattr(targeted.coverage,'record',lambda academies,rows:events.append(('coverage',rows)))
+    assert targeted.collect('3000023042')==[{'academy_key':'3000015117'}]
+    assert [event[0] for event in events]==['merge','coverage']
+    import pytest
+    for ids in ['unknown','12345',','.join(str(i) for i in range(21))]:
+        with pytest.raises(ValueError):targeted.collect(ids)

@@ -125,7 +125,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         '${region?.nameKo ?? "전체 학군"} 학원 탐색',
                         kicker: spaced('학원 탐색'),
                         subtitle:
-                            '선택한 과목·학년의 공시 근거가 있는 학원만 표시합니다. 대상 학년 미확인 학원은 전체 학원 검색에서 찾을 수 있습니다.',
+                            '선택한 과목·학년의 공시·공식 안내 근거가 있는 학원만 표시합니다. 대상 학년 미확인 학원은 전체 학원 검색에서 찾을 수 있습니다.',
                       ),
                       TextField(
                         onChanged: (value) =>

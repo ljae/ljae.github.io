@@ -774,6 +774,7 @@ class Academy {
   final List<String> subjects;
   final List<String> gradeBands;
   final String gradeTargetBasis;
+  final String gradeTargetNote;
   final Map<String, List<String>> gradeBandsBySubject;
   List<String> bandsForSubject(String? subject) =>
       subject == null ? gradeBands : gradeBandsBySubject[subject] ?? gradeBands;
@@ -852,6 +853,7 @@ class Academy {
     required this.subjects,
     required this.gradeBands,
     this.gradeTargetBasis = '대상 학년 미확인',
+    this.gradeTargetNote = '현재 모집 학년은 학원에 확인이 필요합니다.',
     this.gradeBandsBySubject = const {},
     required this.stages,
     this.stageBasis = const {},
@@ -889,6 +891,7 @@ class Academy {
     subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
     gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
     gradeTargetBasis: (j['gradeTarget']?['basis'] ?? '대상 학년 미확인') as String,
+    gradeTargetNote: (j['gradeTarget']?['caveat'] ?? '현재 모집 학년은 학원에 확인이 필요합니다.') as String,
     gradeBandsBySubject: ((j['gradeBandsBySubject'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, (v as List).cast<String>()),
     ),
@@ -1167,6 +1170,11 @@ class RegistryEntry {
   final String regionId;
   final String? dong;
   final List<String> subjects;
+  final List<String> aliases;
+  bool matchesQuery(String query) {
+    final q = query.trim().toLowerCase();
+    return q.isNotEmpty && [name, displayName, ...aliases].any((s) => s.toLowerCase().contains(q));
+  }
   final List<String> gradeBands;
   final Map<String, List<String>> gradeBandsBySubject;
   List<String> bandsForSubject(String? subject) =>
@@ -1189,6 +1197,7 @@ class RegistryEntry {
     required this.regionId,
     this.dong,
     required this.subjects,
+    this.aliases = const [],
     this.gradeBands = const [],
     this.gradeBandsBySubject = const {},
     this.address,
@@ -1207,6 +1216,7 @@ class RegistryEntry {
     regionId: (j['regionId'] ?? '') as String,
     dong: j['dong'] as String?,
     subjects: ((j['subjects'] as List?) ?? const []).cast<String>(),
+    aliases: ((j['aliases'] as List?) ?? const []).cast<String>(),
     gradeBands: ((j['gradeBands'] as List?) ?? const []).cast<String>(),
     gradeBandsBySubject: ((j['gradeBandsBySubject'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, (v as List).cast<String>()),

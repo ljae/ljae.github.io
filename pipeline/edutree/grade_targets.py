@@ -10,7 +10,7 @@ from collections import Counter
 from datetime import date
 
 BANDS = ('elem_low', 'elem_high', 'middle', 'high')
-VERSION = '2026-09-19.2'
+VERSION = '2026-09-19.3'
 NEIS_URL = 'https://open.neis.go.kr/hub/acaInsTiInfo'
 SUBJECT_WORDS = {
     'math': ('수학', '수리'), 'english': ('영어',),
@@ -133,6 +133,9 @@ def apply_all(academies, registrations):
             'auditedAt': date.today().isoformat(), 'version': VERSION,
             'caveat': '공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.'
         }
+
+        from . import verified_branches
+        verified_branches.apply_grades(a)
 
 
 def report(academies):

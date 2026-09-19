@@ -216,7 +216,7 @@ List<ChecklistItem> buildChecklist(Academy a) {
     '우리 아이 학년 반이 열려 있는지',
     note: a.gradeBands.isEmpty
         ? '대상 학년 미확인 · 상담으로 확인해 주세요'
-        : '${a.gradeTargetBasis}: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')} · 현재 모집 학년은 확인이 필요합니다',
+        : '${a.gradeTargetBasis}: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')} · ${a.gradeTargetNote}',
   ));
   return items;
 }
