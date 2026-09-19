@@ -1510,18 +1510,19 @@ def run(with_cafe: bool = False, from_cache: bool = False,
               f"(학원명 미등장 {dropped:,}건 제외, {dropped/before*100:.0f}%)")
 
     # 지점 게이트 — 유명 브랜드는 전국에 지점이 있다. 글이 지역을 밝히면
-    # 그 권역 지점만, 안 밝히면 걸리는 지점 전부의 근거로 삼는다.
+    # 그 권역 지점만, 지점이 모호하면 순위 근거로 쓰지 않는다.
     from . import branches
     wiki_locality = {aid: {w for w in h["locality"]}
                      for aid, h in wiki_hints.items() if h["locality"]}
     mentions, bstat = branches.apply(mentions, evaluated,
                                      candidates, generic, rival_names,
                                      extra_locality=wiki_locality)
-    if bstat["branches"]:
+    if bstat["branches"] or bstat["local_unknown"]:
         print(f"  지점 게이트: 다권역 지점 {bstat['branches']}곳 · "
               f"타권역 지점 글 {bstat['elsewhere']:,}건 · "
               f"권역 밖 지점 글 {bstat['other_region']:,}건 제외 · "
               f"지역 불명 {bstat['brand_unknown']:,}건은 근거로 쓰지 않음"
+              f" · 같은 학군 지점 불명 {bstat['local_unknown']:,}건 보류"
               + (f" · 같은 학군 형제 지점 {bstat['sibling']:,}건 제외"
                  if bstat.get("sibling") else "")
               + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
@@ -1815,7 +1816,7 @@ def run(with_cafe: bool = False, from_cache: bool = False,
 
     export(evaluated, registry_only, mentions, scores, cohorts, mode,
            subject_scores, claim_rows, candidates=candidates,
-           profiles=profiles_out)
+           profiles=profiles_out, gate_stats={"irrelevant": dropped, **bstat})
 
     # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
     try:
@@ -2141,7 +2142,7 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
            subject_scores=None, claim_rows=None, candidates=None,
-           profiles=None) -> None:
+           profiles=None, gate_stats=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -2387,6 +2388,8 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
 
     from . import ranking_quality
     ranking_report = ranking_quality.summarize(evaluated, mentions, subject_scores or {})
+    ranking_report["identityGates"] = gate_stats or {}
+    ranking_report["filterVersion"] = "2026-09-18.1"
     if mode == "live":
         ranking_quality.record(ranking_report)
 

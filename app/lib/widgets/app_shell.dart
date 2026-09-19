@@ -20,8 +20,8 @@ import 'wheel_selector.dart';
 /// 관리자 화면(`/admin`)이 같은 방식으로 메뉴 밖에 있다.
 const navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
+  ('/rank', '학원 탐색', Icons.search_outlined),
   ('/tree', '학습 경로', Icons.account_tree_outlined),
-  ('/rank', '학원 탐색', Icons.leaderboard_outlined),
   ('/map', '학군지도', Icons.map_outlined),
 ];
 
@@ -154,7 +154,7 @@ class _TopBar extends StatelessWidget {
             IconButton(
               tooltip: '학원 검색',
               onPressed: () =>
-                  showSearch(context: context, delegate: _AcademySearch()),
+                  showSearch(context: context, delegate: AcademySearch()),
               icon: const Icon(Icons.search, size: 21),
             ),
           ],
@@ -506,7 +506,7 @@ class _BottomBar extends StatelessWidget {
   }
 }
 
-class _AcademySearch extends SearchDelegate<String> {
+class AcademySearch extends SearchDelegate<String> {
   @override
   String get searchFieldLabel => '학원명 · 별칭으로 검색';
 

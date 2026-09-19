@@ -48,6 +48,15 @@ class MethodPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: AppSpace.xl),
 
+                  const SectionHeader('광고와 동명 학원은 어떻게 거르나요?'),
+                  const _Prose(
+                    '원고료·수강권 등 대가 제공을 명시한 글, 홍보성 표현이 강한 글은 점수에서 제외합니다. '
+                    '비슷한 원고의 반복 게시와 짧은 기간에 집중된 동일 작성자의 글도 확인합니다.\n\n'
+                    '학원명이 같아도 다른 지점의 후기를 합치지 않습니다. 같은 학군 안에 동명 지점이 여럿이면 '
+                    '구체적인 동네나 고유한 등록명으로 구분할 수 없는 글은 순위 근거에서 보류합니다. '
+                    '자동 판별에는 오류가 있을 수 있어 각 근거에서 정정을 요청할 수 있습니다.',
+                  ),
+                  const SizedBox(height: AppSpace.xl),
                   _Formula(meta: meta),
                   const SizedBox(height: AppSpace.xl),
 

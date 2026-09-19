@@ -28,58 +28,66 @@ void main() {
         .map((j) => Academy.fromJson(j as Map<String, dynamic>))
         .toList(),
   );
-  for (final width in [320.0, 375.0, 768.0, 1440.0]) {
-    testWidgets(
-      'home and explore preserve selection without overflow at $width',
-      (tester) async {
-        tester.view.physicalSize = Size(width, 1000);
-        tester.view.devicePixelRatio = 1;
-        addTearDown(tester.view.reset);
-        final router = GoRouter(
-          routes: [
-            ShellRoute(
-              builder: (_, _, child) => AppShell(child: child),
-              routes: [
-                GoRoute(path: '/', builder: (_, _) => const HomePage()),
-                GoRoute(path: '/rank', builder: (_, _) => const RankingPage()),
-              ],
+  for (final dark in [false, true]) {
+    for (final width in [320.0, 375.0, 768.0, 1440.0]) {
+      testWidgets(
+        'home and explore preserve selection without overflow at $width dark=$dark',
+        (tester) async {
+          tester.view.physicalSize = Size(width, 1000);
+          tester.view.devicePixelRatio = 1;
+          addTearDown(tester.view.reset);
+          final router = GoRouter(
+            routes: [
+              ShellRoute(
+                builder: (_, _, child) => AppShell(child: child),
+                routes: [
+                  GoRoute(path: '/', builder: (_, _) => const HomePage()),
+                  GoRoute(
+                    path: '/rank',
+                    builder: (_, _) => const RankingPage(),
+                  ),
+                ],
+              ),
+            ],
+          );
+          addTearDown(router.dispose);
+          final container = ProviderContainer(
+            overrides: [
+              dataProvider.overrideWith((ref) async => data),
+              registryProvider.overrideWith((ref) async => []),
+            ],
+          );
+          addTearDown(container.dispose);
+          await tester.pumpWidget(
+            UncontrolledProviderScope(
+              container: container,
+              child: MaterialApp.router(
+                theme: buildTheme(dark: dark),
+                routerConfig: router,
+              ),
             ),
-          ],
-        );
-        addTearDown(router.dispose);
-        final container = ProviderContainer(
-          overrides: [
-            dataProvider.overrideWith((ref) async => data),
-            registryProvider.overrideWith((ref) async => []),
-          ],
-        );
-        addTearDown(container.dispose);
-        await tester.pumpWidget(
-          UncontrolledProviderScope(
-            container: container,
-            child: MaterialApp.router(
-              theme: buildTheme(dark: false),
-              routerConfig: router,
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-        expect(find.textContaining('원출처로 비교'), findsNothing);
-        container.read(selectionProvider.notifier).setSubject('english');
-        await tester.pumpAndSettle();
-        router.go('/rank');
-        await tester.pumpAndSettle();
-        expect(
-          tester.widget<SubjectBar>(find.byType(SubjectBar)).selected,
-          'english',
-        );
-        expect(find.textContaining('원출처로 비교'), findsNothing);
-        expect(tester.takeException(), isNull);
-        await tester.drag(find.byType(CustomScrollView), const Offset(0, -400));
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      },
-    );
+          );
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+          expect(find.textContaining('원출처로 비교'), findsNothing);
+          container.read(selectionProvider.notifier).setSubject('english');
+          await tester.pumpAndSettle();
+          router.go('/rank');
+          await tester.pumpAndSettle();
+          expect(
+            tester.widget<SubjectBar>(find.byType(SubjectBar)).selected,
+            'english',
+          );
+          expect(find.textContaining('원출처로 비교'), findsNothing);
+          expect(tester.takeException(), isNull);
+          await tester.drag(
+            find.byType(CustomScrollView),
+            const Offset(0, -400),
+          );
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        },
+      );
+    }
   }
 }

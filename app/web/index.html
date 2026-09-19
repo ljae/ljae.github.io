@@ -8,28 +8,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
 
-  <title>학원실록 — 대치·목동·반포·잠실 학원 테크트리</title>
-  <meta name="description" content="조선왕조실록이 사실을 남겼듯, 학원 정보를 검증된 기록으로. 공공데이터로 검증하고 커뮤니티 신호로 읽는 대치·목동·반포·잠실 학군의 진학 경로와 학원 랭킹. 산식을 전부 공개합니다.">
+  <title>학원실록 — 우리 아이에게 맞는 학원 찾기</title>
+  <meta name="description" content="대치·목동·반포·잠실 학원을 학년·과목별로 찾아보세요. 수업 특징, 통학 위치, 공공 등록 정보와 공개 후기 근거를 상담 전에 확인하세요.">
   <meta name="keywords" content="대치동학원, 목동학원, 반포학원, 잠실학원, 학원테크트리, 학원랭킹, 학원후기, 사고력수학, 어학원레벨, 학군, 선행, 레벨테스트">
   <meta name="author" content="Open Edu">
   <link rel="canonical" href="https://openedu4u.com/">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#182448">
+  <meta name="theme-color" content="#16705D">
 
   <!-- Open Graph / 카카오톡 · 페이스북 공유 -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="학원실록">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:url" content="https://openedu4u.com/">
-  <meta property="og:title" content="학원실록 — 대치·목동·반포·잠실 학원 테크트리">
-  <meta property="og:description" content="우리 아이는 지금 어디에 있고, 다음엔 어디로 가야 하나요? 4개 학군의 진학 경로를 한 장의 지도로.">
+  <meta property="og:title" content="학원실록 — 우리 아이에게 맞는 학원 찾기">
+  <meta property="og:description" content="학년·수업 특징·통학 위치·후기 근거를 함께 살펴보는 학원 안내.">
   <meta property="og:image" content="https://openedu4u.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="학원실록 — 대치·목동·반포·잠실 학원 테크트리">
-  <meta name="twitter:description" content="공공데이터로 검증하고 커뮤니티 신호로 읽는 학군별 진학 경로와 학원 랭킹.">
+  <meta name="twitter:title" content="학원실록 — 우리 아이에게 맞는 학원 찾기">
+  <meta name="twitter:description" content="우리 아이의 학년과 과목에 맞는 학원을 찾고, 공식 정보와 후기 근거를 비교하세요.">
   <meta name="twitter:image" content="https://openedu4u.com/og-image.png">
 
   <!-- iOS -->
@@ -53,7 +53,7 @@
     "name": "학원실록",
     "alternateName": "Hakwon Silok",
     "url": "https://openedu4u.com/",
-    "description": "대치·목동·반포·잠실 학군의 학원 테크트리와 랭킹",
+    "description": "대치·목동·반포·잠실 학원의 학년·과정·위치와 후기 근거 비교",
     "inLanguage": "ko-KR",
     "publisher": {
       "@type": "Organization",
@@ -64,24 +64,24 @@
   </script>
 
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; background: #F7F4EE; }
-    @media (prefers-color-scheme: dark) { html, body { background: #0B1020; } }
+    html, body { margin: 0; padding: 0; height: 100%; background: #F5F7F5; }
+    @media (prefers-color-scheme: dark) { html, body { background: #101218; } }
 
     /* 네이버 지도 정보창. Flutter 밖의 HTML 이라 앱 테마가 닿지 않으므로
        판(밝음·어둠)을 여기서 고른다. 값은 core/theme.dart 의 토큰과 같다 —
-       surface #FCFAF4 / line #DDD5C4 / ink #14161C / slate #6B675E,
+       surface #FFFFFF / line #E2E5E7 / ink #192D29 / slate #586862,
        darkSurface #181B23 / darkLine #2C303B / darkInk #EDE7D9 / mist #9C978B.
        모서리는 2px — 종이에 그은 칸은 둥글지 않다(알약 금지). */
     .nm-info {
       font-family: Paperlogy, -apple-system, sans-serif;
-      background: #FCFAF4; color: #14161C; border: 1px solid #DDD5C4;
-      border-radius: 2px; padding: 12px 14px; min-width: 190px;
+      background: #FFFFFF; color: #192D29; border: 1px solid #E2E5E7;
+      border-radius: 12px; padding: 14px 16px; min-width: 190px;
       box-shadow: 0 8px 26px rgba(0,0,0,.20);
     }
-    .nm-info .nm-title { font-size: 14px; font-weight: 800; color: #14161C; }
-    .nm-info .nm-body  { font-size: 11.5px; color: #6B675E; margin-top: 3px; }
-    .nm-info .nm-main  { color: #14161C; }
-    .nm-info .nm-sub   { font-size: 10.5px; color: #6B675E; }
+    .nm-info .nm-title { font-size: 14px; font-weight: 800; color: #192D29; }
+    .nm-info .nm-body  { font-size: 13px; color: #586862; margin-top: 3px; }
+    .nm-info .nm-main  { color: #192D29; }
+    .nm-info .nm-sub   { font-size: 12px; color: #586862; }
     @media (prefers-color-scheme: dark) {
       .nm-info { background: #181B23; color: #EDE7D9; border-color: #2C303B;
                  box-shadow: 0 8px 26px rgba(0,0,0,.55); }
@@ -96,7 +96,7 @@
     #boot {
       position: fixed; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 18px;
-      background: linear-gradient(140deg, #1B2C55, #182448 55%, #0B1020);
+      background: #193E33;
       color: #fff; z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
       transition: opacity .45s ease; 
@@ -110,14 +110,18 @@
     }
     #boot .mark svg { width: 24px; height: 24px; fill: #fff; }
     #boot .name { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
-    #boot .tag { font-size: 12.5px; color: rgba(255,255,255,.62); letter-spacing: -.2px; }
+    #boot .tag { font-size: 12.5px; color: rgba(255,255,255,.85); letter-spacing: -.2px; }
     #boot .bar {
       width: 132px; height: 3px; border-radius: 2px; overflow: hidden;
       background: rgba(255,255,255,.16);
     }
     #boot .bar i {
       display: block; width: 40%; height: 100%; border-radius: 2px;
-      background: #B08D57; animation: slide 1.15s ease-in-out infinite;
+      background: #74D3B6; animation: slide 1.15s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #boot { transition: none; }
+      #boot .bar i { animation: none; width: 100%; }
     }
     @keyframes slide {
       0%   { transform: translateX(-100%); }
@@ -129,7 +133,7 @@
   <div id="boot">
     <div class="mark"><img src="icons/Icon-512.png" alt="학원실록" width="138" height="138"></div>
     <div class="name">학원실록</div>
-    <div class="tag">대치 · 목동 · 반포 · 잠실 학원 테크트리</div>
+    <div class="tag">우리 아이에게 맞는 학원 찾기</div>
     <div class="bar"><i></i></div>
   </div>
 

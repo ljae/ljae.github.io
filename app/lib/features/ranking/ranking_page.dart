@@ -26,6 +26,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
   /// 여기 따로 두면 과목이 늘 때 한쪽만 고치게 된다.
   static bool _isAcademic(String s) => isAcademicSubject(s);
   _Sort _sort = _Sort.score;
+  String _query = '';
   bool _onlyVerified = false; // 공식 검증(NEIS 대조) 학원만
 
   @override
@@ -45,12 +46,20 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         );
         // 상세 필터. 정렬을 바꿔도 순위 숫자는 트리스코어 순위 그대로다 —
         // 정렬은 보는 방법이지 등수를 다시 매기는 것이 아니다.
-        if (_onlyVerified) {
-          ranked = ranked.where((a) => a.isVerified).toList();
+        final rankOf = <String, int>{};
+        for (final a in ranked.where((a) => a.scoreFor(subject).isRanked)) {
+          rankOf[a.id] = rankOf.length + 1;
         }
-        final rankOf = {
-          for (var i = 0; i < ranked.length; i++) ranked[i].id: i + 1,
-        };
+        bool matches(Academy a) =>
+            (!_onlyVerified || a.isVerified) &&
+            (_query.isEmpty ||
+                [
+                  a.name,
+                  a.displayName,
+                  ...a.aliases,
+                  a.address ?? '',
+                ].any((v) => v.toLowerCase().contains(_query)));
+        ranked = ranked.where(matches).toList();
         switch (_sort) {
           case _Sort.score:
             break;
@@ -80,21 +89,22 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         //
         // 목록이 10곳은 되게 채운다. 순위가 3곳뿐이면 학부모는 그 구간에
         // 학원이 셋뿐인 줄 안다. 다만 채우는 쪽에 등수를 붙이지는 않는다.
-        final unranked = data.unscored(
-          sel.regionId,
-          subject: subject,
-          gradeBand: sel.gradeBand,
-        );
+        final unranked = data
+            .unscored(sel.regionId, subject: subject, gradeBand: sel.gradeBand)
+            .where(matches)
+            .toList();
         // 순위 + 미수집으로도 10곳이 안 되면 등록부에서 채운다.
         // 등록부는 늦게 오는 provider 라 아직 안 왔으면 그냥 없는 셈 친다 —
         // 이것 때문에 랭킹 첫 그림을 늦출 이유는 없다.
         final registry = ref.watch(registryProvider).value ?? const [];
-        final fill = data.registryFill(
-          registry,
-          regionId: sel.regionId,
-          subject: subject,
-          have: ranked.length + unranked.length,
-        );
+        final fill = (_query.isNotEmpty || _onlyVerified)
+            ? <RegistryEntry>[]
+            : data.registryFill(
+                registry,
+                regionId: sel.regionId,
+                subject: subject,
+                have: ranked.length + unranked.length,
+              );
         final region = data.regionById[sel.regionId];
         final text = Theme.of(context).textTheme;
 
@@ -115,6 +125,16 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         subtitle:
                             '학원의 과정과 입학 정보를 비교해보세요. 점수는 같은 과목 안에서만 비교합니다.',
                       ),
+                      TextField(
+                        onChanged: (value) =>
+                            setState(() => _query = value.trim().toLowerCase()),
+                        decoration: const InputDecoration(
+                          labelText: '선택한 조건 안에서 검색',
+                          hintText: '학원 이름 또는 도로명',
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       // 과목을 고르지 않은 '전체 랭킹'은 두지 않는다.
                       // 수학 학원과 미술 학원을 한 줄에 세우면 그 순위가
                       // 무엇을 뜻하는지 설명할 수 없다.
@@ -142,7 +162,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         children: [
                           Expanded(
                             child: Text(
-                              '${ranked.length}곳 · 표본과 평가 항목을 갖춘 학원부터 표시',
+                              '${ranked.length}곳 · 순위 대상 ${ranked.where((a) => a.scoreFor(subject).isRanked).length}곳 · 나머지는 순위 보류',
                               style: text.bodySmall,
                             ),
                           ),
@@ -164,7 +184,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                   padding: const EdgeInsets.symmetric(vertical: AppSpace.xl),
                   child: Center(
                     child: Text(
-                      '조건에 맞는 학원이 없습니다',
+                      '조건에 맞는 분석 결과가 없습니다.\n검색어나 필터를 바꿔보세요.',
                       style: text.bodyMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -180,7 +200,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                     academy: ranked[i],
                     subject: subject,
                     index: i,
-                    rank: rankOf[ranked[i].id] ?? i + 1,
+                    rank: rankOf[ranked[i].id],
                   ),
                 ),
               ),

@@ -16,6 +16,7 @@ import '../../widgets/rank_history_chart.dart';
 import 'contact.dart';
 import 'profile_section.dart';
 import '../../widgets/academy_positioning.dart';
+import '../../widgets/parent_essentials.dart';
 import 'review_section.dart';
 
 /// 학원 상세.
@@ -130,7 +131,42 @@ class _Body extends StatelessWidget {
               // 보여 주면 옮겨 적어야 한다.
               AcademyPositioning(academy: academy),
               const SizedBox(height: AppSpace.lg),
+              ParentEssentials(academy: academy),
+              const SizedBox(height: AppSpace.lg),
               ContactCard(academy: academy),
+              const SizedBox(height: AppSpace.xl),
+
+              // ── 공식 정보 ──────────────────────────────────
+              SectionHeader(
+                '공식 등록 정보',
+                subtitle: academy.isVerified
+                    ? 'NEIS 학원교습소정보 공시 기준 — 검증된 사실입니다'
+                    : '공식 등록 대조가 확인되지 않은 정보입니다. 학원에 확인해주세요.',
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpace.md),
+                  child: Column(
+                    children: [
+                      if (academy.registrationCount > 1)
+                        _Row(
+                          '등록 건수',
+                          '${academy.registrationCount}건 (관·과정별 등록을 한 학원으로 묶음)',
+                        ),
+                      if (academy.brandLabel != null)
+                        _Row('브랜드', academy.brandLabel!),
+                      _Row('등록상태', academy.registrationStatus ?? '—'),
+                      _Row(
+                        '정원',
+                        academy.capacity != null ? '${academy.capacity}명' : '—',
+                      ),
+                      _Row('개설일', academy.establishedOn ?? '—'),
+                      _Row('주소', academy.address ?? '—'),
+                      if (academy.tel != null) _Row('전화', academy.tel!),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: AppSpace.xl),
 
               // ── 기둥별 점수 ─────────────────────────────────
@@ -264,39 +300,6 @@ class _Body extends StatelessWidget {
                     '전화하실 때 그대로 물어보세요.',
               ),
               ConsultChecklist(academy: academy),
-              const SizedBox(height: AppSpace.xl),
-
-              // ── 공식 정보 ──────────────────────────────────
-              SectionHeader(
-                '공식 등록 정보',
-                subtitle: academy.isVerified
-                    ? 'NEIS 학원교습소정보 공시 기준 — 검증된 사실입니다'
-                    : '샘플 데이터입니다. 실제 공시값이 아닙니다.',
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpace.md),
-                  child: Column(
-                    children: [
-                      if (academy.registrationCount > 1)
-                        _Row(
-                          '등록 건수',
-                          '${academy.registrationCount}건 (관·과정별 등록을 한 학원으로 묶음)',
-                        ),
-                      if (academy.brandLabel != null)
-                        _Row('브랜드', academy.brandLabel!),
-                      _Row('등록상태', academy.registrationStatus ?? '—'),
-                      _Row(
-                        '정원',
-                        academy.capacity != null ? '${academy.capacity}명' : '—',
-                      ),
-                      _Row('개설일', academy.establishedOn ?? '—'),
-                      _Row('주소', academy.address ?? '—'),
-                      if (academy.tel != null) _Row('전화', academy.tel!),
-                    ],
-                  ),
-                ),
-              ),
               const SizedBox(height: AppSpace.xl),
 
               // ── 테크트리 위치 ───────────────────────────────

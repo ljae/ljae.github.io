@@ -1,11 +1,11 @@
 {
-  "name": "학원실록 — 학원 테크트리",
+  "name": "학원실록 — 우리 아이에게 맞는 학원 찾기",
   "short_name": "학원실록",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#182448",
-  "theme_color": "#182448",
-  "description": "조선왕조실록이 사실을 남겼듯, 대치·목동·반포·잠실 학원 정보를 검증된 기록으로.",
+  "background_color": "#F5F7F5",
+  "theme_color": "#16705D",
+  "description": "대치·목동·반포·잠실 학원의 학년·수업·위치와 후기 근거를 함께 살펴보세요.",
   "orientation": "any",
   "prefer_related_applications": false,
   "icons": [

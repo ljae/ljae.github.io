@@ -239,10 +239,10 @@ void main() {
       ).readAsStringSync();
       expect(src.contains('_Fit'), isFalse);
       expect(src.contains('맞춤'), isFalse);
-      expect(src.contains("'조건에 맞는 학원이 없습니다'"), isTrue);
+      expect(src.contains("조건에 맞는 분석 결과가 없습니다"), isTrue);
     });
 
-    testWidgets('카드는 프로필 한 줄을 적고, 없으면 아무것도 안 적는다', (tester) async {
+    testWidgets('카드는 프로필 요약을 두 줄까지 적고, 없으면 아무것도 안 적는다', (tester) async {
       tester.view.physicalSize = const Size(900, 600);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
@@ -262,7 +262,7 @@ void main() {
       await pump(academy(profile: AcademyProfile.fromJson(fixture())));
       expect(find.text(line), findsOneWidget);
       final t = tester.widget<Text>(find.text(line));
-      expect(t.maxLines, 1);
+      expect(t.maxLines, 2);
       expect(t.style?.color, AppColors.mutedOn(false));
 
       await pump(academy());

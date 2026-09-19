@@ -7,6 +7,7 @@ import '../data/models.dart';
 import '../data/repository.dart';
 import 'common.dart';
 import 'academy_positioning.dart';
+import 'parent_essentials.dart';
 
 /// 학원의 분야·대상·과정을 먼저 읽고 점수는 보조 정보로 확인한다.
 class AcademyCard extends StatelessWidget {
@@ -96,6 +97,30 @@ class AcademyCard extends StatelessWidget {
                   grades.isEmpty ? '대상 학년 확인 중' : grades,
                   style: text.bodySmall,
                 ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [VerifiedChip(verified: academy.isVerified)],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.place_outlined,
+                      size: 17,
+                      color: AppColors.mutedOn(dark),
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        academy.address ?? '주소 확인 중',
+                        style: text.bodySmall,
+                      ),
+                    ),
+                  ],
+                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Divider(height: 1),
@@ -105,12 +130,18 @@ class AcademyCard extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     line,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: text.bodySmall?.copyWith(
                       color: AppColors.mutedOn(dark),
                     ),
                   ),
+                ],
+                const SizedBox(height: 16),
+                Text('교습비 · 교재비는 상담 시 확인', style: text.bodySmall),
+                if (parentClassSummary(academy).isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(parentClassSummary(academy), style: text.bodySmall),
                 ],
                 const SizedBox(height: 20),
                 Wrap(

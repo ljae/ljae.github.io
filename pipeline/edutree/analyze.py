@@ -191,11 +191,26 @@ def score_sentiment(text: str) -> tuple[float, dict[str, float]]:
     return round(overall, 3), aspects
 
 
+def sponsorship_disclosed(text: str) -> bool:
+    """원고료/수강권 등 경제적 대가를 받았다는 명시적 고지."""
+    flat = re.sub(r"[\s\u200b\ufeff]+", "", text).lower()
+    return bool(re.search(
+        r"(?:원고료|수강권|수업료|수강료|체험권|서비스|경제적대가|소정의대가)"
+        r"(?:를|을)?(?:무상으로|무료로)?(?:제공|지원)받(?:아|았|은|고)|"
+        r"(?:원고료|수강권|체험권|경제적대가)(?:를|을)?받(?:아|았|은|고)|"
+        r"(?:유료광고|협찬)(?:를|을)?포함(?:하고|한|합니다|되어)",
+        flat))
+
+
 def score_spam(text: str, title: str = "") -> float:
     """광고/바이럴 의심도 [0,1]. 높을수록 점수 반영에서 배제된다."""
     blob = f"{title} {text}"
-    flat = blob.replace(" ", "")
+    flat = re.sub(r"[\s\u200b\ufeff]+", "", blob).lower()
     score = 0.0
+    # 대가성 고지는 단어 개수가 아니라 명시적인 문장으로 판정한다.
+    # '협찬 없이', '광고 아님', '내돈내산' 자체는 제외 근거가 아니다.
+    if sponsorship_disclosed(blob):
+        score = 1.0
     score += 0.18 * sum(1 for p in SPAM_PHRASES if p in flat)
     score += 0.20 * sum(1 for p in PROMO_PHRASES if p in flat)
     if PHONE.search(blob):
@@ -1466,6 +1481,11 @@ def analyze(mention: dict, academy_name: str = "",
         "subjects": [subject] if subject else [],
         "band": band_near_one(blob, targets),
     })
+    if mention["is_excluded"]:
+        mention["exclude_reason"] = (
+            "sponsored" if sponsorship_disclosed(blob) else "promotional")
+    else:
+        mention.pop("exclude_reason", None)  # 캐시의 이전 판정은 재사용하지 않는다.
     return mention
 
 

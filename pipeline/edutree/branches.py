@@ -11,10 +11,9 @@
      '목동 정상어학원' 후기는 대치 지점의 근거가 아니다.
      우리 4개 권역이 아닌 곳(분당·평촌…)을 가리키면 어디에도 안 붙인다.
 
-  2. **글이 지역을 밝히지 않으면 걸리는 지점 전부**에 똑같이 붙인다.
-     그냥 '정상어학원 레벨테스트 후기'는 어느 지점인지 알 수 없다.
-     한 곳에만 몰아주면 그건 추측이고, 버리면 브랜드 전체의 근거가 사라진다.
-     양쪽 다 사실보다 나쁘다 — 알 수 없으면 알 수 있는 만큼만 말한다.
+  2. **지점이 여럿이면 지점을 식별할 수 있는 글만** 근거로 쓴다.
+     같은 학군 안의 동명 학원도 학군명만으로 구분하지 않는다.
+     지점 불명 글은 순위에서 보류하고 집계에 이유를 남긴다.
 
 ★ 지역 단정은 **글이 말한 것**만 쓴다. 검색 질의어에 지역이 들어 있어도
   그건 우리가 넣은 말이지 글쓴이가 쓴 말이 아니다.
@@ -108,6 +107,7 @@ def apply(mentions: list[dict], academies: list[dict],
 
     # 같은 학군 안 형제 지점 — 권역 판별로는 갈리지 않는다. 동네 말로 가른다.
     local: dict[str, set[str]] = {}
+    local_identity: dict[str, set[str]] = {}
     same_region: dict[str, list[dict]] = defaultdict(list)
     for a in academies:
         key = sibling_key(a)
@@ -127,6 +127,14 @@ def apply(mentions: list[dict], academies: list[dict],
                     others |= mine[b["id"]]
             # 형제만 가진 말이 곧 '나는 아니다' 의 신호다.
             local[a["id"]] = others - mine[a["id"]]
+            # 다른 지점과 공유하지 않는 동네 또는 등록명만 식별 단서다.
+            unique = mine[a["id"]] - others
+            own_name = analyze._norm(a.get("name") or "")
+            other_names = {analyze._norm(b.get("name") or "")
+                           for b in rows if b["id"] != a["id"]}
+            if own_name and not any(own_name in n for n in other_names):
+                unique.add(own_name)
+            local_identity[a["id"]] = unique
 
     # 우리 학군의 법정동. 여기 없는 '○○동' 이 제목에 있으면 남의 동네다
     # (`analyze.foreign_dong`). 목록을 채우는 것이 아니라 **뒤집어서** 본다.
@@ -138,7 +146,7 @@ def apply(mentions: list[dict], academies: list[dict],
     seen: set[tuple[str, str]] = set()
     stats = {"elsewhere": 0, "other_region": 0, "shared": 0, "sibling": 0,
              "rehomed": 0, "foreign_dong": 0, "brand_unknown": 0,
-             "branches": len(siblings)}
+             "branches": len(siblings), "local_unknown": 0}
 
     for m in mentions:
         key = m.get("academy_key")
@@ -189,6 +197,26 @@ def apply(mentions: list[dict], academies: list[dict],
                 stats["sibling"] += 1
                 continue
 
+        def locally_identified(target: str) -> bool:
+            if target not in local_identity:
+                return True
+            # 제목에 단서가 있으면 제목 우선. 본문은 제목이 지점을
+            # 밝히지 않을 때만 쓰고, 다른 지점 단서가 섞이면 보류한다.
+            own = local_identity[target]
+            title = analyze._norm(m.get("title", ""))
+            if any(analyze._norm(w) in title for w in local.get(target, set())):
+                return False
+            if any(analyze._norm(w) in title for w in own):
+                return True
+            body = analyze._norm(m.get("snippet", ""))
+            return (any(analyze._norm(w) in body for w in own)
+                    and not any(analyze._norm(w) in body
+                                for w in local.get(target, set())))
+
+        if (not ours or mine in ours) and not locally_identified(key):
+            stats["local_unknown"] += 1
+            continue
+
         if ours:
             # 지역을 밝힌 글. 내 권역이 아니면 내 근거가 아니다.
             if mine not in ours:
@@ -208,6 +236,9 @@ def apply(mentions: list[dict], academies: list[dict],
                         continue
                     pair = (m.get("url_hash", ""), sib["id"])
                     if pair in seen:
+                        continue
+                    if not locally_identified(sib["id"]):
+                        stats["local_unknown"] += 1
                         continue
                     if not analyze.is_relevant(
                             m, candidates.get(sib["id"], set()),

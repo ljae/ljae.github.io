@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// 밝은 중립 배경, 선명한 문자, 절제된 테라코타 포인트.
+/// 밝은 세이지 배경과 짙은 녹색 강조. 부모가 오래 읽기 위한 대비와 여백.
 /// 데이터 시각화의 의미 색상은 유지하고 탐색 화면은 한 가지 강조색을 쓴다.
 class AppColors {
   // ── 브랜드 (로고에서 온 값 — 바꾸지 않는다)
@@ -13,18 +13,17 @@ class AppColors {
   static const goldLight = Color(0xFFD9BE92);
   static const cream = Color(0xFFF5EFE3);
 
-  // ── 주묵(朱墨). 이 디자인의 단 하나뿐인 강조색.
-  //    넓은 면을 칠하는 데 쓰지 않는다. 도장은 작아야 도장이다.
-  static const vermilion = Color(0xFFB64C38);
-  static const vermilionDeep = Color(0xFF97281B);
-  static const vermilionWash = Color(0xFFF3E0DB);
+  // 탐색 강조색. 기존 호출부와의 호환을 위해 토큰 이름을 유지한다.
+  static const vermilion = Color(0xFF16705D);
+  static const vermilionDeep = Color(0xFF105443);
+  static const vermilionWash = Color(0xFFE3F1EB);
 
   // ── 먹 / 종이
-  static const ink = Color(0xFF14161C);
+  static const ink = Color(0xFF192D29);
   static const inkSoft = Color(0xFF2A2E38);
 
   /// 보조 문구도 밝은 배경에서 충분한 대비를 유지한다.
-  static const slate = Color(0xFF666A70);
+  static const slate = Color(0xFF586862);
   static const mist = Color(0xFF767B83);
 
   /// 계선. 종이 위의 괘선 두께로 쓴다 — 굵으면 표가 되고 얇으면 판면이 된다.
@@ -33,7 +32,7 @@ class AppColors {
 
   /// 흰 카드 면과 옅은 회색 배경으로 정보 단위를 구분한다.
   static const surface = Color(0xFFFFFFFF);
-  static const canvas = Color(0xFFF8F9FA);
+  static const canvas = Color(0xFFF5F7F5);
 
   /// 한 단계 더 눌린 바탕. 섹션을 번갈아 눕힐 때 쓴다.
   static const canvasDeep = Color(0xFFF0F2F3);
@@ -80,7 +79,7 @@ class AppColors {
     // 키가 'art' 였다. 표시 이름 쪽은 'arts' 라 색을 못 찾고
     // 회색으로 떨어졌다 — 예체능만 색 코드에서 빠져 있었다.
     'arts': Color(0xFF9A6C1E),
-    'etc': Color(0xFF666A70),
+    'etc': Color(0xFF586862),
   };
 
   /// 먹빛 바탕에서 쓰는 과목 색.
@@ -115,7 +114,7 @@ class AppColors {
   static Color canvasDeepOn(bool dark) =>
       dark ? const Color(0xFF0B0D12) : canvasDeep;
   static Color accentOn(bool dark) =>
-      dark ? const Color(0xFFE05943) : vermilion;
+      dark ? const Color(0xFF74D3B6) : vermilion;
 
   /// 남색 꼬리표·강조 글자. **먹빛 바탕에서 남색은 안 보인다** — #182448 을
   /// #101218 위에 두면 대비가 1.3:1 이다(실측: 학군지도의 '배정 가능성
@@ -128,7 +127,7 @@ class AppColors {
       dark ? const Color(0xFF63AF93) : verified;
   static Color estimatedOn(bool dark) =>
       dark ? const Color(0xFFC79A4B) : estimated;
-  static Color risingOn(bool dark) => accentOn(dark);
+  static Color risingOn(bool dark) => dark ? const Color(0xFFEB8C79) : rising;
   static Color fallingOn(bool dark) => dark ? const Color(0xFF5E86C8) : falling;
 }
 
@@ -201,7 +200,7 @@ ThemeData buildTheme({required bool dark}) {
 
   final scheme = (dark ? const ColorScheme.dark() : const ColorScheme.light())
       .copyWith(
-        primary: dark ? AppColors.darkInk : AppColors.ink,
+        primary: accent,
         onPrimary: dark ? AppColors.ink : AppColors.cream,
         secondary: accent,
         onSecondary: Colors.white,
@@ -249,25 +248,18 @@ ThemeData buildTheme({required bool dark}) {
       titleLarge: t(19, FontWeight.w700, height: 1.34, spacing: -0.65),
       titleMedium: t(16, FontWeight.w600, spacing: -0.4),
       bodyLarge: t(16, FontWeight.w400, height: 1.72, spacing: -0.15),
-      bodyMedium: t(14, FontWeight.w400, height: 1.68, color: muted),
-      bodySmall: t(12.5, FontWeight.w400, height: 1.55, color: muted),
+      bodyMedium: t(15, FontWeight.w400, height: 1.68, color: muted),
+      bodySmall: t(13, FontWeight.w400, height: 1.55, color: muted),
       labelLarge: t(13.5, FontWeight.w600, spacing: -0.1),
-      // 레일·머리말의 작은 라벨. **자간을 벌린다** — 좁은 자간이 기본인
-      // 화면에서 넓은 자간은 그 자체로 '메타 정보'라는 신호가 된다.
+      // 보조 정보도 12px 이상으로, 자간을 벌리지 않고 읽기 쉽게 표시한다.
       labelMedium: t(
-        11,
+        12,
         FontWeight.w600,
-        spacing: 1.6,
+        spacing: 0,
         color: muted,
         height: 1.4,
       ),
-      labelSmall: t(
-        10,
-        FontWeight.w600,
-        spacing: 1.2,
-        color: muted,
-        height: 1.4,
-      ),
+      labelSmall: t(12, FontWeight.w600, spacing: 0, color: muted, height: 1.4),
     ),
     cardTheme: CardThemeData(
       elevation: 0,
@@ -282,8 +274,8 @@ ThemeData buildTheme({required bool dark}) {
     // 버튼은 각지게. 알약 버튼을 하나라도 남기면 그것만 눈에 띈다.
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: dark ? AppColors.darkInk : AppColors.ink,
-        foregroundColor: dark ? AppColors.ink : AppColors.cream,
+        backgroundColor: accent,
+        foregroundColor: dark ? AppColors.ink : Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 17),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(AppRadius.sm)),

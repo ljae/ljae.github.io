@@ -30,6 +30,10 @@ def summarize(academies: list[dict], mentions: list[dict], subject_scores: dict)
         "mentions": len(mentions), "validMentions": len(valid),
         "datedMentions": dated,
         "datedShare": round(dated / len(valid), 4) if valid else None,
+        "excludedMentions": len(mentions) - len(valid),
+        "exclusionReasons": dict(sorted(Counter(
+            m.get("exclude_reason") or "unspecified"
+            for m in mentions if m.get("is_excluded")).items())),
         "sources": dict(sorted(Counter(m.get("source") or "unknown" for m in valid).items())),
         "cohorts": dict(sorted(cohorts.items())),
     }
