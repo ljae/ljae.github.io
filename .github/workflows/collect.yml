@@ -12,6 +12,10 @@ on:
         description: '최신 운영 캐시만 재채점 (신규 수집 생략)'
         type: boolean
         default: false
+      directory_only:
+        description: '학원 소개 출처만 갱신 (검색·재채점 생략)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -51,6 +55,7 @@ jobs:
       - name: 수집 · 채점
         env:
           RESCORE_ONLY: ${{ inputs.rescore_only }}
+          DIRECTORY_ONLY: ${{ inputs.directory_only }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
@@ -79,7 +84,21 @@ jobs:
           OPENEDU_SUMMARY_PER_RUN: ${{ vars.OPENEDU_SUMMARY_PER_RUN }}
           OPENEDU_SUMMARY_WORKERS: ${{ vars.OPENEDU_SUMMARY_WORKERS }}
         run: |
-          if [ "$RESCORE_ONLY" = "true" ]; then
+          if [ "$DIRECTORY_ONLY" = "true" ]; then
+            python - <<'PY'
+          import json
+          from pipeline.edutree import config, directory
+          academies = []
+          for name in ('academies.json', 'registry.json'):
+              academies.extend(json.loads((config.EXPORT_DIR / name).read_text()))
+          directory.collect(academies, [], live=True)
+          notes = directory.source_notes(academies)
+          if notes:
+              (config.EXPORT_DIR / 'directory_sources.json').write_text(json.dumps(notes, ensure_ascii=False, indent=2))
+          else:
+              print('확인한 소개 없음 — 기존 확인일을 유지하며 새 확인으로 표시하지 않음')
+          PY
+          elif [ "$RESCORE_ONLY" = "true" ]; then
             # 캐시가 없으면 오래된 대체 자료나 합성 데이터로 게시하지 않는다.
             python - <<'PY'
           import json
@@ -114,6 +133,7 @@ jobs:
           PY
 
       - name: Supabase 업로드 (키가 있을 때만)
+        if: ${{ !inputs.directory_only }}
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
@@ -127,7 +147,7 @@ jobs:
       # 진로 공시는 학교알리미가 연속 호출을 막는다. 6초 간격이라
       # 157곳이면 16분. 야간 작업에 얹어 두고 캐시로 이어받는다.
       - name: 진로 공시 수집 (이어받기)
-        if: ${{ !inputs.rescore_only }}
+        if: ${{ !inputs.rescore_only && !inputs.directory_only }}
         continue-on-error: true
         env:
           SCHOOLINFO_API_KEY: ${{ secrets.SCHOOLINFO_API_KEY }}

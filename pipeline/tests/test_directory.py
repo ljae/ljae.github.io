@@ -44,6 +44,7 @@ class FakeSession:
 def _wire(monkeypatch, tmp_path, session: FakeSession) -> None:
     monkeypatch.setattr(directory, "CACHE", tmp_path / "directory.json")
     monkeypatch.setattr(directory, "SITEMAP_CACHE", tmp_path / "sitemap.json")
+    monkeypatch.setattr(directory, "PUBLISHED", tmp_path / "published.json")
     monkeypatch.setattr(directory.time, "sleep", lambda *_: None)
     import requests
     monkeypatch.setattr(requests, "Session", lambda: session)
@@ -272,3 +273,12 @@ def test_known_directory_is_revisited_without_new_mention(monkeypatch, tmp_path)
     _wire(monkeypatch, tmp_path, s)
     directory.CACHE.write_text(json.dumps({'A1': {'url': PAGE, 'fetched_at': '2020-01-01'}}))
     assert directory.collect([GROTON], [], live=True)['A1']['url'] == PAGE
+
+
+def test_published_sources_are_rechecked_when_ci_cache_is_missing(monkeypatch, tmp_path):
+    import json
+    s = FakeSession({'https://www.gangmom.kr/robots.txt': (200, ROBOTS_OK), PAGE: (200, HTML)})
+    _wire(monkeypatch, tmp_path, s)
+    directory.PUBLISHED.write_text(json.dumps([{'academyId':'A1','notes':[{'url':PAGE}]}]))
+    assert directory.collect([GROTON], [], live=True)['A1']['url'] == PAGE
+    assert PAGE in s.calls

@@ -1,5 +1,23 @@
 [
   {
+    "academyId": "3000025772",
+    "name": "잠룡승천학원",
+    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요.",
+    "notes": [
+      {
+        "topic": "운영·일정",
+        "title": "강남엄마 학원 소개",
+        "summary": "대상: 중3~고3; 과목: 수학; 셔틀 제공 안내",
+        "url": "https://www.gangmom.kr/institute/65b7af56b8368381372eff2e",
+        "checkedAt": "2026-09-19",
+        "kind": "directory",
+        "sourceScope": "branch",
+        "subjects": []
+      }
+    ]
+  },
+  {
     "academyId": "3000020267",
     "name": "함영원",
     "scope": "학원 소개 페이지 · 등록명과 주소 대조",
@@ -180,6 +198,24 @@
     ]
   },
   {
+    "academyId": "25183",
+    "name": "배선영국어학원",
+    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요.",
+    "notes": [
+      {
+        "topic": "운영·일정",
+        "title": "강남엄마 학원 소개",
+        "summary": "대상: 중1~고3; 과목: 국어; 셔틀 제공 안내",
+        "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+        "checkedAt": "2026-09-19",
+        "kind": "directory",
+        "sourceScope": "branch",
+        "subjects": []
+      }
+    ]
+  },
+  {
     "academyId": "3000032396",
     "name": "황수비수학학원",
     "scope": "학원 소개 페이지 · 등록명과 주소 대조",
@@ -208,6 +244,24 @@
         "title": "강남엄마 학원 소개",
         "summary": "대상: 중1~고3; 과목: 컨설팅; 셔틀 미제공 안내",
         "url": "https://www.gangmom.kr/institute/65b7af56b8368381372f00ce",
+        "checkedAt": "2026-09-19",
+        "kind": "directory",
+        "sourceScope": "branch",
+        "subjects": []
+      }
+    ]
+  },
+  {
+    "academyId": "3000037112",
+    "name": "인비젼영어학원",
+    "scope": "학원 소개 페이지 · 등록명과 주소 대조",
+    "caveat": "학원 측 안내로, 독립적인 수강 후기가 아닙니다. 순위 점수에는 반영하지 않습니다. 현재 운영 여부는 학원에 확인해 주세요.",
+    "notes": [
+      {
+        "topic": "운영·일정",
+        "title": "강남엄마 학원 소개",
+        "summary": "대상: 초5~중3; 과목: 영어; 셔틀 미제공 안내",
+        "url": "https://www.gangmom.kr/institute/691a7cfcf713b0cfeca8ae73",
         "checkedAt": "2026-09-19",
         "kind": "directory",
         "sourceScope": "branch",

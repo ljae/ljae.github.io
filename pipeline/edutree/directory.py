@@ -68,6 +68,7 @@ from .blog import UA as BROWSER_UA
 
 CACHE = config.CACHE_DIR / "directory.json"
 SITEMAP_CACHE = config.CACHE_DIR / "directory_sitemap.json"
+PUBLISHED = config.EXPORT_DIR / "directory_sources.json"
 # ★ 빈 환경변수와 미설정은 다르다 — Actions 는 미정의 vars 를 "" 로 넘긴다.
 PER_RUN = int(os.getenv("OPENEDU_DIRECTORY_PER_RUN") or "40")
 REVISIT_DAYS = 14
@@ -373,6 +374,17 @@ def collect(academies: list[dict], mentions: list[dict],
 
     # (a) 언급 링크 → 후보 (학원 id → 정규 URL)
     cands: dict[str, tuple[str, str]] = {}
+    # 공개 출처도 재확인 후보로 이어 준다. 실제 연결은 이름·주소를 다시 대조한다.
+    try:
+        published = json.loads(PUBLISHED.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        published = []
+    for group in published:
+        aid = group.get("academyId")
+        for note in group.get("notes") or []:
+            got = page_url(note.get("url"))
+            if got and aid in reg.by_id:
+                cands[aid] = got
     for aid, row in cache.items():
         got = page_url(row.get("url")) if row else None
         if got and aid in reg.by_id:
@@ -474,6 +486,7 @@ def collect(academies: list[dict], mentions: list[dict],
             listing_url = queue.pop(0)
             html, err = _fetch(session, listing_url)
             if err or not html:
+                print(f"  학원 자기서술: 공개 목록 확인 실패 ({err or 'empty'}) · {listing_url}")
                 queue.append(listing_url)
                 break
             progress["pages"][listing_url] = today.isoformat()
@@ -483,6 +496,8 @@ def collect(academies: list[dict], mentions: list[dict],
                 if url not in queue and (age is None or age >= REVISIT_DAYS):
                     queue.append(url)
             paths = dict.fromkeys(re.findall(r'href=["\'](/institute/[a-f0-9]{24})["\']', html))
+            if not paths:
+                print(f"  학원 자기서술: 공개 목록에서 소개 링크 0건 · {listing_url}")
             for path in paths:
                 url = "https://www.gangmom.kr" + path
                 if budget <= 0:
