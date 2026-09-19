@@ -80,3 +80,13 @@ def test_rate_limits_stop_after_three_requests(monkeypatch):
     monkeypatch.setattr(naver.time,'sleep',lambda *_: None)
     with pytest.raises(naver.NaverError): naver.search('naver_blog','대치')
     assert len(calls)==3
+
+
+def test_excluded_url_duplicates_do_not_trigger_author_burst():
+    rows = [{'academy_key':'A','author_hash':'writer','posted_at':'2026-09-19',
+             'source_url':u} for u in ['https://blog.naver.com/writer/123',
+             'https://m.blog.naver.com/writer/123',
+             'https://blog.naver.com/PostView.naver?blogId=writer&logNo=123']]
+    review_integrity.flag_duplicate_urls(rows)
+    assert analyze.flag_author_bursts(rows)[1] == 0
+    assert not rows[0].get('is_excluded')

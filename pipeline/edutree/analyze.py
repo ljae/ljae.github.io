@@ -1504,7 +1504,7 @@ def flag_repeat_authors(mentions: list[dict], threshold: int = 4) -> list[dict]:
     """같은 작성자가 한 학원에 반복 등장하면 바이럴로 보고 감쇠한다."""
     counts: dict[tuple, int] = Counter(
         (m.get("academy_key"), m.get("author_hash"))
-        for m in mentions if m.get("author_hash")
+        for m in mentions if m.get("author_hash") and not m.get("is_excluded")
     )
     out = []
     for m in mentions:
@@ -1539,7 +1539,7 @@ def flag_author_bursts(mentions: list[dict]) -> tuple[list[dict], int]:
     """
     by_author: dict[tuple, list[dict]] = defaultdict(list)
     for m in mentions:
-        if (m.get("author_hash") and m.get("posted_at")
+        if (not m.get("is_excluded") and m.get("author_hash") and m.get("posted_at")
                 and m.get("date_source") != "discovery"):
             by_author[(m.get("academy_key"), m["author_hash"])].append(m)
 
