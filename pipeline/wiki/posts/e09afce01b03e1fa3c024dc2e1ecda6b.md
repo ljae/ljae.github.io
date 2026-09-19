@@ -1,0 +1,40 @@
+---
+url_hash: "e09afce01b03e1fa3c024dc2e1ecda6b"
+url: https://www.studyholic.com/Eduinfo/AcademyView.asp?idx=27170
+source: naver_web
+title: '[ 이소문해논술교습소 수강후기 ] 선생님께서 꼼꼼하게 아이 성향을 파악하시....'
+posted_at: 2026-09-19
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[ 이소문해논술교습소 수강후기 ] 선생님께서 꼼꼼하게 아이 성향을 파악하시....'
+
+원문: https://www.studyholic.com/Eduinfo/AcademyView.asp?idx=27170
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.71 (긍정) · 신뢰도 0.61 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 korean
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+선생님이 아이의 성향을 꼼꼼하게 파악하여 잘 지도해 준다는 내용이다. 수강 평점은 2명이 참여해 최고 5.0점, 최저 4.0점을 기록했다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000043990|이소문해논술교습소]] — 글이 이 권역을 밝힘 · 감성 +0.71
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

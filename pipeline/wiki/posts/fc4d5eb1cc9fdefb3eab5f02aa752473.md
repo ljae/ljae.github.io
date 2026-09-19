@@ -1,0 +1,41 @@
+---
+url_hash: "fc4d5eb1cc9fdefb3eab5f02aa752473"
+url: https://cafe.naver.com/ilovegm1/2611491
+source: naver_cafe
+title: '[씨앤에이 논술 차오름학원] "엄마, 나 논술 학원 가는 날이 제일 재밌어!"'
+posted_at: 
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[씨앤에이 논술 차오름학원] "엄마, 나 논술 학원 가는 날이 제일 재밌어!"'
+
+원문: https://cafe.naver.com/ilovegm1/2611491
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.31 (긍정) · 신뢰도 0.65
+- 붙은 학원 1곳 · 과목 korean
+- 작성일 불명 — 최신성 가중 0.6(6개월 된 글과 같은 취급)
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+광명 지역 학부모를 대상으로 대치동 20년 전통의 프로그램과 전국 80여 명이 자체 제작한 교재를 소개하는 논술 과목 홍보 글이다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/1000036325|씨앤에이논술학원]] — 글이 이 권역을 밝힘 · 감성 +0.31
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

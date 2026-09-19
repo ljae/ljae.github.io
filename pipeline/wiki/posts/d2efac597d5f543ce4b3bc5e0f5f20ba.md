@@ -1,0 +1,39 @@
+---
+url_hash: "d2efac597d5f543ce4b3bc5e0f5f20ba"
+url: https://shop.hansangsoo.com/%EA%B5%90%EC%9C%A1/%EC%9E%85%EC%8B%9C%C2%B7%EA%B5%90%EA%B3%BC%ED%95%99%EC%9B%90/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%84%9C%EC%B4%88%EA%B5%AC/%EB%B0%98%ED%8F%AC4%EB%8F%99/%EC%95%84%EC%9D%B8%EC%88%98%ED%95%99%EA%B5%90%EC%8A%B5%EC%86%8C-MA010120220807006961.html
+source: naver_web
+title: 아인수학교습소 - 서울특별시 서초구 반포4동 입시·교과학원 추천·후기·레벨
+posted_at: 2026-09-19
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 아인수학교습소 - 서울특별시 서초구 반포4동 입시·교과학원 추천·후기·레벨
+
+원문: https://shop.hansangsoo.com/%EA%B5%90%EC%9C%A1/%EC%9E%85%EC%8B%9C%C2%B7%EA%B5%90%EA%B3%BC%ED%95%99%EC%9B%90/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%84%9C%EC%B4%88%EA%B5%AC/%EB%B0%98%ED%8F%AC4%EB%8F%99/%EC%95%84%EC%9D%B8%EC%88%98%ED%95%99%EA%B5%90%EC%8A%B5%EC%86%8C-MA010120220807006961.html
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.41 (긍정) · 신뢰도 0.34 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 math
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000041062|아인수학교습소]] — 글이 이 권역을 밝힘 · 감성 +0.41
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
