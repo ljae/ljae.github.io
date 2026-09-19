@@ -115,3 +115,18 @@ def test_actual_event_experience_and_used_textbook_experience_survive():
         ('MSC 목동센터 후기','아이를 보내고 있습니다. 글쓰기 수업을 재밌어해요.'),
     ]:
         assert review_integrity.exclusion_reason({'title':title,'snippet':snippet,'source':'naver_blog'}) is None
+
+
+def test_invitation_in_body_is_promotion_despite_neutral_title():
+    for title,snippet in [
+        ('성적보다 무서운 건 사고력 격차입니다','연사: 기파랑 총괄본부장 겸 대치본원 원장. 대상: 초등~중등 학부모 참석 무료'),
+        ('5월에 만나요','대치본원 원장님. 신청방법: 하단 링크 클릭 or QR코드 스캔'),
+        ('문해력','연사: 대치본원 원장. 설명회 특전 커피 + 케이크 제공'),
+        ('중학교 올라가면 국어가 어렵다던데','입시 변화 방향을 다루는 강연형 설명회로 대치본원 원장 강연'),
+    ]:
+        assert review_integrity.exclusion_reason({'title':title,'snippet':snippet,'source':'naver_cafe'})=='self_promotion'
+    assert review_integrity.exclusion_reason({'title':'설명회 참석 후기','snippet':'제가 다녀왔습니다. 연사 설명을 듣고 상담받았어요.','source':'naver_blog'}) is None
+
+
+def test_generic_academy_intro_without_experience_is_information():
+    assert review_integrity.exclusion_reason({'title':'대치동 MSC','snippet':'대치동에 위치한 MSC센터는 입시 학원으로, 독서를 전문으로 합니다.','source':'naver_blog'})=='directory_information'

@@ -17,6 +17,8 @@ MARKETPLACES = ('/joonggonara/', '/joonggonara2/', 'bunjang.co.kr', 'daangn.com'
 RESALE = re.compile(r'(?:교재|책|도서|문제집).{0,25}(?:팝니다|판매|양도|드림|나눔)|(?:팝니다|판매|양도).{0,20}(?:교재|책|도서)|카페 상품 게시글|책상태\s*깨끗')
 ANNOUNCEMENT = re.compile(r'설명회|개원\s*확정|시간표\s*안내|개강\s*안내|신규반\s*모집|감사\s*인사')
 EVENT_REVIEW = re.compile(r'후기|다녀|참석|듣고|들었|느낀')
+EVENT_INVITE = re.compile(r'(?:연사|강연형\s*설명회)|설명회.{0,40}(?:신청|특전|무료|제공)|신청방법|QR코드\s*스캔|카카오채널')
+DIRECTORY_INTRO = re.compile(r'위치한.{0,70}(?:학원으로|전문으로)|교습학원.{0,3}교습소')
 DIRECTORY_TITLE = re.compile(r'학원\s*명단|학원정보|학원\s*정보|학원\s*위치\s*안내')
 DIRECTORY_AUTHOR = re.compile(r'스터디홀릭\s*운영자|오늘\s*소개해드릴\s*학원|후기\s*중\s*내용\s*일부|학원비.{0,12}수업방식.{0,12}교재|교습학원.{0,3}교습소')
 OWNER = re.compile(r'(?:저희|우리)\s*(?:학원|센터|문해원)|브레인컨설팅그룹입니다|신규반\s*모집')
@@ -33,6 +35,10 @@ def evidence_kind(row):
         return 'marketplace'
     if DIRECTORY_TITLE.search(title) or DIRECTORY_AUTHOR.search(text):
         return 'directory_information'
+    if DIRECTORY_INTRO.search(text) and not EXPERIENCE.search(text):
+        return 'directory_information'
+    if EVENT_INVITE.search(text) and not (EVENT_REVIEW.search(title) and EXPERIENCE.search(text)):
+        return 'self_promotion'
     if ANNOUNCEMENT.search(title) and (OWNER.search(text) or not EVENT_REVIEW.search(title)):
         return 'self_promotion'
     if re.search(r'기적을 경험하게 되실|우리는 지금 대한민국의 미래를 만들', text):
