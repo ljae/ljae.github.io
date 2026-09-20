@@ -76,7 +76,7 @@ def audit_rows(rows):
     for subject, count in ranked_without_grade.items():
         warnings.append(
             f"{subject}: 과목 랭킹 학원 {count}곳에 대상학년 근거가 없어 "
-            "학년 필터에서는 제외됨"
+            "학년 필터 후보로 포함되지만 확정 순위에서는 제외됨"
         )
     return {
         "valid": not errors,

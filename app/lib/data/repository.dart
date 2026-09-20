@@ -237,9 +237,12 @@ class EduTreeData {
   }) {
     if (!matchRegion(a.regionId, regionId)) return false;
     if (subject != null && !a.subjects.contains(subject)) return false;
-    // 미확인은 전 학년 대상이 아니다. 학원 검색에는 남긴다.
+    // 학년 미확인도 선택한 학년의 후보에서 빠뜨리지 않는다. 다만
+    // 확정 학년이 있는 학원이 다른 학년으로 섞이는 것은 막는다.
+    final knownBands = a.bandsForSubject(subject);
     if (gradeBand != null &&
-        !a.bandsForSubject(subject).contains(gradeBand)) {
+        knownBands.isNotEmpty &&
+        !knownBands.contains(gradeBand)) {
       return false;
     }
     return true;
@@ -324,7 +327,8 @@ class EduTreeData {
     return rows;
   }
 
-  /// 과목의 대상 학년을 아직 확인하지 못한 학원. 학년별 순위와 분리한다.
+  /// 과목의 대상 학년을 아직 확인하지 못한 학원. 선택한 학년의 후보로
+  /// 보여주되 확정 학년 순위와는 구분한다.
   List<Academy> unconfirmedGrades({
     required String regionId,
     String? subject,
@@ -354,6 +358,7 @@ class EduTreeData {
             (unknownGradeOnly
                 ? r.bandsForSubject(subject).isEmpty
                 : gradeBand == null ||
+                    r.bandsForSubject(subject).isEmpty ||
                     r.bandsForSubject(subject).contains(gradeBand)))
         .toList()
       ..sort((a, b) => a.displayName.compareTo(b.displayName));

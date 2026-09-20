@@ -44,6 +44,11 @@ class _RankingPageState extends ConsumerState<RankingPage> {
           subject: subject,
           gradeBand: sel.gradeBand, // 헤더 선택기와 연동
         );
+        // 미확인 학원도 선택한 학년의 후보로 보여주되, 확인된 학원과
+        // 같은 순위를 부여하지 않는다. 근거가 들어오면 자동으로 위 목록으로 이동한다.
+        ranked = ranked
+            .where((a) => a.bandsForSubject(subject).isNotEmpty)
+            .toList();
         // 상세 필터. 정렬을 바꿔도 순위 숫자는 트리스코어 순위 그대로다 —
         // 정렬은 보는 방법이지 등수를 다시 매기는 것이 아니다.
         final rankOf = <String, int>{};
@@ -85,6 +90,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
         }
         final unranked = data
             .unscored(sel.regionId, subject: subject, gradeBand: sel.gradeBand)
+            .where((a) => a.bandsForSubject(subject).isNotEmpty)
             .where(matches)
             .toList();
         final unknown = data
@@ -236,7 +242,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             if (unknownHits.isNotEmpty) ...[
               _listHeader(
                 '대상 학년 미확인 · ${unknownHits.length}곳',
-                '같은 학군·과목의 학원입니다. 선택한 학년을 가르치는지는 학원에 확인해 주세요. 학년별 순위에는 포함하지 않습니다.',
+                '선택한 학년의 후보입니다. 학원에 대상 학년을 확인하면 학년별 순위에 반영됩니다.',
               ),
               _academyLinks(unknownHits, unknownListed),
             ],
