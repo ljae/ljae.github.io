@@ -50,7 +50,7 @@ void main() {
     ]);
     expect(
       d.ranking(regionId: 'daechi', gradeBand: 'elem_low').map((a) => a.id),
-      ['elementary', 'unknown'],
+      ['elementary'],
     );
     expect(d.search('unknown'), isNotEmpty);
     expect(d.ranking(regionId: 'daechi').length, 3);
@@ -121,7 +121,7 @@ void main() {
       gradeBand: 'elem_low',
       subject: 'math',
     );
-    expect(got.map((a) => a.id), ['elementary', 'unknown']);
+    expect(got.map((a) => a.id), ['elementary']);
   });
   test(
     'unknown grades stay discoverable without borrowing another subject',
