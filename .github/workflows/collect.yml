@@ -46,7 +46,7 @@ jobs:
       - run: pip install -r pipeline/requirements.txt
 
       - name: 랭킹 및 근거 회귀 검증
-        run: python -m pytest pipeline/tests -q
+        run: PYTHONPATH=pipeline python -m pytest pipeline/tests -q
 
       # 수집 캐시를 실행 간에 유지한다.
       #  - blog_texts.json : 이미 받은 블로그 본문을 다시 받지 않는다
@@ -126,6 +126,21 @@ jobs:
           else
             python pipeline/run.py
           fi
+
+      - name: 미확인 학년 웹 검색 후보 수집
+        if: ${{ !inputs.directory_only }}
+        continue-on-error: true
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: python -m pipeline.edutree.grade_research --discover --limit 40
+
+      - name: 학년 조사 대기열 보관
+        uses: actions/upload-artifact@v4
+        with:
+          name: grade-research
+          path: pipeline/.cache/grade_research.json
+          if-no-files-found: ignore
 
       - name: 출처 접근 상태와 제외 사유 기록
         if: always()

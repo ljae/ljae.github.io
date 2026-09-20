@@ -8,7 +8,7 @@ import '../../data/source_notes.dart';
 import '../../widgets/common.dart';
 import '../../widgets/contact.dart';
 
-const sourceTopics = ['입학·레벨테스트', '수업·교재', '숙제', '운영·일정'];
+const sourceTopics = ['입학·레벨테스트', '대상 학년', '수업·교재', '숙제', '운영·일정'];
 
 class SourcesPage extends ConsumerStatefulWidget {
   const SourcesPage({super.key});

@@ -88,9 +88,17 @@ final sourceNotesProvider = FutureProvider<List<AcademySources>>((ref) async {
   final directory = await rootBundle.loadString(
     'assets/data/directory_sources.json',
   );
-  final groups = [...jsonDecode(raw) as List, ...jsonDecode(directory) as List]
-      .map((j) => AcademySources.fromJson(Map<String, dynamic>.from(j as Map)))
-      .toList();
+  final grades = await rootBundle.loadString('assets/data/grade_sources.json');
+  final groups =
+      [
+            ...jsonDecode(raw) as List,
+            ...jsonDecode(directory) as List,
+            ...jsonDecode(grades) as List,
+          ]
+          .map(
+            (j) => AcademySources.fromJson(Map<String, dynamic>.from(j as Map)),
+          )
+          .toList();
   final merged = <String, AcademySources>{};
   for (final group in groups) {
     final previous = merged[group.academyId];

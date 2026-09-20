@@ -1749,6 +1749,18 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     promoted = _subjects_from_mentions(evaluated, by_key)
     if promoted:
         print(f"  종합학원 과목 확정: {promoted}곳 (후기가 말한 과목으로)")
+    if mode == 'live':
+        from . import grade_targets
+        previous_grades = {a['id']: a.get('grade_bands_by_subject', {}) for a in evaluated}
+        grade_targets.rebind_subjects(evaluated)
+        for a in evaluated:
+            if a.get('grade_bands_by_subject') == previous_grades[a['id']]:
+                continue
+            stages, basis = _auto_stages(a)
+            for stage in stages:
+                if stage not in a.setdefault('stages', []):
+                    a['stages'].append(stage)
+                    a.setdefault('stage_basis', {})[stage] = basis[stage]
     # 학년 구간도 마찬가지. 비워 두면 네 구간에 모두 나타나 수능 재종반이
     # '예비초~초3' 랭킹에 오른다.
     banded = _bands_from_mentions(evaluated, by_key)
@@ -2395,10 +2407,11 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     if mode == "live":
         ranking_quality.record(ranking_report)
 
-    from . import directory as directory_mod, grade_targets
+    from . import directory as directory_mod, grade_targets, grade_sources
     grade_report = grade_targets.report(evaluated + registry_only)
     files = {
         "grade_targets.json": grade_report,
+        "grade_sources.json": grade_sources.source_notes(evaluated + registry_only),
         "directory_sources.json": directory_mod.source_notes(evaluated + registry_only),
         # 학군별 학원 수를 여기에 미리 넣는다. 앱이 이걸 세려면 등록부
         # 전체(1.4MB)를 첫 화면에서 읽어야 했는데, 정작 쓰는 건 숫자 넷이다.

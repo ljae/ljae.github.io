@@ -105,7 +105,26 @@ python3 pipeline/run.py --from-cache # 저장소·캐시로 재채점 (API 호�
 python3 pipeline/run.py --with-cafe  # 카페 로컬 모듈 포함 (옵트인)
 python3 pipeline/corrections_report.py   # 정정 요청 · 이의 · 예약 요청 대장
 python3 pipeline/run.py --cases          # 웹 신고 → 사례 대장 (pipeline/wiki/cases)
+python3 -m pipeline.edutree.grade_research # 미확인 과목·지점별 학년 조사 대기열
+python3 -m pipeline.edutree.grade_research --discover --limit 40 # 네이버 웹 검색 후보
+python3 -m pipeline.edutree.refresh_grades # 최신 공시 캐시 + 웹 근거로 학년만 갱신
 ```
+
+학년은 교육청 공시에 더해 `pipeline/data/grade_sources.json`의 검토된 웹 안내를
+과목별로 연결합니다. 등록번호·학원명·주소와 대상 학년을 대조하고, 원문 URL,
+확인일, 재검토 기한(최대 180일)을 함께 남깁니다. 공식 모집 안내와 지점에 게시된
+프로그램, 학원 소개의 명시적 대상 정보를 구분하며 교재 수준이나 후기 속 자녀의
+학년을 모집 학년으로 옮기지 않습니다. 주소가 바뀌거나 검토 기한이 지나면 해당
+웹 근거는 다음 갱신에서 적용하지 않습니다.
+교육청의 `실용외국어(유아/초·중·고)`는 교습과정 분류명이므로 실제 모집
+학년으로 사용하지 않습니다. 개별 교습 과목의 학년이나 공식 입학 안내를
+확인해 영어에 연결하며, `외국어`·`중국어`를 국어 과목으로 오인하지 않습니다.
+
+조사 대기열은 `pipeline/.cache/grade_research.json`에 저장됩니다. Aside 등에서
+`homepage`, `query`, `identityQuery`로 원문을 확인한 뒤 근거 대장에 반영합니다.
+야간 수집은 회차당 최대 40곳의 검색 후보를 모아 `grade-research` 아티팩트로
+보관합니다. 검색 결과는 검토 대기 상태이며 학년에 자동 반영되지 않습니다.
+`refresh_grades`는 평점·후기·학원 ID를 보존하고 학년/연결 단계/출처만 갱신합니다.
 
 **신고는 사례가 된다.** 웹 신고는 `run.py --cases` 가 파일로 옮기고, Claude Code 의
 `/triage-reports` 가 프로젝트 에이전트(`.claude/agents/` — 진단·게이트별 담당·

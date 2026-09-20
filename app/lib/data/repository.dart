@@ -324,34 +324,40 @@ class EduTreeData {
     return rows;
   }
 
-  /// 순위 + 미수집을 합쳐도 [want] 곳이 안 되면 **등록부에서 채운다.**
-  ///
-  /// 채점 대상은 400곳뿐이고 회차마다 순환한다. 그래서 조합에 따라
-  /// 채점 대상 안에 학원이 서넛밖에 없다(실측: 대치 과학 예비초~초3 은
-  /// 3곳). 그 화면을 그대로 두면 학부모는 그 구간에 학원이 셋뿐인 줄
-  /// 안다 — 실제로는 등록부에 스무 곳이 넘는다.
-  ///
-  /// ★ 등록부 학원에는 **점수도 등수도 붙이지 않는다.** 수집한 적이
-  ///   없으니 붙일 근거가 없다. 화면에도 '등록부 · 미수집' 이라 적는다.
-  ///   등록부 보충 목록도 같은 학년 근거를 요구한다.
-  List<RegistryEntry> registryFill(
+  /// 과목의 대상 학년을 아직 확인하지 못한 학원. 학년별 순위와 분리한다.
+  List<Academy> unconfirmedGrades({
+    required String regionId,
+    String? subject,
+  }) {
+    return academies
+        .where((a) =>
+            _matchesFilters(a, regionId: regionId, subject: subject) &&
+            a.bandsForSubject(subject).isEmpty)
+        .toList()
+      ..sort((a, b) => a.displayName.compareTo(b.displayName));
+  }
+
+  /// 조건에 맞는 등록부 전체. 분석 대상 수에 따라 등록부를 숨기지 않는다.
+  /// 학년 미확인은 별도로 조회해 학년별 순위와 섞이지 않게 한다.
+  List<RegistryEntry> registryMatches(
     List<RegistryEntry> registry, {
     required String regionId,
     String? subject,
     String? gradeBand,
-    required int have,
-    int want = 10,
+    bool unknownGradeOnly = false,
   }) {
-    if (have >= want || registry.isEmpty) return const [];
     final rows = registry
         .where((r) =>
+            !academyById.containsKey(r.id) &&
             matchRegion(r.regionId, regionId) &&
-            (gradeBand == null || r.bandsForSubject(subject).contains(gradeBand)) &&
-            (subject == null || r.subjects.contains(subject)))
+            (subject == null || r.subjects.contains(subject)) &&
+            (unknownGradeOnly
+                ? r.bandsForSubject(subject).isEmpty
+                : gradeBand == null ||
+                    r.bandsForSubject(subject).contains(gradeBand)))
         .toList()
-      // 정원이 큰 곳부터. 학부모가 이름을 들어 봤을 확률이 그나마 높다.
-      ..sort((a, b) => (b.capacity ?? 0).compareTo(a.capacity ?? 0));
-    return rows.take(want - have).toList();
+      ..sort((a, b) => a.displayName.compareTo(b.displayName));
+    return rows;
   }
 
   /// 채점 대상 안에서의 검색. 등록부는 [registryProvider] 가 따로 늦게 온다.

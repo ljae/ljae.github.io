@@ -1,0 +1,801 @@
+[
+  {
+    "registrationId": "3000012230",
+    "name": "시대인재",
+    "address": "서울특별시 강남구 도곡로 460",
+    "bySubject": {
+      "math": [
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.sdij.com/aca/schd/",
+    "identityUrl": "https://www.sdij.com/aca/",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 도곡로 460 주소를 대조했습니다.",
+    "summary": "대치 시간표가 고1~3과 예비고1(현 중3)을 구분합니다. 중등 전체 세부 모집 범위와 수학스쿨 반은 추가 확인이 필요합니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000046558",
+    "name": "메이드학원",
+    "address": "서울특별시 강남구 삼성로57길 31",
+    "bySubject": {
+      "math": [
+        "high"
+      ]
+    },
+    "gradeUrl": "https://made.madeedu.co.kr/branches/daechi",
+    "identityUrl": "https://made.madeedu.co.kr/branches/daechi",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 삼성로57길 31 주소를 대조했습니다.",
+    "summary": "대치 메이드 본점은 고1·고2·고3 시간표와 수리논술 안내를 제공합니다. 같은 건물의 초중등 세이노와 구분했습니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000046544",
+    "name": "대치세이노학원",
+    "address": "서울특별시 강남구 삼성로57길 31",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://sayno.madeedu.co.kr/branches/daechi",
+    "identityUrl": "https://sayno.madeedu.co.kr/branches/daechi",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 삼성로57길 31 주소를 대조했습니다.",
+    "summary": "대치 세이노 지점 안내에 초등부·중등부·고등부 시간표가 있습니다. 본점과 영재특목관의 실제 배정 반은 확인이 필요합니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000030122",
+    "name": "필즈더클래식",
+    "address": "서울특별시 강남구 도곡로99길 16",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "gradeUrl": "https://fieldsgood.co.kr/sub/program.php",
+    "identityUrl": "https://fieldsgood.co.kr/sub/program.php",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 도곡로99길 16 주소를 대조했습니다.",
+    "summary": "공식 프로그램은 7세와 초1~6을 구분해 사고력 수학을 안내합니다. 본원 주소를 대조했으며 반별 입학 조건은 별도입니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000027539",
+    "name": "하이원학원",
+    "address": "서울특별시 강남구 남부순환로 2941",
+    "bySubject": {
+      "math": [
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.highonemath.com/program.html",
+    "identityUrl": "https://www.highonemath.com/",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 남부순환로 2941 주소를 대조했습니다.",
+    "summary": "공식 수업 안내에 중등부와 고등부가 있습니다. 중등부의 고등 진도는 중등학생 수업 내용으로 구분했습니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "5997",
+    "name": "이루리",
+    "address": "서울특별시 강남구 도곡로 440",
+    "bySubject": {
+      "math": [
+        "high"
+      ]
+    },
+    "gradeUrl": "https://iruriedu.kr/math/",
+    "identityUrl": "https://iruriedu.kr/",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 도곡로 440 주소를 대조했습니다.",
+    "summary": "수학관 수강 대상은 고등 전 학년 및 재수생입니다. 공식 4개 관 목록에서 도곡로 440 소재 1관을 대조했습니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "1000036446",
+    "name": "짱솔학원",
+    "address": "서울특별시 강남구 남부순환로 2935",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.zzangsol.co.kr/process/curriculum.html",
+    "identityUrl": "https://www.zzangsol.co.kr/introduction/branch.php",
+    "identityText": "공식 페이지의 학원명과 서울특별시 강남구 남부순환로 2935 주소를 대조했습니다.",
+    "summary": "정규반은 예비 초4 이상이며 대치 고등부는 2관에서 운영합니다. 저학년 구간은 예비 초4(현재 초3)만 해당하며 초1~2 프리스쿨은 대치 대상이 아닙니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000025772",
+    "name": "잠룡승천학원",
+    "address": "서울특별시 강남구 남부순환로 2941",
+    "bySubject": {
+      "math": [
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7af56b8368381372eff2e",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7af56b8368381372eff2e",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중3~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000020267",
+    "name": "함영원",
+    "address": "서울특별시 강남구 남부순환로 2937",
+    "bySubject": {
+      "english": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7af56b8368381372eff66",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7af56b8368381372eff66",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초5~고2. 과목: 영어.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000051205",
+    "name": "메디컬수학연구소학원",
+    "address": "서울특별시 송파구 석촌호수로 133",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/6732f73173c35619a8bc2388",
+    "identityUrl": "https://www.gangmom.kr/institute/6732f73173c35619a8bc2388",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초3~고2. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3002",
+    "name": "씨앤씨학원",
+    "address": "서울특별시 양천구 목동서로 389",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/6646fc2f3e35976bdd78cc84",
+    "identityUrl": "https://www.gangmom.kr/institute/6646fc2f3e35976bdd78cc84",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초1~중3. 과목: 영어.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000019253",
+    "name": "에프엠에이(FMA)수학교습소",
+    "address": "서울특별시 강남구 도곡로73길 14",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000050776",
+    "name": "프루브수학교습소",
+    "address": "서울특별시 강남구 도곡로83길 8",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
+    "identityUrl": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초5~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000052956",
+    "name": "대치넥서스수학학원",
+    "address": "서울특별시 강남구 역삼로64길 22",
+    "bySubject": {
+      "math": [
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/68ede4dedf10845045ea7ebf",
+    "identityUrl": "https://www.gangmom.kr/institute/68ede4dedf10845045ea7ebf",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000050852",
+    "name": "메멘토수학학원",
+    "address": "서울특별시 강남구 삼성로63길 17",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
+    "identityUrl": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000042667",
+    "name": "대치프라이드제이어학원",
+    "address": "서울특별시 강남구 남부순환로 2911",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초1~중3. 과목: 영어.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "25183",
+    "name": "배선영국어학원",
+    "address": "서울특별시 강남구 선릉로64길 15-3",
+    "bySubject": {
+      "korean": [
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 국어.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000032396",
+    "name": "황수비수학학원",
+    "address": "서울특별시 강남구 삼성로71길 25",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
+    "identityUrl": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000037112",
+    "name": "인비젼영어학원",
+    "address": "서울특별시 강남구 선릉로64길 15-7",
+    "bySubject": {
+      "english": [
+        "elem_high",
+        "middle"
+      ]
+    },
+    "gradeUrl": "https://www.gangmom.kr/institute/691a7cfcf713b0cfeca8ae73",
+    "identityUrl": "https://www.gangmom.kr/institute/691a7cfcf713b0cfeca8ae73",
+    "identityText": "2026-09-19 공개 출처 대장에서 등록명·주소 대조를 완료한 소개 페이지입니다. 모집 학년은 소개의 대상 필드만 사용했습니다.",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초5~중3. 과목: 영어.",
+    "sourceType": "directory",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-19",
+    "reviewBy": "2026-12-18"
+  },
+  {
+    "registrationId": "3000048613",
+    "name": "소마사고력수학학원",
+    "address": "서울특별시 서초구 효령로 403",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://scs2soma.somai.co.kr/intro/program",
+    "gradeUrl": "https://scs2soma.somai.co.kr/intro/program",
+    "identityText": "서초서이소마 공식 지점 페이지의 효령로 403, 401호가 교육청 등록 주소·층과 일치한다.",
+    "summary": "서초서이 지점의 학습프로그램에서 초등 2~6학년과 6세~초등 2학년을 대상으로 명시한다. 지점에 게시된 프로그램 기준이며 현재 개설 반은 확인이 필요하다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "10007",
+    "name": "시매쓰잠실직영보습학원",
+    "address": "서울특별시 송파구 삼전로 91",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://apply.cmath.co.kr/23071/jamsil",
+    "gradeUrl": "https://apply.cmath.co.kr/23071/jamsil",
+    "identityText": "공식 잠실 예약 페이지의 세형빌딩 2층·전화 02-422-9911이 공시와 일치한다. 공식 이전 공지 https://cmath.co.kr/bbs/view.asp?gbn=aca&no=1069060299&pds_type=1 에서 삼전로 91을 확인했다.",
+    "summary": "잠실센터의 입학시험 대상은 6세~초6이며 초1~2와 초3~6의 시험 시간이 별도로 안내된다. 예비초~초3 및 초4~6 구간에 반영한다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "26936",
+    "name": "시매쓰목동학원",
+    "address": "서울특별시 양천구 목동서로 299",
+    "bySubject": {
+      "math": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://apply.cmath.co.kr/23071/mokdong",
+    "gradeUrl": "https://apply.cmath.co.kr/23071/mokdong",
+    "identityText": "공식 목동 예약 안내의 목동서로 299, 3층 및 전화 02-2644-7471이 공시와 일치한다.",
+    "summary": "목동센터 공식 예약 안내는 시험 대상을 6세~초6으로 명시하며 초1~3과 초4~6 시험을 구분한다. 검색 엔진에 보존된 공식 페이지 본문으로 확인했고 직접 접속은 시간 초과가 발생했다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000039446",
+    "name": "필즈더클래식",
+    "address": "서울특별시 서초구 고무래로10길 17",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "identityUrl": "https://fieldsgood.co.kr/fet/index.php?fc_ccode=F007",
+    "gradeUrl": "https://fieldsgood.co.kr/fet/index.php?fc_ccode=F007",
+    "identityText": "서초센터 공식 예약 페이지의 고무래로10길 17, 5층이 공시와 일치한다.",
+    "summary": "2026년 9월 서초센터 입학시험은 7세~초3을 대상으로 안내한다. 확인한 모집 학년만 예비초~초3 구간에 반영하며 초4 이상은 이 안내만으로 확정하지 않는다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000039918",
+    "name": "필즈더클래식목동센터학원",
+    "address": "서울특별시 양천구 신목로 59",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "identityUrl": "https://fieldsgood.co.kr/fet/index.php?fc_ccode=F009",
+    "gradeUrl": "https://fieldsgood.co.kr/fet/index.php?fc_ccode=F009",
+    "identityText": "목동센터 공식 예약 페이지의 신목로 59, 2층이 공시와 일치한다.",
+    "summary": "2026년 9월 목동센터 입학시험은 7세~초3을 대상으로 안내한다. 확인한 모집 학년만 예비초~초3 구간에 반영하며 초4 이상은 이 안내만으로 확정하지 않는다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000027930",
+    "name": "아이엔어학원",
+    "address": "서울특별시 강남구 도곡로 526",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.inminds.co.kr/",
+    "gradeUrl": "https://www.inminds.co.kr/",
+    "identityText": "공식 홈페이지 하단 아이엔어학원, 도곡로 526의 3~5층 및 등록번호 제11946호를 확인했다.",
+    "summary": "공식 홈페이지에서 초1~4 입학 안내와 초5·6 입학 안내를 나누어 제공한다. 해당 초등 모집 학년을 영어 과목에 반영한다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "14212",
+    "name": "피아이어학원",
+    "address": "서울특별시 강남구 삼성로64길 51",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "http://www.peai-dc.co.kr/SEEO/main.asp",
+    "gradeUrl": "http://www.peai-dc.co.kr/SEEO/Homepage/Ent_faq/ats_faq.asp?Navi=B6",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 강남구 삼성로64길 51 주소를 등록 정보와 대조했습니다.",
+    "summary": "공식 수강 신청 FAQ는 초등 정규반 대상을 해당 연도 3월 기준 초2~6으로 명시합니다. 초1은 10~12월 시험 후 다음 해 초2 정규반을 신청합니다. 중등관의 학년은 이 지점에 합산하지 않았습니다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000018730",
+    "name": "에디센어학원",
+    "address": "서울특별시 강남구 선릉로 319",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "http://www.edisen.co.kr/Etc/ContactUs.asp",
+    "gradeUrl": "http://www.edisen.co.kr/EnterTest/Test_Info.asp",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 강남구 선릉로 319 주소를 등록 정보와 대조했습니다.",
+    "summary": "대치 캠퍼스의 공식 입학 안내에서 2026년 초1 통합반과 초1~6 학년별 시험 시간을 확인했습니다. 학년별 합격 기준과 개설 반은 별도이며 중·고등을 추가하지 않았습니다.",
+    "scope": "branch",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "8183",
+    "name": "대치에이프릴어학원",
+    "address": "서울특별시 강남구 언주로 118",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/april/dogok",
+    "gradeUrl": "https://www.creverse.com/april/dogok/introduction/faq/list",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 강남구 언주로 118 주소를 등록 정보와 대조했습니다.",
+    "summary": "강남대치 캠퍼스 공식 FAQ의 수강 대상은 7세~초6입니다. 캠퍼스별 프로그램·레벨에 따라 입학 학년이 달라질 수 있다는 안내를 함께 확인했습니다. 미국 교재 수준을 학생 학년으로 사용하지 않았습니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "1000036728",
+    "name": "대치청담어학학원",
+    "address": "서울특별시 강남구 도곡로 456",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/cdi/daechi/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/cdi/daechi/introduction/faq/list",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 강남구 도곡로 456 주소를 등록 정보와 대조했습니다.",
+    "summary": "대치 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "8683",
+    "name": "서초청담어학원",
+    "address": "서울특별시 서초구 고무래로10길 19",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/cdi/seocho/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/cdi/seocho/introduction/faq/list",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 서초구 고무래로10길 19 주소를 등록 정보와 대조했습니다.",
+    "summary": "서초 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "9929",
+    "name": "청담어학원",
+    "address": "서울특별시 양천구 목동동로 233-1",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/cdi/mokdong/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/cdi/mokdong/introduction/faq/list",
+    "identityText": "공식 지점 안내의 학원명과 서울특별시 양천구 목동동로 233-1 주소를 등록 정보와 대조했습니다.",
+    "summary": "목동 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "9917",
+    "name": "청담어학원",
+    "address": "서울특별시 송파구 위례성대로 122",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/cdi/songpa/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/cdi/songpa/introduction/faq/list",
+    "identityText": "공식 안내의 학원명과 서울특별시 송파구 위례성대로 122 주소를 등록 정보와 대조했습니다.",
+    "summary": "송파 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "19721",
+    "name": "서초에이프릴어학원",
+    "address": "서울특별시 서초구 서초중앙로33길 6-6",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/april/banpo/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/april/banpo/introduction/faq/list",
+    "identityText": "공식 안내의 학원명과 서울특별시 서초구 서초중앙로33길 6-6 주소를 등록 정보와 대조했습니다.",
+    "summary": "서초반포 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000046247",
+    "name": "목동씨엠에스에이프릴어학원",
+    "address": "서울특별시 양천구 목동서로 49",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/april/mokdonggwangjang/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/april/mokdonggwangjang/introduction/faq/list",
+    "identityText": "공식 안내의 학원명과 서울특별시 양천구 목동서로 49 주소를 등록 정보와 대조했습니다.",
+    "summary": "목동광장 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "9294",
+    "name": "아이엘이",
+    "address": "서울특별시 강남구 도곡로 454",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://ileschool.com/ileschool/newentrance/entrance_step.asp",
+    "gradeUrl": "https://ileschool.com/ileschool/newentrance/entrance_step.asp",
+    "identityText": "공식 안내의 학원명과 서울특별시 강남구 도곡로 454 주소를 등록 정보와 대조했습니다.",
+    "summary": "대치 1·2관을 운영하는 ILE 공식 입학 절차는 초1~6, 중1~2, 중3~고등부를 구분합니다. 도곡로 454의 대치2관 주소를 대조했습니다. 실제 반의 1·2관 배정은 학원 확인이 필요합니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "18149",
+    "name": "목동씨디아이에이프릴어학원",
+    "address": "서울특별시 양천구 목동서로 299",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.creverse.com/april/mokdong/introduction/faq/list",
+    "gradeUrl": "https://www.creverse.com/april/mokdong/introduction/faq/list",
+    "identityText": "공식 안내의 학원명과 서울특별시 양천구 목동서로 299 주소를 등록 정보와 대조했습니다.",
+    "summary": "양천목동 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000029236",
+    "name": "리젠영어학원",
+    "address": "서울특별시 양천구 오목로 279",
+    "bySubject": {
+      "english": [
+        "middle",
+        "high"
+      ]
+    },
+    "identityUrl": "https://www.xn--oy2b23tugp1f.com/Location",
+    "gradeUrl": "https://www.xn--oy2b23tugp1f.com/Location",
+    "identityText": "공식 안내의 학원명과 서울특별시 양천구 오목로 279 주소를 등록 정보와 대조했습니다.",
+    "summary": "공식 오목교 지점 안내에서 본관 주소와 중등·고등 시간표 구분을 대조했습니다. 시간표의 세부 반은 확인하지 못했으므로 중·고등 구간만 연결합니다. 초등 전용 엠:리젠은 오목로 300의 별도 관입니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "3000032508",
+    "name": "엠리젠앤리젠영어학원",
+    "address": "서울특별시 양천구 오목로 300",
+    "bySubject": {
+      "english": [
+        "elem_high"
+      ]
+    },
+    "identityUrl": "https://www.xn--oy2b23tugp1f.com/Location",
+    "gradeUrl": "https://www.xn--oy2b23tugp1f.com/Location",
+    "identityText": "공식 안내의 학원명과 서울특별시 양천구 오목로 300 주소를 등록 정보와 대조했습니다.",
+    "summary": "공식 페이지는 엠:리젠 프로그램을 초4~6으로 표시하고 해당 관을 오목로 300으로 명시합니다. 본관의 중·고등 시간표를 이 관에 옮기지 않았습니다.",
+    "scope": "branch_program",
+    "sourceType": "official",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "23899",
+    "name": "피아이서초어학원",
+    "address": "서울특별시 서초구 서초중앙로31길 6-3",
+    "bySubject": {
+      "english": [
+        "elem_low",
+        "elem_high",
+        "middle"
+      ]
+    },
+    "identityUrl": "http://www.peai-sc.co.kr/SEEP/main.asp",
+    "gradeUrl": "http://www.peai-sc.co.kr/SEEP/homepage/pageview/pageview.asp?CateCode=INTRO03",
+    "identityText": "공식 홈페이지의 피아이서초어학원 명칭, 서초중앙로31길 6-3 주소와 등록 제8660호를 대조했습니다.",
+    "summary": "서초 지점 공식 입학시험 안내 이미지의 응시 대상은 예비초1~중3입니다. 초등·중등 연락처와 서초 지점 주소를 함께 대조했습니다. 대치 지점의 초2~6 기준을 서초에 옮기지 않았으며 고등부는 포함하지 않았습니다.",
+    "sourceType": "official",
+    "scope": "branch",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-20",
+    "reviewBy": "2026-12-19"
+  }
+]

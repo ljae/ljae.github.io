@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:edutree/data/source_notes.dart';
@@ -9,6 +10,40 @@ import 'package:edutree/features/sources/sources_page.dart';
 import 'package:edutree/widgets/academy_sources_button.dart';
 
 void main() {
+  testWidgets('grade evidence is loaded and joined to its exact academy', (
+    tester,
+  ) async {
+    rootBundle.clear();
+    final messenger =
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+    messenger.setMockMessageHandler('flutter/assets', (message) async {
+      final path = utf8.decode(
+        message!.buffer.asUint8List(
+          message.offsetInBytes,
+          message.lengthInBytes,
+        ),
+      );
+      return ByteData.sublistView(File(path).readAsBytesSync());
+    });
+    addTearDown(() {
+      messenger.setMockMessageHandler('flutter/assets', null);
+      rootBundle.clear();
+    });
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+    final sources = await container.read(sourceNotesProvider.future);
+    final grades = sources
+        .firstWhere((r) => r.academyId == '3000027539')
+        .notes
+        .where((n) => n.topic == '대상 학년')
+        .toList();
+    expect(grades, isNotEmpty);
+    expect(grades.first.url, 'https://www.highonemath.com/program.html');
+    expect(grades.first.supports('math'), isTrue);
+    expect(grades.first.supports('english'), isFalse);
+    expect(sourceTopics, contains('대상 학년'));
+  });
+
   test(
     'directory operating information remains visible with a subject filter',
     () {

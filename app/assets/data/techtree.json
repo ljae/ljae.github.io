@@ -59,15 +59,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 58,
-    "math_hi_suneung": 8,
+    "math_hi_naesin": 70,
+    "math_hi_suneung": 10,
     "math_hi_top": 3,
     "sci_hi_naesin": 13,
     "sci_hi_suneung": 1,
     "sci_hi_two": 0,
     "kor_hi_suneung": 7
    },
-   "academyCount": 86
+   "academyCount": 100
   },
   {
    "id": "dest_snu_top",
@@ -104,16 +104,16 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_hi_naesin": 58,
-    "math_hi_suneung": 8,
+    "math_hi_naesin": 70,
+    "math_hi_suneung": 10,
     "math_hi_top": 3,
     "kor_hi_suneung": 7,
-    "kor_hi_nonsul": 6,
-    "eng_hi_suneung": 6,
-    "eng_hi_adv": 7,
+    "kor_hi_nonsul": 7,
+    "eng_hi_suneung": 7,
+    "eng_hi_adv": 12,
     "sci_hi_suneung": 1
    },
-   "academyCount": 91
+   "academyCount": 112
   },
   {
    "id": "dest_abroad",
@@ -144,14 +144,14 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_phonics": 12,
-    "eng_el_academy": 49,
+    "eng_el_phonics": 18,
+    "eng_el_academy": 62,
     "eng_el_rw": 1,
     "eng_mid_test": 1,
-    "math_el_basic": 95,
+    "math_el_basic": 109,
     "math_mid_preview": 2
    },
-   "academyCount": 154
+   "academyCount": 177
   },
   {
    "id": "dest_science_hs",
@@ -183,7 +183,7 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "math_el_thinking": 5,
+    "math_el_thinking": 7,
     "math_el_competition": 3,
     "math_mid_kmo": 0,
     "math_mid_yeongjae": 0,
@@ -191,7 +191,7 @@
     "sci_el_gifted": 1,
     "sci_mid_olympiad": 1
    },
-   "academyCount": 21
+   "academyCount": 23
   },
   {
    "id": "dest_foreign_hs",
@@ -221,15 +221,15 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 49,
-    "eng_mid_naesin": 46,
+    "eng_el_academy": 62,
+    "eng_mid_naesin": 56,
     "eng_mid_test": 1,
-    "math_mid_naesin": 71,
+    "math_mid_naesin": 85,
     "math_mid_preview": 2,
     "kor_mid_naesin": 22,
     "kor_mid_deep": 4
    },
-   "academyCount": 189
+   "academyCount": 218
   },
   {
    "id": "dest_early",

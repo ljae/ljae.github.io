@@ -10,7 +10,7 @@ from collections import Counter
 from datetime import date
 
 BANDS = ('elem_low', 'elem_high', 'middle', 'high')
-VERSION = '2026-09-19.5'
+VERSION = '2026-09-20.2'
 NEIS_URL = 'https://open.neis.go.kr/hub/acaInsTiInfo'
 SUBJECT_WORDS = {
     'math': ('수학', '수리'), 'english': ('영어',),
@@ -22,7 +22,21 @@ SUBJECT_WORDS = {
 
 
 def _subjects(value):
-    return {s for s, words in SUBJECT_WORDS.items() if any(w in value for w in words)}
+    # 외국어·중국어 안의 '국어'는 국어/논술 수업이 아니다.
+    other_language = '중국어' in value
+    foreign_language = '외국어' in value
+    value = value.replace('중국어', '').replace('외국어', '')
+    subjects = {s for s, words in SUBJECT_WORDS.items() if any(w in value for w in words)}
+    if other_language:
+        subjects.add('etc')
+    if foreign_language:
+        # 영어 과목이 별도로 확인된 학원에만 연결된다. 과목 자체를 추가하지 않는다.
+        subjects.add('english')
+    return subjects
+
+
+# 교육청의 교습과정 분류명은 실제 개설 반의 대상 학년을 뜻하지 않는다.
+FOREIGN_CATEGORY = re.compile(r'실용외국어\s*\(\s*유아\s*/\s*초\s*·\s*중\s*·\s*고\s*\)')
 
 
 def _parts(value):
@@ -99,8 +113,12 @@ def apply_all(academies, registrations):
                       ('le_crse_list_nm', row.get('le_crse_list_nm')),
                       ('le_crse_nm', row.get('le_crse_nm'))]
             fields += [('course_names', value) for value in row.get('course_names') or []]
+            for field, value in fields:
+                if value and FOREIGN_CATEGORY.search(value):
+                    held.append({'registrationId': str(aid), 'field': field, 'text': value,
+                                 'reason': '교습과정 분류명이며 실제 모집 학년 아님'})
             fields = [(field, part) for field, value in fields if value
-                      for part in _parts(value)]
+                      for part in _parts(FOREIGN_CATEGORY.sub('', value))]
             for field, value in fields:
                 if not value:
                     continue
@@ -137,6 +155,9 @@ def apply_all(academies, registrations):
         from . import verified_branches
         verified_branches.apply_grades(a)
 
+    from . import grade_sources
+    grade_sources.apply(academies)
+
 
 def report(academies):
     rows = []
@@ -148,3 +169,24 @@ def report(academies):
     return {'version': VERSION, 'auditedAt': date.today().isoformat(),
             'total': len(rows), 'statuses': dict(Counter(r['status'] for r in rows)),
             'rows': rows}
+
+
+def rebind_subjects(academies):
+    """과목 보강 뒤 공시 학년을 다시 연결한다. 후기 학년을 배분하지 않는다."""
+    from . import grade_sources
+    for a in academies:
+        target = a.get('grade_target')
+        if not target:
+            continue
+        mapping = {s: set(a.get('grade_bands_by_subject', {}).get(s, []))
+                   for s in a.get('subjects') or []}
+        for e in target['evidence']:
+            if e['field'] not in ('name', 'le_crse_list_nm', 'le_crse_nm', 'course_names'):
+                continue
+            for subject in e.get('subjects') or mapping:
+                if subject in mapping:
+                    mapping[subject].update(e['bands'])
+        a['grade_bands_by_subject'] = {s: [b for b in BANDS if b in bs] for s, bs in mapping.items()}
+        target['bySubject'] = a['grade_bands_by_subject']
+    # 처음 공시를 읽을 때 과목 미상이어서 적용하지 못한 지점 근거도 재대조한다.
+    grade_sources.apply([a for a in academies if a.get('grade_target')])

@@ -59,6 +59,29 @@ def test_ambiguous_combined_field_is_held():
     assert a['grade_target']['heldCourseSignals']
 
 
+def test_foreign_language_category_does_not_claim_all_school_grades():
+    a = {'id': 'A', 'name': '어학원', 'subjects': ['english', 'korean']}
+    grade_targets.apply_all([a], {'A': {
+        'le_crse_nm': '실용외국어(유아/초·중·고)',
+        'course_names': ['초등실용외국어A'],
+    }})
+    assert a['grade_bands_by_subject'] == {'english': ['elem_low', 'elem_high'], 'korean': []}
+    assert a['grade_bands'] == ['elem_low', 'elem_high']
+    assert a['grade_target']['heldCourseSignals'][0]['reason'] == '교습과정 분류명이며 실제 모집 학년 아님'
+
+
+def test_foreign_category_does_not_hide_a_separate_course():
+    a = {'id': 'A', 'name': '종합학원', 'subjects': ['math', 'english']}
+    grade_targets.apply_all([a], {'A': {'le_crse_list_nm': '실용외국어(유아/초·중·고),고등수학'}})
+    assert a['grade_bands_by_subject'] == {'math': ['high'], 'english': []}
+
+
+def test_chinese_course_does_not_populate_korean_or_english():
+    a = {'id': 'A', 'name': '어학원', 'subjects': ['english', 'korean', 'etc']}
+    grade_targets.apply_all([a], {'A': {'course_names': ['초등중국어', '고등국어']}})
+    assert a['grade_bands_by_subject'] == {'english': [], 'korean': ['high'], 'etc': ['elem_low', 'elem_high']}
+
+
 @pytest.mark.parametrize('title,snippet', [
     ('부엉이라이브러리 좌석신청', '시대인재 부엉이 좌석을 신청했습니다.'),
     ('황금부엉이 초등2학년 어린이 스도쿠', '학원에서 일하는 작가의 책입니다.'),

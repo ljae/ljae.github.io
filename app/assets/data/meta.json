@@ -228,13 +228,14 @@
   }
  },
  "gradeTargetAudit": {
-  "version": "2026-09-19.5",
-  "auditedAt": "2026-09-19",
+  "version": "2026-09-20.2",
+  "auditedAt": "2026-09-20",
   "total": 5340,
   "statuses": {
-   "registered_courses": 1207,
-   "unknown": 4126,
-   "official_guidance": 7
+   "registered_courses": 940,
+   "unknown": 4354,
+   "directory_guidance": 12,
+   "official_guidance": 34
   }
  },
  "weights": {
@@ -272,5 +273,6 @@
   "evaluated": 1919,
   "withMentions": 612,
   "ranked": 172
- }
+ },
+ "gradeTargetUpdatedAt": "2026-09-20T00:00:00+00:00"
 }
