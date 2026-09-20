@@ -2407,8 +2407,11 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     if mode == "live":
         ranking_quality.record(ranking_report)
 
-    from . import directory as directory_mod, grade_targets, grade_sources
+    from . import directory as directory_mod, grade_targets, grade_sources, grade_audit
     grade_report = grade_targets.report(evaluated + registry_only)
+    grade_coverage = grade_audit.audit_rows(evaluated + registry_only)
+    if not grade_coverage["valid"]:
+        raise ValueError("학년 필터 데이터 감사 실패: " + " | ".join(grade_coverage["errors"][:8]))
     files = {
         "grade_targets.json": grade_report,
         "grade_sources.json": grade_sources.source_notes(evaluated + registry_only),
@@ -2471,6 +2474,7 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             "scoringVersion": scoring.SCORING_VERSION,
             "rankingQuality": ranking_report,
             "gradeTargetAudit": {k: v for k, v in grade_report.items() if k != "rows"},
+            "gradeCoverageAudit": grade_coverage,
             "weights": config.WEIGHTS,
             # 예체능·기타는 저울이 아예 다르다. 이것도 내보내야 화면이
             # 상수를 들고 있지 않는다 — 학술 가중치에서 이미 겪은 사고다

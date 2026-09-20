@@ -37,7 +37,7 @@ class AcademyCard extends StatelessWidget {
     final subjects = orderedSubjects(
       academy.subjects,
     ).map((s) => subjectNames[s]).whereType<String>().take(3).join(' · ');
-    final grades = academy.gradeBands
+    final grades = academy.bandsForSubject(subject)
         .map((g) => gradeBandNames[g])
         .whereType<String>()
         .join(' · ');

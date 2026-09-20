@@ -10,7 +10,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import build, config, grade_sources, grade_targets, verified_branches
+from . import build, config, grade_audit, grade_sources, grade_targets, verified_branches
 
 
 def refresh(payloads, registrations):
@@ -67,6 +67,9 @@ def run(asset_dir, registrations_path):
     raw = json.loads(registrations_path.read_text(encoding='utf-8'))
     registrations = {str(r['id']): r for r in raw}
     updated, rows = refresh(originals + registry, registrations)
+    grade_coverage = grade_audit.audit_rows(updated)
+    if not grade_coverage['valid']:
+        raise ValueError('학년 필터 데이터 감사 실패: ' + ' | '.join(grade_coverage['errors'][:8]))
     report = grade_targets.report(rows)
     # 리뷰에서 관찰한 학년은 근거와 별도로 기존 감사 보고서에 보존한다.
     prior = {r['academyId']: r for r in read('grade_targets.json')['rows']}
@@ -74,6 +77,7 @@ def run(asset_dir, registrations_path):
         row['reviewSignals'] = prior.get(row['academyId'], {}).get('reviewSignals', {})
     meta = read('meta.json')
     meta['gradeTargetAudit'] = {k: v for k, v in report.items() if k != 'rows'}
+    meta['gradeCoverageAudit'] = grade_coverage
     meta['gradeTargetUpdatedAt'] = datetime.now(timezone.utc).isoformat()
     tree = read('techtree.json')
     counts = {d['id']: d for d in build._destination_payload(updated[:len(originals)])}

@@ -91,6 +91,16 @@ void main() {
       1,
     );
   });
+
+  test('missing subject grade mapping does not borrow another subject', () {
+    final academy = row(
+      'only-english-grade',
+      ['elem_low'],
+      perSubject: {'english': ['elem_low']},
+    );
+    expect(academy.bandsForSubject('math'), isEmpty);
+    expect(academy.bandsForSubject('english'), ['elem_low']);
+  });
   test('registry filler requires matching grade and subject evidence', () {
     RegistryEntry entry(String id, List<String> bands) =>
         RegistryEntry.fromJson({

@@ -776,8 +776,13 @@ class Academy {
   final String gradeTargetBasis;
   final String gradeTargetNote;
   final Map<String, List<String>> gradeBandsBySubject;
-  List<String> bandsForSubject(String? subject) =>
-      subject == null ? gradeBands : gradeBandsBySubject[subject] ?? gradeBands;
+  List<String> bandsForSubject(String? subject) => subject == null
+      ? gradeBands
+      // 과목별 맵이 있으면 키가 없는 과목은 '미확인'이다. 다른 과목의
+      // 학년을 재사용하면 학년 필터가 엉뚱한 랭킹을 만든다.
+      : gradeBandsBySubject.isEmpty
+          ? gradeBands
+          : gradeBandsBySubject[subject] ?? const [];
   final List<String> stages;
 
   /// 단계마다 **왜** 붙었는지. `curated`(사람이 적은 큐레이션) ·
@@ -1177,8 +1182,11 @@ class RegistryEntry {
   }
   final List<String> gradeBands;
   final Map<String, List<String>> gradeBandsBySubject;
-  List<String> bandsForSubject(String? subject) =>
-      subject == null ? gradeBands : gradeBandsBySubject[subject] ?? gradeBands;
+  List<String> bandsForSubject(String? subject) => subject == null
+      ? gradeBands
+      : gradeBandsBySubject.isEmpty
+          ? gradeBands
+          : gradeBandsBySubject[subject] ?? const [];
   final String? address;
   final int? capacity;
   final int? tuitionMonthly;

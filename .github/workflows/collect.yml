@@ -48,6 +48,9 @@ jobs:
       - name: 랭킹 및 근거 회귀 검증
         run: PYTHONPATH=pipeline python -m pytest pipeline/tests -q
 
+      - name: 대상학년 필터 데이터 감사
+        run: PYTHONPATH=pipeline python -m pipeline.edutree.grade_audit --asset-dir app/assets/data
+
       # 수집 캐시를 실행 간에 유지한다.
       #  - blog_texts.json : 이미 받은 블로그 본문을 다시 받지 않는다
       #  - first_seen.json : 언급을 처음 본 시점. 화제성 계산의 시계다
@@ -126,6 +129,10 @@ jobs:
           else
             python pipeline/run.py
           fi
+
+      - name: 생성된 대상학년 필터 데이터 감사
+        if: ${{ !inputs.directory_only }}
+        run: PYTHONPATH=pipeline python -m pipeline.edutree.grade_audit --asset-dir app/assets/data
 
       - name: 미확인 학년 웹 검색 후보 수집
         if: ${{ !inputs.directory_only }}
