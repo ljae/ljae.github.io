@@ -558,15 +558,22 @@ def test_학급도_이름_근처에서_하나만_읽는다():
     assert analyze.band_near_one("초등 대상 학원 아이엘이", {"아이엘이"}) is None
 
 
-def test_후기_학급은_대상_학년을_확정하지_않는다():
+def test_후기_학급은_반복될_때만_대상_학년이_된다():
+    """한 사람이 스무 번 말한 것은 아직 한 사람 말이다. 서로 다른 작성자가
+    반복해 말하면 `reviews` 등급으로 들어간다 — 단 아는 구간과 이어질 때만
+    (초등 학원 후기의 '의대'·'수능까지' 는 바람이지 반이 아니다)."""
     from edutree import build
-    a = {"id": "X", "grade_bands": []}
-    rows = [{"band": "high", "is_excluded": False} for _ in range(20)]
-    assert build._bands_from_mentions([a], {"X": rows}) == 1
+    a = {"id": "X", "subjects": ["math"], "grade_bands": []}
+    same = [{"band": "high", "is_excluded": False, "author_hash": "one"} for _ in range(20)]
+    assert build._bands_from_mentions([a], {"X": same}) == 0
     assert a["grade_bands"] == []
     assert a["grade_review_signals"] == {"high": 20}
-    b = {"id": "Y", "grade_bands": ["elem_low"]}
-    build._bands_from_mentions([b], {"Y": rows})
+    many = [{"band": "high", "is_excluded": False, "author_hash": f"p{i}"} for i in range(20)]
+    assert build._bands_from_mentions([a], {"X": many}) == 1
+    assert a["grade_bands"] == ["high"]
+    assert a["grade_target"]["bandBasis"] == {"math": {"high": "reviews"}}
+    b = {"id": "Y", "subjects": ["math"], "grade_bands": ["elem_low"]}
+    build._bands_from_mentions([b], {"Y": many})
     assert b["grade_bands"] == ["elem_low"]
 
 

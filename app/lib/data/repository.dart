@@ -326,6 +326,10 @@ class EduTreeData {
 
   /// 과목의 대상 학년을 아직 확인하지 못한 학원. 선택한 학년의 후보로
   /// 보여주되 확정 학년 순위와는 구분한다.
+  ///
+  /// 근거가 두꺼운 곳부터. 이름순은 'ㄱ' 이 늘 위에 올 뿐 아무것도 뜻하지
+  /// 않는데, 여기에는 표본 200건짜리도 섞여 있다 — 공시·후기 어느 쪽에서도
+  /// 학년을 못 읽은 곳이지 근거가 없는 곳이 아니다.
   List<Academy> unconfirmedGrades({
     required String regionId,
     String? subject,
@@ -335,7 +339,15 @@ class EduTreeData {
             _matchesFilters(a, regionId: regionId, subject: subject) &&
             a.bandsForSubject(subject).isEmpty)
         .toList()
-      ..sort((a, b) => a.displayName.compareTo(b.displayName));
+      ..sort((a, b) {
+        final bySample = b
+            .scoreFor(subject)
+            .sampleSize
+            .compareTo(a.scoreFor(subject).sampleSize);
+        return bySample != 0
+            ? bySample
+            : a.displayName.compareTo(b.displayName);
+      });
   }
 
   /// 조건에 맞는 등록부 전체. 분석 대상 수에 따라 등록부를 숨기지 않는다.

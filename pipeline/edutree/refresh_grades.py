@@ -13,8 +13,13 @@ from pathlib import Path
 from . import build, config, grade_audit, grade_sources, grade_targets, verified_branches
 
 
-def refresh(payloads, registrations):
-    """출력 레코드의 학년/단계 필드만 갱신한다. 입력은 수정하지 않는다."""
+def refresh(payloads, registrations, review_signals=None):
+    """출력 레코드의 학년/단계 필드만 갱신한다. 입력은 수정하지 않는다.
+
+    review_signals: {학원 id: {과목: {구간: {'mentions', 'authors'}}}} — 지난
+    실행의 grade_targets.json 이 남긴 후기 학년 신호. 후기 자체는 여기서
+    다시 읽지 않으므로 그 신호로 `reviews` 등급을 다시 적는다.
+    """
     result = deepcopy(payloads)
     rows = []
     for p in result:
@@ -28,6 +33,10 @@ def refresh(payloads, registrations):
              'grade_bands': list(dict.fromkeys([
                  *p.get('gradeBands', []),
                  *(p.get('gradeTarget') or {}).get('unverifiedPreviousBands', [])])),
+             # 큐레이션 단계는 학년 근거(curated)이기도 하다 — 함께 넘긴다.
+             'stages': list(p.get('stages') or []),
+             'stage_basis': dict(p.get('stageBasis') or {}),
+             'curated_stages': bool(p.get('curatedStages')),
              'grade_review_signals': p.get('gradeReviewSignals') or {}}
         rows.append(r)
     verified_branches.apply(rows)
@@ -35,6 +44,10 @@ def refresh(payloads, registrations):
     for r, p in zip(rows, result):
         r['subjects'] = list(p['subjects'])
     grade_targets.apply_all(rows, registrations)
+    for r in rows:
+        signals = (review_signals or {}).get(str(r['id']))
+        if signals:
+            grade_targets.confirm_from_reviews(r, signals)
     stage_grades = {s['id']: (t['subject'], s['grade'])
                     for t in config.techtree()['tracks'] for s in t['stages']}
     for p, r in zip(result, rows):
@@ -66,15 +79,17 @@ def run(asset_dir, registrations_path):
     registry = read('registry.json')
     raw = json.loads(registrations_path.read_text(encoding='utf-8'))
     registrations = {str(r['id']): r for r in raw}
-    updated, rows = refresh(originals + registry, registrations)
+    # 리뷰에서 관찰한 학년은 지난 감사 보고서가 들고 있다. 후기를 다시 읽지
+    # 않는 이 명령은 그 신호로 reviews 등급을 다시 적고, 보고서에도 보존한다.
+    prior = {str(r['academyId']): r for r in read('grade_targets.json')['rows']}
+    updated, rows = refresh(originals + registry, registrations,
+                            {aid: r.get('reviewSignalsBySubject') for aid, r in prior.items()})
     grade_coverage = grade_audit.audit_rows(updated)
     if not grade_coverage['valid']:
         raise ValueError('학년 필터 데이터 감사 실패: ' + ' | '.join(grade_coverage['errors'][:8]))
     report = grade_targets.report(rows)
-    # 리뷰에서 관찰한 학년은 근거와 별도로 기존 감사 보고서에 보존한다.
-    prior = {r['academyId']: r for r in read('grade_targets.json')['rows']}
     for row in report['rows']:
-        row['reviewSignals'] = prior.get(row['academyId'], {}).get('reviewSignals', {})
+        row['reviewSignals'] = prior.get(str(row['academyId']), {}).get('reviewSignals', {})
     meta = read('meta.json')
     meta['gradeTargetAudit'] = {k: v for k, v in report.items() if k != 'rows'}
     meta['gradeCoverageAudit'] = grade_coverage

@@ -47,6 +47,7 @@ def valid_record(record, today):
 
 
 def apply(academies, records=None, today=None):
+    from . import grade_targets
     from .grade_targets import BANDS
     today = today or date.today()
     records = load() if records is None else records
@@ -67,8 +68,7 @@ def apply(academies, records=None, today=None):
                 if not subjects:
                     continue
                 for subject in subjects:
-                    mapping[subject] = [b for b in BANDS
-                                        if b in mapping.get(subject, []) or b in r['bySubject'][subject]]
+                    grade_targets.note_bands(a, subject, r['bySubject'][subject], r['sourceType'])
                 item = {
                     'registrationId': aid, 'field': 'web_grade_guidance',
                     'text': r['summary'], 'subjects': sorted(subjects),
@@ -77,22 +77,12 @@ def apply(academies, records=None, today=None):
                     'url': r['gradeUrl'], 'identityUrl': r['identityUrl'],
                     'identityText': r['identityText'], 'sourceType': r['sourceType'],
                     'scope': r['scope'], 'checkedAt': r['checkedAt'], 'reviewBy': r['reviewBy'],
+                    'basis': r['sourceType'],
                 }
                 if item not in target['evidence']:
                     target['evidence'].append(item)
-        web = [e for e in target['evidence'] if e['field'] == 'web_grade_guidance']
-        if not web:
-            continue
-        a['grade_bands'] = [b for b in BANDS if b in a['grade_bands'] or any(b in bs for bs in mapping.values())]
-        official = any(e['sourceType'] == 'official' for e in web)
-        target.update(
-            status='official_guidance' if official or target['status'] == 'official_guidance' else 'directory_guidance',
-            basis='공시·공식 모집 안내·학원 소개 대조' if official else '공시·학원 소개의 대상 학년 대조',
-            bands=a['grade_bands'], bySubject=mapping,
-            caveat='확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.',
-        )
-        target['unverifiedPreviousBands'] = [b for b in target.get('unverifiedPreviousBands', [])
-                                           if b not in a['grade_bands']]
+        if any(e['field'] == 'web_grade_guidance' for e in target['evidence']):
+            grade_targets.sync(a)
 
 
 def source_notes(academies):

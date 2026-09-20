@@ -39,14 +39,15 @@ def apply_grades(a):
     if not r:
         return
     target = a['grade_target']
-    by_subject = a['grade_bands_by_subject']
-    from .grade_targets import BANDS
+    from . import grade_targets as gt
     for subject, bands in r['bySubject'].items():
-        # 공식 초등 프로그램은 공시로 확인한 중등관을 부정하는 정보가 아니다.
-        by_subject[subject] = [b for b in BANDS if b in bands or b in by_subject.get(subject, [])]
-    a['grade_bands'] = [b for b in BANDS if any(b in bs for bs in by_subject.values())]
-    target.update(status='official_guidance', basis=r['basis'], bands=a['grade_bands'], bySubject=by_subject,
-                  caveat=r['caveat'], checkedAt=r['checkedAt'], reviewBy=r['reviewBy'])
+        # 공식 초등 프로그램은 공시로 확인한 중등관을 부정하는 정보가 아니다 —
+        # 장부에 더하기만 한다. 등급은 official 이 가장 높다.
+        gt.note_bands(a, subject, bands, 'official')
+    target.update(officialBasis=r['basis'], officialCaveat=r['caveat'],
+                  checkedAt=r['checkedAt'], reviewBy=r['reviewBy'])
     target['evidence'].append({'registrationId':r['registrationId'], 'field':'official_guidance',
-                              'text':r['summary'], 'bands':[b for b in BANDS if any(b in bs for bs in r['bySubject'].values())], 'subjects':r['subjects'],
-                              'url':r['gradeUrl'], 'identityUrl':r['identityUrl'], 'checkedAt':r['checkedAt']})
+                              'text':r['summary'], 'bands':[b for b in gt.BANDS if any(b in bs for bs in r['bySubject'].values())], 'subjects':r['subjects'],
+                              'url':r['gradeUrl'], 'identityUrl':r['identityUrl'], 'checkedAt':r['checkedAt'],
+                              'basis': 'official'})
+    gt.sync(a)

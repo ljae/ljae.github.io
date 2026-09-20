@@ -97,6 +97,13 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             .unconfirmedGrades(regionId: sel.regionId, subject: subject)
             .where(matches)
             .toList();
+        // 미확인은 '근거 없음' 이 아니다. 표본이 얼마나 있는지 함께 적는다.
+        final unknownNotes = {
+          for (final a in unknown)
+            a.id: a.scoreFor(subject).sampleSize > 0
+                ? '표본 ${a.scoreFor(subject).sampleSize}건 · 대상 학년 미확인'
+                : '대상 학년 미확인',
+        };
         final registryAsync = ref.watch(registryProvider);
         final registry = registryAsync.value ?? const <RegistryEntry>[];
         bool matchesRegistry(RegistryEntry r) =>
@@ -244,7 +251,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                 '대상 학년 미확인 · ${unknownHits.length}곳',
                 '선택한 학년의 후보입니다. 학원에 대상 학년을 확인하면 학년별 순위에 반영됩니다.',
               ),
-              _academyLinks(unknownHits, unknownListed),
+              _academyLinks(unknownHits, unknownListed, notes: unknownNotes),
             ],
             if (registryAsync.isLoading)
               const SliverToBoxAdapter(
@@ -280,7 +287,11 @@ class _RankingPageState extends ConsumerState<RankingPage> {
     ),
   );
 
-  Widget _academyLinks(List<SearchHit> hits, List<RegistryEntry> registry) {
+  Widget _academyLinks(
+    List<SearchHit> hits,
+    List<RegistryEntry> registry, {
+    Map<String, String> notes = const {},
+  }) {
     final reasons = {for (final r in registry) r.id: r.notRanked};
     return SliverList.builder(
       itemCount: hits.length,
@@ -291,7 +302,9 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             key: ValueKey(hit.id),
             title: Text(hit.name),
             subtitle: Text(
-              reasons[hit.id] ?? (hit.evaluated ? '학원 정보 보기' : '등록 정보 보기'),
+              reasons[hit.id] ??
+                  notes[hit.id] ??
+                  (hit.evaluated ? '학원 정보 보기' : '등록 정보 보기'),
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.go('/academy/${hit.id}'),

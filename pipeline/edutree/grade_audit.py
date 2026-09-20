@@ -11,7 +11,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from .grade_targets import BANDS
+from .grade_targets import BANDS, BASIS_RANK
 
 
 def _value(row, snake, camel, default=None):
@@ -25,6 +25,7 @@ def audit_rows(rows):
     subjects = Counter()
     bands = Counter()
     ranked_without_grade = Counter()
+    basis_counts = Counter()
     grade_rows = 0
 
     for row in rows:
@@ -66,6 +67,17 @@ def audit_rows(rows):
             )
         if global_bands:
             grade_rows += 1
+        # 학년마다 근거 등급이 적혀 있어야 한다. 등급 없는 학년은 어디서
+        # 왔는지 아무도 모르는 값이다 — 그것이 9/19 이전의 '빈 값 = 전 학년'.
+        target = _value(row, "grade_target", "gradeTarget", {}) or {}
+        ledger = target.get("bandBasis") or {}
+        for subject in row_subjects:
+            for band in mapping.get(subject, []) or []:
+                basis = (ledger.get(subject) or {}).get(band)
+                if basis not in BASIS_RANK:
+                    errors.append(f"{label}/{subject}/{band}: 학년 근거 등급 없음")
+                else:
+                    basis_counts[basis] += 1
 
         scores = _value(row, "subject_scores", "subjectScores", {}) or {}
         for subject, score in scores.items():
@@ -86,6 +98,7 @@ def audit_rows(rows):
         "withAnyGrade": grade_rows,
         "subjects": dict(subjects),
         "bands": {f"{s}:{b}": n for (s, b), n in sorted(bands.items())},
+        "bandBasisCounts": dict(basis_counts),
         "rankedWithoutGrade": dict(ranked_without_grade),
     }
 

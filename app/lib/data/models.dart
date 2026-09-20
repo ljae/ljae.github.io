@@ -783,6 +783,26 @@ class Academy {
       : gradeBandsBySubject.isEmpty
           ? gradeBands
           : gradeBandsBySubject[subject] ?? const [];
+
+  /// 학년마다 **어느 근거가 정했는지.** `official`(공식 안내) · `directory`
+  /// (학원 소개 대조) · `registered`(교육청 공시) · `curated`(브랜드 큐레이션
+  /// 단계) · `reviews`(후기 반복 언급). 화면이 이것을 구분해 적지 않으면
+  /// 후기 추정이 공시처럼 읽힌다 — 단계의 `stageBasis` 와 같은 이유다.
+  final Map<String, Map<String, String>> gradeBandBasis;
+  String? gradeBasisFor(String? subject, String band) {
+    if (subject != null) return gradeBandBasis[subject]?[band];
+    for (final ledger in gradeBandBasis.values) {
+      final basis = ledger[band];
+      if (basis != null) return basis;
+    }
+    return null;
+  }
+
+  /// 이 과목의 학년 중 공시·공식 안내가 아니라 브랜드 단계·후기로 정한 것.
+  /// 카드가 '(후기·단계 기준)' 이라 적는 데 쓴다.
+  bool gradesInferredFor(String? subject) => bandsForSubject(subject).any(
+        (b) => const {'curated', 'reviews'}.contains(gradeBasisFor(subject, b)),
+      );
   final List<String> stages;
 
   /// 단계마다 **왜** 붙었는지. `curated`(사람이 적은 큐레이션) ·
@@ -860,6 +880,7 @@ class Academy {
     this.gradeTargetBasis = '대상 학년 미확인',
     this.gradeTargetNote = '현재 모집 학년은 학원에 확인이 필요합니다.',
     this.gradeBandsBySubject = const {},
+    this.gradeBandBasis = const {},
     required this.stages,
     this.stageBasis = const {},
     required this.flagship,
@@ -899,6 +920,12 @@ class Academy {
     gradeTargetNote: (j['gradeTarget']?['caveat'] ?? '현재 모집 학년은 학원에 확인이 필요합니다.') as String,
     gradeBandsBySubject: ((j['gradeBandsBySubject'] as Map?) ?? const {}).map(
       (k, v) => MapEntry(k as String, (v as List).cast<String>()),
+    ),
+    gradeBandBasis: ((j['gradeTarget']?['bandBasis'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(
+        k as String,
+        ((v as Map?) ?? const {}).map((b, s) => MapEntry(b as String, s as String)),
+      ),
     ),
     stages: ((j['stages'] as List?) ?? const []).cast<String>(),
     stageBasis: ((j['stageBasis'] as Map?) ?? const {}).map(

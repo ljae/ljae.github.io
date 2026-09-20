@@ -92,6 +92,53 @@ void main() {
     );
   });
 
+  test('grade basis is read per subject and band', () {
+    final a = Academy.fromJson({
+      'id': 'x',
+      'name': 'x',
+      'regionId': 'daechi',
+      'subjects': ['math', 'english'],
+      'gradeBands': ['elem_low', 'high'],
+      'gradeBandsBySubject': {
+        'math': ['high'],
+        'english': ['elem_low'],
+      },
+      'gradeTarget': {
+        'basis': '교육청 등록명·교습과정 + 후기 반복 언급',
+        'bandBasis': {
+          'math': {'high': 'registered'},
+          'english': {'elem_low': 'reviews'},
+        },
+      },
+      'score': {
+        'total': 50,
+        'reputation': 50,
+        'momentum': 50,
+        'sampleSize': 3,
+        'confidence': 'low',
+        'isRanked': false,
+      },
+    });
+    expect(a.gradeBasisFor('math', 'high'), 'registered');
+    expect(a.gradeBasisFor('english', 'elem_low'), 'reviews');
+    expect(a.gradeBasisFor('math', 'elem_low'), isNull);
+    expect(a.gradesInferredFor('math'), isFalse);
+    expect(a.gradesInferredFor('english'), isTrue);
+    expect(a.gradesInferredFor(null), isTrue);
+  });
+  test('unconfirmed grades list the thickest evidence first', () {
+    final d = data([
+      row('thin', [], sample: 2),
+      row('thick', [], sample: 40),
+      row('none', [], sample: 0),
+    ]);
+    expect(
+      d
+          .unconfirmedGrades(regionId: 'daechi', subject: 'math')
+          .map((a) => a.id),
+      ['thick', 'thin', 'none'],
+    );
+  });
   test('missing subject grade mapping does not borrow another subject', () {
     final academy = row(
       'only-english-grade',
