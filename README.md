@@ -108,7 +108,15 @@ python3 pipeline/run.py --cases          # 웹 신고 → 사례 대장 (pipelin
 python3 -m pipeline.edutree.grade_research # 미확인 과목·지점별 학년 조사 대기열
 python3 -m pipeline.edutree.grade_research --discover --limit 40 # 네이버 웹 검색 후보
 python3 -m pipeline.edutree.refresh_grades # 최신 공시 캐시 + 웹 근거로 학년만 갱신
+.venv/bin/python pipeline/tools/aside_sources.py   # Aside 브라우저로 학원별 소스 탐색 (공식 채널·학년·플레이스·후기)
 ```
+
+`aside_sources.py` 는 순위권인데 대상 학년이 없는 학원부터 Aside(사용자 브라우저)로
+네이버만 뒤져 후보를 모읍니다. 결과는 `docs/reports/aside-sources-<날짜>.md` 와
+`pipeline/data/grade_source_candidates.json` 에 **후보**로만 쌓이고, 파이프라인은
+읽지 않습니다. 사람이 원문을 확인한 뒤 `grade_sources.json`(verified)·위키 `homepage:`
+로 옮깁니다. Google 은 봇 차단이 떠서 쓰지 않고, 모델 사용량 한도가 뜨면 멈췄다가
+같은 명령으로 이어서 돌립니다(된 곳은 건너뜁니다).
 
 학년은 근거의 등급을 나눠 정하고, 학년마다 어느 등급이 정했는지
 `gradeTarget.bandBasis` 에 남깁니다(`pipeline/edutree/grade_targets.py`).

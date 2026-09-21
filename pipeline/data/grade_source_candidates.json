@@ -1,0 +1,48 @@
+[
+ {
+  "registrationId": "10268",
+  "name": "인피니티",
+  "address": "서울특별시 양천구 목동중앙로 95",
+  "bySubject": {
+   "math": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ]
+  },
+  "identityUrl": "https://map.naver.com/p/entry/place/1332026219?placePath=%2Finformation",
+  "gradeUrl": "https://map.naver.com/p/entry/place/1332026219?placePath=%2Finformation",
+  "identityText": "Aside 조사 2026-09-21: 네이버 플레이스/디렉터리의 주소가 NEIS 주소와 일치. 전화 대조·법적 동일성은 사람이 확인할 것.",
+  "summary": "초.중.고등 수학 영어 전문학원",
+  "sourceType": "directory",
+  "scope": "branch",
+  "reviewStatus": "candidate",
+  "checkedAt": "2026-09-21",
+  "reviewBy": "2027-03-20",
+  "foundBy": "aside"
+ },
+ {
+  "registrationId": "10268",
+  "name": "인피니티",
+  "address": "서울특별시 양천구 목동중앙로 95",
+  "bySubject": {
+   "math": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ]
+  },
+  "identityUrl": "https://map.naver.com/p/entry/place/1332026219?placePath=%2Finformation",
+  "gradeUrl": "https://map.naver.com/p/entry/place/1332026219?placePath=%2Finformation",
+  "identityText": "Aside 조사 2026-09-21: 네이버 플레이스/디렉터리의 주소가 NEIS 주소와 일치. 전화 대조·법적 동일성은 사람이 확인할 것.",
+  "summary": "[초등] 내신대비 심화문제 중등선행 서술형지도\n[중등] 내신대비 심화과정 고등선행\n[고등] 내신대비 대수 미적분1 미적분2, 기하, 확률, 모의고사, 수리논술대비",
+  "sourceType": "directory",
+  "scope": "branch",
+  "reviewStatus": "candidate",
+  "checkedAt": "2026-09-21",
+  "reviewBy": "2027-03-20",
+  "foundBy": "aside"
+ }
+]
