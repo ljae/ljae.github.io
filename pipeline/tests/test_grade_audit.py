@@ -25,11 +25,19 @@ def test_grade_audit_requires_a_basis_for_every_band():
     row = {
         'id': 'a', 'name': '학원', 'subjects': ['math'],
         'grade_bands': ['middle'], 'grade_bands_by_subject': {'math': ['middle']},
-        'grade_target': {'bandBasis': {}},
+        'grade_target': {'bandBasis': {}, 'version': '2026-09-20.3'},
     }
     report = audit_rows([row])
     assert not report['valid']
     assert any('근거 등급 없음' in error for error in report['errors'])
+    # 장부 이전 버전이 만든 산출물은 경고로만 — 야간 워크플로가 수집 전에
+    # 지난 산출물을 감사하므로, 오류로 막으면 새 산출물을 만들 수 없다.
+    row['grade_target'] = {'version': '2026-09-20.2'}
+    report = audit_rows([row])
+    assert report['valid']
+    assert any('이전 버전' in w for w in report['warnings'])
+    row['grade_target'] = {}
+    assert audit_rows([row])['valid']
     row['grade_target']['bandBasis'] = {'math': {'middle': 'reviews'}}
     report = audit_rows([row])
     assert report['valid']
