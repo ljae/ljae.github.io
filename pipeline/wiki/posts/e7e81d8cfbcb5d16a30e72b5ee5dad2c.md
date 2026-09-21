@@ -1,0 +1,39 @@
+---
+url_hash: "e7e81d8cfbcb5d16a30e72b5ee5dad2c"
+url: https://academy.dosocltkor.com/%EC%84%9C%EC%9A%B8-%EA%B0%95%EB%82%A8%EA%B5%AC-%EB%8C%80%EC%B9%98%EB%8F%99-%EC%9C%A0%EC%A4%80%ED%98%95%ED%99%94%ED%95%99%EA%B5%90%EC%8A%B5%EC%86%8C-%ED%95%99%EC%9B%90%EC%B6%94%EC%B2%9C
+source: naver_web
+title: 유준형화학교습소 강남구 대치동 학원 | 추천·동네·강사·정원·작은 곳 · 학
+posted_at: 2026-09-21
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 유준형화학교습소 강남구 대치동 학원 | 추천·동네·강사·정원·작은 곳 · 학
+
+원문: https://academy.dosocltkor.com/%EC%84%9C%EC%9A%B8-%EA%B0%95%EB%82%A8%EA%B5%AC-%EB%8C%80%EC%B9%98%EB%8F%99-%EC%9C%A0%EC%A4%80%ED%98%95%ED%99%94%ED%95%99%EA%B5%90%EC%8A%B5%EC%86%8C-%ED%95%99%EC%9B%90%EC%B6%94%EC%B2%9C
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.41 (긍정) · 신뢰도 0.32 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 science
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000041356|유준형화학교습소]] — 글이 이 권역을 밝힘 · 감성 +0.41
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

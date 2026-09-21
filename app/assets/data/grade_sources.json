@@ -1,5 +1,45 @@
 [
  {
+  "academyId": "3000019253",
+  "name": "에프엠에이(FMA)수학교습소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000050776",
+  "name": "프루브수학교습소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초5~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "3000025772",
   "name": "잠룡승천학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -55,6 +95,26 @@
     "sourceScope": "branch",
     "subjects": [
      "english"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000050852",
+  "name": "메멘토수학학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
     ]
    }
   ]
@@ -160,6 +220,46 @@
   ]
  },
  {
+  "academyId": "25183",
+  "name": "배선영국어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 국어.",
+    "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "korean"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000032396",
+  "name": "황수비수학학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "1000036446",
   "name": "짱솔학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -183,7 +283,7 @@
   "academyId": "14212",
   "name": "피아이어학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
   "notes": [
    {
     "topic": "대상 학년",
@@ -213,6 +313,26 @@
     "checkedAt": "2026-09-19",
     "kind": "directory",
     "sourceScope": "branch",
+    "subjects": [
+     "english"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "18149",
+  "name": "목동씨디아이에이프릴어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "양천목동 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
+    "url": "https://www.creverse.com/april/mokdong/introduction/faq/list",
+    "checkedAt": "2026-09-20",
+    "kind": "official",
+    "sourceScope": "brand",
     "subjects": [
      "english"
     ]
@@ -540,46 +660,6 @@
   ]
  },
  {
-  "academyId": "3000019253",
-  "name": "에프엠에이(FMA)수학교습소",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000050776",
-  "name": "프루브수학교습소",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초5~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/6712095673c35619a8020093",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
   "academyId": "3000052956",
   "name": "대치넥서스수학학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -590,26 +670,6 @@
     "title": "대상 학년 확인 근거",
     "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 수학.",
     "url": "https://www.gangmom.kr/institute/68ede4dedf10845045ea7ebf",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000050852",
-  "name": "메멘토수학학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
     "checkedAt": "2026-09-19",
     "kind": "directory",
     "sourceScope": "branch",
@@ -635,46 +695,6 @@
     "sourceScope": "branch",
     "subjects": [
      "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "25183",
-  "name": "배선영국어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 국어.",
-    "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "korean"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000032396",
-  "name": "황수비수학학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
     ]
    }
   ]
@@ -710,26 +730,6 @@
     "title": "대상 학년 확인 근거",
     "summary": "공식 페이지는 엠:리젠 프로그램을 초4~6으로 표시하고 해당 관을 오목로 300으로 명시합니다. 본관의 중·고등 시간표를 이 관에 옮기지 않았습니다.",
     "url": "https://www.xn--oy2b23tugp1f.com/Location",
-    "checkedAt": "2026-09-20",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "18149",
-  "name": "목동씨디아이에이프릴어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "양천목동 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
-    "url": "https://www.creverse.com/april/mokdong/introduction/faq/list",
     "checkedAt": "2026-09-20",
     "kind": "official",
     "sourceScope": "brand",
