@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+고등학생 대상의 국어 과목을 일대일 방식으로 수업하며, 수강 기간은 6개월 이하가 가장 많았습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
