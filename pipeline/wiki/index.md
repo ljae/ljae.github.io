@@ -198,6 +198,7 @@
 - [클라비어음악학원](academies/3000029045.md) — mokdong
 - [목동그린섬미술학원](academies/3000029206.md) — mokdong
 - [리젠영어학원](academies/3000029236.md) — mokdong
+- [위대한학원](academies/3000029314.md) — daechi
 - [미술로생각하기학원](academies/3000029329.md) — jamsil
 - [레슨포케이아트연극영화학원](academies/3000029578.md) — banpo
 - [생각하는황소서초](academies/3000029897.md) — banpo

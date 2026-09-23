@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+목동 지점에 다니며 레벨은 메모리 단계로, 스콜라스틱(SCHOLASTIC)사의 스토리북 형태 주교재와 자체 제작 부교재 2권을 사용하고 있다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

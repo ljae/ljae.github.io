@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.59 · **스팸 배제**
-- 붙은 학원 1곳 · 과목 math
+- 붙은 학원 2곳 · 과목 english·math
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -30,6 +30,7 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/3000048613|소마사고력수학학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/22387|서초소마]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수
