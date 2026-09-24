@@ -1,0 +1,39 @@
+---
+url_hash: "a3ee32da0b5e2da398f0bcddae163a0b"
+url: https://academy.tadkerake.com/%EC%84%9C%EC%9A%B8-%EC%84%9C%EC%B4%88%EA%B5%AC-%EB%B0%98%ED%8F%AC%EB%8F%99-%EB%B0%98%ED%8F%AC%EC%95%A0%EB%8B%88%ED%8F%AC%EC%8A%A4%EC%9B%B9%ED%88%B0%ED%95%99%EC%9B%90-%EA%B8%B0%EC%88%99%ED%95%99%EC%9B%90
+source: naver_web
+title: 반포애니포스웹툰학원 서초구 반포동 | 비교·수강료·동네·진도 · 전국 학원
+posted_at: 2026-09-24
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 반포애니포스웹툰학원 서초구 반포동 | 비교·수강료·동네·진도 · 전국 학원
+
+원문: https://academy.tadkerake.com/%EC%84%9C%EC%9A%B8-%EC%84%9C%EC%B4%88%EA%B5%AC-%EB%B0%98%ED%8F%AC%EB%8F%99-%EB%B0%98%ED%8F%AC%EC%95%A0%EB%8B%88%ED%8F%AC%EC%8A%A4%EC%9B%B9%ED%88%B0%ED%95%99%EC%9B%90-%EA%B8%B0%EC%88%99%ED%95%99%EC%9B%90
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.41 (긍정) · 신뢰도 0.32 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 english
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000053383|반포애니포스웹툰학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

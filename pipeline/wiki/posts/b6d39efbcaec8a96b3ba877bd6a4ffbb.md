@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 -0.31 (부정) · 신뢰도 0.54
-- 붙은 학원 1곳 · 과목 english
+- 붙은 학원 1곳 · 과목 불명
 <!-- /auto:digest -->
 
 <!-- auto:summary -->

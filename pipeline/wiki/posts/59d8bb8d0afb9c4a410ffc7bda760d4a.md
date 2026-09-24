@@ -20,8 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.54
-- 붙은 학원 2곳 · 과목 math
-- 진입난이도 신호: hard
+- 붙은 학원 1곳 · 과목 math
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -31,7 +30,6 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/1000035823|강남대성학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
-- [[../academies/3000012230|시대인재]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

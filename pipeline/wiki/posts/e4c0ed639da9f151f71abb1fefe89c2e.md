@@ -1,0 +1,39 @@
+---
+url_hash: "e4c0ed639da9f151f71abb1fefe89c2e"
+url: https://hrd.flmmcc.com/detail/1187086
+source: naver_web
+title: 나 혼자 만든다, 영상편집(프리미어+애프터이펙트) 8회차 실업자계좌제 - 서울
+posted_at: 2026-09-24
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 나 혼자 만든다, 영상편집(프리미어+애프터이펙트) 8회차 실업자계좌제 - 서울
+
+원문: https://hrd.flmmcc.com/detail/1187086
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.32 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 불명
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000054552|프리미어에듀학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
