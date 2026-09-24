@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+잠실 지점에 재원 중인 초등학교 6학년 학생이 레벨테스트(ibt1, ibt2)와 관련된 질문을 남겼습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

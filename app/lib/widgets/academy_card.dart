@@ -37,10 +37,17 @@ class AcademyCard extends StatelessWidget {
     final subjects = orderedSubjects(
       academy.subjects,
     ).map((s) => subjectNames[s]).whereType<String>().take(3).join(' · ');
-    final grades = academy.bandsForSubject(subject)
+    // 학년 뒤에 근거를 적는다. 공시가 아니라 브랜드 단계·후기 반복 언급으로
+    // 정한 학년이면 그렇게 말한다 — 안 적으면 추정이 공시처럼 읽힌다.
+    final bandNames = academy.bandsForSubject(subject)
         .map((g) => gradeBandNames[g])
         .whereType<String>()
         .join(' · ');
+    final grades = bandNames.isEmpty
+        ? ''
+        : academy.gradesInferredFor(subject)
+            ? '$bandNames · 후기·단계 기준'
+            : bandNames;
     final radius = BorderRadius.circular(16);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -94,7 +101,7 @@ class AcademyCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  grades.isEmpty ? '대상 학년 확인 중' : grades,
+                  grades.isEmpty ? '대상 학년 미확인' : grades,
                   style: text.bodySmall,
                 ),
                 const SizedBox(height: 12),

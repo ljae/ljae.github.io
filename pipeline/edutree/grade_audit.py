@@ -11,7 +11,10 @@ import json
 from collections import Counter
 from pathlib import Path
 
-from .grade_targets import BANDS
+from .grade_targets import BANDS, BASIS_RANK
+
+# 학년마다 근거 등급(bandBasis)을 적기 시작한 grade_targets.VERSION.
+LEDGER_VERSION = "2026-09-20.3"
 
 
 def _value(row, snake, camel, default=None):
@@ -25,6 +28,8 @@ def audit_rows(rows):
     subjects = Counter()
     bands = Counter()
     ranked_without_grade = Counter()
+    basis_counts = Counter()
+    legacy_rows = set()
     grade_rows = 0
 
     for row in rows:
@@ -66,6 +71,26 @@ def audit_rows(rows):
             )
         if global_bands:
             grade_rows += 1
+        # 학년마다 근거 등급이 적혀 있어야 한다. 등급 없는 학년은 어디서
+        # 왔는지 아무도 모르는 값이다 — 그것이 9/19 이전의 '빈 값 = 전 학년'.
+        #
+        # 단, 장부(bandBasis)가 생기기 전 버전이 만든 산출물에는 등급이 있을
+        # 수 없다. 야간 워크플로는 수집 **전에** 지난 산출물을 이 감사에
+        # 넣으므로(collect.yml), 옛 산출물을 오류로 막으면 새 산출물을 만들
+        # 기회 자체가 없어진다(2026-09-20 밤 실측: 2,355건 오류로 29초 만에
+        # 중단). 옛 버전은 경고로만 세고, 새 버전부터 오류다.
+        target = _value(row, "grade_target", "gradeTarget", {}) or {}
+        ledger = target.get("bandBasis") or {}
+        strict = str(target.get("version") or "") >= LEDGER_VERSION
+        for subject in row_subjects:
+            for band in mapping.get(subject, []) or []:
+                basis = (ledger.get(subject) or {}).get(band)
+                if basis in BASIS_RANK:
+                    basis_counts[basis] += 1
+                elif strict:
+                    errors.append(f"{label}/{subject}/{band}: 학년 근거 등급 없음")
+                else:
+                    legacy_rows.add(ident)
 
         scores = _value(row, "subject_scores", "subjectScores", {}) or {}
         for subject, score in scores.items():
@@ -73,6 +98,11 @@ def audit_rows(rows):
                 if not set(mapping.get(subject, []) or []):
                     ranked_without_grade[subject] += 1
 
+    if legacy_rows:
+        warnings.append(
+            f"근거 장부(bandBasis) 이전 버전 산출물 {len(legacy_rows)}곳: 학년에 등급이 "
+            f"없다. 다음 빌드({LEDGER_VERSION} 이상)부터는 오류로 막는다"
+        )
     for subject, count in ranked_without_grade.items():
         warnings.append(
             f"{subject}: 과목 랭킹 학원 {count}곳에 대상학년 근거가 없어 "
@@ -86,6 +116,7 @@ def audit_rows(rows):
         "withAnyGrade": grade_rows,
         "subjects": dict(subjects),
         "bands": {f"{s}:{b}": n for (s, b), n in sorted(bands.items())},
+        "bandBasisCounts": dict(basis_counts),
         "rankedWithoutGrade": dict(ranked_without_grade),
     }
 

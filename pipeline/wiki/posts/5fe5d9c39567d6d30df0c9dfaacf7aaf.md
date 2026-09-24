@@ -1,0 +1,40 @@
+---
+url_hash: "5fe5d9c39567d6d30df0c9dfaacf7aaf"
+url: https://mygongbu.co.kr/academy/17216
+source: naver_web
+title: 남주희실용음악학원 (서울특별시 강남구)
+posted_at: 2026-09-22
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 남주희실용음악학원 (서울특별시 강남구)
+
+원문: https://mygongbu.co.kr/academy/17216
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.59 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 english
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+선릉역 인근에 위치해 30년 전통과 입시 경력을 내세우며 중·고등학생 실용음악 및 작곡·유학 입시를 주로 다룬다고 소개하는 홍보성 글이다.
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/29522|남주희실용음악학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

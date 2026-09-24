@@ -11,6 +11,7 @@ demo 모드일 때 노출하지 않는다.
 from __future__ import annotations
 
 import collections
+import copy
 import hashlib
 import json
 import random
@@ -19,6 +20,7 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 
 from . import analyze, config, scoring
+from . import grade_targets as grade_targets_mod
 from . import neis
 from .neis import normalize_name
 
@@ -783,15 +785,53 @@ def _subjects_from_mentions(academies: list[dict],
 
 def _bands_from_mentions(academies: list[dict],
                          by_key: dict[str, list[dict]]) -> int:
-    """후기 속 학년은 검토 단서로만 저장한다. 선행 진도·형제 학년일 수 있다."""
+    """후기가 이름 곁에서 말한 학년을 **과목별로** 모아 장부에 넘긴다.
+
+    글 한 건이 말하는 구간은 `analyze.band_near_one` 이 이미 달아 두었다
+    (이름 ±45자, 과목·학급과 같은 창). 여기서는 그것을 (과목 × 구간) 으로
+    세고 서로 다른 작성자 수를 함께 센다 — 확정 여부는
+    `grade_targets.confirm_from_reviews` 의 문턱이 정한다(3건 · 작성자 2명 ·
+    그 과목 학년 언급의 25%). 한 건·한 사람은 형제 학년·선행 진도일 수 있다.
+
+    과목 불명 글은 대표 과목 몫이다 — 채점(`scoring.compute_all`)이 과목 불명
+    글을 대표 과목에만 넣는 것과 같은 규칙. 다르면 같은 글이 두 자로 읽힌다.
+    """
+    from . import grade_targets
+    from .scoring import primary_subject
     n = 0
     for a in academies:
-        for subject in a.get('subjects') or []:
-            a.setdefault('grade_bands_by_subject', {}).setdefault(subject, [])
-        counts = collections.Counter(m.get("band") for m in by_key.get(a["id"], [])
-                                     if not m.get("is_excluded") and m.get("band"))
-        a["grade_review_signals"] = dict(counts)
-        n += bool(counts)
+        subjects = [s for s in (a.get("subjects") or []) if s != config.UNRANKED_SUBJECT]
+        for subject in a.get("subjects") or []:
+            a.setdefault("grade_bands_by_subject", {}).setdefault(subject, [])
+        rows = [m for m in by_key.get(a["id"], [])
+                if not m.get("is_excluded") and m.get("band")]
+        a["grade_review_signals"] = dict(collections.Counter(m["band"] for m in rows))
+        primary = primary_subject(a)
+        per: dict[str, dict[str, dict]] = {}
+        for m in rows:
+            subject = m.get("subject") if m.get("subject") in subjects else primary
+            if subject not in subjects:
+                continue
+            slot = per.setdefault(subject, {}).setdefault(
+                m["band"], {"mentions": 0, "authors": set()})
+            slot["mentions"] += 1
+            slot["authors"].add(m.get("author_hash") or m.get("url_hash") or m.get("url") or "")
+        signals = {s: {b: {"mentions": v["mentions"], "authors": len(v["authors"])}
+                       for b, v in bands.items()}
+                   for s, bands in per.items()}
+        if a.get("grade_target") is None:
+            # demo 모드·시험 자료처럼 공시 감사를 거치지 않은 행. 이미 있는
+            # 학년(시드 단계에서 온 것)을 curated 로 장부에 옮기고 시작한다 —
+            # 안 옮기면 sync 가 등급 없는 학년을 지운다.
+            a["grade_target"] = {"evidence": [], "status": "unknown",
+                                 "basis": "대상 학년 미확인"}
+            a.setdefault("grade_band_basis", {})
+            for subject in subjects:
+                have = a["grade_bands_by_subject"].get(subject) or a.get("grade_bands") or []
+                if have:
+                    grade_targets.note_bands(a, subject, have, "curated")
+        if grade_targets.confirm_from_reviews(a, signals):
+            n += 1
     return n
 
 
@@ -1749,23 +1789,31 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     promoted = _subjects_from_mentions(evaluated, by_key)
     if promoted:
         print(f"  종합학원 과목 확정: {promoted}곳 (후기가 말한 과목으로)")
+    previous_grades = {a['id']: copy.deepcopy(a.get('grade_bands_by_subject', {}))
+                       for a in evaluated}
     if mode == 'live':
         from . import grade_targets
-        previous_grades = {a['id']: a.get('grade_bands_by_subject', {}) for a in evaluated}
         grade_targets.rebind_subjects(evaluated)
-        for a in evaluated:
-            if a.get('grade_bands_by_subject') == previous_grades[a['id']]:
-                continue
-            stages, basis = _auto_stages(a)
-            for stage in stages:
-                if stage not in a.setdefault('stages', []):
-                    a['stages'].append(stage)
-                    a.setdefault('stage_basis', {})[stage] = basis[stage]
-    # 학년 구간도 마찬가지. 비워 두면 네 구간에 모두 나타나 수능 재종반이
-    # '예비초~초3' 랭킹에 오른다.
+    # 학년 구간도 후기로 채운다. 비워 두면 어느 학년 랭킹에도 못 들어가고
+    # (9/19 실측: 채점된 581쌍 중 457쌍), 억지로 네 구간에 다 넣으면 수능
+    # 재종반이 '예비초~초3' 랭킹에 오른다. 문턱을 넘은 구간만, 근거 등급
+    # `reviews` 를 달고 들어간다.
     banded = _bands_from_mentions(evaluated, by_key)
     if banded:
-        print(f"  학년 검토 단서: {banded}곳 (후기 언급은 대상 학년으로 확정하지 않음)")
+        print(f"  학년 확정(후기 반복 언급): {banded}곳 "
+              f"(서로 다른 작성자 {grade_targets_mod.REVIEW_MIN_AUTHORS}명 · "
+              f"{grade_targets_mod.REVIEW_MIN_MENTIONS}건 · 과목 학년 언급의 "
+              f"{int(grade_targets_mod.REVIEW_MIN_SHARE * 100)}% 이상)")
+    # 구간이 새로 정해진 곳은 그 구간의 대표 단계도 붙인다(inferred).
+    # 큐레이션 단계는 그대로 둔다.
+    for a in evaluated:
+        if a.get('grade_bands_by_subject') == previous_grades[a['id']]:
+            continue
+        stages, basis = _auto_stages(a)
+        for stage in stages:
+            if stage not in a.setdefault('stages', []):
+                a['stages'].append(stage)
+                a.setdefault('stage_basis', {})[stage] = basis[stage]
 
     # 영유 연차 표시. 과목이 확정된 뒤에 붙인다 — 영어 학원에만 단다.
     tagged = entry_tags_from_mentions(evaluated, by_key, candidates)
@@ -1902,6 +1950,30 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         print(f"  범위 감사: 과목 오분류('외국어'→국어) {n_wrong_kor}곳 · "
               f"단계 ⊄ 구간 {n_stage_out}곳 · 구간 모름 {n_noband}곳 · "
               f"과목 미상 {n_general}곳")
+        # ★ 학년 근거 감사 (2026-09-20). '학급 매칭이 안 돼 랭킹에 안 나온다'
+        #   는 신고의 지표다. 채점된 (학원×과목) 중 그 과목의 학년이 비어
+        #   어느 학년 랭킹에도 못 들어가는 쌍을 센다 — 순위권이면 따로.
+        #   이 숫자가 0 에 가까워야 '모든 학급에 랭킹이 반영' 된 것이다.
+        basis_counts: collections.Counter = collections.Counter()
+        n_pairs = n_hidden = n_hidden_ranked = 0
+        for a in evaluated:
+            ledger = a.get("grade_band_basis") or {}
+            for subject, per in (subject_scores.get(a["id"]) or {}).items():
+                if not per or not per.get("sample_size"):
+                    continue
+                n_pairs += 1
+                bands = (a.get("grade_bands_by_subject") or {}).get(subject) or []
+                if not bands:
+                    n_hidden += 1
+                    n_hidden_ranked += bool(per.get("is_ranked"))
+                for band in bands:
+                    basis_counts[ledger.get(subject, {}).get(band, "?")] += 1
+        basis_line = " · ".join(f"{k} {v}" for k, v in basis_counts.most_common())
+        print(f"  학년 근거 감사: 채점 {n_pairs}쌍(학원×과목) 중 학년 없음 "
+              f"{n_hidden}쌍(순위권 {n_hidden_ranked}) · 구간 근거별 {basis_line or '없음'}")
+        if n_hidden_ranked:
+            print(f"  ! 순위권 {n_hidden_ranked}쌍이 학년 미확인이라 어느 학년 랭킹에도 없다 — "
+                  f"미확인 목록에만 보인다. 공시·위키·후기 어느 쪽에서도 학년을 못 읽은 곳이다")
     except Exception as exc:                                  # noqa: BLE001
         print(f"  ! 범위 감사 실패: {exc}")
 

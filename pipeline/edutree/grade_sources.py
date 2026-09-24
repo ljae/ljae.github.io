@@ -47,6 +47,7 @@ def valid_record(record, today):
 
 
 def apply(academies, records=None, today=None, registrations=None):
+    from . import grade_targets
     from .grade_targets import BANDS
     today = today or date.today()
     records = load() if records is None else records
@@ -60,24 +61,19 @@ def apply(academies, records=None, today=None, registrations=None):
         mapping = a['grade_bands_by_subject']
         for aid in sorted(ids):
             for r in by_id.get(aid, []):
-                # 등록번호가 통합체 안에 있다는 사실만으로 지점 안내를
-                # 적용하지 않는다. 원 등록의 도로명주소까지 같아야 한다.
+                # 통합된 학원 그룹 안의 다른 관 등록번호에는 이 안내를 적용하지 않는다.
                 registration = (registrations or {}).get(aid) or {}
                 if registrations is not None and registration.get('road_address') != r['address']:
                     continue
                 # 대장의 ID만 맞아도 주소·이름이 달라졌으면 재검토해야 한다.
                 if r['address'] != a.get('road_address') or r['name'] != a.get('name'):
                     continue
-                # 주소·등록번호·대표명을 모두 대조한 공식 과정 안내는
-                # NEIS 의 포괄 분류(general)보다 구체적인 과목 정보를 준다.
-                # 확인된 과목을 먼저 보강한 뒤 학년을 같은 과목에 연결한다.
                 subjects = set(r['bySubject'])
                 if not subjects:
                     continue
                 a['subjects'] = list(dict.fromkeys([*(a.get('subjects') or []), *sorted(subjects)]))
                 for subject in subjects:
-                    mapping[subject] = [b for b in BANDS
-                                        if b in mapping.get(subject, []) or b in r['bySubject'][subject]]
+                    grade_targets.note_bands(a, subject, r['bySubject'][subject], r['sourceType'])
                 item = {
                     'registrationId': aid, 'field': 'web_grade_guidance',
                     'text': r['summary'], 'subjects': sorted(subjects),
@@ -86,22 +82,12 @@ def apply(academies, records=None, today=None, registrations=None):
                     'url': r['gradeUrl'], 'identityUrl': r['identityUrl'],
                     'identityText': r['identityText'], 'sourceType': r['sourceType'],
                     'scope': r['scope'], 'checkedAt': r['checkedAt'], 'reviewBy': r['reviewBy'],
+                    'basis': r['sourceType'],
                 }
                 if item not in target['evidence']:
                     target['evidence'].append(item)
-        web = [e for e in target['evidence'] if e['field'] == 'web_grade_guidance']
-        if not web:
-            continue
-        a['grade_bands'] = [b for b in BANDS if b in a['grade_bands'] or any(b in bs for bs in mapping.values())]
-        official = any(e['sourceType'] == 'official' for e in web)
-        target.update(
-            status='official_guidance' if official or target['status'] == 'official_guidance' else 'directory_guidance',
-            basis='공시·공식 모집 안내·학원 소개 대조' if official else '공시·학원 소개의 대상 학년 대조',
-            bands=a['grade_bands'], bySubject=mapping,
-            caveat='확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.',
-        )
-        target['unverifiedPreviousBands'] = [b for b in target.get('unverifiedPreviousBands', [])
-                                           if b not in a['grade_bands']]
+        if any(e['field'] == 'web_grade_guidance' for e in target['evidence']):
+            grade_targets.sync(a)
 
 
 def source_notes(academies):

@@ -108,14 +108,33 @@ python3 pipeline/run.py --cases          # 웹 신고 → 사례 대장 (pipelin
 python3 -m pipeline.edutree.grade_research # 미확인 과목·지점별 학년 조사 대기열
 python3 -m pipeline.edutree.grade_research --discover --limit 40 # 네이버 웹 검색 후보
 python3 -m pipeline.edutree.refresh_grades # 최신 공시 캐시 + 웹 근거로 학년만 갱신
+.venv/bin/python pipeline/tools/aside_sources.py   # Aside 브라우저로 학원별 소스 탐색 (공식 채널·학년·플레이스·후기)
 ```
 
-학년은 교육청 공시에 더해 `pipeline/data/grade_sources.json`의 검토된 웹 안내를
-과목별로 연결합니다. 등록번호·학원명·주소와 대상 학년을 대조하고, 원문 URL,
-확인일, 재검토 기한(최대 180일)을 함께 남깁니다. 공식 모집 안내와 지점에 게시된
-프로그램, 학원 소개의 명시적 대상 정보를 구분하며 교재 수준이나 후기 속 자녀의
-학년을 모집 학년으로 옮기지 않습니다. 주소가 바뀌거나 검토 기한이 지나면 해당
-웹 근거는 다음 갱신에서 적용하지 않습니다.
+`aside_sources.py` 는 순위권인데 대상 학년이 없는 학원부터 Aside(사용자 브라우저)로
+네이버만 뒤져 후보를 모읍니다. 결과는 `docs/reports/aside-sources-<날짜>.md` 와
+`pipeline/data/grade_source_candidates.json` 에 **후보**로만 쌓이고, 파이프라인은
+읽지 않습니다. 사람이 원문을 확인한 뒤 `grade_sources.json`(verified)·위키 `homepage:`
+로 옮깁니다. Google 은 봇 차단이 떠서 쓰지 않고, 모델 사용량 한도가 뜨면 멈췄다가
+같은 명령으로 이어서 돌립니다(된 곳은 건너뜁니다).
+
+학년은 근거의 등급을 나눠 정하고, 학년마다 어느 등급이 정했는지
+`gradeTarget.bandBasis` 에 남깁니다(`pipeline/edutree/grade_targets.py`).
+
+| 등급 | 출처 | 비고 |
+|---|---|---|
+| `official` | 주소·등록번호를 대조한 공식 모집 안내(`verified_branches.json`·`grade_sources.json`) | 확인일·재검토 기한(최대 180일) |
+| `directory` | 주소를 대조한 학원 소개 디렉터리(`grade_sources.json`) | |
+| `registered` | 교육청 등록명·교습과정·과정명에 명시된 학년 | `실용외국어(유아/초·중·고)` 같은 분류명은 제외 |
+| `curated` | 시드 브랜드(`seed_academies.yaml`)의 사람 큐레이션 단계가 걸치는 구간 | 단계의 과목에만 |
+| `reviews` | 후기가 학원 이름 곁(±45자)에서 반복해 말한 구간 | 서로 다른 작성자 2명 · 3건 · 그 과목 학년 언급의 25% 이상, 그리고 아는 구간과 **이어질 때만** |
+
+넷 중 하나도 없으면 미확인이며, 미확인은 전 학년도 해당 없음도 아닙니다 —
+학년별 순위에는 넣지 않고 '대상 학년 미확인' 목록에 표본순으로 보여 줍니다.
+후기 속 자녀의 학년 한두 건이나 교재 수준은 근거가 아니고, 초등 학원 후기의
+'의대'·'수능까지' 같은 떨어진 구간도 바람이지 반이 아니라서 잇지 않습니다.
+카드는 `curated`·`reviews` 로 정한 학년에 '후기·단계 기준' 이라 적습니다.
+주소가 바뀌거나 검토 기한이 지나면 해당 웹 근거는 다음 갱신에서 적용하지 않습니다.
 교육청의 `실용외국어(유아/초·중·고)`는 교습과정 분류명이므로 실제 모집
 학년으로 사용하지 않습니다. 개별 교습 과목의 학년이나 공식 입학 안내를
 확인해 영어에 연결하며, `외국어`·`중국어`를 국어 과목으로 오인하지 않습니다.
