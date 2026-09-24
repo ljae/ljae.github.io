@@ -89,12 +89,19 @@ class AcademySources {
       .firstOrNull;
 }
 
-final sourceNotesProvider = FutureProvider<List<AcademySources>>((ref) async {
-  final raw = await rootBundle.loadString('assets/research/source_notes.json');
-  final directory = await rootBundle.loadString(
-    'assets/data/directory_sources.json',
+Future<String> _loadTextAsset(String path) async {
+  // loadString switches to compute() above 50 KB. Decoding here keeps the
+  // asset loader deterministic in tests and avoids a needless isolate hop.
+  final data = await rootBundle.load(path);
+  return utf8.decode(
+    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
   );
-  final grades = await rootBundle.loadString('assets/data/grade_sources.json');
+}
+
+final sourceNotesProvider = FutureProvider<List<AcademySources>>((ref) async {
+  final raw = await _loadTextAsset('assets/research/source_notes.json');
+  final directory = await _loadTextAsset('assets/data/directory_sources.json');
+  final grades = await _loadTextAsset('assets/data/grade_sources.json');
   final groups =
       [
             ...jsonDecode(raw) as List,
