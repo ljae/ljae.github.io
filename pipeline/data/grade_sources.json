@@ -1,6 +1,6 @@
 [
   {
-    "registrationId": "3000012230",
+    "registrationId": "3000032995",
     "name": "시대인재",
     "address": "서울특별시 강남구 도곡로 460",
     "bySubject": {
@@ -697,7 +697,7 @@
     "reviewBy": "2026-12-19"
   },
   {
-    "registrationId": "9294",
+    "registrationId": "23598",
     "name": "아이엘이",
     "address": "서울특별시 강남구 도곡로 454",
     "bySubject": {
@@ -797,5 +797,152 @@
     "reviewStatus": "verified",
     "checkedAt": "2026-09-20",
     "reviewBy": "2026-12-19"
+  },
+  {
+    "registrationId": "20218",
+    "name": "생각하는황소학원",
+    "address": "서울특별시 강남구 영동대로 302",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 대치 본관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000027640",
+    "name": "생각하는황소",
+    "address": "서울특별시 강남구 역삼로 448",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 대치 3~5관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000035580",
+    "name": "생각하는황소",
+    "address": "서울특별시 양천구 오목로 321-1",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 목동 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000048214",
+    "name": "생각하는황소3관학원",
+    "address": "서울특별시 양천구 오목로 300",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 목동 3관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000029897",
+    "name": "생각하는황소서초",
+    "address": "서울특별시 서초구 고무래로10길 26",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 서초 본관·2관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000036651",
+    "name": "생각하는황소서초3관학원",
+    "address": "서울특별시 서초구 신반포로 195",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 서초 3관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000040159",
+    "name": "생각하는황소서초4관학원",
+    "address": "서울특별시 서초구 효령로 398",
+    "bySubject": {
+      "math": [
+        "elem_high",
+        "middle",
+        "high"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소의 서초 4관 등록을 대조했습니다. 학년 범위는 생각하는황소 공식 브랜드 FAQ의 공통 과정 기준입니다.",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "sourceType": "official",
+    "scope": "branch_program",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
   }
 ]

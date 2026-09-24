@@ -64,6 +64,9 @@ def parse(text):
     text = str(text or '')
     if '선행' in text:
         return []
+    # '서초2관/서초3관'은 서초 지역의 관 번호다. GRADE 정규식이
+    # 내부의 '초2/초3'만 읽으면 관 번호가 학생 학년으로 둔갑한다.
+    text = re.sub(r'서초\s*[1-6]\s*관', '서초관', text)
     found = set()
     text = re.sub(r'초중급|중고급|초급|중급|고급', '', text)
     # 예비중/예비고는 진학 전 재학 학년으로 해석한다.
@@ -156,7 +159,7 @@ def apply_all(academies, registrations):
         verified_branches.apply_grades(a)
 
     from . import grade_sources
-    grade_sources.apply(academies)
+    grade_sources.apply(academies, registrations=registrations)
 
 
 def report(academies):

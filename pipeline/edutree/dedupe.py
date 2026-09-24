@@ -290,6 +290,14 @@ def merge_same_name(groups: dict[str, list[dict]]) -> dict[str, list[dict]]:
     plans = [ks for ks in by_hall.values()
              if len(ks) > 1 and any(k in marked for k in ks)]
 
+    # 생각하는황소는 공식 지점/관 안내와 NEIS 주소를 대조하면 같은 학군
+    # 안에서도 별도 주소의 관이 독립된 위치로 운영된다. 이름에서 '관'만
+    # 지워 같은 기관으로 통합하면 후기·대상 학년·주소가 서로 다른 지점에
+    # 붙는다. 이 브랜드는 주소가 같은 등록만 앞 단계에서 통합한다.
+    plans = [keys for keys in plans
+             if not any('생각하는황소' in r.get('name', '')
+                        for key in keys for r in groups[key])]
+
     out = dict(groups)
     for keys in plans:
         keys = [k for k in keys if k in out]

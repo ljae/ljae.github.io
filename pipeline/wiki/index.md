@@ -19,6 +19,7 @@
 - [바로크음악학원](academies/1000029118.md) — jamsil
 - [길벗아카데미학원](academies/1000031310.md) — mokdong
 - [아드폰테스](academies/1000033209.md) — mokdong
+- [하이씨앤씨학원](academies/1000034226.md) — mokdong
 - [김종길국어논술](academies/1000034806.md) — mokdong
 - [대치1관정상어학원](academies/1000035161.md) — daechi
 - [강남대성학원](academies/1000035823.md) — daechi

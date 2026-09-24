@@ -259,7 +259,18 @@ def apply(mentions: list[dict], academies: list[dict],
                     kept.append(copy)
                     stats["rehomed"] += 1
                 continue
-            m["branch_basis"] = "region"
+            # 제목/본문에 이 지점만 가진 도로명·관 표기가 있으면 권역
+            # 수준이 아니라 지점 직접 근거다. 특히 후기 검색 발췌에
+            # '효령로 398'처럼 등록 주소가 들어 있는데도 region으로만
+            # 남으면, 같은 학군의 다른 관과 섞이거나 랭킹 표본에서 빠진다.
+            own = local_identity.get(key, set())
+            title_body = analyze._norm(f"{m.get('title', '')} {m.get('snippet', '')}")
+            unique_location = any(
+                (re.search(r"\d", word) or "관" in word)
+                and analyze._norm(word) in title_body
+                for word in own
+            )
+            m["branch_basis"] = "direct" if unique_location else "region"
             kept.append(m)
             continue
 

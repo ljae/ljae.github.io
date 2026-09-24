@@ -60,6 +60,26 @@
   ]
  },
  {
+  "academyId": "3000050852",
+  "name": "메멘토수학학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "3000046544",
   "name": "대치세이노학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -160,6 +180,106 @@
   ]
  },
  {
+  "academyId": "3000042667",
+  "name": "대치프라이드제이어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초1~중3. 과목: 영어.",
+    "url": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "english"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "25183",
+  "name": "배선영국어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 국어.",
+    "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "korean"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000027640",
+  "name": "생각하는황소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000032396",
+  "name": "황수비수학학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "20218",
+  "name": "생각하는황소학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "1000036446",
   "name": "짱솔학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -220,6 +340,26 @@
   ]
  },
  {
+  "academyId": "3000048214",
+  "name": "생각하는황소3관학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "3000029236",
   "name": "리젠영어학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -260,6 +400,26 @@
   ]
  },
  {
+  "academyId": "3000035580",
+  "name": "생각하는황소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "3000039918",
   "name": "필즈더클래식목동센터학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -273,6 +433,26 @@
     "checkedAt": "2026-09-20",
     "kind": "official",
     "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000036651",
+  "name": "생각하는황소서초3관학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
     "subjects": [
      "math"
     ]
@@ -355,6 +535,46 @@
     "sourceScope": "branch",
     "subjects": [
      "english"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000029897",
+  "name": "생각하는황소서초",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "3000040159",
+  "name": "생각하는황소서초4관학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
     ]
    }
   ]
@@ -450,26 +670,6 @@
     "title": "대상 학년 확인 근거",
     "summary": "대치 시간표가 고1~3과 예비고1(현 중3)을 구분합니다. 중등 전체 세부 모집 범위와 수학스쿨 반은 추가 확인이 필요합니다.",
     "url": "https://www.sdij.com/aca/schd/",
-    "checkedAt": "2026-09-20",
-    "kind": "official",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "5997",
-  "name": "이루리",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "수학관 수강 대상은 고등 전 학년 및 재수생입니다. 공식 4개 관 목록에서 도곡로 440 소재 1관을 대조했습니다.",
-    "url": "https://iruriedu.kr/math/",
     "checkedAt": "2026-09-20",
     "kind": "official",
     "sourceScope": "branch",
@@ -600,86 +800,6 @@
   ]
  },
  {
-  "academyId": "3000050852",
-  "name": "메멘토수학학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/69d4331d987dc590832ade13",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000042667",
-  "name": "대치프라이드제이어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초1~중3. 과목: 영어.",
-    "url": "https://www.gangmom.kr/institute/65b7afaeb836838137327d80",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "25183",
-  "name": "배선영국어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 중1~고3. 과목: 국어.",
-    "url": "https://www.gangmom.kr/institute/65b7af8fb8368381373175c2",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "korean"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000032396",
-  "name": "황수비수학학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/65b7af93b83683813731a084",
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ]
-   }
-  ]
- },
- {
   "academyId": "3000037112",
   "name": "인비젼영어학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -775,6 +895,26 @@
     "sourceScope": "brand",
     "subjects": [
      "english"
+    ]
+   }
+  ]
+ },
+ {
+  "academyId": "5997",
+  "name": "이루리",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "수학관 수강 대상은 고등 전 학년 및 재수생입니다. 공식 4개 관 목록에서 도곡로 440 소재 1관을 대조했습니다.",
+    "url": "https://iruriedu.kr/math/",
+    "checkedAt": "2026-09-20",
+    "kind": "official",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
     ]
    }
   ]

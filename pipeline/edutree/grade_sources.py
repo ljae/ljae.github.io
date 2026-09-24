@@ -46,7 +46,7 @@ def valid_record(record, today):
         return False
 
 
-def apply(academies, records=None, today=None):
+def apply(academies, records=None, today=None, registrations=None):
     from .grade_targets import BANDS
     today = today or date.today()
     records = load() if records is None else records
@@ -60,12 +60,21 @@ def apply(academies, records=None, today=None):
         mapping = a['grade_bands_by_subject']
         for aid in sorted(ids):
             for r in by_id.get(aid, []):
+                # 등록번호가 통합체 안에 있다는 사실만으로 지점 안내를
+                # 적용하지 않는다. 원 등록의 도로명주소까지 같아야 한다.
+                registration = (registrations or {}).get(aid) or {}
+                if registrations is not None and registration.get('road_address') != r['address']:
+                    continue
                 # 대장의 ID만 맞아도 주소·이름이 달라졌으면 재검토해야 한다.
                 if r['address'] != a.get('road_address') or r['name'] != a.get('name'):
                     continue
-                subjects = set(r['bySubject']) & set(a.get('subjects') or [])
+                # 주소·등록번호·대표명을 모두 대조한 공식 과정 안내는
+                # NEIS 의 포괄 분류(general)보다 구체적인 과목 정보를 준다.
+                # 확인된 과목을 먼저 보강한 뒤 학년을 같은 과목에 연결한다.
+                subjects = set(r['bySubject'])
                 if not subjects:
                     continue
+                a['subjects'] = list(dict.fromkeys([*(a.get('subjects') or []), *sorted(subjects)]))
                 for subject in subjects:
                     mapping[subject] = [b for b in BANDS
                                         if b in mapping.get(subject, []) or b in r['bySubject'][subject]]
