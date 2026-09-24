@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
+import '../../data/source_notes.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/subject_bar.dart';
@@ -39,6 +40,25 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('데이터를 불러오지 못했습니다\n$e')),
       data: (data) {
+        final sourceGroups = ref.watch(sourceNotesProvider).value ?? const [];
+        final demandNotes = <String, String>{};
+        for (final group in sourceGroups) {
+          final academy = data.academyById[group.academyId];
+          if (academy == null || academy.regionId != sel.regionId) continue;
+          final note = group.notes
+              .where((n) => n.topic == '학부모 선호·진입경쟁' && n.supports(subject))
+              .firstOrNull;
+          final admission = group.notes
+              .where((n) => n.topic == '입학·레벨테스트' && n.supports(subject))
+              .firstOrNull;
+          if (note == null && admission == null) continue;
+          final sample = academy.scoreFor(subject).sampleSize;
+          demandNotes[academy.id] = [
+            if (admission != null) admission.shortSummary ?? admission.title,
+            if (note != null) note.shortSummary ?? note.title,
+            '자체 후기 표본 $sample건 · 점수 순위 미산정',
+          ].join(' · ');
+        }
         var ranked = data.ranking(
           regionId: sel.regionId,
           subject: subject,
@@ -229,22 +249,40 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             if (ranked.isNotEmpty)
               SliverList.builder(
                 itemCount: ranked.length,
-                itemBuilder: (context, i) => ContentWidth(
-                  child: AcademyCard(
-                    key: ValueKey(ranked[i].id),
-                    academy: ranked[i],
-                    subject: subject,
-                    index: i,
-                    rank: rankOf[ranked[i].id],
-                  ),
-                ),
+                itemBuilder: (context, i) {
+                  final academy = ranked[i];
+                  final marketNote = demandNotes[academy.id];
+                  final hasScoreRank = academy.scoreFor(subject).isRanked;
+                  return ContentWidth(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AcademyCard(
+                          key: ValueKey(academy.id),
+                          academy: academy,
+                          subject: subject,
+                          index: i,
+                          rank: rankOf[academy.id],
+                        ),
+                        if (!hasScoreRank && marketNote != null)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                            child: Text(
+                              marketNote,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
               ),
             if (unscoredHits.isNotEmpty) ...[
               _listHeader(
                 '함께 살펴볼 학원 · ${unscoredHits.length}곳',
                 '선택한 학년의 등록 정보가 있는 학원입니다. 분석 근거 수집 중이거나 순위 대상이 아닌 곳도 포함합니다.',
               ),
-              _academyLinks(unscoredHits, listed),
+              _academyLinks(unscoredHits, listed, notes: demandNotes),
             ],
             if (unknownHits.isNotEmpty) ...[
               _listHeader(
@@ -302,8 +340,8 @@ class _RankingPageState extends ConsumerState<RankingPage> {
             key: ValueKey(hit.id),
             title: Text(hit.name),
             subtitle: Text(
-              reasons[hit.id] ??
-                  notes[hit.id] ??
+              notes[hit.id] ??
+                  reasons[hit.id] ??
                   (hit.evaluated ? '학원 정보 보기' : '등록 정보 보기'),
             ),
             trailing: const Icon(Icons.chevron_right),

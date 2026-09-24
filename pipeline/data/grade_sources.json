@@ -944,5 +944,138 @@
     "reviewStatus": "verified",
     "checkedAt": "2026-09-24",
     "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "20218",
+    "name": "생각하는황소학원",
+    "address": "서울특별시 강남구 영동대로 302",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 대치 본관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000027640",
+    "name": "생각하는황소",
+    "address": "서울특별시 강남구 역삼로 448",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 대치 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000048214",
+    "name": "생각하는황소3관학원",
+    "address": "서울특별시 양천구 오목로 300",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 목동 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000035580",
+    "name": "생각하는황소",
+    "address": "서울특별시 양천구 오목로 321-1",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 목동 본관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000029897",
+    "name": "생각하는황소서초",
+    "address": "서울특별시 서초구 고무래로10길 26",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 서초 본관·2관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000036651",
+    "name": "생각하는황소서초3관학원",
+    "address": "서울특별시 서초구 신반포로 195",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 서초 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "registrationId": "3000040159",
+    "name": "생각하는황소서초4관학원",
+    "address": "서울특별시 서초구 효령로 398",
+    "bySubject": {
+      "math": [
+        "elem_low"
+      ]
+    },
+    "gradeUrl": "https://www.thinking-bull.com/student1",
+    "identityUrl": "https://www.thinking-bull.com/branch",
+    "identityText": "교육청 등록번호·주소를 대조한 서초 4관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "sourceType": "official",
+    "scope": "branch_admission",
+    "reviewStatus": "verified",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
   }
 ]

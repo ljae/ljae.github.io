@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.45 (긍정) · 신뢰도 0.35 · **스팸 배제**
-- 붙은 학원 2곳 · 과목 english·math
+- 붙은 학원 1곳 · 과목 english
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -29,7 +29,6 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/1000036573|렉스김어학원]] — 글이 이 권역을 밝힘 · 감성 +0.45
-- [[../academies/3000030122|필즈더클래식]] — 글이 이 권역을 밝힘 · 감성 +0.69
 <!-- /auto:edges -->
 
 ## 검수

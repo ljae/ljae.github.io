@@ -48,6 +48,25 @@ def test_web_grade_preserves_registered_grades_and_subject_boundary():
     assert note['checkedAt'] == '2026-09-20'
 
 
+def test_admission_eligibility_is_separate_evidence_but_enters_low_grade_filter():
+    a = academy()
+    admission = source(
+        scope='branch_admission',
+        gradeUrl='https://example.com/student1',
+        summary='현 초2·초3 응시 대상, 초4-1 신입생 과정',
+        bySubject={'math': ['elem_low']},
+    )
+    grade_sources.apply([a], [admission], TODAY)
+    assert a['grade_bands_by_subject']['math'] == ['elem_low']
+    assert a['grade_target']['status'] == 'official_guidance'
+    evidence = next(e for e in a['grade_target']['evidence']
+                    if e['field'] == 'admission_eligibility')
+    assert evidence['field'] == 'admission_eligibility'
+    notes = grade_sources.source_notes([a])[0]['notes']
+    assert notes[0]['topic'] == '입학·레벨테스트'
+    assert notes[0]['shortSummary'] == admission['summary']
+
+
 @pytest.mark.parametrize('change', [
     {'registrationId': 'B'}, {'address': '서울특별시 강남구 도곡로 2'}, {'name': '샘플학원2관'},
     {'reviewStatus': 'candidate'}, {'sourceType': 'review'}, {'scope': 'brand'},
@@ -68,7 +87,8 @@ def test_refresh_preserves_every_non_grade_field_and_retracts_expired_source(mon
          'subjects': ['math', 'english'], 'gradeBands': [], 'gradeBandsBySubject': {},
          'score': {'total': 91, 'sampleSize': 53}, 'subjectScores': {'math': {'total': 92}},
          'evidence': [{'excerpt': '기존 후기'}], 'stages': [], 'flagship': []}
-    raw = {'A': {'id': 'A', 'course_names': ['초등영어']}}
+    raw = {'A': {'id': 'A', 'name': '샘플학원',
+                 'road_address': source()['address'], 'course_names': ['초등영어']}}
     updated, _ = refresh_grades.refresh([p], raw)
     assert p['gradeBands'] == []
     for key in ('score', 'subjectScores', 'evidence', 'subjects', 'id', 'name', 'address'):

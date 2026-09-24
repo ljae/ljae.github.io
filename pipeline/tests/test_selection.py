@@ -21,6 +21,31 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from edutree import build, config  # noqa: E402
 
 
+def test_general_registration_does_not_block_curated_thinking_bull_match():
+    raw = {
+        "id": "3000029897", "aca_asnum": "3000029897", "name": "생각하는황소서초2관학원",
+        "le_crse_list_nm": "보습,보습·논술", "le_crse_nm": "보습",
+        "realm_sc_nm": "입시.검정 및 보습", "reg_sttus_nm": "정상",
+        "tofor_smtot": 100, "estbl_ymd": "2020-01-01",
+        "road_address": "서울특별시 서초구 고무래로10길 26",
+        "region_id": "banpo", "subjects": ["general"],
+    }
+    [matched] = build._merge_seed_into_neis([raw])
+    assert matched["brand"] == "생각하는황소"
+    assert matched["subjects"] == ["math"]
+    assert matched["curated_stages"] is True
+    assert matched["collection_priority"] == 100
+    assert matched["display_name"] == "생각하는황소 서초 본관·2관"
+
+
+def test_curated_branch_name_survives_display_name_assignment():
+    rows = [{"id": "main", "name": "생각하는황소학원",
+             "display_name": "생각하는황소 대치 본관",
+             "region_id": "daechi", "road_address": "서울특별시 강남구 영동대로 302"}]
+    build.assign_display_names(rows)
+    assert rows[0]["display_name"] == "생각하는황소 대치 본관"
+
+
 def academy(aid, *, capacity, subjects=("english",), region="daechi",
             bands=("elem_low", "elem_high"), curated=False):
     return {

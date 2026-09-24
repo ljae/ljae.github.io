@@ -147,9 +147,18 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         확실한 것처럼 적으면 그게 곧 거짓이고, 실명 사업자를 다루는
         서비스에서는 특히 그렇다. 대신 '눈여겨볼 곳' 표시만 남긴다.
         """
-        guess = set(_infer_subjects(row))
+        # NEIS often classifies math academies only as `general`. That is an
+        # unknown subject, not evidence against a curated math brand. Treating
+        # it as a contradiction silently detached ThinkBull from its curated
+        # stages, review aliases, and grade-band collection slots.
+        guess = set(_infer_subjects(row)) - {"general"}
         loose: dict | None = None
+        registration_id = str(row.get("id") or row.get("aca_asnum") or "")
         for key, brand in seed_keys:
+            if registration_id in set(map(str, brand.get("registration_ids") or [])):
+                if guess and not (guess & set(brand["subjects"])):
+                    return None, False
+                return brand, True
             kind = neis.matches_brand(row["name"], key)
             if not kind:
                 continue
@@ -187,6 +196,11 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
         if brand and certain:
             matched += 1
             row["brand"] = brand["name"]
+            row["collection_priority"] = int(brand.get("collection_priority") or 0)
+            display_names = brand.get("display_names") or {}
+            display_name = display_names.get(str(row.get("id") or row.get("aca_asnum")))
+            if display_name:
+                row["display_name"] = display_name
             row["aliases"] = brand.get("aliases", [])
             row["stages"] = brand["stages"]
             # 큐레이션으로 붙은 것임을 남긴다. 수집 대상 선정에서
@@ -1093,6 +1107,7 @@ def select_for_mentions(academies: list[dict],
                 #   수집이 안 될 수 있다 — 최소 한 번은 본다. 한 번 본
                 #   뒤에는 다른 시드와 똑같이 경쟁한다.
                 0 if (a.get("curated_stages") and a["id"] not in hist) else 1,
+                -int(a.get("collection_priority") or 0),
                 *coverage.priority_bonus(a, hist, gaps),
                 # 최근 REFRESH_DAYS 안에 본 곳은 뒤로. 아직 안 본 곳이 먼저다.
                 1 if _recent(a) else 0,
@@ -2106,7 +2121,8 @@ def assign_display_names(rows: list[dict]) -> dict[str, int]:
     """
     from collections import Counter, defaultdict
 
-    base = {r["id"]: (r.get("name") or "").strip() for r in rows}
+    base = {r["id"]: (r.get("display_name") or r.get("name") or "").strip()
+            for r in rows}
 
     # ★ 이름이 겹치지 않아도 헷갈리는 경우가 있다.
     #   '시매쓰학원'(서초 방배점) 과 '반포시매쓰학원'(서초 반포점) 은 서로

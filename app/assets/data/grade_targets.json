@@ -4,18 +4,18 @@
  "total": 5344,
  "statuses": {
   "registered_courses": 908,
-  "unknown": 4330,
-  "curated_stages": 32,
+  "unknown": 4310,
+  "curated_stages": 56,
   "directory_guidance": 12,
   "official_guidance": 41,
-  "review_mentions": 21
+  "review_mentions": 17
  },
  "bandBasisCounts": {
-  "registered": 2236,
-  "curated": 62,
-  "reviews": 55,
+  "registered": 2239,
+  "curated": 145,
+  "reviews": 45,
   "directory": 33,
-  "official": 97
+  "official": 104
  },
  "rows": [
   {
@@ -140,88 +140,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000056107",
-   "name": "비브이(BV)수능영어교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 남부순환로 2927",
-   "evidence": [
-    {
-     "registrationId": "3000056107",
-     "field": "name",
-     "text": "비브이(BV)수능영어교습소",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000056107",
-     "field": "le_crse_list_nm",
-     "text": "수능영어A",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000056107",
-     "field": "course_names",
-     "text": "수능영어A",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000056107",
-     "field": "course_names",
-     "text": "수능영어B",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "high"
-   ],
-   "bySubject": {
-    "english": [
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "english": {
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "22530",
    "name": "감성예찬미술교습소",
    "regionId": "daechi",
@@ -238,78 +156,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "28018",
-   "name": "원리과학교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 역삼로 306",
-   "evidence": [
-    {
-     "registrationId": "28018",
-     "field": "le_crse_list_nm",
-     "text": "중등과학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "science"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "28018",
-     "field": "course_names",
-     "text": "중등과학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "science"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "28018",
-     "field": "course_names",
-     "text": "고등과학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "science"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "science": [
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "science": {
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -1245,6 +1091,51 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000011243",
+   "name": "대치동강란진학상담지도교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 도곡로 405",
+   "evidence": [
+    {
+     "registrationId": "3000011243",
+     "field": "le_crse_list_nm",
+     "text": "입시상담(초등)",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "general": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "general": {
+     "elem_low": "registered",
+     "elem_high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000039492",
    "name": "그림이싱싱해미술교습소",
    "regionId": "daechi",
@@ -1350,51 +1241,6 @@
    "bandBasis": {
     "korean": {
      "middle": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000022341",
-   "name": "김은지한자한문교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 남부순환로 2917",
-   "evidence": [
-    {
-     "registrationId": "3000022341",
-     "field": "le_crse_list_nm",
-     "text": "한자급수(초1~4)",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "bySubject": {
-    "general": [
-     "elem_low",
-     "elem_high"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "elem_low": "registered",
-     "elem_high": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -2237,165 +2083,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000051903",
-   "name": "루트포유(Root4U)수학교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 남부순환로 2749",
-   "evidence": [
-    {
-     "registrationId": "3000051903",
-     "field": "le_crse_list_nm",
-     "text": "초등수학(2)",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "초등수학심화",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "중등수학2",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "중등수학3",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "고등수학1-2",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "고등수학1-3",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "고등수학2-2",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000051903",
-     "field": "course_names",
-     "text": "고등수학2-3",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000037049",
    "name": "리드인독서국어교습소",
    "regionId": "daechi",
@@ -2920,49 +2607,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000056194",
-   "name": "피앤피(P&P)김재정수능국어교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 선릉로 340",
-   "evidence": [
-    {
-     "registrationId": "3000056194",
-     "field": "name",
-     "text": "피앤피(P&P)김재정수능국어교습소",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "high"
-   ],
-   "bySubject": {
-    "korean": [
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "korean": {
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000026912",
    "name": "아테나논술교습소",
    "regionId": "daechi",
@@ -3081,76 +2725,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "24808",
-   "name": "안세라영어교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 삼성로61길 30",
-   "evidence": [
-    {
-     "registrationId": "24808",
-     "field": "course_names",
-     "text": "고등수능영어",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "24808",
-     "field": "course_names",
-     "text": "중등문법반",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "24808",
-     "field": "course_names",
-     "text": "수능영어",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "english": [
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "english": {
-     "high": "registered",
-     "middle": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "30807",
    "name": "알(AL)과학교습소",
    "regionId": "daechi",
@@ -3250,51 +2824,6 @@
      "elem_low": "registered",
      "elem_high": "registered",
      "middle": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000040436",
-   "name": "예술과논리논술교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 삼성로63길 48-34",
-   "evidence": [
-    {
-     "registrationId": "3000040436",
-     "field": "course_names",
-     "text": "초등논술",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "bySubject": {
-    "korean": [
-     "elem_low",
-     "elem_high"
-    ]
-   },
-   "bandBasis": {
-    "korean": {
-     "elem_low": "registered",
-     "elem_high": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -4078,7 +3607,7 @@
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "elem_low": 25,
+    "elem_low": 24,
     "high": 16,
     "elem_high": 4,
     "middle": 11
@@ -4086,8 +3615,8 @@
    "reviewSignalsBySubject": {
     "math": {
      "elem_low": {
-      "mentions": 25,
-      "authors": 25
+      "mentions": 24,
+      "authors": 24
      },
      "high": {
       "mentions": 16,
@@ -4428,41 +3957,63 @@
    "evidence": [
     {
      "registrationId": "1000035823",
-     "field": "review_mentions",
-     "text": "후기 34건(작성자 34명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "math_hi_nsu",
+     "text": "큐레이션 단계 재수 · N수",
      "bands": [
       "high"
      ],
      "subjects": [
       "math"
      ],
-     "basis": "reviews",
-     "mentions": 34,
-     "authors": 34,
-     "share": 0.89
+     "basis": "curated"
     },
     {
      "registrationId": "1000035823",
-     "field": "review_mentions",
-     "text": "후기 7건(작성자 7명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
      "bands": [
       "high"
      ],
      "subjects": [
       "korean"
      ],
-     "basis": "reviews",
-     "mentions": 7,
-     "authors": 7,
-     "share": 1.0
+     "basis": "curated"
+    },
+    {
+     "registrationId": "1000035823",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "1000035823",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
     }
    ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "review_mentions",
-   "basis": "후기 반복 언급",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
    "bands": [
     "high"
    ],
@@ -4470,39 +4021,50 @@
     "math": [
      "high"
     ],
-    "english": [],
     "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
      "high"
     ]
    },
    "bandBasis": {
     "math": {
-     "high": "reviews"
+     "high": "curated"
     },
     "korean": {
-     "high": "reviews"
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 43,
-    "middle": 6
+    "high": 38,
+    "middle": 5
    },
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 34,
-      "authors": 34
+      "mentions": 28,
+      "authors": 28
      },
      "middle": {
-      "mentions": 4,
-      "authors": 4
+      "mentions": 1,
+      "authors": 1
      }
     },
     "korean": {
      "high": {
-      "mentions": 7,
-      "authors": 7
+      "mentions": 6,
+      "authors": 6
      }
     },
     "english": {
@@ -4511,11 +4073,76 @@
       "authors": 2
      },
      "high": {
+      "mentions": 4,
+      "authors": 4
+     }
+    },
+    "science": {
+     "middle": {
       "mentions": 2,
       "authors": 2
      }
     }
    }
+  },
+  {
+   "academyId": "3000050204",
+   "name": "강남대치관러닝어취브학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 언주로 313",
+   "evidence": [
+    {
+     "registrationId": "3000050204",
+     "field": "curated_stage",
+     "stageId": "kor_mid_deep",
+     "text": "큐레이션 단계 문법 · 문학 심화",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000050204",
+     "field": "curated_stage",
+     "stageId": "kor_hi_naesin",
+     "text": "큐레이션 단계 고등 내신 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "korean": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "middle": "curated",
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
   },
   {
    "academyId": "3000033042",
@@ -4597,17 +4224,43 @@
    "evidence": [
     {
      "registrationId": "3000012367",
-     "field": "review_mentions",
-     "text": "후기 8건(작성자 8명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "math_hi_nsu",
+     "text": "큐레이션 단계 재수 · N수",
      "bands": [
       "high"
      ],
      "subjects": [
       "math"
      ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000012367",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000012367",
+     "field": "review_mentions",
+     "text": "후기 6건(작성자 6명)이 이름 곁에서 이 구간을 말함",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
      "basis": "reviews",
-     "mentions": 8,
-     "authors": 8,
+     "mentions": 6,
+     "authors": 6,
      "share": 1.0
     }
    ],
@@ -4615,8 +4268,8 @@
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "review_mentions",
-   "basis": "후기 반복 언급",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계 + 후기 반복 언급",
    "bands": [
     "high"
    ],
@@ -4624,26 +4277,59 @@
     "math": [
      "high"
     ],
-    "english": []
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": []
    },
    "bandBasis": {
     "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "english": {
      "high": "reviews"
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 9
+    "high": 33,
+    "middle": 4
    },
    "reviewSignalsBySubject": {
-    "math": {
-     "high": {
-      "mentions": 8,
-      "authors": 8
-     }
-    },
     "english": {
      "high": {
+      "mentions": 6,
+      "authors": 6
+     }
+    },
+    "math": {
+     "high": {
+      "mentions": 24,
+      "authors": 24
+     },
+     "middle": {
+      "mentions": 3,
+      "authors": 3
+     }
+    },
+    "science": {
+     "high": {
+      "mentions": 2,
+      "authors": 2
+     }
+    },
+    "korean": {
+     "high": {
+      "mentions": 1,
+      "authors": 1
+     },
+     "middle": {
       "mentions": 1,
       "authors": 1
      }
@@ -4789,7 +4475,7 @@
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
    "reviewSignals": {
-    "elem_low": 71,
+    "elem_low": 70,
     "middle": 8,
     "high": 10,
     "elem_high": 9
@@ -4797,8 +4483,8 @@
    "reviewSignalsBySubject": {
     "english": {
      "elem_low": {
-      "mentions": 71,
-      "authors": 70
+      "mentions": 70,
+      "authors": 69
      },
      "middle": {
       "mentions": 8,
@@ -4986,6 +4672,27 @@
    "bySubject": {
     "general": [],
     "etc": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "28789",
+   "name": "깊은생각256학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 도곡로 501",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -5224,47 +4931,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000019864",
-   "name": "다원중등2관학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 도곡로 521",
-   "evidence": [
-    {
-     "registrationId": "3000019864",
-     "field": "name",
-     "text": "다원중등2관학원",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle"
-   ],
-   "bySubject": {
-    "general": [
-     "middle"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "middle": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -5563,23 +5229,18 @@
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {
-    "high": 81,
-    "middle": 10,
-    "elem_low": 3
+    "high": 1,
+    "middle": 1
    },
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 81,
-      "authors": 74
+      "mentions": 1,
+      "authors": 1
      },
      "middle": {
-      "mentions": 10,
-      "authors": 10
-     },
-     "elem_low": {
-      "mentions": 3,
-      "authors": 3
+      "mentions": 1,
+      "authors": 1
      }
     }
    }
@@ -6733,6 +6394,27 @@
    }
   },
   {
+   "academyId": "3000038647",
+   "name": "대치피엘학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 역삼로 468",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "1000035995",
    "name": "해법수학교실대치학원",
    "regionId": "daechi",
@@ -6996,6 +6678,32 @@
    "evidence": [
     {
      "registrationId": "3000027640",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000027640",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000027640",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -7021,6 +6729,30 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "3000027640",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 대치 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -7030,13 +6762,14 @@
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -7046,7 +6779,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -7155,19 +6889,77 @@
    "name": "미래탐구",
    "regionId": "daechi",
    "address": "서울특별시 강남구 도곡로63길 13",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "4721",
+     "field": "curated_stage",
+     "stageId": "math_el_preview",
+     "text": "큐레이션 단계 중등 선행",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "4721",
+     "field": "curated_stage",
+     "stageId": "math_mid_naesin",
+     "text": "큐레이션 단계 중등 내신",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "4721",
+     "field": "curated_stage",
+     "stageId": "sci_mid_preview",
+     "text": "큐레이션 단계 물화생지 개념 선행",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_high",
+    "middle"
+   ],
    "bySubject": {
-    "general": []
+    "general": [],
+    "math": [
+     "elem_high",
+     "middle"
+    ],
+    "science": [
+     "middle"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_high": "curated",
+     "middle": "curated"
+    },
+    "science": {
+     "middle": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -7264,19 +7056,76 @@
    "name": "미래탐구학원",
    "regionId": "daechi",
    "address": "서울특별시 강남구 도곡로63길 12",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "1000036288",
+     "field": "curated_stage",
+     "stageId": "math_el_preview",
+     "text": "큐레이션 단계 중등 선행",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "1000036288",
+     "field": "curated_stage",
+     "stageId": "math_mid_naesin",
+     "text": "큐레이션 단계 중등 내신",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "1000036288",
+     "field": "curated_stage",
+     "stageId": "sci_mid_preview",
+     "text": "큐레이션 단계 물화생지 개념 선행",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_high",
+    "middle"
+   ],
    "bySubject": {
-    "general": []
+    "math": [
+     "elem_high",
+     "middle"
+    ],
+    "science": [
+     "middle"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_high": "curated",
+     "middle": "curated"
+    },
+    "science": {
+     "middle": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -7492,6 +7341,32 @@
    "evidence": [
     {
      "registrationId": "20218",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "20218",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "20218",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -7517,6 +7392,30 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "20218",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 대치 본관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -7526,13 +7425,14 @@
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -7542,7 +7442,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -7554,19 +7455,175 @@
    "name": "세정학원",
    "regionId": "daechi",
    "address": "서울특별시 강남구 삼성로 306",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "5657",
+     "field": "curated_stage",
+     "stageId": "eng_mid_naesin",
+     "text": "큐레이션 단계 중등 내신 영어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "5657",
+     "field": "curated_stage",
+     "stageId": "eng_hi_naesin",
+     "text": "큐레이션 단계 고등 내신",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "middle",
+    "high"
+   ],
    "bySubject": {
-    "general": []
+    "english": [
+     "middle",
+     "high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "english": {
+     "middle": "curated",
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000039011",
+   "name": "세정대치관",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 삼성로63길 15-3",
+   "evidence": [
+    {
+     "registrationId": "3000039011",
+     "field": "curated_stage",
+     "stageId": "eng_mid_naesin",
+     "text": "큐레이션 단계 중등 내신 영어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000039011",
+     "field": "curated_stage",
+     "stageId": "eng_hi_naesin",
+     "text": "큐레이션 단계 고등 내신",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "middle": "curated",
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "6071",
+   "name": "세정대치관학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 삼성로63길 15-3",
+   "evidence": [
+    {
+     "registrationId": "6071",
+     "field": "curated_stage",
+     "stageId": "eng_mid_naesin",
+     "text": "큐레이션 단계 중등 내신 영어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "6071",
+     "field": "curated_stage",
+     "stageId": "eng_hi_naesin",
+     "text": "큐레이션 단계 고등 내신",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "middle": "curated",
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -7633,6 +7690,106 @@
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "26632",
+   "name": "시대인재신관학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 삼성로51길 11",
+   "evidence": [
+    {
+     "registrationId": "26632",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "26632",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "26632",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "26632",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -8644,7 +8801,7 @@
     "elem_high": 21,
     "high": 37,
     "elem_low": 57,
-    "middle": 35
+    "middle": 34
    },
    "reviewSignalsBySubject": {
     "english": {
@@ -8661,8 +8818,8 @@
       "authors": 50
      },
      "middle": {
-      "mentions": 35,
-      "authors": 33
+      "mentions": 34,
+      "authors": 32
      }
     }
    }
@@ -8880,151 +9037,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000041868",
-   "name": "류다현",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 77",
-   "evidence": [
-    {
-     "registrationId": "3000041868",
-     "field": "le_crse_list_nm",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000041868",
-     "field": "course_names",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000041868",
-     "field": "course_names",
-     "text": "중등수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000041868",
-     "field": "course_names",
-     "text": "고등수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000050137",
-     "field": "name",
-     "text": "류다현고등관수학교습소",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000050137",
-     "field": "le_crse_list_nm",
-     "text": "고등수학1",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000050137",
-     "field": "course_names",
-     "text": "고등수학1",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000050137",
-     "field": "course_names",
-     "text": "고등수학2",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -9256,99 +9268,6 @@
    },
    "bandBasis": {
     "science": {
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000040115",
-   "name": "뿌리깊은심화수학교습소",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 77",
-   "evidence": [
-    {
-     "registrationId": "3000040115",
-     "field": "le_crse_list_nm",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000040115",
-     "field": "course_names",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000040115",
-     "field": "course_names",
-     "text": "중등수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000040115",
-     "field": "course_names",
-     "text": "고등수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
      "middle": "registered",
      "high": "registered"
     }
@@ -9854,169 +9773,6 @@
     "korean": {
      "middle": "registered",
      "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000037852",
-   "name": "최수능국어교습소",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 77",
-   "evidence": [
-    {
-     "registrationId": "3000037852",
-     "field": "name",
-     "text": "최수능국어교습소",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "le_crse_list_nm",
-     "text": "중등국어1",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "중등국어1",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "고등국어1",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "중등국어",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "고등국어",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "중등국어2",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "고등국어2",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "중등국어3",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000037852",
-     "field": "course_names",
-     "text": "고등국어3",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "korean": [
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "korean": {
-     "high": "registered",
-     "middle": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -10857,7 +10613,7 @@
     {
      "registrationId": "13544",
      "field": "review_mentions",
-     "text": "후기 27건(작성자 17명)이 이름 곁에서 이 구간을 말함",
+     "text": "후기 26건(작성자 16명)이 이름 곁에서 이 구간을 말함",
      "bands": [
       "middle"
      ],
@@ -10865,8 +10621,8 @@
       "english"
      ],
      "basis": "reviews",
-     "mentions": 27,
-     "authors": 17,
+     "mentions": 26,
+     "authors": 16,
      "share": 0.31
     },
     {
@@ -10882,7 +10638,7 @@
      "basis": "reviews",
      "mentions": 35,
      "authors": 29,
-     "share": 0.41
+     "share": 0.42
     }
    ],
    "heldCourseSignals": [
@@ -10940,24 +10696,24 @@
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "middle": 27,
+    "middle": 26,
     "elem_high": 11,
-    "elem_low": 13,
+    "elem_low": 12,
     "high": 35
    },
    "reviewSignalsBySubject": {
     "english": {
      "middle": {
-      "mentions": 27,
-      "authors": 17
+      "mentions": 26,
+      "authors": 16
      },
      "elem_high": {
       "mentions": 11,
       "authors": 11
      },
      "elem_low": {
-      "mentions": 13,
-      "authors": 12
+      "mentions": 12,
+      "authors": 11
      },
      "high": {
       "mentions": 35,
@@ -10971,19 +10727,68 @@
    "name": "씨엠에스학원",
    "regionId": "mokdong",
    "address": "서울특별시 양천구 목동서로 349",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "21818",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "21818",
+     "field": "curated_stage",
+     "stageId": "sci_el_lab",
+     "text": "큐레이션 단계 실험 · 탐구",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
    "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ],
+    "science": [
+     "elem_low",
+     "elem_high"
+    ],
     "general": []
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    },
+    "science": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -11586,6 +11391,53 @@
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000050612",
+   "name": "목동소마센터학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 67",
+   "evidence": [
+    {
+     "registrationId": "3000050612",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -12241,47 +12093,19 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "29565",
-   "name": "제니스영어교습소",
+   "academyId": "3000020903",
+   "name": "백인대장고3관학원",
    "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 57",
+   "address": "서울특별시 양천구 목동동로 393",
    "evidence": [
     {
-     "registrationId": "29565",
-     "field": "course_names",
-     "text": "중등영어",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "29565",
-     "field": "course_names",
-     "text": "고등영어b",
+     "registrationId": "3000020903",
+     "field": "name",
+     "text": "백인대장고3관학원",
      "bands": [
       "high"
      ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "29565",
-     "field": "course_names",
-     "text": "중등영어1",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "english"
-     ],
+     "subjects": [],
      "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
      "basis": "registered"
     }
@@ -12293,18 +12117,15 @@
    "status": "registered_courses",
    "basis": "교육청 등록명·교습과정",
    "bands": [
-    "middle",
     "high"
    ],
    "bySubject": {
-    "english": [
-     "middle",
+    "general": [
      "high"
     ]
    },
    "bandBasis": {
-    "english": {
-     "middle": "registered",
+    "general": {
      "high": "registered"
     }
    },
@@ -12609,6 +12430,77 @@
      "elem_high": "registered",
      "middle": "registered",
      "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "2000007976",
+   "name": "한사랑논술교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 400",
+   "evidence": [
+    {
+     "registrationId": "2000007976",
+     "field": "le_crse_list_nm",
+     "text": "초등논술",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "2000007976",
+     "field": "course_names",
+     "text": "초등논술",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "2000007976",
+     "field": "course_names",
+     "text": "중등논술",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle"
+   ],
+   "bySubject": {
+    "korean": [
+     "elem_low",
+     "elem_high",
+     "middle"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -13834,6 +13726,32 @@
    "evidence": [
     {
      "registrationId": "3000048214",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000048214",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000048214",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -13859,6 +13777,30 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "3000048214",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 목동 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -13868,13 +13810,14 @@
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -13884,7 +13827,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -15397,6 +15341,34 @@
      "subjects": [],
      "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
      "basis": "registered"
+    },
+    {
+     "registrationId": "10654",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "10654",
+     "field": "curated_stage",
+     "stageId": "sci_el_lab",
+     "text": "큐레이션 단계 실험 · 탐구",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
     }
    ],
    "heldCourseSignals": [],
@@ -15404,26 +15376,87 @@
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
+   "basis": "교육청 등록명·교습과정 + 브랜드 큐레이션 단계",
    "bands": [
+    "elem_low",
+    "elem_high",
     "middle"
    ],
    "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle"
+    ],
+    "science": [
+     "elem_low",
+     "elem_high",
+     "middle"
+    ],
     "general": [
      "middle"
     ]
    },
    "bandBasis": {
+    "math": {
+     "middle": "registered",
+     "elem_low": "curated",
+     "elem_high": "curated"
+    },
+    "science": {
+     "middle": "registered",
+     "elem_low": "curated",
+     "elem_high": "curated"
+    },
     "general": {
      "middle": "registered"
     }
    },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 1,
-    "middle": 1
+    "elem_low": 7,
+    "elem_high": 15,
+    "middle": 7,
+    "high": 5
    },
-   "reviewSignalsBySubject": {}
+   "reviewSignalsBySubject": {
+    "science": {
+     "elem_low": {
+      "mentions": 1,
+      "authors": 1
+     },
+     "elem_high": {
+      "mentions": 6,
+      "authors": 6
+     },
+     "middle": {
+      "mentions": 4,
+      "authors": 4
+     },
+     "high": {
+      "mentions": 1,
+      "authors": 1
+     }
+    },
+    "math": {
+     "elem_low": {
+      "mentions": 6,
+      "authors": 6
+     },
+     "elem_high": {
+      "mentions": 9,
+      "authors": 9
+     },
+     "high": {
+      "mentions": 4,
+      "authors": 4
+     },
+     "middle": {
+      "mentions": 3,
+      "authors": 3
+     }
+    }
+   }
   },
   {
    "academyId": "1000034697",
@@ -16483,211 +16516,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000028601",
-   "name": "송쌤의수학상승함수학교습소",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 신목로7길 5",
-   "evidence": [
-    {
-     "registrationId": "3000028601",
-     "field": "le_crse_list_nm",
-     "text": "초등문제풀이",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "초등문제풀이",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "중등문제풀이",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "고등문제풀이",
-     "bands": [
-      "high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "초등기초독해수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "초등교과독해수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "초등심화독해수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "중등기초독해수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "중등교과독해수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "중등심화독해수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "고등기초독해수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "고등교과독해수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000028601",
-     "field": "course_names",
-     "text": "고등심화독해수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "28543",
    "name": "송음악교습소",
    "regionId": "mokdong",
@@ -16725,165 +16553,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "25608",
-   "name": "플랫폼수학교습소",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 신정로 293",
-   "evidence": [
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "초등수학A",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "초등수학B",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "중등수학A",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "중등수학B",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "초등 E",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "초등 F",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "초등 G",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "중등 A",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "중등 B",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "25608",
-     "field": "course_names",
-     "text": "중등 C",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -18283,7 +17952,7 @@
     {
      "registrationId": "3000041168",
      "field": "review_mentions",
-     "text": "후기 5건(작성자 5명)이 이름 곁에서 이 구간을 말함",
+     "text": "후기 4건(작성자 4명)이 이름 곁에서 이 구간을 말함",
      "bands": [
       "middle"
      ],
@@ -18291,14 +17960,14 @@
       "math"
      ],
      "basis": "reviews",
-     "mentions": 5,
-     "authors": 5,
-     "share": 0.28
+     "mentions": 4,
+     "authors": 4,
+     "share": 0.25
     },
     {
      "registrationId": "3000041168",
      "field": "review_mentions",
-     "text": "후기 9건(작성자 9명)이 이름 곁에서 이 구간을 말함",
+     "text": "후기 8건(작성자 8명)이 이름 곁에서 이 구간을 말함",
      "bands": [
       "high"
      ],
@@ -18306,8 +17975,8 @@
       "math"
      ],
      "basis": "reviews",
-     "mentions": 9,
-     "authors": 9,
+     "mentions": 8,
+     "authors": 8,
      "share": 0.5
     },
     {
@@ -18356,20 +18025,20 @@
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 9,
-    "middle": 9,
+    "high": 8,
+    "middle": 8,
     "elem_high": 4,
     "elem_low": 2
    },
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 9,
-      "authors": 9
+      "mentions": 8,
+      "authors": 8
      },
      "middle": {
-      "mentions": 5,
-      "authors": 5
+      "mentions": 4,
+      "authors": 4
      },
      "elem_high": {
       "mentions": 2,
@@ -18598,6 +18267,47 @@
     "english": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000028825",
+   "name": "다원교육고등학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 63",
+   "evidence": [
+    {
+     "registrationId": "3000028825",
+     "field": "name",
+     "text": "다원교육고등학원",
+     "bands": [
+      "high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "general": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "general": {
+     "high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -18859,6 +18569,60 @@
       "math"
      ],
      "basis": "curated"
+    },
+    {
+     "registrationId": "3000023780",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023780",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023780",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023780",
+     "field": "review_mentions",
+     "text": "후기 8건(작성자 8명)이 이름 곁에서 이 구간을 말함",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "reviews",
+     "mentions": 8,
+     "authors": 8,
+     "share": 0.36
     }
    ],
    "heldCourseSignals": [],
@@ -18866,35 +18630,81 @@
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "curated_stages",
-   "basis": "브랜드 큐레이션 단계",
+   "basis": "브랜드 큐레이션 단계 + 후기 반복 언급",
    "bands": [
+    "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "middle",
+     "high"
+    ],
+    "science": [
      "high"
     ]
    },
    "bandBasis": {
     "math": {
      "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated",
+     "middle": "reviews"
+    },
+    "science": {
+     "high": "curated"
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 69,
-    "middle": 15
+    "high": 54,
+    "middle": 11
    },
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 69,
-      "authors": 62
+      "mentions": 33,
+      "authors": 29
      },
      "middle": {
-      "mentions": 15,
-      "authors": 15
+      "mentions": 2,
+      "authors": 2
+     }
+    },
+    "english": {
+     "high": {
+      "mentions": 14,
+      "authors": 14
+     },
+     "middle": {
+      "mentions": 8,
+      "authors": 8
+     }
+    },
+    "korean": {
+     "high": {
+      "mentions": 6,
+      "authors": 3
+     }
+    },
+    "science": {
+     "middle": {
+      "mentions": 1,
+      "authors": 1
+     },
+     "high": {
+      "mentions": 1,
+      "authors": 1
      }
     }
    }
@@ -18996,49 +18806,6 @@
    "bandBasis": {
     "general": {
      "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000030610",
-   "name": "준과학프리미엄중등학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 61",
-   "evidence": [
-    {
-     "registrationId": "3000030610",
-     "field": "name",
-     "text": "준과학프리미엄중등학원",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "science"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle"
-   ],
-   "bySubject": {
-    "science": [
-     "middle"
-    ]
-   },
-   "bandBasis": {
-    "science": {
-     "middle": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -19394,7 +19161,7 @@
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
    "reviewSignals": {
-    "elem_low": 12,
+    "elem_low": 11,
     "middle": 18,
     "high": 38,
     "elem_high": 20
@@ -19402,8 +19169,8 @@
    "reviewSignalsBySubject": {
     "english": {
      "elem_low": {
-      "mentions": 12,
-      "authors": 12
+      "mentions": 11,
+      "authors": 11
      },
      "middle": {
       "mentions": 18,
@@ -19581,6 +19348,53 @@
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000028689",
+   "name": "목동본원소마센터학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 258",
+   "evidence": [
+    {
+     "registrationId": "3000028689",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -19814,61 +19628,71 @@
    "evidence": [
     {
      "registrationId": "3000036526",
-     "field": "review_mentions",
-     "text": "후기 30건(작성자 30명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
      "bands": [
       "high"
      ],
      "subjects": [
       "math"
      ],
-     "basis": "reviews",
-     "mentions": 30,
-     "authors": 30,
-     "share": 0.68
+     "basis": "curated"
     },
     {
      "registrationId": "3000036526",
-     "field": "review_mentions",
-     "text": "후기 3건(작성자 3명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
      "bands": [
       "high"
      ],
      "subjects": [
-      "english"
+      "korean"
      ],
-     "basis": "reviews",
-     "mentions": 3,
-     "authors": 3,
-     "share": 0.75
+     "basis": "curated"
     },
     {
      "registrationId": "3000036526",
-     "field": "review_mentions",
-     "text": "후기 3건(작성자 3명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
      "bands": [
       "high"
      ],
      "subjects": [
       "science"
      ],
-     "basis": "reviews",
-     "mentions": 3,
-     "authors": 3,
-     "share": 0.75
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000036526",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
     }
    ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "review_mentions",
-   "basis": "후기 반복 언급",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
    "bands": [
     "high"
    ],
    "bySubject": {
     "math": [
+     "high"
+    ],
+    "korean": [
      "high"
     ],
     "english": [
@@ -19880,18 +19704,21 @@
    },
    "bandBasis": {
     "math": {
-     "high": "reviews"
+     "high": "curated"
     },
-    "english": {
-     "high": "reviews"
+    "korean": {
+     "high": "curated"
     },
     "science": {
-     "high": "reviews"
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 36,
+    "high": 38,
     "middle": 11,
     "elem_high": 4,
     "elem_low": 1
@@ -19899,12 +19726,12 @@
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 30,
-      "authors": 30
+      "mentions": 26,
+      "authors": 26
      },
      "middle": {
-      "mentions": 9,
-      "authors": 9
+      "mentions": 8,
+      "authors": 8
      },
      "elem_high": {
       "mentions": 4,
@@ -19921,8 +19748,14 @@
       "authors": 3
      },
      "middle": {
-      "mentions": 1,
-      "authors": 1
+      "mentions": 2,
+      "authors": 2
+     }
+    },
+    "korean": {
+     "high": {
+      "mentions": 6,
+      "authors": 6
      }
     },
     "science": {
@@ -19942,20 +19775,68 @@
    "name": "씨엠에스보습학원",
    "regionId": "mokdong",
    "address": "서울특별시 양천구 목동서로 133",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "18037",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "18037",
+     "field": "curated_stage",
+     "stageId": "sci_el_lab",
+     "text": "큐레이션 단계 실험 · 탐구",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
    "bySubject": {
-    "general": [],
-    "math": []
+    "math": [
+     "elem_low",
+     "elem_high"
+    ],
+    "science": [
+     "elem_low",
+     "elem_high"
+    ],
+    "general": []
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    },
+    "science": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -19975,27 +19856,6 @@
    "bySubject": {
     "etc": [],
     "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000034026",
-   "name": "목동종로입시학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 오목로 282",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -20082,6 +19942,45 @@
      "subjects": [],
      "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
      "basis": "registered"
+    },
+    {
+     "registrationId": "22253",
+     "field": "curated_stage",
+     "stageId": "math_el_preview",
+     "text": "큐레이션 단계 중등 선행",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "22253",
+     "field": "curated_stage",
+     "stageId": "math_mid_naesin",
+     "text": "큐레이션 단계 중등 내신",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "22253",
+     "field": "curated_stage",
+     "stageId": "sci_mid_preview",
+     "text": "큐레이션 단계 물화생지 개념 선행",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
     }
    ],
    "heldCourseSignals": [
@@ -20096,15 +19995,23 @@
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
+   "basis": "교육청 등록명·교습과정 + 브랜드 큐레이션 단계",
    "bands": [
+    "elem_high",
+    "middle",
     "high"
    ],
    "bySubject": {
     "english": [
      "high"
     ],
-    "general": [
+    "math": [
+     "elem_high",
+     "middle",
+     "high"
+    ],
+    "science": [
+     "middle",
      "high"
     ]
    },
@@ -20112,11 +20019,17 @@
     "english": {
      "high": "registered"
     },
-    "general": {
-     "high": "registered"
+    "math": {
+     "high": "registered",
+     "elem_high": "curated",
+     "middle": "curated"
+    },
+    "science": {
+     "high": "registered",
+     "middle": "curated"
     }
    },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -20191,6 +20104,32 @@
    "evidence": [
     {
      "registrationId": "3000035580",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000035580",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000035580",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -20216,6 +20155,30 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "3000035580",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 목동 본관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -20225,13 +20188,14 @@
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -20241,7 +20205,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -20376,6 +20341,27 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000015551",
+   "name": "최상아카데미학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 신목로 84",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "1000034620",
    "name": "쏠수학학원",
    "regionId": "mokdong",
@@ -20464,6 +20450,27 @@
    "name": "아이캔학원",
    "regionId": "mokdong",
    "address": "서울특별시 양천구 등촌로 218",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "11905",
+   "name": "알바트로스학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동동로8길 3",
    "evidence": [],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
@@ -20651,7 +20658,7 @@
    "reviewSignals": {
     "elem_low": 57,
     "high": 19,
-    "elem_high": 9,
+    "elem_high": 8,
     "middle": 5
    },
    "reviewSignalsBySubject": {
@@ -20665,8 +20672,8 @@
       "authors": 19
      },
      "elem_high": {
-      "mentions": 9,
-      "authors": 9
+      "mentions": 8,
+      "authors": 8
      },
      "middle": {
       "mentions": 5,
@@ -21319,6 +21326,32 @@
    "evidence": [
     {
      "registrationId": "3000036651",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000036651",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000036651",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -21344,24 +21377,47 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "3000036651",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 서초 3관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
-   "unverifiedPreviousBands": [
-    "elem_low"
-   ],
+   "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -21371,7 +21427,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -21427,22 +21484,8 @@
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
-   "reviewSignals": {
-    "high": 39,
-    "middle": 7
-   },
-   "reviewSignalsBySubject": {
-    "math": {
-     "high": {
-      "mentions": 39,
-      "authors": 39
-     },
-     "middle": {
-      "mentions": 7,
-      "authors": 7
-     }
-    }
-   }
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
   },
   {
    "academyId": "3000024699",
@@ -22565,7 +22608,6 @@
    "reviewSignals": {
     "elem_low": 15,
     "high": 3,
-    "elem_high": 1,
     "middle": 2
    },
    "reviewSignalsBySubject": {
@@ -22577,10 +22619,6 @@
      "high": {
       "mentions": 3,
       "authors": 3
-     },
-     "elem_high": {
-      "mentions": 1,
-      "authors": 1
      },
      "middle": {
       "mentions": 2,
@@ -22729,19 +22767,98 @@
    "name": "시대인재반포센터해냄관",
    "regionId": "banpo",
    "address": "서울특별시 서초구 신반포로 165",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "24150",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "24150",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "24150",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "24150",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "high"
+   ],
    "bySubject": {
-    "general": []
+    "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -23093,6 +23210,51 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000048112",
+   "name": "뉴파인강남초등관학원",
+   "regionId": "banpo",
+   "address": "서울특별시 서초구 사임당로 158",
+   "evidence": [
+    {
+     "registrationId": "3000048112",
+     "field": "name",
+     "text": "뉴파인강남초등관학원",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "general": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "general": {
+     "elem_low": "registered",
+     "elem_high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000034055",
    "name": "그림아트스튜디오잠원미술교습소",
    "regionId": "banpo",
@@ -23263,21 +23425,117 @@
    "name": "시대인재반포센터",
    "regionId": "banpo",
    "address": "서울특별시 서초구 반포대로 287",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "3000023736",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023736",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023736",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023736",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "high"
+   ],
    "bySubject": {
-    "general": []
+    "general": [],
+    "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
+   "bandBasis": {
+    "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {
+    "high": 1,
+    "middle": 1
+   },
+   "reviewSignalsBySubject": {
+    "english": {
+     "high": {
+      "mentions": 1,
+      "authors": 1
+     }
+    },
+    "math": {
+     "middle": {
+      "mentions": 1,
+      "authors": 1
+     }
+    }
+   }
   },
   {
    "academyId": "3000041594",
@@ -25384,32 +25642,8 @@
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-   "reviewSignals": {
-    "elem_low": 29,
-    "high": 13,
-    "middle": 4,
-    "elem_high": 1
-   },
-   "reviewSignalsBySubject": {
-    "math": {
-     "elem_low": {
-      "mentions": 29,
-      "authors": 26
-     },
-     "high": {
-      "mentions": 13,
-      "authors": 13
-     },
-     "middle": {
-      "mentions": 4,
-      "authors": 4
-     },
-     "elem_high": {
-      "mentions": 1,
-      "authors": 1
-     }
-    }
-   }
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
   },
   {
    "academyId": "3000053036",
@@ -26035,15 +26269,15 @@
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
    "reviewSignals": {
-    "elem_low": 7,
+    "elem_low": 6,
     "high": 2,
     "elem_high": 1
    },
    "reviewSignalsBySubject": {
     "math": {
      "elem_low": {
-      "mentions": 7,
-      "authors": 7
+      "mentions": 6,
+      "authors": 6
      },
      "high": {
       "mentions": 2,
@@ -26981,6 +27215,27 @@
    }
   },
   {
+   "academyId": "3000038366",
+   "name": "서초학원3관학원",
+   "regionId": "banpo",
+   "address": "서울특별시 서초구 서초중앙로33길 9",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000039400",
    "name": "우승희영어학원",
    "regionId": "banpo",
@@ -27160,6 +27415,32 @@
    "evidence": [
     {
      "registrationId": "3000029897",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000029897",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000029897",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -27188,18 +27469,27 @@
     },
     {
      "registrationId": "3000029897",
-     "field": "review_mentions",
-     "text": "후기 3건(작성자 3명)이 이름 곁에서 이 구간을 말함",
-     "bands": [
-      "elem_low"
-     ],
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
      "subjects": [
       "math"
      ],
-     "basis": "reviews",
-     "mentions": 3,
-     "authors": 3,
-     "share": 0.5
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 서초 본관·2관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -27207,7 +27497,7 @@
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "official_guidance",
-   "basis": "공식 모집 안내 + 후기 반복 언급",
+   "basis": "공식 모집 안내",
    "bands": [
     "elem_low",
     "elem_high",
@@ -27215,7 +27505,6 @@
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
      "elem_low",
      "elem_high",
@@ -27228,28 +27517,33 @@
      "elem_high": "official",
      "middle": "official",
      "high": "official",
-     "elem_low": "reviews"
+     "elem_low": "official"
     }
    },
-   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
    "reviewSignals": {
-    "elem_low": 3,
-    "high": 1,
-    "elem_high": 2
+    "elem_low": 24,
+    "high": 5,
+    "middle": 3,
+    "elem_high": 5
    },
    "reviewSignalsBySubject": {
     "math": {
      "elem_low": {
+      "mentions": 24,
+      "authors": 24
+     },
+     "high": {
+      "mentions": 5,
+      "authors": 5
+     },
+     "middle": {
       "mentions": 3,
       "authors": 3
      },
-     "high": {
-      "mentions": 1,
-      "authors": 1
-     },
      "elem_high": {
-      "mentions": 2,
-      "authors": 2
+      "mentions": 5,
+      "authors": 5
      }
     }
    }
@@ -27653,6 +27947,27 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "20219",
+   "name": "반포세정스카이관학원",
+   "regionId": "banpo",
+   "address": "서울특별시 서초구 반포대로 306",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "4531",
    "name": "반포시매쓰학원",
    "regionId": "banpo",
@@ -27984,6 +28299,32 @@
    "evidence": [
     {
      "registrationId": "3000040159",
+     "field": "curated_stage",
+     "stageId": "math_el_competition",
+     "text": "큐레이션 단계 경시 · 심화",
+     "bands": [
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000040159",
+     "field": "curated_stage",
+     "stageId": "math_mid_kmo",
+     "text": "큐레이션 단계 심화 · KMO",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000040159",
      "field": "web_grade_guidance",
      "text": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
      "subjects": [
@@ -28009,6 +28350,30 @@
      "checkedAt": "2026-09-24",
      "reviewBy": "2026-12-23",
      "basis": "official"
+    },
+    {
+     "registrationId": "3000040159",
+     "field": "admission_eligibility",
+     "text": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+     "subjects": [
+      "math"
+     ],
+     "bands": [
+      "elem_low"
+     ],
+     "bySubject": {
+      "math": [
+       "elem_low"
+      ]
+     },
+     "url": "https://www.thinking-bull.com/student1",
+     "identityUrl": "https://www.thinking-bull.com/branch",
+     "identityText": "교육청 등록번호·주소를 대조한 서초 4관이며, 공식 신입생 모집 안내의 초2·초3 응시 자격을 연결했습니다.",
+     "sourceType": "official",
+     "scope": "branch_admission",
+     "checkedAt": "2026-09-24",
+     "reviewBy": "2026-12-23",
+     "basis": "official"
     }
    ],
    "heldCourseSignals": [],
@@ -28018,13 +28383,14 @@
    "status": "official_guidance",
    "basis": "공식 모집 안내",
    "bands": [
+    "elem_low",
     "elem_high",
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
+     "elem_low",
      "elem_high",
      "middle",
      "high"
@@ -28034,7 +28400,8 @@
     "math": {
      "elem_high": "official",
      "middle": "official",
-     "high": "official"
+     "high": "official",
+     "elem_low": "official"
     }
    },
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
@@ -28625,19 +28992,98 @@
    "name": "시대인재반포센터서초관학원",
    "regionId": "banpo",
    "address": "서울특별시 서초구 효령로 190",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "3000053355",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000053355",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000053355",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000053355",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "high"
+   ],
    "bySubject": {
-    "general": []
+    "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -28667,19 +29113,67 @@
    "name": "씨엠에스(CMS)서초영재관학원",
    "regionId": "banpo",
    "address": "서울특별시 서초구 고무래로 18-4",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "3000028436",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000028436",
+     "field": "curated_stage",
+     "stageId": "sci_el_lab",
+     "text": "큐레이션 단계 실험 · 탐구",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
    "bySubject": {
-    "general": []
+    "math": [
+     "elem_low",
+     "elem_high"
+    ],
+    "science": [
+     "elem_low",
+     "elem_high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    },
+    "science": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -29434,78 +29928,6 @@
     "english": {
      "elem_low": "registered",
      "elem_high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000054631",
-   "name": "영어의정석영어교습소",
-   "regionId": "jamsil",
-   "address": "서울특별시 송파구 올림픽로35길 124",
-   "evidence": [
-    {
-     "registrationId": "3000054631",
-     "field": "le_crse_list_nm",
-     "text": "중등영어(4.2주)(주2회*160분+주1회*130분)",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000054631",
-     "field": "course_names",
-     "text": "중등영어",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000054631",
-     "field": "course_names",
-     "text": "고등영어",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "english"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "english": [
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "english": {
-     "middle": "registered",
-     "high": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -30672,67 +31094,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000022364",
-   "name": "탄탄초등수학교습소",
-   "regionId": "jamsil",
-   "address": "서울특별시 송파구 올림픽로35길 112",
-   "evidence": [
-    {
-     "registrationId": "3000022364",
-     "field": "name",
-     "text": "탄탄초등수학교습소",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000022364",
-     "field": "course_names",
-     "text": "초등수학",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -36564,6 +36925,153 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000023300",
+   "name": "송파메가스터디학원",
+   "regionId": "jamsil",
+   "address": "서울특별시 송파구 오금로 193",
+   "evidence": [
+    {
+     "registrationId": "3000023300",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023300",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023300",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000023300",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "high"
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "high": "curated"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "21527",
+   "name": "송파소마보습학원",
+   "regionId": "jamsil",
+   "address": "서울특별시 송파구 위례성대로12길 7",
+   "evidence": [
+    {
+     "registrationId": "21527",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000028165",
    "name": "송파애니윈만화학원",
    "regionId": "jamsil",
@@ -37557,6 +38065,58 @@
    "address": "서울특별시 강남구 도곡로 460",
    "evidence": [
     {
+     "registrationId": "3000012230",
+     "field": "curated_stage",
+     "stageId": "math_hi_suneung",
+     "text": "큐레이션 단계 수능 수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000012230",
+     "field": "curated_stage",
+     "stageId": "kor_hi_suneung",
+     "text": "큐레이션 단계 수능 국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000012230",
+     "field": "curated_stage",
+     "stageId": "sci_hi_suneung",
+     "text": "큐레이션 단계 수능 과탐 I",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000012230",
+     "field": "curated_stage",
+     "stageId": "eng_hi_suneung",
+     "text": "큐레이션 단계 수능 영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "basis": "curated"
+    },
+    {
      "registrationId": "3000032995",
      "field": "web_grade_guidance",
      "text": "대치 시간표가 고1~3과 예비고1(현 중3)을 구분합니다. 중등 전체 세부 모집 범위와 수학스쿨 반은 추가 확인이 필요합니다.",
@@ -37588,43 +38148,51 @@
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
    "status": "official_guidance",
-   "basis": "공식 모집 안내",
+   "basis": "공식 모집 안내 + 브랜드 큐레이션 단계",
    "bands": [
     "middle",
     "high"
    ],
    "bySubject": {
-    "general": [],
     "math": [
      "middle",
      "high"
-    ]
+    ],
+    "korean": [
+     "high"
+    ],
+    "english": [
+     "high"
+    ],
+    "science": [
+     "high"
+    ],
+    "general": []
    },
    "bandBasis": {
     "math": {
-     "middle": "official",
-     "high": "official"
+     "high": "official",
+     "middle": "official"
+    },
+    "korean": {
+     "high": "curated"
+    },
+    "science": {
+     "high": "curated"
+    },
+    "english": {
+     "high": "curated"
     }
    },
-   "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {
-    "high": 115,
-    "middle": 10,
-    "elem_low": 1
+    "high": 2
    },
    "reviewSignalsBySubject": {
     "math": {
      "high": {
-      "mentions": 115,
-      "authors": 109
-     },
-     "middle": {
-      "mentions": 10,
-      "authors": 10
-     },
-     "elem_low": {
-      "mentions": 1,
-      "authors": 1
+      "mentions": 2,
+      "authors": 2
      }
     }
    }
@@ -37683,6 +38251,62 @@
    "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "14435",
+   "name": "대치소마",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 도곡로 515",
+   "evidence": [
+    {
+     "registrationId": "14435",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
+   "reviewSignals": {
+    "elem_high": 1
+   },
+   "reviewSignalsBySubject": {
+    "math": {
+     "elem_high": {
+      "mentions": 1,
+      "authors": 1
+     }
+    }
+   }
   },
   {
    "academyId": "1000035400",
@@ -37813,8 +38437,7 @@
      "elem_high",
      "middle",
      "high"
-    ],
-    "general": []
+    ]
    },
    "bandBasis": {
     "english": {
@@ -38346,6 +38969,27 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "14206",
+   "name": "길벗보습학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동중앙서로 25",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3002",
    "name": "씨앤씨학원",
    "regionId": "mokdong",
@@ -38613,86 +39257,37 @@
    "evidence": [
     {
      "registrationId": "13871",
-     "field": "review_mentions",
-     "text": "후기 5건(작성자 5명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "eng_mid_naesin",
+     "text": "큐레이션 단계 중등 내신 영어",
      "bands": [
       "middle"
      ],
      "subjects": [
       "english"
      ],
-     "basis": "reviews",
-     "mentions": 5,
-     "authors": 5,
-     "share": 0.33
+     "basis": "curated"
     },
     {
      "registrationId": "13871",
-     "field": "review_mentions",
-     "text": "후기 10건(작성자 10명)이 이름 곁에서 이 구간을 말함",
+     "field": "curated_stage",
+     "stageId": "eng_hi_naesin",
+     "text": "큐레이션 단계 고등 내신",
      "bands": [
       "high"
      ],
      "subjects": [
       "english"
      ],
-     "basis": "reviews",
-     "mentions": 10,
-     "authors": 10,
-     "share": 0.67
-    },
-    {
-     "registrationId": "13871",
-     "field": "review_mentions",
-     "text": "후기 3건(작성자 3명)이 이름 곁에서 이 구간을 말함",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "basis": "reviews",
-     "mentions": 3,
-     "authors": 3,
-     "share": 0.5
-    },
-    {
-     "registrationId": "13871",
-     "field": "review_mentions",
-     "text": "후기 3건(작성자 3명)이 이름 곁에서 이 구간을 말함",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "korean"
-     ],
-     "basis": "reviews",
-     "mentions": 3,
-     "authors": 3,
-     "share": 0.5
-    },
-    {
-     "registrationId": "13871",
-     "field": "review_mentions",
-     "text": "후기 4건(작성자 4명)이 이름 곁에서 이 구간을 말함",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "science"
-     ],
-     "basis": "reviews",
-     "mentions": 4,
-     "authors": 4,
-     "share": 0.8
+     "basis": "curated"
     }
    ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "review_mentions",
-   "basis": "후기 반복 언급",
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
    "bands": [
     "middle",
     "high"
@@ -38701,26 +39296,12 @@
     "english": [
      "middle",
      "high"
-    ],
-    "korean": [
-     "middle",
-     "high"
-    ],
-    "science": [
-     "high"
     ]
    },
    "bandBasis": {
     "english": {
-     "middle": "reviews",
-     "high": "reviews"
-    },
-    "korean": {
-     "middle": "reviews",
-     "high": "reviews"
-    },
-    "science": {
-     "high": "reviews"
+     "middle": "curated",
+     "high": "curated"
     }
    },
    "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
@@ -38731,32 +39312,12 @@
    "reviewSignalsBySubject": {
     "english": {
      "high": {
-      "mentions": 10,
-      "authors": 10
+      "mentions": 17,
+      "authors": 17
      },
      "middle": {
-      "mentions": 5,
-      "authors": 5
-     }
-    },
-    "science": {
-     "middle": {
-      "mentions": 1,
-      "authors": 1
-     },
-     "high": {
-      "mentions": 4,
-      "authors": 4
-     }
-    },
-    "korean": {
-     "middle": {
-      "mentions": 3,
-      "authors": 3
-     },
-     "high": {
-      "mentions": 3,
-      "authors": 3
+      "mentions": 9,
+      "authors": 9
      }
     }
    }
@@ -38766,19 +39327,45 @@
    "name": "서초소마",
    "regionId": "banpo",
    "address": "서울특별시 서초구 고무래로 12",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "22387",
+     "field": "curated_stage",
+     "stageId": "math_el_thinking",
+     "text": "큐레이션 단계 사고력 · 창의수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
    "bySubject": {
-    "general": []
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "math": {
+     "elem_low": "curated",
+     "elem_high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -40354,6 +40941,88 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000056107",
+   "name": "비브이(BV)수능영어교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 남부순환로 2927",
+   "evidence": [
+    {
+     "registrationId": "3000056107",
+     "field": "name",
+     "text": "비브이(BV)수능영어교습소",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000056107",
+     "field": "le_crse_list_nm",
+     "text": "수능영어A",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000056107",
+     "field": "course_names",
+     "text": "수능영어A",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000056107",
+     "field": "course_names",
+     "text": "수능영어B",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "24524",
    "name": "수력발전수학교습소",
    "regionId": "daechi",
@@ -40813,6 +41482,78 @@
     "arts": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "28018",
+   "name": "원리과학교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 역삼로 306",
+   "evidence": [
+    {
+     "registrationId": "28018",
+     "field": "le_crse_list_nm",
+     "text": "중등과학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "28018",
+     "field": "course_names",
+     "text": "중등과학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "28018",
+     "field": "course_names",
+     "text": "고등과학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "science": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "science": {
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -45638,51 +46379,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000011243",
-   "name": "대치동강란진학상담지도교습소",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 도곡로 405",
-   "evidence": [
-    {
-     "registrationId": "3000011243",
-     "field": "le_crse_list_nm",
-     "text": "입시상담(초등)",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "bySubject": {
-    "general": [
-     "elem_low",
-     "elem_high"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "elem_low": "registered",
-     "elem_high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000034129",
    "name": "더코어리딩속독교습소",
    "regionId": "daechi",
@@ -46596,6 +47292,51 @@
     "general": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000022341",
+   "name": "김은지한자한문교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 남부순환로 2917",
+   "evidence": [
+    {
+     "registrationId": "3000022341",
+     "field": "le_crse_list_nm",
+     "text": "한자급수(초1~4)",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "general": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "general": {
+     "elem_low": "registered",
+     "elem_high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -51980,6 +52721,165 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000051903",
+   "name": "루트포유(Root4U)수학교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 남부순환로 2749",
+   "evidence": [
+    {
+     "registrationId": "3000051903",
+     "field": "le_crse_list_nm",
+     "text": "초등수학(2)",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "초등수학심화",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "중등수학2",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "중등수학3",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "고등수학1-2",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "고등수학1-3",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "고등수학2-2",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000051903",
+     "field": "course_names",
+     "text": "고등수학2-3",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000043985",
    "name": "리드인도곡언주독서논술교습소",
    "regionId": "daechi",
@@ -55781,6 +56681,49 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000056194",
+   "name": "피앤피(P&P)김재정수능국어교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 선릉로 340",
+   "evidence": [
+    {
+     "registrationId": "3000056194",
+     "field": "name",
+     "text": "피앤피(P&P)김재정수능국어교습소",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "korean": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000031657",
    "name": "그린섬프리어미술학원",
    "regionId": "daechi",
@@ -56741,6 +57684,76 @@
     "arts": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "24808",
+   "name": "안세라영어교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 삼성로61길 30",
+   "evidence": [
+    {
+     "registrationId": "24808",
+     "field": "course_names",
+     "text": "고등수능영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "24808",
+     "field": "course_names",
+     "text": "중등문법반",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "24808",
+     "field": "course_names",
+     "text": "수능영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "high": "registered",
+     "middle": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -57731,6 +58744,51 @@
     "science": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000040436",
+   "name": "예술과논리논술교습소",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 삼성로63길 48-34",
+   "evidence": [
+    {
+     "registrationId": "3000040436",
+     "field": "course_names",
+     "text": "초등논술",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "korean": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "elem_low": "registered",
+     "elem_high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -62242,27 +63300,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000050204",
-   "name": "강남대치관러닝어취브학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 언주로 313",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000050669",
    "name": "프랩학원",
    "regionId": "daechi",
@@ -62330,19 +63367,57 @@
    "name": "대치학원",
    "regionId": "daechi",
    "address": "서울특별시 강남구 삼성로 347",
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "3000040160",
+     "field": "curated_stage",
+     "stageId": "sci_mid_naesin",
+     "text": "큐레이션 단계 중등 과학 내신",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    },
+    {
+     "registrationId": "3000040160",
+     "field": "curated_stage",
+     "stageId": "sci_hi_naesin",
+     "text": "큐레이션 단계 고등 내신 과학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "basis": "curated"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-09-24",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "curated_stages",
+   "basis": "브랜드 큐레이션 단계",
+   "bands": [
+    "middle",
+    "high"
+   ],
    "bySubject": {
-    "general": []
+    "science": [
+     "middle",
+     "high"
+    ]
    },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "bandBasis": {
+    "science": {
+     "middle": "curated",
+     "high": "curated"
+    }
+   },
+   "caveat": "공시에 없는 학년은 브랜드 단계·후기 반복 언급으로 정했습니다. 현재 개설 반은 학원에 확인해 주세요.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
   },
@@ -63486,27 +64561,6 @@
      "high": "registered"
     }
    },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "28789",
-   "name": "깊은생각256학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 도곡로 501",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -64671,6 +65725,47 @@
     "math": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000019864",
+   "name": "다원중등2관학원",
+   "regionId": "daechi",
+   "address": "서울특별시 강남구 도곡로 521",
+   "evidence": [
+    {
+     "registrationId": "3000019864",
+     "field": "name",
+     "text": "다원중등2관학원",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle"
+   ],
+   "bySubject": {
+    "general": [
+     "middle"
+    ]
+   },
+   "bandBasis": {
+    "general": {
+     "middle": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -70947,27 +72042,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000038647",
-   "name": "대치피엘학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 역삼로 468",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000038235",
    "name": "수학하는부엉이학원",
    "regionId": "daechi",
@@ -76925,48 +77999,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000039011",
-   "name": "세정대치관",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 삼성로63길 15-3",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "6071",
-   "name": "세정대치관학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 삼성로63길 15-3",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000052444",
    "name": "세정입시관학원",
    "regionId": "daechi",
@@ -78122,27 +79154,6 @@
    "name": "시대인재브릿지관학원",
    "regionId": "daechi",
    "address": "서울특별시 강남구 도곡로 503",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "26632",
-   "name": "시대인재신관학원",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 삼성로51길 11",
    "evidence": [],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
@@ -88069,6 +89080,151 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000041868",
+   "name": "류다현",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 77",
+   "evidence": [
+    {
+     "registrationId": "3000041868",
+     "field": "le_crse_list_nm",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000041868",
+     "field": "course_names",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000041868",
+     "field": "course_names",
+     "text": "중등수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000041868",
+     "field": "course_names",
+     "text": "고등수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000050137",
+     "field": "name",
+     "text": "류다현고등관수학교습소",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000050137",
+     "field": "le_crse_list_nm",
+     "text": "고등수학1",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000050137",
+     "field": "course_names",
+     "text": "고등수학1",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000050137",
+     "field": "course_names",
+     "text": "고등수학2",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000032886",
    "name": "리메쓰수학교습소",
    "regionId": "mokdong",
@@ -89525,6 +90681,99 @@
     },
     {
      "registrationId": "24731",
+     "field": "course_names",
+     "text": "고등수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000040115",
+   "name": "뿌리깊은심화수학교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 77",
+   "evidence": [
+    {
+     "registrationId": "3000040115",
+     "field": "le_crse_list_nm",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000040115",
+     "field": "course_names",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000040115",
+     "field": "course_names",
+     "text": "중등수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000040115",
      "field": "course_names",
      "text": "고등수학",
      "bands": [
@@ -94215,6 +95464,169 @@
    "bandBasis": {
     "math": {
      "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000037852",
+   "name": "최수능국어교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 77",
+   "evidence": [
+    {
+     "registrationId": "3000037852",
+     "field": "name",
+     "text": "최수능국어교습소",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "le_crse_list_nm",
+     "text": "중등국어1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "중등국어1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "고등국어1",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "중등국어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "고등국어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "중등국어2",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "고등국어2",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "중등국어3",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000037852",
+     "field": "course_names",
+     "text": "고등국어3",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "korean": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "high": "registered",
+     "middle": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -102551,27 +103963,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000050612",
-   "name": "목동소마센터학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 67",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000026611",
    "name": "목동에이원과학학원",
    "regionId": "mokdong",
@@ -105680,6 +107071,78 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "29565",
+   "name": "제니스영어교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 57",
+   "evidence": [
+    {
+     "registrationId": "29565",
+     "field": "course_names",
+     "text": "중등영어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "29565",
+     "field": "course_names",
+     "text": "고등영어b",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "29565",
+     "field": "course_names",
+     "text": "중등영어1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000021926",
    "name": "조경두영어교습소",
    "regionId": "mokdong",
@@ -107373,47 +108836,6 @@
     "math": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000020903",
-   "name": "백인대장고3관학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동동로 393",
-   "evidence": [
-    {
-     "registrationId": "3000020903",
-     "field": "name",
-     "text": "백인대장고3관학원",
-     "bands": [
-      "high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "high"
-   ],
-   "bySubject": {
-    "general": [
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "high": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -111062,77 +112484,6 @@
     "math": {
      "elem_low": "registered",
      "elem_high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "2000007976",
-   "name": "한사랑논술교습소",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 400",
-   "evidence": [
-    {
-     "registrationId": "2000007976",
-     "field": "le_crse_list_nm",
-     "text": "초등논술",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "2000007976",
-     "field": "course_names",
-     "text": "초등논술",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "2000007976",
-     "field": "course_names",
-     "text": "중등논술",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle"
-   ],
-   "bySubject": {
-    "korean": [
-     "elem_low",
-     "elem_high",
-     "middle"
-    ]
-   },
-   "bandBasis": {
-    "korean": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -137920,6 +139271,211 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000028601",
+   "name": "송쌤의수학상승함수학교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 신목로7길 5",
+   "evidence": [
+    {
+     "registrationId": "3000028601",
+     "field": "le_crse_list_nm",
+     "text": "초등문제풀이",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "초등문제풀이",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "중등문제풀이",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "고등문제풀이",
+     "bands": [
+      "high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "초등기초독해수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "초등교과독해수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "초등심화독해수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "중등기초독해수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "중등교과독해수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "중등심화독해수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "고등기초독해수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "고등교과독해수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000028601",
+     "field": "course_names",
+     "text": "고등심화독해수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000052667",
    "name": "수마일수학교습소",
    "regionId": "mokdong",
@@ -138435,6 +139991,165 @@
     "arts": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "25608",
+   "name": "플랫폼수학교습소",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 신정로 293",
+   "evidence": [
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "초등수학A",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "초등수학B",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "중등수학A",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "중등수학B",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "초등 E",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "초등 F",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "초등 G",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "중등 A",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "중등 B",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "25608",
+     "field": "course_names",
+     "text": "중등 C",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -143963,47 +145678,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000028825",
-   "name": "다원교육고등학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 63",
-   "evidence": [
-    {
-     "registrationId": "3000028825",
-     "field": "name",
-     "text": "다원교육고등학원",
-     "bands": [
-      "high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "high"
-   ],
-   "bySubject": {
-    "general": [
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "21886",
    "name": "목동에듀플렉스보습학원",
    "regionId": "mokdong",
@@ -147203,6 +148877,49 @@
     "general": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000030610",
+   "name": "준과학프리미엄중등학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 목동서로 61",
+   "evidence": [
+    {
+     "registrationId": "3000030610",
+     "field": "name",
+     "text": "준과학프리미엄중등학원",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle"
+   ],
+   "bySubject": {
+    "science": [
+     "middle"
+    ]
+   },
+   "bandBasis": {
+    "science": {
+     "middle": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -150589,27 +152306,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000028689",
-   "name": "목동본원소마센터학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동서로 258",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000051360",
    "name": "미래탐구상담센터학원",
    "regionId": "mokdong",
@@ -151098,6 +152794,27 @@
    "bands": [],
    "bySubject": {
     "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000034026",
+   "name": "목동종로입시학원",
+   "regionId": "mokdong",
+   "address": "서울특별시 양천구 오목로 282",
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -152354,27 +154071,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000015551",
-   "name": "최상아카데미학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 신목로 84",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000053870",
    "name": "큐브플러스에듀학원",
    "regionId": "mokdong",
@@ -152784,27 +154480,6 @@
    "bands": [],
    "bySubject": {
     "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "11905",
-   "name": "알바트로스학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동동로8길 3",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
@@ -157320,51 +158995,6 @@
     "arts": []
    },
    "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "3000048112",
-   "name": "뉴파인강남초등관학원",
-   "regionId": "banpo",
-   "address": "서울특별시 서초구 사임당로 158",
-   "evidence": [
-    {
-     "registrationId": "3000048112",
-     "field": "name",
-     "text": "뉴파인강남초등관학원",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "bySubject": {
-    "general": [
-     "elem_low",
-     "elem_high"
-    ]
-   },
-   "bandBasis": {
-    "general": {
-     "elem_low": "registered",
-     "elem_high": "registered"
-    }
-   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -169700,27 +171330,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000038366",
-   "name": "서초학원3관학원",
-   "regionId": "banpo",
-   "address": "서울특별시 서초구 서초중앙로33길 9",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "17183",
    "name": "깨움학원",
    "regionId": "banpo",
@@ -171821,27 +173430,6 @@
    "name": "반포서래보습학원",
    "regionId": "banpo",
    "address": "서울특별시 서초구 사평대로26길 38",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "20219",
-   "name": "반포세정스카이관학원",
-   "regionId": "banpo",
-   "address": "서울특별시 서초구 반포대로 306",
    "evidence": [],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
@@ -176887,6 +178475,78 @@
    "reviewSignalsBySubject": {}
   },
   {
+   "academyId": "3000054631",
+   "name": "영어의정석영어교습소",
+   "regionId": "jamsil",
+   "address": "서울특별시 송파구 올림픽로35길 124",
+   "evidence": [
+    {
+     "registrationId": "3000054631",
+     "field": "le_crse_list_nm",
+     "text": "중등영어(4.2주)(주2회*160분+주1회*130분)",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000054631",
+     "field": "course_names",
+     "text": "중등영어",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000054631",
+     "field": "course_names",
+     "text": "고등영어",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "english": [
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "english": {
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
    "academyId": "3000038276",
    "name": "윤별미술교습소",
    "regionId": "jamsil",
@@ -178181,6 +179841,67 @@
     "english": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
+   "reviewSignals": {},
+   "reviewSignalsBySubject": {}
+  },
+  {
+   "academyId": "3000022364",
+   "name": "탄탄초등수학교습소",
+   "regionId": "jamsil",
+   "address": "서울특별시 송파구 올림픽로35길 112",
+   "evidence": [
+    {
+     "registrationId": "3000022364",
+     "field": "name",
+     "text": "탄탄초등수학교습소",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000022364",
+     "field": "course_names",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-09-24",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
    "reviewSignals": {},
    "reviewSignalsBySubject": {}
@@ -185768,48 +187489,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "3000023300",
-   "name": "송파메가스터디학원",
-   "regionId": "jamsil",
-   "address": "서울특별시 송파구 오금로 193",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "21527",
-   "name": "송파소마보습학원",
-   "regionId": "jamsil",
-   "address": "서울특별시 송파구 위례성대로12길 7",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000052665",
    "name": "송파스마트정일여학생독학재수학원",
    "regionId": "jamsil",
@@ -187675,27 +189354,6 @@
    "reviewSignalsBySubject": {}
   },
   {
-   "academyId": "14435",
-   "name": "대치소마",
-   "regionId": "daechi",
-   "address": "서울특별시 강남구 도곡로 515",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
    "academyId": "3000037502",
    "name": "책나무대치",
    "regionId": "daechi",
@@ -188217,27 +189875,6 @@
    "bands": [],
    "bySubject": {
     "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",
-   "reviewSignals": {},
-   "reviewSignalsBySubject": {}
-  },
-  {
-   "academyId": "14206",
-   "name": "길벗보습학원",
-   "regionId": "mokdong",
-   "address": "서울특별시 양천구 목동중앙서로 25",
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-09-24",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다.",

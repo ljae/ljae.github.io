@@ -1,0 +1,59 @@
+[
+  {
+    "brand": "생각하는황소",
+    "regionId": "daechi",
+    "topic": "학부모 선호·진입경쟁",
+    "title": "대치 입학시험 지원 경쟁 보도",
+    "summary": "한겨레는 2024년 대치 신입생 시험에 약 1,800명이 지원해 330명을 모집했다고 보도했습니다. 특정 회차·지역의 지원 경쟁 사례이며 전국 합격률이나 전체 학부모 선호도는 아닙니다.",
+    "shortSummary": "2024년 대치 특정 회차: 약 1,800명 지원·330명 모집 보도(전국 합격률 아님).",
+    "url": "https://www.hani.co.kr/arti/society/schooling/1165801.html",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": ["math"],
+    "publishedAt": "2024-11-04",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "brand": "생각하는황소",
+    "topic": "학부모 선호·진입경쟁",
+    "title": "초2 실제 재원 및 입학 정책 보도",
+    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
+    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다.",
+    "url": "https://www.joongang.co.kr/article/25396275",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": ["math"],
+    "publishedAt": "2026-01-08",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "brand": "생각하는황소",
+    "regionId": "daechi",
+    "topic": "학부모 선호·진입경쟁",
+    "title": "수학학원 수요·입학 준비 보도",
+    "summary": "시사저널e는 초2·초3 입학시험을 앞두고 준비 학원을 찾는 수요와 황소의 높은 인기를 보도했습니다. 언론의 현장 취재이며 대표 표본을 뽑은 선호도 조사나 전국 순위는 아닙니다.",
+    "shortSummary": "언론 현장 취재에서 초2·초3 입학 준비 수요와 높은 인기가 언급됐습니다.",
+    "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=412690",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": ["math"],
+    "publishedAt": "2025-06-20",
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  },
+  {
+    "academyIds": ["3000027640"],
+    "topic": "학부모 선호·진입경쟁",
+    "title": "대치 3관 공개 리뷰 집계",
+    "summary": "강남엄마의 대치 3관 페이지에는 확인 당시 리뷰 32건과 추천 24명이 표시됐습니다. 해당 플랫폼의 지점별 공개 집계이며, 브랜드 전체나 재원생 전체를 대표하는 추천율은 아닙니다.",
+    "shortSummary": "대치 3관 페이지: 공개 리뷰 32건·추천 24명(플랫폼 집계).",
+    "url": "https://www.gangmom.kr/institute/65b7af89b83683813731448e",
+    "kind": "review_aggregator",
+    "sourceScope": "branch",
+    "subjects": ["math"],
+    "checkedAt": "2026-09-24",
+    "reviewBy": "2026-12-23"
+  }
+]

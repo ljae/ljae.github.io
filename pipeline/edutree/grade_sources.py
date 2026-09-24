@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 from . import config
 
 SOURCE_FILE = config.DATA_DIR / 'grade_sources.json'
+RESEARCH_FILE = config.DATA_DIR / 'academy_research_sources.json'
 
 
 def load():
@@ -27,7 +28,7 @@ def valid_record(record, today):
             return False
         if record['sourceType'] not in ('official', 'directory'):
             return False
-        if record['scope'] not in ('branch', 'branch_program'):
+        if record['scope'] not in ('branch', 'branch_program', 'branch_admission'):
             return False
         if record.get('reviewStatus') != 'verified':
             return False
@@ -69,13 +70,18 @@ def apply(academies, records=None, today=None, registrations=None):
                 if r['address'] != a.get('road_address') or r['name'] != a.get('name'):
                     continue
                 subjects = set(r['bySubject'])
+                declared = set(a.get('subjects') or []) - {'general'}
+                if declared and not subjects <= declared:
+                    continue
                 if not subjects:
                     continue
                 a['subjects'] = list(dict.fromkeys([*(a.get('subjects') or []), *sorted(subjects)]))
                 for subject in subjects:
                     grade_targets.note_bands(a, subject, r['bySubject'][subject], r['sourceType'])
+                field = ('admission_eligibility' if r['scope'] == 'branch_admission'
+                         else 'web_grade_guidance')
                 item = {
-                    'registrationId': aid, 'field': 'web_grade_guidance',
+                    'registrationId': aid, 'field': field,
                     'text': r['summary'], 'subjects': sorted(subjects),
                     'bands': [b for b in BANDS if any(b in r['bySubject'][s] for s in subjects)],
                     'bySubject': {s: r['bySubject'][s] for s in sorted(subjects)},
@@ -86,26 +92,67 @@ def apply(academies, records=None, today=None, registrations=None):
                 }
                 if item not in target['evidence']:
                     target['evidence'].append(item)
-        if any(e['field'] == 'web_grade_guidance' for e in target['evidence']):
+        if any(e['field'] in ('web_grade_guidance', 'admission_eligibility')
+               for e in target['evidence']):
             grade_targets.sync(a)
 
 
-def source_notes(academies):
+def source_notes(academies, research_records=None):
     """앱의 출처 패널에 학년 배분 근거와 확인일을 함께 공개한다."""
     out = []
     for a in academies:
         target = a.get('grade_target') or {}
         notes = []
         for e in target.get('evidence') or []:
-            if e.get('field') != 'web_grade_guidance':
+            if e.get('field') not in ('web_grade_guidance', 'admission_eligibility'):
                 continue
-            notes.append({'topic': '대상 학년', 'title': '대상 학년 확인 근거',
+            admission = e.get('field') == 'admission_eligibility'
+            notes.append({'topic': '입학·레벨테스트' if admission else '대상 학년',
+                          'title': '저학년 입학 시험 대상' if admission else '대상 학년 확인 근거',
                           'summary': e['text'], 'url': e['url'],
+                          'shortSummary': e['text'] if admission else None,
                           'checkedAt': e['checkedAt'], 'kind': e['sourceType'],
-                          'sourceScope': 'brand' if e['scope'] == 'branch_program' else 'branch',
+                          'sourceScope': ('brand' if e['scope'] == 'branch_program'
+                                          else 'admission' if admission else 'branch'),
                           'subjects': e['subjects']})
         if notes:
             out.append({'academyId': a['id'], 'name': a['name'],
                         'scope': '학원명·등록번호·주소를 대조한 학년 안내',
                         'caveat': target['caveat'], 'notes': notes})
+    research_records = (json.loads(RESEARCH_FILE.read_text(encoding='utf-8'))
+                        if research_records is None and RESEARCH_FILE.exists()
+                        else research_records or [])
+    grouped = {str(row['academyId']): row for row in out}
+    today = date.today()
+    for record in research_records:
+        try:
+            checked = date.fromisoformat(record['checkedAt'])
+            review_by = date.fromisoformat(record['reviewBy'])
+            if not checked <= today <= review_by or (review_by - checked).days > 90:
+                continue
+        except (KeyError, TypeError, ValueError):
+            continue
+        for a in academies:
+            if str(a['id']) in set(map(str, record.get('academyIds') or [])):
+                pass
+            elif (record.get('brand') and a.get('brand') == record['brand']
+                  and (not record.get('regionId') or a.get('region_id') == record['regionId'])):
+                pass
+            else:
+                continue
+            group = grouped.get(str(a['id']))
+            if group is None:
+                group = {'academyId': str(a['id']), 'name': a['name'],
+                         'scope': '공개 후기·언론 자료를 학원 브랜드와 대조',
+                         'caveat': '언론 보도와 공개 후기 집계는 공식 모집 정보나 대표 표본 조사와 구분해 읽어 주세요.',
+                         'notes': []}
+                out.append(group)
+                grouped[str(a['id'])] = group
+            group['notes'].append({k: record[k] for k in (
+                'topic', 'title', 'summary', 'url', 'checkedAt', 'kind',
+                'sourceScope', 'subjects') if k in record})
+            if record.get('publishedAt'):
+                group['notes'][-1]['publishedAt'] = record['publishedAt']
+            if record.get('shortSummary'):
+                group['notes'][-1]['shortSummary'] = record['shortSummary']
     return out

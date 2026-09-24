@@ -44,8 +44,14 @@ class SourceNote {
   bool get isPrimary => kind == 'official' || kind == 'academy_blog';
   String get sourceLabel => kind == 'directory'
       ? '학원 소개 · 주소 대조'
+      : kind == 'media'
+      ? '언론 보도'
+      : kind == 'review_aggregator'
+      ? '공개 후기 집계'
       : sourceScope == 'brand'
       ? '브랜드 공통 안내'
+      : sourceScope == 'admission'
+      ? '공식 입학 안내'
       : kind == 'academy_blog'
       ? '학원 게시글'
       : '공식 안내';
