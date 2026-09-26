@@ -1,0 +1,39 @@
+---
+url_hash: "74ccd1d1a64cf71df6df5cabcef2b559"
+url: https://academy.vavewwea.com/%EC%84%9C%EC%9A%B8-%EC%96%91%EC%B2%9C%EA%B5%AC-%EB%AA%A9%EB%8F%99-%EB%B2%A0%EB%A5%BC%EB%A6%B0%ED%94%BC%EC%95%84%EB%85%B8%EA%B5%90%EC%8A%B5%EC%86%8C-%EA%B5%AD%EC%96%B4%ED%95%99%EC%9B%90%EB%B9%84
+source: naver_web
+title: 베를린피아노교습소 양천구 목동 학원 | 유아·가까운 곳·자습실·비용·소규모
+posted_at: 2026-09-22
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 베를린피아노교습소 양천구 목동 학원 | 유아·가까운 곳·자습실·비용·소규모
+
+원문: https://academy.vavewwea.com/%EC%84%9C%EC%9A%B8-%EC%96%91%EC%B2%9C%EA%B5%AC-%EB%AA%A9%EB%8F%99-%EB%B2%A0%EB%A5%BC%EB%A6%B0%ED%94%BC%EC%95%84%EB%85%B8%EA%B5%90%EC%8A%B5%EC%86%8C-%EA%B5%AD%EC%96%B4%ED%95%99%EC%9B%90%EB%B9%84
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.41 (긍정) · 신뢰도 0.32 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 불명
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/14168|베를린피아노교습소]] — 글이 이 권역을 밝힘 · 감성 +0.41
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
