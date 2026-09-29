@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등학교 3학년 학생이 반포4동 학원가에 위치한 수영장에서 4:1 레슨을 4개월간 수강했습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

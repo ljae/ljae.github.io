@@ -148,6 +148,7 @@
 - [강한영어교습소](academies/3000015686.md) — mokdong
 - [백인대장](academies/3000016023.md) — mokdong
 - [트윈스놀이학원](academies/3000016162.md) — jamsil
+- [종필영어학원](academies/3000016340.md) — mokdong
 - [최상위수학교습소](academies/3000016399.md) — daechi
 - [수학도서관](academies/3000016420.md) — mokdong
 - [안테나미술학원](academies/3000017482.md) — daechi

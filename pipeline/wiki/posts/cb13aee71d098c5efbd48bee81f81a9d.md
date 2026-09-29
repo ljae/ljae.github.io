@@ -24,6 +24,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+초등 2학년부터 중고등생 대상의 영어 학원으로, Reading Trophies 3.2, Vocab, Grammar, Science grade 3, Social Studies grade 3, Novel, Listening 과목을 다룹니다. 위치는 은마사거리이며 일주일간 수강한 정보가 기재되어 있습니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원

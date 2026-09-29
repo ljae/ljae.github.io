@@ -1,50 +1,50 @@
 {
  "mode": "live",
- "generatedAt": "2026-09-29T00:31:03.244735+00:00",
- "evaluatedCount": 2739,
+ "generatedAt": "2026-09-29T23:37:59.521329+00:00",
+ "evaluatedCount": 2806,
  "registryCount": 5351,
- "mentionCount": 85727,
+ "mentionCount": 89169,
  "naverBudget": 400,
  "scoringVersion": "2026-09-19.5",
  "rankingQuality": {
   "version": "2026-09-19.5",
-  "mentions": 85727,
-  "validMentions": 19862,
-  "datedMentions": 2651,
-  "datedShare": 0.1335,
-  "excludedMentions": 65865,
+  "mentions": 89169,
+  "validMentions": 20140,
+  "datedMentions": 2683,
+  "datedShare": 0.1332,
+  "excludedMentions": 69029,
   "exclusionReasons": {
-   "author_burst": 298,
-   "directory_information": 218,
+   "author_burst": 303,
+   "directory_information": 220,
    "marketplace": 51,
-   "near_duplicate": 978,
-   "news": 4363,
-   "promotional": 1541,
-   "question_answer": 5544,
-   "question_only": 2241,
-   "self_promotion": 956,
+   "near_duplicate": 994,
+   "news": 4485,
+   "promotional": 1555,
+   "question_answer": 5578,
+   "question_only": 2265,
+   "self_promotion": 984,
    "sponsored": 36,
-   "web_information": 49639
+   "web_information": 52558
   },
   "sources": {
-   "naver_blog": 2651,
-   "naver_cafe": 17211
+   "naver_blog": 2684,
+   "naver_cafe": 17456
   },
   "cohorts": {
    "banpo:arts": {
-    "evaluated": 169,
-    "withEvidence": 27,
+    "evaluated": 176,
+    "withEvidence": 28,
     "ranked": 2,
     "incomplete": 0
    },
    "banpo:english": {
-    "evaluated": 129,
+    "evaluated": 135,
     "withEvidence": 49,
     "ranked": 20,
-    "incomplete": 101
+    "incomplete": 107
    },
    "banpo:etc": {
-    "evaluated": 51,
+    "evaluated": 52,
     "withEvidence": 24,
     "ranked": 4,
     "incomplete": 0
@@ -56,10 +56,10 @@
     "incomplete": 53
    },
    "banpo:math": {
-    "evaluated": 118,
-    "withEvidence": 51,
+    "evaluated": 124,
+    "withEvidence": 52,
     "ranked": 17,
-    "incomplete": 92
+    "incomplete": 97
    },
    "banpo:science": {
     "evaluated": 31,
@@ -68,16 +68,16 @@
     "incomplete": 30
    },
    "daechi:arts": {
-    "evaluated": 154,
+    "evaluated": 156,
     "withEvidence": 44,
     "ranked": 3,
     "incomplete": 0
    },
    "daechi:english": {
-    "evaluated": 135,
-    "withEvidence": 65,
+    "evaluated": 141,
+    "withEvidence": 70,
     "ranked": 36,
-    "incomplete": 91
+    "incomplete": 95
    },
    "daechi:etc": {
     "evaluated": 48,
@@ -86,22 +86,22 @@
     "incomplete": 0
    },
    "daechi:korean": {
-    "evaluated": 64,
-    "withEvidence": 38,
+    "evaluated": 65,
+    "withEvidence": 39,
     "ranked": 9,
-    "incomplete": 51
+    "incomplete": 52
    },
    "daechi:math": {
-    "evaluated": 168,
-    "withEvidence": 89,
+    "evaluated": 172,
+    "withEvidence": 92,
     "ranked": 36,
-    "incomplete": 116
+    "incomplete": 117
    },
    "daechi:science": {
-    "evaluated": 34,
+    "evaluated": 35,
     "withEvidence": 11,
     "ranked": 3,
-    "incomplete": 30
+    "incomplete": 31
    },
    "jamsil:arts": {
     "evaluated": 170,
@@ -116,7 +116,7 @@
     "incomplete": 95
    },
    "jamsil:etc": {
-    "evaluated": 23,
+    "evaluated": 24,
     "withEvidence": 7,
     "ranked": 3,
     "incomplete": 0
@@ -140,16 +140,16 @@
     "incomplete": 10
    },
    "mokdong:arts": {
-    "evaluated": 218,
-    "withEvidence": 36,
+    "evaluated": 225,
+    "withEvidence": 37,
     "ranked": 10,
     "incomplete": 0
    },
    "mokdong:english": {
-    "evaluated": 156,
-    "withEvidence": 49,
-    "ranked": 22,
-    "incomplete": 124
+    "evaluated": 165,
+    "withEvidence": 53,
+    "ranked": 23,
+    "incomplete": 132
    },
    "mokdong:etc": {
     "evaluated": 37,
@@ -158,16 +158,16 @@
     "incomplete": 0
    },
    "mokdong:korean": {
-    "evaluated": 102,
-    "withEvidence": 23,
+    "evaluated": 105,
+    "withEvidence": 24,
     "ranked": 8,
-    "incomplete": 92
+    "incomplete": 95
    },
    "mokdong:math": {
-    "evaluated": 192,
+    "evaluated": 194,
     "withEvidence": 73,
     "ranked": 22,
-    "incomplete": 156
+    "incomplete": 158
    },
    "mokdong:science": {
     "evaluated": 52,
@@ -177,53 +177,53 @@
    }
   },
   "identityGates": {
-   "irrelevant": 456315,
-   "elsewhere": 4818,
-   "other_region": 13154,
+   "irrelevant": 470971,
+   "elsewhere": 4894,
+   "other_region": 13372,
    "shared": 0,
-   "sibling": 2576,
+   "sibling": 2648,
    "rehomed": 688,
-   "foreign_dong": 2046,
-   "brand_unknown": 5584,
+   "foreign_dong": 2099,
+   "brand_unknown": 5659,
    "branches": 535,
-   "local_unknown": 20215
+   "local_unknown": 20661
   },
   "filterVersion": "2026-09-19.5",
   "sourceHealth": {
    "naver_cafe": {
-    "requests": 2129,
-    "results": 30316,
+    "requests": 2160,
+    "results": 35728,
     "errors": 0,
     "status": "available",
-    "checkedAt": "2026-09-29T00:14:07.223567+00:00"
+    "checkedAt": "2026-09-29T23:20:57.001224+00:00"
    },
    "naver_blog": {
-    "requests": 1357,
-    "results": 2654,
+    "requests": 1438,
+    "results": 5383,
     "errors": 0,
     "status": "available",
-    "checkedAt": "2026-09-29T00:14:10.015001+00:00"
+    "checkedAt": "2026-09-29T23:21:00.442595+00:00"
    },
    "naver_kin": {
-    "requests": 1516,
-    "results": 11915,
+    "requests": 1562,
+    "results": 13713,
     "errors": 0,
     "status": "available",
-    "checkedAt": "2026-09-29T00:14:12.809783+00:00"
+    "checkedAt": "2026-09-29T23:21:05.146494+00:00"
    },
    "naver_web": {
-    "requests": 412,
-    "results": 39887,
+    "requests": 413,
+    "results": 39911,
     "errors": 0,
     "status": "available",
-    "checkedAt": "2026-09-29T00:14:14.203247+00:00"
+    "checkedAt": "2026-09-29T23:21:06.502129+00:00"
    },
    "naver_news": {
-    "requests": 531,
-    "results": 4345,
+    "requests": 514,
+    "results": 4590,
     "errors": 0,
     "status": "available",
-    "checkedAt": "2026-09-29T00:14:15.229838+00:00"
+    "checkedAt": "2026-09-29T23:21:07.701249+00:00"
    }
   }
  },
@@ -233,16 +233,16 @@
   "total": 5351,
   "statuses": {
    "registered_courses": 914,
-   "unknown": 4162,
+   "unknown": 4158,
    "curated_stages": 56,
-   "review_mentions": 166,
+   "review_mentions": 170,
    "directory_guidance": 12,
    "official_guidance": 41
   },
   "bandBasisCounts": {
    "registered": 2252,
    "curated": 145,
-   "reviews": 269,
+   "reviews": 274,
    "directory": 33,
    "official": 104
   }
@@ -252,14 +252,14 @@
   "errors": [],
   "warnings": [],
   "total": 5351,
-  "withAnyGrade": 1189,
+  "withAnyGrade": 1193,
   "subjects": {
    "english": 1091,
-   "korean": 528,
+   "general": 1099,
+   "korean": 529,
    "arts": 1242,
    "etc": 184,
-   "general": 1102,
-   "math": 1206,
+   "math": 1208,
    "science": 179
   },
   "bands": {
@@ -269,8 +269,8 @@
    "arts:middle": 45,
    "english:elem_high": 180,
    "english:elem_low": 185,
-   "english:high": 177,
-   "english:middle": 209,
+   "english:high": 179,
+   "english:middle": 210,
    "etc:elem_high": 7,
    "etc:elem_low": 11,
    "etc:high": 8,
@@ -285,7 +285,7 @@
    "korean:middle": 93,
    "math:elem_high": 263,
    "math:elem_low": 259,
-   "math:high": 310,
+   "math:high": 312,
    "math:middle": 298,
    "science:elem_high": 19,
    "science:elem_low": 19,
@@ -295,7 +295,7 @@
   "bandBasisCounts": {
    "registered": 2252,
    "curated": 145,
-   "reviews": 269,
+   "reviews": 274,
    "directory": 33,
    "official": 104
   },
@@ -314,27 +314,27 @@
  "minSampleForRank": 10,
  "reputationPriorCount": 12,
  "recencyHalflifeDays": 180,
- "datedShare": 0.912,
- "realDatedShare": 0.103,
+ "datedShare": 0.917,
+ "realDatedShare": 0.1,
  "sources": {
   "official": "NEIS 학원교습소정보 (open.neis.go.kr)",
   "community": "네이버 검색 API"
  },
  "evidenceQuality": {
-  "academies": 2739,
-  "withEvidence": 826,
-  "rows": 3043,
-  "nameInExcerpt": 3043,
-  "inTitle": 2202,
+  "academies": 2806,
+  "withEvidence": 847,
+  "rows": 3105,
+  "nameInExcerpt": 3105,
+  "inTitle": 2253,
   "spacedName": 0,
   "basis": {
-   "region": 2151,
-   "direct": 892
+   "region": 2214,
+   "direct": 891
   }
  },
  "coverage": {
-  "evaluated": 2739,
-  "withMentions": 823,
-  "ranked": 205
+  "evaluated": 2806,
+  "withMentions": 844,
+  "ranked": 206
  }
 }
