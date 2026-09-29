@@ -144,14 +144,14 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_phonics": 37,
-    "eng_el_academy": 123,
+    "eng_el_phonics": 38,
+    "eng_el_academy": 124,
     "eng_el_rw": 19,
     "eng_mid_test": 1,
-    "math_el_basic": 135,
+    "math_el_basic": 137,
     "math_mid_preview": 5
    },
-   "academyCount": 266
+   "academyCount": 269
   },
   {
    "id": "dest_science_hs",
@@ -221,7 +221,7 @@
    ],
    "linkable": true,
    "stageCounts": {
-    "eng_el_academy": 123,
+    "eng_el_academy": 124,
     "eng_mid_naesin": 100,
     "eng_mid_test": 1,
     "math_mid_naesin": 123,
@@ -229,7 +229,7 @@
     "kor_mid_naesin": 31,
     "kor_mid_deep": 6
    },
-   "academyCount": 356
+   "academyCount": 357
   },
   {
    "id": "dest_early",

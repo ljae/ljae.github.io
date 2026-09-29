@@ -25,6 +25,7 @@ stale_after:
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
+고등학교 모의고사 수리 4등급, 수능 5등급을 받고 재수를 하게 되어 수리 과목만 다녔다는 후기입니다.
 <!-- /auto:summary -->
 
 ## 이 글이 붙은 학원
