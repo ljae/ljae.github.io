@@ -1,6 +1,6 @@
 # 검색 성장 · 구현 및 운영 안내
 
-2026-10-17. 첫 구현 범위는 설계의 S0~S3이며, S4의 조건 복원·허브 연결과 변경/실험 기록도 포함한다. [운영 사이트](https://openedu4u.com/) 배포와 원격 DB 적용, 실제 CSV 스냅샷 2개 비공개 게시를 완료했다. 운영 HTTP·브라우저·DB 권한 검증 결과는 [배포 기록](reports/search-growth-deployment-2026-10-17.md)에 있다. GSC OAuth 정기 수집 연결과 로그인한 관리자 화면의 실제 브라우저 검증은 아직 남아 있다.
+2026-10-17. 첫 구현 범위는 설계의 S0~S3이며, S4의 조건 복원·허브 연결과 변경/실험 기록도 포함한다. [운영 사이트](https://openedu4u.com/) 배포와 원격 DB 적용, 실제 CSV 스냅샷 2개 비공개 게시를 완료했다. 후속으로 GSC OAuth 정기 수집을 연결하고 API 스냅샷 1개 수집·게시, 로그인한 관리자 화면의 실제 브라우저 검증도 완료했다. 근거는 [배포 기록](reports/search-growth-deployment-2026-10-17.md)과 [운영 연결 검증](reports/search-growth-operational-verification-2026-10-17.md)에 있다.
 
 ## 제공하는 기능
 
@@ -41,10 +41,10 @@
 
 ## 운영 연결
 
-기존 Supabase 프로젝트를 재개해 `ACTIVE_HEALTHY`와 기존 관리자/데이터 복원을 확인한 뒤 `15_search_growth.sql`만 적용했다. 기존 관리자 1명·예약 1건을 유지했고, 아래 수동 CSV 게시도 완료했다. 다음 절차에서 현재 남은 설정은 GSC OAuth 3종이다.
+기존 Supabase 프로젝트를 재개해 `ACTIVE_HEALTHY`와 기존 관리자/데이터 복원을 확인한 뒤 `15_search_growth.sql`만 적용했다. 기존 관리자 1명·예약 1건을 유지했고 CSV 게시와 GSC OAuth 3종 비밀 설정 등록도 완료했다. 다음은 재구성 시의 절차다.
 
 1. Supabase에서 기존 `09_admin_review.sql` 적용 상태를 확인하고 [15_search_growth.sql](../supabase/15_search_growth.sql)을 적용한다.
-2. GSC API를 사용할 Google Cloud 프로젝트에서 읽기 전용 OAuth refresh token을 발급하고 해당 계정의 `sc-domain:openedu4u.com` 접근 권한을 확인한다.
+2. GSC API를 사용할 Google Cloud 프로젝트에서 읽기 전용 OAuth refresh token을 발급하고 해당 계정의 `sc-domain:openedu4u.com` 접근 권한을 확인한다. 현재 프로젝트는 `openedu-search-growth`이고 OAuth 앱은 프로덕션 상태다. Testing 상태 토큰의 7일 만료를 피하도록 상태를 확인한 후 발급한다.
 3. CI 비밀 설정에 `GSC_CLIENT_ID`, `GSC_CLIENT_SECRET`, `GSC_REFRESH_TOKEN`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`를 등록한다. 서버 키는 Flutter 설정으로 전달하지 않는다.
 4. 최초에는 실제 CSV와 API가 겹치는 기간·검색 유형의 총계가 비교 가능한지 확인한다. CSV의 `Web (text-based)`와 API `web`은 원 출처 필터를 각각 보존한다.
 5. 기존 운영자 계정으로 `/admin`에서 로그인한 뒤 **검색 성장 분석**으로 들어간다. 최초 자료가 없으면 연결 대기 화면이 나온다.
@@ -57,7 +57,7 @@
 
 `publish --snapshot <id>`로 과거 CSV 보고서도 선택해 게시할 수 있다. 수입 결과의 id 또는 로컬 원장에서 확인한 id를 사용한다. 게시 위치는 운영자 전용 DB이며 공개 사이트 JSON이 아니다.
 
-[search-growth.yml](../.github/workflows/search-growth.yml)은 09:30 KST에 PT 기준 3일 전까지의 최근 28일을 수집한다. 아직 인증이 없으면 연결 대기 notice를 남긴다. 분석 작업은 기존 수집·배포 연쇄와 분리되어 있다. 실제 Actions 실행에서 계약/SQL 권한 검증 성공과 OAuth 연결 대기 notice를 확인했다. 정기 Google API 수집은 인증 설정 후 시작된다.
+[search-growth.yml](../.github/workflows/search-growth.yml)은 09:30 KST에 PT 기준 3일 전까지의 최근 28일을 수집한다. 인증이 없으면 연결 대기 notice를 남긴다. 분석 작업은 기존 수집·배포 연쇄와 분리되어 있다. OAuth 등록 후 [실제 Actions 실행](https://github.com/ljae/ljae.github.io/actions/runs/39029612029)에서 계약/SQL 권한 검증과 28일 API 수집·DB 게시가 모두 성공했다. 2026-09-17~10-14 API 총계는 CSV와 동일한 5클릭·188노출이며 관리자 화면에서 API 출처로 확인했다. 앞으로는 설정된 cron으로 실행된다.
 
 ## 저장 계약의 첫 구현
 

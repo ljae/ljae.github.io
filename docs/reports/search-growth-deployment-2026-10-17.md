@@ -54,6 +54,8 @@ Ego Lite의 기존 task space 12, p2를 재사용했다.
 
 ## 정기 수집과 남은 확인
 
+**후속 완료:** 아래는 최초 배포 시점의 상태다. 같은 날 OAuth 설정, 실제 API 28일 수집·게시, 인증된 관리자 화면 확인을 모두 완료했다. 최신 결과와 실행 증거는 [운영 연결 검증](search-growth-operational-verification-2026-10-17.md)을 따른다.
+
 [정기 분석 workflow 실제 실행](https://github.com/ljae/ljae.github.io/actions/runs/39015558499)은 성공했다. Python 계약 16개와 PGlite migration 재적용·RLS·RPC 권한·게시 중복 방지·버전 충돌·배포 확인 게이트·실험군 분리 검증을 수행했고, 수집 단계는 OAuth 인증 미설정 때문에 건너뛰었다.
 
 - `GSC_CLIENT_ID`, `GSC_CLIENT_SECRET`, `GSC_REFRESH_TOKEN`은 로컬/CI에 아직 없다. 읽기 전용 OAuth 설정 후 실제 Google API 정기 수집과 권한을 검증해야 한다. 현재는 CSV 수입과 비공개 게시까지 완료된 상태다.
