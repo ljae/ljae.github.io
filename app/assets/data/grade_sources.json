@@ -549,6 +549,27 @@
   ]
  },
  {
+  "academyId": "9929",
+  "name": "청담어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "목동 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
+    "url": "https://www.creverse.com/cdi/mokdong/introduction/faq/list",
+    "shortSummary": null,
+    "checkedAt": "2026-09-20",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "english"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "18149",
   "name": "목동씨디아이에이프릴어학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -601,27 +622,6 @@
     "title": "대상 학년 확인 근거",
     "summary": "공식 오목교 지점 안내에서 본관 주소와 중등·고등 시간표 구분을 대조했습니다. 시간표의 세부 반은 확인하지 못했으므로 중·고등 구간만 연결합니다. 초등 전용 엠:리젠은 오목로 300의 별도 관입니다.",
     "url": "https://www.xn--oy2b23tugp1f.com/Location",
-    "shortSummary": null,
-    "checkedAt": "2026-09-20",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "9929",
-  "name": "청담어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "목동 브랜치 공식 FAQ는 수업을 초등과 중·고등으로 구분한다고 안내합니다. 지점 주소를 대조했으며 세부 학년과 개설 레벨은 입학시험 후 확인해야 합니다.",
-    "url": "https://www.creverse.com/cdi/mokdong/introduction/faq/list",
     "shortSummary": null,
     "checkedAt": "2026-09-20",
     "kind": "official",

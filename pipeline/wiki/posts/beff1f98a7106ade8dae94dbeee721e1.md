@@ -1,0 +1,39 @@
+---
+url_hash: "beff1f98a7106ade8dae94dbeee721e1"
+url: https://blog.naver.com/webtoon_banpo/224355535372
+source: naver_blog
+title: '[애니포스 웹툰학원 반포] 중고등반 창작 일러스트 작업 과정 · 클....'
+posted_at: 2026-07-23
+author_hash: 0dc0f97fabce9e9e6ed8f4b820b1e7d8
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# '[애니포스 웹툰학원 반포] 중고등반 창작 일러스트 작업 과정 · 클....'
+
+원문: https://blog.naver.com/webtoon_banpo/224355535372
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.19 · 스팸 0.45 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 불명
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000053383|반포애니포스웹툰학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

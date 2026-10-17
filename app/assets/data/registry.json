@@ -156,47 +156,6 @@
   "notRanked": null
  },
  {
-  "id": "3000038410",
-  "name": "필독국어",
-  "displayName": "필독국어",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "korean"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "korean": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "korean": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 삼성로 150",
-  "capacity": 300,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "registrationIds": [
-   "3000054836"
-  ],
-  "lat": 37.4947911,
-  "lng": 127.0664816,
-  "notRanked": null
- },
- {
   "id": "3000027885",
   "name": "매그나학원",
   "displayName": "매그나학원",
@@ -390,6 +349,45 @@
   "lat": 37.4947911,
   "lng": 127.0664816,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000054836",
+  "name": "필독국어학원",
+  "displayName": "필독국어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 삼성로 150",
+  "capacity": 288,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4947911,
+  "lng": 127.0664816,
+  "notRanked": null
  },
  {
   "id": "3000042509",
@@ -3430,6 +3428,45 @@
   "notRanked": null
  },
  {
+  "id": "3000039564",
+  "name": "델포이영어교습소",
+  "displayName": "델포이영어교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로78길 22",
+  "capacity": 8,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4965241,
+  "lng": 127.0591145,
+  "notRanked": null
+ },
+ {
   "id": "3000053213",
   "name": "리그프렙영어교습소",
   "displayName": "리그프렙영어교습소",
@@ -5010,84 +5047,6 @@
   "registrationIds": null,
   "lat": 37.4953009,
   "lng": 127.0527051,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000015226",
-  "name": "개인별맞춤수학교습소",
-  "displayName": "개인별맞춤수학교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 320",
-  "capacity": 75,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4982857,
-  "lng": 127.0522104,
-  "notRanked": null
- },
- {
-  "id": "3000021364",
-  "name": "대치미래인재입시컨설팅진학상담지도교습소",
-  "displayName": "대치미래인재입시컨설팅진학상담지도교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 320",
-  "capacity": 40,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4982857,
-  "lng": 127.0522104,
   "notRanked": "과목 미상"
  },
  {
@@ -9906,6 +9865,45 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000021364",
+  "name": "대치미래인재입시컨설팅진학상담지도교습소",
+  "displayName": "대치미래인재입시컨설팅진학상담지도교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 320",
+  "capacity": 40,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4982857,
+  "lng": 127.0522104,
+  "notRanked": "과목 미상"
+ },
+ {
   "id": "3000030127",
   "name": "대치베리타스(VERITAS)영어교습소",
   "displayName": "대치베리타스(VERITAS)영어교습소",
@@ -10105,17 +10103,17 @@
  },
  {
   "id": "3000020433",
-  "name": "아인과학교습소",
-  "displayName": "아인과학교습소",
+  "name": "대치소호영어교습소",
+  "displayName": "대치소호영어교습소",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
-   "science"
+   "english"
   ],
   "aliases": [],
   "gradeBands": [],
   "gradeBandsBySubject": {
-   "science": []
+   "english": []
   },
   "gradeTarget": {
    "evidence": [],
@@ -10127,7 +10125,7 @@
    "basis": "대상 학년 미확인",
    "bands": [],
    "bySubject": {
-    "science": []
+    "english": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
@@ -11898,6 +11896,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060327",
+  "name": "래미안피아노교습소",
+  "displayName": "래미안피아노교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 8",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.481056,
+  "lng": 127.0641829,
+  "notRanked": null
+ },
+ {
   "id": "3000051185",
   "name": "위드인아트미술교습소",
   "displayName": "위드인아트미술교습소",
@@ -12249,45 +12286,6 @@
   "notRanked": null
  },
  {
-  "id": "3000054406",
-  "name": "텐엑스매니지먼트(10XMANAGEMENT)수학교습소",
-  "displayName": "텐엑스매니지먼트(10XMANAGEMENT)수학교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로72길 10-12",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4994317,
-  "lng": 127.0523659,
-  "notRanked": null
- },
- {
   "id": "3000052807",
   "name": "플레온진학상담지도교습소",
   "displayName": "플레온진학상담지도교습소",
@@ -12364,6 +12362,45 @@
   "lat": 37.4994317,
   "lng": 127.0523659,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000060364",
+  "name": "김중래과학학원",
+  "displayName": "김중래과학학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "science"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "science": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "science": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로72길 10-12",
+  "capacity": 264,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4994317,
+  "lng": 127.0523659,
+  "notRanked": null
  },
  {
   "id": "3000050574",
@@ -14860,6 +14897,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060365",
+  "name": "쏭(SHONG MATH)수학교습소",
+  "displayName": "쏭(SHONG MATH)수학교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로 515",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4997818,
+  "lng": 127.0626942,
+  "notRanked": null
+ },
+ {
   "id": "3000031985",
   "name": "그레이드원학원",
   "displayName": "그레이드원학원",
@@ -14967,7 +15043,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 강남구 도곡로 515",
-  "capacity": 100,
+  "capacity": 430,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -15157,6 +15233,45 @@
    "bands": [],
    "bySubject": {
     "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 삼성로 155",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4938697,
+  "lng": 127.0629614,
+  "notRanked": null
+ },
+ {
+  "id": "3000060324",
+  "name": "해빛해금교습소",
+  "displayName": "해빛해금교습소",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
    },
    "bandBasis": {},
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
@@ -15396,7 +15511,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 강남구 삼성로 155",
-  "capacity": 144,
+  "capacity": 172,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -15475,45 +15590,6 @@
   },
   "address": "서울특별시 강남구 삼성로 155",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4938697,
-  "lng": 127.0629614,
-  "notRanked": null
- },
- {
-  "id": "3000033418",
-  "name": "프로퍼수학학원",
-  "displayName": "프로퍼수학학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 삼성로 155",
-  "capacity": 218,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -17587,162 +17663,6 @@
   "notRanked": null
  },
  {
-  "id": "3000024990",
-  "name": "강남엔(N)플러스학원",
-  "displayName": "강남엔(N)플러스학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 340",
-  "capacity": 856,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5002261,
-  "lng": 127.0514679,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000026840",
-  "name": "김도현뉴미디어영어학원",
-  "displayName": "김도현뉴미디어영어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 340",
-  "capacity": 80,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5002261,
-  "lng": 127.0514679,
-  "notRanked": null
- },
- {
-  "id": "3000024596",
-  "name": "아이즈(IZE)영어학원",
-  "displayName": "아이즈(IZE)영어학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 340",
-  "capacity": 72,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5002261,
-  "lng": 127.0514679,
-  "notRanked": null
- },
- {
-  "id": "3000035881",
-  "name": "텔레오입시전문학원",
-  "displayName": "텔레오입시전문학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로 340",
-  "capacity": 176,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5002261,
-  "lng": 127.0514679,
-  "notRanked": "과목 미상"
- },
- {
   "id": "3000042012",
   "name": "수학은형에게물어봐수학교습소",
   "displayName": "수학은형에게물어봐수학교습소",
@@ -17785,6 +17705,45 @@
   "id": "3000054186",
   "name": "강남최강학원",
   "displayName": "강남최강학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 역삼로 417",
+  "capacity": 207,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5013599,
+  "lng": 127.0527126,
+  "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000060362",
+  "name": "다빈치교육학원",
+  "displayName": "다빈치교육학원",
   "regionId": "daechi",
   "dong": "대치동",
   "subjects": [
@@ -18328,45 +18287,6 @@
   "notRanked": "과목 미상"
  },
  {
-  "id": "3000044276",
-  "name": "이진아수학교실수학교습소",
-  "displayName": "이진아수학교실수학교습소",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 개포로 411",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4879191,
-  "lng": 127.0620061,
-  "notRanked": null
- },
- {
   "id": "3000056218",
   "name": "신재원영어교습소",
   "displayName": "신재원영어교습소",
@@ -18613,6 +18533,84 @@
   "registrationIds": null,
   "lat": 37.498751,
   "lng": 127.053149,
+  "notRanked": null
+ },
+ {
+  "id": "3000060354",
+  "name": "아미영어교습소",
+  "displayName": "아미영어교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로10길 11",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4835373,
+  "lng": 127.0609018,
+  "notRanked": null
+ },
+ {
+  "id": "3000060322",
+  "name": "하이엠수학교습소",
+  "displayName": "하이엠수학교습소",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로10길 11",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4835373,
+  "lng": 127.0609018,
   "notRanked": null
  },
  {
@@ -21441,47 +21439,6 @@
   "notRanked": null
  },
  {
-  "id": "3000052836",
-  "name": "전기가오리대치독서논술교습소",
-  "displayName": "전기가오리대치독서논술교습소",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "korean"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "korean": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "korean": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 도곡로63길 26",
-  "capacity": null,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "registrationIds": [
-   "3000052847"
-  ],
-  "lat": 37.4987112,
-  "lng": 127.0539822,
-  "notRanked": null
- },
- {
   "id": "3000052393",
   "name": "더에스학원",
   "displayName": "더에스학원",
@@ -21519,6 +21476,45 @@
   "lat": 37.4987112,
   "lng": 127.0539822,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000052847",
+  "name": "전기가오리독서논술원격학원",
+  "displayName": "전기가오리독서논술원격학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로63길 26",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4987112,
+  "lng": 127.0539822,
+  "notRanked": null
  },
  {
   "id": "3000053836",
@@ -22067,6 +22063,45 @@
   "notRanked": null
  },
  {
+  "id": "3000017522",
+  "name": "상류학원",
+  "displayName": "상류학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 역삼로 536",
+  "capacity": 45,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5038257,
+  "lng": 127.0617184,
+  "notRanked": "과목 미상"
+ },
+ {
   "id": "3000054902",
   "name": "예지안컨설팅학원",
   "displayName": "예지안컨설팅학원",
@@ -22097,45 +22132,6 @@
   },
   "address": "서울특별시 강남구 역삼로 536",
   "capacity": 400,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5038257,
-  "lng": 127.0617184,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000017522",
-  "name": "카이온(KAION)학원",
-  "displayName": "카이온(KAION)학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 역삼로 536",
-  "capacity": 45,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -22493,45 +22489,6 @@
   "registrationIds": null,
   "lat": 37.5032509,
   "lng": 127.046588,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000048929",
-  "name": "첸첸중국어교습소",
-  "displayName": "첸첸중국어교습소",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 논현로66길 26-5",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4942698,
-  "lng": 127.0427011,
   "notRanked": "과목 미상"
  },
  {
@@ -23064,6 +23021,162 @@
   "notRanked": null
  },
  {
+  "id": "3000024990",
+  "name": "강남엔(N)플러스학원",
+  "displayName": "강남엔(N)플러스학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 340",
+  "capacity": 856,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5002261,
+  "lng": 127.0514679,
+  "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000026840",
+  "name": "김도현뉴미디어영어학원",
+  "displayName": "김도현뉴미디어영어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 340",
+  "capacity": 80,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5002261,
+  "lng": 127.0514679,
+  "notRanked": null
+ },
+ {
+  "id": "3000024596",
+  "name": "아이즈(IZE)영어학원",
+  "displayName": "아이즈(IZE)영어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 340",
+  "capacity": 72,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5002261,
+  "lng": 127.0514679,
+  "notRanked": null
+ },
+ {
+  "id": "3000035881",
+  "name": "텔레오입시전문학원",
+  "displayName": "텔레오입시전문학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로 340",
+  "capacity": 176,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5002261,
+  "lng": 127.0514679,
+  "notRanked": "과목 미상"
+ },
+ {
   "id": "3000042515",
   "name": "하나에듀영어교습소",
   "displayName": "하나에듀영어교습소",
@@ -23462,6 +23575,45 @@
   },
   "address": "서울특별시 강남구 도곡로 409",
   "capacity": 213,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4974014,
+  "lng": 127.055172,
+  "notRanked": null
+ },
+ {
+  "id": "3000040582",
+  "name": "서정국어학원",
+  "displayName": "서정국어학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로 409",
+  "capacity": 30,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -25570,6 +25722,162 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000060318",
+  "name": "개포라라뮤직학원",
+  "displayName": "개포라라뮤직학원",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 개포로 310",
+  "capacity": 175,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4803922,
+  "lng": 127.0571029,
+  "notRanked": null
+ },
+ {
+  "id": "3000060294",
+  "name": "개포탑스즈키바이올린&첼로음악학원",
+  "displayName": "개포탑스즈키바이올린&첼로음악학원",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 개포로 310",
+  "capacity": 320,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4803922,
+  "lng": 127.0571029,
+  "notRanked": null
+ },
+ {
+  "id": "3000060276",
+  "name": "스카이(SKY)음악학원",
+  "displayName": "스카이(SKY)음악학원",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 개포로 310",
+  "capacity": 312,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4803922,
+  "lng": 127.0571029,
+  "notRanked": null
+ },
+ {
+  "id": "3000060279",
+  "name": "이화퍼스티어음악학원",
+  "displayName": "이화퍼스티어음악학원",
+  "regionId": "daechi",
+  "dong": "개포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 개포로 310",
+  "capacity": 216,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4803922,
+  "lng": 127.0571029,
+  "notRanked": null
+ },
+ {
   "id": "3000044040",
   "name": "개포바리에미술학원",
   "displayName": "개포바리에미술학원",
@@ -25600,45 +25908,6 @@
   },
   "address": "서울특별시 강남구 선릉로6길 20",
   "capacity": 20,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4831211,
-  "lng": 127.0624692,
-  "notRanked": null
- },
- {
-  "id": "3000046181",
-  "name": "아미영어리드에이아이(AI)학원",
-  "displayName": "아미영어리드에이아이(AI)학원",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로6길 20",
-  "capacity": 234,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -27771,45 +28040,6 @@
   "notRanked": "과목 미상"
  },
  {
-  "id": "3000048180",
-  "name": "문해와수리학원",
-  "displayName": "문해와수리학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "korean"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "korean": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "korean": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로64길 17",
-  "capacity": 139,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4982127,
-  "lng": 127.0536883,
-  "notRanked": null
- },
- {
   "id": "3000041485",
   "name": "수학깡패학원",
   "displayName": "수학깡패학원",
@@ -27879,6 +28109,45 @@
   },
   "address": "서울특별시 강남구 선릉로64길 17",
   "capacity": 200,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4982127,
+  "lng": 127.0536883,
+  "notRanked": null
+ },
+ {
+  "id": "3000048180",
+  "name": "올백수학관대치학원",
+  "displayName": "올백수학관대치학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로64길 17",
+  "capacity": 139,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -31019,47 +31288,6 @@
   "registrationIds": null,
   "lat": 37.5019012,
   "lng": 127.0589401,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000038154",
-  "name": "에이프로",
-  "displayName": "에이프로",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로64길 15-5",
-  "capacity": 105,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 2,
-  "registrationIds": [
-   "3000038708"
-  ],
-  "lat": 37.4984097,
-  "lng": 127.0533201,
   "notRanked": "과목 미상"
  },
  {
@@ -34353,6 +34581,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060367",
+  "name": "수학전문수이학원",
+  "displayName": "수학전문수이학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로 325",
+  "capacity": 214,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4961788,
+  "lng": 127.0515361,
+  "notRanked": null
+ },
+ {
   "id": "3000022584",
   "name": "대치전진학원",
   "displayName": "대치전진학원",
@@ -34382,7 +34649,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 강남구 삼성로71길 34",
-  "capacity": 70,
+  "capacity": 272,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -37678,6 +37945,45 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000041162",
+  "name": "라포에듀학원",
+  "displayName": "라포에듀학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 역삼로 443",
+  "capacity": 7,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5021892,
+  "lng": 127.0554227,
+  "notRanked": "과목 미상"
+ },
+ {
   "id": "3000052577",
   "name": "래(來)미술학원",
   "displayName": "래(來)미술학원",
@@ -39112,45 +39418,6 @@
   "notRanked": "과목 미상"
  },
  {
-  "id": "3000040582",
-  "name": "서정국어학원",
-  "displayName": "서정국어학원",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "korean"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "korean": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "korean": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 도곡로 323",
-  "capacity": 30,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4961216,
-  "lng": 127.0513447,
-  "notRanked": null
- },
- {
   "id": "3000024104",
   "name": "플레온학원",
   "displayName": "플레온학원",
@@ -40297,84 +40564,6 @@
   "lat": 37.5034507,
   "lng": 127.0577173,
   "notRanked": "과목 미상"
- },
- {
-  "id": "3000050101",
-  "name": "베리타스에스판검관학원",
-  "displayName": "베리타스에스판검관학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로62길 9",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4974523,
-  "lng": 127.053463,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000051092",
-  "name": "생각부터영어로학원",
-  "displayName": "생각부터영어로학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로62길 9",
-  "capacity": 176,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4974523,
-  "lng": 127.053463,
-  "notRanked": null
  },
  {
   "id": "3000053108",
@@ -41658,6 +41847,45 @@
   "lat": 37.4974329,
   "lng": 127.0613173,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000051092",
+  "name": "생각부터영어로학원",
+  "displayName": "생각부터영어로학원",
+  "regionId": "daechi",
+  "dong": "대치동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 선릉로62길 9",
+  "capacity": 176,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4974523,
+  "lng": 127.053463,
+  "notRanked": null
  },
  {
   "id": "3000029996",
@@ -43018,84 +43246,6 @@
   "lat": 37.4999263,
   "lng": 127.0519194,
   "notRanked": "과목 미상"
- },
- {
-  "id": "3000060276",
-  "name": "스카이(SKY)음악학원",
-  "displayName": "스카이(SKY)음악학원",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "arts"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "arts": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 개포로 310",
-  "capacity": 312,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4803922,
-  "lng": 127.0571029,
-  "notRanked": null
- },
- {
-  "id": "3000060279",
-  "name": "이화퍼스티어음악학원",
-  "displayName": "이화퍼스티어음악학원",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "arts"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "arts": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 개포로 310",
-  "capacity": 216,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4803922,
-  "lng": 127.0571029,
-  "notRanked": null
  },
  {
   "id": "3000034802",
@@ -50249,84 +50399,6 @@
   "notRanked": null
  },
  {
-  "id": "3000050156",
-  "name": "하이스카이학원",
-  "displayName": "하이스카이학원",
-  "regionId": "daechi",
-  "dong": "역삼동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 도곡로7길 17",
-  "capacity": 282,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4917615,
-  "lng": 127.0343268,
-  "notRanked": "과목 미상"
- },
- {
-  "id": "3000039938",
-  "name": "플랜업학원",
-  "displayName": "플랜업학원",
-  "regionId": "daechi",
-  "dong": "대치동",
-  "subjects": [
-   "general"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "general": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "general": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로76길 25",
-  "capacity": 1240,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5020251,
-  "lng": 127.0525447,
-  "notRanked": "과목 미상"
- },
- {
   "id": "3000044247",
   "name": "플러스스피치학원",
   "displayName": "플러스스피치학원",
@@ -50411,45 +50483,6 @@
   "registrationIds": null,
   "lat": 37.4998888,
   "lng": 127.0405147,
-  "notRanked": null
- },
- {
-  "id": "3000054182",
-  "name": "하이엠수학학원",
-  "displayName": "하이엠수학학원",
-  "regionId": "daechi",
-  "dong": "개포동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 강남구 선릉로10길 11",
-  "capacity": 222,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4835373,
-  "lng": 127.0609018,
   "notRanked": null
  },
  {
@@ -50687,6 +50720,45 @@
   "lat": 37.4991963,
   "lng": 127.0282272,
   "notRanked": null
+ },
+ {
+  "id": "3000050156",
+  "name": "하이스카이학원",
+  "displayName": "하이스카이학원",
+  "regionId": "daechi",
+  "dong": "역삼동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 강남구 도곡로7길 17",
+  "capacity": 282,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4917615,
+  "lng": 127.0343268,
+  "notRanked": "과목 미상"
  },
  {
   "id": "3000030266",
@@ -54356,23 +54428,106 @@
    "science"
   ],
   "aliases": [],
-  "gradeBands": [],
+  "gradeBands": [
+   "middle",
+   "high"
+  ],
   "gradeBandsBySubject": {
-   "science": []
+   "science": [
+    "middle",
+    "high"
+   ]
   },
   "gradeTarget": {
-   "evidence": [],
+   "evidence": [
+    {
+     "registrationId": "3000060281",
+     "field": "le_crse_list_nm",
+     "text": "중등과학1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000060281",
+     "field": "course_names",
+     "text": "중등과학1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000060281",
+     "field": "course_names",
+     "text": "고등과학1",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000060281",
+     "field": "course_names",
+     "text": "고등과학2",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000060281",
+     "field": "course_names",
+     "text": "중등과학2",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "science"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
    "heldCourseSignals": [],
    "unverifiedPreviousBands": [],
    "auditedAt": "2026-10-17",
    "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "middle",
+    "high"
+   ],
    "bySubject": {
-    "science": []
+    "science": [
+     "middle",
+     "high"
+    ]
    },
-   "bandBasis": {},
+   "bandBasis": {
+    "science": {
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 양천구 목동서로 77",
@@ -58532,6 +58687,45 @@
   "notRanked": null
  },
  {
+  "id": "3000019173",
+  "name": "사과나무영어학원",
+  "displayName": "사과나무영어학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동서로 349",
+  "capacity": 252,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5174204,
+  "lng": 126.8653309,
+  "notRanked": null
+ },
+ {
   "id": "3000019365",
   "name": "스카이랩영어학원",
   "displayName": "스카이랩영어학원",
@@ -59370,6 +59564,203 @@
   "notRanked": null
  },
  {
+  "id": "3000019289",
+  "name": "목동오름수학교습소",
+  "displayName": "목동오름수학교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [
+   "elem_low",
+   "elem_high",
+   "middle"
+  ],
+  "gradeBandsBySubject": {
+   "math": [
+    "elem_low",
+    "elem_high",
+    "middle"
+   ]
+  },
+  "gradeTarget": {
+   "evidence": [
+    {
+     "registrationId": "3000019289",
+     "field": "le_crse_list_nm",
+     "text": "초등수학1",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "초등수학1",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "초등수학2",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "초등수학3",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "초등수학4",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "중등수학1",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "중등수학2",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "중등수학3",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "중등수학4",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019289",
+     "field": "course_names",
+     "text": "중등수학5",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동서로 340",
+  "capacity": 12,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5197024,
+  "lng": 126.8640477,
+  "notRanked": null
+ },
+ {
   "id": "3000032596",
   "name": "목동하이매쓰수학교습소",
   "displayName": "목동하이매쓰수학교습소",
@@ -59863,23 +60254,153 @@
   "aliases": [],
   "gradeBands": [
    "elem_low",
-   "elem_high"
+   "elem_high",
+   "middle",
+   "high"
   ],
   "gradeBandsBySubject": {
    "english": [
     "elem_low",
-    "elem_high"
+    "elem_high",
+    "middle",
+    "high"
    ]
   },
   "gradeTarget": {
    "evidence": [
     {
      "registrationId": "3000052138",
-     "field": "le_crse_list_nm",
-     "text": "영어A(초등)",
+     "field": "course_names",
+     "text": "초등영어A",
      "bands": [
       "elem_low",
       "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어B",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어C",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어D",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어E",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어F",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "초등영어G",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "중고등영어A",
+     "bands": [
+      "middle",
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "중고등영어B",
+     "bands": [
+      "middle",
+      "high"
+     ],
+     "subjects": [
+      "english"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000052138",
+     "field": "course_names",
+     "text": "중고등영어C",
+     "bands": [
+      "middle",
+      "high"
      ],
      "subjects": [
       "english"
@@ -59896,18 +60417,24 @@
    "basis": "교육청 등록명·교습과정",
    "bands": [
     "elem_low",
-    "elem_high"
+    "elem_high",
+    "middle",
+    "high"
    ],
    "bySubject": {
     "english": [
      "elem_low",
-     "elem_high"
+     "elem_high",
+     "middle",
+     "high"
     ]
    },
    "bandBasis": {
     "english": {
      "elem_low": "registered",
-     "elem_high": "registered"
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
     }
    },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
@@ -61281,6 +61808,45 @@
   "lat": 37.5147094,
   "lng": 126.8732757,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000060352",
+  "name": "다정한독서논술교습소",
+  "displayName": "다정한독서논술교습소",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동남로4길 6-23",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.507442,
+  "lng": 126.8655747,
+  "notRanked": null
  },
  {
   "id": "3000043966",
@@ -65566,45 +66132,6 @@
   "notRanked": null
  },
  {
-  "id": "3000043491",
-  "name": "공감영어교습소",
-  "displayName": "공감영어교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동중앙본로 64",
-  "capacity": 35,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5415636,
-  "lng": 126.8692323,
-  "notRanked": null
- },
- {
   "id": "3000053804",
   "name": "비술서재수학교습소",
   "displayName": "비술서재수학교습소",
@@ -67215,6 +67742,127 @@
   "registrationIds": null,
   "lat": 37.5091797,
   "lng": 126.8665885,
+  "notRanked": null
+ },
+ {
+  "id": "3000019238",
+  "name": "권쌤수학교습소",
+  "displayName": "권쌤수학교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [
+   "elem_low",
+   "elem_high",
+   "middle",
+   "high"
+  ],
+  "gradeBandsBySubject": {
+   "math": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ]
+  },
+  "gradeTarget": {
+   "evidence": [
+    {
+     "registrationId": "3000019238",
+     "field": "le_crse_list_nm",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019238",
+     "field": "course_names",
+     "text": "초등수학",
+     "bands": [
+      "elem_low",
+      "elem_high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019238",
+     "field": "course_names",
+     "text": "중등수학",
+     "bands": [
+      "middle"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    },
+    {
+     "registrationId": "3000019238",
+     "field": "course_names",
+     "text": "고등수학",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "math"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
+   ],
+   "bySubject": {
+    "math": [
+     "elem_low",
+     "elem_high",
+     "middle",
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "math": {
+     "elem_low": "registered",
+     "elem_high": "registered",
+     "middle": "registered",
+     "high": "registered"
+    }
+   },
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동중앙북로16길 50",
+  "capacity": 27,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5439779,
+  "lng": 126.8738066,
   "notRanked": null
  },
  {
@@ -71791,6 +72439,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060372",
+  "name": "그릿주니어영어교습소",
+  "displayName": "그릿주니어영어교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동중앙로7길 51",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5392006,
+  "lng": 126.8705138,
+  "notRanked": null
+ },
+ {
   "id": "9420",
   "name": "그림나무미술학원",
   "displayName": "그림나무미술학원",
@@ -74877,276 +75564,6 @@
   },
   "address": "서울특별시 양천구 목동서로 65",
   "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5361185,
-  "lng": 126.8787357,
-  "notRanked": null
- },
- {
-  "id": "3000043666",
-  "name": "수학바라기수학교습소",
-  "displayName": "수학바라기수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [
-   "elem_low",
-   "elem_high",
-   "middle",
-   "high"
-  ],
-  "gradeBandsBySubject": {
-   "math": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ]
-  },
-  "gradeTarget": {
-   "evidence": [
-    {
-     "registrationId": "3000043666",
-     "field": "le_crse_list_nm",
-     "text": "초등수학A",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000043666",
-     "field": "course_names",
-     "text": "초등수학A",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000043666",
-     "field": "course_names",
-     "text": "초등수학B",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000043666",
-     "field": "course_names",
-     "text": "중등수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000043666",
-     "field": "course_names",
-     "text": "고등수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동서로 65",
-  "capacity": 20,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5361185,
-  "lng": 126.8787357,
-  "notRanked": null
- },
- {
-  "id": "3000038027",
-  "name": "하이수학바라기수학교습소",
-  "displayName": "하이수학바라기수학교습소",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [
-   "elem_low",
-   "elem_high",
-   "middle",
-   "high"
-  ],
-  "gradeBandsBySubject": {
-   "math": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ]
-  },
-  "gradeTarget": {
-   "evidence": [
-    {
-     "registrationId": "3000038027",
-     "field": "le_crse_list_nm",
-     "text": "초등수학A",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000038027",
-     "field": "course_names",
-     "text": "초등수학A",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000038027",
-     "field": "course_names",
-     "text": "초등수학B",
-     "bands": [
-      "elem_low",
-      "elem_high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000038027",
-     "field": "course_names",
-     "text": "중등수학",
-     "bands": [
-      "middle"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    },
-    {
-     "registrationId": "3000038027",
-     "field": "course_names",
-     "text": "고등수학",
-     "bands": [
-      "high"
-     ],
-     "subjects": [
-      "math"
-     ],
-     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
-     "basis": "registered"
-    }
-   ],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "registered_courses",
-   "basis": "교육청 등록명·교습과정",
-   "bands": [
-    "elem_low",
-    "elem_high",
-    "middle",
-    "high"
-   ],
-   "bySubject": {
-    "math": [
-     "elem_low",
-     "elem_high",
-     "middle",
-     "high"
-    ]
-   },
-   "bandBasis": {
-    "math": {
-     "elem_low": "registered",
-     "elem_high": "registered",
-     "middle": "registered",
-     "high": "registered"
-    }
-   },
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동서로 65",
-  "capacity": 25,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -88305,6 +88722,138 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000060353",
+  "name": "여윤경논술교습소",
+  "displayName": "여윤경논술교습소",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로 233-1",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5275117,
+  "lng": 126.8715493,
+  "notRanked": null
+ },
+ {
+  "id": "3000052205",
+  "name": "양천목동자라다남아미술학원",
+  "displayName": "양천목동자라다남아미술학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로 233-1",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5275117,
+  "lng": 126.8715493,
+  "notRanked": null
+ },
+ {
+  "id": "3000035176",
+  "name": "엘란어학원",
+  "displayName": "엘란어학원",
+  "regionId": "mokdong",
+  "dong": "목동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [
+    {
+     "registrationId": "3000035176",
+     "field": "le_crse_list_nm",
+     "text": "실용외국어(유아/초·중·고)",
+     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
+    },
+    {
+     "registrationId": "3000035176",
+     "field": "le_crse_nm",
+     "text": "실용외국어(유아/초·중·고)",
+     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
+    }
+   ],
+   "unverifiedPreviousBands": [
+    "elem_low"
+   ],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로 233-1",
+  "capacity": 80,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5275117,
+  "lng": 126.8715493,
+  "notRanked": null
+ },
+ {
   "id": "3000053012",
   "name": "연세리움음악교습소",
   "displayName": "연세리움음악교습소",
@@ -94170,6 +94719,165 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000060343",
+  "name": "단아발레학원",
+  "displayName": "단아발레학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로12길 20",
+  "capacity": 47,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5226833,
+  "lng": 126.8732872,
+  "notRanked": null
+ },
+ {
+  "id": "3000031182",
+  "name": "수학에반하다수학전문학원",
+  "displayName": "수학에반하다수학전문학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로12길 20",
+  "capacity": 32,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5226833,
+  "lng": 126.8732872,
+  "notRanked": null
+ },
+ {
+  "id": "3000051931",
+  "name": "올림수학&사고력학원",
+  "displayName": "올림수학&사고력학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [
+    "elem_low",
+    "elem_high"
+   ],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로12길 20",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5226833,
+  "lng": 126.8732872,
+  "notRanked": null
+ },
+ {
+  "id": "3000042016",
+  "name": "젤리학원",
+  "displayName": "젤리학원",
+  "regionId": "mokdong",
+  "dong": "신정동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 양천구 목동동로12길 20",
+  "capacity": 84,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5226833,
+  "lng": 126.8732872,
+  "notRanked": null
+ },
+ {
   "id": "3000035070",
   "name": "대원학원",
   "displayName": "대원학원",
@@ -94485,126 +95193,6 @@
   "notRanked": null
  },
  {
-  "id": "3000031182",
-  "name": "수학에반하다수학전문학원",
-  "displayName": "수학에반하다수학전문학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동동로12길 20",
-  "capacity": 32,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5226833,
-  "lng": 126.8732872,
-  "notRanked": null
- },
- {
-  "id": "3000051931",
-  "name": "올림수학&사고력학원",
-  "displayName": "올림수학&사고력학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [
-    "elem_low",
-    "elem_high"
-   ],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동동로12길 20",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5226833,
-  "lng": 126.8732872,
-  "notRanked": null
- },
- {
-  "id": "3000042016",
-  "name": "젤리학원",
-  "displayName": "젤리학원",
-  "regionId": "mokdong",
-  "dong": "신정동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동동로12길 20",
-  "capacity": 84,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5226833,
-  "lng": 126.8732872,
-  "notRanked": null
- },
- {
   "id": "3000051418",
   "name": "돌체피아노음악학원",
   "displayName": "돌체피아노음악학원",
@@ -94719,99 +95307,6 @@
   "registrationIds": null,
   "lat": 37.5170851,
   "lng": 126.8540044,
-  "notRanked": null
- },
- {
-  "id": "3000052205",
-  "name": "양천목동자라다남아미술학원",
-  "displayName": "양천목동자라다남아미술학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "arts"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "arts": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "arts": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동동로 233-1",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5275117,
-  "lng": 126.8715493,
-  "notRanked": null
- },
- {
-  "id": "3000035176",
-  "name": "엘란어학원",
-  "displayName": "엘란어학원",
-  "regionId": "mokdong",
-  "dong": "목동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [
-    {
-     "registrationId": "3000035176",
-     "field": "le_crse_list_nm",
-     "text": "실용외국어(유아/초·중·고)",
-     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
-    },
-    {
-     "registrationId": "3000035176",
-     "field": "le_crse_nm",
-     "text": "실용외국어(유아/초·중·고)",
-     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
-    }
-   ],
-   "unverifiedPreviousBands": [
-    "elem_low"
-   ],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 양천구 목동동로 233-1",
-  "capacity": 80,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5275117,
-  "lng": 126.8715493,
   "notRanked": null
  },
  {
@@ -102448,7 +102943,7 @@
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 서초구 신반포로3길 8",
-  "capacity": 0,
+  "capacity": 460,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -102812,6 +103307,45 @@
   "lat": 37.4920742,
   "lng": 127.0257084,
   "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000060296",
+  "name": "온힘최수학학원",
+  "displayName": "온힘최수학학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 사임당로 151",
+  "capacity": 219,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4920742,
+  "lng": 127.0257084,
+  "notRanked": null
  },
  {
   "id": "3000053198",
@@ -103955,8 +104489,8 @@
  },
  {
   "id": "3000060274",
-  "name": "물감학원",
-  "displayName": "물감학원",
+  "name": "소호아트스튜디오학원",
+  "displayName": "소호아트스튜디오학원",
   "regionId": "banpo",
   "dong": "서초동",
   "subjects": [
@@ -104071,123 +104605,6 @@
   "registrationIds": null,
   "lat": 37.5015093,
   "lng": 127.0217788,
-  "notRanked": null
- },
- {
-  "id": "3000052475",
-  "name": "더(THE)원영어교습소",
-  "displayName": "더(THE)원영어교습소",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 효령로 230",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4834567,
-  "lng": 127.0094135,
-  "notRanked": null
- },
- {
-  "id": "3000024351",
-  "name": "서초국어논술교습소",
-  "displayName": "서초국어논술교습소",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "korean"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "korean": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "korean": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 효령로 230",
-  "capacity": 2,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4834567,
-  "lng": 127.0094135,
-  "notRanked": null
- },
- {
-  "id": "3000053757",
-  "name": "정도수학교습소",
-  "displayName": "정도수학교습소",
-  "regionId": "banpo",
-  "dong": "서초동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 효령로 230",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4834567,
-  "lng": 127.0094135,
   "notRanked": null
  },
  {
@@ -104698,6 +105115,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060369",
+  "name": "루멘수학교습소",
+  "displayName": "루멘수학교습소",
+  "regionId": "banpo",
+  "dong": "잠원동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 잠원로8길 25",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5143632,
+  "lng": 127.0115904,
+  "notRanked": null
+ },
+ {
   "id": "3000054594",
   "name": "서초홍익미술교습소",
   "displayName": "서초홍익미술교습소",
@@ -105012,6 +105468,45 @@
   "notRanked": "학습지·방문수업"
  },
  {
+  "id": "3000060301",
+  "name": "반포리브영어학원",
+  "displayName": "반포리브영어학원",
+  "regionId": "banpo",
+  "dong": "잠원동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 잠원로8길 25",
+  "capacity": 216,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5143632,
+  "lng": 127.0115904,
+  "notRanked": null
+ },
+ {
   "id": "3000054344",
   "name": "쇼팽피아노학원",
   "displayName": "쇼팽피아노학원",
@@ -105207,6 +105702,45 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000060316",
+  "name": "독서로국어해서초직영독서논술교습소",
+  "displayName": "독서로국어해서초직영독서논술교습소",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 신반포로 20",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5003784,
+  "lng": 126.988495,
+  "notRanked": null
+ },
+ {
   "id": "3000060266",
   "name": "반포원수학교습소",
   "displayName": "반포원수학교습소",
@@ -105233,6 +105767,71 @@
     "math": []
    },
    "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 신반포로 20",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5003784,
+  "lng": 126.988495,
+  "notRanked": null
+ },
+ {
+  "id": "3000060361",
+  "name": "일리수능국어교습소",
+  "displayName": "일리수능국어교습소",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [
+   "high"
+  ],
+  "gradeBandsBySubject": {
+   "korean": [
+    "high"
+   ]
+  },
+  "gradeTarget": {
+   "evidence": [
+    {
+     "registrationId": "3000060361",
+     "field": "name",
+     "text": "일리수능국어교습소",
+     "bands": [
+      "high"
+     ],
+     "subjects": [
+      "korean"
+     ],
+     "url": "https://open.neis.go.kr/hub/acaInsTiInfo",
+     "basis": "registered"
+    }
+   ],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "registered_courses",
+   "basis": "교육청 등록명·교습과정",
+   "bands": [
+    "high"
+   ],
+   "bySubject": {
+    "korean": [
+     "high"
+    ]
+   },
+   "bandBasis": {
+    "korean": {
+     "high": "registered"
+    }
+   },
    "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
   },
   "address": "서울특별시 서초구 신반포로 20",
@@ -105315,6 +105914,84 @@
   },
   "address": "서울특별시 서초구 신반포로 20",
   "capacity": 207,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5003784,
+  "lng": 126.988495,
+  "notRanked": null
+ },
+ {
+  "id": "3000060325",
+  "name": "책나무반포초트리니원점학원",
+  "displayName": "책나무반포초트리니원점학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "general"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "general": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "general": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 신반포로 20",
+  "capacity": 490,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5003784,
+  "lng": 126.988495,
+  "notRanked": "과목 미상"
+ },
+ {
+  "id": "3000060323",
+  "name": "클라우스음악학원",
+  "displayName": "클라우스음악학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 신반포로 20",
+  "capacity": 360,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -106380,6 +107057,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060315",
+  "name": "일리노이음악교습소",
+  "displayName": "일리노이음악교습소",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 효령로 403",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4889159,
+  "lng": 127.0277491,
+  "notRanked": null
+ },
+ {
   "id": "3000042254",
   "name": "체리쌤창의수학교습소",
   "displayName": "체리쌤창의수학교습소",
@@ -106410,6 +107126,45 @@
   },
   "address": "서울특별시 서초구 효령로 403",
   "capacity": 12,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4889159,
+  "lng": 127.0277491,
+  "notRanked": null
+ },
+ {
+  "id": "3000060320",
+  "name": "하프랑하프뮤직스튜디오(harp music studio)음악교습소",
+  "displayName": "하프랑하프뮤직스튜디오(harp music studio)음악교습소",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 효령로 403",
+  "capacity": 0,
   "registrationStatus": "개원",
   "isVerified": true,
   "registrationCount": 1,
@@ -107121,6 +107876,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060363",
+  "name": "대치수준수학반포관학원",
+  "displayName": "대치수준수학반포관학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 서초중앙로33길 1",
+  "capacity": 208,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5012873,
+  "lng": 127.0115692,
+  "notRanked": null
+ },
+ {
   "id": "3000036857",
   "name": "반석수학학원반포관학원",
   "displayName": "반석수학학원반포관학원",
@@ -107751,6 +108545,84 @@
   "registrationIds": null,
   "lat": 37.5024758,
   "lng": 127.0103419,
+  "notRanked": null
+ },
+ {
+  "id": "3000024351",
+  "name": "서초국어논술교습소",
+  "displayName": "서초국어논술교습소",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "korean"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "korean": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "korean": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 효령로 230",
+  "capacity": 2,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4834567,
+  "lng": 127.0094135,
+  "notRanked": null
+ },
+ {
+  "id": "3000053757",
+  "name": "정도수학교습소",
+  "displayName": "정도수학교습소",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 효령로 230",
+  "capacity": 0,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4834567,
+  "lng": 127.0094135,
   "notRanked": null
  },
  {
@@ -109052,6 +109924,45 @@
   "notRanked": null
  },
  {
+  "id": "3000060358",
+  "name": "더원하이영어학원",
+  "displayName": "더원하이영어학원",
+  "regionId": "banpo",
+  "dong": "서초동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 남부순환로315길 100",
+  "capacity": 138,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4828998,
+  "lng": 127.0075358,
+  "notRanked": null
+ },
+ {
   "id": "3000054326",
   "name": "생각이룸국어논술학원",
   "displayName": "생각이룸국어논술학원",
@@ -109364,93 +110275,6 @@
   "registrationIds": null,
   "lat": 37.503393,
   "lng": 127.0093707,
-  "notRanked": null
- },
- {
-  "id": "3000051261",
-  "name": "팝필레아영어교습소",
-  "displayName": "팝필레아영어교습소",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 서래로 17",
-  "capacity": 0,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4966765,
-  "lng": 126.9980229,
-  "notRanked": null
- },
- {
-  "id": "3000043562",
-  "name": "잉클링스어학원",
-  "displayName": "잉클링스어학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [
-    {
-     "registrationId": "3000043562",
-     "field": "le_crse_nm",
-     "text": "실용외국어(유아/초·중·고)",
-     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
-    }
-   ],
-   "unverifiedPreviousBands": [
-    "elem_low"
-   ],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 서래로 17",
-  "capacity": 20,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.4966765,
-  "lng": 126.9980229,
   "notRanked": null
  },
  {
@@ -110686,6 +111510,123 @@
   "notRanked": "과목 미상"
  },
  {
+  "id": "3000053343",
+  "name": "도성수학학원",
+  "displayName": "도성수학학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 서초중앙로33길 7",
+  "capacity": 332,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5010539,
+  "lng": 127.0112168,
+  "notRanked": null
+ },
+ {
+  "id": "1000035747",
+  "name": "리드유(Leadu)영어학원",
+  "displayName": "리드유(Leadu)영어학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 서초중앙로33길 7",
+  "capacity": 280,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5010539,
+  "lng": 127.0112168,
+  "notRanked": null
+ },
+ {
+  "id": "3408",
+  "name": "매쓰큐보습학원",
+  "displayName": "매쓰큐보습학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "math"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "math": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "math": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 서초중앙로33길 7",
+  "capacity": 22,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.5010539,
+  "lng": 127.0112168,
+  "notRanked": null
+ },
+ {
   "id": "3000040357",
   "name": "베리타스원격학원",
   "displayName": "베리타스원격학원",
@@ -110989,123 +111930,6 @@
   "registrationIds": null,
   "lat": 37.4953668,
   "lng": 127.027729,
-  "notRanked": null
- },
- {
-  "id": "1000035747",
-  "name": "리드유(Leadu)영어학원",
-  "displayName": "리드유(Leadu)영어학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "english"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "english": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "english": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 서초중앙로33길 7",
-  "capacity": 280,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5010539,
-  "lng": 127.0112168,
-  "notRanked": null
- },
- {
-  "id": "3408",
-  "name": "매쓰큐보습학원",
-  "displayName": "매쓰큐보습학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 서초중앙로33길 7",
-  "capacity": 22,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5010539,
-  "lng": 127.0112168,
-  "notRanked": null
- },
- {
-  "id": "3000053343",
-  "name": "매쓰포르테수학학원",
-  "displayName": "매쓰포르테수학학원",
-  "regionId": "banpo",
-  "dong": "반포동",
-  "subjects": [
-   "math"
-  ],
-  "aliases": [],
-  "gradeBands": [],
-  "gradeBandsBySubject": {
-   "math": []
-  },
-  "gradeTarget": {
-   "evidence": [],
-   "heldCourseSignals": [],
-   "unverifiedPreviousBands": [],
-   "auditedAt": "2026-10-17",
-   "version": "2026-09-20.3",
-   "status": "unknown",
-   "basis": "대상 학년 미확인",
-   "bands": [],
-   "bySubject": {
-    "math": []
-   },
-   "bandBasis": {},
-   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
-  },
-  "address": "서울특별시 서초구 서초중앙로33길 7",
-  "capacity": 332,
-  "registrationStatus": "개원",
-  "isVerified": true,
-  "registrationCount": 1,
-  "registrationIds": null,
-  "lat": 37.5010539,
-  "lng": 127.0112168,
   "notRanked": null
  },
  {
@@ -114023,6 +114847,54 @@
   "notRanked": null
  },
  {
+  "id": "3000043562",
+  "name": "잉클링스어학원",
+  "displayName": "잉클링스어학원",
+  "regionId": "banpo",
+  "dong": "반포동",
+  "subjects": [
+   "english"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "english": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [
+    {
+     "registrationId": "3000043562",
+     "field": "le_crse_nm",
+     "text": "실용외국어(유아/초·중·고)",
+     "reason": "교습과정 분류명이며 실제 모집 학년 아님"
+    }
+   ],
+   "unverifiedPreviousBands": [
+    "elem_low"
+   ],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "english": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 서초구 서래로 17",
+  "capacity": 20,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.4966765,
+  "lng": 126.9980229,
+  "notRanked": null
+ },
+ {
   "id": "3000048885",
   "name": "위드러너입시전문원격학원",
   "displayName": "위드러너입시전문원격학원",
@@ -115159,6 +116031,45 @@
   "registrationIds": null,
   "lat": 37.5173527,
   "lng": 127.1007382,
+  "notRanked": null
+ },
+ {
+  "id": "3000052972",
+  "name": "모뮤음악학원",
+  "displayName": "모뮤음악학원",
+  "regionId": "jamsil",
+  "dong": "방이동",
+  "subjects": [
+   "arts"
+  ],
+  "aliases": [],
+  "gradeBands": [],
+  "gradeBandsBySubject": {
+   "arts": []
+  },
+  "gradeTarget": {
+   "evidence": [],
+   "heldCourseSignals": [],
+   "unverifiedPreviousBands": [],
+   "auditedAt": "2026-10-17",
+   "version": "2026-09-20.3",
+   "status": "unknown",
+   "basis": "대상 학년 미확인",
+   "bands": [],
+   "bySubject": {
+    "arts": []
+   },
+   "bandBasis": {},
+   "caveat": "공시 과정 기준이며 현재 모집 학년은 학원에 확인이 필요합니다."
+  },
+  "address": "서울특별시 송파구 양재대로 1222",
+  "capacity": 264,
+  "registrationStatus": "개원",
+  "isVerified": true,
+  "registrationCount": 1,
+  "registrationIds": null,
+  "lat": 37.515729,
+  "lng": 127.1310643,
   "notRanked": null
  },
  {
