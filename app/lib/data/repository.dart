@@ -733,6 +733,8 @@ class SelectionNotifier extends Notifier<Selection> {
   @override
   Selection build() => const Selection();
 
+  void restore(Selection selection) => state = selection;
+
   void setRegion(String id) => state = state.copyWith(regionId: id);
   void setSubject(String id) => state = state.copyWith(subject: id);
   void setGradeBand(String id) => state = state.copyWith(gradeBand: id);

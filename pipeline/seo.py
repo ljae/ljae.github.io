@@ -4,7 +4,7 @@
 왜 필요한가
     앱은 CanvasKit 으로 캔버스에 그린다. 화면에 보이는 글자가 DOM 에 없어서
     구글·네이버 크롤러도, AI 답변 엔진도 내용을 하나도 읽지 못한다.
-    지금 색인되는 것은 홈의 메타 태그뿐이다.
+    정적 HTML이 이미 색인·검색 유입을 담당하므로 URL을 보존하며 개선한다.
 
 무엇을 하는가
     학원 3,910곳 · 학교 136곳 · 학군 4곳 · 트랙 12개를 각각 정적 페이지로
@@ -24,17 +24,19 @@ from __future__ import annotations
 import html
 import json
 import sys
+import re
+from urllib.parse import urlsplit
+
+if __package__:
+    from .edutree.public_page_model import (SUBJECTS, BANDS, academy_model, app_link, validate_aliases)
+else:
+    from edutree.public_page_model import (SUBJECTS, BANDS, academy_model, app_link, validate_aliases)
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app" / "assets" / "data"
 SITE = "https://openedu4u.com"
 
-SUBJECTS = {"math": "수학", "english": "영어", "korean": "국어·논술",
-            "science": "과학", "etc": "종합·보습"}
-# 학원이 받는 학년대. 학교(초등학교·중학교·고등학교)와는 다른 축이다.
-BANDS = {"elem_low": "예비초~초3", "elem_high": "초4~초6",
-         "middle": "중등", "high": "고등"}
 
 
 PILLAR_NAMES = {"reputation": "평판", "momentum": "화제성",
@@ -111,9 +113,11 @@ def won(v) -> str:
 
 def page(title: str, desc: str, canonical: str, body: str,
          jsonld: dict | list | None = None, breadcrumb: list | None = None) -> str:
+    # Internal navigation works in preview and production; canonical metadata stays absolute.
+    body = body.replace(f'href="{SITE}/', 'href="/')
     blocks = []
     if jsonld:
-        blocks.append(json.dumps(jsonld, ensure_ascii=False))
+        blocks.append(json.dumps(jsonld, ensure_ascii=False).replace("<", "\\u003c"))
     if breadcrumb:
         blocks.append(json.dumps({
             "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -122,7 +126,7 @@ def page(title: str, desc: str, canonical: str, body: str,
                 for i, (n, u) in enumerate(breadcrumb)],
         }, ensure_ascii=False))
     scripts = "\n".join(
-        f'<script type="application/ld+json">{b}</script>' for b in blocks)
+        f'<script type="application/ld+json">{b.replace(chr(60), chr(92) + "u003c")}</script>' for b in blocks)
 
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -142,120 +146,149 @@ def page(title: str, desc: str, canonical: str, body: str,
 <meta property="og:image" content="{SITE}/og-image.png">
 <link rel="icon" href="{SITE}/favicon.ico" sizes="any">
 {scripts}
-<style>
-:root{{color-scheme:light dark}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
-max-width:760px;margin:0 auto;padding:28px 20px 80px;line-height:1.75;color:#16203a;background:#fff}}
-a{{color:#1d3f7a}}
-header{{border-bottom:1px solid #e6e2d8;padding-bottom:14px;margin-bottom:22px}}
-.brand{{font-weight:800;font-size:15px;color:#182448;text-decoration:none}}
-.by{{font-size:12px;color:#9a8a6a;margin-left:6px}}
-h1{{font-size:26px;margin:.4em 0 .2em;letter-spacing:-.5px}}
-.sub{{color:#5d6b7a;font-size:14px;margin-top:0}}
-table{{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}}
-th,td{{text-align:left;padding:9px 10px;border-bottom:1px solid #eee}}
-th{{width:34%;color:#5d6b7a;font-weight:600}}
-.cta{{display:inline-block;margin:18px 0;padding:11px 18px;background:#182448;color:#fff;
-border-radius:8px;text-decoration:none;font-weight:700;font-size:14px}}
-.chips span{{display:inline-block;background:#f1efe8;border-radius:999px;padding:3px 10px;
-font-size:12.5px;margin:0 5px 5px 0}}
-footer{{margin-top:40px;padding-top:16px;border-top:1px solid #e6e2d8;font-size:12.5px;color:#7a8794}}
-ul{{padding-left:18px}}
-</style>
+<link rel="stylesheet" href="/seo.css">
 </head>
 <body>
-<header><a class="brand" href="{SITE}/">학원실록</a><span class="by">by Open Edu</span></header>
+<header><a class="brand" href="/">학원실록</a><span class="by">by Open Edu</span></header>
+<main>
+{('<nav class="breadcrumb" aria-label="현재 위치">' + ' › '.join(f'<a href="{esc(u.removeprefix(SITE))}">{esc(n)}</a>' for n, u in breadcrumb[:-1]) + ' › ' + esc(breadcrumb[-1][0]) + '</nav>') if breadcrumb else ''}
 {body}
+</main>
 <footer>
-<p>출처: NEIS 학원·학교 공시정보, 네이버 검색 API. 산식은 <a href="{SITE}/method.html">공개</a>합니다.</p>
-<p>운영: <a href="{SITE}/openedu/">Open Edu</a> · 정보에 오류가 있으면 정정을 요청해 주세요.</p>
+<p>출처: NEIS 학원·학교 공시정보, 네이버 검색 API. 산식은 <a href="/method.html">공개</a>합니다.</p>
+<p>운영: <a href="/openedu/">Open Edu</a> · Open Edu는 영어 교육 사업자입니다.</p>
 </footer>
 </body>
 </html>
 """
 
 
-def academy_pages(out: Path, academies, registry, regions) -> list[str]:
+def academy_pages(out: Path, academies, registry, regions, meta=None,
+                  aliases=None) -> list[str]:
     region_name = {r["id"]: r["name_ko"] for r in regions}
+    all_entities = list(academies) + list(registry)
+    entities = {str(a["id"]): a for a in all_entities}
+    if len(entities) != len(all_entities):
+        raise ValueError("Duplicate academy ID in SEO input")
+    evaluated_ids = {str(a["id"]) for a in academies}
+    groups = {}
+    for a in all_entities:
+        for subject in a.get("subjects") or []:
+            if subject != "general":
+                groups.setdefault((a.get("regionId"), subject), []).append(a)
+    for rows in groups.values():
+        rows.sort(key=lambda a: (a.get("displayName") or a["name"], str(a["id"])))
     urls = []
+    documents = {}
     (out / "a").mkdir(parents=True, exist_ok=True)
-
-    for a in list(academies) + list(registry):
-        aid = a["id"]
-        name = a.get("displayName") or a["name"]
-        reg = region_name.get(a.get("regionId"), "")
-        subs = "·".join(SUBJECTS.get(s, s) for s in (a.get("subjects") or []))
-        score = a.get("score")
-
-        title = f"{name} — {reg} 학원 정보 | 학원실록"
-        # 표본이 없으면 설명에도 점수를 적지 않는다 — 검색결과 스니펫이
-        # 근거 없는 숫자를 그대로 인용해 간다.
-        scored = bool(score and score.get("sampleSize"))
-        desc = (f"{reg} {name}의 교습비, 정원, 등록상태를 NEIS 공시로 확인하세요."
-                + (f" 트리스코어 {score['total']:.0f}점." if scored else ""))
-
-        rows = [("학군", reg), ("분야", subs or "—"),
-                ("주소", a.get("address")), ("등록상태", a.get("registrationStatus")),
-                ("정원", f"{a['capacity']}명" if a.get("capacity") else "—")]
-        if a.get("registrationCount", 1) > 1:
-            rows.append(("등록 건수", f"{a['registrationCount']}건(관·과정별 등록 통합)"))
-
-        body = [f"<h1>{esc(name)}</h1>",
-                f'<p class="sub">{esc(reg)} · {esc(subs)}</p>']
-        # 표본 0 은 '적다'가 아니라 '없다'다. 이때 평판은 코호트 평균(50)으로
-        # 대체된 값이라 그대로 찍으면 50점이 평가 결과처럼 읽힌다. 실명 사업자에게
-        # 근거 없는 숫자를 붙이는 것이라 점수 자체를 내지 않는다.
-        # 앱도 같은 규칙이다 — academy_page.dart / academy_card.dart 의 sampleSize == 0 분기.
-        #
-        # '수집했는데 근거가 없다'와 '아직 안 봤다'는 다른 상태이므로 문구를 나눈다.
-        if scored:
-            body.append(
-                f"<p><strong>트리스코어 {score['total']:.0f}점</strong> "
-                # 예체능·기타는 투명성·진입난이도를 채점하지 않아 None 이다.
-                # 0 으로 적으면 '점수가 나쁘다'로 읽히므로 항목 자체를 뺀다.
-                + " (" + " · ".join(
-                    f"{label} {score[key]:.0f}"
-                    for key, label in (("reputation", "평판"),
-                                       ("momentum", "화제성"),
-                                       ("transparency", "투명성"),
-                                       ("selectivity", "진입난이도"))
-                    if score.get(key) is not None) + ") "
-                + f"— 유효 표본 {score['sampleSize']}건"
-                # 순위 기준은 파이프라인이 이미 정했다. 여기서 10 을 다시 쓰면
-                # 기준이 두 곳에 생겨 언젠가 어긋난다.
-                + ("" if score.get("isRanked") else " · 표본 부족으로 순위 제외")
-                + "</p>")
-        elif score:
-            body.append("<p>수집한 커뮤니티 글에서 이 학원을 가리키는 근거를 "
-                        "찾지 못했습니다. 점수를 내지 않습니다. 공시 정보만 표시합니다.</p>")
-        else:
-            body.append("<p>아직 커뮤니티 신호를 수집하지 않은 학원입니다. "
-                        "공시 정보만 표시합니다.</p>")
-
-        body.append("<table>" + "".join(
-            f"<tr><th>{esc(k)}</th><td>{esc(v) or '—'}</td></tr>" for k, v in rows) + "</table>")
-        body.append(f'<a class="cta" href="{SITE}/#/academy/{aid}">학원실록에서 자세히 보기</a>')
-
-        ld = {
-            "@context": "https://schema.org",
-            "@type": "EducationalOrganization",
-            "name": name,
-            "url": f"{SITE}/a/{aid}.html",
-            "areaServed": reg,
-        }
+    for a in all_entities:
+        aid = str(a["id"])
+        model = academy_model(a, evaluated=aid in evaluated_ids,
+                              generated_at=(meta or {}).get("generatedAt", ""))
+        name = model["displayName"]
+        rid = model["regionId"]
+        reg = region_name.get(rid, "")
+        subs = " · ".join(x["label"] for x in model["subjects"])
+        title = f"{name} · {reg} 학원 정보 | 학원실록"
+        desc = f"{reg} {name}의 주소와 공시 등록 정보를 살펴보세요."
+        if model["grades"]:
+            desc += " 대상: " + ", ".join(g["label"] for g in model["grades"]) + "."
+        body = [f'<h1>{esc(name)}</h1>', f'<p class="sub">{esc(reg)} · {esc(subs)}</p>']
+        grade_text = "<br>".join(f'{esc(g["label"])} <small>({esc(g["basisLabel"])})</small>'
+                                  for g in model["grades"]) or "대상 학년 미확인"
+        body.append('<section class="panel"><h2>상담 전에 알아둘 정보</h2><dl class="quickfacts">'
+                    f'<div><dt>수업 과목</dt><dd>{esc(subs) or "과목 미확인"}</dd></div>'
+                    f'<div><dt>등록 상태</dt><dd>{esc(a.get("registrationStatus")) or "미확인"}</dd></div>'
+                    f'<div><dt>대상 학년</dt><dd>{grade_text}</dd></div>'
+                    '<div><dt>비용 · 수업 시간</dt><dd>확인된 비교 자료가 없습니다</dd></div></dl>')
+        if model["gradeNote"]:
+            body.append(f'<p class="note">{esc(model["gradeNote"])}</p>')
+        body.append('<div class="actions">')
+        phone, homepage = model["contact"]["phone"], model["contact"]["officialUrl"]
+        if phone:
+            digits = re.sub(r"[^0-9+]", "", phone)
+            body.append(f'<a class="cta" href="tel:{digits}">전화 {esc(phone)}</a>')
+        if homepage:
+            body.append(f'<a class="cta" href="{esc(homepage)}" rel="noopener noreferrer">공식 홈페이지</a>')
         if a.get("address"):
-            ld["address"] = {"@type": "PostalAddress",
-                             "streetAddress": a["address"],
-                             "addressCountry": "KR"}
-        if a.get("lat") and a.get("lng"):
-            ld["geo"] = {"@type": "GeoCoordinates",
-                         "latitude": a["lat"], "longitude": a["lng"]}
-
-        (out / "a" / f"{aid}.html").write_text(
-            page(title, desc, f"{SITE}/a/{aid}.html", "\n".join(body), ld,
-                 [("학원실록", f"{SITE}/"), (reg, f"{SITE}/g/{a.get('regionId')}.html"),
-                  (name, f"{SITE}/a/{aid}.html")]), encoding="utf-8")
-        urls.append(f"{SITE}/a/{aid}.html")
+            from urllib.parse import quote
+            address_link = "https://map.naver.com/p/search/" + quote(a["address"], safe="")
+            body.append(f'<a class="cta secondary" href="{address_link}" rel="noopener noreferrer">주소로 위치 찾기</a>')
+        body.append(f'<a class="cta secondary" href="{SITE}/g/{esc(rid)}.html">{esc(reg)} 다른 학원 찾기</a></div></section>')
+        if not phone and not homepage:
+            body.append('<p class="note">확인된 전화번호와 공식 홈페이지가 아직 없습니다. '
+                        '대상 학년과 모집 정보는 학원에 직접 확인해 주세요.</p>')
+        rows = [("등록명", a["name"]), ("주소", a.get("address")),
+                ("공시 정원", f'{a["capacity"]}명' if a.get("capacity") else None)]
+        if a.get("registrationCount", 1) > 1:
+            rows.append(("등록 건수", f'{a["registrationCount"]}건 (관·과정별 등록 통합)'))
+        body.append('<section class="panel"><h2>공식 등록 정보</h2><table>'
+                    '<caption>NEIS 공시 기반 · 실제 모집 안내와 다를 수 있습니다</caption>'
+                    + "".join(f'<tr><th scope="row">{esc(k)}</th><td>{esc(v) or "미확인"}</td></tr>' for k, v in rows)
+                    + '</table>')
+        if model["dataGeneratedAt"]:
+            body.append(f'<p class="note" data-generated-at="true">자료 생성일 {esc(model["dataGeneratedAt"][:10])} '
+                        '· 원 출처 확인일과 구분합니다.</p>')
+        body.append('</section>')
+        score = a.get("score") or {}
+        body.append('<section class="panel"><h2>후기 자료와 분석</h2>')
+        if score.get("sampleSize"):
+            body.append(f'<p>유효 표본 {score["sampleSize"]}건 · 트리스코어 {score["total"]:.0f}점'
+                        + (' · 순위 대상' if score.get("isRanked") else ' · 표본 부족으로 순위 제외')
+                        + '</p><p class="note">이용자 별점이 아닌 커뮤니티 신호 기반 추정 지표입니다. '
+                        f'<a href="{SITE}/method.html">산식과 한계</a></p>')
+            # The live pipeline already validates snippets. Only link to those surviving gates.
+            evidence = [e for e in a.get("evidence", []) if isinstance(e, dict)]
+            from urllib.parse import urlsplit
+            links = []
+            seen = set()
+            for e in evidence:
+                url = e.get("url") or e.get("sourceUrl")
+                if not url or urlsplit(url).scheme not in ("http", "https") or url in seen:
+                    continue
+                seen.add(url)
+                links.append(f'<li><a href="{esc(url)}" rel="noopener noreferrer">'
+                             f'{esc(e.get("title") or "후기 원문")}</a></li>')
+                if len(links) == 5:
+                    break
+            if links:
+                body.append('<ul>' + ''.join(links) + '</ul>')
+        elif model["evidenceStatus"] == "not_collected":
+            body.append('<p>아직 커뮤니티 신호를 수집하지 않은 학원입니다. 공시 정보만 표시합니다.</p>')
+        else:
+            body.append('<p>수집한 글에서 이 학원의 유효한 후기 근거를 찾지 못했습니다. 점수를 내지 않습니다.</p>')
+        body.append('<p class="note">자료가 부족하다는 것이 학원의 품질이 낮다는 뜻은 아닙니다.</p></section>')
+        candidates = []
+        for subject in a.get("subjects") or []:
+            candidates.extend(groups.get((rid, subject), []))
+        related = list({str(c["id"]): c for c in candidates if str(c["id"]) != aid}.values())[:6]
+        if related:
+            body.append(f'<section class="panel"><h2>{esc(reg)} 같은 과목의 다른 학원</h2>'
+                        '<p class="note">추천 순위가 아닙니다. 대상 학년은 각 상세에서 확인하세요.</p><ul class="related">')
+            for c in related:
+                body.append(f'<li><a href="{SITE}/a/{esc(c["id"])}.html">{esc(c.get("displayName") or c["name"])}</a>'
+                            f'<small>{esc(c.get("address"))}</small></li>')
+            body.append('</ul></section>')
+        body.append(f'<a class="cta secondary" href="{SITE}{esc(app_link("academy/" + aid, region=rid))}">'
+                    '앱에서 정보·정정 안내 보기</a>')
+        ld = {"@context": "https://schema.org", "@type": "EducationalOrganization",
+              "name": name, "url": f'{SITE}/a/{aid}.html', "areaServed": reg}
+        if a.get("address"):
+            ld["address"] = {"@type": "PostalAddress", "streetAddress": a["address"], "addressCountry": "KR"}
+        if phone:
+            ld["telephone"] = phone
+        if homepage:
+            ld["sameAs"] = homepage
+        breadcrumb = [("학원실록", f"{SITE}/"), (reg, f"{SITE}/g/{rid}.html"), (name, f"{SITE}/a/{aid}.html")]
+        document = page(title, desc, f'{SITE}/a/{aid}.html', '\n'.join(body), ld, breadcrumb)
+        documents[aid] = document
+        (out / "a" / f'{aid}.html').write_text(document, encoding="utf-8")
+        urls.append(f'{SITE}/a/{aid}.html')
+    for old, new in (aliases or {}).items():
+        # Same useful content, current canonical. GitHub Pages serves HTTP 200, not 301.
+        notice = f'<p class="panel">이 등록 정보는 <a href="/a/{new}.html">현재 학원 정보</a>로 통합되었습니다.</p>'
+        document = documents[new].replace('<main>', '<main>' + notice, 1)
+        (out / "a" / f'{old}.html').write_text(document, encoding="utf-8")
     return urls
 
 
@@ -303,7 +336,7 @@ def school_pages(out: Path, schools, regions) -> list[str]:
                                  "중·고등학교는 학교군 추첨이라 반드시 이 학교로 배정되는 것은 아닙니다.")
                         + "</p>")
 
-        body.append(f'<a class="cta" href="{SITE}/#/map">학군지도에서 위치 보기</a>')
+        body.append(f'<a class="cta" href="{SITE}{esc(app_link("map", school=sid, region=s.get("regionId")))}">학군지도에서 위치 보기</a>')
         ld = {"@context": "https://schema.org", "@type": "School",
               "name": s["name"], "url": f"{SITE}/s/{sid}.html", "areaServed": reg}
         if s.get("address"):
@@ -328,8 +361,6 @@ def region_pages(out: Path, regions, academies, registry, schools, meta) -> list
         acs = [a for a in academies if a.get("regionId") == rid]
         allac = acs + [a for a in registry if a.get("regionId") == rid]
         sch = [s for s in schools if s.get("regionId") == rid]
-        ranked = sorted([a for a in acs if a.get("score", {}).get("isRanked")],
-                        key=lambda a: -a["score"]["total"])[:20]
 
         title = f"{name} 학원·학교 — 학군 정보 | 학원실록"
         desc = (f"{name} 학군의 학원 {len(allac):,}곳과 학교 {len(sch)}곳. "
@@ -341,14 +372,15 @@ def region_pages(out: Path, regions, academies, registry, schools, meta) -> list
                 f"채점 완료 {len(acs)}곳 · 학교 {len(sch)}곳 "
                 f"({', '.join(r['dong_list'])})</p>"]
 
-        if ranked:
-            body.append(f"<h2>{esc(name)} 학원 트리스코어 상위</h2><ul>")
-            for a in ranked:
-                nm = a.get("displayName") or a["name"]
-                body.append(f'<li><a href="{SITE}/a/{a["id"]}.html">{esc(nm)}</a>'
-                            f' — {a["score"]["total"]:.0f}점'
-                            f' (표본 {a["score"]["sampleSize"]}건)</li>')
-            body.append("</ul>")
+        body.append('<section class="panel"><h2>과목별 학원 찾기</h2><ul>')
+        for subject, label in SUBJECTS.items():
+            rows = sorted([a for a in allac if subject in (a.get("subjects") or [])],
+                          key=lambda a: (a.get("displayName") or a["name"], str(a["id"])))
+            if not rows or subject == "general":
+                continue
+            body.append(f'<li><a href="{SITE}{esc(app_link("rank", region=rid, subject=subject))}">{esc(name)} {esc(label)} {len(rows)}곳 탐색</a></li>')
+            body.append('<ul>' + ''.join(f'<li><a href="{SITE}/a/{esc(a["id"])}.html">{esc(a.get("displayName") or a["name"])}</a></li>' for a in rows[:8]) + '</ul>')
+        body.append('</ul><p class="note">이름순 탐색 목록입니다. 실제 모집 학년은 각 상세에서 확인해 주세요.</p></section>')
 
         for lv, label in (("elementary", "초등학교"), ("middle", "중학교"), ("high", "고등학교")):
             rows = [s for s in sch if s.get("level") == lv]
@@ -358,7 +390,7 @@ def region_pages(out: Path, regions, academies, registry, schools, meta) -> list
                          f' — {esc(s.get("foundation",""))}</li>' for s in rows]
                 body.append("</ul>")
 
-        body.append(f'<a class="cta" href="{SITE}/#/rank">{esc(name)} 전체 랭킹 보기</a>')
+        body.append(f'<a class="cta" href="{SITE}{esc(app_link("rank", region=rid))}">{esc(name)} 학원 탐색</a>')
 
         # AEO: 답변 엔진이 그대로 인용할 수 있는 문답 구조
         faq = [
@@ -418,7 +450,7 @@ def track_pages(out: Path, tracks, academies) -> list[str]:
                 body += [f'<li><a href="{SITE}/a/{a["id"]}.html">'
                          f'{esc(a.get("displayName") or a["name"])}</a></li>' for a in rows]
                 body.append("</ul>")
-        body.append(f'<a class="cta" href="{SITE}/#/tree">테크트리 그래프로 보기</a>')
+        body.append(f'<a class="cta" href="{SITE}{esc(app_link("tree", track=tid, subject=t.get("subject"), band=t.get("grade_band")))}">학습 경로 보기</a>')
         (out / "t" / f"{tid}.html").write_text(
             page(title, desc, f"{SITE}/t/{tid}.html", "\n".join(body), None,
                  [("학원실록", f"{SITE}/"), (t["title"], f"{SITE}/t/{tid}.html")]),
@@ -586,7 +618,7 @@ def method_page(out: Path, meta) -> list[str]:
 
     gen = (meta or {}).get("generatedAt", "")
     cnt = (meta or {}).get("mentionCount", 0)
-    b.append(f'<p class="sub">데이터 생성 시각: {esc(gen) or "—"} · 분석 글 {cnt:,}건</p>')
+    b.append(f'<p class="sub" data-generated-at="true">데이터 생성 시각: {esc(gen) or "—"} · 분석 글 {cnt:,}건</p>')
 
     title = "트리스코어 산식 — 학원 랭킹 계산 방법 전면 공개 | 학원실록"
     desc = ("학원실록이 학원 순위를 매기는 방법을 전부 공개합니다. "
@@ -602,8 +634,6 @@ def method_page(out: Path, meta) -> list[str]:
         "publisher": {"@type": "Organization", "name": "Open Edu",
                       "url": f"{SITE}/openedu/"},
     }
-    if gen:
-        ld["dateModified"] = gen[:10]
     (out / "method.html").write_text(
         page(title, desc, f"{SITE}/method.html", "\n".join(b), ld,
              [("학원실록", f"{SITE}/"), ("트리스코어 산식", f"{SITE}/method.html")]),
@@ -611,29 +641,26 @@ def method_page(out: Path, meta) -> list[str]:
     return [f"{SITE}/method.html"]
 
 
-def write_sitemap(out: Path, urls: list[str]) -> None:
-    from datetime import date
-    today = date.today().isoformat()
-    # 사이트맵 하나에 5만 URL 제한. 여유 있게 2만씩 쪼갠다.
-    chunks = [urls[i:i + 20000] for i in range(0, len(urls), 20000)] or [[]]
+def write_sitemap(out: Path, urls: list[str], manifest=None) -> None:
+    # Dates reflect substantive content changes, not every daily rebuild.
+    entries = []
+    for u in urls:
+        updated = ((manifest or {}).get("pages", {}).get(u) or {}).get("semanticUpdatedAt")
+        mod = f"<lastmod>{esc(updated)}</lastmod>" if updated else ""
+        entries.append(f"  <url><loc>{esc(u)}</loc>{mod}</url>")
+    chunks = [entries[i:i + 20000] for i in range(0, len(entries), 20000)] or [[]]
     names = []
     for i, chunk in enumerate(chunks):
-        nm = "sitemap.xml" if len(chunks) == 1 else f"sitemap-{i + 1}.xml"
-        names.append(nm)
-        entries = "\n".join(
-            f"  <url><loc>{u}</loc><lastmod>{today}</lastmod>"
-            f"<changefreq>weekly</changefreq></url>" for u in chunk)
-        (out / nm).write_text(
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
+        name = "sitemap.xml" if len(chunks) == 1 else f"sitemap-{i + 1}.xml"
+        names.append(name)
+        (out / name).write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            f'{entries}\n</urlset>\n', encoding="utf-8")
+            + "\n".join(chunk) + '\n</urlset>\n', encoding="utf-8")
     if len(chunks) > 1:
-        idx = "\n".join(f"  <sitemap><loc>{SITE}/{n}</loc>"
-                        f"<lastmod>{today}</lastmod></sitemap>" for n in names)
-        (out / "sitemap.xml").write_text(
-            '<?xml version="1.0" encoding="UTF-8"?>\n'
+        (out / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            f'{idx}\n</sitemapindex>\n', encoding="utf-8")
+            + "\n".join(f"<sitemap><loc>{SITE}/{n}</loc></sitemap>" for n in names)
+            + '\n</sitemapindex>\n', encoding="utf-8")
 
 
 def write_llms_txt(out: Path, counts: dict, meta) -> None:
@@ -669,7 +696,7 @@ def write_llms_txt(out: Path, counts: dict, meta) -> None:
 """, encoding="utf-8")
 
 
-def main(target: str) -> None:
+def main(target: str, *, manifest_path=None, previous_manifest=None, allow_removals=False) -> None:
     out = Path(target)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -680,14 +707,37 @@ def main(target: str) -> None:
     tracks = (load("techtree.json") or {}).get("tracks", []) if (DATA / "techtree.json").exists() else []
     meta = json.loads((DATA / "meta.json").read_text(encoding="utf-8")) if (DATA / "meta.json").exists() else {}
 
+    if __package__:
+        from .growth.inventory import inventory, save_manifest
+    else:
+        from growth.inventory import inventory, save_manifest
+    manifest_path = Path(manifest_path or ROOT / "pipeline/.cache/growth/page-manifest.json")
+    previous_path = Path(previous_manifest) if previous_manifest else manifest_path
+    previous = json.loads(previous_path.read_text()) if previous_path.exists() else None
+    entities = {str(a["id"]): a for a in list(academies) + list(registry)}
+    alias_data = json.loads((ROOT / "pipeline/data/url_aliases.json").read_text())
+    aliases = validate_aliases(alias_data["entries"], entities)
+    (out / "seo.css").write_text((ROOT / "pipeline/seo_templates/site.css").read_text(), encoding="utf-8")
     urls = [f"{SITE}/", f"{SITE}/openedu/"]
+    for existing in ("teachers.html", "roadmap.html", "assessment.html"):
+        if (out / "openedu" / existing).is_file():
+            urls.append(f"{SITE}/openedu/{existing}")
     urls += method_page(out, meta)
     urls += region_pages(out, regions, academies, registry, schools, meta)
     urls += track_pages(out, tracks, academies)
     urls += school_pages(out, schools, regions)
-    urls += academy_pages(out, academies, registry, regions)
+    urls += academy_pages(out, academies, registry, regions, meta, aliases)
 
-    write_sitemap(out, urls)
+    manifest = inventory(out, urls, previous=previous, aliases=aliases, allow_removals=allow_removals)
+    write_sitemap(out, urls, manifest)
+    save_manifest(manifest_path, manifest)
+    # Only identity mappings are public. Search data and the private manifest stay outside _site.
+    (out / "assets/assets/data/url_aliases.json").parent.mkdir(parents=True, exist_ok=True)
+    (out / "assets/assets/data/url_aliases.json").write_text(json.dumps(aliases), encoding="utf-8")
+    not_found = page("페이지를 찾을 수 없습니다 | 학원실록", "학원 이름과 지역으로 다시 찾아보세요.",
+                     f"{SITE}/404.html", '<h1>페이지를 찾을 수 없습니다</h1><p>주소가 바뀌었거나 없는 페이지입니다.</p>'
+                     f'<a class="cta" href="{SITE}/">학원 이름으로 다시 찾기</a>')
+    (out / "404.html").write_text(not_found.replace('index, follow,', 'noindex, follow,'), encoding="utf-8")
     write_llms_txt(out, {
         "academies": meta.get("registryCount", len(academies) + len(registry)),
         "schools": len(schools),
@@ -697,4 +747,12 @@ def main(target: str) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else str(ROOT / "_seo"))
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("target", nargs="?", default=str(ROOT / "_seo"))
+    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--previous-manifest", type=Path)
+    parser.add_argument("--allow-removals", action="store_true", help="Review URL lifecycle before using")
+    args = parser.parse_args()
+    main(args.target, manifest_path=args.manifest, previous_manifest=args.previous_manifest,
+         allow_removals=args.allow_removals)

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
+import '../../data/academy_detail.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../data/claim_disputes.dart';
@@ -30,18 +31,135 @@ class AcademyPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final async = ref.watch(dataProvider);
-
+    final async = ref.watch(academyDetailProvider(academyId));
     return async.when(
       loading: () => const ContentLoading(),
-      error: (e, _) => Center(child: Text('$e')),
-      data: (data) {
-        final academy = data.academyById[academyId];
-        if (academy == null) {
-          return const Center(child: Text('학원을 찾을 수 없습니다'));
+      error: (e, _) => Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('학원 정보를 불러오지 못했습니다.'),
+            TextButton(
+              onPressed: () {
+                if (ref.read(dataProvider).hasError) ref.invalidate(dataProvider);
+                ref.invalidate(registryProvider);
+                ref.invalidate(academyDetailProvider(academyId));
+              },
+              child: const Text('다시 시도'),
+            ),
+          ],
+        ),
+      ),
+      data: (detail) {
+        if (detail == null) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('학원을 찾을 수 없습니다'),
+                TextButton(
+                  onPressed: () => context.go('/rank'),
+                  child: const Text('학원 탐색으로'),
+                ),
+              ],
+            ),
+          );
         }
-        return _Body(academy: academy, data: data);
+        final data = ref.watch(dataProvider).requireValue;
+        if (detail.registry != null) {
+          return _RegistryBody(entry: detail.registry!, data: data);
+        }
+        return _Body(academy: detail.academy!, data: data);
       },
+    );
+  }
+}
+
+class _RegistryBody extends StatelessWidget {
+  final RegistryEntry entry;
+  final EduTreeData data;
+  const _RegistryBody({required this.entry, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final region = data.regionById[entry.regionId]?.nameKo ?? '';
+    final grades = <String>[];
+    for (final subject in entry.subjects) {
+      for (final band in entry.bandsForSubject(subject)) {
+        final basis = entry.gradeBandBasis[subject]?[band];
+        if (basis == null) continue;
+        final label = const {'official': '공식 안내', 'directory': '소개 자료 대조',
+          'registered': '공시', 'curated': '후기·단계 기준', 'reviews': '후기·단계 기준'}[basis];
+        if (label == null) continue;
+        grades.add('${subjectNames[subject] ?? '과목 미확인'} ${gradeBandNames[band] ?? band} ($label)');
+      }
+    }
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: AppSpace.lg),
+      children: [
+        ContentWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton.icon(
+                onPressed: () => context.go('/rank?region=${entry.regionId}'),
+                icon: const Icon(Icons.arrow_back, size: 16),
+                label: Text('$region 학원 탐색'),
+              ),
+              const SizedBox(height: AppSpace.md),
+              Text(entry.displayName, style: text.headlineLarge),
+              const SizedBox(height: AppSpace.sm),
+              Text(
+                '$region · ${orderedSubjects(entry.subjects).map((s) => subjectNames[s] ?? '과목 미확인').join(' · ')}',
+                style: text.bodyLarge,
+              ),
+              const SizedBox(height: AppSpace.lg),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpace.lg),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('상담 전에 알아둘 정보', style: text.titleLarge),
+                      const SizedBox(height: AppSpace.md),
+                      Text(
+                        '대상 학년: ${grades.isEmpty ? '미확인' : grades.join(' · ')}',
+                      ),
+                      const SizedBox(height: AppSpace.sm),
+                      SelectableText('주소: ${entry.address ?? '미확인'}'),
+                      const SizedBox(height: AppSpace.sm),
+                      Text('등록 상태: ${entry.registrationStatus ?? '미확인'}'),
+                      Text(
+                        '공시 정원: ${entry.capacity == null ? '미확인' : '${entry.capacity}명'}',
+                      ),
+                      const SizedBox(height: AppSpace.md),
+                      const Text('비용과 수업 시간, 현재 모집 학년은 학원에 확인이 필요합니다.'),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpace.md),
+              Text(
+                '아직 커뮤니티 신호를 수집하지 않은 학원입니다. 공시 정보만 표시합니다.',
+                style: text.bodyLarge,
+              ),
+              const Text('점수나 후기가 없다는 것이 학원의 품질이 낮다는 뜻은 아닙니다.'),
+              const SizedBox(height: AppSpace.md),
+              Text(
+                '자료 생성일: ${data.meta.generatedAt.split('T').first} · 원 출처 확인일과 구분합니다.',
+                style: text.bodySmall,
+              ),
+              const SizedBox(height: AppSpace.lg),
+              _CorrectionNotice(
+                academyKey: entry.id,
+                academyName: entry.displayName,
+              ),
+              const SizedBox(height: AppSpace.xl),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

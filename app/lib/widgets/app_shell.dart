@@ -586,14 +586,10 @@ class AcademySearch extends SearchDelegate<String> {
                       ),
                     )
                   : const TagMark('미평가', color: AppColors.mist),
-              // 등록부 학원은 상세 화면이 없다. 점수를 만들지 않았으므로
-              // 보여줄 것도 없고, 있는 척하면 그게 곧 거짓이다.
-              onTap: hit.evaluated
-                  ? () {
-                      close(context, hit.id);
-                      context.go('/academy/${hit.id}');
-                    }
-                  : null,
+              onTap: () {
+                close(context, hit.id);
+                context.go('/academy/${hit.id}');
+              },
             );
           },
         );

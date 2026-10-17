@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/theme.dart';
 import '../../data/admin.dart';
@@ -60,6 +61,9 @@ class _AdminPageState extends ConsumerState<AdminPage> {
                   ),
                 )
               else ...[
+                if (isAdmin.value == true)
+                  OutlinedButton.icon(onPressed: () => context.go('/admin/growth'),
+                    icon: const Icon(Icons.query_stats), label: const Text('검색 성장 분석')),
                 const _SourceList(),
                 const SizedBox(height: AppSpace.lg),
                 SegmentedButton<int>(

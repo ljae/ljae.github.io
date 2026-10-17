@@ -109,6 +109,14 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
   PageController? _pages;
   int _page = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    final subjects = orderedSubjects(subjectOrder)
+        .where((s) => widget.data.roadmap.stages.any((st) => st.subject == s)).toList();
+    _page = subjects.indexOf(ref.read(selectionProvider).subject).clamp(0, subjects.length);
+  }
+
   /// 고른 진로 목적지. null 이면 전체를 같은 밝기로 본다.
   ///
   /// 판이 모든 길을 같은 밝기로 그리면 '우리 아이 길은 어디냐' 에 답하지
@@ -357,7 +365,10 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
           child: PageView.builder(
             controller: _pages,
             itemCount: subjects.length,
-            onPageChanged: (i) => setState(() => _page = i),
+            onPageChanged: (i) {
+              setState(() => _page = i);
+              ref.read(selectionProvider.notifier).setSubject(subjects[i]);
+            },
             itemBuilder: (context, i) => _board(
               context,
               roadmap,

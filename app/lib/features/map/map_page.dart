@@ -18,7 +18,8 @@ import 'naver_map.dart';
 /// 학원이 아니라 **학교**가 주인공이다. 어느 학교에 배정되는지가 곧 학군이고,
 /// 학부모가 집을 고를 때 실제로 보는 것도 그것이다. 학원은 참고 레이어로만 얹는다.
 class MapPage extends ConsumerStatefulWidget {
-  const MapPage({super.key});
+  final String? schoolId;
+  const MapPage({super.key, this.schoolId});
 
   @override
   ConsumerState<MapPage> createState() => _MapPageState();
@@ -28,6 +29,7 @@ class _MapPageState extends ConsumerState<MapPage> {
   String? _level; // null = 초·중·고 전체
   bool _showAcademies = false;
   bool _showApartments = true;
+  String? _openedSchoolId;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,23 @@ class _MapPageState extends ConsumerState<MapPage> {
       return const ContentLoading();
     }
     final mapData = mapAsync.requireValue;
+    final requested = mapData.schools
+        .where((s) => s.id == widget.schoolId)
+        .firstOrNull;
+    if (requested != null && _openedSchoolId != requested.id) {
+      _openedSchoolId = requested.id;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          showDragHandle: true,
+          constraints: const BoxConstraints(maxWidth: 640),
+          builder: (_) => _SchoolSheet(school: requested, mapData: mapData),
+        );
+      });
+    }
+
 
     return async.when(
       loading: () => const ContentLoading(),

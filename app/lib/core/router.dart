@@ -11,6 +11,8 @@ import '../features/method/method_page.dart';
 import '../features/ranking/ranking_page.dart';
 import '../features/techtree/techtree_page.dart';
 import '../widgets/app_shell.dart';
+import 'selection_route.dart';
+import '../features/admin/growth/growth_page.dart';
 
 /// 메뉴 전환. 셸(헤더·하단바)은 그대로 두고 본문만 바꾸므로
 /// 짧게 흐려 넘긴다. 그냥 툭 갈아 끼우면 어디가 바뀌었는지 눈이 못 따라간다.
@@ -57,24 +59,33 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          pageBuilder: (context, state) => _fade(const HomePage()),
+          pageBuilder: (context, state) =>
+              _fade(SelectionRoute(uri: state.uri, child: const HomePage())),
         ),
 
         GoRoute(
           path: '/tree',
-          pageBuilder: (context, state) => _fade(const TechTreePage()),
+          pageBuilder: (context, state) => _fade(
+            SelectionRoute(uri: state.uri, child: const TechTreePage()),
+          ),
         ),
 
         GoRoute(path: '/sources', redirect: (context, state) => '/rank'),
 
         GoRoute(
           path: '/rank',
-          pageBuilder: (context, state) => _fade(const RankingPage()),
+          pageBuilder: (context, state) =>
+              _fade(SelectionRoute(uri: state.uri, child: const RankingPage())),
         ),
 
         GoRoute(
           path: '/map',
-          pageBuilder: (context, state) => _fade(const MapPage()),
+          pageBuilder: (context, state) => _fade(
+            SelectionRoute(
+              uri: state.uri,
+              child: MapPage(schoolId: state.uri.queryParameters['school']),
+            ),
+          ),
         ),
 
         GoRoute(
@@ -93,6 +104,7 @@ final router = GoRouter(
           path: '/admin',
           pageBuilder: (context, state) => _fade(const AdminPage()),
         ),
+        GoRoute(path: '/admin/growth', pageBuilder: (_, state) => _fade(const GrowthPage())),
         GoRoute(
           path: '/board/:id',
           pageBuilder: (_, state) =>
@@ -100,8 +112,10 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/academy/:id',
-          pageBuilder: (_, state) =>
-              _fade(AcademyPage(academyId: state.pathParameters['id']!)),
+          pageBuilder: (_, state) => _fade(SelectionRoute(
+            uri: state.uri,
+            child: AcademyPage(academyId: state.pathParameters['id']!),
+          )),
         ),
       ],
     ),

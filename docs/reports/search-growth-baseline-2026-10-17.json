@@ -1,0 +1,938 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-17",
+  "property": "sc-domain:openedu4u.com",
+  "source": "Ego Lite GSC UI CSV export",
+  "filter": "Web (text-based)",
+  "gsc_timezone": "America/Los_Angeles",
+  "repo_commit": "518112d6d8ef797e17ebf1c581e6e0828bc010b0",
+  "range_3m_actual": [
+    "2026-08-21",
+    "2026-10-14"
+  ],
+  "range_28d": [
+    "2026-09-17",
+    "2026-10-14"
+  ],
+  "totals_3m": {
+    "clicks": 121,
+    "impressions": 5439,
+    "ctr": 0.02224673653245082,
+    "position": 8.8721823864681
+  },
+  "totals_28d": {
+    "clicks": 5,
+    "impressions": 188,
+    "ctr": 0.026595744680851064,
+    "position": 12.39893617021277
+  },
+  "pre_drop": {
+    "start": "2026-08-21",
+    "end": "2026-09-02",
+    "days": 13,
+    "clicks": 114,
+    "impressions": 5140,
+    "ctr": 0.02217898832684825,
+    "position": 8.764260700389105
+  },
+  "post_drop": {
+    "start": "2026-09-03",
+    "end": "2026-10-14",
+    "days": 42,
+    "clicks": 7,
+    "impressions": 299,
+    "ctr": 0.023411371237458192,
+    "position": 10.72742474916388
+  },
+  "query_rows_3m": 286,
+  "query_totals_3m": {
+    "clicks": 8,
+    "impressions": 1355,
+    "ctr": 0.005904059040590406,
+    "position": 9.312878228782287
+  },
+  "page_rows_3m": 1000,
+  "page_rows_truncated_3m": true,
+  "query_rows_28d": 12,
+  "query_totals_28d": {
+    "clicks": 0,
+    "impressions": 13,
+    "ctr": 0.0,
+    "position": 32.92307692307692
+  },
+  "page_rows_28d": 111,
+  "index": {
+    "as_of": "2026-10-12",
+    "indexed": 5649,
+    "not_indexed": 319,
+    "not_found": 214,
+    "redirect": 3,
+    "discovered_not_indexed": 92,
+    "duplicate_canonical": 10,
+    "crawled_not_indexed": 0
+  },
+  "migration_candidates": 93,
+  "current_assets": {
+    "evaluated": 2868,
+    "registry_only": 2483,
+    "unique_academies": 5351
+  },
+  "manual_actions": "No issues detected",
+  "security_issues": "No issues detected",
+  "cwv": "No data in GSC overview (mobile and desktop)",
+  "sitemap": {
+    "urls": 5514,
+    "last_read": "2026-10-14",
+    "status": "Success",
+    "all_lastmod": "2026-10-17"
+  },
+  "queries_3m_top20": [
+    {
+      "Top queries": "한선영어학원",
+      "Clicks": "1",
+      "Impressions": "82",
+      "CTR": "1.22%",
+      "Position": "8.77"
+    },
+    {
+      "Top queries": "뉴런사이언스",
+      "Clicks": "0",
+      "Impressions": "70",
+      "CTR": "0%",
+      "Position": "8.14"
+    },
+    {
+      "Top queries": "송림학원",
+      "Clicks": "0",
+      "Impressions": "51",
+      "CTR": "0%",
+      "Position": "5.51"
+    },
+    {
+      "Top queries": "탑아너스",
+      "Clicks": "0",
+      "Impressions": "44",
+      "CTR": "0%",
+      "Position": "7.55"
+    },
+    {
+      "Top queries": "에디센어학원",
+      "Clicks": "0",
+      "Impressions": "38",
+      "CTR": "0%",
+      "Position": "7"
+    },
+    {
+      "Top queries": "대치 엘브라운",
+      "Clicks": "0",
+      "Impressions": "36",
+      "CTR": "0%",
+      "Position": "6.64"
+    },
+    {
+      "Top queries": "k2i",
+      "Clicks": "0",
+      "Impressions": "35",
+      "CTR": "0%",
+      "Position": "9.69"
+    },
+    {
+      "Top queries": "씨앤씨 스코어",
+      "Clicks": "0",
+      "Impressions": "32",
+      "CTR": "0%",
+      "Position": "9"
+    },
+    {
+      "Top queries": "사관등용문학원",
+      "Clicks": "0",
+      "Impressions": "27",
+      "CTR": "0%",
+      "Position": "8.07"
+    },
+    {
+      "Top queries": "서초덕스",
+      "Clicks": "0",
+      "Impressions": "24",
+      "CTR": "0%",
+      "Position": "6.29"
+    },
+    {
+      "Top queries": "씨앤씨스코어",
+      "Clicks": "0",
+      "Impressions": "24",
+      "CTR": "0%",
+      "Position": "8.96"
+    },
+    {
+      "Top queries": "역사화랑",
+      "Clicks": "1",
+      "Impressions": "23",
+      "CTR": "4.35%",
+      "Position": "6.52"
+    },
+    {
+      "Top queries": "맥스 대치",
+      "Clicks": "1",
+      "Impressions": "23",
+      "CTR": "4.35%",
+      "Position": "7.35"
+    },
+    {
+      "Top queries": "픽스아카데미",
+      "Clicks": "0",
+      "Impressions": "23",
+      "CTR": "0%",
+      "Position": "8.52"
+    },
+    {
+      "Top queries": "유진수학",
+      "Clicks": "0",
+      "Impressions": "23",
+      "CTR": "0%",
+      "Position": "9.48"
+    },
+    {
+      "Top queries": "한선영 어학원",
+      "Clicks": "0",
+      "Impressions": "21",
+      "CTR": "0%",
+      "Position": "8.9"
+    },
+    {
+      "Top queries": "대치 맥스",
+      "Clicks": "0",
+      "Impressions": "20",
+      "CTR": "0%",
+      "Position": "5.7"
+    },
+    {
+      "Top queries": "대치 세정학원",
+      "Clicks": "0",
+      "Impressions": "18",
+      "CTR": "0%",
+      "Position": "6.67"
+    },
+    {
+      "Top queries": "시대인재 수학스쿨",
+      "Clicks": "0",
+      "Impressions": "17",
+      "CTR": "0%",
+      "Position": "9.82"
+    },
+    {
+      "Top queries": "써니국어",
+      "Clicks": "0",
+      "Impressions": "16",
+      "CTR": "0%",
+      "Position": "8.56"
+    }
+  ],
+  "pages_3m_top20": [
+    {
+      "url": "https://openedu4u.com/a/3000046567.html",
+      "academy_id": "3000046567",
+      "name": "한선영어학원",
+      "region": "banpo",
+      "current_kind": "registry",
+      "clicks": 1,
+      "impressions": 104,
+      "position": 8.81
+    },
+    {
+      "url": "https://openedu4u.com/a/3000052573.html",
+      "academy_id": "3000052573",
+      "name": "뉴런사이언스학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 86,
+      "position": 8.05
+    },
+    {
+      "url": "https://openedu4u.com/a/4677.html",
+      "academy_id": "4677",
+      "name": "송림학원",
+      "region": "banpo",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 78,
+      "position": 6.05
+    },
+    {
+      "url": "https://openedu4u.com/a/3000037518.html",
+      "academy_id": "3000037518",
+      "name": "멕스(MEXX)학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 1,
+      "impressions": 74,
+      "position": 7.09
+    },
+    {
+      "url": "https://openedu4u.com/a/3000035623.html",
+      "academy_id": "3000035623",
+      "name": null,
+      "region": null,
+      "current_kind": "absent",
+      "clicks": 0,
+      "impressions": 61,
+      "position": 8.87
+    },
+    {
+      "url": "https://openedu4u.com/a/27249.html",
+      "academy_id": "27249",
+      "name": "탑아너스잉글리쉬(TOPHONORSENGLISH)학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 60,
+      "position": 8.12
+    },
+    {
+      "url": "https://openedu4u.com/a/3000048457.html",
+      "academy_id": "3000048457",
+      "name": null,
+      "region": null,
+      "current_kind": "absent",
+      "clicks": 0,
+      "impressions": 59,
+      "position": 6.81
+    },
+    {
+      "url": "https://openedu4u.com/a/3000028288.html",
+      "academy_id": "3000028288",
+      "name": "정바다수학3관학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 51,
+      "position": 4.65
+    },
+    {
+      "url": "https://openedu4u.com/a/3000018730.html",
+      "academy_id": "3000018730",
+      "name": "에디센어학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 50,
+      "position": 7.34
+    },
+    {
+      "url": "https://openedu4u.com/a/3000028703.html",
+      "academy_id": "3000028703",
+      "name": "픽스아카데미",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 1,
+      "impressions": 47,
+      "position": 8.79
+    },
+    {
+      "url": "https://openedu4u.com/a/3000012883.html",
+      "academy_id": "3000012883",
+      "name": "서초덕스어학원",
+      "region": "banpo",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 45,
+      "position": 7.29
+    },
+    {
+      "url": "https://openedu4u.com/a/5657.html",
+      "academy_id": "5657",
+      "name": "세정학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 44,
+      "position": 7.07
+    },
+    {
+      "url": "https://openedu4u.com/a/3000028547.html",
+      "academy_id": "3000028547",
+      "name": "사관등용문학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 44,
+      "position": 7.77
+    },
+    {
+      "url": "https://openedu4u.com/a/3000018517.html",
+      "academy_id": "3000018517",
+      "name": "케이투아이(K2I)수학올림피아드학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 44,
+      "position": 9.75
+    },
+    {
+      "url": "https://openedu4u.com/a/3000054733.html",
+      "academy_id": "3000054733",
+      "name": "이츠공부원격학원",
+      "region": "banpo",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 41,
+      "position": 7.78
+    },
+    {
+      "url": "https://openedu4u.com/a/3000033425.html",
+      "academy_id": "3000033425",
+      "name": "카이로스논술학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 37,
+      "position": 6.92
+    },
+    {
+      "url": "https://openedu4u.com/a/3000048162.html",
+      "academy_id": "3000048162",
+      "name": "써니국어학원",
+      "region": "banpo",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 29,
+      "position": 7.97
+    },
+    {
+      "url": "https://openedu4u.com/a/3000039654.html",
+      "academy_id": "3000039654",
+      "name": "센트럴한선영어학원",
+      "region": "banpo",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 29,
+      "position": 9.31
+    },
+    {
+      "url": "https://openedu4u.com/a/3000029593.html",
+      "academy_id": "3000029593",
+      "name": "대치이음학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 2,
+      "impressions": 25,
+      "position": 7.16
+    },
+    {
+      "url": "https://openedu4u.com/a/19384.html",
+      "academy_id": "19384",
+      "name": "시대인재수학스쿨 (삼성로58길 9)",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 25,
+      "position": 12.36
+    }
+  ],
+  "pages_28d_top12": [
+    {
+      "url": "https://openedu4u.com/a/3000051462.html",
+      "academy_id": "3000051462",
+      "name": "대치자이스영어교습소",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 12,
+      "position": 9.75
+    },
+    {
+      "url": "https://openedu4u.com/a/3000011826.html",
+      "academy_id": "3000011826",
+      "name": "김현정수학개념학원",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 8,
+      "position": 9.12
+    },
+    {
+      "url": "https://openedu4u.com/a/3000025702.html",
+      "academy_id": "3000025702",
+      "name": null,
+      "region": null,
+      "current_kind": "absent",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 10.0
+    },
+    {
+      "url": "https://openedu4u.com/a/3000050784.html",
+      "academy_id": "3000050784",
+      "name": "기적수학고등반학원",
+      "region": "jamsil",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 10.33
+    },
+    {
+      "url": "https://openedu4u.com/a/27824.html",
+      "academy_id": "27824",
+      "name": "김현정수학",
+      "region": "daechi",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 4.8
+    },
+    {
+      "url": "https://openedu4u.com/a/3000017570.html",
+      "academy_id": "3000017570",
+      "name": "박희종논술구술학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 9.2
+    },
+    {
+      "url": "https://openedu4u.com/a/3000041752.html",
+      "academy_id": "3000041752",
+      "name": null,
+      "region": null,
+      "current_kind": "absent",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 10.2
+    },
+    {
+      "url": "https://openedu4u.com/a/30710.html",
+      "academy_id": "30710",
+      "name": "목동매쓰원수학학원",
+      "region": "mokdong",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 8.25
+    },
+    {
+      "url": "https://openedu4u.com/s/7081474.html",
+      "academy_id": null,
+      "name": null,
+      "region": null,
+      "current_kind": "other",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 9.0
+    },
+    {
+      "url": "https://openedu4u.com/a/3000048741.html",
+      "academy_id": "3000048741",
+      "name": "박쌤수학교습소",
+      "region": "mokdong",
+      "current_kind": "registry",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 10.75
+    },
+    {
+      "url": "https://openedu4u.com/a/3000052766.html",
+      "academy_id": "3000052766",
+      "name": "자언마이티어학원",
+      "region": "daechi",
+      "current_kind": "registry",
+      "clicks": 2,
+      "impressions": 3,
+      "position": 1.0
+    },
+    {
+      "url": "https://openedu4u.com/a/3000025683.html",
+      "academy_id": "3000025683",
+      "name": "아우룸(Aurum)영어교습소",
+      "region": "jamsil",
+      "current_kind": "evaluated",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 2.0
+    }
+  ],
+  "devices_3m": [
+    {
+      "Device": "Mobile",
+      "Clicks": "62",
+      "Impressions": "2310",
+      "CTR": "2.68%",
+      "Position": "9.78"
+    },
+    {
+      "Device": "Desktop",
+      "Clicks": "52",
+      "Impressions": "2857",
+      "CTR": "1.82%",
+      "Position": "8.11"
+    },
+    {
+      "Device": "Tablet",
+      "Clicks": "7",
+      "Impressions": "272",
+      "CTR": "2.57%",
+      "Position": "8.9"
+    }
+  ],
+  "devices_28d": [
+    {
+      "Device": "Mobile",
+      "Clicks": "3",
+      "Impressions": "24",
+      "CTR": "12.5%",
+      "Position": "16.92"
+    },
+    {
+      "Device": "Desktop",
+      "Clicks": "2",
+      "Impressions": "161",
+      "CTR": "1.24%",
+      "Position": "11.59"
+    },
+    {
+      "Device": "Tablet",
+      "Clicks": "0",
+      "Impressions": "3",
+      "CTR": "0%",
+      "Position": "19.67"
+    }
+  ],
+  "daily": [
+    {
+      "date": "2026-08-21",
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "date": "2026-08-22",
+      "clicks": 1,
+      "impressions": 25,
+      "position": 8.1
+    },
+    {
+      "date": "2026-08-23",
+      "clicks": 9,
+      "impressions": 251,
+      "position": 8.6
+    },
+    {
+      "date": "2026-08-24",
+      "clicks": 8,
+      "impressions": 409,
+      "position": 9.1
+    },
+    {
+      "date": "2026-08-25",
+      "clicks": 9,
+      "impressions": 441,
+      "position": 8.6
+    },
+    {
+      "date": "2026-08-26",
+      "clicks": 8,
+      "impressions": 486,
+      "position": 9.2
+    },
+    {
+      "date": "2026-08-27",
+      "clicks": 10,
+      "impressions": 525,
+      "position": 8.4
+    },
+    {
+      "date": "2026-08-28",
+      "clicks": 12,
+      "impressions": 536,
+      "position": 9.2
+    },
+    {
+      "date": "2026-08-29",
+      "clicks": 11,
+      "impressions": 600,
+      "position": 8.6
+    },
+    {
+      "date": "2026-08-30",
+      "clicks": 12,
+      "impressions": 500,
+      "position": 8.6
+    },
+    {
+      "date": "2026-08-31",
+      "clicks": 15,
+      "impressions": 503,
+      "position": 9.0
+    },
+    {
+      "date": "2026-09-01",
+      "clicks": 9,
+      "impressions": 577,
+      "position": 8.7
+    },
+    {
+      "date": "2026-09-02",
+      "clicks": 10,
+      "impressions": 287,
+      "position": 8.2
+    },
+    {
+      "date": "2026-09-03",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 15.6
+    },
+    {
+      "date": "2026-09-04",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 10.0
+    },
+    {
+      "date": "2026-09-05",
+      "clicks": 1,
+      "impressions": 6,
+      "position": 7.7
+    },
+    {
+      "date": "2026-09-06",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 8.0
+    },
+    {
+      "date": "2026-09-07",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 14.2
+    },
+    {
+      "date": "2026-09-08",
+      "clicks": 1,
+      "impressions": 7,
+      "position": 6.4
+    },
+    {
+      "date": "2026-09-09",
+      "clicks": 0,
+      "impressions": 13,
+      "position": 5.5
+    },
+    {
+      "date": "2026-09-10",
+      "clicks": 0,
+      "impressions": 10,
+      "position": 6.8
+    },
+    {
+      "date": "2026-09-11",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 5.7
+    },
+    {
+      "date": "2026-09-12",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 8.0
+    },
+    {
+      "date": "2026-09-13",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 6.0
+    },
+    {
+      "date": "2026-09-14",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 10.2
+    },
+    {
+      "date": "2026-09-15",
+      "clicks": 0,
+      "impressions": 17,
+      "position": 6.0
+    },
+    {
+      "date": "2026-09-16",
+      "clicks": 0,
+      "impressions": 11,
+      "position": 7.5
+    },
+    {
+      "date": "2026-09-17",
+      "clicks": 0,
+      "impressions": 10,
+      "position": 14.1
+    },
+    {
+      "date": "2026-09-18",
+      "clicks": 1,
+      "impressions": 8,
+      "position": 11.0
+    },
+    {
+      "date": "2026-09-19",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 11.0
+    },
+    {
+      "date": "2026-09-20",
+      "clicks": 1,
+      "impressions": 8,
+      "position": 23.5
+    },
+    {
+      "date": "2026-09-21",
+      "clicks": 1,
+      "impressions": 6,
+      "position": 6.5
+    },
+    {
+      "date": "2026-09-22",
+      "clicks": 1,
+      "impressions": 5,
+      "position": 15.8
+    },
+    {
+      "date": "2026-09-23",
+      "clicks": 0,
+      "impressions": 16,
+      "position": 8.9
+    },
+    {
+      "date": "2026-09-24",
+      "clicks": 0,
+      "impressions": 29,
+      "position": 11.1
+    },
+    {
+      "date": "2026-09-25",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 32.0
+    },
+    {
+      "date": "2026-09-26",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 6.7
+    },
+    {
+      "date": "2026-09-27",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 7.2
+    },
+    {
+      "date": "2026-09-28",
+      "clicks": 0,
+      "impressions": 2,
+      "position": 9.5
+    },
+    {
+      "date": "2026-09-29",
+      "clicks": 0,
+      "impressions": 5,
+      "position": 7.4
+    },
+    {
+      "date": "2026-09-30",
+      "clicks": 0,
+      "impressions": 13,
+      "position": 12.2
+    },
+    {
+      "date": "2026-10-01",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 26.2
+    },
+    {
+      "date": "2026-10-02",
+      "clicks": 0,
+      "impressions": 9,
+      "position": 9.3
+    },
+    {
+      "date": "2026-10-03",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 25.3
+    },
+    {
+      "date": "2026-10-04",
+      "clicks": 1,
+      "impressions": 4,
+      "position": 16.8
+    },
+    {
+      "date": "2026-10-05",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 11.0
+    },
+    {
+      "date": "2026-10-06",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 19.7
+    },
+    {
+      "date": "2026-10-07",
+      "clicks": 0,
+      "impressions": 7,
+      "position": 12.7
+    },
+    {
+      "date": "2026-10-08",
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "date": "2026-10-09",
+      "clicks": 0,
+      "impressions": 0,
+      "position": null
+    },
+    {
+      "date": "2026-10-10",
+      "clicks": 0,
+      "impressions": 6,
+      "position": 8.2
+    },
+    {
+      "date": "2026-10-11",
+      "clicks": 0,
+      "impressions": 4,
+      "position": 9.0
+    },
+    {
+      "date": "2026-10-12",
+      "clicks": 0,
+      "impressions": 8,
+      "position": 12.5
+    },
+    {
+      "date": "2026-10-13",
+      "clicks": 0,
+      "impressions": 9,
+      "position": 13.4
+    },
+    {
+      "date": "2026-10-14",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 13.0
+    }
+  ],
+  "export_sha256": {
+    "performance-3m.zip": "b345696ae9be54d7f2c03584214767cb8c5e88f2c1c5654004682abe11866356",
+    "performance-28d.zip": "94e2a74b093e896ec3e87e1021110aa52cf2d9698946681225afc15682a1f94a",
+    "index-404.zip": "281a79c1e324adb31ee99549d36c26a6759ee1ea2cc186069b11e091eb130660"
+  }
+}

@@ -1205,21 +1205,25 @@ class RegistryEntry {
   final List<String> aliases;
   bool matchesQuery(String query) {
     final q = query.trim().toLowerCase();
-    return q.isNotEmpty && [name, displayName, ...aliases].any((s) => s.toLowerCase().contains(q));
+    return q.isNotEmpty &&
+        [name, displayName, ...aliases].any((s) => s.toLowerCase().contains(q));
   }
+
   final List<String> gradeBands;
   final Map<String, List<String>> gradeBandsBySubject;
   List<String> bandsForSubject(String? subject) => subject == null
       ? gradeBands
       : gradeBandsBySubject.isEmpty
-          ? gradeBands
-          : gradeBandsBySubject[subject] ?? const [];
+      ? gradeBands
+      : gradeBandsBySubject[subject] ?? const [];
   final String? address;
   final int? capacity;
   final int? tuitionMonthly;
   final String? registrationStatus;
   final bool isVerified;
   final int registrationCount;
+  final List<String> registrationIds;
+  final Map<String, Map<String, String>> gradeBandBasis;
 
   /// 랭킹 대상이 아닌 이유. 비어 있으면 '아직 수집하지 않았다' 는 뜻이다.
   /// 둘은 다른 상태다 — 같은 말로 적으면 학부모가 낮은 평가로 읽는다.
@@ -1241,6 +1245,8 @@ class RegistryEntry {
     this.registrationStatus,
     required this.isVerified,
     this.registrationCount = 1,
+    this.registrationIds = const [],
+    this.gradeBandBasis = const {},
     this.notRanked,
   });
 
@@ -1260,6 +1266,12 @@ class RegistryEntry {
     capacity: (j['capacity'] as num?)?.toInt(),
     registrationStatus: j['registrationStatus'] as String?,
     isVerified: (j['isVerified'] ?? false) as bool,
+    registrationCount: (j['registrationCount'] as num?)?.toInt() ?? 1,
+    registrationIds: ((j['registrationIds'] as List?) ?? const [])
+        .cast<String>(),
+    gradeBandBasis: ((j['gradeTarget']?['bandBasis'] as Map?) ?? const {}).map(
+      (k, v) => MapEntry(k as String, (v as Map).cast<String, String>()),
+    ),
     notRanked: j['notRanked'] as String?,
   );
 }

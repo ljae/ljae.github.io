@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "oldId": "3000050666",
+      "canonicalId": "1000036516",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "대치필2관학원",
+        "canonicalRegisteredName": "대치필학원",
+        "address": "서울특별시 강남구 삼성로 150",
+        "region": "daechi",
+        "oldAddressDetail": ", 306호(대치동,한보미도맨션)",
+        "canonicalAddressDetail": ", 202-1호 일부 한보종합상가 (대치동, 한보미도맨션)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000038191",
+      "canonicalId": "3000035110",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "솔바이올린학원",
+        "canonicalRegisteredName": "솔바이올린교습소",
+        "address": "서울특별시 서초구 서초대로 308",
+        "region": "banpo",
+        "oldAddressDetail": ", 4층 전체 (서초동)",
+        "canonicalAddressDetail": ", 301호 (서초동)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000039214",
+      "canonicalId": "3000039213",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "다원초중등과학학원",
+        "canonicalRegisteredName": "다원초중등수학학원",
+        "address": "서울특별시 강남구 삼성로 406",
+        "region": "daechi",
+        "oldAddressDetail": ", 6층전체 (대치동, 서림빌딩)",
+        "canonicalAddressDetail": ", 3층전체 (대치동, 서림빌딩)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000027332",
+      "canonicalId": "5925",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "다원국어학원",
+        "canonicalRegisteredName": "다원영어학원",
+        "address": "서울특별시 강남구 삼성로 406",
+        "region": "daechi",
+        "oldAddressDetail": ", 4층 (대치동, 서림빌딩)",
+        "canonicalAddressDetail": ", 5층 (대치동, 서림빌딩)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000043237",
+      "canonicalId": "3000037165",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "대치두다학원",
+        "canonicalRegisteredName": "대치두다국어학원",
+        "address": "서울특별시 강남구 도곡로77길 7",
+        "region": "daechi",
+        "oldAddressDetail": ", 5층 전체 (대치동)",
+        "canonicalAddressDetail": ", 3층전체 (대치동)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000050532",
+      "canonicalId": "1000036516",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "대치필3관학원",
+        "canonicalRegisteredName": "대치필학원",
+        "address": "서울특별시 강남구 삼성로 150",
+        "region": "daechi",
+        "oldAddressDetail": ", 318호(대치동,한보미도맨션)",
+        "canonicalAddressDetail": ", 202-1호 일부 한보종합상가 (대치동, 한보미도맨션)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000034219",
+      "canonicalId": "13871",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "반포세정학원",
+        "canonicalRegisteredName": "반포세정3관학원",
+        "address": "서울특별시 서초구 신반포로 165",
+        "region": "banpo",
+        "oldAddressDetail": ", 2동 3층 1~12호·54~60호 (잠원동, 반포쇼핑타운)",
+        "canonicalAddressDetail": ", 3층 38호 일부, 39~42호, 43호 일부, 52호, 53호 일부, 4층 10~12호, 13호 일부 (잠원동, 반포쇼핑타운)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000054621",
+      "canonicalId": "3000052062",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "대치다원영재1관학원",
+        "canonicalRegisteredName": "대치다원영재5관학원",
+        "address": "서울특별시 강남구 삼성로 343",
+        "region": "daechi",
+        "oldAddressDetail": "1층 101호, 102호(대치동)",
+        "canonicalAddressDetail": "5층 전체(대치동)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000033315",
+      "canonicalId": "2331",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "새움3관학원",
+        "canonicalRegisteredName": "새움8관학원",
+        "address": "서울특별시 강남구 도곡로 511",
+        "region": "daechi",
+        "oldAddressDetail": ", 2층 (대치동, 대진빌딩)",
+        "canonicalAddressDetail": ", 5층 (대치동,대진빌딩)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    },
+    {
+      "oldId": "3000013855",
+      "canonicalId": "1000036446",
+      "status": "verified",
+      "reviewedAt": "2026-10-17",
+      "evidence": {
+        "method": "neis_same_address_normalized_name_region_and_registration_membership",
+        "source": "NEIS cached public registry",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "짱솔학원",
+        "canonicalRegisteredName": "짱솔2관학원",
+        "address": "서울특별시 강남구 남부순환로 2935",
+        "region": "daechi",
+        "oldAddressDetail": ", 4층 (대치동, 대치 프라자)",
+        "canonicalAddressDetail": ", 대치프라자6층 (대치동)",
+        "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
+      }
+    }
+  ]
+}
