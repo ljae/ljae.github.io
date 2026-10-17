@@ -46,7 +46,7 @@ void main() {
           }),
           registryProvider.overrideWith((ref) async => [listed()]),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
           home: Scaffold(body: AcademyPage(academyId: '3000046567')),
         ),
       ),
