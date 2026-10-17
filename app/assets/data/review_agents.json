@@ -1,0 +1,25 @@
+{
+  "finalized": 4,
+  "pending": 0,
+  "outcomes": 4,
+  "metric": "collection_utility_not_accuracy",
+  "evaluated_at": "2026-10-17T02:56:45.615292+00:00",
+  "regression": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "corpus_sha256": "6d952f4003cc94e9ea84a1deaab5a24e12205cfd83394933ae2cee4e38baa320",
+    "policy_version": {
+      "scoring": "2026-09-19.5",
+      "gates_sha256": "7ae5038f5fb9dfa442d3cb758e247f5e1dca0e447f1a2ac467b2695bde2066a7"
+    }
+  },
+  "totals": {
+    "attempts": 4,
+    "collected": 46,
+    "accepted": 13,
+    "duplicates": 9,
+    "unknown_dates": 3,
+    "failures": 0
+  }
+}

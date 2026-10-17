@@ -1,0 +1,158 @@
+{
+  "completed_tasks": {
+    "33992f3745029c4d402c08bf": "2026-10-17T02:56:45+00:00",
+    "80db4ab07cfed465c80eb71a": "2026-10-17T02:56:45+00:00",
+    "a288863dc9ac583f49bc7ffb": "2026-10-17T02:56:45+00:00",
+    "cf0e1fde83115318776931da": "2026-10-17T02:56:45+00:00"
+  },
+  "exported_at": "2026-10-17T02:56:45+00:00",
+  "memory": {
+    "academies": {
+      "1000036800": {
+        "cooldown_until": "2026-10-24T02:56:45+00:00",
+        "failure_streak": 0,
+        "last_accepted": 1,
+        "last_arm": "exact_local",
+        "last_attempt": "2026-10-17T02:56:45+00:00",
+        "last_collected": 2,
+        "query_fingerprint": "1a615c3d31c72e72"
+      },
+      "12540": {
+        "cooldown_until": "2026-10-18T02:56:45+00:00",
+        "failure_streak": 0,
+        "last_accepted": 0,
+        "last_arm": "blog_local",
+        "last_attempt": "2026-10-17T02:56:45+00:00",
+        "last_collected": 4,
+        "query_fingerprint": "a3a78292a18ded82"
+      },
+      "14435": {
+        "cooldown_until": "2026-10-24T02:56:45+00:00",
+        "failure_streak": 0,
+        "last_accepted": 8,
+        "last_arm": "blog_local",
+        "last_attempt": "2026-10-17T02:56:45+00:00",
+        "last_collected": 20,
+        "query_fingerprint": "756f8c98bcb440b8"
+      },
+      "20218": {
+        "cooldown_until": "2026-10-24T02:56:45+00:00",
+        "failure_streak": 0,
+        "last_accepted": 4,
+        "last_arm": "exact_local",
+        "last_attempt": "2026-10-17T02:56:45+00:00",
+        "last_collected": 20,
+        "query_fingerprint": "dbd53cd0b25ae24a"
+      }
+    },
+    "arms": {
+      "blog_local": {
+        "accepted": 8,
+        "attempts": 2,
+        "collected": 24,
+        "duplicates": 6,
+        "failures": 0,
+        "rejections": {
+          "identity_or_policy_gate": 9,
+          "self_promotion": 1
+        },
+        "unknown_dates": 3
+      },
+      "exact_local": {
+        "accepted": 5,
+        "attempts": 2,
+        "collected": 22,
+        "duplicates": 3,
+        "failures": 0,
+        "rejections": {
+          "directory_information": 1,
+          "identity_or_policy_gate": 13
+        },
+        "unknown_dates": 0
+      }
+    },
+    "history": [
+      {
+        "academy_id": "12540",
+        "accepted": 0,
+        "arm": "blog_local",
+        "at": "2026-10-17T02:56:45+00:00",
+        "collected": 4,
+        "duplicates": 0,
+        "error": null,
+        "gate_yield": 0.0,
+        "lessons": [],
+        "measurement": "verified gate yield; not factual accuracy",
+        "query": "\"잠실연세피아노교습소\" 신천동 후기 site:blog.naver.com",
+        "rejections": {
+          "identity_or_policy_gate": 4
+        },
+        "role": "reflection",
+        "task_id": "33992f3745029c4d402c08bf",
+        "unknown_dates": 0
+      },
+      {
+        "academy_id": "20218",
+        "accepted": 4,
+        "arm": "exact_local",
+        "at": "2026-10-17T02:56:45+00:00",
+        "collected": 20,
+        "duplicates": 3,
+        "error": null,
+        "gate_yield": 0.2,
+        "lessons": [],
+        "measurement": "verified gate yield; not factual accuracy",
+        "query": "\"생각하는황소학원\" 대치동 후기",
+        "rejections": {
+          "directory_information": 1,
+          "identity_or_policy_gate": 12
+        },
+        "role": "reflection",
+        "task_id": "80db4ab07cfed465c80eb71a",
+        "unknown_dates": 0
+      },
+      {
+        "academy_id": "1000036800",
+        "accepted": 1,
+        "arm": "exact_local",
+        "at": "2026-10-17T02:56:45+00:00",
+        "collected": 2,
+        "duplicates": 0,
+        "error": null,
+        "gate_yield": 0.5,
+        "lessons": [],
+        "measurement": "verified gate yield; not factual accuracy",
+        "query": "\"삼호음악학원\" 서초동 후기",
+        "rejections": {
+          "identity_or_policy_gate": 1
+        },
+        "role": "reflection",
+        "task_id": "a288863dc9ac583f49bc7ffb",
+        "unknown_dates": 0
+      },
+      {
+        "academy_id": "14435",
+        "accepted": 8,
+        "arm": "blog_local",
+        "at": "2026-10-17T02:56:45+00:00",
+        "collected": 20,
+        "duplicates": 6,
+        "error": null,
+        "gate_yield": 0.4,
+        "lessons": [],
+        "measurement": "verified gate yield; not factual accuracy",
+        "query": "\"대치소마\" 대치동 후기 site:blog.naver.com",
+        "rejections": {
+          "identity_or_policy_gate": 5,
+          "self_promotion": 1
+        },
+        "role": "reflection",
+        "task_id": "cf0e1fde83115318776931da",
+        "unknown_dates": 3
+      }
+    ],
+    "outcomes": 4,
+    "version": 1
+  },
+  "version": 1
+}
