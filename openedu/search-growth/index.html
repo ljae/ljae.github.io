@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OpenEdu Search Growth는 openedu4u.com 운영자가 Google Search Console 검색 성과를 읽기 전용으로 분석하는 내부 운영 도구입니다.">
+  <title>OpenEdu Search Growth · 앱 소개</title>
+  <link rel="canonical" href="https://openedu4u.com/openedu/search-growth/">
+  <link rel="icon" href="../open_edu_favicon.png" type="image/png">
+  <style>
+    @font-face{font-family:Paperlogy;src:url('../Paperlogy-1.000/Paperlogy-4Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+    @font-face{font-family:Paperlogy;src:url('../Paperlogy-1.000/Paperlogy-7Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+    :root{color-scheme:light;--ink:#18352f;--muted:#4c625a;--paper:#f5f5ee;--line:#c8d1c8;--accent:#17624d}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Paperlogy,sans-serif;font-size:1rem;line-height:1.85;word-break:keep-all;overflow-wrap:anywhere}
+    a{color:var(--accent);text-underline-offset:.25em;text-decoration-thickness:1px}a:hover{text-decoration-thickness:2px}a:focus-visible{outline:3px solid #a24e19;outline-offset:5px;border-radius:2px}
+    .skip{position:absolute;top:-6rem;left:1rem;padding:.5rem 1rem;background:white;z-index:2}.skip:focus{top:1rem}
+    .wrap{width:min(100% - 3rem,66rem);margin:auto}header{padding:1.5rem 0;border-bottom:1px solid var(--line)}.header-row,nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}.brand{font-weight:700;text-decoration:none;color:var(--ink)}nav{justify-content:flex-start;font-size:.9rem}nav [aria-current]{color:var(--ink);font-weight:700}
+    main{padding:5rem 0 4rem}.eyebrow{margin:0 0 1.5rem;font-family:ui-monospace,monospace;font-size:.8rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}h1{margin:0 0 1.6rem;font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.12;letter-spacing:-.045em;font-weight:700}.intro{max-width:45rem;font-size:1.2rem;line-height:1.9}.intro p{margin:0 0 1rem}.scope{margin:2.5rem 0 3rem;padding:1.25rem 1.5rem;border-left:4px solid var(--accent);background:#e8eee5;max-width:48rem}.scope p{margin:0}.scope strong{display:block;margin-bottom:.25rem}.details{display:grid;grid-template-columns:1fr 1fr;gap:2rem 3rem;border-top:1px solid var(--line);padding-top:2rem}h2{font-size:1.1rem;line-height:1.5;margin:0 0 .75rem}p{margin:.5rem 0 1rem}.details p{color:var(--muted)}.actions{display:flex;gap:1rem 2rem;flex-wrap:wrap;margin-top:2.5rem}.primary{display:inline-block;background:var(--ink);color:white;padding:.65rem 1.2rem;border-radius:3px;text-decoration:none}.primary:hover{text-decoration:underline}footer{border-top:1px solid var(--line);padding:1.5rem 0 2rem;color:var(--muted);font-size:.9rem}footer p{margin:.25rem 0}code{font-size:.88em;overflow-wrap:anywhere}
+    @media(max-width:40rem){.wrap{width:calc(100% - 2rem)}main{padding:3rem 0}.details{grid-template-columns:1fr;gap:1.5rem}.intro{font-size:1.05rem}.scope{padding:1rem;margin:2rem 0}.header-row{gap:.75rem}nav{gap:1rem}.actions{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header>
+    <div class="wrap header-row">
+      <a class="brand" href="./">OpenEdu Search Growth</a>
+      <nav aria-label="앱 안내">
+        <a href="./" aria-current="page">앱 소개</a>
+        <a href="privacy.html">개인정보 안내</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <p class="eyebrow">Open Edu / Search operations</p>
+    <h1>검색 성과를 읽고,<br>개선할 일을 정리합니다.</h1>
+    <div class="intro">
+      <p><strong>OpenEdu Search Growth</strong>는 <a href="https://openedu4u.com/">openedu4u.com</a> 운영자 전용 검색 분석 도구입니다. Google Search Console에서 사이트의 검색 성과를 읽어 유입 변화와 확인할 페이지를 살펴봅니다.</p>
+      <p>수집한 자료를 바탕으로 비공개 보고서, 개선 과제, 변경·실험 기록을 관리합니다.</p>
+    </div>
+    <aside class="scope" aria-label="Google 연결 권한">
+      <p><strong>Google Search Console 읽기 전용</strong>운영자가 승인한 연결로 검색 성과를 조회합니다. 요청 권한은 <code>webmasters.readonly</code>이며, Google의 검색 설정을 자동으로 수정하지 않습니다.</p>
+    </aside>
+    <div class="details">
+      <section aria-labelledby="data-heading">
+        <h2 id="data-heading">어떤 자료를 보나요?</h2>
+        <p>검색어, 페이지, 날짜, 기기, 국가별 클릭·노출·클릭률(CTR)·평균 게재순위를 분석합니다. Search Console CSV 내보내기 자료도 운영자가 직접 수입할 수 있습니다.</p>
+      </section>
+      <section aria-labelledby="access-heading">
+        <h2 id="access-heading">누가 사용할 수 있나요?</h2>
+        <p>등록된 사이트 운영자만 분석 화면에 접근할 수 있습니다. 검색 성과 보고서와 과제·실험 기록은 공개 사이트에 게시하지 않습니다.</p>
+      </section>
+    </div>
+    <div class="actions">
+      <a class="primary" href="https://openedu4u.com/#/admin/growth">운영자 분석 화면</a>
+      <a href="privacy.html">데이터 이용·보관·삭제 안내</a>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>앱 운영 및 지원: <a href="mailto:ljae.m10@gmail.com">ljae.m10@gmail.com</a></p>
+      <p><a href="../">Open Edu</a> · OpenEdu Search Growth 안내</p>
+    </div>
+  </footer>
+</body>
+</html>
