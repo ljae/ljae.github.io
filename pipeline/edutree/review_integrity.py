@@ -70,6 +70,21 @@ def canonical_document(url):
             q = parse_qs(p.query)
             if q.get("blogId") and q.get("logNo"):
                 return f"naver-blog:{q['blogId'][0]}:{q['logNo'][0]}"
+    if host in {"cafe.naver.com", "m.cafe.naver.com"}:
+        # 공개 검색에 나오는 카페 별칭/글번호는 PC·모바일에서 같은 문서다.
+        # 추적 쿼리는 문서 식별자가 아니다. 숫자 clubid와 카페 별칭은
+        # 서로 다른 이름 공간에 두며 대응을 추측하지 않는다.
+        match = re.fullmatch(r"/([A-Za-z0-9_-]+)/(\d+)/?", p.path)
+        if match:
+            return f"naver-cafe:slug:{match[1]}:{match[2]}"
+        match = re.fullmatch(r"/ca-fe/(?:web/)?cafes/(\d+)/articles/(\d+)/?", p.path)
+        if match:
+            return f"naver-cafe:club:{match[1]}:{match[2]}"
+        if p.path.lower() in {"/articleread.nhn", "/articleread.naver"}:
+            q = parse_qs(p.query)
+            club, article = q.get("clubid", [""])[0], q.get("articleid", [""])[0]
+            if all(s.isascii() and s.isdigit() for s in (club, article)):
+                return f"naver-cafe:club:{club}:{article}"
     return url
 
 

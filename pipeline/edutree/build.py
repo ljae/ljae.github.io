@@ -964,10 +964,12 @@ def select_for_mentions(academies: list[dict],
     정원 순으로 고른다. 정원 비교는 같은 구간·같은 과목끼리만 한다.
     구간이 안 잡힌 곳(종합·보습·재종)은 남은 자리를 나눠 갖는다.
     """
-    budget = config.NAVER_MAX_ACADEMIES
+    budget = max(0, config.NAVER_MAX_ACADEMIES)
     SEED_RESERVE = 8
     regions = [r["id"] for r in config.regions()]
-    per_region = max(1, budget // max(1, len(regions)))
+    per_region, remainder = divmod(budget, max(1, len(regions)))
+    region_budgets = {region: per_region + int(index < remainder)
+                      for index, region in enumerate(regions)}
 
     # 지난 회차 결과를 반영한다. 언급이 안 나오던 곳은 뒤로 밀고,
     # 아직 비어 있는 단계를 채우는 곳을 앞으로 당긴다. 한 번에 끝나지
@@ -1071,8 +1073,8 @@ def select_for_mentions(academies: list[dict],
     # 자리를 먼저 뗀 만큼 **남은 예산에서** 다시 나눈다. 고정으로 두면
     # 지킨 자리가 예산에 더해져 회차마다 대상이 불어난다(실측 400 → 442).
     def quotas(budget: int) -> tuple[int, int]:
-        return (max(1, int(budget * 0.76) // len(bands)),
-                max(1, int(budget * 0.12)))
+        return (max(0, int(budget * 0.76) // max(1, len(bands))),
+                max(0, int(budget * 0.12)))
 
     def capacity(a: dict) -> float:
         try:
@@ -1171,41 +1173,47 @@ def select_for_mentions(academies: list[dict],
     selected, skipped = [], []
     band_counts: dict[str, int] = {}
     for region_id in regions:
+        region_budget = region_budgets[region_id]
         rows = [a for a in academies
                 if a.get("region_id") == region_id and a["id"] not in unmatchable_ids]
         chosen: set[str] = set()
         picked: list[dict] = []
 
-        # ★ 근거가 이미 선 곳은 **자리를 먼저 뗀다.**
-        #
-        #   정렬로 앞세우는 것만으로는 부족했다. 구간·과목마다 자리가
-        #   19칸 남짓이라, 같은 우선순위 층이 넘치면 마지막 열쇠인 정원이
-        #   승부를 가른다. 렉스김어학원(정원 60)은 대치 영어의 큰 학원들
-        #   틈에서 그렇게 밀렸다 — 표본 111 · 총점 49.7 로 순위에 들어
-        #   있던 곳이 23회를 수집하고도 화면에서 사라졌다.
-        #
-        #   순환은 **아직 근거가 없는 자리**에서 일어나야 한다.
-        # ★ 근거가 저장소(mention_store)에 남으면서부터는 **주기가 지난
-        #   곳만** 지킨다. 매일 다시 보지 않아도 화면에서 안 사라지므로,
-        #   최근 REFRESH_DAYS 안에 본 순위권은 이번에는 쉬고 그 자리를
-        #   아직 안 본 곳에 준다. 이력이 없는 곳(첫 회차·옛 이력)은 지킨다.
-        keep = [a for a in rows if a["id"] in ranked_now and _stale(a)]
-        for a in keep:
-            chosen.add(a["id"])
-        picked += keep
-        # 매 회차 지역 예산의 20%는 미수집/가장 오래된 학원에 보장한다.
-        # 규모·브랜드 우선순위 때문에 작은 학원이 영원히 밀리지 않게 한다.
+        # 저장소가 과거 근거를 보존한다. 순위권 전부를 매번 수집할 이유가
+        # 없으므로 갱신·탐색·시드를 같은 예산에서 배정한다. 먼저 탐색 20%를
+        # 확보하고, 시드 예비석도 총예산 안에서만 쓴다.
+        newborn = [a for a in rows
+                   if (a.get("curated_stages") or a.get("verified_branch"))
+                   and a["id"] not in hist]
+        newborn_ids = {a["id"] for a in newborn}
         exploration = sorted(
-            (a for a in rows if a["id"] not in chosen),
-            key=lambda a: ((hist.get(a["id"]) or {}).get("last_at") or "",
-                           a["id"]))[:max(0, min(per_region // 5, per_region - len(picked)))]
+            (a for a in rows if a["id"] not in ranked_now),
+            key=lambda a: (a["id"] not in newborn_ids,
+                           (hist.get(a["id"]) or {}).get("last_at") or "",
+                           a["id"]))[:region_budget // 5]
         picked += exploration
         chosen.update(a["id"] for a in exploration)
-        per_band, per_arts = quotas(max(0, per_region - len(picked)))
+
+        # 갱신할 순위권이 예산보다 많으면 가장 오래 안 본 곳부터 본다.
+        # 이번에 쉬는 순위권도 mention_store 근거로 계속 채점된다.
+        keep = sorted((a for a in rows
+                       if a["id"] in ranked_now and _stale(a) and a["id"] not in chosen),
+                      key=lambda a: ((hist.get(a["id"]) or {}).get("last_at") or "",
+                                     a["id"]))[:max(0, region_budget - len(picked))]
+        picked += keep
+        chosen.update(a["id"] for a in keep)
+
+        # 신규 시드는 탐색석에서 먼저 보고, 갱신 뒤 여유가 있으면 최대
+        # SEED_RESERVE까지 더 본다. 별도 예산처럼 마지막에 덧붙이지 않는다.
+        newborn_chosen = sum(a["id"] in chosen for a in newborn)
+        seed_slots = min(max(0, SEED_RESERVE - newborn_chosen),
+                         region_budget - len(picked))
+        picked += take(newborn, seed_slots, chosen)
+        per_band, per_arts = quotas(max(0, region_budget - len(picked)))
 
         for band in bands:
             pool = [a for a in rows if band in (a.get("grade_bands") or [])]
-            got = take(pool, per_band, chosen)
+            got = take(pool, min(per_band, region_budget - len(picked)), chosen)
             picked += got
             band_counts[band] = band_counts.get(band, 0) + len(got)
 
@@ -1213,27 +1221,11 @@ def select_for_mentions(academies: list[dict],
         arts = [a for a in rows
                 if a["id"] not in chosen
                 and not (set(a.get("subjects") or []) & set(config.ACADEMIC_SUBJECTS))]
-        picked += take(arts, per_arts, chosen)
+        picked += take(arts, min(per_arts, region_budget - len(picked)), chosen)
 
         # 구간 미상(종합·보습·재종) + 위에서 후보가 모자라 남은 자리
         rest = [a for a in rows if a["id"] not in chosen]
-        picked += take(rest, per_region - len(picked), chosen)
-
-        # ★ 한 번도 수집 안 된 시드는 **예비석**으로 따로 태운다.
-        #
-        #   경쟁에 넣으면 두 정당한 규칙이 서로를 밀어낸다: 랭킹 유지가
-        #   이기면 제보받은 학원이 영원히 안 보이고, 시드가 이기면 이미
-        #   순위가 있던 학원이 화면에서 사라진다. 둘 다 사용자에게는
-        #   '학원이 없다'로 보인다. 자리를 다투게 두지 말고 몇 칸 더 쓴다 —
-        #   수집 예산은 API 호출 수일 뿐이고, 한 회차만 지나면 이들도
-        #   보통의 후보가 된다.
-        newborn = [a for a in rows
-                   if a["id"] not in chosen
-                   and (a.get("curated_stages") or a.get("verified_branch"))
-                   and a["id"] not in hist][:SEED_RESERVE]
-        for a in newborn:
-            chosen.add(a["id"])
-        picked += newborn
+        picked += take(rest, region_budget - len(picked), chosen)
 
         selected.extend(picked)
         skipped.extend(a for a in rows if a["id"] not in chosen)
@@ -1243,10 +1235,11 @@ def select_for_mentions(academies: list[dict],
     skipped.extend(a for a in unmatchable if a.get("region_id") in regions)
 
     print(f"  네이버 수집 대상 {len(selected)}곳 선별 "
-          f"(학군당 {per_region}곳, 구간당 {per_band}곳, 예산 {budget})")
+          f"(학군당 {per_region}~{per_region + bool(remainder)}곳, 예산 {budget})")
     print("    구간별: " + " · ".join(
         f"{config.GRADE_BANDS[b][0]} {band_counts.get(b, 0)}" for b in bands))
-    print(f"  미수집 {len(skipped)}곳은 등록부에만 남기고 점수를 매기지 않습니다")
+    retained = sum(a["id"] in known for a in skipped)
+    print(f"  이번 미수집 {len(skipped)}곳 — 저장 근거가 있는 {retained}곳은 계속 채점합니다")
     return selected, skipped
 
 
@@ -1290,6 +1283,10 @@ def load_mentions(academies: list[dict], mode: str,
         if rows:
             print(f"{src}에서 언급 {len(rows):,}건 로드 (API 호출 없음)")
             return rows
+        # Cache replay must never turn missing evidence into a live request
+        # or synthetic reviews, including a new browser run with zero results.
+        print("저장된 언급 없음 — 캐시 실행은 새 후기를 만들지 않습니다")
+        return []
 
     if config.HAS_NAVER:
         from . import naver
@@ -1373,8 +1370,18 @@ def _synthesize_mentions(academies: list[dict]) -> list[dict]:
 # ── 조립 ───────────────────────────────────────────────────────────
 def run(with_cafe: bool = False, from_cache: bool = False,
         skip_blog_text: bool = False) -> dict:
+    from . import agent_cycle
     academies, mode = load_academies(from_cache=from_cache)
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
+    if mode == "live":
+        from . import agent_batches
+        handoff = agent_batches.import_batches(academies)
+        if handoff["attempts"] or handoff["restored"]:
+            print(f"  Ego 후기 인계: {handoff['attempts']}회 수집 · {handoff['rows']}건"
+                  f" · 캐시 복구 {handoff['restored']}건")
+        if handoff["deferred"]:
+            print(f"  ! Ego 후기 인계 보류: 등록번호 미확인 {len(handoff['deferred'])}회")
+    agent_receipts = agent_cycle.pending_snapshot()
 
     # 이번 회차에 API 로 새로 온 글의 url_hash. 수집 이력(coverage)은 이것만
     # 센다 — 저장소의 옛 근거까지 세면 '검색했는데 0건' 이 영영 안 잡힌다.
@@ -1394,7 +1401,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
             mentions = fresh
         else:
             fresh_hashes = {m.get("url_hash") for m in fresh}
-            mentions = mention_store.merge(fresh)
+            # Share the collector lock for the raw-store read/merge/write only.
+            with agent_cycle._lock():
+                mentions = mention_store.merge(fresh)
         moved = reattribute(mentions, academies)
         if moved:
             print(f"  통합에 따라 언급 {moved:,}건 재귀속")
@@ -2019,6 +2028,16 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                              names={a["id"]: (a.get("display_name") or a.get("name"))
                                     for a in evaluated + registry_only}):
         print(f"  ! 글 노드: {w}")
+    # Actual browser attempts are settled only after normal gates, scoring,
+    # export and audits succeed. A cache replay without pending attempts is
+    # never a new training observation.
+    if mode == "live":
+        cycle = agent_cycle.finalize(mentions, evaluated, receipt_ids=agent_receipts)
+        if cycle["finalized"]:
+            print(f"  랭킹 에이전트: 실제 수집 {cycle['finalized']}회 검증·학습 완료"
+                  f" · 대기 {cycle['pending']}회")
+        if cycle.get("blocked"):
+            print("  ! 랭킹 에이전트 학습 보류: 과거 오류 회귀 검증 실패 · 기존 정책 유지")
     return {
         "mode": mode,
         "evaluated": len(evaluated),

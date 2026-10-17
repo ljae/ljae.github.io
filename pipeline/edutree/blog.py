@@ -10,15 +10,18 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
-import threading
+import tempfile
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import requests
 
 from . import config
+from .ego_reviews import canonical_url
 
 VIEW = ("https://blog.naver.com/PostView.naver"
         "?blogId={blog_id}&logNo={log_no}"
@@ -27,6 +30,13 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 TIMEOUT = 20
 SLEEP = 0.25          # 사람이 읽는 속도에 가깝게. 서두를 이유가 없다.
+PER_RUN = 300
+BUDGET_SECONDS = 600
+MAX_PER_RUN = 2000
+MAX_BUDGET_SECONDS = 1800
+MAX_WORKERS = 8
+CHECKPOINT_EVERY = 50
+FAILED_RETRY_DAYS = 7
 
 _URL = re.compile(r"blog\.naver\.com/([^/?#]+)/(\d+)")
 _DIV = re.compile(r"<(/?)div\b", re.I)
@@ -38,8 +48,64 @@ _DATE_PATTERNS = (
 
 
 def parse_url(url: str) -> tuple[str, str] | None:
-    m = _URL.search(url or "")
+    normalized = canonical_url(url)
+    m = _URL.search(normalized or "")
     return (m.group(1), m.group(2)) if m else None
+
+
+def _blog_url(url: str) -> str | None:
+    parts = parse_url(url)
+    return f"https://blog.naver.com/{parts[0]}/{parts[1]}" if parts else None
+
+
+def _int_setting(name: str, default: int, maximum: int, *, minimum: int = 0) -> int:
+    try:
+        value = int(os.getenv(name, "").strip())
+    except ValueError:
+        value = default
+    return max(minimum, min(maximum, value))
+
+
+def _load_json(path: Path) -> dict:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _save_json(path: Path, data: dict) -> None:
+    """A cancellation during a checkpoint must not destroy the old cache."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                         prefix=path.name + ".", suffix=".tmp",
+                                         delete=False) as handle:
+            temp_path = Path(handle.name)
+            json.dump(data, handle, ensure_ascii=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        temp_path.replace(path)
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+
+def _recent_failures(path: Path, now: datetime) -> dict[str, str]:
+    out = {}
+    cutoff = now - timedelta(days=FAILED_RETRY_DAYS)
+    for url, stamp in _load_json(path).items():
+        try:
+            attempted = datetime.fromisoformat(stamp)
+            if attempted.tzinfo is None:
+                attempted = attempted.replace(tzinfo=timezone.utc)
+        except (TypeError, ValueError):
+            continue
+        canonical = _blog_url(url)
+        if canonical and cutoff < attempted <= now:
+            out[canonical] = stamp
+    return out
 
 
 def _extract_block(raw: str, anchor: str) -> str | None:
@@ -123,47 +189,126 @@ def fetch_post(url: str) -> dict | None:
 
 def enrich(mentions: list[dict], limit: int | None = None,
            workers: int = 3, *, cached_only: bool = False) -> int:
-    """블로그 언급에 본문과 날짜를 채워 넣는다. 채운 건수를 돌려준다."""
+    """Bound optional body enrichment, retaining cached evidence for every row.
+
+    OPENEDU_BLOG_PER_RUN: 0..2000 (default 300 unique documents).
+    OPENEDU_BLOG_BUDGET_SECONDS: 1..1800 (default 600 seconds).
+    At the deadline, stop dispatching; at most ``workers`` requests already in
+    flight may finish using the existing per-request TIMEOUT. Checkpoint every
+    50 completions and on exit, including interruption. Failed documents wait
+    seven days before retry; success remains cached until explicitly removed.
+
+    The 2026-10-16 job queued 423,109 mention rows and hit the six-hour CI limit
+    before saving any successful bodies. One document can belong to many
+    academies: only the download is deduplicated, never the evidence rows.
+    """
+    deadline = time.monotonic() + _int_setting(
+        "OPENEDU_BLOG_BUDGET_SECONDS", BUDGET_SECONDS, MAX_BUDGET_SECONDS, minimum=1)
+    if limit is not None and (isinstance(limit, bool) or not isinstance(limit, int) or limit < 0):
+        raise ValueError("blog limit must be a nonnegative integer or None")
+    cap = min(limit, MAX_PER_RUN) if limit is not None else _int_setting(
+        "OPENEDU_BLOG_PER_RUN", PER_RUN, MAX_PER_RUN)
+    workers = max(1, min(MAX_WORKERS, int(workers)))
     cache_path = config.CACHE_DIR / "blog_texts.json"
-    cache: dict[str, dict] = {}
-    if cache_path.exists():
-        cache = json.loads(cache_path.read_text(encoding="utf-8"))
-
-    targets = [m for m in mentions
-               if not cached_only and m.get("source") == "naver_blog"
-               and m["source_url"] not in cache]
-    if limit:
-        targets = targets[:limit]
-    print(f"  블로그 본문 수집 대상 {len(targets):,}건 (캐시 {len(cache):,}건)")
-
-    lock = threading.Lock()
-    done = 0
-
-    def work(m: dict):
-        nonlocal done
-        got = fetch_post(m["source_url"])
-        time.sleep(SLEEP)
-        with lock:
-            done += 1
-            if got:
-                cache[m["source_url"]] = got
-            if done % 200 == 0:
-                print(f"    [{done}/{len(targets)}] 성공 {len(cache):,}")
+    failure_path = config.CACHE_DIR / "blog_failures.json"
+    cache = _load_json(cache_path)
+    # Keep legacy keys on disk; add a transient canonical index for lookup.
+    by_document = {_blog_url(url): row for url, row in cache.items()
+                   if isinstance(row, dict) and _blog_url(url)}
+    failures = _recent_failures(failure_path, datetime.now(timezone.utc)) if not cached_only and cap else {}
+    targets, seen = [], set()
+    if not cached_only and cap:
+        for m in mentions:
+            if m.get("source") != "naver_blog" or m.get("collector") == "ego_lite":
+                continue
+            url = _blog_url(m.get("source_url"))
+            if not url or url in by_document or url in failures or url in seen:
+                continue
+            seen.add(url)
+            targets.append(url)
+            if len(targets) >= cap:
+                break
+    print(f"  블로그 본문 수집 대상 {len(targets):,}개 문서 "
+          f"(회차 상한 {cap:,} · 캐시 {len(cache):,}건 · 실패 대기 {len(failures):,}건)", flush=True)
 
     if targets:
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            for f in as_completed([pool.submit(work, m) for m in targets]):
-                f.result()
-        cache_path.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        done = 0
+
+        def checkpoint():
+            _save_json(cache_path, cache)
+            _save_json(failure_path, failures)
+
+        def work(url):
+            if time.monotonic() >= deadline:
+                return False, None
+            got = fetch_post(url)
+            remaining = deadline - time.monotonic()
+            if remaining > 0:
+                time.sleep(min(SLEEP, remaining))
+            return True, got
+
+        def remember(future, url):
+            nonlocal done
+            try:
+                attempted, got = future.result()
+            except Exception:  # Optional enrichment never blocks scoring on one malformed page.
+                attempted, got = True, None
+            if not attempted:
+                return
+            done += 1
+            if got:
+                cache[url] = by_document[url] = got
+                failures.pop(url, None)
+            else:
+                failures[url] = datetime.now(timezone.utc).isoformat()
+
+        pool = ThreadPoolExecutor(max_workers=workers)
+        pending = {}
+        queue = iter(targets)
+        try:
+            while True:
+                while len(pending) < workers and time.monotonic() < deadline:
+                    url = next(queue, None)
+                    if url is None:
+                        break
+                    pending[pool.submit(work, url)] = url
+                if not pending:
+                    break
+                completed, _ = wait(pending, return_when=FIRST_COMPLETED)
+                for future in completed:
+                    url = pending.pop(future)
+                    remember(future, url)
+                    if done and done % CHECKPOINT_EVERY == 0:
+                        checkpoint()
+                        print(f"    [{done}/{len(targets)}] 본문 캐시 {len(cache):,}건 저장", flush=True)
+        finally:
+            # Only a bounded set can be in flight. Preserve successes that
+            # finish while an interrupted main thread waits for their shutdown.
+            pool.shutdown(wait=True, cancel_futures=True)
+            for future, url in pending.items():
+                if future.done() and not future.cancelled():
+                    try:
+                        remember(future, url)
+                    except BaseException:
+                        pass  # Preserve the original interrupt, without losing other results.
+            if done:
+                checkpoint()
+        if done < len(targets):
+            print(f"  블로그 본문 시간 예산 종료: {done}/{len(targets)}개 처리 · 다음 회차로 이월", flush=True)
 
     filled = 0
     for m in mentions:
-        got = cache.get(m.get("source_url", ""))
-        if not got:
+        # Browser evidence is a public search excerpt. Do not replace its
+        # provenance with an original-page fetch or an old body cache.
+        if m.get("collector") == "ego_lite":
+            continue
+        url = m.get("source_url", "")
+        got = cache.get(url) or by_document.get(_blog_url(url))
+        if not isinstance(got, dict) or not isinstance(got.get("text"), str):
             continue
         # 스니펫을 본문으로 바꾼다. 감성·관점 분석이 훨씬 정확해진다.
         m["snippet"] = got["text"][:2000]
-        m["full_text_length"] = got["length"]
+        m["full_text_length"] = got.get("length", len(got["text"]))
         if got.get("posted_at") and not m.get("posted_at"):
             m["posted_at"] = got["posted_at"]
         filled += 1

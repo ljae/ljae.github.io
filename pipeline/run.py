@@ -118,7 +118,10 @@ def test_keys() -> None:
 
 
 if __name__ == "__main__":
-    if "--test" in sys.argv:
+    if "--agents" in sys.argv:
+        from edutree.agent_cycle import main as agents_main
+        agents_main(sys.argv[sys.argv.index("--agents") + 1:])
+    elif "--test" in sys.argv:
         check()
         test_keys()
     elif "--check" in sys.argv:

@@ -29,3 +29,4 @@ def test_cached_enrichment_preserves_text_without_fetching(tmp_path, monkeypatch
     assert mentions[0]["posted_at"] == "2026-09-01"
     assert mentions[1]["snippet"] == "원래 글"
     assert path.read_bytes() == before
+    assert not (tmp_path / "blog_failures.json").exists()

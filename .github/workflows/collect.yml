@@ -65,6 +65,9 @@ jobs:
 
       - name: 수집 · 채점
         env:
+          PYTHONUNBUFFERED: '1'
+          OPENEDU_BLOG_PER_RUN: '300'
+          OPENEDU_BLOG_BUDGET_SECONDS: '600'
           RESCORE_ONLY: ${{ inputs.rescore_only }}
           TARGET_ACADEMIES: ${{ inputs.target_academies }}
           REFRESH_NEIS: ${{ inputs.refresh_neis }}
@@ -149,6 +152,38 @@ jobs:
           path: pipeline/.cache/grade_research.json
           if-no-files-found: ignore
 
+      - name: 후기 에이전트 검증·학습 기록 보관
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ranking-agent-state
+          path: |
+            pipeline/.cache/ranking_agents/memory.json
+            pipeline/.cache/ranking_agents/last_cycle.json
+            pipeline/.cache/ranking_agents/regression.json
+            pipeline/.cache/ranking_agents/batch_imports.json
+          if-no-files-found: ignore
+
+      - name: 후기 에이전트 실행 요약
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path('pipeline/.cache/ranking_agents/last_cycle.json')
+          lines = ['## 후기 랭킹 에이전트']
+          if path.exists():
+              report = json.loads(path.read_text())
+              lines += [f"- 마지막 검증 완료 {report['finalized']}회 · 대기 {report['pending']}회",
+                        '- 검증 시각: ' + report.get('evaluated_at', '기록 없음'),
+                        '- 누적 관측: ' + json.dumps(report.get('totals', {}), ensure_ascii=False),
+                        '- 지표는 수집 효율이며 사실 정확도를 뜻하지 않습니다.']
+          else:
+              lines.append('- 이번 실행에서 완료한 브라우저 수집 검증 없음')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+              handle.write('\n'.join(lines) + '\n')
+          PY
+
       - name: 출처 접근 상태와 제외 사유 기록
         if: always()
         run: |
@@ -226,6 +261,9 @@ jobs:
           git config user.name  "edutree-bot"
           git config user.email "bot@users.noreply.github.com"
           git add app/assets/data pipeline/wiki
+          if [ -f pipeline/data/ranking_agent_feedback.json ]; then
+            git add pipeline/data/ranking_agent_feedback.json
+          fi
           if git diff --staged --quiet; then
             echo "변경 없음"
           else
@@ -243,6 +281,9 @@ jobs:
                 git rebase --abort || true
                 git reset --soft origin/main
                 git add app/assets/data pipeline/wiki
+                if [ -f pipeline/data/ranking_agent_feedback.json ]; then
+                  git add pipeline/data/ranking_agent_feedback.json
+                fi
                 git commit -m "data: 학원 데이터 및 트리스코어 갱신 ($(date -u +%Y-%m-%d))"
               }
             done

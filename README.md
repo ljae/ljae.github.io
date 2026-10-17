@@ -162,3 +162,9 @@ python3 -m pipeline.edutree.refresh_grades # 최신 공시 캐시 + 웹 근거�
 랭킹 구조 검토와 반복 개선 지표는 [docs/RANKING_REVIEW.md](docs/RANKING_REVIEW.md)에
 정리되어 있습니다. 실제 데이터 수집마다 날짜 확인율·과목별 순위 대상 수 등을
 180일간 기록하고, 이전 회차보다 감소하면 점검 경고를 남깁니다.
+
+Ego Lite 후기 조사와 자체 수집 전략 개선은
+[후기 랭킹 에이전트](docs/REVIEW_RANKING_AGENTS.md)를 따릅니다.
+`python3 pipeline/run.py --agents plan`으로 다음 조사 계획을 확인하고,
+`--agents run --space-id <ID>`로 수집·기존 재채점·회귀 검증·학습을 연결합니다.
+과거 오류 픽스처를 유지하며, 검증된 신규 근거 수를 다음 검색 전략에 반영합니다.

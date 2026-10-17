@@ -17,7 +17,8 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from edutree import analyze, branches, build, cases, claims, dedupe  # noqa: E402
+from edutree import cases  # noqa: E402
+from edutree.case_replay import check, evaluate  # noqa: E402
 
 FIXTURE_DIR = Path(__file__).parent / "cases"
 FIXTURES = sorted(p for p in FIXTURE_DIR.glob("*.yaml"))
@@ -107,107 +108,6 @@ def test_사례_id_는_접수_id_에서_딴다():
 
 
 # ── 픽스처 ───────────────────────────────────────────────────────
-def _post(d: dict, key: str = "A") -> dict:
-    return {
-        "url_hash": d.get("url_hash", (d.get("title") or "h")[:12]),
-        "source": d.get("source", "naver_cafe"),
-        "source_url": d.get("source_url", "https://cafe.naver.com/x/1"),
-        "title": d.get("title", ""),
-        "snippet": d.get("snippet", ""),
-        "posted_at": d.get("posted_at"),
-        "academy_key": d.get("academy_key", key),
-        "region_id": d.get("region_id", "daechi"),
-    }
-
-
-def _row(a: dict) -> dict:
-    """build._infer_* 가 읽는 등록 행. README 의 짧은 키를 NEIS 키로 편다."""
-    return {"name": a["name"],
-            "realm_sc_nm": a.get("realm", "입시.검정 및 보습"),
-            "le_crse_list_nm": a.get("course", ""),
-            "le_crse_nm": a.get("crse", ""),
-            "id": a.get("id", a["name"])}
-
-
-def _rec(r: dict) -> dict:
-    return {"id": r.get("id") or r["name"], "name": r["name"],
-            "road_address": r.get("addr", ""),
-            "region_id": r.get("region_id", "daechi"),
-            "tofor_smtot": r.get("cap", 100),
-            "estbl_ymd": r.get("estbl", "2010-01-01")}
-
-
-def _candidates(academy: dict, wiki: dict | None) -> tuple[set[str], bool]:
-    a = {"name": academy.get("name"), "brand": academy.get("brand"),
-         "aliases": list(academy.get("aliases") or [])}
-    c = analyze.name_candidates(a)
-    for alias in (wiki or {}).get("aliases") or []:
-        n = analyze._norm(alias)
-        if len(n) >= 2:
-            c.add(n)
-    c -= analyze.weak_candidates(c)
-    generic = analyze.is_generic_academy(a) or bool((wiki or {}).get("generic"))
-    return c, generic
-
-
-def evaluate(fx: dict) -> dict:
-    kind = fx["kind"]
-    if kind == "relevance":
-        c, generic = _candidates(fx["academy"], fx.get("wiki"))
-        rivals = analyze.RivalIndex({analyze._norm(r) for r in fx.get("rivals") or []})
-        return {"relevant": analyze.is_relevant(_post(fx["mention"]), c, generic, rivals)}
-    if kind == "name":
-        c, _ = _candidates(fx["academy"], fx.get("wiki"))
-        return {"candidates": sorted(c)}
-    if kind == "subject":
-        row = _row(fx["academy"])
-        return {"subjects": build._infer_subjects(row),
-                "bands": build._infer_bands(row)}
-    if kind == "merge":
-        out, _ = dedupe.apply([_rec(r) for r in fx["rows"]])
-        n = len(fx["rows"])
-        return {"merged": len(out) == 1, "groups": len(out), "rows": n}
-    if kind == "branch":
-        academies = [dict(a) for a in fx["academies"]]
-        cands = {a["id"]: analyze.name_candidates(a) for a in academies}
-        generic = {a["id"]: analyze.is_generic_academy(a) for a in academies}
-        extra = {k: set(v) for k, v in (fx.get("locality") or {}).items()}
-        mentions = fx.get("mentions") or [fx["mention"]]
-        kept, _ = branches.apply([_post(m) for m in mentions], academies,
-                                 cands, generic, set(), extra_locality=extra)
-        return {"kept_for": sorted({m["academy_key"] for m in kept})}
-    if kind == "claim":
-        c, _ = _candidates(fx["academy"], fx.get("wiki"))
-        rivals = frozenset(analyze._norm(r) for r in fx.get("rivals") or [])
-        rows = claims.extract(_post(fx["mention"]), names=c, rivals=rivals)
-        return {"claim_kinds": sorted({r["kind"] for r in rows}),
-                "claims": [{"kind": r["kind"], "value": r.get("value")} for r in rows]}
-    raise ValueError(f"모르는 kind {kind!r} — tests/cases/README.md 참고")
-
-
-def check(expect: dict, got: dict) -> list[str]:
-    problems: list[str] = []
-    for key, want in expect.items():
-        if key.endswith("_include"):
-            base = key[:-8]
-            have = got.get(base) or []
-            missing = [w for w in want if w not in have]
-            if missing:
-                problems.append(f"{base} 에 {missing} 가 없다 (실제 {have})")
-        elif key.endswith("_exclude"):
-            base = key[:-8]
-            have = got.get(base) or []
-            leaked = [w for w in want if w in have]
-            if leaked:
-                problems.append(f"{base} 에 {leaked} 가 있다 (실제 {have})")
-        else:
-            if key not in got:
-                problems.append(f"결과에 {key} 가 없다 ({sorted(got)})")
-            elif got[key] != want:
-                problems.append(f"{key}: 기대 {want!r} · 실제 {got[key]!r}")
-    return problems
-
-
 @pytest.mark.parametrize("path", FIXTURES, ids=[p.stem for p in FIXTURES])
 def test_사례_픽스처(path: Path):
     fx = yaml.safe_load(path.read_text(encoding="utf-8")) or {}

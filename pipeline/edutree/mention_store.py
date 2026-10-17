@@ -25,9 +25,11 @@
 """
 from __future__ import annotations
 
+import fcntl
 import gzip
 import json
 from collections import defaultdict
+from contextlib import contextmanager
 from datetime import date
 
 from . import config
@@ -41,7 +43,7 @@ KEEP_PER_ACADEMY = 2000
 # 저장하는 원본 필드. 분석 결과(sentiment 등)는 넣지 않는다.
 RAW_FIELDS = ("source", "source_url", "url_hash", "author_hash", "title",
               "snippet", "posted_at", "date_source", "collected_at", "query",
-              "academy_key", "academy_name", "region_id")
+              "academy_key", "academy_name", "region_id", "collector", "search_url")
 
 
 def _key(m: dict) -> str:
@@ -77,9 +79,30 @@ def _strip(m: dict) -> dict:
     return {k: m.get(k) for k in RAW_FIELDS if m.get(k) is not None}
 
 
+@contextmanager
+def _store_lock():
+    """모든 수집기가 같은 저장소의 읽기·병합·교체를 직렬화한다."""
+    PATH.parent.mkdir(parents=True, exist_ok=True)
+    # 교체되는 gzip 파일 자체를 잠그면 다음 쓰기와 서로 다른 inode를
+    # 잠글 수 있다. 저장소마다 별도의 영구 lock 파일을 둔다.
+    lock_path = PATH.with_name(PATH.name + ".lock")
+    with lock_path.open("a") as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(handle, fcntl.LOCK_UN)
+
+
 def merge(fresh: list[dict], today: str | None = None,
           quiet: bool = False) -> list[dict]:
     """이번 회차 원본을 저장소에 합치고, 저장소 전체를 돌려준다."""
+    with _store_lock():
+        return _merge_unlocked(fresh, today=today, quiet=quiet)
+
+
+def _merge_unlocked(fresh: list[dict], today: str | None = None,
+                    quiet: bool = False) -> list[dict]:
     day = today or date.today().isoformat()
     store = load()
     added = updated = 0
@@ -99,6 +122,13 @@ def merge(fresh: list[dict], today: str | None = None,
             # 날짜는 있는 쪽을 남긴다.
             if len(raw.get("snippet") or "") > len(row.get("snippet") or ""):
                 row["snippet"] = raw["snippet"]
+                # 선택한 스니펫의 수집 경로를 함께 교체한다. API 글에
+                # Ego 스니펫만 섞이면 이후 본문 수집 제한을 잃게 되고,
+                # 반대 방향은 API 글을 옛 브라우저 검색으로 오인하게 된다.
+                for field in ("collector", "search_url", "query", "collected_at"):
+                    row.pop(field, None)
+                    if field in raw:
+                        row[field] = raw[field]
             if raw.get("posted_at") and (
                     not row.get("posted_at") or (
                         row.get("date_source") == "discovery"

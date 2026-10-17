@@ -16,6 +16,8 @@
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from edutree import build, config  # noqa: E402
@@ -104,13 +106,10 @@ def test_자리를_먼저_떼도_예산이_불어나지_않는다(monkeypatch):
     monkeypatch.setattr(demand, "load", lambda: {})
 
     evaluated, _ = build.select_for_mentions(rows, build._previous_scores())
-    per_region = config.MENTION_TARGETS // len(config.REGIONS) \
-        if hasattr(config, "MENTION_TARGETS") else None
+    per_region = config.NAVER_MAX_ACADEMIES // len(config.regions())
 
     assert keep <= {a["id"] for a in evaluated}, "지킨 자리가 빠졌다"
-    if per_region:
-        assert len(evaluated) <= per_region + 8, (
-            f"예산이 샜다: {len(evaluated)}곳")
+    assert len(evaluated) <= per_region, f"예산이 샜다: {len(evaluated)}곳"
 
 
 # ── 근거는 저장소에 남는다 — 순위권은 주기가 지났을 때만 다시 본다 ──
@@ -163,3 +162,96 @@ def test_며칠_지났는지는_기록이_없으면_모른다():
     assert coverage.days_since({"tries": 1}) is None
     from datetime import date
     assert coverage.days_since({"last_at": "2026-09-01"}, today=date(2026, 9, 8)) == 7
+
+
+@pytest.fixture
+def selection_history(monkeypatch):
+    """No live coverage/wiki/action state may determine budget regressions."""
+    from datetime import date
+    from edutree import actions, coverage, demand, wiki
+    history = {}
+    monkeypatch.setattr(config, "regions", lambda: [
+        {"id": region} for region in ("daechi", "mokdong", "banpo", "jamsil")])
+    monkeypatch.setattr(coverage, "load", lambda: history)
+    monkeypatch.setattr(coverage, "stage_gaps", lambda *args, **kwargs: {})
+    monkeypatch.setattr(coverage, "priority_bonus", lambda *args, **kwargs: (0,))
+    days_since = coverage.days_since
+    monkeypatch.setattr(coverage, "days_since",
+                        lambda row, today=None: days_since(row, date(2026, 10, 17)))
+    monkeypatch.setattr(demand, "load", lambda: {})
+    monkeypatch.setattr(actions, "load", lambda: {})
+    monkeypatch.setattr(wiki, "load", lambda: {})
+    return history
+
+
+def test_ranked_overload_stays_in_budget_and_keeps_exploration(monkeypatch, selection_history):
+    monkeypatch.setattr(config, "NAVER_MAX_ACADEMIES", 400)
+    rows, ranked = [], set()
+    for region in ("daechi", "mokdong", "banpo", "jamsil"):
+        for index in range(450):
+            aid = f"{region}-ranked-{index:03}"
+            rows.append(academy(aid, capacity=100 + index, region=region))
+            ranked.add(aid)
+            selection_history[aid] = {
+                "last": 30, "last_at": "2026-08-01" if index < 80 else "2026-09-01"}
+        rows.extend(academy(f"{region}-new-{index}", capacity=1, region=region)
+                    for index in range(50))
+    selected, skipped = build.select_for_mentions(
+        rows, {aid: {"is_ranked": True} for aid in ranked}, known=ranked)
+    ids = {a["id"] for a in selected}
+    assert len(selected) == len(ids) == 400
+    assert len(skipped) == 1600
+    for region in ("daechi", "mokdong", "banpo", "jamsil"):
+        local = [a for a in selected if a["region_id"] == region]
+        assert len(local) == 100
+        assert sum(a["id"] not in ranked for a in local) == 20
+        assert {f"{region}-ranked-{index:03}" for index in range(80)} <= ids
+    # Existing evidence outside this refresh batch remains available to build.run.
+    assert ranked - ids <= {a["id"] for a in skipped}
+    assert len(ranked) == 1800
+
+
+@pytest.mark.parametrize("budget", [0, 1, 2, 3, 4, 5, 7, 11, 20])
+def test_small_budgets_seeds_and_band_quotas_never_overflow(
+        monkeypatch, selection_history, budget):
+    monkeypatch.setattr(config, "NAVER_MAX_ACADEMIES", budget)
+    rows = [academy(f"{region}-seed-{index}", capacity=100, region=region,
+                    bands=tuple(config.GRADE_BANDS), curated=True)
+            for region in ("daechi", "mokdong", "banpo", "jamsil")
+            for index in range(20)]
+    selected, skipped = build.select_for_mentions(rows)
+    assert len(selected) == budget
+    selected_ids = {a["id"] for a in selected}
+    skipped_ids = {a["id"] for a in skipped}
+    assert selected_ids.isdisjoint(skipped_ids)
+    assert selected_ids | skipped_ids == {a["id"] for a in rows}
+    regional_counts = [sum(a["region_id"] == region for a in selected)
+                       for region in ("daechi", "mokdong", "banpo", "jamsil")]
+    assert max(regional_counts) - min(regional_counts) <= 1
+
+
+def test_new_seeds_share_exploration_budget_with_old_ranked_refresh(
+        monkeypatch, selection_history):
+    monkeypatch.setattr(config, "NAVER_MAX_ACADEMIES", 40)  # 10 per region
+    ranked = [academy(f"ranked{i:02}", capacity=5000) for i in range(30)]
+    seeds = [academy(f"seed{i:02}", capacity=1, curated=True) for i in range(20)]
+    for index, row in enumerate(ranked):
+        selection_history[row["id"]] = {
+            "last": 40, "last_at": "2026-08-01" if index < 8 else "2026-09-01"}
+    selected, _ = build.select_for_mentions(ranked + seeds)
+    assert len(selected) == 10
+    ids = {a["id"] for a in selected}
+    assert {f"ranked{i:02}" for i in range(8)} <= ids
+    assert sum(a["curated_stages"] for a in selected) == 2
+
+
+def test_unknown_regions_are_skipped_without_stealing_budget(
+        monkeypatch, selection_history):
+    monkeypatch.setattr(config, "NAVER_MAX_ACADEMIES", 3)
+    rows = [academy("known", capacity=1),
+            academy("outside", capacity=999999, region="outside", curated=True)]
+    selected, skipped = build.select_for_mentions(rows)
+    assert [a["id"] for a in selected] == ["known"]
+    assert [a["id"] for a in skipped] == ["outside"]
+    monkeypatch.setattr(config, "regions", lambda: [])
+    assert build.select_for_mentions(rows) == ([], rows)

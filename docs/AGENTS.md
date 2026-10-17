@@ -27,6 +27,12 @@ CLAUDE.md 에서 그 영역의 교훈만 추린 것이다. 이력이 늘면 그 
 | `wiki-curator` | 위키 힌트·글 판정·개념 페이지·사례 파일 | `pipeline/wiki/` | ○ 규약대로 |
 | `app-reviewer` | 화면(표시 계층·모바일·다크·디자인 언어) | `app/` | ○ |
 | `pipeline-verifier` | 고친 것이 먹었는가 | (읽기만) | ✗ 검증만 |
+| `ranking-research` | Ego Lite 후기 조사 계획·수집 | `ranking_agents.py` · `ego_reviews.py` | ○ 후보 수집 |
+| `ranking-learning-verifier` | 수집 영수증·회귀 검증·중복 학습 감사 | `agent_cycle.py` · `case_replay.py` | ✗ 독립 검증 |
+
+후기 조사 자동화는 [REVIEW_RANKING_AGENTS.md](REVIEW_RANKING_AGENTS.md)의
+`/review-ranking`과 `run.py --agents`를 사용한다. 자동 변경 범위는 검색 전략과
+수집 우선순위이며, 점수 가중치·사람의 판정·픽스처 정답은 기존 원칙을 따른다.
 
 원칙 셋.
 1. **진단과 조치를 가른다.** case-triage 는 고치지 않고, gate-* 는 자기 영역
