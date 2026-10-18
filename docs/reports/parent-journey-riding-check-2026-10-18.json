@@ -1,5 +1,5 @@
 {
-  "flutterTests": 171,
+  "flutterTests": 172,
   "flutterAnalyze": "pass",
   "releaseBuild": "pass",
   "localJourney": {
@@ -70,8 +70,60 @@
     ],
     "scope": "local compiled Flutter; external destination stubbed for navigation only; source body review in research report"
   },
-  "production": "pending",
+  "production": {
+    "status": "pass",
+    "artifact": {
+      "status": "pass",
+      "deployRun": 39122934280,
+      "releaseCommit": "603669526dee422287078c7e4772f34cccfaeda8",
+      "checkedAt": "2026-10-18T11:25:47Z",
+      "liveAssetsMatchDeploymentArtifact": true,
+      "sha256": {
+        "main.dart.js": "792bc206b7ed888b5303f6b88696fe05628ddf125909ee40c849c573cd697aa0",
+        "flutter_bootstrap.js": "6ad1295cb0d75835332bf125eacfec286e41850352571f1cfe1fd065a9bcc6a7",
+        "assets/assets/data/academies.json": "ffb7e59e2c6b5671537964c33485914935d0bb4968b33d3d29dde9e8203e8319",
+        "assets/assets/data/registry.json": "791322c65bd6fab1507fc09b5502a2b16f06654efadc1e65cb6898cb035aba2c",
+        "assets/assets/research/comparison_articles.json": "97141318b9ec7cdede5d00020db40fc2cec1091d323553df7715b111c7c734bf"
+      },
+      "privateManifestAndDocsExcludedFromArtifact": true,
+      "publicEntryAndStaticPages": "HTTP 200"
+    },
+    "browser": {
+      "status": "pass",
+      "scope": "https://openedu4u.com/",
+      "checkedAt": "2026-10-18T11:26:46.328Z",
+      "checks": [
+        "opening concern continues into exploration, ranking and real detail excerpt",
+        "delayed initial data resumes requested exploration without opening search",
+        "public branch map and explicitly personal travel notes",
+        "riding priority and distinct weekly guardian burden for two academies",
+        "subject and grade isolation plus full-page reload restoration",
+        "own schedule in school inquiry; shared URL contains only public IDs",
+        "per-class deletion survives reload and preserves other academy",
+        "registry-only academy exposes travel and preserves missing facts",
+        "no travel payload sent to server",
+        "four responsive widths and light/dark rendering"
+      ],
+      "widths": [
+        320,
+        375,
+        768,
+        1440
+      ],
+      "errors": [],
+      "limitation": "Map destination stubbed; actual routes, shuttle operation and timetables are not verified."
+    }
+  },
   "loadingRegressionTests": 8,
   "loadingRegressionAnalyze": "pass",
-  "localFinalBuildOptimization": "O1; final production O4 build is separately verified after CI"
+  "localFinalBuildOptimization": "O1; final production O4 build is separately verified after CI",
+  "ci": {
+    "status": "pass",
+    "run": 39122934280,
+    "url": "https://github.com/ljae/ljae.github.io/actions/runs/39122934280",
+    "flutterTests": 172,
+    "pythonRegressionTests": 19,
+    "httpPostgreSQLRegression": "pass (PGlite, not hosted DB)",
+    "productionBuildOptimization": "O4"
+  }
 }
