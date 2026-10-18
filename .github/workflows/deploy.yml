@@ -119,7 +119,7 @@ jobs:
           node-version: '22'
       - name: 학부모 의견 DB·HTTP 권한 회귀 검증
         run: |
-          npm install --prefix pipeline/.cache/parent-voice-check --no-audit --no-fund @electric-sql/pglite@0.5.10 tsx@4.20.6
+          npm install --prefix pipeline/.cache/parent-voice-check --no-audit --no-fund @electric-sql/pglite@0.5.10 tsx@4.23.15
           PGLITE_MODULE="file://$PWD/pipeline/.cache/parent-voice-check/node_modules/@electric-sql/pglite/dist/index.js" \
             node --import "$PWD/pipeline/.cache/parent-voice-check/node_modules/tsx/dist/loader.mjs" pipeline/tests/parent_voice_sql_test.mjs
 

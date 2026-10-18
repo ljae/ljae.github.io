@@ -1,5 +1,5 @@
 // Executes the production HTTP handler against PostgreSQL (PGlite); synthetic data only.
-// npm install --prefix /tmp/openedu-parent-sql @electric-sql/pglite tsx
+// npm install --prefix /tmp/openedu-parent-sql @electric-sql/pglite@0.5.10 tsx@4.23.15
 // PGLITE_MODULE=/tmp/openedu-parent-sql/node_modules/@electric-sql/pglite/dist/index.js node --import /tmp/openedu-parent-sql/node_modules/tsx/dist/loader.mjs pipeline/tests/parent_voice_sql_test.mjs
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
