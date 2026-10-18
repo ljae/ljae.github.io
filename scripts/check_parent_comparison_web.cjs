@@ -21,7 +21,12 @@ fs.mkdirSync(out, { recursive: true });
     await page.getByRole('button', {name: '비교 초기화', exact: true}).waitFor();
     const labels = () => page.locator('flt-semantics').evaluateAll(els => els.map(e => e.getAttribute('aria-label') || '').join('\n'));
     await page.getByRole('checkbox', {name: '숙제 부담', exact: true}).click();
-    await page.waitForTimeout(150);
+    // Production assets arrive asynchronously; the controls exist before the
+    // comparison rows. Wait for their actual content instead of a fixed delay.
+    await page.waitForFunction(() => {
+      const text = [...document.querySelectorAll('flt-semantics')].map(e => e.getAttribute('aria-label') || '').join('\n');
+      return text.includes('엄마가 바짝 챙겨줘야') && text.includes('확인할 내용  시작 수준');
+    });
     const initial = await labels();
     assert.ok(initial.indexOf('확인할 내용  하루 소요 시간') < initial.indexOf('확인할 내용  시작 수준'));
     assert.match(initial, /숙제로 집에서 푸는 교재인 소마셈과 팩토 키즈/);
@@ -83,7 +88,7 @@ fs.mkdirSync(out, { recursive: true });
     await page.waitForTimeout(200);
     await page.screenshot({path: path.join(out, 'comparison-official-guidance.png')});
     assert.deepEqual(errors, []);
-    const result = {status: 'pass', widths, errors, checks: ['priority reorders criteria', 'distinct real quotations and decision meaning', 'source date and unknown grade', 'school-specific clipboard with original source', 'grade change excludes known other-grade excerpt', 'responsive layout', 'official guidance retains source date and unverified grade applicability'], scope: 'local compiled Flutter web; existing public assets, no live source revalidation'};
+    const result = {status: 'pass', widths, errors, checks: ['priority reorders criteria', 'distinct real quotations and decision meaning', 'source date and unknown grade', 'school-specific clipboard with original source', 'grade change excludes known other-grade excerpt', 'responsive layout', 'official guidance retains source date and unverified grade applicability'], scope: `${new URL(base).origin} compiled Flutter web; existing public assets, no live source revalidation`};
     fs.writeFileSync(path.join(out, 'comparison-browser.json'), JSON.stringify(result, null, 2));
     console.log(JSON.stringify(result));
   } finally { await browser.close(); }
