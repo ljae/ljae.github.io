@@ -1,4 +1,6 @@
 import '../../widgets/content_loading.dart';
+import '../../data/academy_detail.dart';
+import '../../widgets/parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -178,6 +180,7 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         subtitle:
                             '선택한 학군·과목·학년의 학원을 보여줍니다. 대상 학년 미확인 학원은 별도 목록에서 확인할 수 있습니다.',
                       ),
+                      const ParentConcernBar(),
                       TextField(
                         onChanged: (value) =>
                             setState(() => _query = value.trim().toLowerCase()),
@@ -335,17 +338,30 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       itemCount: hits.length,
       itemBuilder: (context, index) {
         final hit = hits[index];
+        final academy = ref.read(dataProvider).value?.academyById[hit.id];
+        final entry = registry.where((r) => r.id == hit.id).firstOrNull;
+        final detail = academy != null
+            ? AcademyDetail.evaluated(academy)
+            : entry != null
+            ? AcademyDetail.listed(entry)
+            : null;
         return ContentWidth(
-          child: ListTile(
-            key: ValueKey(hit.id),
-            title: Text(hit.name),
-            subtitle: Text(
-              notes[hit.id] ??
-                  reasons[hit.id] ??
-                  (hit.evaluated ? '학원 정보 보기' : '등록 정보 보기'),
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.go('/academy/${hit.id}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListTile(
+                key: ValueKey(hit.id),
+                title: Text(hit.name),
+                subtitle: Text(
+                  notes[hit.id] ??
+                      reasons[hit.id] ??
+                      (hit.evaluated ? '학원 정보 보기' : '등록 정보 보기'),
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go('/academy/${hit.id}'),
+              ),
+              if (detail != null) ConcernPreview(detail: detail, compact: true),
+            ],
           ),
         );
       },

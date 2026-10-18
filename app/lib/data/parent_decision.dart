@@ -7,11 +7,31 @@ const parentConcerns = <String, String>{
   'foundation': '기초를 차근차근 다지고 싶어요',
   'homework': '숙제 부담이 걱정돼요',
   'questions': '질문하기 편한 수업을 찾고 있어요',
+  'riding': '라이딩과 하원 시간이 걱정돼요',
+};
+const concernLabels = <String, String>{
+  'foundation': '기초·진도',
+  'homework': '숙제 부담',
+  'questions': '질문·피드백',
+  'riding': '라이딩·하원',
+};
+const concernCriteria = <String, String>{
+  'foundation': 'curriculum',
+  'homework': 'homework',
+  'questions': 'feedback',
+  'riding': 'riding',
+};
+const concernEffects = <String, String>{
+  'foundation': '학원마다 시작 수준과 진도 조정 자료를 먼저 읽고, 비교에서는 기초·진도부터 살펴봐요.',
+  'homework': '학원마다 숙제 분량과 집에서 도울 일을 먼저 읽고, 비교에서는 숙제 부담부터 살펴봐요.',
+  'questions': '학원마다 질문 기회와 오답 피드백 자료를 먼저 읽고, 비교에서는 피드백부터 살펴봐요.',
+  'riding': '학원 위치와 하원 동선을 먼저 보고, 직접 적은 이동 조건을 비교 노트에서 나란히 살펴봐요.',
 };
 const concernQuestions = <String, String>{
   'foundation': '기초가 비어 있는 부분을 어떻게 확인하고 보완하나요?',
   'homework': '하루 숙제 분량과 어려워할 때의 피드백은 어떻게 되나요?',
   'questions': '이해하지 못한 부분을 언제, 어떻게 질문할 수 있나요?',
+  'riding': '실제 반의 하원 시각, 셔틀 정류장·운행 요일과 직접 픽업할 때 대기 장소는 어떻게 되나요?',
 };
 
 class ConcernNotifier extends Notifier<String?> {

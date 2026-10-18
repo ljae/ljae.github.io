@@ -1,4 +1,5 @@
 import '../../widgets/content_loading.dart';
+import '../../widgets/parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -169,6 +170,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('어디에서, 무엇을 배우나요?', style: text.headlineMedium),
+                        const ParentConcernBar(),
                         const SizedBox(height: 8),
                         Text(
                           '학군과 아이의 학년을 고르면 조건에 맞는 학원을 보여드려요.',

@@ -191,6 +191,11 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.dragUntilVisible(
+      find.text('등록부 학원을 불러오는 중입니다.'),
+      find.byType(CustomScrollView),
+      const Offset(0, -250),
+    );
     expect(find.text('등록부 학원을 불러오는 중입니다.'), findsOneWidget);
     expect(find.textContaining('조건에 맞는 분석 결과가 없습니다'), findsNothing);
     pending.completeError(StateError('offline'));

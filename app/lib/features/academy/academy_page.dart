@@ -4,6 +4,7 @@ import '../../data/contact_view_model.dart';
 import '../compare/compare_page.dart';
 import '../feedback/parent_voice_page.dart';
 import '../../widgets/content_loading.dart';
+import '../../widgets/parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -123,6 +124,7 @@ class _RegistryBody extends StatelessWidget {
               const SizedBox(height: AppSpace.md),
               Text(entry.displayName, style: text.headlineLarge),
               CompareButton(academyId: entry.id),
+              AcademyDecisionSection(detail: AcademyDetail.listed(entry)),
               const SizedBox(height: AppSpace.sm),
               Text(
                 '$region · ${orderedSubjects(entry.subjects).map((s) => subjectNames[s] ?? '과목 미확인').join(' · ')}',
@@ -286,6 +288,7 @@ class _Body extends StatelessWidget {
               // ── 전화 · 학원 홈페이지 ────────────────────────
               // 학부모가 다음에 하는 일은 둘이다. 전화번호를 글자로만
               // 보여 주면 옮겨 적어야 한다.
+              AcademyDecisionSection(detail: AcademyDetail.evaluated(academy)),
               AcademyPositioning(academy: academy),
               const SizedBox(height: AppSpace.lg),
               ParentEssentials(academy: academy),

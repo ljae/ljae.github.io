@@ -1,6 +1,7 @@
 import 'academy_detail.dart';
 import 'contact_view_model.dart';
 import 'models.dart';
+import 'parent_decision.dart';
 import 'source_notes.dart';
 
 /// Reading aids, never school scores or inferred operating facts. Every excerpt
@@ -62,20 +63,24 @@ final comparisonCriteria = [
   ),
   ComparisonCriterion(
     'routine',
-    '시간표·보강과 통학',
-    '수업 시간만큼 숙제와 이동을 합친 한 주의 일정이 중요합니다. 결석 시 보강과 귀가 방법까지 확인해야 꾸준히 다닐 수 있을지 가늠할 수 있어요.',
-    '가능한 요일·종료 시각, 결석 시 보강 방식과 셔틀 정류장·운행 시간을 알려주세요.',
-    r'시간표|보강|셔틀|통학|(등하원|귀가)\s*(시각|시간|방법)|주\s*[1-7일이삼사오육칠]\s*회|수업\s*시간',
-    ['요일·횟수·종료 시각', '결석 시 보강', '이동·귀가 방법'],
+    '시간표와 보강',
+    '정규 수업과 숙제를 한 주의 일정에 놓아보세요. 결석 시 보강 요일과 종료 시각까지 확인해야 다른 일정과 함께 다닐 수 있을지 판단할 수 있어요.',
+    '가능한 요일·종료 시각과 결석 시 보강 방식을 알려주세요.',
+    r'시간표|보강|주\s*[1-7일이삼사오육칠]\s*회|수업\s*시간',
+    ['요일·횟수', '결석 시 보강', '정규·보강 종료 시각'],
+  ),
+  ComparisonCriterion(
+    'riding',
+    '라이딩·셔틀과 하원',
+    '학교에서 학원, 학원에서 집까지의 동선과 보호자가 쓸 시간을 함께 보세요. 셔틀이 있어도 정류장·요일·하원 시각이 맞아야 이용할 수 있어요.',
+    concernQuestions['riding']!,
+    r'셔틀|통학|라이딩|픽업|주차|(등하원|하원|귀가)\s*(시각|시간|방법)|차량\s*(운행|지원|탑승)',
+    ['등원·하원 동선', '셔틀 정류장·운행 요일', '픽업·대기와 보호자 시간'],
   ),
 ];
 
 List<ComparisonCriterion> orderedComparisonCriteria(String? concern) {
-  final first = switch (concern) {
-    'homework' => 'homework',
-    'questions' => 'feedback',
-    _ => 'curriculum',
-  };
+  final first = concernCriteria[concern] ?? 'curriculum';
   return [
     ...comparisonCriteria.where((c) => c.id == first),
     ...comparisonCriteria.where((c) => c.id != first),
@@ -127,7 +132,7 @@ List<SourceNote> comparisonGuidance(
     'homework' => '숙제',
     'entry' => '입학·레벨테스트',
     'curriculum' || 'feedback' || 'atmosphere' => '수업·교재',
-    'routine' => '운영·일정',
+    'routine' || 'riding' => '운영·일정',
     _ => null,
   };
   return group.notes
@@ -201,7 +206,7 @@ List<ComparisonExcerpt> comparisonExcerpts(
     'homework' => profile?.homework,
     'entry' => profile?.levelTest,
     'curriculum' || 'feedback' || 'atmosphere' => profile?.curriculum,
-    'routine' => profile?.ops,
+    'routine' || 'riding' => profile?.ops,
     _ => null,
   };
   for (final quote in section?.quotes ?? const <ProfileQuote>[]) {

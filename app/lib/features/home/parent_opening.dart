@@ -186,9 +186,18 @@ class ParentOpening extends ConsumerWidget {
                             ),
                             const SizedBox(height: 18),
                             Text(
-                              '선택은 자유예요. 고른 고민으로 문의 질문을 준비해요.',
+                              concernEffects[concern] ??
+                                  '선택한 고민은 학원 소개에서 먼저 읽을 내용과 비교·문의로 이어집니다.',
                               style: text.bodySmall,
                             ),
+                            if (concern != null) ...[
+                              const SizedBox(height: 16),
+                              FilledButton.icon(
+                                onPressed: onExplore,
+                                icon: const Icon(Icons.arrow_forward, size: 18),
+                                label: const Text('이 고민으로 학원 살펴보기'),
+                              ),
+                            ],
                           ],
                         ),
                       ),

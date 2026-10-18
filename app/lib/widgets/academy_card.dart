@@ -1,4 +1,6 @@
 import '../features/compare/compare_page.dart';
+import '../data/academy_detail.dart';
+import 'parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -133,6 +135,10 @@ class AcademyCard extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Divider(height: 1),
+                ),
+                ConcernPreview(
+                  detail: AcademyDetail.evaluated(academy),
+                  compact: true,
                 ),
                 AcademyPositioning(academy: academy, subject: subject),
                 if (academy.profile?.oneLiner case final line?) ...[

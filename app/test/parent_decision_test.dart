@@ -290,7 +290,8 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      expect(find.text('지점과 위치'), findsOneWidget);
+      expect(find.text('라이딩·셔틀과 하원'), findsOneWidget);
+      expect(find.text('라이딩 메모 작성'), findsNWidgets(2));
       await tester.drag(find.byType(ListView).first, const Offset(0, -500));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);

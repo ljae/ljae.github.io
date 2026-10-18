@@ -9,6 +9,8 @@ import '../../data/comparison_articles.dart';
 import '../../data/academy_detail.dart';
 import '../../data/contact_view_model.dart';
 import '../../data/parent_decision.dart';
+import '../../data/riding_plan.dart';
+import '../../widgets/riding_card.dart';
 import '../../data/repository.dart';
 import '../../data/source_notes.dart';
 import '../../widgets/common.dart';
@@ -128,6 +130,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
     final readable = criteria
         .where(
           (c) =>
+              c.id == 'riding' ||
               excerpts[c.id]!.values.any((v) => v.isNotEmpty) ||
               guidance[c.id]!.values.any((v) => v.isNotEmpty),
         )
@@ -225,11 +228,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          for (final entry in const {
-                            'foundation': '기초·진도',
-                            'homework': '숙제 부담',
-                            'questions': '질문·피드백',
-                          }.entries)
+                          for (final entry in concernLabels.entries)
                             ChoiceChip(
                               label: Text(entry.value),
                               selected: concern == entry.key,
@@ -240,6 +239,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                         ],
                       ),
                       const SizedBox(height: 8),
+                      if (concern != null) Text(concernEffects[concern]!),
                       Text(
                         concernQuestions[concern] ??
                             '같은 과목·학년의 내용을 먼저 읽고, 학년이 밝혀지지 않은 글은 맥락을 확인하세요.',
@@ -383,18 +383,28 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                           ],
                         ),
                         candidates: values,
-                        cell: (d) => _EvidenceCell(
-                          key: ValueKey('${d.id}/${c.id}/$subject/$band'),
-                          rows: excerpts[c.id]![d.id]!,
-                          guidance: guidance[c.id]![d.id]!,
-                          caveat: groups[d.id]?.caveat,
-                          question: comparisonQuestion(
-                            c,
-                            excerpts[c.id]![d.id]!,
-                            subject,
-                            band,
-                            hasGuidance: guidance[c.id]![d.id]!.isNotEmpty,
-                          ),
+                        cell: (d) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (c.id == 'riding') RidingCard(detail: d),
+                            if (c.id != 'riding' ||
+                                excerpts[c.id]![d.id]!.isNotEmpty ||
+                                guidance[c.id]![d.id]!.isNotEmpty)
+                              _EvidenceCell(
+                                key: ValueKey('${d.id}/${c.id}/$subject/$band'),
+                                rows: excerpts[c.id]![d.id]!,
+                                guidance: guidance[c.id]![d.id]!,
+                                caveat: groups[d.id]?.caveat,
+                                question: comparisonQuestion(
+                                  c,
+                                  excerpts[c.id]![d.id]!,
+                                  subject,
+                                  band,
+                                  hasGuidance:
+                                      guidance[c.id]![d.id]!.isNotEmpty,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -406,7 +416,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              readable.isEmpty
+                              readable.every((c) => c.id == 'riding')
                                   ? '이 조건에서는 수업의 차이를 판단할 자료가 부족해요.'
                                   : '공통으로 상담에서 확인할 항목',
                               style: text.titleMedium,
@@ -444,23 +454,6 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                         ),
                       ),
                     ),
-                  const SizedBox(height: 20),
-                  _CriterionSection(
-                    title: '지점과 위치',
-                    meaning:
-                        '하교 후 이동 경로와 수업 종료 뒤 귀가 방법을 함께 보세요. 주소만으로 통학 시간이나 셔틀 운행을 판단할 수는 없어요.',
-                    candidates: values,
-                    cell: (d) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          d.academy?.address ?? d.registry?.address ?? '주소 미확인',
-                        ),
-                        const SizedBox(height: 12),
-                        const Text('물어볼 질문  수업 종료 시각과 셔틀 정류장·운행 시간을 알려주세요.'),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 28),
                   _CriterionSection(
                     title: '04  이 학원에 물어보기',
@@ -487,6 +480,13 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                             ),
                           ].join('\n'),
                         '시간표, 귀가 방법, 수강료 외 교재·테스트 비용과 납부 조건을 알려주세요.',
+                        ridingInquiry(
+                          ref.read(ridingPlansProvider)[ridingKey(
+                            d.id,
+                            subject,
+                            band,
+                          )],
+                        ),
                         for (final m in articleMatches.where(
                           (m) => m.matched.any((t) => t.academyId == d.id),
                         ))
@@ -495,6 +495,13 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (ref
+                              .watch(ridingPlansProvider)
+                              .containsKey(ridingKey(d.id, subject, band)))
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Text('직접 적은 하원 시각과 주간 횟수도 문의 질문에 포함됩니다.'),
+                            ),
                           FilledButton.icon(
                             onPressed: () => copyContactText(
                               context,
