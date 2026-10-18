@@ -22,7 +22,7 @@
 - 질문 복사에 사용자가 적은 하원 시각·주간 횟수를 넣는다고 알린다. 다른 학원의 메모를 섞지 않는다. 서버 보관·다른 기기 동기화는 없다.
 - localStorage 실패 시 현재 화면에서만 사용함을 안내한다. 삭제 저장 실패 시 재방문 때 이전 메모가 남을 수 있음을 알린다. 변조·범위 초과 저장값은 무시한다.
 
-실행 검사: `app/test/parent_journey_test.dart`, `scripts/check_parent_journey_web.cjs` (기존 Playwright 환경 변수 사용). 실제 반의 셔틀·시간표·경로 검증과 제품 기능 검증을 구별한다.
+[고민 연결·라이딩 검증 기록](reports/parent-journey-riding-2026-10-18.md). 실행 검사: `app/test/parent_journey_test.dart`, `scripts/check_parent_journey_web.cjs` (기존 Playwright 환경 변수 사용). 실제 반의 셔틀·시간표·경로 검증과 제품 기능 검증을 구별한다.
 
 ## 구현된 범위
 

@@ -1,0 +1,73 @@
+{
+  "flutterTests": 171,
+  "flutterAnalyze": "pass",
+  "releaseBuild": "pass",
+  "localJourney": {
+    "status": "pass",
+    "scope": "http://127.0.0.1:8769/",
+    "checkedAt": "2026-10-18T11:07:33.144Z",
+    "checks": [
+      "opening concern continues into exploration, ranking and real detail excerpt",
+      "public branch map and explicitly personal travel notes",
+      "riding priority and distinct weekly guardian burden for two academies",
+      "subject and grade isolation plus full-page reload restoration",
+      "own schedule in school inquiry; shared URL contains only public IDs",
+      "per-class deletion survives reload and preserves other academy",
+      "registry-only academy exposes travel and preserves missing facts",
+      "no travel payload sent to server",
+      "four responsive widths and light/dark rendering"
+    ],
+    "widths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "errors": [],
+    "limitation": "Map destination stubbed; actual routes, shuttle operation and timetables are not verified."
+  },
+  "comparisonRegression": {
+    "status": "pass",
+    "widths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "errors": [],
+    "checks": [
+      "priority reorders criteria",
+      "distinct real quotations and decision meaning",
+      "source date and unknown grade",
+      "school-specific clipboard with original source",
+      "grade change excludes known other-grade excerpt",
+      "responsive layout",
+      "official guidance retains source date and unverified grade applicability"
+    ],
+    "scope": "http://127.0.0.1:8769 compiled Flutter web; existing public assets, no live source revalidation"
+  },
+  "comparisonArticleRegression": {
+    "status": "pass",
+    "widths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "errors": [],
+    "checks": [
+      "partial 2/3 with missing school named",
+      "source date vs body review date",
+      "historical and branch limitations",
+      "external link opens correct destination",
+      "unrelated school clipboard excludes pair article",
+      "subject and grade filtering",
+      "complete 3/3 coverage",
+      "feedback concern reorders separate axes",
+      "responsive layout",
+      "registry-only candidates keep article links"
+    ],
+    "scope": "local compiled Flutter; external destination stubbed for navigation only; source body review in research report"
+  },
+  "production": "pending"
+}
