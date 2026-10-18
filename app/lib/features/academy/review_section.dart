@@ -42,6 +42,26 @@ final reviewFilterProvider =
       ReviewFilterNotifier.new,
     );
 
+void showAcademyReview(
+  BuildContext context, {
+  required String academyId,
+  required String academyName,
+}) {
+  if (!Env.hasSupabase) {
+    ScaffoldMessenger.maybeOf(
+      context,
+    )?.showSnackBar(const SnackBar(content: Text('현재 수강 후기 접수를 준비 중입니다.')));
+    return;
+  }
+  showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    constraints: const BoxConstraints(maxWidth: 640),
+    builder: (_) => _ReviewForm(academyId: academyId, academyName: academyName),
+  );
+}
+
 class ReviewSection extends ConsumerWidget {
   final String academyId;
   final String academyName;
@@ -106,16 +126,11 @@ class ReviewSection extends ConsumerWidget {
     );
   }
 
-  void _openForm(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      constraints: const BoxConstraints(maxWidth: 640),
-      builder: (_) =>
-          _ReviewForm(academyId: academyId, academyName: academyName),
-    );
-  }
+  void _openForm(BuildContext context, WidgetRef ref) => showAcademyReview(
+    context,
+    academyId: academyId,
+    academyName: academyName,
+  );
 }
 
 class _ReviewTile extends ConsumerWidget {

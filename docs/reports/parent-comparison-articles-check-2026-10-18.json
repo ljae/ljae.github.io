@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-18",
+  "scope": "local implementation, self-reviewed; no deployment or remote database mutation",
+  "flutterAnalyze": "pass",
+  "flutterTests": {
+    "passed": 163,
+    "failed": 0
+  },
+  "flutterWebBuild": "pass",
+  "articleNavigation": {
+    "status": "pass",
+    "widths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "errors": [],
+    "checks": [
+      "partial 2/3 with missing school named",
+      "source date vs body review date",
+      "historical and branch limitations",
+      "external link opens correct destination",
+      "unrelated school clipboard excludes pair article",
+      "subject and grade filtering",
+      "complete 3/3 coverage",
+      "feedback concern reorders separate axes",
+      "responsive layout",
+      "registry-only candidates keep article links"
+    ],
+    "scope": "local compiled Flutter; external destination stubbed for navigation only; source body review in research report"
+  },
+  "comparisonRegression": {
+    "status": "pass",
+    "widths": [
+      320,
+      375,
+      768,
+      1440
+    ],
+    "errors": [],
+    "checks": [
+      "priority reorders criteria",
+      "distinct real quotations and decision meaning",
+      "source date and unknown grade",
+      "school-specific clipboard with original source",
+      "grade change excludes known other-grade excerpt",
+      "responsive layout",
+      "official guidance retains source date and unverified grade applicability"
+    ],
+    "scope": "local compiled Flutter web; existing public assets, no live source revalidation"
+  }
+}

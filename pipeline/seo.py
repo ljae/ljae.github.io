@@ -215,6 +215,8 @@ def academy_pages(out: Path, academies, registry, regions, meta=None,
             address_link = "https://map.naver.com/p/search/" + quote(a["address"], safe="")
             body.append(f'<a class="cta secondary" href="{address_link}" rel="noopener noreferrer">주소로 위치 찾기</a>')
         body.append(f'<a class="cta secondary" href="{SITE}/g/{esc(rid)}.html">{esc(reg)} 다른 학원 찾기</a></div></section>')
+        if phone or homepage:
+            body.append('<p class="note">수집 자료의 연락처 · 지점별 원출처 대조일과 최근 연결 여부 미확인. 현재 모집·수강료 외 교재·테스트 비용과 납부 조건은 해당 학원에 직접 물어보세요.</p>')
         if not phone and not homepage:
             body.append('<p class="note">확인된 전화번호와 공식 홈페이지가 아직 없습니다. '
                         '대상 학년과 모집 정보는 학원에 직접 확인해 주세요.</p>')
@@ -696,6 +698,35 @@ def write_llms_txt(out: Path, counts: dict, meta) -> None:
 """, encoding="utf-8")
 
 
+def unavailable_academy_pages(out: Path, entries: list[dict], entities: dict, aliases: dict) -> dict:
+    """Keep reviewed old URLs useful without republishing stale academy facts."""
+    notices = {}
+    members = {str(i) for a in entities.values() for i in a.get('registrationIds') or []}
+    for row in entries:
+        if row.get('status') != 'reviewed':
+            continue
+        aid = str(row.get('id', ''))
+        if not aid.isdigit() or aid in notices or not row.get('reviewedAt') or not row.get('evidence'):
+            raise ValueError('INVALID_UNAVAILABLE_ACADEMY')
+        # A recovered entity or verified merge resumes its ordinary page.
+        if aid in entities or aid in aliases:
+            continue
+        if aid in members:
+            raise ValueError(f'UNREVIEWED_MERGED_ID: {aid}')
+        url = f'{SITE}/a/{aid}.html'
+        body = (f'<h1>{esc(row["name"])}</h1><h2>최신 자료에서 확인하지 못했습니다</h2>'
+                '<p>이 주소에 있던 학원 정보를 현재 공개 목록에서 찾지 못했습니다. '
+                '자료 갱신에 따른 안내이며, 폐원이나 이전을 확인한 것은 아닙니다.</p>'
+                f'<p>자료 대조: {esc(row["reviewedAt"])}</p>'
+                f'<a class="cta" href="{SITE}/#/rank">학원 이름으로 다시 찾기</a>')
+        html = page(f'{row["name"]} 정보 확인 안내 | 학원실록',
+                    '최신 학원 정보 확인 안내', url, body)
+        (out / 'a').mkdir(parents=True, exist_ok=True)
+        (out / 'a' / f'{aid}.html').write_text(html.replace('index, follow,', 'noindex, follow,'), encoding='utf-8')
+        notices[aid] = row['reviewedAt']
+    return notices
+
+
 def main(target: str, *, manifest_path=None, previous_manifest=None, allow_removals=False) -> None:
     out = Path(target)
     out.mkdir(parents=True, exist_ok=True)
@@ -727,8 +758,10 @@ def main(target: str, *, manifest_path=None, previous_manifest=None, allow_remov
     urls += track_pages(out, tracks, academies)
     urls += school_pages(out, schools, regions)
     urls += academy_pages(out, academies, registry, regions, meta, aliases)
+    lifecycle = json.loads((ROOT / 'pipeline/data/url_lifecycle.json').read_text())
+    notices = unavailable_academy_pages(out, lifecycle['entries'], entities, aliases)
 
-    manifest = inventory(out, urls, previous=previous, aliases=aliases, allow_removals=allow_removals)
+    manifest = inventory(out, urls, previous=previous, aliases=aliases, notices=notices, allow_removals=allow_removals)
     write_sitemap(out, urls, manifest)
     save_manifest(manifest_path, manifest)
     # Only identity mappings are public. Search data and the private manifest stay outside _site.

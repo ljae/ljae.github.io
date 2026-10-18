@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 /// 밝은 세이지 배경과 짙은 녹색 강조. 부모가 오래 읽기 위한 대비와 여백.
 /// 데이터 시각화의 의미 색상은 유지하고 탐색 화면은 한 가지 강조색을 쓴다.
 class AppColors {
+  static Color openingCanvasOn(bool dark) =>
+      dark ? const Color(0xFF18281F) : const Color(0xFFF5F4ED);
+  static Color openingPaperOn(bool dark) =>
+      dark ? const Color(0xFF22362A) : const Color(0xFFFFFEF9);
+  static Color openingNoteOn(bool dark) =>
+      dark ? const Color(0xFFDCC184) : const Color(0xFFF2CF7D);
   // ── 브랜드 (로고에서 온 값 — 바꾸지 않는다)
   /// 실록의 표지. 이제 '깊은 바탕' 역할을 맡는다.
   static const navy = Color(0xFF182448);

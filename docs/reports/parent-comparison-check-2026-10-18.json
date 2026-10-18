@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "widths": [
+    320,
+    375,
+    768,
+    1440
+  ],
+  "errors": [],
+  "checks": [
+    "priority reorders criteria",
+    "distinct real quotations and decision meaning",
+    "source date and unknown grade",
+    "school-specific clipboard with original source",
+    "grade change excludes known other-grade excerpt",
+    "responsive layout",
+    "official guidance retains source date and unverified grade applicability"
+  ],
+  "scope": "local compiled Flutter web; existing public assets, no live source revalidation"
+}

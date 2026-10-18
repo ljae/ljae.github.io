@@ -38,7 +38,7 @@ def semantic_hash(document: str) -> str:
 
 
 def inventory(site_dir: Path, urls: list[str], *, previous=None, today=None,
-              aliases=None, allow_removals=False) -> dict:
+              aliases=None, notices=None, allow_removals=False) -> dict:
     if not urls or len(urls) != len(set(urls)):
         raise ValueError("EMPTY_OR_DUPLICATE_SITEMAP")
     previous = previous or {"pages": {}}
@@ -104,13 +104,27 @@ def inventory(site_dir: Path, urls: list[str], *, previous=None, today=None,
             raise ValueError(f'INVALID_COMPATIBILITY_PAGE: {old_url}')
         compatibility[old_url] = target_url
     removed_compatibility = sorted(set(previous.get('compatibilityUrls', {})) - set(compatibility) - set(pages))
-    unexpected = [url for url in removed if urlsplit(url).path.split('/')[-1].removesuffix('.html') not in known_aliases]
-    if (unexpected or removed_compatibility) and not allow_removals:
-        raise ValueError(f"UNEXPECTED_URL_REMOVAL: {len(unexpected)+len(removed_compatibility)} URLs; review lifecycle/alias records first")
+    unavailable = {}
+    for aid, checked_at in (notices or {}).items():
+        if not re.fullmatch(r'\d+', str(aid)) or not checked_at:
+            raise ValueError('INVALID_UNAVAILABLE_PAGE')
+        url = f'{origin.scheme}://{origin.netloc}/a/{aid}.html'
+        parser = PageParser()
+        file = site_dir / 'a' / f'{aid}.html'
+        if file.is_file():
+            parser.feed(file.read_text(encoding='utf-8'))
+        if url in pages or url in compatibility or parser.canonical != url or not parser.noindex:
+            raise ValueError(f'INVALID_UNAVAILABLE_PAGE: {url}')
+        unavailable[url] = checked_at
+    missing_notices = set(previous.get('unavailableUrls', {})) - set(unavailable) - set(pages) - set(compatibility)
+    unexpected = [url for url in removed if url not in compatibility and url not in unavailable]
+    removed_compatibility = [url for url in removed_compatibility if url not in unavailable]
+    if (unexpected or removed_compatibility or missing_notices) and not allow_removals:
+        raise ValueError(f"UNEXPECTED_URL_REMOVAL: {len(unexpected)+len(removed_compatibility)+len(missing_notices)} URLs; review lifecycle/alias records first")
     if issues:
         raise ValueError(f"BROKEN_INTERNAL_LINKS: {json.dumps(issues[:8], ensure_ascii=False)}")
     return {"schemaVersion": 1, "generatedAt": today, "templateVersion": "search-detail-v2",
-            "pages": pages, "compatibilityUrls": compatibility,
+            "pages": pages, "compatibilityUrls": compatibility, "unavailableUrls": unavailable,
             "removed": removed + removed_compatibility, "issues": issues}
 
 

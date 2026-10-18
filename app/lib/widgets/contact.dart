@@ -7,89 +7,124 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../core/theme.dart';
 import '../data/models.dart';
+import '../data/contact_view_model.dart';
 import '../data/reservations.dart';
 import 'annals.dart';
 
-/// 외부 링크. http(s) 만 연다 — 데이터에 든 주소를 그대로 믿지 않는다.
+/// Every external action uses the same validation and failure path.
 Future<void> openExternal(String url) async {
-  final uri = Uri.tryParse(url);
-  if (uri == null || !(uri.scheme == 'http' || uri.scheme == 'https')) return;
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
+  final uri = safeContactUrl(url);
+  if (uri == null) return;
+  try {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } catch (_) {
+    /* Caller has no context. */
+  }
 }
 
-/// 전화번호에서 숫자만. '02-552-6003' → '025526003'.
-String telDigits(String tel) => tel.replaceAll(RegExp(r'[^0-9+]'), '');
+String telDigits(String tel) => safePhoneDigits(tel) ?? '';
 
-/// 전화를 건다. 못 거는 기기(데스크톱 브라우저)에서는 번호를 복사하고
-/// 그렇게 말한다 — 아무 일도 안 일어나는 버튼이 가장 나쁘다.
-///
-/// 누른 사실만 기록한다(누가인지는 없다). 학부모가 전화를 거는 학원은
-/// 우리가 근거를 더 찾아야 할 학원이다 — 다음 회차 수집 우선순위에 쓴다.
+Future<bool> copyContactText(
+  BuildContext context,
+  String value, {
+  String success = '복사했습니다.',
+}) async {
+  try {
+    await Clipboard.setData(ClipboardData(text: value));
+    if (context.mounted) {
+      ScaffoldMessenger.maybeOf(
+        context,
+      )?.showSnackBar(SnackBar(content: Text(success)));
+    }
+    return true;
+  } catch (_) {
+    if (context.mounted) {
+      await showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('직접 선택해서 복사해주세요'),
+          content: SelectableText(value),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('닫기'),
+            ),
+          ],
+        ),
+      );
+    }
+    return false;
+  }
+}
+
+Future<void> callContact(
+  BuildContext context,
+  WidgetRef ref,
+  ContactViewModel contact,
+) async {
+  final number = safePhoneDigits(contact.phone);
+  if (number == null) return;
+  unawaited(ref.read(actionLogProvider).log(contact.academyId, 'call'));
+  var opened = false;
+  try {
+    opened = await launchUrl(
+      Uri(scheme: 'tel', path: number),
+      webOnlyWindowName: '_self',
+    );
+  } catch (_) {
+    opened = false;
+  }
+  if (!opened && context.mounted) {
+    await copyContactText(
+      context,
+      contact.phone!,
+      success: '전화 앱을 열 수 없어 번호를 복사했습니다.',
+    );
+  }
+}
+
+Future<void> homepageContact(
+  BuildContext context,
+  WidgetRef ref,
+  ContactViewModel contact,
+) async {
+  final uri = safeContactUrl(contact.officialUrl);
+  if (uri == null) return;
+  unawaited(ref.read(actionLogProvider).log(contact.academyId, 'homepage'));
+  var opened = false;
+  try {
+    opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } catch (_) {
+    opened = false;
+  }
+  if (!opened && context.mounted) {
+    await copyContactText(
+      context,
+      uri.toString(),
+      success: '페이지를 열 수 없어 주소를 복사했습니다.',
+    );
+  }
+}
+
 Future<void> callAcademy(
   BuildContext context,
   WidgetRef ref,
   Academy academy,
-) async {
-  final tel = academy.tel;
-  if (tel == null || tel.isEmpty) return;
-  unawaited(ref.read(actionLogProvider).log(academy.id, 'call'));
-  final messenger = ScaffoldMessenger.maybeOf(context);
-  var ok = false;
-  try {
-    ok = await launchUrl(
-      Uri(scheme: 'tel', path: telDigits(tel)),
-      webOnlyWindowName: '_self',
-    );
-  } catch (_) {
-    ok = false;
-  }
-  if (!ok) {
-    await Clipboard.setData(ClipboardData(text: tel));
-    messenger?.showSnackBar(
-      SnackBar(content: Text('이 기기에서는 전화를 걸 수 없어 번호를 복사했습니다: $tel')),
-    );
-  }
-}
-
-/// 학원 공식 페이지로 보낸다. **레벨테스트 신청도 여기서 한다** —
-/// 학원실록이 대신 접수하지 않는다(2026-09-05).
-///
-/// 링크가 없으면 호출되지 않는다. 화면이 버튼을 만들지 않기 때문이다.
+) => callContact(context, ref, ContactViewModel.fromAcademy(academy));
 Future<void> openHomepage(
   BuildContext context,
   WidgetRef ref,
   Academy academy,
-) async {
-  final url = academy.homepage;
-  if (url == null || url.isEmpty) return;
-  unawaited(ref.read(actionLogProvider).log(academy.id, 'homepage'));
-  final messenger = ScaffoldMessenger.maybeOf(context);
-  var ok = false;
-  try {
-    ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-  } catch (_) {
-    ok = false;
-  }
-  if (!ok) {
-    await Clipboard.setData(ClipboardData(text: url));
-    messenger?.showSnackBar(
-      SnackBar(content: Text('페이지를 열 수 없어 주소를 복사했습니다: $url')),
-    );
-  }
-}
-
+) => homepageContact(context, ref, ContactViewModel.fromAcademy(academy));
 Future<void> copyTel(
   BuildContext context,
   WidgetRef ref,
   Academy academy,
 ) async {
-  final tel = academy.tel;
-  if (tel == null) return;
+  final contact = ContactViewModel.fromAcademy(academy);
+  if (contact.phone == null) return;
   unawaited(ref.read(actionLogProvider).log(academy.id, 'copy_tel'));
-  // 비동기 뒤에 context 를 쓰지 않는다 — 먼저 집어 둔다.
-  final messenger = ScaffoldMessenger.maybeOf(context);
-  await Clipboard.setData(ClipboardData(text: tel));
-  messenger?.showSnackBar(SnackBar(content: Text('전화번호를 복사했습니다: $tel')));
+  await copyContactText(context, contact.phone!, success: '전화번호를 복사했습니다.');
 }
 
 /// 랭킹 카드의 '전화' 꼬리표. 상세로 들어가지 않고 바로 건다.
@@ -99,7 +134,7 @@ class CallTag extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (academy.tel == null) return const SizedBox.shrink();
+    if (safePhoneDigits(academy.tel) == null) return const SizedBox.shrink();
     final dark = Theme.of(context).brightness == Brightness.dark;
     return Tooltip(
       message: '전화 ${academy.tel}',
@@ -199,13 +234,15 @@ class HighlightedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (terms.isEmpty || text.isEmpty) {
-      return Text(text, style: style, maxLines: maxLines,
-          overflow: maxLines == null ? null : TextOverflow.ellipsis);
+      return Text(
+        text,
+        style: style,
+        maxLines: maxLines,
+        overflow: maxLines == null ? null : TextOverflow.ellipsis,
+      );
     }
     final pattern = RegExp(
-      terms
-          .map((t) => t.split('').map(RegExp.escape).join(r'\s*'))
-          .join('|'),
+      terms.map((t) => t.split('').map(RegExp.escape).join(r'\s*')).join('|'),
       caseSensitive: false,
     );
     final spans = <TextSpan>[];

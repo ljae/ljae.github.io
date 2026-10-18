@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/brand.dart';
+import '../../core/env.dart';
+import '../feedback/parent_voice_page.dart';
+import 'parent_opening.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
@@ -13,11 +16,25 @@ import '../../widgets/app_shell.dart';
 import '../../widgets/common.dart';
 import '../../widgets/subject_bar.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  final _exploreKey = GlobalKey();
+  void _explore() {
+    final target = _exploreKey.currentContext;
+    if (target != null) {
+      Scrollable.ensureVisible(target, alignment: 0, duration: Duration.zero);
+    }
+  }
+
+  void _search() => showSearch(context: context, delegate: AcademySearch());
+  @override
+  Widget build(BuildContext context) {
     final selection = ref.watch(selectionProvider);
     final notifier = ref.read(selectionProvider.notifier);
     final text = Theme.of(context).textTheme;
@@ -25,7 +42,14 @@ class HomePage extends ConsumerWidget {
     return ref
         .watch(dataProvider)
         .when(
-          loading: () => const ContentLoading(),
+          loading: () => Env.parentOpeningEnabled
+              ? ListView(
+                  children: [
+                    ParentOpening(onExplore: _search, onSearch: _search),
+                    const ContentLoading(),
+                  ],
+                )
+              : const ContentLoading(),
           error: (e, _) =>
               const Center(child: Text('데이터를 불러오지 못했습니다. 다시 시도해주세요.')),
           data: (data) {
@@ -38,100 +62,107 @@ class HomePage extends ConsumerWidget {
                 data.regionById[selection.regionId]?.nameKo ?? '전체 학군';
             return ListView(
               children: [
-                ColoredBox(
-                  color: dark
-                      ? const Color(0xFF142D27)
-                      : const Color(0xFFE8F1EC),
-                  child: ContentWidth(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 36),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '대치 · 목동 · 반포 · 잠실',
-                              style: text.labelLarge?.copyWith(
-                                color: AppColors.accentOn(dark),
+                if (Env.parentOpeningEnabled)
+                  ParentOpening(onExplore: _explore, onSearch: _search)
+                else
+                  ColoredBox(
+                    color: dark
+                        ? const Color(0xFF142D27)
+                        : const Color(0xFFE8F1EC),
+                    child: ContentWidth(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 36),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '대치 · 목동 · 반포 · 잠실',
+                                style: text.labelLarge?.copyWith(
+                                  color: AppColors.accentOn(dark),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              '좋은 학원보다,\n우리 아이에게 맞는 학원.',
-                              style: text.displayMedium?.copyWith(
-                                fontSize: MediaQuery.sizeOf(context).width < 600
-                                    ? 30
-                                    : 46,
-                                height: 1.3,
-                                letterSpacing: -1.4,
+                              const SizedBox(height: 14),
+                              Text(
+                                '좋은 학원보다,\n우리 아이에게 맞는 학원.',
+                                style: text.displayMedium?.copyWith(
+                                  fontSize:
+                                      MediaQuery.sizeOf(context).width < 600
+                                      ? 30
+                                      : 46,
+                                  height: 1.3,
+                                  letterSpacing: -1.4,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              '대상 학년부터 수업 특징, 통학 위치, 후기 근거까지.\n상담 전에 필요한 정보를 한곳에서 살펴보세요.',
-                              style: text.bodyLarge,
-                            ),
-                            const SizedBox(height: 24),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 640),
-                              child: Material(
-                                color: AppColors.surfaceOn(dark),
-                                borderRadius: BorderRadius.circular(14),
-                                child: InkWell(
+                              const SizedBox(height: 16),
+                              Text(
+                                '대상 학년부터 수업 특징, 통학 위치, 후기 근거까지.\n상담 전에 필요한 정보를 한곳에서 살펴보세요.',
+                                style: text.bodyLarge,
+                              ),
+                              const SizedBox(height: 24),
+                              ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 640,
+                                ),
+                                child: Material(
+                                  color: AppColors.surfaceOn(dark),
                                   borderRadius: BorderRadius.circular(14),
-                                  onTap: () => showSearch(
-                                    context: context,
-                                    delegate: AcademySearch(),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(18),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.search,
-                                          color: AppColors.accentOn(dark),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: Text(
-                                            '궁금한 학원 이름을 검색해보세요',
-                                            style: text.bodyMedium,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(14),
+                                    onTap: () => showSearch(
+                                      context: context,
+                                      delegate: AcademySearch(),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(18),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.search,
+                                            color: AppColors.accentOn(dark),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward,
-                                          size: 20,
-                                        ),
-                                      ],
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text(
+                                              '궁금한 학원 이름을 검색해보세요',
+                                              style: text.bodyMedium,
+                                            ),
+                                          ),
+                                          const Icon(
+                                            Icons.arrow_forward,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 18),
-                            const Wrap(
-                              spacing: 18,
-                              runSpacing: 10,
-                              children: [
-                                _TrustLabel(
-                                  Icons.fact_check_outlined,
-                                  '공공 등록 정보 대조',
-                                ),
-                                _TrustLabel(
-                                  Icons.filter_alt_outlined,
-                                  '광고·중복 글 필터링',
-                                ),
-                                _TrustLabel(Icons.link, '후기 원문 근거 공개'),
-                              ],
-                            ),
-                          ],
+                              const SizedBox(height: 18),
+                              const Wrap(
+                                spacing: 18,
+                                runSpacing: 10,
+                                children: [
+                                  _TrustLabel(
+                                    Icons.fact_check_outlined,
+                                    '공공 등록 정보 대조',
+                                  ),
+                                  _TrustLabel(
+                                    Icons.filter_alt_outlined,
+                                    '광고·중복 글 필터링',
+                                  ),
+                                  _TrustLabel(Icons.link, '후기 원문 근거 공개'),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
                 ContentWidth(
+                  key: _exploreKey,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 32),
                     child: Column(
@@ -322,6 +353,10 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        if (Env.parentVoiceEnabled) ...[
+                          const SizedBox(height: 24),
+                          const VoiceInvite(pageType: 'home'),
+                        ],
                         const SizedBox(height: 36),
                         Container(
                           padding: const EdgeInsets.all(24),

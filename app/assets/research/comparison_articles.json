@@ -1,0 +1,84 @@
+[
+  {
+    "id": "daechijang-math-20230627",
+    "title": "대치 초등 저학년 수학학원_소마, 필즈",
+    "url": "https://daechijang.tistory.com/8",
+    "author": "대치장박사",
+    "publishedAt": "2023-06-27",
+    "reviewedAt": "2026-10-18",
+    "subject": "math",
+    "gradeBands": ["elem_low"],
+    "status": "reviewed",
+    "access": "public",
+    "reviewMethod": "full_text",
+    "reason": "소마와 필즈를 각각 설명한 절에서 교재, 숙제, 반 배정과 수업 일정을 함께 살펴볼 수 있어요.",
+    "scopeNote": "2023년 대치 지역 글입니다. 소마의 글 속 주소는 현재 선택한 대치소마 등록 주소와 달라 지점 확인이 필요합니다. 필즈는 주소를 대조했지만 현재 운영은 확인하지 않았습니다.",
+    "experienceNote": "소마 수강 경험과 필즈 조사 내용이 섞여 있습니다. 두 곳 모두 직접 수강한 후기는 아닙니다. 광고·협찬 여부는 확인하지 못했습니다.",
+    "academies": [
+      {"academyId": "14435", "label": "소마", "mapping": "regional_brand", "locator": "1. 소마 사고력 수학학원", "criteria": ["curriculum", "homework", "entry", "routine"]},
+      {"academyId": "3000030122", "label": "필즈", "mapping": "address", "locator": "2. 필즈 더 클래식 수학학원", "criteria": ["curriculum", "homework", "entry", "routine"]}
+    ]
+  },
+  {
+    "id": "daechijang-english-20230626",
+    "title": "대치 빅3 영어학원 비교 (에디센, 렉스김, 알파)",
+    "url": "https://daechijang.tistory.com/6",
+    "author": "대치장박사",
+    "publishedAt": "2023-06-26",
+    "reviewedAt": "2026-10-18",
+    "subject": "english",
+    "gradeBands": ["elem_low"],
+    "status": "reviewed",
+    "access": "public",
+    "reviewMethod": "full_text",
+    "reason": "학원별 수업 구성, 피드백과 수업 운영을 비교한 글입니다. 영어유치원 이후 초등 저학년 수업을 찾는 맥락을 먼저 읽어보세요.",
+    "scopeNote": "글 속 세 학원의 주소를 등록 자료와 대조했습니다. 2023년의 초1·영어유치원 3년 수료 맥락이며 현재 반의 안내는 아닙니다. 제목의 ‘빅3’는 작성자의 표현입니다.",
+    "experienceNote": "렉스김은 자녀 수강 경험, 에디센·알파는 조사 내용으로 소개합니다. 세 곳 모두 직접 수강한 후기는 아닙니다. 광고·협찬 여부는 확인하지 못했습니다.",
+    "academies": [
+      {"academyId": "3000018730", "label": "에디센", "mapping": "address", "locator": "1. 에디센", "criteria": ["curriculum", "feedback", "atmosphere", "routine"]},
+      {"academyId": "1000036573", "label": "렉스김", "mapping": "address", "locator": "2. 렉스김", "criteria": ["curriculum", "feedback", "homework", "atmosphere", "routine"]},
+      {"academyId": "26427", "label": "알파", "mapping": "address", "locator": "3. 알파", "criteria": ["curriculum", "feedback", "homework", "atmosphere", "routine"]}
+    ]
+  },
+  {
+    "id": "ekwanna-mokdong-20231019",
+    "title": "목동 초저 영어학원 비교 ② (MI, 트윈클, 윌스)",
+    "url": "https://travellog0822.tistory.com/9",
+    "author": "Ekwanna",
+    "publishedAt": "2023-10-19",
+    "reviewedAt": "2026-10-18",
+    "subject": "english",
+    "gradeBands": ["elem_low"],
+    "status": "reviewed",
+    "access": "public",
+    "reviewMethod": "full_text",
+    "reason": "세 학원 각각의 수업 방식, 예습·복습 숙제와 피드백 설명을 읽을 수 있어요. 집에서 필요한 준비가 어떻게 다른지 살펴보세요.",
+    "scopeNote": "2023년 목동 초등 저학년 맥락입니다. 지역과 브랜드를 대조했으며 현재 선택한 지점의 주소·반 운영까지 확인한 자료는 아닙니다.",
+    "experienceNote": "작성자의 관찰과 조사 내용입니다. 세 곳 모두 직접 수강했는지는 확인되지 않습니다. 광고·협찬 여부는 확인하지 못했습니다.",
+    "academies": [
+      {"academyId": "3000033068", "label": "MI 목동", "mapping": "regional_brand", "locator": "1. MI어학원", "criteria": ["curriculum", "feedback", "homework", "atmosphere", "entry"]},
+      {"academyId": "3000035683", "label": "트윈클 목동", "mapping": "regional_brand", "locator": "2. 트윈클어학원", "criteria": ["curriculum", "feedback", "homework", "atmosphere", "entry"]},
+      {"academyId": "3000051192", "label": "윌스 목동", "mapping": "regional_brand", "locator": "3. 윌스어학원", "criteria": ["curriculum", "feedback", "homework", "atmosphere", "entry"]}
+    ]
+  },
+  {
+    "id": "griminii-math-20250405",
+    "title": "사고력 수학 전문학원 비교(필즈, 소마_시매쓰, CMS)",
+    "url": "https://griminii.tistory.com/86",
+    "author": "대치동꿈쟁이",
+    "publishedAt": "2025-04-05",
+    "reviewedAt": "2026-10-18",
+    "subject": "math",
+    "gradeBands": [],
+    "status": "reviewed",
+    "access": "public",
+    "reviewMethod": "full_text",
+    "reason": "본문의 필즈·소마 설명에서 진도, 수업 참여 방식과 단계 이동을 살펴볼 수 있어요. 제목에 나오는 시매쓰·CMS는 이 글의 비교 대상에 포함하지 않았습니다.",
+    "scopeNote": "브랜드 전반을 다룬 글로, 선택한 지점·학년의 수업인지 확인되지 않았습니다. 필즈·소마의 설명을 읽는 참고 자료이며 해당 지점의 운영 안내가 아닙니다.",
+    "experienceNote": "개인 경험과 일반적인 설명이 섞여 있습니다. 두 곳 모두 직접 수강했는지는 확인되지 않습니다. 광고·협찬 여부는 확인하지 못했습니다.",
+    "academies": [
+      {"academyId": "3000030122", "label": "필즈", "mapping": "brand", "locator": "필즈(Fields)", "criteria": ["curriculum", "atmosphere", "entry"]},
+      {"academyId": "14435", "label": "소마", "mapping": "brand", "locator": "소마(Soma)", "criteria": ["curriculum", "atmosphere", "entry"]}
+    ]
+  }
+]

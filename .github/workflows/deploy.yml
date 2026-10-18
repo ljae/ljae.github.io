@@ -76,7 +76,8 @@ jobs:
         working-directory: app
         run: |
           flutter analyze
-          flutter test
+          flutter test --dart-define=PARENT_OPENING_ENABLED=true \
+            --dart-define=PARENT_COMPARE_ENABLED=true --dart-define=PARENT_VOICE_ENABLED=true
 
       - name: 웹 빌드
         # --pwa-strategy=none : 서비스워커를 만들지 않는다.
@@ -96,7 +97,10 @@ jobs:
           else
             echo "네이버 지도 키 없음 — 모식도 지도로 동작"
           fi
-          flutter build web --release --base-href / --pwa-strategy=none \
+          flutter build web --release --base-href / --pwa-strategy=none --no-wasm-dry-run \
+            --dart-define=PARENT_OPENING_ENABLED=true \
+            --dart-define=PARENT_COMPARE_ENABLED=true \
+            --dart-define=PARENT_VOICE_ENABLED=true \
             --dart-define=NAVER_MAP_KEY_ID="$NAVER_MAP_KEY_ID" \
             --dart-define=SUPABASE_URL="$SUPABASE_URL" \
             --dart-define=SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
@@ -108,7 +112,16 @@ jobs:
       - name: 검색 페이지·분석 계약 회귀 검증
         run: |
           python -m pip install pytest requests
-          python -m pytest -q pipeline/tests/test_growth.py pipeline/tests/test_growth_gsc.py pipeline/tests/test_search_pages.py
+          python -m pytest -q pipeline/tests/test_growth.py pipeline/tests/test_growth_gsc.py pipeline/tests/test_search_pages.py pipeline/tests/test_parent_contact.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 학부모 의견 DB·HTTP 권한 회귀 검증
+        run: |
+          npm install --prefix pipeline/.cache/parent-voice-check --no-audit --no-fund @electric-sql/pglite@0.5.10 tsx@4.20.6
+          PGLITE_MODULE="file://$PWD/pipeline/.cache/parent-voice-check/node_modules/@electric-sql/pglite/dist/index.js" \
+            node --import "$PWD/pipeline/.cache/parent-voice-check/node_modules/tsx/dist/loader.mjs" pipeline/tests/parent_voice_sql_test.mjs
 
       - name: 이전 성공 배포의 페이지 변경 원장 복원
         uses: actions/cache/restore@v4

@@ -4,6 +4,14 @@
 그 사이에서 Claude Code 의 프로젝트 에이전트가 무엇을 맡는지 적는다.
 산식은 `SPEC.md`, 데이터 출처는 `DATA.md`, 반복해서 틀렸던 것은 `CLAUDE.md`.
 
+학부모의 탐색·비교·상담 경험을 개선하는 역할은
+[PARENT_DECISION_AGENTS.md](PARENT_DECISION_AGENTS.md)에 추가했다(2026-10-18).
+새 프로젝트 프롬프트와 `/improve-parent-decision` 절차는 사용 가능하며,
+제품의 새 오프닝·비교·비공개 의견은 코드·로컬 검증을 마쳤다.
+[구현·운영 안내](PARENT_DECISION_IMPLEMENTATION.md)의 서버 설정·운영 적용은 아직 남았다. 공식 사실 자동 수집은 후속 범위다.
+V2는 예산·가격 기반 기능을 제외하고 연락처와 학부모의 소리를 우선한다.
+다음 구현은 [Sol 인계서](PARENT_DECISION_SOL_HANDOFF.md)의 S0~S5를 따른다.
+
 ## 왜 에이전트를 나눴나
 
 후기를 학원에 잇는 일은 하나의 문제가 아니라 **여섯 개의 다른 문제**였다.
@@ -29,6 +37,11 @@ CLAUDE.md 에서 그 영역의 교훈만 추린 것이다. 이력이 늘면 그 
 | `pipeline-verifier` | 고친 것이 먹었는가 | (읽기만) | ✗ 검증만 |
 | `ranking-research` | Ego Lite 후기 조사 계획·수집 | `ranking_agents.py` · `ego_reviews.py` | ○ 후보 수집 |
 | `ranking-learning-verifier` | 수집 영수증·회귀 검증·중복 학습 감사 | `agent_cycle.py` · `case_replay.py` | ✗ 독립 검증 |
+| `parent-insight-researcher` | 학부모 선택 과제·경쟁 서비스·조사 근거 | `docs/reports/parent-*` | ○ 조사 문서 |
+| `decision-planner` | 비교·상담 경험, 데이터 계약·반례·구현 순서 | `docs/PARENT_DECISION*` · `docs/evals/parent-decision-*` | ○ 설계 |
+| `decision-evidence-researcher` | 지점별 연락처·원출처·수업 안내 공백 | 후보 보고서, 기존 gate 검토로 인계 | ○ 후보만 |
+| `decision-engineer` | 비교·연락 adapter·비공개 의견 API·권한 | V2 Sol 인계의 데이터·백엔드(구현 요청 시) | ○ 지정 범위 |
+| `decision-quality-verifier` | 개인 조건 판정·근거·미확인·사용자 동선 | 변경 diff·자료·반례 | ✗ 독립 검증 |
 
 후기 조사 자동화는 [REVIEW_RANKING_AGENTS.md](REVIEW_RANKING_AGENTS.md)의
 `/review-ranking`과 `run.py --agents`를 사용한다. 자동 변경 범위는 검색 전략과
@@ -107,6 +120,7 @@ Claude Code 스킬(`.claude/skills/`):
 | `/file-case` | 말로 받은 신고를 사례로 적고 바로 진단으로 |
 | `/rescore` | `--from-cache` 재채점과 로그에서 읽을 감사 줄 |
 | `/verify-landed` | 수정 커밋과 데이터 커밋의 선후, origin/main 산출물, 배포 연쇄 |
+| `/improve-parent-decision` | 학부모 과제 조사 → 화면/데이터 설계 → 요청 범위 구현 → 독립 검증 |
 
 ## 하네스는 정품이다
 

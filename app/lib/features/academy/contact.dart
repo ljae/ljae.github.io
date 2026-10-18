@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../data/contact_view_model.dart';
+import '../../data/parent_decision.dart';
 // 근거 신고 시트가 쓴다. 레벨테스트 예약 대행은 없앴지만(2026-09-05)
 // 신고 접수는 남는다 — 그쪽은 우리가 처리해야 하는 일이다.
 import '../../data/reservations.dart';
@@ -25,77 +26,72 @@ import '../../widgets/contact.dart';
 ///   전화도 링크도 없으면 **버튼을 만들지 않는다.** 아무 일도 안 일어나는
 ///   버튼이 가장 나쁘다.
 class ContactCard extends ConsumerWidget {
-  final Academy academy;
-  const ContactCard({super.key, required this.academy});
-
+  final Academy? academy;
+  final ContactViewModel? contact;
+  const ContactCard({super.key, this.academy, this.contact})
+    : assert(academy != null || contact != null);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final text = Theme.of(context).textTheme;
-    final dark = Theme.of(context).brightness == Brightness.dark;
-    final tel = academy.tel;
-    final homepage = academy.homepage;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceOn(dark),
-        border: Border(
-          left: BorderSide(color: AppColors.accentOn(dark), width: AppRule.stroke),
-          top: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
-          right: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
-          bottom: BorderSide(color: AppColors.ruleOn(dark), width: AppRule.hair),
-        ),
-      ),
+    final c = contact ?? ContactViewModel.fromAcademy(academy!);
+    return Card(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpace.md),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(Icons.call_outlined, size: 18, color: AppColors.accentOn(dark)),
-                const SizedBox(width: 6),
-                Text(
-                  tel != null ? '전화 $tel' : '전화번호 미공시',
-                  style: text.titleMedium,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
             Text(
-              tel != null || homepage != null
-                  ? '레벨테스트는 학원에 직접 신청합니다. '
-                      '학원실록은 신청을 대신 받지 않습니다.'
-                  : '학원이 공시한 연락처가 없습니다. '
-                      '알고 계신 연락처가 있으면 정정 요청으로 알려 주세요.',
-              style: text.bodySmall,
+              '${c.branchName}에 직접 문의',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: AppSpace.sm),
+            const SizedBox(height: 12),
+            if (c.phoneDisputed || c.homepageDisputed)
+              const Text('연락처 출처가 서로 달라 해당 연결을 보류했습니다. 정보 정정으로 알려주세요.'),
+            if (c.phone != null) SelectableText('전화 ${c.phone}'),
+            if (c.officialUrl != null) SelectableText(c.officialUrl!),
+            Text(
+              c.hasContact
+                  ? c.provenance
+                  : '공개된 연락처를 아직 확인하지 못했습니다. 정보 정정으로 알려주세요.',
+            ),
+            const SizedBox(height: 12),
             Wrap(
-              spacing: AppSpace.sm,
-              runSpacing: AppSpace.xs,
+              spacing: 8,
+              runSpacing: 8,
               children: [
-                FilledButton.icon(
-                  onPressed: tel == null
-                      ? null
-                      : () => callAcademy(context, ref, academy),
-                  icon: const Icon(Icons.call, size: 16),
-                  label: const Text('전화하기'),
-                ),
-                // 공식 페이지가 있을 때만. 없으면 만들지 않는다 —
-                // 링크 없는 '신청하기' 는 아무 일도 일어나지 않는다.
-                if (homepage != null)
-                  OutlinedButton.icon(
-                    onPressed: () => openHomepage(context, ref, academy),
-                    icon: const Icon(Icons.open_in_new, size: 16),
-                    label: const Text('학원 홈페이지 · 레벨테스트 신청'),
+                if (c.phone != null)
+                  FilledButton.icon(
+                    onPressed: () => callContact(context, ref, c),
+                    icon: const Icon(Icons.call_outlined),
+                    label: const Text('전화하기'),
                   ),
-                if (tel != null)
+                if (c.phone != null)
                   TextButton.icon(
-                    onPressed: () => copyTel(context, ref, academy),
-                    icon: const Icon(Icons.copy, size: 14),
+                    onPressed: () async {
+                      unawaited(
+                        ref
+                            .read(actionLogProvider)
+                            .log(c.academyId, 'copy_tel'),
+                      );
+                      await copyContactText(
+                        context,
+                        c.phone!,
+                        success: '전화번호를 복사했습니다.',
+                      );
+                    },
+                    icon: const Icon(Icons.copy),
                     label: const Text('번호 복사'),
                   ),
+                if (c.officialUrl != null)
+                  OutlinedButton.icon(
+                    onPressed: () => homepageContact(context, ref, c),
+                    icon: const Icon(Icons.open_in_new),
+                    label: const Text('공식 홈페이지'),
+                  ),
               ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '모집·시간표·수강료와 추가 비용은 학원에 직접 확인해주세요. 레벨테스트도 해당 학원에 직접 신청합니다.',
             ),
           ],
         ),
@@ -132,21 +128,25 @@ List<ChecklistItem> buildChecklist(Academy a) {
   final waiting = sel
       .where((c) => c.kind == 'sel.waitlist' || c.kind == 'sel.full')
       .length;
-  items.add(ChecklistItem(
-    '레벨테스트 일정 · 범위 · 재응시 가능 시기',
-    note: failed > 0
-        ? '후기에 탈락 사례 $failed건 — 준비 범위를 꼭 물어보세요'
-        : sel.isNotEmpty
-            ? '후기에 레벨테스트 언급이 있습니다'
-            : null,
-    confirmed: sel.isNotEmpty,
-  ));
+  items.add(
+    ChecklistItem(
+      '레벨테스트 일정 · 범위 · 재응시 가능 시기',
+      note: failed > 0
+          ? '후기에 탈락 사례 $failed건 — 준비 범위를 꼭 물어보세요'
+          : sel.isNotEmpty
+          ? '후기에 레벨테스트 언급이 있습니다'
+          : null,
+      confirmed: sel.isNotEmpty,
+    ),
+  );
   if (waiting > 0) {
-    items.add(ChecklistItem(
-      '대기 인원과 예상 대기 기간',
-      note: '후기에 대기·마감 사례 $waiting건',
-      confirmed: true,
-    ));
+    items.add(
+      ChecklistItem(
+        '대기 인원과 예상 대기 기간',
+        note: '후기에 대기·마감 사례 $waiting건',
+        confirmed: true,
+      ),
+    );
   }
 
   final freq = fact('fact.class_freq');
@@ -157,67 +157,76 @@ List<ChecklistItem> buildChecklist(Academy a) {
     if (mins != null) '1회 $mins',
     if (hours != null) '주당 $hours',
   ].join(' · ');
-  items.add(ChecklistItem(
-    '수업 횟수와 1회 수업 시간',
-    note: classNote.isEmpty ? null : '후기: $classNote — 우리 아이 반도 같은지',
-    confirmed: classNote.isNotEmpty,
-  ));
+  items.add(
+    ChecklistItem(
+      '수업 횟수와 1회 수업 시간',
+      note: classNote.isEmpty ? null : '후기: $classNote — 우리 아이 반도 같은지',
+      confirmed: classNote.isNotEmpty,
+    ),
+  );
 
   final hw = fact('fact.homework');
   final hwAspect = aspect('숙제량');
-  items.add(ChecklistItem(
-    '숙제 분량과 확인 방식',
-    note: hw != null
-        ? '후기: 하루 $hw — 아이가 소화할 수 있는 양인지'
-        : hwAspect != null
-            ? '후기 ${hwAspect.n}건이 숙제량을 ${hwAspect.tone}'
-            : null,
-    confirmed: hw != null || hwAspect != null,
-  ));
+  items.add(
+    ChecklistItem(
+      '숙제 분량과 확인 방식',
+      note: hw != null
+          ? '후기: 하루 $hw — 아이가 소화할 수 있는 양인지'
+          : hwAspect != null
+          ? '후기 ${hwAspect.n}건이 숙제량을 ${hwAspect.tone}'
+          : null,
+      confirmed: hw != null || hwAspect != null,
+    ),
+  );
 
   final test = fact('fact.test_freq');
-  items.add(ChecklistItem(
-    '정기 시험 주기와 결과 안내 방식',
-    note: test != null ? '후기: 월 $test' : null,
-    confirmed: test != null,
-  ));
+  items.add(
+    ChecklistItem(
+      '정기 시험 주기와 결과 안내 방식',
+      note: test != null ? '후기: 월 $test' : null,
+      confirmed: test != null,
+    ),
+  );
 
-  items.add(ChecklistItem(
-    '반 정원과 반 편성 기준',
-    note: a.capacity != null ? '등록 정원 ${a.capacity}명(전체 공시값)' : null,
-  ));
+  items.add(
+    ChecklistItem(
+      '반 정원과 반 편성 기준',
+      note: a.capacity != null ? '등록 정원 ${a.capacity}명(전체 공시값)' : null,
+    ),
+  );
 
-  final price = aspect('가격');
-  items.add(ChecklistItem(
-    '교습비 외 교재비·추가 비용',
-    note: price != null ? '후기 ${price.n}건이 비용을 ${price.tone}' : null,
-    confirmed: price != null,
-  ));
+  items.add(const ChecklistItem('교습비 외 교재비·추가 비용'));
 
   final care = aspect('관리');
   final teacher = aspect('강사');
-  items.add(ChecklistItem(
-    '결석 보강 · 상담 주기 · 담당 선생님',
-    note: [
-      if (care != null) '관리 ${care.tone}(${care.n}건)',
-      if (teacher != null) '선생님 ${teacher.tone}(${teacher.n}건)',
-    ].join(' · ').ifEmpty(),
-    confirmed: care != null || teacher != null,
-  ));
+  items.add(
+    ChecklistItem(
+      '결석 보강 · 상담 주기 · 담당 선생님',
+      note: [
+        if (care != null) '관리 ${care.tone}(${care.n}건)',
+        if (teacher != null) '선생님 ${teacher.tone}(${teacher.n}건)',
+      ].join(' · ').ifEmpty(),
+      confirmed: care != null || teacher != null,
+    ),
+  );
 
   final place = aspect('시설');
-  items.add(ChecklistItem(
-    '통학 · 셔틀 · 대기 공간',
-    note: place != null ? '후기 ${place.n}건이 시설·통학을 ${place.tone}' : null,
-    confirmed: place != null,
-  ));
+  items.add(
+    ChecklistItem(
+      '통학 · 셔틀 · 대기 공간',
+      note: place != null ? '후기 ${place.n}건이 시설·통학을 ${place.tone}' : null,
+      confirmed: place != null,
+    ),
+  );
 
-  items.add(ChecklistItem(
-    '우리 아이 학년 반이 열려 있는지',
-    note: a.gradeBands.isEmpty
-        ? '대상 학년 미확인 · 상담으로 확인해 주세요'
-        : '${a.gradeTargetBasis}: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')} · ${a.gradeTargetNote}',
-  ));
+  items.add(
+    ChecklistItem(
+      '우리 아이 학년 반이 열려 있는지',
+      note: a.gradeBands.isEmpty
+          ? '대상 학년 미확인 · 상담으로 확인해 주세요'
+          : '${a.gradeTargetBasis}: ${a.gradeBands.map((b) => gradeBandNames[b] ?? b).join(' · ')} · ${a.gradeTargetNote}',
+    ),
+  );
   return items;
 }
 
@@ -226,15 +235,19 @@ extension on String {
 }
 
 /// 상담 전 확인 목록. 복사해 가져갈 수 있다.
-class ConsultChecklist extends StatelessWidget {
+class ConsultChecklist extends ConsumerWidget {
   final Academy academy;
   const ConsultChecklist({super.key, required this.academy});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final items = buildChecklist(academy);
+    final concern = ref.watch(parentConcernProvider);
+    if (concernQuestions[concern] case final question?) {
+      items.insert(0, ChecklistItem(question));
+    }
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpace.md),
@@ -288,12 +301,11 @@ class ConsultChecklist extends StatelessWidget {
                       '${it.confirmed ? "■" : "□"} ${it.label}'
                           '${it.note != null ? " — ${it.note}" : ""}',
                   ].join('\n');
-                  await Clipboard.setData(ClipboardData(text: body));
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('확인 목록을 복사했습니다.')),
-                    );
-                  }
+                  await copyContactText(
+                    context,
+                    body,
+                    success: '확인 목록을 복사했습니다.',
+                  );
                 },
                 icon: const Icon(Icons.copy, size: 14),
                 label: const Text('목록 복사'),
@@ -328,7 +340,8 @@ class EvidenceReportSheet extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<EvidenceReportSheet> createState() => _EvidenceReportSheetState();
+  ConsumerState<EvidenceReportSheet> createState() =>
+      _EvidenceReportSheetState();
 }
 
 class _EvidenceReportSheetState extends ConsumerState<EvidenceReportSheet> {
@@ -348,7 +361,9 @@ class _EvidenceReportSheetState extends ConsumerState<EvidenceReportSheet> {
     if (_reason == null || _sending || hash == null) return;
     setState(() => _sending = true);
     try {
-      await ref.read(evidenceReportServiceProvider).submit(
+      await ref
+          .read(evidenceReportServiceProvider)
+          .submit(
             urlHash: hash,
             academyKey: widget.academy.id,
             sourceUrl: widget.evidence.url,
@@ -360,8 +375,9 @@ class _EvidenceReportSheetState extends ConsumerState<EvidenceReportSheet> {
     } catch (e) {
       if (mounted) {
         setState(() => _sending = false);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('접수하지 못했습니다: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('접수하지 못했습니다: $e')));
       }
     }
   }
@@ -381,15 +397,21 @@ class _EvidenceReportSheetState extends ConsumerState<EvidenceReportSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('이 글은 ${widget.academy.displayName} 글이 아니에요',
-              style: t.textTheme.titleMedium),
+          Text(
+            '이 글은 ${widget.academy.displayName} 글이 아니에요',
+            style: t.textTheme.titleMedium,
+          ),
           const SizedBox(height: AppSpace.sm),
-          Text('[${widget.evidence.ref}] ${widget.evidence.title}',
-              style: t.textTheme.bodySmall),
+          Text(
+            '[${widget.evidence.ref}] ${widget.evidence.title}',
+            style: t.textTheme.bodySmall,
+          ),
           const SizedBox(height: AppSpace.md),
           if (hash == null)
-            Text('이 근거는 옛 데이터라 신고할 수 없습니다. 다음 갱신 후 다시 시도해 주세요.',
-                style: t.textTheme.bodyMedium)
+            Text(
+              '이 근거는 옛 데이터라 신고할 수 없습니다. 다음 갱신 후 다시 시도해 주세요.',
+              style: t.textTheme.bodyMedium,
+            )
           else if (_sent) ...[
             Text(
               '접수됐습니다. 운영자가 확인하면 다음 갱신에서 빠집니다.\n'

@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "scope": "local HTML prototype self-check, not production API/Flutter or parent study",
+  "viewports": [
+    {
+      "width": 320,
+      "scroll": 320,
+      "client": 320
+    },
+    {
+      "width": 375,
+      "scroll": 375,
+      "client": 375
+    },
+    {
+      "width": 768,
+      "scroll": 768,
+      "client": 768
+    },
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "client": 1440
+    }
+  ],
+  "checks": [
+    "concern changes question, not academy order",
+    "max 3 selection",
+    "region and name search",
+    "question clipboard",
+    "contact present/missing actions",
+    "Escape and focus return",
+    "voice routing",
+    "failure preserves note",
+    "success explicitly simulation",
+    "unavailable state",
+    "close clears note",
+    "no external or POST requests",
+    "dark and reduced motion",
+    "main sections separated from chapter rail",
+    "mobile comparison grouped by criterion"
+  ],
+  "pageErrors": [],
+  "prototype_sha256": "ccdcee4d9f4a3777374755bdd728462489e5291cf1c3a6ab7354dd1f666bac55"
+}

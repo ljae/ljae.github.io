@@ -1,0 +1,58 @@
+{
+  "observed_on": "2026-10-18",
+  "status": "local_implementation_verified_not_deployed",
+  "code_revision_before_uncommitted_changes": "a0d20512bb0aacfe8fb4ee54297dc27193f960ca",
+  "checks": {
+    "flutter_baseline": 127,
+    "flutter_all_features_enabled": 142,
+    "flutter_final_feature_regression": 15,
+    "flutter_analyze": "no_issues",
+    "flutter_web_build": "pass",
+    "python_contact_and_search_pages": 8,
+    "production_request_handler_with_pglite": "pass",
+    "deno_typecheck": "pass",
+    "original_data_hashes_unchanged": true
+  },
+  "browser": {
+    "status": "pass",
+    "scope": "compiled Flutter web, local assets, no Supabase configuration",
+    "checks": [
+      "concern changes question and persists",
+      "voice unconfigured state disables submission",
+      "compare URL restores and bounds three public IDs",
+      "academy deep link",
+      "no write requests",
+      "mobile desktop dark reduced motion"
+    ],
+    "escapeClosesSheet": true,
+    "viewports": [
+      {
+        "width": 320,
+        "documentWidth": 320
+      },
+      {
+        "width": 375,
+        "documentWidth": 375
+      },
+      {
+        "width": 768,
+        "documentWidth": 768
+      },
+      {
+        "width": 1440,
+        "documentWidth": 1440
+      }
+    ],
+    "pageErrors": [],
+    "consoleErrors": []
+  },
+  "web_main_dart_js_sha256": "4582cc841a31cd47fa44de8d3aeb297d6acdc0503000b0b6bf0638dbeb2213bb",
+  "limitations": [
+    "No remote database migration or function deployment",
+    "No hosted gateway/PostgREST integration or trusted-IP-header verification",
+    "No actual phone calls",
+    "No manual VoiceOver/screen-reader study or browser page zoom study; widget text scaling tested at 200%",
+    "No field p75 performance baseline or parent participant study",
+    "Self-check by primary implementation agent; no separate agent verification"
+  ]
+}

@@ -180,6 +180,24 @@
         "canonicalAddressDetail": ", 대치프라자6층 (대치동)",
         "interpretation": "같은 브랜드·건물의 관/과정 통합: 상세 층·호수는 다를 수 있으며 현재 통합 등록 membership을 함께 확인함"
       }
+    },
+    {
+      "oldId": "14206",
+      "canonicalId": "1000031310",
+      "status": "verified",
+      "reviewedAt": "2026-10-18",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "241e5bb5df13023d02b74428c30eed9e5ae6f884",
+        "currentCommit": "f37850766f86156b59585c59a63af5019632ddc6",
+        "currentAssetsSha256": "9959caaa1675a7550b77f7546815693b05cf0198d53c648e969c11b0b7c2d18f",
+        "oldName": "길벗보습학원",
+        "oldAddress": "서울특별시 양천구 목동중앙서로 25",
+        "region": "mokdong",
+        "canonicalRegisteredName": "목동수학학원길벗아카데미",
+        "canonicalAddress": "서울특별시 양천구 목동중앙서로 22-1",
+        "interpretation": "현재 통합 등록 자료의 registrationIds에 이전 ID가 명시됨. 이전 주소와 현재 대표 주소는 다름. 이름·주소 유사도만으로 연결하지 않음."
+      }
     }
   ]
 }

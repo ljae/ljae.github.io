@@ -1,3 +1,8 @@
+import '../../core/env.dart';
+import '../../data/academy_detail.dart';
+import '../../data/contact_view_model.dart';
+import '../compare/compare_page.dart';
+import '../feedback/parent_voice_page.dart';
 import '../../widgets/content_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repository.dart';
-import '../../data/academy_detail.dart';
 import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../data/claim_disputes.dart';
@@ -41,7 +45,9 @@ class AcademyPage extends ConsumerWidget {
             const Text('학원 정보를 불러오지 못했습니다.'),
             TextButton(
               onPressed: () {
-                if (ref.read(dataProvider).hasError) ref.invalidate(dataProvider);
+                if (ref.read(dataProvider).hasError) {
+                  ref.invalidate(dataProvider);
+                }
                 ref.invalidate(registryProvider);
                 ref.invalidate(academyDetailProvider(academyId));
               },
@@ -89,10 +95,17 @@ class _RegistryBody extends StatelessWidget {
       for (final band in entry.bandsForSubject(subject)) {
         final basis = entry.gradeBandBasis[subject]?[band];
         if (basis == null) continue;
-        final label = const {'official': '공식 안내', 'directory': '소개 자료 대조',
-          'registered': '공시', 'curated': '후기·단계 기준', 'reviews': '후기·단계 기준'}[basis];
+        final label = const {
+          'official': '공식 안내',
+          'directory': '소개 자료 대조',
+          'registered': '공시',
+          'curated': '후기·단계 기준',
+          'reviews': '후기·단계 기준',
+        }[basis];
         if (label == null) continue;
-        grades.add('${subjectNames[subject] ?? '과목 미확인'} ${gradeBandNames[band] ?? band} ($label)');
+        grades.add(
+          '${subjectNames[subject] ?? '과목 미확인'} ${gradeBandNames[band] ?? band} ($label)',
+        );
       }
     }
     return ListView(
@@ -109,6 +122,7 @@ class _RegistryBody extends StatelessWidget {
               ),
               const SizedBox(height: AppSpace.md),
               Text(entry.displayName, style: text.headlineLarge),
+              CompareButton(academyId: entry.id),
               const SizedBox(height: AppSpace.sm),
               Text(
                 '$region · ${orderedSubjects(entry.subjects).map((s) => subjectNames[s] ?? '과목 미확인').join(' · ')}',
@@ -151,6 +165,29 @@ class _RegistryBody extends StatelessWidget {
                 style: text.bodySmall,
               ),
               const SizedBox(height: AppSpace.lg),
+              ContactCard(
+                contact: ContactViewModel.fromDetail(
+                  AcademyDetail.listed(entry),
+                ),
+              ),
+              if (Env.parentVoiceEnabled)
+                VoiceInvite(
+                  pageType: 'academy',
+                  onReview: () => showAcademyReview(
+                    context,
+                    academyId: entry.id,
+                    academyName: entry.displayName,
+                  ),
+                  onCorrection: () => showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    builder: (_) => _CorrectionSheet(
+                      academyKey: entry.id,
+                      academyName: entry.displayName,
+                    ),
+                  ),
+                ),
               _CorrectionNotice(
                 academyKey: entry.id,
                 academyName: entry.displayName,
@@ -203,6 +240,7 @@ class _Body extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              CompareButton(academyId: academy.id),
               TextButton.icon(
                 onPressed: () => context.go('/rank'),
                 icon: const Icon(Icons.arrow_back, size: 16),
@@ -504,6 +542,24 @@ class _Body extends StatelessWidget {
               const SizedBox(height: AppSpace.xl),
               _LevelTests(academyKey: academy.id),
 
+              if (Env.parentVoiceEnabled)
+                VoiceInvite(
+                  pageType: 'academy',
+                  onReview: () => showAcademyReview(
+                    context,
+                    academyId: academy.id,
+                    academyName: academy.displayName,
+                  ),
+                  onCorrection: () => showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    builder: (_) => _CorrectionSheet(
+                      academyKey: academy.id,
+                      academyName: academy.displayName,
+                    ),
+                  ),
+                ),
               ReviewSection(
                 academyId: academy.id,
                 academyName: academy.displayName,

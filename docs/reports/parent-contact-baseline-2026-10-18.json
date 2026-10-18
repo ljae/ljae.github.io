@@ -1,0 +1,27 @@
+{
+  "observed_on": "2026-10-18",
+  "scope": "local assets, field presence only; no phone calls or URL availability verification",
+  "code_revision": "a0d20512bb0aacfe8fb4ee54297dc27193f960ca",
+  "datasets": {
+    "academies": {
+      "path": "app/assets/data/academies.json",
+      "sha256": "28a782496ab75daf8c544ebfa5953935dd84c35a86f044d313efa35fa162ebfd",
+      "records": 2868,
+      "tel_nonempty": 2154,
+      "homepage_nonempty": 1114,
+      "contactSources_field_present": 0,
+      "both_nonempty": 831,
+      "neither_nonempty": 431
+    },
+    "registry": {
+      "path": "app/assets/data/registry.json",
+      "sha256": "02437ee86e3e099e1cadb237823e0b4ab8bb2627cbd3a8103648a6130f560940",
+      "records": 2483,
+      "tel_nonempty": 0,
+      "homepage_nonempty": 0,
+      "contactSources_field_present": 0,
+      "both_nonempty": 0,
+      "neither_nonempty": 2483
+    }
+  }
+}

@@ -12,17 +12,25 @@ BASIS = {"official": "공식 안내", "directory": "소개 자료 대조", "regi
 
 
 def safe_url(value):
-    if not isinstance(value, str):
+    if not isinstance(value, str) or re.search(r"[\s\\\x00-\x1f]", value.strip()):
         return None
-    p = urlsplit(value.strip())
-    return value.strip() if p.scheme in ("http", "https") and p.hostname and not p.username else None
+    try:
+        p = urlsplit(value.strip())
+        _ = p.port  # Reject malformed ports as Dart Uri.tryParse does.
+        return value.strip() if p.scheme in ("http", "https") and p.hostname and "@" not in p.netloc else None
+    except ValueError:
+        return None
 
 
 def safe_phone(value):
-    if not isinstance(value, str) or re.search(r"[A-Za-z<>]", value):
+    if not isinstance(value, str) or not re.fullmatch(r"\+?[0-9() .-]+", value.strip()):
         return None
     digits = re.sub(r"\D", "", value)
-    return value.strip() if 8 <= len(digits) <= 13 and not re.search(r"0{4}$", digits) else None
+    if not 8 <= len(digits) <= 13 or re.fullmatch(r"(\d)\1+", digits):
+        return None
+    if value.strip().startswith("+"):
+        return value.strip() if digits.startswith("82") else None
+    return value.strip() if digits.startswith("0") or len(digits) == 8 else None
 
 
 def app_link(route: str, **params) -> str:

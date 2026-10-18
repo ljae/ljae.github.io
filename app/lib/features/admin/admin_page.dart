@@ -64,6 +64,7 @@ class _AdminPageState extends ConsumerState<AdminPage> {
                 if (isAdmin.value == true)
                   OutlinedButton.icon(onPressed: () => context.go('/admin/growth'),
                     icon: const Icon(Icons.query_stats), label: const Text('검색 성장 분석')),
+                if (isAdmin.value == true) OutlinedButton.icon(onPressed:()=>context.go('/admin/parent-voice'),icon:const Icon(Icons.feedback_outlined),label:const Text('학부모 의견 관리')),
                 const _SourceList(),
                 const SizedBox(height: AppSpace.lg),
                 SegmentedButton<int>(

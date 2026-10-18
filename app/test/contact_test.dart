@@ -117,7 +117,8 @@ void main() {
     expect(byLabel['레벨테스트 일정 · 범위 · 재응시 가능 시기']!.confirmed, isTrue);
     expect(byLabel['레벨테스트 일정 · 범위 · 재응시 가능 시기']!.note, contains('탈락 사례 1건'));
     expect(byLabel['수업 횟수와 1회 수업 시간']!.note, contains('주 2회~3회'));
-    expect(byLabel['교습비 외 교재비·추가 비용']!.note, contains('아쉽다고 말함'));
+    expect(byLabel['교습비 외 교재비·추가 비용']!.note, isNull);
+    expect(byLabel['교습비 외 교재비·추가 비용']!.confirmed, isFalse);
     expect(byLabel['정기 시험 주기와 결과 안내 방식']!.confirmed, isFalse);
     expect(byLabel['반 정원과 반 편성 기준']!.note, contains('120명'));
     expect(byLabel['우리 아이 학년 반이 열려 있는지']!.note, contains('예비초~초3'));

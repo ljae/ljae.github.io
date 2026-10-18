@@ -1,0 +1,30 @@
+name: Parent voice retention cleanup
+on:
+  schedule:
+    - cron: '10 1 * * *' # 10:10 KST, daily retention maintenance
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: parent-voice-maintenance
+  cancel-in-progress: false
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 비공개 의견 보관 기한 정리
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          url, key = os.environ['SUPABASE_URL'], os.environ['SUPABASE_SERVICE_KEY']
+          if not url or not key:
+              raise SystemExit('Server configuration required')
+          request = urllib.request.Request(url + '/rest/v1/rpc/parent_voice_cleanup', data=b'{}',
+              headers={'apikey': key, 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'}, method='POST')
+          with urllib.request.urlopen(request, timeout=30) as response:
+              counts = json.load(response)
+          print(json.dumps({k: counts[k] for k in ('redacted', 'purged')}))
+          PY

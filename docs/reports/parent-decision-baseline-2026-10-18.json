@@ -1,0 +1,34 @@
+{
+  "observedOn": "2026-10-18",
+  "scope": "local_committed_data_not_live_site_verification",
+  "codeRevision": "a0d20512bb0aacfe8fb4ee54297dc27193f960ca",
+  "dataGeneratedAt": "2026-10-17T02:56:40.986564+00:00",
+  "files": {
+    "app/assets/data/academies.json": {
+      "sha256": "28a782496ab75daf8c544ebfa5953935dd84c35a86f044d313efa35fa162ebfd"
+    },
+    "app/assets/data/meta.json": {
+      "sha256": "e92d7a9e5b892f35a8e46c94f9bf0839cfa17424000e4c8ef5a9b7caf674d72c"
+    }
+  },
+  "metrics": {
+    "evaluatedAcademies": 2868,
+    "academiesWithProfileObject": 154,
+    "profileObjectShare": 0.053696,
+    "validMentions": 20153,
+    "datedMentions": 2694,
+    "datedShare": 0.1337,
+    "weights": {
+      "reputation": 0.35,
+      "selectivity": 0.35,
+      "momentum": 0.15,
+      "transparency": 0.15
+    }
+  },
+  "limitations": [
+    "Profile object presence does not measure field completeness, freshness or correctness.",
+    "Mention counts are pipeline evidence units, not a representative survey of parents.",
+    "Data generation time is not source publication or verification time.",
+    "No live production equivalence or user experiment was verified."
+  ]
+}

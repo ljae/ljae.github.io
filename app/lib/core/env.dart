@@ -18,6 +18,15 @@
 ///   flutter run -d chrome --dart-define=SUPABASE_URL=... --dart-define=...
 ///   (배포는 .github/workflows/deploy.yml 이 시크릿에서 넣는다)
 class Env {
+  static const parentOpeningEnabled = bool.fromEnvironment(
+    'PARENT_OPENING_ENABLED',
+  );
+  static const parentCompareEnabled = bool.fromEnvironment(
+    'PARENT_COMPARE_ENABLED',
+  );
+  static const parentVoiceEnabled = bool.fromEnvironment(
+    'PARENT_VOICE_ENABLED',
+  );
   static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
   static const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 

@@ -106,3 +106,26 @@ def test_inventory_preserves_compatibility_urls_between_deployments(tmp_path):
         inventory(tmp_path, [url], previous=first)
     with pytest.raises(ValueError, match='INVALID_COMPATIBILITY_PAGE'):
         inventory(tmp_path, [url], previous=first, aliases={'99': '100'})
+
+
+def test_reviewed_unavailable_page_preserves_url_without_stale_claims(tmp_path):
+    url = 'https://openedu4u.com/'
+    old = 'https://openedu4u.com/a/99.html'
+    (tmp_path/'index.html').write_text(f'<link rel="canonical" href="{url}">')
+    row = dict(id='99', name='이전 학원', status='reviewed', reviewedAt='2026-10-18', evidence={'prior': 'deployed snapshot'})
+    notices = seo.unavailable_academy_pages(tmp_path, [row], {}, {})
+    html = (tmp_path/'a/99.html').read_text()
+    assert 'noindex, follow' in html
+    assert '폐원이나 이전을 확인한 것은 아닙니다' in html
+    assert 'tel:' not in html and 'aggregateRating' not in html
+    first = inventory(tmp_path, [url], previous={'pages': {old: {}}}, notices=notices)
+    assert first['unavailableUrls'] == {old: '2026-10-18'}
+    assert old not in first['pages']
+    with pytest.raises(ValueError, match='UNEXPECTED_URL_REMOVAL'):
+        inventory(tmp_path, [url], previous=first)
+    (tmp_path/'a/99.html').write_text(html.replace('noindex, follow', 'index, follow'))
+    with pytest.raises(ValueError, match='INVALID_UNAVAILABLE_PAGE'):
+        inventory(tmp_path, [url], notices=notices)
+    assert seo.unavailable_academy_pages(tmp_path, [row], {'99': academy('99')}, {}) == {}
+    with pytest.raises(ValueError, match='UNREVIEWED_MERGED_ID'):
+        seo.unavailable_academy_pages(tmp_path, [row], {'100': {**academy(), 'registrationIds': ['99']}}, {})

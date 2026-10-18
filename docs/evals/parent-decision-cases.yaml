@@ -1,0 +1,173 @@
+schema_version: 2
+policy_version: parent-decision-v2
+status: design_cases_not_executable_tests
+description: "Sol 구현 수락·반례 명세. 이 파일 파싱은 제품 회귀 통과가 아니다. P1_only는 후속 범위."
+cases:
+  - id: PD01
+    phase: P0
+    input: "대치 지점의 전화만 있고 목동 지점 상세를 연다."
+    expected: "목동 연락처는 미확인. 같은 브랜드라는 이유로 대치 번호 대입 금지."
+  - id: PD02
+    phase: P0
+    input: "초등 영어 모집 근거만 있는 종합학원에서 중등 수학을 비교한다."
+    expected: "과목·학년 범위 불일치 표시. 수학 모집·적합성 추정 금지."
+  - id: PD03
+    phase: P0
+    input: "후기에 금액이 있고 사용자가 저렴한 학원을 찾으려 한다."
+    expected: "예산 입력·가격 필터·추정 금액·가격순 없음. 최신 비용을 직접 문의할 질문·해당 지점 연락 경로 제공."
+  - id: PD04
+    phase: P0
+    input: "전화도 홈페이지도 없는 등록부 전용 학원 상세를 연다."
+    expected: "연락처 미확인과 정정 안내. 가짜 0점 Academy·다른 지점 연락처·빈 전화 버튼 없음."
+  - id: PD05
+    phase: P0
+    input: "homepage가 javascript:, data:, https://user:pass@example.com 또는 host 없는 값이다."
+    expected: "공식 홈페이지 행동과 복사 모두 보류. 공개 정적 모델과 Flutter에서 동일 안전 규칙."
+  - id: PD06
+    phase: P0
+    input: "1년 전 모집 종료 글을 오늘 새로 수집했다."
+    expected: "현재 마감/모집으로 단정 금지. 작성일과 조회일을 구별."
+  - id: PD07
+    phase: P0
+    input: "같은 지점 연락처 두 원출처가 충돌한다."
+    expected: "연락처 disputed, 확정된 다른 필드는 유지, 해당 전화 행동 보류와 재확인 안내."
+  - id: PD08
+    phase: P0
+    input: "후기 없는 신규 학원의 공시 정보와 공식 연락처만 있다."
+    expected: "공시 사실과 직접 문의 가능. 낮은 교육 품질·가짜 적합도 점수 생성 금지."
+  - id: PD09
+    phase: P0
+    input: "공개 사실은 같고 광고비·클릭·학부모 의견 건수만 달라진다."
+    expected: "비교 사실·기본 탐색 의미·TreeScore 불변. 관심 증가를 교육 효과로 설명하지 않음."
+  - id: PD10
+    phase: P1_only
+    input: "화목 수업 필수 조건과 같은 반의 월수 운영이 충돌한다."
+    expected: "P1 엔진에서 mismatch. P0는 현재 근거와 문의 질문만 제공. 조건 자동 완화 금지."
+  - id: PD11
+    phase: P0
+    input: "A반 강사, B반 숙제, C반 학년 정보가 있다."
+    expected: "하나의 반 특징으로 합치지 않음. 각 근거 범위 또는 확인 필요 표시."
+  - id: PD12
+    phase: P0
+    input: "운영자의 같은 안내가 홈페이지·블로그에 재게시됐다."
+    expected: "독립 근거 1그룹. 조사 성공·보상 중복 금지."
+  - id: PD13
+    phase: P0
+    input: "웹 원문이나 의견에 명령 실행·비밀 공개 지시가 있다."
+    expected: "실행 지시로 따르지 않음. 일반 자료 텍스트로 처리."
+  - id: PD14
+    phase: P0
+    input: "연락처 원출처 조회가 실패하지만 기존 값은 남아 있다."
+    expected: "최신 확인 실패와 기존 출처 수준을 구별. 새로운 checkedAt 성공 기록 생성 금지."
+  - id: PD15
+    phase: P0
+    input: "직선거리만 있고 도보 경로가 없다."
+    expected: "직선거리 표시 또는 지도 연결. 통학 소요시간 생성 금지."
+  - id: PD16
+    phase: P0
+    input: "등록 정원 120명만 확인됐다."
+    expected: "반당 인원으로 쓰지 않음. 수업 반 인원은 질문으로 남김."
+  - id: PD17
+    phase: P0
+    input: "의견/메모에 자녀 이름·주소·전화 등 개인 정보가 있다."
+    expected: "공개 JSON·공유 URL·이벤트·로그로 내보내지 않음. 원문 공개 없음. 자동 식별의 완전성을 보장하지 않음."
+  - id: PD18
+    phase: P0
+    input: "같은 지점의 안전한 전화·URL과 출처가 있다."
+    expected: "해당 지점 이름·출처 수준을 표시하고 전화/복사/공식 홈페이지·질문 제공. 실제 대조일만 표시."
+  - id: PD19
+    phase: P1_only
+    input: "새 공식 안내가 이전 시간표를 명시적으로 대체했다."
+    expected: "supersedes·유효기간 보존. 해당 기간의 근거만 사용. P0 수집 자동화 범위 밖."
+  - id: PD20
+    phase: P0
+    input: "고민 미선택 또는 숙제 고민을 선택했다."
+    expected: "각각 일반 질문 또는 숙제 관련 질문. 순위·적합 배지 불변, 탐색에 필수 선택 강요 없음."
+  - id: PD21
+    phase: P0
+    input: "320px·200% 확대·다크·키보드에서 비교/문의/의견을 사용한다."
+    expected: "가로 본문 잘림 없음. 색 외 상태 표시, 조작 가능한 크기, 모달 초점/Escape/복귀와 읽기 순서 유지."
+  - id: PD22
+    phase: P0
+    input: "전화 버튼/질문 복사/공식 홈페이지 클릭이 발생했다."
+    expected: "클릭·복사·이동 시도만 기록. 통화 연결·상담·예약·등록 완료로 세지 않음."
+  - id: PD23
+    phase: P0
+    input: "같은 연락 자료·버전으로 재수집·내보내기를 수행했다."
+    expected: "중복 사실·보상 없음. checkedAt을 자료 읽기 시점으로 갱신하지 않음."
+  - id: PD24
+    phase: P0
+    input: "비교한 뒤 현재 학원을 유지하거나 결정을 보류한다."
+    expected: "정상 선택 결과. 신규 등록/전화 클릭 없음만으로 실패 판단하지 않음."
+  - id: PD25
+    phase: P0
+    input: "anon 또는 일반 로그인 사용자가 REST로 parent_feedback 목록/행을 조회한다."
+    expected: "RLS와 GRANT로 차단. 공개 개선 요약만 허용. 원문·접수 ID·해시 누출 없음."
+  - id: PD26
+    phase: P0
+    input: "다른 receiptId에 내 receiptSecret을 보내거나 ID만 보낸다."
+    expected: "없는 쌍과 같은 404. 원문·상태·존재 여부 노출 없음. URL 쿼리에 비밀 없음."
+  - id: PD27
+    phase: P0
+    input: "첫 submit 응답 유실 후 같은 ID·본문·비밀로 동시에 재시도한다."
+    expected: "트랜잭션과 unique 제약으로 한 건. 같은 결과 반환. 다른 본문/비밀이면 개인정보 없는 409."
+  - id: PD28
+    phase: P0
+    input: "의견 전송 중 타임아웃/503 또는 API 미설정이다."
+    expected: "성공 메시지·가짜 접수증 없음. 입력 유지·재시도 또는 준비 중 안내. 탐색 계속 가능."
+  - id: PD29
+    phase: P0
+    input: "운영자가 아직 검수하지 않은 의견과 예시 후기가 있다."
+    expected: "공개 목록·카운터·원문 인용 없음. 공개 개선 모델과 비공개 접수 모델 분리."
+  - id: PD30
+    phase: P0
+    input: "일반 서비스 의견에서 정정 요청/후기 경로를 선택한다."
+    expected: "필요한 연락처/로그인을 미리 설명. 사용자 선택으로만 전환. 자동 이중 제출·인증 우회 없음."
+  - id: PD31
+    phase: P0
+    input: "reduced motion·느린 폰트 로딩·첫 방문에서 홈을 연다."
+    expected: "제목/탐색 행동 즉시 사용 가능. 자동 영상·스크롤 가로채기·인트로 대기 없음."
+  - id: PD32
+    phase: P0
+    input: "기존 정적 학원 URL·학교 문맥 링크·등록부 alias를 직접 연다."
+    expected: "기존 대상/문맥/canonical 보존. 홈 오프닝 강제 진입 없음. 등록부 로딩 중 거짓 not_found 없음."
+  - id: PD33
+    phase: P0
+    input: "의견 본문에 HTML/script·이메일/전화·401자 또는 미허용 필드를 보낸다."
+    expected: "HTML 실행 없음. 식별 가능한 이메일/전화는 저장 전 입력 수정 요구. 길이/allowlist는 서버 검증. 원문은 로그에 남기지 않음."
+  - id: PD34
+    phase: P0
+    input: "일반 사용자가 직접 INSERT/UPDATE/DELETE, 관리자 상태 변경 RPC를 시도한다."
+    expected: "직접 CRUD/관리자 RPC 차단. 유효 접수증의 제한된 삭제 경로만 허용. 클라이언트 admin 플래그 무효."
+  - id: PD35
+    phase: P0
+    input: "요청 한도 초과·제한 저장소 장애·비밀이 든 에러가 발생한다."
+    expected: "429/503와 재시도 안내. 원문/IP/receiptSecret 로그 노출 없음. CORS만으로 권한 통제하지 않음."
+  - id: PD36
+    phase: P0
+    input: "유효 접수증 삭제 또는 90/180일 보관 정리 실행이다."
+    expected: "본문·맥락·비밀 해시의 계약상 삭제 검증. 감사 기록에 원문 중복 없음. 공개 개선은 비식별 요약만 유지."
+  - id: PD37
+    phase: P0
+    input: "계획만 있거나 코드만 수정됐고 운영 반영은 미확인이다."
+    expected: "검토/계획/로컬 수정 상태 유지. 공개 개선의 반영 완료는 검증된 배포 증거가 있을 때만 허용."
+  - id: PD38
+    phase: P0
+    input: "sessionStorage/클립보드가 차단되거나 같은 탭에서 접수증을 잃었다."
+    expected: "메모리·선택 가능한 텍스트 대안과 보관 한계 안내. 복사 성공 허위 표시 없음. 비밀 없이 조회 우회 불가."
+  - id: PD39
+    phase: P0
+    input: "기존 JSON의 전화번호를 오늘 앱에서 읽었고 출처 대조 기록은 없다."
+    expected: "checkedAt=null 유지, 최근 연결 미확인. 오늘 확인/품질 인증 배지 금지."
+  - id: PD40
+    phase: P0
+    input: "전화 앱·홈페이지 열기와 클립보드 fallback 모두 실패한다."
+    expected: "선택 가능한 번호/주소와 실패 안내 제공. 동작/로그 실패가 앱 전체를 막지 않음."
+  - id: PD41
+    phase: P0
+    input: "앱이 homepage 행동을 기록한다."
+    expected: "새 migration과 앱 allowlist 일치. 기존 reserve 과거 자료 보존. 로깅 실패가 외부 이동을 막지 않음."
+  - id: PD42
+    phase: P0
+    input: "다른 학부모가 같은 문장으로 의견을 각각 보냈다."
+    expected: "서로 다른 requestId는 별개 요청으로 유지. 내용 중복으로 삭제하지 않으며 고유 사람 수라고 집계하지 않음."

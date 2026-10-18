@@ -1,3 +1,6 @@
+import '../features/compare/compare_page.dart';
+import '../features/feedback/parent_voice_page.dart';
+import '../features/admin/parent_voice_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +25,7 @@ CustomTransitionPage<void> _fade(Widget child) => CustomTransitionPage<void>(
   transitionDuration: const Duration(milliseconds: 180),
   reverseTransitionDuration: const Duration(milliseconds: 120),
   transitionsBuilder: (context, animation, secondary, child) {
+    if (MediaQuery.disableAnimationsOf(context)) return child;
     final curved = CurvedAnimation(
       parent: animation,
       curve: Curves.easeOutCubic,
@@ -64,6 +68,19 @@ final router = GoRouter(
         ),
 
         GoRoute(
+          path: '/compare',
+          pageBuilder: (_, state) =>
+              _fade(ComparePage(ids: state.uri.queryParameters['ids'])),
+        ),
+        GoRoute(
+          path: '/feedback',
+          pageBuilder: (_, state) => _fade(const ParentVoicePage()),
+        ),
+        GoRoute(
+          path: '/admin/parent-voice',
+          pageBuilder: (_, state) => _fade(const ParentVoiceAdminPage()),
+        ),
+        GoRoute(
           path: '/tree',
           pageBuilder: (context, state) => _fade(
             SelectionRoute(uri: state.uri, child: const TechTreePage()),
@@ -104,7 +121,10 @@ final router = GoRouter(
           path: '/admin',
           pageBuilder: (context, state) => _fade(const AdminPage()),
         ),
-        GoRoute(path: '/admin/growth', pageBuilder: (_, state) => _fade(const GrowthPage())),
+        GoRoute(
+          path: '/admin/growth',
+          pageBuilder: (_, state) => _fade(const GrowthPage()),
+        ),
         GoRoute(
           path: '/board/:id',
           pageBuilder: (_, state) =>
@@ -112,10 +132,12 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/academy/:id',
-          pageBuilder: (_, state) => _fade(SelectionRoute(
-            uri: state.uri,
-            child: AcademyPage(academyId: state.pathParameters['id']!),
-          )),
+          pageBuilder: (_, state) => _fade(
+            SelectionRoute(
+              uri: state.uri,
+              child: AcademyPage(academyId: state.pathParameters['id']!),
+            ),
+          ),
         ),
       ],
     ),

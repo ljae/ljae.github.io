@@ -1,0 +1,4 @@
+project_id = "open-edu-local"
+[functions.parent-voice]
+# Anonymous intake is protected inside the function; receipt secrets authorize status/delete.
+verify_jwt = false

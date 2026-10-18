@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/brand.dart';
+import '../core/env.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repository.dart';
@@ -22,7 +23,10 @@ import 'wheel_selector.dart';
 const navItems = <(String path, String label, IconData icon)>[
   ('/', '홈', Icons.home_outlined),
   ('/rank', '학원 탐색', Icons.search_outlined),
-  ('/tree', '학습 경로', Icons.account_tree_outlined),
+  if (Env.parentCompareEnabled)
+    ('/compare', '비교 노트', Icons.compare_arrows_outlined)
+  else
+    ('/tree', '학습 경로', Icons.account_tree_outlined),
   ('/map', '학군지도', Icons.map_outlined),
 ];
 
@@ -85,6 +89,23 @@ class _AppShellState extends ConsumerState<AppShell> {
       // 판면은 앱 전체에 깔린다. 스크롤해도 계선은 제자리에 있고
       // 내용만 지나간다 — 종이 위를 읽는 느낌이 그래서 난다.
       body: ReadingProgress(notifier: _read, child: widget.child),
+      floatingActionButton:
+          Env.parentVoiceEnabled &&
+              !GoRouterState.of(context).uri.path.startsWith('/feedback') &&
+              !GoRouterState.of(context).uri.path.startsWith('/admin')
+          ? FloatingActionButton.small(
+              heroTag: 'parent-voice',
+              backgroundColor: AppColors.accentOn(
+                Theme.of(context).brightness == Brightness.dark,
+              ),
+              foregroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkCanvas
+                  : AppColors.surface,
+              tooltip: '학부모의 소리',
+              onPressed: () => context.go('/feedback'),
+              child: const Icon(Icons.chat_bubble_outline),
+            )
+          : null,
       // 상단에 메뉴를 못 넣는 폭에서는 하단 바가 대신한다.
       bottomNavigationBar: layout.showNav ? null : const _BottomBar(),
     );
@@ -552,8 +573,7 @@ class AcademySearch extends SearchDelegate<String> {
           ...data.search(query),
           if (registry != null)
             for (final r in registry)
-              if (r.matchesQuery(q))
-                SearchHit.listed(r),
+              if (r.matchesQuery(q)) SearchHit.listed(r),
         ];
 
         if (rows.isEmpty) {
