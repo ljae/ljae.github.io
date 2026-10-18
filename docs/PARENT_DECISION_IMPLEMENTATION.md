@@ -1,6 +1,6 @@
 # 학부모 의사결정 V2 구현·운영 안내
 
-2026-10-18 · **제품 코드·서버 구성 완료, 웹 릴리스 검증 중**. 최종 운영 반영은 [배포 검증 기록](reports/parent-v2-deployment-2026-10-18.md)을 따른다.
+2026-10-18 · **제품 코드·서버 구성·웹 배포·운영 화면 검증 완료**. 실제 배포와 검사 범위는 [배포 검증 기록](reports/parent-v2-deployment-2026-10-18.md)을 따른다.
 [설계](PARENT_DECISION_DESIGN.md) · [의견 계약](PARENT_VOICE_DESIGN.md) · [구현 검증 기록](reports/parent-v2-implementation-2026-10-18.md)
 
 비교 화면의 후속 변경·검증은 [정보의 의미 개선 기록](reports/parent-comparison-meaning-2026-10-18.md)에 정리했다.
@@ -79,7 +79,7 @@ IP 헤더는 배포 환경에서 위조 입력이 제거/덮어쓰기 되는지 
 deno run --allow-env=SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY --allow-net scripts/parent_voice_cleanup.ts
 ```
 
-`.github/workflows/parent-voice-maintenance.yml`은 기존 서버용 GitHub Secrets로 매일 10:10 KST 정리 RPC를 실행한다. 스케줄은 main 반영 이후 적용되며 최초 실행 결과는 배포 검증 기록에 남긴다. 호스팅 플랫폼의 access log/백업 보관 정책은 별도 운영 설정이다. DB 삭제가 모든 백업의 즉시 삭제를 의미하지 않는다.
+`.github/workflows/parent-voice-maintenance.yml`은 기존 서버용 GitHub Secrets로 매일 10:10 KST 정리 RPC를 실행한다. main에 반영했고 최초 수동 실행도 성공했다. 결과는 배포 검증 기록을 따른다. 호스팅 플랫폼의 access log/백업 보관 정책은 별도 운영 설정이다. DB 삭제가 모든 백업의 즉시 삭제를 의미하지 않는다.
 
 ## 검증과 복귀
 

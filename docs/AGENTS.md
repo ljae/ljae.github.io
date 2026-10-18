@@ -7,10 +7,10 @@
 학부모의 탐색·비교·상담 경험을 개선하는 역할은
 [PARENT_DECISION_AGENTS.md](PARENT_DECISION_AGENTS.md)에 추가했다(2026-10-18).
 새 프로젝트 프롬프트와 `/improve-parent-decision` 절차는 사용 가능하며,
-제품의 새 오프닝·비교·비공개 의견은 코드·로컬 검증을 마쳤다.
-[구현·운영 안내](PARENT_DECISION_IMPLEMENTATION.md)의 서버 설정·운영 적용은 아직 남았다. 공식 사실 자동 수집은 후속 범위다.
+제품의 새 오프닝·비교·비공개 의견은 서버 구성·웹 배포와 운영 화면 검증을 마쳤다.
+[배포 검증 기록](reports/parent-v2-deployment-2026-10-18.md)과 [구현·운영 안내](PARENT_DECISION_IMPLEMENTATION.md)를 따른다. 공식 사실 자동 수집은 후속 범위다.
 V2는 예산·가격 기반 기능을 제외하고 연락처와 학부모의 소리를 우선한다.
-다음 구현은 [Sol 인계서](PARENT_DECISION_SOL_HANDOFF.md)의 S0~S5를 따른다.
+최초 구현 기준은 [Sol 인계서](PARENT_DECISION_SOL_HANDOFF.md)의 S0~S5에 보존했다.
 
 ## 왜 에이전트를 나눴나
 

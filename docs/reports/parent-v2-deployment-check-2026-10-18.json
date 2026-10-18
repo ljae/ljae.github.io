@@ -1,0 +1,117 @@
+{
+  "checkedAt": "2026-10-18",
+  "finalRelease": {
+    "status": "pass",
+    "commit": "54b253baf53403d82edfe081c3ee363622e4c02c",
+    "runId": 39117715470,
+    "url": "https://openedu4u.com/",
+    "artifactMatchesLive": [
+      "main.dart.js",
+      "index.html",
+      "assets/assets/data/academies.json",
+      "assets/assets/research/comparison_articles.json"
+    ],
+    "javaScriptSha256": "80ac28b60d0d88738b1171d590bc786803dd606f849ae90866c1926879d964a6",
+    "sameJavaScriptAsBrowserVerifiedRelease": true
+  },
+  "staticPages": {
+    "status": "pass",
+    "deployRun": 39117381473,
+    "releaseCommit": "332f2689964fd65b5578046cc6b20028bd5b7743",
+    "canonicalPages": 5521,
+    "aliases": 11,
+    "unavailableNotices": 29,
+    "changedUrlsChecked": 40,
+    "liveJavaScriptMatchesArtifact": true,
+    "javaScriptSha256": "80ac28b60d0d88738b1171d590bc786803dd606f849ae90866c1926879d964a6",
+    "currentAcademyAndComparisonAssetsMatch": true,
+    "publicArtifactExcludesPrivateManifestAndDocs": true
+  },
+  "retentionWorkflow": {
+    "runId": 39117151872,
+    "conclusion": "success",
+    "redacted": 0,
+    "purged": 0
+  },
+  "browser": {
+    "release": {
+      "testedOrigin": "https://openedu4u.com",
+      "externalBlogDestinationStubbed": false,
+      "status": "pass",
+      "widths": [
+        320,
+        375,
+        768,
+        1440
+      ],
+      "checks": [
+        "opening concern persists",
+        "responsive light and dark opening",
+        "academy direct entry",
+        "logged-out admin guard",
+        "real opinion submit and status",
+        "204 delete clears receipt"
+      ],
+      "apiStatuses": [
+        {
+          "action": "submit",
+          "status": 201
+        },
+        {
+          "action": "status",
+          "status": 200
+        },
+        {
+          "action": "delete",
+          "status": 204
+        }
+      ],
+      "errors": []
+    },
+    "comparison": {
+      "testedOrigin": "https://openedu4u.com",
+      "externalBlogDestinationStubbed": false,
+      "status": "pass",
+      "widths": [
+        320,
+        375,
+        768,
+        1440
+      ],
+      "errors": [],
+      "checks": [
+        "priority reorders criteria",
+        "distinct real quotations and decision meaning",
+        "source date and unknown grade",
+        "school-specific clipboard with original source",
+        "grade change excludes known other-grade excerpt",
+        "responsive layout",
+        "official guidance retains source date and unverified grade applicability"
+      ]
+    },
+    "articles": {
+      "testedOrigin": "https://openedu4u.com",
+      "externalBlogDestinationStubbed": true,
+      "status": "pass",
+      "widths": [
+        320,
+        375,
+        768,
+        1440
+      ],
+      "errors": [],
+      "checks": [
+        "partial 2/3 with missing school named",
+        "source date vs body review date",
+        "historical and branch limitations",
+        "external link opens correct destination",
+        "unrelated school clipboard excludes pair article",
+        "subject and grade filtering",
+        "complete 3/3 coverage",
+        "feedback concern reorders separate axes",
+        "responsive layout",
+        "registry-only candidates keep article links"
+      ]
+    }
+  }
+}

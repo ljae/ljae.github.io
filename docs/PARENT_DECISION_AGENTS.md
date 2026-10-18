@@ -1,6 +1,6 @@
 # 학부모 의사결정 에이전트 V2
 
-2026-10-18 · **프롬프트·수동 절차 작성 완료 / V2 제품 코드 로컬 검증 완료 / 상시 에이전트 자동 운영 없음**. [구현 현황](PARENT_DECISION_IMPLEMENTATION.md).
+2026-10-18 · **프롬프트·수동 절차 작성 완료 / V2 웹 운영 배포·검증 완료 / 상시 에이전트 자동 운영 없음**. [구현 현황](PARENT_DECISION_IMPLEMENTATION.md) · [배포 검증](reports/parent-v2-deployment-2026-10-18.md).
 [제품 설계](PARENT_DECISION_DESIGN.md) · [의견 처리 계약](PARENT_VOICE_DESIGN.md) · [Sol 인계](PARENT_DECISION_SOL_HANDOFF.md) · [기존 게이트](AGENTS.md)
 
 ## 목적과 변경

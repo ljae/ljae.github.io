@@ -47,11 +47,12 @@ cd app && flutter run -d chrome
 2026-10-18 [경쟁 서비스·학부모 조사](docs/reports/parent-decision-research-2026-10-18.md)를
 바탕으로 비교와 상담 경험의 개선안을 추가했다. V2는 예산/가격 기능을 제외하고
 연락처와 [학부모의 소리](docs/PARENT_VOICE_DESIGN.md)를 우선한다.
-S0~S5의 제품 코드와 로컬 검증을 추가했다. 실행 방법·설정·남은 운영 검증은
+S0~S5의 제품 코드와 비교 글 연결·비공개 의견 접수를 운영 웹에 배포했다.
+[배포 검증 기록](docs/reports/parent-v2-deployment-2026-10-18.md)과
 [구현·운영 안내](docs/PARENT_DECISION_IMPLEMENTATION.md)를 따른다.
 [화면 시안](docs/prototypes/parent-decision.html)은 가상 데이터로 고민 선택·비교·질문
 복사·의견 흐름을 시험하는 로컬 문서이며 실제 연락·접수는 하지 않는다. `/improve-parent-decision` 프로젝트 스킬과 역할
-프롬프트를 추가했으며, 운영 추천 엔진·신규 자동 수집·배포가 완료된 것은 아니다.
+프롬프트를 추가했다. 상시 에이전트 추천 엔진과 신규 공식 사실 자동 수집은 후속 범위다.
 
 ---
 
