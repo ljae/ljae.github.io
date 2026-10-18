@@ -26,14 +26,27 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   final _exploreKey = GlobalKey();
+  bool _explorePending = false;
   void _explore() {
     final target = _exploreKey.currentContext;
     if (target != null) {
       Scrollable.ensureVisible(target, alignment: 0, duration: Duration.zero);
+    } else if (!_explorePending) {
+      _explorePending = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('학원 목록을 불러오고 있어요. 준비되면 선택한 고민으로 이어집니다.')),
+      );
     }
   }
 
-  void _search() => showSearch(context: context, delegate: AcademySearch());
+  void _search() {
+    if (_explorePending) {
+      _explorePending = false;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    }
+    showSearch(context: context, delegate: AcademySearch());
+  }
+
   @override
   Widget build(BuildContext context) {
     final selection = ref.watch(selectionProvider);
@@ -46,14 +59,32 @@ class _HomePageState extends ConsumerState<HomePage> {
           loading: () => Env.parentOpeningEnabled
               ? ListView(
                   children: [
-                    ParentOpening(onExplore: _search, onSearch: _search),
+                    ParentOpening(onExplore: _explore, onSearch: _search),
                     const ContentLoading(),
                   ],
                 )
               : const ContentLoading(),
-          error: (e, _) =>
-              const Center(child: Text('데이터를 불러오지 못했습니다. 다시 시도해주세요.')),
+          error: (e, _) => Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('데이터를 불러오지 못했습니다. 선택한 고민은 유지됩니다.'),
+                TextButton(
+                  onPressed: () => ref.invalidate(dataProvider),
+                  child: const Text('학원 목록 다시 불러오기'),
+                ),
+              ],
+            ),
+          ),
           data: (data) {
+            if (_explorePending) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted || !_explorePending) return;
+                _explorePending = false;
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                _explore();
+              });
+            }
             final academies = data.ranking(
               regionId: selection.regionId,
               subject: selection.subject,

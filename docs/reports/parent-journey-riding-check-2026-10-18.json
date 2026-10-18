@@ -5,9 +5,10 @@
   "localJourney": {
     "status": "pass",
     "scope": "http://127.0.0.1:8769/",
-    "checkedAt": "2026-10-18T11:07:33.144Z",
+    "checkedAt": "2026-10-18T11:21:25.375Z",
     "checks": [
       "opening concern continues into exploration, ranking and real detail excerpt",
+      "delayed initial data resumes requested exploration without opening search",
       "public branch map and explicitly personal travel notes",
       "riding priority and distinct weekly guardian burden for two academies",
       "subject and grade isolation plus full-page reload restoration",
@@ -69,5 +70,8 @@
     ],
     "scope": "local compiled Flutter; external destination stubbed for navigation only; source body review in research report"
   },
-  "production": "pending"
+  "production": "pending",
+  "loadingRegressionTests": 8,
+  "loadingRegressionAnalyze": "pass",
+  "localFinalBuildOptimization": "O1; final production O4 build is separately verified after CI"
 }

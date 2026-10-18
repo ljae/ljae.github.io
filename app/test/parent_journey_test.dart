@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:edutree/data/parent_decision.dart';
 import 'package:edutree/data/repository.dart';
 import 'package:edutree/data/riding_plan.dart';
 import 'package:edutree/data/source_notes.dart';
+import 'package:edutree/features/home/home_page.dart';
 import 'package:edutree/widgets/parent_journey.dart';
 import 'package:edutree/widgets/riding_card.dart';
 import 'parent_comparison_test.dart' as fixture;
@@ -169,6 +171,70 @@ void main() {
       expect(rows.single.dateLabel, contains('수강 시점 미확인'));
       expect(d.academy!.score.total, 80);
     },
+  );
+
+  testWidgets(
+    'opening explore waits for delayed data and keeps concern after a retry',
+    (tester) async {
+      tester.view.physicalSize = const Size(1440, 1100);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final first = Completer<EduTreeData>();
+      final retry = Completer<EduTreeData>();
+      var attempts = 0;
+      final c = ProviderContainer(
+        overrides: [
+          dataProvider.overrideWith(
+            (_) => ++attempts == 1 ? first.future : retry.future,
+          ),
+          sourceNotesProvider.overrideWith((_) async => []),
+        ],
+      );
+      addTearDown(c.dispose);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: c,
+          child: MaterialApp(
+            theme: buildTheme(dark: false),
+            home: const Scaffold(body: HomePage()),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.tap(find.text('숙제 부담이 걱정돼요'));
+      await tester.pump();
+      await tester.ensureVisible(find.text('이 고민으로 학원 살펴보기'));
+      await tester.tap(find.text('이 고민으로 학원 살펴보기'));
+      await tester.pump();
+      expect(
+        find.text('학원 목록을 불러오고 있어요. 준비되면 선택한 고민으로 이어집니다.'),
+        findsOneWidget,
+      );
+      expect(find.text('학원명 또는 별칭을 입력하세요'), findsNothing);
+      first.completeError(StateError('temporary outage'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('학원 목록 다시 불러오기'));
+      await tester.pump();
+      retry.complete(
+        EduTreeData(
+          meta: Meta.fromJson({'mode': 'live'}),
+          regions: [],
+          tracks: [],
+          academies: [],
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(attempts, 2);
+      expect(c.read(parentConcernProvider), 'homework');
+      expect(find.text('숙제 부담부터 살펴보고 있어요'), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.byType(ParentConcernBar)).dy,
+        inInclusiveRange(0, 250),
+      );
+      expect(find.text('학원명 또는 별칭을 입력하세요'), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+    skip: !Env.parentOpeningEnabled,
   );
 
   testWidgets(

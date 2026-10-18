@@ -15,6 +15,13 @@ fs.mkdirSync(out, {recursive: true});
   let page;
   try {
     const context = await browser.newContext({viewport: {width: 1440, height: 1100}, reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write']});
+    let releaseAcademies, heldAcademies = false;
+    const allowAcademies = new Promise(resolve => {releaseAcademies = resolve;});
+    await context.route('**/assets/assets/data/academies.json', async route => {
+      heldAcademies = true;
+      await allowAcademies;
+      await route.continue();
+    });
     context.on('request', req => {
       if (/parent\.riding|guardianMinutes|oneWayMinutes|18%3A30/.test(req.url() + (req.postData() || ''))) travelSent = true;
     });
@@ -69,6 +76,9 @@ fs.mkdirSync(out, {recursive: true});
     await open('');
     await button('숙제 부담이 걱정돼요').click();
     await button('이 고민으로 학원 살펴보기').click();
+    await waitText('학원 목록을 불러오고 있어요. 준비되면 선택한 고민으로 이어집니다.');
+    assert.equal(heldAcademies, true);
+    releaseAcademies();
     await waitText('숙제 부담부터 살펴보고 있어요');
     console.log('Opening concern reached exploration');
     assert.equal(await chip('숙제 부담').getAttribute('aria-checked'), 'true');
@@ -81,6 +91,7 @@ fs.mkdirSync(out, {recursive: true});
     console.log('Detail loaded the relevant actual excerpt');
     assert.match(await labels(), /숙제 부담 · 먼저 확인할 내용/);
     checks.push('opening concern continues into exploration, ranking and real detail excerpt');
+    checks.push('delayed initial data resumes requested exploration without opening search');
     await (await reveal(chip('라이딩·하원'))).click();
     await waitText('라이딩·하원부터 살펴보고 있어요');
     assert.match(await labels(), /셔틀·하원 조건은 현재 반에 문의 필요/);
