@@ -127,8 +127,8 @@ jobs:
 
       - name: 검색 페이지·분석 계약 회귀 검증
         run: |
-          python -m pip install pytest requests
-          python -m pytest -q pipeline/tests/test_growth.py pipeline/tests/test_growth_gsc.py pipeline/tests/test_search_pages.py pipeline/tests/test_parent_contact.py
+          python -m pip install pytest requests PyYAML
+          python -m pytest -q pipeline/tests/test_growth.py pipeline/tests/test_growth_gsc.py pipeline/tests/test_search_pages.py pipeline/tests/test_parent_contact.py pipeline/tests/test_deploy_artifact_redirect.py
 
       - uses: actions/setup-node@v4
         with:
@@ -153,13 +153,23 @@ jobs:
         run: |
           python - <<'PY'
           import io, json, os, pathlib, urllib.request, zipfile
+          from urllib.parse import urlsplit
           target = pathlib.Path('pipeline/.cache/growth/page-manifest.json')
           if target.exists():
               raise SystemExit(0)
           base = 'https://api.github.com/repos/' + os.environ['GH_REPO']
+          class SafeArtifactRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+                  old, new = urlsplit(req.full_url), urlsplit(newurl)
+                  if redirected is not None and (old.scheme, old.netloc) != (new.scheme, new.netloc):
+                      # Artifact storage uses its signed URL, not a GitHub bearer.
+                      redirected.remove_header('Authorization')
+                  return redirected
+          opener = urllib.request.build_opener(SafeArtifactRedirect())
           def get(path, binary=False):
               req = urllib.request.Request(base + path, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
-              with urllib.request.urlopen(req, timeout=30) as response:
+              with opener.open(req, timeout=30) as response:
                   data = response.read()
               return data if binary else json.loads(data)
           artifacts = get('/actions/artifacts?name=search-pages-manifest&per_page=100')['artifacts']
