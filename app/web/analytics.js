@@ -29,6 +29,7 @@
   let lastPage = null;
   let panel;
   let settingsButton;
+  // Google processes arguments objects; arrays silently bypass the tag command queue.
   function gtag() { (window.dataLayer = window.dataLayer || []).push(arguments); }
   const safeReferrer = () => { try { return new URL(document.referrer).origin; } catch (_) { return ''; } };
   function track() {
