@@ -62,6 +62,19 @@ jobs:
           ref: >-
             ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
 
+      - name: Prevent sample or invalid academy data from being published
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('app/assets/data')
+          meta = json.loads((root / 'meta.json').read_text())
+          rows = json.loads((root / 'academies.json').read_text())
+          assert meta.get('mode') == 'live', 'Sample data cannot replace the public service'
+          ids = [row.get('id') for row in rows]
+          assert ids and None not in ids and len(ids) == len(set(ids)), 'Invalid academy identities'
+          PY
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.41.2'
