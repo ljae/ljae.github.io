@@ -13,7 +13,8 @@ import 'riding_card.dart';
 
 /// The same preference is visible and editable throughout the decision journey.
 class ParentConcernBar extends ConsumerWidget {
-  const ParentConcernBar({super.key});
+  const ParentConcernBar({super.key, this.compact = false});
+  final bool compact;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!Env.parentOpeningEnabled && !Env.parentCompareEnabled) {
@@ -21,6 +22,18 @@ class ParentConcernBar extends ConsumerWidget {
     }
     final concern = ref.watch(parentConcernProvider);
     final text = Theme.of(context).textTheme;
+    if (compact) {
+      return ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        shape: const Border(),
+        collapsedShape: const Border(),
+        title: Text(
+          concern == null ? '비교 기준 고르기' : '비교 기준 · ${concernLabels[concern]}',
+          style: text.titleSmall,
+        ),
+        children: const [ParentConcernBar()],
+      );
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(

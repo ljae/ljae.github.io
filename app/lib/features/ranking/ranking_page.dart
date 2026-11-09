@@ -181,7 +181,9 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         subtitle:
                             '선택한 학군·과목·학년의 학원을 보여줍니다. 대상 학년 미확인 학원은 별도 목록에서 확인할 수 있습니다.',
                       ),
-                      const ParentConcernBar(),
+                      ParentConcernBar(
+                        compact: MediaQuery.sizeOf(context).width < 600,
+                      ),
                       RankingDataNotice(generatedAt: data.meta.generatedAt),
                       TextField(
                         onChanged: (value) =>
