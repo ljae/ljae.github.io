@@ -108,3 +108,18 @@ def test_model_identity_drift_never_calls_model(monkeypatch,tmp_path):
     monkeypatch.setattr(d,'settings',lambda:SimpleNamespace(model_id='new',model_digest='new'))
     with pytest.raises(ValueError,match='daily_model_changed'):
         asyncio.run(d.local_review({'search_candidates':[]}))
+
+
+def test_sparse_search_fallbacks_must_match_branch_and_area():
+    branch={'name':'멘사매쓰학원','address':'서울특별시 양천구 목동중앙로 135'}
+    assert not d.branch_match(branch,'눈 실핏줄 수술','무관한 검색 결과')
+    assert not d.branch_match(branch,'멘사매쓰학원','다른 지역 수업 모집')
+    assert d.branch_match(branch,'양천구 멘사매쓰학원','초등 수학 공식 안내')
+    assert not d.branch_match({'name':'멘사매쓰학원'},'멘사매쓰학원','초등 수학')
+
+
+def test_irrelevant_search_results_are_dropped_before_model_packet(monkeypatch):
+    monkeypatch.setattr(d.config,'HAS_NAVER',True)
+    search=d.Search(); search.mode='hub'
+    monkeypatch.setattr(search,'get',lambda *args:{'items':[{'link':'https://example.com','title':'vocab.txt','description':'무관한 자료'}]})
+    assert search({'id':'1','name':'아드폰테스','address':'서울특별시 양천구 목동중앙로 73'})==[]
