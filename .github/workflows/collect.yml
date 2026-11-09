@@ -248,7 +248,7 @@ jobs:
 
       - name: Check source freshness before public data writes
         if: ${{ !inputs.directory_only && (github.event_name != 'workflow_dispatch' || inputs.publish_data) }}
-        run: python -m pipeline.edutree.parent_service_audit --output pipeline/.cache/parent-service-prepublish.json --fail-unhealthy
+        run: python -m pipeline.edutree.parent_service_audit --output pipeline/.cache/parent-service-prepublish.json --compare-live --fail-unhealthy
 
       - name: Retain publication health decision
         if: always()

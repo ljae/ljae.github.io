@@ -131,15 +131,45 @@ def audit(meta, academies, *, now=None, region='mokdong', subject='math',
             'acceptance': 'Every fit reason must resolve to branch-specific evidence; unknowns remain visible.'}
 
 
+def publication_comparison(current, previous):
+    """Hold unexplained evidence cliffs for review; never relax attribution gates.
+
+    Counts are operational coverage, not proof of correctness. The 30% hold is a
+    conservative release threshold, not a new ranking weight or fit criterion.
+    """
+    before = previous.get('rankingQuality', {}).get('validMentions')
+    after = current.get('rankingQuality', {}).get('validMentions')
+    valid = lambda n: isinstance(n, int) and not isinstance(n, bool) and n >= 0
+    problems = []
+    retained = None
+    if previous.get('mode') != 'live' or not valid(before) or not valid(after):
+        problems.append('publication_baseline_unknown')
+    elif before:
+        retained = after / before
+        if retained < 0.70:
+            problems.append('evidence_coverage_drop_requires_review')
+    return {'previousGeneratedAt': previous.get('generatedAt'),
+            'previousValidMentions': before, 'candidateValidMentions': after,
+            'retainedShare': retained, 'minimumRetainedShare': 0.70,
+            'problems': problems}
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--live', action='store_true')
+    p.add_argument('--compare-live', action='store_true',
+                   help='Hold large coverage drops against the deployed snapshot')
     p.add_argument('--asset-dir', type=Path, default=Path('app/assets/data'))
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--fail-unhealthy', action='store_true')
     args = p.parse_args(argv)
     load = read_public if args.live else lambda n: json.loads((args.asset_dir / n).read_text())
     report = audit(load('meta.json'), load('academies.json'))
+    if args.compare_live:
+        comparison = publication_comparison(load('meta.json'), read_public('meta.json'))
+        report['publicationComparison'] = comparison
+        report['problems'].extend(comparison['problems'])
+        report['healthy'] = not report['problems']
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({k: report[k] for k in ['healthy', 'ageDays', 'problems', 'pilot', 'modelCalls']}))
