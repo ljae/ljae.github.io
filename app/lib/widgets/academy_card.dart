@@ -1,6 +1,4 @@
 import '../features/compare/compare_page.dart';
-import '../data/academy_detail.dart';
-import 'parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -136,10 +134,6 @@ class AcademyCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Divider(height: 1),
                 ),
-                ConcernPreview(
-                  detail: AcademyDetail.evaluated(academy),
-                  compact: true,
-                ),
                 AcademyPositioning(academy: academy, subject: subject),
                 if (academy.profile?.oneLiner case final line?) ...[
                   const SizedBox(height: 12),
@@ -153,7 +147,6 @@ class AcademyCard extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(height: 16),
-                Text('교습비 · 교재비는 상담 시 확인', style: text.bodySmall),
                 if (parentClassSummary(academy).isNotEmpty) ...[
                   const SizedBox(height: 6),
                   Text(parentClassSummary(academy), style: text.bodySmall),
