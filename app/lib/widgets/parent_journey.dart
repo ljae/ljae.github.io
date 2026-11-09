@@ -208,8 +208,6 @@ class AcademyDecisionSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ParentConcernBar(),
-        if (concern != null) ConcernPreview(detail: detail),
         Card(
           child: ExpansionTile(
             key: ValueKey('${detail.id}/$concern'),
