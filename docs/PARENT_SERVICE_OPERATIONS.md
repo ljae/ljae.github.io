@@ -115,3 +115,9 @@ history remain preserved in Git.
   pass. A fresh generation timestamp cannot disguise stale/unavailable blog or
   cafe collection. Failed publication checks retain a health artifact and leave
   the existing public dataset in place; encrypted evidence is still preserved.
+
+- The prepublication audit also compares accepted-evidence coverage against the
+  deployed snapshot. A drop of more than 30%, or an unknown baseline, holds public
+  writes for investigation. This is a release guard, not proof that old evidence
+  was correct; attribution filters must never be loosened to make counts pass.
+  A legitimate large correction needs a separately reviewed migration and replay.
