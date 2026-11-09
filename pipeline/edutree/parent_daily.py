@@ -108,11 +108,27 @@ class Search:
             url = item.get('link', '')
             if urlsplit(url).scheme not in ('https', 'http') or not urlsplit(url).hostname:
                 continue
+            title = self.naver.clean(item.get('title'))[:160]
+            snippet = self.naver.clean(item.get('description'))[:500]
+            if not branch_match(branch, title, snippet):
+                continue
             rows.append({'id': digest((branch['id'] + url).encode())[:16],
                          'academyId': branch['id'], 'url': url[:1800],
-                         'title': self.naver.clean(item.get('title'))[:160],
-                         'snippet': self.naver.clean(item.get('description'))[:500]})
+                         'title': title, 'snippet': snippet})
         return rows
+
+
+
+def branch_match(branch, title, snippet):
+    # Search engines can return unrelated fallback hits for sparse branch queries.
+    # Fail closed before spending model tokens: require the branch name and area.
+    def compact(value):
+        return re.sub(r'[^가-힣a-z0-9]', '', value.casefold())
+    name = compact(branch['name']).removesuffix('학원')
+    text = compact(title + ' ' + snippet)
+    address = branch.get('address') or ''
+    areas = re.findall(r'[가-힣]+(?:구|동|읍|면)(?=\s|\d|$)', address)
+    return len(name) >= 3 and name in text and bool(areas) and any(compact(area) in text for area in areas)
 
 
 def packet(rows):
