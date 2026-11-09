@@ -59,14 +59,14 @@ class AcademyPositioning extends ConsumerWidget {
         stages.isNotEmpty ||
         (curriculum != null &&
             curriculum.quotes.isNotEmpty &&
-            curriculum.note != null);
+            curriculum.note?.trim().isNotEmpty == true);
     final direction =
         courseNote?.shortSummary ??
         (stages.isNotEmpty
             ? stages.take(2).join(' · ')
             : curriculum != null &&
                   curriculum.quotes.isNotEmpty &&
-                  curriculum.note != null
+                  curriculum.note?.trim().isNotEmpty == true
             ? curriculum.note!
             : operatingFacts.isNotEmpty
             ? '${operatingFacts.take(2).join(' · ')} · 후기 기준'
@@ -90,41 +90,56 @@ class AcademyPositioning extends ConsumerWidget {
             : levelTest != null && levelTest.quotes.isNotEmpty
             ? levelTest.note ?? entrySignal
             : entrySignal);
+    final hasAdmission =
+        admissionNote != null ||
+        entry.isNotEmpty ||
+        (levelTest != null &&
+            levelTest.quotes.isNotEmpty &&
+            levelTest.note?.trim().isNotEmpty == true) ||
+        [
+          'high',
+          'medium',
+          'mentioned',
+        ].contains(academy.scoreFor(subject).selectivityTier);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final cells = [
-              _Fact(
-                label: courseNote == null
-                    ? (hasDirection ? '학습 방향' : '수업 특징')
-                    : '학습 방향 · ${courseNote.sourceLabel}',
-                value: direction,
-              ),
-              _Fact(
-                label: admissionNote == null
-                    ? '입학 정보'
-                    : '입학 정보 · ${admissionNote.sourceLabel}',
-                value: admissions,
-              ),
-            ];
-            if (constraints.maxWidth < 420) {
-              return Column(
+        if (hasDirection || operatingFacts.isNotEmpty || hasAdmission)
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final cells = [
+                if (hasDirection || operatingFacts.isNotEmpty)
+                  _Fact(
+                    label: courseNote == null
+                        ? (hasDirection ? '학습 방향' : '수업 특징')
+                        : '학습 방향 · ${courseNote.sourceLabel}',
+                    value: direction,
+                  ),
+                if (hasAdmission)
+                  _Fact(
+                    label: admissionNote == null
+                        ? '입학 정보'
+                        : '입학 정보 · ${admissionNote.sourceLabel}',
+                    value: admissions,
+                  ),
+              ];
+              if (cells.length == 1) return cells.single;
+              if (constraints.maxWidth < 420) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [cells[0], const SizedBox(height: 14), cells[1]],
+                );
+              }
+              return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [cells[0], const SizedBox(height: 14), cells[1]],
+                children: [
+                  Expanded(child: cells[0]),
+                  const SizedBox(width: 24),
+                  Expanded(child: cells[1]),
+                ],
               );
-            }
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(child: cells[0]),
-                const SizedBox(width: 24),
-                Expanded(child: cells[1]),
-              ],
-            );
-          },
-        ),
+            },
+          ),
         if (sources != null)
           AcademySourcesButton(sources: sources, subject: subject),
       ],
