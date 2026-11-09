@@ -1,241 +1,101 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme.dart';
-import '../../data/parent_decision.dart';
 import '../../widgets/common.dart';
-import '../feedback/parent_voice_page.dart';
 
-/// An immediately usable opening: no loading animation or scroll interception.
-class ParentOpening extends ConsumerWidget {
+/// Start with actions the available academy data can actually support.
+class ParentOpening extends StatelessWidget {
   final VoidCallback onExplore, onSearch;
   const ParentOpening({
     super.key,
     required this.onExplore,
     required this.onSearch,
   });
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
     final text = Theme.of(context).textTheme;
-    final concern = ref.watch(parentConcernProvider);
     return ColoredBox(
       color: AppColors.openingCanvasOn(dark),
       child: ContentWidth(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40),
+          padding: const EdgeInsets.symmetric(vertical: 28),
           child: LayoutBuilder(
-            builder: (context, c) {
-              final wide = c.maxWidth >= 850;
-              final copy = Column(
+            builder: (context, constraints) {
+              final wide = constraints.maxWidth >= 850;
+              final introduction = Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '아이의 속도로, 우리만의 선택',
+                    '대치 · 목동 · 반포 · 잠실',
                     style: text.labelLarge?.copyWith(
                       color: AppColors.accentOn(dark),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(text: '우리 아이의\n'),
-                        TextSpan(
-                          text: '다음 장을\n',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.openingNoteOn(dark),
-                          ),
-                        ),
-                        const TextSpan(text: '함께 고릅니다.'),
-                      ],
-                    ),
+                  const SizedBox(height: 12),
+                  Text(
+                    '학원 선택,\n확인할 수 있는 정보부터.',
                     style: text.displayMedium?.copyWith(
-                      fontSize: wide ? 56 : 38,
-                      height: 1.28,
-                      letterSpacing: -1.8,
+                      fontSize: wide ? 44 : 30,
+                      height: 1.3,
+                      letterSpacing: -1.2,
                     ),
                   ),
-                  const SizedBox(height: 22),
-                  const Text(
-                    '후기의 맥락을 읽고, 몇 곳을 비교하고,\n궁금한 것은 학원에 직접 물어보세요.',
-                    style: TextStyle(fontSize: 16, height: 1.9),
+                  const SizedBox(height: 14),
+                  Text(
+                    '학년과 과목으로 찾고, 위치와 후기 근거를 살펴보세요.\n관심 있는 학원은 최대 3곳까지 나란히 비교할 수 있어요.',
+                    style: text.bodyLarge?.copyWith(height: 1.7),
                   ),
-                  const SizedBox(height: 24),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      FilledButton.icon(
-                        onPressed: onExplore,
-                        icon: const Icon(Icons.north_east, size: 18),
-                        label: const Text('학원 살펴보기'),
-                      ),
-                      OutlinedButton(
-                        onPressed: () =>
-                            showParentVoice(context, pageType: 'home'),
-                        child: const Text('의견 남기기'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton.icon(
-                    onPressed: onSearch,
-                    icon: const Icon(Icons.search, size: 18),
-                    label: const Text('학원 이름으로 바로 찾기'),
+                  const SizedBox(height: 20),
+                  FilledButton.icon(
+                    onPressed: onExplore,
+                    icon: const Icon(Icons.tune, size: 18),
+                    label: const Text('학원 살펴보기'),
                   ),
                 ],
               );
-              final notebook = Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 18,
+              final search = Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceOn(dark),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.ruleOn(dark)),
                 ),
-                child: Stack(
-                  clipBehavior: Clip.none,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned.fill(
-                      child: Transform.rotate(
-                        angle: 3 * math.pi / 180,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: AppColors.canvasDeepOn(dark),
-                            border: Border.all(color: AppColors.ruleOn(dark)),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Transform.rotate(
-                      angle: wide ? -math.pi / 180 : 0,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.fromLTRB(22, 24, 22, 28),
-                        decoration: BoxDecoration(
-                          color: AppColors.openingPaperOn(dark),
-                          border: Border.all(color: AppColors.ruleOn(dark)),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '우리 아이를 위한 작은 메모',
-                                    style: text.labelMedium,
-                                  ),
-                                ),
-                                Text('01', style: text.headlineMedium),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            Text('지금, 어떤 고민이 있나요?', style: text.titleLarge),
-                            const SizedBox(height: 16),
-                            for (final e in parentConcerns.entries)
-                              Semantics(
-                                selected: concern == e.key,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: OutlinedButton(
-                                    onPressed: () => ref
-                                        .read(parentConcernProvider.notifier)
-                                        .choose(
-                                          concern == e.key ? null : e.key,
-                                        ),
-                                    style: OutlinedButton.styleFrom(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 14,
-                                        horizontal: 12,
-                                      ),
-                                      backgroundColor: concern == e.key
-                                          ? AppColors.canvasDeepOn(dark)
-                                          : null,
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          concern == e.key
-                                              ? Icons.radio_button_checked
-                                              : Icons.radio_button_unchecked,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(child: Text(e.value)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            const Divider(height: 32),
-                            Text('선택 전에, 한 가지 질문', style: text.labelMedium),
-                            const SizedBox(height: 10),
-                            Semantics(
-                              liveRegion: true,
-                              child: Text(
-                                concernQuestions[concern] ??
-                                    '우리 아이에게 어떤 수업이 필요한지, 하나씩 물어보며 알아가요.',
-                                style: text.bodyLarge?.copyWith(height: 1.8),
-                              ),
-                            ),
-                            const SizedBox(height: 18),
-                            Text(
-                              concernEffects[concern] ??
-                                  '선택한 고민은 학원 소개에서 먼저 읽을 내용과 비교·문의로 이어집니다.',
-                              style: text.bodySmall,
-                            ),
-                            if (concern != null) ...[
-                              const SizedBox(height: 16),
-                              FilledButton.icon(
-                                onPressed: onExplore,
-                                icon: const Icon(Icons.arrow_forward, size: 18),
-                                label: const Text('이 고민으로 학원 살펴보기'),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
+                    Text('알아보고 있는 학원이 있나요?', style: text.titleMedium),
+                    const SizedBox(height: 8),
+                    Text('학원 이름으로 바로 찾아보세요.', style: text.bodyMedium),
+                    const SizedBox(height: 16),
+                    OutlinedButton.icon(
+                      onPressed: onSearch,
+                      icon: const Icon(Icons.search, size: 20),
+                      label: const Text('학원 이름으로 바로 찾기'),
                     ),
                   ],
                 ),
               );
+              if (wide) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(flex: 7, child: introduction),
+                    const SizedBox(width: 40),
+                    Expanded(flex: 5, child: search),
+                  ],
+                );
+              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (wide)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(flex: 6, child: copy),
-                        const SizedBox(width: 48),
-                        Expanded(flex: 5, child: notebook),
-                      ],
-                    )
-                  else ...[
-                    copy,
-                    const SizedBox(height: 24),
-                    notebook,
-                  ],
-                  const SizedBox(height: 36),
-                  const Divider(),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 32,
-                    runSpacing: 16,
-                    children: [
-                      for (final label in [
-                        '01  맥락을 읽고',
-                        '02  나란히 비교하고',
-                        '03  직접 물어봐요',
-                      ])
-                        Text(label, style: text.titleSmall),
-                    ],
+                  introduction,
+                  const SizedBox(height: 20),
+                  TextButton.icon(
+                    onPressed: onSearch,
+                    icon: const Icon(Icons.search, size: 20),
+                    label: const Text('학원 이름으로 바로 찾기'),
                   ),
                 ],
               );
