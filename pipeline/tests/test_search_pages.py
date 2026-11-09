@@ -129,3 +129,41 @@ def test_reviewed_unavailable_page_preserves_url_without_stale_claims(tmp_path):
     assert seo.unavailable_academy_pages(tmp_path, [row], {'99': academy('99')}, {}) == {}
     with pytest.raises(ValueError, match='UNREVIEWED_MERGED_ID'):
         seo.unavailable_academy_pages(tmp_path, [row], {'100': {**academy(), 'registrationIds': ['99']}}, {})
+
+
+def test_search_snippet_pilot_uses_recorded_facts_and_keeps_controls():
+    a=academy('100');a['address']='서울특별시 서초구 예시로 10'
+    a['gradeTarget']={'bandBasis':{'english':{'high':'official'}}}
+    m=academy_model(a,evaluated=False)
+    title,desc=seo.search_metadata(a,m,'반포',{'100'})
+    assert '영어' in title and a['address'] in desc
+    assert '공식 안내' in desc
+    assert '후기' not in title+desc and '추천' not in title+desc
+    old_title,old_desc=seo.search_metadata(a,m,'반포',set())
+    assert old_title=='테스트학원 · 반포 학원 정보 | 학원실록'
+    assert old_desc=='반포 테스트학원의 주소와 공시 등록 정보를 살펴보세요. 대상: 영어 고등.'
+    a['gradeTarget']={};a['subjects']=['general'];a['tel']=None
+    title,desc=seo.search_metadata(a,academy_model(a,evaluated=False),'반포',{'100'})
+    assert '대상:' not in desc and '영어' not in desc and '전화:' not in desc
+
+
+def test_analytics_instrumentation_does_not_fake_article_freshness():
+    from pipeline.growth.inventory import semantic_hash
+    old='<head></head><main>Academy facts</main>'
+    new=old.replace('</head>', '\n<!-- analytics:non-content:start --><script defer src="/analytics.js"></script><!-- analytics:non-content:end --></head>')
+    assert semantic_hash(old)==semantic_hash(new)
+    assert semantic_hash(new.replace('Academy facts','New verified academy facts'))!=semantic_hash(old)
+
+
+def test_current_pilot_and_recovered_identity_inputs_have_public_evidence():
+    import hashlib
+    root=Path(__file__).resolve().parents[2]
+    entities={str(a['id']):a for f in ['academies','registry'] for a in json.loads((root/'app/assets/data'/f'{f}.json').read_text())}
+    pilot=json.loads((root/'pipeline/data/search_content_pilot.json').read_text())
+    assert len(pilot['treatmentIds'])==4 and not set(pilot['treatmentIds'])&set(pilot['controlIds'])
+    for aid in pilot['treatmentIds']:
+        assert entities[aid]['address'] and set(entities[aid]['subjects'])-{'general'}
+    mappings=json.loads((root/'pipeline/data/url_aliases.json').read_text())['entries']
+    reviewed=validate_aliases(mappings,entities)
+    assert reviewed['3000052565']=='3000030824'
+    assert reviewed['3000052139']=='3000052110'
