@@ -1,0 +1,62 @@
+name: Parent service freshness and research queue
+on:
+  schedule:
+    - cron: '30 22 * * *' # 07:30 KST, after nightly collection
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/parent-service-health.yml'
+      - 'pipeline/edutree/parent_service_audit.py'
+      - 'pipeline/tests/test_parent_service_audit.py'
+  workflow_run:
+    workflows: ['Deploy to GitHub Pages']
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: parent-service-health
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /pipeline/edutree/
+            /pipeline/tests/test_parent_service_audit.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - run: python -m pytest pipeline/tests/test_parent_service_audit.py -q
+      - name: Audit deployed data and prepare 20 research tasks
+        run: python -m pipeline.edutree.parent_service_audit --live --output parent-service-health.json --fail-unhealthy
+      - name: Retain audit even when stale
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parent-service-health
+          path: parent-service-health.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Show operational result
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path('parent-service-health.json')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              if not path.exists():
+                  out.write('Audit did not complete; health is unknown.\n')
+              else:
+                  d = json.loads(path.read_text())
+                  out.write(f"Public data age: {d['ageDays']} days. Issues: {d['problems']}.\n")
+                  out.write(f"Research tasks: {len(d['researchQueue'])}; model calls: 0.\n")
+                  out.write('Research queue only; no suitability verdicts or ranking changes.\n')
+          PY
