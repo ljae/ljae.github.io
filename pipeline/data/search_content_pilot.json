@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-11-09",
+  "hypothesis": "Use recorded subject and street address to make existing academy search snippets more specific, without claiming missing reviews or suitability.",
+  "treatmentIds": ["3000046567", "27249", "3000028288", "3000018730"],
+  "controlIds": ["3000037518", "3000028703", "3000012883", "5657"],
+  "reviewAfterDays": 28,
+  "primaryMetric": "Google organic search clicks to the existing canonical pages",
+  "guardrails": "No new ranking weights, invented facts, changed identities or new mass-generated landing pages. Low traffic may leave results inconclusive."
+}
