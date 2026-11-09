@@ -67,6 +67,9 @@ jobs:
           flutter-version: '3.41.2'
           channel: stable
           cache: true
+          # Avoid the action's repository-wide **/pubspec.lock hash, which
+          # fails on the large evidence wiki. Keep the Flutter SDK cache.
+          pub-cache: false
 
       - name: 의존성 설치
         working-directory: app
