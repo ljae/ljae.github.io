@@ -159,3 +159,28 @@ def test_manual_review_can_skip_all_public_data_writes():
     for name in ['Supabase 업로드 (키가 있을 때만)', '변경분 커밋']:
         condition = next(s['if'] for s in steps if s.get('name') == name)
         assert "github.event_name != 'workflow_dispatch' || inputs.publish_data" in condition
+
+
+def test_published_checkpoint_floor_and_receipt_are_preserved_by_cli(tmp_path, monkeypatch):
+    import base64
+    import sys
+    monkeypatch.chdir(tmp_path)
+    p = tmp_path/'app/assets/data/meta.json'; p.parent.mkdir(parents=True)
+    p.write_text(json.dumps({'rankingQuality': {'validMentions': 2},
+                             'evidenceContinuity': {'rawRows': 99}}))
+    monkeypatch.setenv('OPENEDU_EVIDENCE_BACKUP_KEY', base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())
+    monkeypatch.setenv('GH_REPO', 'owner/repo'); monkeypatch.setenv('GH_TOKEN', 'synthetic')
+    seen = []
+    def recover(*args):
+        seen.append(args[-1]); return {'rawRows': 99}
+    monkeypatch.setattr(backup, 'recover', recover)
+    monkeypatch.setattr(sys, 'argv', ['backup', 'restore'])
+    backup.main()
+    assert seen == [99]
+    monkeypatch.setattr(backup, 'checkpoint', lambda *args: {
+        'rawRows': 120, 'asset': 'evidence-cache-new.aes', 'sha256': 'a'*64, 'verified': True})
+    monkeypatch.setattr(sys, 'argv', ['backup', 'checkpoint'])
+    backup.main()
+    recorded = json.loads(p.read_text())['evidenceContinuity']
+    assert recorded['rawRows'] == 120 and recorded['verified']
+    assert recorded['checkpointSha256'] == 'a'*64
