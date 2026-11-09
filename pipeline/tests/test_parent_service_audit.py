@@ -67,3 +67,24 @@ def test_republishing_old_evidence_does_not_make_collection_fresh():
     assert 'stale_source:naver_blog' in report['problems']
     m['rankingQuality']['sourceHealth'] = {}
     assert 'source_health_unknown:naver_blog' in audit(m, [], now=NOW)['problems']
+
+
+def test_publication_holds_a_large_drop_without_loosening_source_filters():
+    from pipeline.edutree.parent_service_audit import publication_comparison
+    old = metadata(); old['rankingQuality']['validMentions'] = 26116
+    new = metadata(); new['rankingQuality']['validMentions'] = 6182
+    result = publication_comparison(new, old)
+    assert result['problems'] == ['evidence_coverage_drop_requires_review']
+    assert result['retainedShare'] < .25
+    for count in (18282, 26116, 30000):
+        new['rankingQuality']['validMentions'] = count
+        assert not publication_comparison(new, old)['problems']
+    assert old['rankingQuality']['validMentions'] == 26116
+
+
+@pytest.mark.parametrize('count', [None, '26116', True, -1])
+def test_unknown_publication_baseline_cannot_silently_pass(count):
+    from pipeline.edutree.parent_service_audit import publication_comparison
+    old = metadata(); old['rankingQuality']['validMentions'] = count
+    new = metadata(); new['rankingQuality']['validMentions'] = 20000
+    assert publication_comparison(new, old)['problems'] == ['publication_baseline_unknown']
