@@ -29,7 +29,7 @@
   let lastPage = null;
   let panel;
   let settingsButton;
-  const gtag = (...args) => { (window.dataLayer = window.dataLayer || []).push(args); };
+  function gtag() { (window.dataLayer = window.dataLayer || []).push(arguments); }
   const safeReferrer = () => { try { return new URL(document.referrer).origin; } catch (_) { return ''; } };
   function track() {
     const page = publicPage(location.href);
