@@ -147,6 +147,7 @@ def page(title: str, desc: str, canonical: str, body: str,
 <link rel="icon" href="{SITE}/favicon.ico" sizes="any">
 {scripts}
 <link rel="stylesheet" href="/seo.css">
+<!-- analytics:non-content:start --><script defer src="/analytics.js"></script><!-- analytics:non-content:end -->
 </head>
 <body>
 <header><a class="brand" href="/">학원실록</a><span class="by">by Open Edu</span></header>
@@ -163,6 +164,26 @@ def page(title: str, desc: str, canonical: str, body: str,
 """
 
 
+def search_metadata(a, model, region, treatment_ids):
+    """Small factual snippet pilot; preserve ordinary pages as controls."""
+    name = model['displayName']
+    title = f"{name} · {region} 학원 정보 | 학원실록"
+    desc = f"{region} {name}의 주소와 공시 등록 정보를 살펴보세요."
+    if str(a['id']) in treatment_ids:
+        subjects = '·'.join(row['label'] for row in model['subjects'] if row['id'] != 'general')
+        title = f"{name} | {region} {subjects} · 주소·등록정보 | 학원실록"
+        desc = f"{region} {name}."
+        if subjects:
+            desc += f" 등록 과목: {subjects}."
+        if model['address']:
+            desc += f" 주소: {model['address']}."
+        if model['contact']['phone']:
+            desc += f" 전화: {model['contact']['phone']}."
+    if model['grades']:
+        desc += ' 대상: ' + ', '.join(g['label'] + (' (' + g['basisLabel'] + ')' if str(a['id']) in treatment_ids else '') for g in model['grades']) + '.'
+    return title, desc
+
+
 def academy_pages(out: Path, academies, registry, regions, meta=None,
                   aliases=None) -> list[str]:
     region_name = {r["id"]: r["name_ko"] for r in regions}
@@ -171,6 +192,8 @@ def academy_pages(out: Path, academies, registry, regions, meta=None,
     if len(entities) != len(all_entities):
         raise ValueError("Duplicate academy ID in SEO input")
     evaluated_ids = {str(a["id"]) for a in academies}
+    pilot = json.loads((ROOT/'pipeline/data/search_content_pilot.json').read_text())
+    treatment_ids = set(pilot['treatmentIds'])
     groups = {}
     for a in all_entities:
         for subject in a.get("subjects") or []:
@@ -189,10 +212,7 @@ def academy_pages(out: Path, academies, registry, regions, meta=None,
         rid = model["regionId"]
         reg = region_name.get(rid, "")
         subs = " · ".join(x["label"] for x in model["subjects"])
-        title = f"{name} · {reg} 학원 정보 | 학원실록"
-        desc = f"{reg} {name}의 주소와 공시 등록 정보를 살펴보세요."
-        if model["grades"]:
-            desc += " 대상: " + ", ".join(g["label"] for g in model["grades"]) + "."
+        title, desc = search_metadata(a, model, reg, treatment_ids)
         body = [f'<h1>{esc(name)}</h1>', f'<p class="sub">{esc(reg)} · {esc(subs)}</p>']
         grade_text = "<br>".join(f'{esc(g["label"])} <small>({esc(g["basisLabel"])})</small>'
                                   for g in model["grades"]) or "대상 학년 미확인"
@@ -750,6 +770,8 @@ def main(target: str, *, manifest_path=None, previous_manifest=None, allow_remov
     aliases = validate_aliases(alias_data["entries"], entities)
     (out / "seo.css").write_text((ROOT / "pipeline/seo_templates/site.css").read_text(), encoding="utf-8")
     urls = [f"{SITE}/", f"{SITE}/openedu/"]
+    if (out / "privacy/index.html").is_file():
+        urls.append(f"{SITE}/privacy/")
     for existing in ("teachers.html", "roadmap.html", "assessment.html"):
         if (out / "openedu" / existing).is_file():
             urls.append(f"{SITE}/openedu/{existing}")
