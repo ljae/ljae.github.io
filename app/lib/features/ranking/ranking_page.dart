@@ -1,6 +1,4 @@
 import '../../widgets/content_loading.dart';
-import '../../data/academy_detail.dart';
-import '../../widgets/parent_journey.dart';
 import '../../widgets/ranking_data_notice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -181,9 +179,6 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                         subtitle:
                             '선택한 학군·과목·학년의 학원을 보여줍니다. 대상 학년 미확인 학원은 별도 목록에서 확인할 수 있습니다.',
                       ),
-                      ParentConcernBar(
-                        compact: MediaQuery.sizeOf(context).width < 600,
-                      ),
                       RankingDataNotice(generatedAt: data.meta.generatedAt),
                       TextField(
                         onChanged: (value) =>
@@ -342,13 +337,6 @@ class _RankingPageState extends ConsumerState<RankingPage> {
       itemCount: hits.length,
       itemBuilder: (context, index) {
         final hit = hits[index];
-        final academy = ref.read(dataProvider).value?.academyById[hit.id];
-        final entry = registry.where((r) => r.id == hit.id).firstOrNull;
-        final detail = academy != null
-            ? AcademyDetail.evaluated(academy)
-            : entry != null
-            ? AcademyDetail.listed(entry)
-            : null;
         return ContentWidth(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -364,7 +352,6 @@ class _RankingPageState extends ConsumerState<RankingPage> {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => context.go('/academy/${hit.id}'),
               ),
-              if (detail != null) ConcernPreview(detail: detail, compact: true),
             ],
           ),
         );

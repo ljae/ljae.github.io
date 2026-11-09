@@ -15,6 +15,7 @@ import 'package:edutree/data/riding_plan.dart';
 import 'package:edutree/data/source_notes.dart';
 import 'package:edutree/features/home/home_page.dart';
 import 'package:edutree/widgets/parent_journey.dart';
+import 'package:edutree/widgets/academy_card.dart';
 import 'package:edutree/widgets/riding_card.dart';
 import 'parent_comparison_test.dart' as fixture;
 
@@ -174,7 +175,7 @@ void main() {
   );
 
   testWidgets(
-    'opening explore waits for delayed data and keeps concern after a retry',
+    'opening explores real filters after delayed data and retry without concern prompts',
     (tester) async {
       tester.view.physicalSize = const Size(1440, 1100);
       tester.view.devicePixelRatio = 1;
@@ -201,13 +202,12 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.tap(find.text('숙제 부담이 걱정돼요'));
-      await tester.pump();
-      await tester.ensureVisible(find.text('이 고민으로 학원 살펴보기'));
-      await tester.tap(find.text('이 고민으로 학원 살펴보기'));
+      c.read(parentConcernProvider.notifier).choose('homework');
+      expect(find.text('숙제 부담이 걱정돼요'), findsNothing);
+      await tester.tap(find.text('학원 살펴보기'));
       await tester.pump();
       expect(
-        find.text('학원 목록을 불러오고 있어요. 준비되면 선택한 고민으로 이어집니다.'),
+        find.text('학원 목록을 불러오고 있어요. 준비되면 선택한 조건으로 이어집니다.'),
         findsOneWidget,
       );
       expect(find.text('학원명 또는 별칭을 입력하세요'), findsNothing);
@@ -226,15 +226,58 @@ void main() {
       await tester.pumpAndSettle();
       expect(attempts, 2);
       expect(c.read(parentConcernProvider), 'homework');
-      expect(find.text('숙제 부담부터 살펴보고 있어요'), findsOneWidget);
+      expect(find.byType(ParentConcernBar), findsNothing);
+      expect(find.text('숙제 부담부터 살펴보고 있어요'), findsNothing);
       expect(
-        tester.getTopLeft(find.byType(ParentConcernBar)).dy,
+        tester.getTopLeft(find.text('어디에서, 무엇을 배우나요?')).dy,
         inInclusiveRange(0, 250),
       );
       expect(find.text('학원명 또는 별칭을 입력하세요'), findsNothing);
       expect(tester.takeException(), isNull);
     },
     skip: !Env.parentOpeningEnabled,
+  );
+
+  testWidgets(
+    'saved concern never adds missing-information panels to academy cards',
+    (tester) async {
+      final d = fixture.academy('1', []);
+      final c = ProviderContainer(
+        overrides: [sourceNotesProvider.overrideWith((_) async => [])],
+      );
+      addTearDown(c.dispose);
+      c.read(parentConcernProvider.notifier).choose('homework');
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: c,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    AcademyCard(academy: d.academy!),
+                    AcademyDecisionSection(detail: d),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(ConcernPreview), findsNothing);
+      expect(find.byType(ParentConcernBar), findsNothing);
+      expect(find.textContaining('자료가 아직 부족해요'), findsNothing);
+      expect(find.text('세부 과정 확인 중'), findsNothing);
+      expect(find.text('학원에 직접 문의'), findsNothing);
+      expect(find.text('비교 담기'), findsOneWidget);
+      await tester.tap(find.text('비교 담기'));
+      await tester.pump();
+      expect(c.read(compareProvider), contains('1'));
+      expect(find.text('비교에서 빼기'), findsOneWidget);
+      expect(find.text('라이딩·셔틀과 하원'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
   );
 
   testWidgets(

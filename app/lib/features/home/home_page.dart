@@ -1,5 +1,4 @@
 import '../../widgets/content_loading.dart';
-import '../../widgets/parent_journey.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +33,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     } else if (!_explorePending) {
       _explorePending = true;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('학원 목록을 불러오고 있어요. 준비되면 선택한 고민으로 이어집니다.')),
+        const SnackBar(content: Text('학원 목록을 불러오고 있어요. 준비되면 선택한 조건으로 이어집니다.')),
       );
     }
   }
@@ -68,7 +67,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('데이터를 불러오지 못했습니다. 선택한 고민은 유지됩니다.'),
+                const Text('학원 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'),
                 TextButton(
                   onPressed: () => ref.invalidate(dataProvider),
                   child: const Text('학원 목록 다시 불러오기'),
@@ -201,7 +200,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('어디에서, 무엇을 배우나요?', style: text.headlineMedium),
-                        const ParentConcernBar(),
                         const SizedBox(height: 8),
                         Text(
                           '학군과 아이의 학년을 고르면 조건에 맞는 학원을 보여드려요.',
