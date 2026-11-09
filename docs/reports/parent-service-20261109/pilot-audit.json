@@ -1,0 +1,511 @@
+{
+  "checkedAt": "2026-11-09T10:42:17.213643+00:00",
+  "generatedAt": "2026-10-19T23:47:08.469366+00:00",
+  "ageDays": 20.45,
+  "healthy": false,
+  "problems": [
+    "stale_public_data",
+    "stale_source:naver_blog",
+    "stale_source:naver_cafe"
+  ],
+  "sourceAgeDays": {
+    "naver_blog": 20.47,
+    "naver_cafe": 20.47
+  },
+  "pilot": {
+    "region": "mokdong",
+    "subject": "math",
+    "grade": "elementary",
+    "eligible": 75,
+    "gradeUnknown": 64
+  },
+  "datedShare": 0.2568,
+  "researchQueue": [
+    {
+      "id": "26936",
+      "name": "시매쓰목동학원",
+      "address": "서울특별시 양천구 목동서로 299",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "official",
+        "elem_high": "official"
+      },
+      "ranked": true,
+      "gaps": [
+        "decision_profile_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "시매쓰목동학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/26936.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000014650",
+      "name": "고쌤수학교습소",
+      "address": "서울특별시 양천구 목동서로 77",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "고쌤수학교습소 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000014650.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000054870",
+      "name": "꼼꼼수학국어루미북학원",
+      "address": "서울특별시 양천구 신목로 83",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "꼼꼼수학국어루미북학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000054870.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "10654",
+      "name": "와이즈만영재교육학원",
+      "address": "서울특별시 양천구 목동동로 379",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "curated",
+        "elem_high": "curated"
+      },
+      "ranked": true,
+      "gaps": [],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "와이즈만영재교육학원 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/10654.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000018500",
+      "name": "브레인스토밍사고력수학교습소",
+      "address": "서울특별시 양천구 목동서로 340",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "브레인스토밍사고력수학교습소 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000018500.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "1000032627",
+      "name": "멘사매쓰학원",
+      "address": "서울특별시 양천구 목동중앙로 135",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "멘사매쓰학원 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/1000032627.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "18037",
+      "name": "씨엠에스보습학원",
+      "address": "서울특별시 양천구 목동서로 133",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "curated",
+        "elem_high": "curated"
+      },
+      "ranked": true,
+      "gaps": [],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "씨엠에스보습학원 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/18037.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000019289",
+      "name": "목동오름수학교습소",
+      "address": "서울특별시 양천구 목동서로 340",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "목동오름수학교습소 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000019289.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "1000033209",
+      "name": "아드폰테스",
+      "address": "서울특별시 양천구 목동중앙로 73",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "아드폰테스 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/1000033209.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000016420",
+      "name": "수학도서관",
+      "address": "서울특별시 양천구 목동동로 391",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": true,
+      "gaps": [],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "수학도서관 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000016420.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000019475",
+      "name": "200수학교습소",
+      "address": "서울특별시 양천구 목동서로2길 22",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "200수학교습소 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000019475.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "1000033870",
+      "name": "힘찬수학학원",
+      "address": "서울특별시 양천구 은행정로 5",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "힘찬수학학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/1000033870.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000021025",
+      "name": "수학의힘수학교습소",
+      "address": "서울특별시 양천구 목동서로 77",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "수학의힘수학교습소 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000021025.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "13926",
+      "name": "돌파학원",
+      "address": "서울특별시 양천구 은행정로 5",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "돌파학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/13926.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000027280",
+      "name": "더블엠수학교습소",
+      "address": "서울특별시 양천구 목동서로 133-2",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "더블엠수학교습소 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000027280.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "16050",
+      "name": "수코어수학학원",
+      "address": "서울특별시 양천구 목동남로4길 60",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "수코어수학학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/16050.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000035613",
+      "name": "강남쌤수학교습소",
+      "address": "서울특별시 양천구 목동남로4길 6-23",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "강남쌤수학교습소 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000035613.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "18521",
+      "name": "책글플러스지엠수학학원",
+      "address": "서울특별시 양천구 목동동로12길 20",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "책글플러스지엠수학학원 신정동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/18521.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "3000037533",
+      "name": "효도수학교습소",
+      "address": "서울특별시 양천구 목동동로 391",
+      "gradeStatus": "recorded",
+      "gradeBasis": {
+        "elem_low": "registered",
+        "elem_high": "registered"
+      },
+      "ranked": false,
+      "gaps": [
+        "branch_contact_missing",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "효도수학교습소 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/3000037533.html",
+      "fitVerdict": "not_assessed"
+    },
+    {
+      "id": "18595",
+      "name": "목동센터프라임수학학원",
+      "address": "서울특별시 양천구 목동서로 49",
+      "gradeStatus": "unknown",
+      "gradeBasis": {},
+      "ranked": false,
+      "gaps": [
+        "subject_grade_unconfirmed",
+        "decision_profile_missing",
+        "review_evidence_missing"
+      ],
+      "nextAction": "verify_branch_official_sources",
+      "searchQuery": "목동센터프라임수학학원 목동 초등 모집 공식",
+      "consultationQuestions": {
+        "foundations": "현재 수준을 어떻게 확인하고 기초가 부족한 단원은 어떻게 보완하나요?",
+        "homework": "해당 학년·반의 하루 과제 시간과 미완료 시 지도 방식은 무엇인가요?",
+        "questions": "아이가 질문하기 어려워할 때 개별 피드백을 어떻게 제공하나요?",
+        "travel": "이 지점의 실제 수업 종료 시간과 하원·셔틀 경로를 확인할 수 있나요?"
+      },
+      "profileUrl": "https://openedu4u.com/a/18595.html",
+      "fitVerdict": "not_assessed"
+    }
+  ],
+  "publication": "research_only",
+  "modelCalls": 0,
+  "acceptance": "Every fit reason must resolve to branch-specific evidence; unknowns remain visible."
+}
