@@ -260,10 +260,18 @@ def main():
     repo, token = os.environ['GH_REPO'], os.environ['GH_TOKEN']
     if args.command == 'restore':
         meta = json.loads(Path('app/assets/data/meta.json').read_text())
-        minimum = max(1, int(meta.get('rankingQuality', {}).get('validMentions', 0)))
+        minimum = max(1, int(meta.get('rankingQuality', {}).get('validMentions', 0)),
+                      int(meta.get('evidenceContinuity', {}).get('rawRows', 0)))
         result = recover(args.cache, args.seed, key, repo, token, minimum)
     else:
         result = checkpoint(args.cache, key, repo, token)
+        meta_path = Path('app/assets/data/meta.json')
+        meta = json.loads(meta_path.read_text())
+        meta['evidenceContinuity'] = {'rawRows': result['rawRows'],
+                                     'checkpointAsset': result['asset'],
+                                     'checkpointSha256': result['sha256'],
+                                     'verified': result['verified']}
+        meta_path.write_text(json.dumps(meta, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(result))
 
 
