@@ -39,6 +39,8 @@
     if (!loaded) {
       loaded = true;
       window.gtag = gtag;
+      // Apply before tag initialization to suppress its implicit first page view.
+      gtag('set', {send_page_view: false, ...(DEBUG ? {debug_mode: true} : {})});
       gtag('consent', 'default', {analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'});
       gtag('set', 'page_location', page);
       gtag('set', 'page_referrer', safeReferrer());
