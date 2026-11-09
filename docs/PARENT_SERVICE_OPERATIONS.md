@@ -79,3 +79,39 @@ relevant tests, and verify the public result. Keep scoring weights unchanged.
 
 Schedules become active only after the workflow reaches the default branch.
 Actual deployment and run outcomes are recorded in the dated pilot report.
+
+## Evidence continuity and recovery
+
+The 2026-11-09 recovery found that the GitHub source cache had expired during the
+collection outage. A new empty collection must never be treated as a replacement
+for the accumulated source history. The recovery seed contains the available
+ORICO snapshot (94,577 raw records, last written October 17), not a complete
+reconstruction of the later October 20 source cache. Existing exports and wiki
+history remain preserved in Git.
+
+- `evidence_backup restore` runs before collection. It restores an authenticated,
+  encrypted durable checkpoint when the ordinary cache cannot prove continuity.
+  Existing independently collected records are merged, and original first-seen
+  dates are preserved. Missing keys, invalid archives and insufficient evidence
+  stop the run before new collection.
+- `evidence_backup checkpoint` runs after validation and before public data or
+  mirror writes. It uploads an encrypted checkpoint to the dedicated
+  `evidence-checkpoints` prerelease, downloads it again to verify the exact bytes,
+  then retains the newest three successful checkpoints. Cleanup failures are
+  reported; a failed/unverified upload never authorizes pruning or publication.
+- Only whitelisted cache files are backed up. No `.env` or credentials enter the
+  archive. The repository stores only encrypted recovery parts; the 32-byte key
+  is held in `OPENEDU_EVIDENCE_BACKUP_KEY` and private local key backups.
+- Collection receives the existing Supabase credentials so reviewed rules and
+  verdicts can be read, rather than making them available only to mirror upload.
+- For recovery review, run `rescore_only=true`, specify at most 20 target academy
+  IDs, refresh NEIS if needed, and set `publish_data=false`. Inspect the ranked-data
+  artifact and cohort/evidence changes. This retains encrypted evidence but skips
+  public ranking commits and mirror writes. A subsequent reviewed cache rescore
+  with publication enabled can publish without repeating the API research.
+- An archive creation date is not a collection date or a post publication date.
+  Source-health dates and unknown publication dates keep their original meaning.
+- Public ranking and mirror writes also require the source-freshness audit to
+  pass. A fresh generation timestamp cannot disguise stale/unavailable blog or
+  cafe collection. Failed publication checks retain a health artifact and leave
+  the existing public dataset in place; encrypted evidence is still preserved.

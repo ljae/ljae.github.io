@@ -1,0 +1,20 @@
+{
+  "encrypted": true,
+  "bytes": 27139173,
+  "sha256": "eeda32d2eacfba34205fdf8e2a1a8ddc69fef41ae34b874240449d3f551b35ad",
+  "rawRows": 94577,
+  "files": [
+    "mention_store.json.gz",
+    "first_seen.json",
+    "collect_history.json",
+    "neis_academies.json",
+    "profiles.json",
+    "claim_llm.json",
+    "post_summaries.json",
+    "blog_texts.json",
+    "source_health.json"
+  ],
+  "archiveCreatedAt": "2026-11-09T11:28:45.346590+00:00",
+  "rawSourceSnapshot": "ORICO cache last written 2026-10-17; not a new collection date",
+  "keyPublished": false
+}
