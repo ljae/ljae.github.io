@@ -121,3 +121,50 @@ history remain preserved in Git.
   writes for investigation. This is a release guard, not proof that old evidence
   was correct; attribution filters must never be loosened to make counts pass.
   A legitimate large correction needs a separately reviewed migration and replay.
+
+## Low-token local daily review (2026-11-09)
+
+The user authorised a daily update routine with local inference and small budgets.
+The existing GitHub 04:00 collector and 07:30 public freshness audit remain the
+collection/publication owners. New local job `work.itdo.openedu-daily` is a small
+research review, not a second full ranking collector or an additional persona.
+
+- 08:00 Asia/Seoul, once per date, beginning the day after installation. The local
+  five-minute scheduler can catch up later that day if the Mac was asleep.
+- Public Mokdong × elementary maths pilot only. Rotate two branches from the
+  existing 20-item gap worklist. No family, child, Gmail or customer context.
+- Python calls the existing Naver web-search API directly: two branch queries,
+  three results each, at most four HTTP requests including connection detection.
+  No paging, automatic retries, result-page crawling or new search subscription.
+- Hash returned content. Unchanged branches need no local-model call. Changed
+  snippets receive at most one digest-pinned local Qwen call per date: 3,072-token
+  context, 256 output tokens, conservative byte admission and no thinking mode.
+  Actual input/output counts are retained; local API spend is distinct from
+  electricity, equipment and any existing search-service costs.
+- The shared local-model admission queue gives routine and interactive requests
+  priority. Busy, held, unavailable or changed models stop this attempt. There is
+  no cloud fallback, model download, paid escalation or repeated same-day retry.
+- Qwen can only select supplied result IDs for follow-up. It cannot publish facts,
+  change scores, promote search snippets into verified grade claims, send messages,
+  invoke tools or change its search/permission limits. Official branch verification
+  remains a separate evidence step. The existing coverage publication hold remains.
+- Atomic daily receipts and a readable latest report stay on ORICO in
+  `pipeline/.cache/parent-daily/`. Interrupted attempts are retained and do not replay.
+  A stale public service makes the local report partial, never a successful update.
+- Installation pins source/adapter hashes and the model ID/digest. A changed binding
+  requires a reviewed migration. The launcher has a 300-second outer watchdog;
+  the local request has the shared adapter's 90-second timeout.
+
+```sh
+/Volumes/ORICO/wixxim/runtime/.venv/bin/python pipeline/install_parent_daily.py
+/Volumes/ORICO/wixxim/runtime/.venv/bin/python -m pipeline.edutree.parent_daily status
+/Volumes/ORICO/wixxim/runtime/.venv/bin/python -m pipeline.edutree.parent_daily pause
+/Volumes/ORICO/wixxim/runtime/.venv/bin/python -m pipeline.edutree.parent_daily resume
+```
+
+Read `pipeline/.cache/parent-daily/latest.md` and `latest.json` for the observed
+result. `run` performs one explicit acceptance attempt for the current date; it
+shares the once-per-day receipt. Rollback: pause, then boot out
+`gui/$(id -u)/work.itdo.openedu-daily`; preserve receipts and history. Installation
+and a manual run do not prove a future 08:00 run or a reboot. The Mac must be
+signed in and ORICO mounted; absent storage does not create an internal copy.
