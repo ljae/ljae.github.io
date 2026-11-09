@@ -123,6 +123,7 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
         var explored = false;
+        var searched = false;
         await tester.pumpWidget(
           UncontrolledProviderScope(
             container: container,
@@ -138,7 +139,7 @@ void main() {
                   child: SingleChildScrollView(
                     child: ParentOpening(
                       onExplore: () => explored = true,
-                      onSearch: () {},
+                      onSearch: () => searched = true,
                     ),
                   ),
                 ),
@@ -151,11 +152,10 @@ void main() {
         await tester.ensureVisible(find.text('학원 살펴보기'));
         await tester.tap(find.text('학원 살펴보기'));
         expect(explored, isTrue);
-        await tester.ensureVisible(find.text(parentConcerns['homework']!));
-        await tester.tap(find.text(parentConcerns['homework']!));
-        await tester.pump();
-        expect(container.read(parentConcernProvider), 'homework');
-        expect(find.text(concernQuestions['homework']!), findsOneWidget);
+        expect(find.text(parentConcerns['homework']!), findsNothing);
+        await tester.ensureVisible(find.text('학원 이름으로 바로 찾기'));
+        await tester.tap(find.text('학원 이름으로 바로 찾기'));
+        expect(searched, isTrue);
         expect(tester.takeException(), isNull);
         container.read(parentConcernProvider.notifier).choose(null);
       });
