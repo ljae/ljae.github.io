@@ -198,6 +198,38 @@
         "canonicalAddress": "서울특별시 양천구 목동중앙서로 22-1",
         "interpretation": "현재 통합 등록 자료의 registrationIds에 이전 ID가 명시됨. 이전 주소와 현재 대표 주소는 다름. 이름·주소 유사도만으로 연결하지 않음."
       }
+    },
+    {
+      "oldId": "3000052565",
+      "canonicalId": "3000030824",
+      "status": "verified",
+      "reviewedAt": "2026-11-09",
+      "evidence": {
+        "method": "neis_same_address_brand_and_explicit_registration_membership",
+        "source": "NEIS cached public registry; published registrationIds; current old URL HTTP 404",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "수학의힘대치학원",
+        "canonicalRegisteredName": "수학의힘대치1본원학원",
+        "address": "서울특별시 강남구 삼성로 221",
+        "region": "daechi",
+        "interpretation": "같은 브랜드·건물의 관/과정 등록 통합. 현재 통합 registrationIds에 이전 ID가 명시됨. 층·호수 및 실제 모집은 지점에 확인."
+      }
+    },
+    {
+      "oldId": "3000052139",
+      "canonicalId": "3000052110",
+      "status": "verified",
+      "reviewedAt": "2026-11-09",
+      "evidence": {
+        "method": "neis_same_address_brand_and_explicit_registration_membership",
+        "source": "NEIS cached public registry; published registrationIds; current old URL HTTP 404",
+        "sourceSha256": "d5ef7107fb4fe2ea0813170bcbdb5b3feda3a26ef993707193a948e643aa74c0",
+        "oldName": "대치개선교육6관학원",
+        "canonicalRegisteredName": "대치개선교육7관학원",
+        "address": "서울특별시 강남구 삼성로 343",
+        "region": "daechi",
+        "interpretation": "같은 브랜드·건물의 관/과정 등록 통합. 현재 통합 registrationIds에 이전 ID가 명시됨. 층·호수 및 실제 모집은 지점에 확인."
+      }
     }
   ]
 }

@@ -34,6 +34,8 @@ class PageParser(HTMLParser):
 def semantic_hash(document: str) -> str:
     # Export freshness is useful to a reader but is not a substantive fact change.
     document = re.sub(r'<p[^>]*data-generated-at="true"[^>]*>.*?</p>', '', document, flags=re.S)
+    # Instrumentation is not a new academy fact. Keep legacy article hashes stable.
+    document = re.sub(r'\s*<!-- analytics:non-content:start -->.*?<!-- analytics:non-content:end -->', '', document, flags=re.S)
     return hashlib.sha256(document.encode()).hexdigest()
 
 

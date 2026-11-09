@@ -102,3 +102,44 @@ SQL 회귀는 프로젝트 의존성을 추가하지 않고 임시 디렉터리�
 Astra Extra High 검토에 따라 타인 명의·상세 주소가 다른 피아노교습소 URL 연결 1건을 제외했다. 나머지 10건은 같은 브랜드·건물의 관/과정 통합이며 이전·현재 층/호수 근거를 보존한다. 같은 기간 재수집 시 최신 스냅샷 선택, 상세 로딩 재시도, 화면 전환 중 URL 복원 방어, 호환 URL 제거 감지, 공개 배포 폴더의 분석 출력 차단을 보완했다. 배포 원장은 캐시 누락 시 성공한 main 배포 artifact에서 복원하고, 최초 bootstrap은 경고로 명시한다.
 
 Ego Lite에서 목동 허브의 탐색 버튼을 눌러 `/#/rank?region=mokdong`과 목동 학원 목록이 표시되는 것을 확인했다. 한선영어학원 상세는 반포 문맥을 복원하며 미확인 학년·수강료를 임의 추정하지 않는다.
+
+## 2026-11-09 — visitor measurement and bounded search pilot
+
+The existing `openedu-search-growth` Search Console API/OAuth integration and
+09:30 KST reporting schedule remain active. They measure Google search exposure
+and clicks, not total visitors. Google's Custom Search JSON API is closed to new
+customers; no replacement paid web-search subscription was added.
+
+The user chose a separate OpenEdu GA4 property with advertising features off.
+`app/web/analytics.js` uses basic, explicit analytics consent and a dedicated public
+measurement ID. No Google tag loads before consent. It permits only academy-site
+public routes, removes query parameters and private hash state from page locations,
+passes only an origin as referrer, disables advertising signals and deduplicates
+filter changes. Administrator/account/token routes disable collection. Enhanced
+measurement is off in GA4, so forms, searches, outgoing-link content and automatic
+SPA history events are not collected. Developer QA events carry a debug marker;
+verify the active Developer Traffic filter before live QA sends.
+
+`/privacy/` explains consent, excluded data, retention and changing the choice.
+The visitor measure covers consenting traffic after activation; it cannot recover
+historical visitor numbers or represent blocked/non-consenting visits. Search
+Console and Analytics counts must not be merged or labeled as the same metric.
+
+Two reviewed same-brand/same-building registration mappings restore previously
+broken academy URLs through the existing compatibility-page/canonical mechanism.
+Mappings with different addresses remain outside this small fix. This is not a
+claim that all historical 404s are fixed or that the earlier traffic-drop cause
+has been established.
+
+`pipeline/data/search_content_pilot.json` bounds a four-page snippet experiment.
+Only existing recorded subjects, street addresses, contact and grade basis enter
+metadata. Controls retain their earlier metadata; no score, grade or suitability
+is inferred from traffic. Check complete 28-day page click/impression periods;
+low traffic can leave the result inconclusive. Analytics markup does not advance
+semantic article modification dates.
+
+Actual reports, query exports, account IDs, test receipts and measured results
+remain private under `pipeline/.cache/growth/20261109/`; public source contains no
+OAuth credentials or raw search queries. The separate local 08:00 daily review
+uses at most one Qwen call for changed source snippets. Existing source/evidence
+coverage gates continue to hold unsafe ranking publication.
