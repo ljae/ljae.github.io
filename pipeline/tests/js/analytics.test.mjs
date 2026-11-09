@@ -80,6 +80,8 @@ test('development hosts never create analytics UI or third-party requests',()=>{
 test('the Google command queue uses the documented arguments-object contract',()=>{
  const b=browser('https://openedu4u.com/','granted');
  for(const command of b.window.dataLayer) assert.equal(Object.prototype.toString.call(command),'[object Arguments]');
+ assert.equal(b.window.dataLayer[0][0],'set');
+ assert.equal(b.window.dataLayer[0][1].send_page_view,false);
  assert.ok(b.window.dataLayer.some(r=>r[0]==='config'));
  assert.ok(b.window.dataLayer.some(r=>r[0]==='event' && r[1]==='page_view'));
 });
