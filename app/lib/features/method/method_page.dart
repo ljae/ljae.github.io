@@ -6,6 +6,7 @@ import '../../core/brand.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/corrections.dart';
+import '../feedback/correction_reply.dart';
 import '../../data/repository.dart';
 import '../../widgets/common.dart';
 
@@ -619,12 +620,12 @@ class _CorrectionFormState extends ConsumerState<_CorrectionForm> {
           const SizedBox(height: 6),
           Text(
             '학원 운영자 또는 관계자가 사실과 다른 내용을 발견한 경우 정정을 요청할 수 있습니다. '
-            '로그인은 필요 없습니다. 접수 내용은 공개되지 않으며 운영자가 직접 검토합니다. '
-            '자동으로 반영하지 않는 이유는, 창구가 곧 편집권이 되면 그것도 또 다른 왜곡이기 '
-            '때문입니다. 남겨 주신 연락처로 7일 이내에 처리 결과를 회신합니다.',
+            '로그인은 필요 없습니다. AI가 공개 근거를 검토하며, 확인된 단순 정보는 반영합니다. '
+            '학원을 특정하지 못하거나 근거가 부족하면 담당자가 확인합니다. 처리 결과는 이 기기에서 확인할 수 있습니다.',
             style: text.bodyMedium,
           ),
           const SizedBox(height: AppSpace.md),
+          if (_sent) const CorrectionReplyPanel(academyKey: 'unmatched'),
           if (_sent)
             Container(
               padding: const EdgeInsets.all(AppSpace.md),
@@ -638,8 +639,7 @@ class _CorrectionFormState extends ConsumerState<_CorrectionForm> {
                 const SizedBox(width: AppSpace.sm),
                 Expanded(
                   child: Text(
-                    '접수되었습니다. 남겨 주신 연락처로 7일 이내에 처리 결과를 '
-                    '회신드립니다.',
+                    '접수되었습니다. 위의 AI 답변 확인 버튼에서 처리 상태와 검토 결과를 확인해 주세요.',
                     style: text.bodyMedium,
                   ),
                 ),

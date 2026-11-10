@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/contact_view_model.dart';
+import '../../data/verified_facts.dart';
 import '../../data/parent_decision.dart';
 // 근거 신고 시트가 쓴다. 레벨테스트 예약 대행은 없앴지만(2026-09-05)
 // 신고 접수는 남는다 — 그쪽은 우리가 처리해야 하는 일이다.
@@ -32,7 +33,12 @@ class ContactCard extends ConsumerWidget {
     : assert(academy != null || contact != null);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final c = contact ?? ContactViewModel.fromAcademy(academy!);
+    final base = contact ?? ContactViewModel.fromAcademy(academy!);
+    final c = applyVerifiedPhone(
+      base,
+      ref.watch(verifiedPhoneProvider(base.academyId)).asData?.value,
+      DateTime.now(),
+    );
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),

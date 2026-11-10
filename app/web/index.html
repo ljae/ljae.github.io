@@ -394,6 +394,10 @@
             }
           }, 250);
         } else {
+          // Clear previous-region bounds before moving; the SDK clamps otherwise.
+          map.__relock = false;
+          map.__fit = null;
+          map.setOptions({ minZoom: 6, maxBounds: null });
           map.setCenter(new naver.maps.LatLng(lat, lng));
           map.setZoom(zoom);
         }
@@ -511,7 +515,17 @@
       }
       // 진단용. 콘솔에서 지도 상태를 확인할 때 쓴다.
       function get(id) { return instances[id]; }
-      return { init: init, ready: ready, get: get };
+      function destroy(id) {
+        var map = instances[id];
+        if (!map) return;
+        clearInterval(map.__watch);
+        document.removeEventListener('visibilitychange', map.__wake);
+        if (map.__idle) naver.maps.Event.removeListener(map.__idle);
+        (map.__markers || []).forEach(function (m) { m.setMap(null); });
+        (map.__polys || []).forEach(function (p) { p.setMap(null); });
+        delete instances[id];
+      }
+      return { init: init, ready: ready, get: get, destroy: destroy };
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>

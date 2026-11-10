@@ -14,6 +14,7 @@ class BoardPost {
   final String? regionId;
   final String title;
   final String body;
+  final String? agentReply;
   final bool isOfficial;
   final String? officialKind;
   final List<String> academyKeys;
@@ -28,6 +29,7 @@ class BoardPost {
     this.regionId,
     required this.title,
     required this.body,
+    this.agentReply,
     required this.isOfficial,
     this.officialKind,
     required this.academyKeys,
@@ -45,6 +47,7 @@ class BoardPost {
       regionId: r['region_id'] as String?,
       title: (r['title'] ?? '') as String,
       body: (r['body'] ?? '') as String,
+      agentReply: r['agent_reply'] as String?,
       isOfficial: (r['is_official'] ?? false) as bool,
       officialKind: r['official_kind'] as String?,
       academyKeys: ((r['academy_keys'] as List?) ?? const []).cast<String>(),
@@ -70,11 +73,13 @@ class BoardComment {
   final String id;
   final String nickname;
   final String body;
+  final String? agentReply;
   final DateTime createdAt;
   const BoardComment({
     required this.id,
     required this.nickname,
     required this.body,
+    this.agentReply,
     required this.createdAt,
   });
 
@@ -84,6 +89,7 @@ class BoardComment {
       id: r['id'] as String,
       nickname: (profile?['nickname'] ?? '학부모') as String,
       body: (r['body'] ?? '') as String,
+      agentReply: r['agent_reply'] as String?,
       createdAt: DateTime.tryParse('${r['created_at']}') ?? DateTime.now(),
     );
   }
@@ -91,7 +97,7 @@ class BoardComment {
 
 const _postSelect =
     'id, category, region_id, title, body, is_official, official_kind, '
-    'academy_keys, view_count, comment_count, created_at, profiles(nickname)';
+    'academy_keys, view_count, comment_count, created_at, agent_reply, profiles(nickname)';
 
 class BoardService {
   const BoardService();
@@ -142,7 +148,7 @@ class BoardService {
   Future<List<BoardComment>> comments(String postId) async {
     final rows = await _db
         .from('board_comments')
-        .select('id, body, created_at, profiles(nickname)')
+        .select('id, body, agent_reply, created_at, profiles(nickname)')
         .eq('post_id', postId)
         .eq('status', 'published')
         .order('created_at');

@@ -16,6 +16,7 @@ class UserReview {
   final String nickname;
   final int rating;
   final String body;
+  final String? agentReply;
   final Map<String, dynamic> aspects;
 
   /// 구조화 태그 — 학년·과목·키워드. '초2 학부모의 수학 후기'만 걸러
@@ -36,6 +37,7 @@ class UserReview {
     required this.nickname,
     required this.rating,
     required this.body,
+    this.agentReply,
     required this.aspects,
     this.gradeBand,
     this.subject,
@@ -51,6 +53,7 @@ class UserReview {
         nickname: (r['nickname'] ?? '익명') as String,
         rating: (r['rating'] as num).toInt(),
         body: (r['body'] ?? '') as String,
+        agentReply: r['agent_reply'] as String?,
         aspects: (r['aspects'] as Map?)?.cast<String, dynamic>() ?? const {},
         gradeBand: r['grade_band'] as String?,
         subject: r['subject'] as String?,
@@ -73,7 +76,7 @@ class ReviewService {
     final rows = await _db
         .from('user_reviews')
         .select('id, academy_key, rating, body, aspects, grade_band, subject, tags, '
-        'verified, '
+        'verified, agent_reply, '
         'created_at, author_id, '
             'profiles(nickname)')
         .eq('academy_key', academyId)

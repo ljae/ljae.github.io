@@ -134,12 +134,14 @@ jobs:
         with:
           node-version: '22'
       - name: Consent and public-only analytics regression checks
-        run: node --test pipeline/tests/js/analytics.test.mjs
+        run: node --test pipeline/tests/js/*.test.mjs
       - name: 학부모 의견 DB·HTTP 권한 회귀 검증
         run: |
           npm install --prefix pipeline/.cache/parent-voice-check --no-audit --no-fund @electric-sql/pglite@0.5.10 tsx@4.23.15
           PGLITE_MODULE="file://$PWD/pipeline/.cache/parent-voice-check/node_modules/@electric-sql/pglite/dist/index.js" \
             node --import "$PWD/pipeline/.cache/parent-voice-check/node_modules/tsx/dist/loader.mjs" pipeline/tests/parent_voice_sql_test.mjs
+          PGLITE_MODULE="file://$PWD/pipeline/.cache/parent-voice-check/node_modules/@electric-sql/pglite/dist/index.js" \
+            node pipeline/tests/feedback_agent_sql_test.mjs
 
       - name: 이전 성공 배포의 페이지 변경 원장 복원
         uses: actions/cache/restore@v4

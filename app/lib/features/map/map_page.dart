@@ -62,7 +62,6 @@ class _MapPageState extends ConsumerState<MapPage> {
       });
     }
 
-
     return async.when(
       loading: () => const ContentLoading(),
       error: (e, _) => Center(child: Text('$e')),
@@ -166,7 +165,10 @@ class _MapPageState extends ConsumerState<MapPage> {
                   ),
                   const SizedBox(height: AppSpace.lg),
                   if (apartments.isNotEmpty)
-                    _ApartmentList(apartments: apartments)
+                    MapApartmentList(
+                      key: ValueKey(sel.regionId),
+                      apartments: apartments,
+                    )
                   else if (_showApartments)
                     // 켜 두었는데 비었다면 자료가 없는 것이다. 조용히 비우면
                     // '이 기능이 없다' 로 읽힌다 — 없는 것은 없다고 적는다.
@@ -259,9 +261,7 @@ class _MapSurface extends StatelessWidget {
     s = s.replaceAll(RegExp(r'아파트'), '');
     s = s.replaceAll(RegExp(r'\s+'), ' ').trim();
     if (s.isEmpty) s = name;
-    return s.characters.length > 9
-        ? '${s.characters.take(9)}…'
-        : s;
+    return s.characters.length > 9 ? '${s.characters.take(9)}…' : s;
   }
 
   String _markers() {
@@ -363,6 +363,7 @@ class _MapSurface extends StatelessWidget {
         aspectRatio: 16 / 10,
         child: usable
             ? NaverMapView(
+                key: ValueKey(region?.id ?? "all"),
                 // '전체'일 때는 4개 학군 중심의 평균으로 잡고 한 단계 넓게 본다.
                 lat: allRegions && regions.isNotEmpty
                     ? regions.map((r) => r.lat).reduce((a, b) => a + b) /
@@ -483,15 +484,31 @@ class _Schematic extends StatelessWidget {
 }
 
 /// 아파트별 배정 학교. 학부모가 실제로 찾는 정보라 목록으로도 둔다.
-class _ApartmentList extends StatelessWidget {
+class MapApartmentList extends StatefulWidget {
   final List<Apartment> apartments;
-  const _ApartmentList({required this.apartments});
+  const MapApartmentList({super.key, required this.apartments});
+  @override
+  State<MapApartmentList> createState() => _MapApartmentListState();
+}
+
+class _MapApartmentListState extends State<MapApartmentList> {
+  String _query = "";
+  int _limit = 20;
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final rows = apartments.take(40).toList();
+    String compact(String s) => s.replaceAll(RegExp(r"\s+"), "").toLowerCase();
+    final query = compact(_query);
+    final apartments = widget.apartments
+        .where(
+          (a) =>
+              query.isEmpty ||
+              compact("${a.name} ${a.address ?? ''}").contains(query),
+        )
+        .toList();
+    final rows = apartments.take(_limit).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -502,6 +519,19 @@ class _ApartmentList extends StatelessWidget {
               '중·고등학교는 학교군 추첨이라 학교를 특정할 수 없지만, '
               '통학 편의가 반영되므로 가까운 학교일수록 갈 확률이 높습니다.',
         ),
+        TextField(
+          key: const Key('apartment-search'),
+          decoration: const InputDecoration(
+            labelText: '아파트 이름·주소 검색',
+            prefixIcon: Icon(Icons.search),
+          ),
+          onChanged: (value) => setState(() {
+            _query = value;
+            _limit = 20;
+          }),
+        ),
+        const SizedBox(height: AppSpace.md),
+        if (apartments.isEmpty) const Text('검색한 아파트가 없습니다. 이름이나 주소를 바꿔보세요.'),
         for (final a in rows)
           Card(
             margin: const EdgeInsets.only(bottom: AppSpace.sm),
@@ -551,9 +581,9 @@ class _ApartmentList extends StatelessWidget {
         if (apartments.length > rows.length)
           Padding(
             padding: const EdgeInsets.only(top: AppSpace.sm),
-            child: Text(
-              '외 ${apartments.length - rows.length}단지',
-              style: text.bodySmall,
+            child: OutlinedButton(
+              onPressed: () => setState(() => _limit += 20),
+              child: Text('아파트 더 보기 (${rows.length}/${apartments.length})'),
             ),
           ),
       ],
@@ -734,8 +764,8 @@ class _SchoolList extends StatelessWidget {
                               ],
                               // 배정 단지 수. 파이프라인 값이 비어도 색인으로
                               // 잇는다 — 시트와 같은 수가 나와야 한다.
-                              if (mapData.zonedApartmentsFor(s)
-                                  case final apts when apts.isNotEmpty) ...[
+                              if (mapData.zonedApartmentsFor(s) case final apts
+                                  when apts.isNotEmpty) ...[
                                 const SizedBox(width: 6),
                                 Chip2(
                                   '배정 ${apts.length}단지',
@@ -1027,7 +1057,8 @@ class _SchoolSheet extends StatelessWidget {
     // 파이프라인이 실어 준 값이 있으면 그것을, 없으면 아파트 쪽 학교군에서
     // 거꾸로 잇는다(`MapData.zonedApartmentsFor`). 같은 사실의 양방향이다.
     final apartments = mapData.zonedApartmentsFor(school);
-    final households = school.apartmentHouseholds ??
+    final households =
+        school.apartmentHouseholds ??
         (apartments.any((a) => a.households != null)
             ? apartments.fold<int>(0, (n, a) => n + (a.households ?? 0))
             : null);

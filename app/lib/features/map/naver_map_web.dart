@@ -10,9 +10,17 @@ import 'package:web/web.dart' as web;
 @JS('hakwonMap.ready')
 external bool _ready();
 
+@JS('hakwonMap.destroy')
+external void _destroy(String id);
+
 @JS('hakwonMap.init')
 external bool _init(
-    String id, double lat, double lng, int zoom, String payload);
+  String id,
+  double lat,
+  double lng,
+  int zoom,
+  String payload,
+);
 
 bool get naverMapAvailable {
   try {
@@ -73,6 +81,11 @@ class _NaverMapViewState extends State<NaverMapView> {
   @override
   void dispose() {
     _retry?.cancel();
+    if (_viewId != null) {
+      try {
+        _destroy('hakwon-map-$_viewId');
+      } catch (_) {}
+    }
     super.dispose();
   }
 
@@ -81,6 +94,7 @@ class _NaverMapViewState extends State<NaverMapView> {
     super.didUpdateWidget(old);
     if (old.markersJson != widget.markersJson ||
         old.lat != widget.lat ||
+        old.lng != widget.lng ||
         old.zoom != widget.zoom) {
       _draw();
     }
@@ -101,26 +115,34 @@ class _NaverMapViewState extends State<NaverMapView> {
     if (id == null || !mounted) return;
 
     _retry?.cancel();
-    _retry = Timer(Duration(milliseconds: attempt == 0 ? 16 : 150 * attempt), () {
-      if (!mounted) return;
-      final elementId = 'hakwon-map-$id';
-      var ok = false;
-      try {
-        final el = web.document.getElementById(elementId) as web.HTMLElement?;
-        // 크기가 0이면 지도가 접힌 채로 만들어진다. 다음 시도로 미룬다.
-        if (el != null && el.clientWidth > 0 && el.clientHeight > 0) {
-          ok = _init(elementId, widget.lat, widget.lng, widget.zoom,
-              widget.markersJson);
+    _retry = Timer(
+      Duration(milliseconds: attempt == 0 ? 16 : 150 * attempt),
+      () {
+        if (!mounted) return;
+        final elementId = 'hakwon-map-$id';
+        var ok = false;
+        try {
+          final el = web.document.getElementById(elementId) as web.HTMLElement?;
+          // 크기가 0이면 지도가 접힌 채로 만들어진다. 다음 시도로 미룬다.
+          if (el != null && el.clientWidth > 0 && el.clientHeight > 0) {
+            ok = _init(
+              elementId,
+              widget.lat,
+              widget.lng,
+              widget.zoom,
+              widget.markersJson,
+            );
+          }
+        } catch (e) {
+          if (kDebugMode) debugPrint('naver map init 실패: $e');
         }
-      } catch (e) {
-        if (kDebugMode) debugPrint('naver map init 실패: $e');
-      }
-      if (ok) {
-        _pump();
-      } else if (attempt < 8) {
-        _draw(attempt: attempt + 1);
-      }
-    });
+        if (ok) {
+          _pump();
+        } else if (attempt < 8) {
+          _draw(attempt: attempt + 1);
+        }
+      },
+    );
   }
 
   /// 지도를 만든 뒤 프레임을 몇 번 강제로 돌린다.
