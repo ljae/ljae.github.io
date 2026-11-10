@@ -32,6 +32,7 @@ void main() {
               }),
               200,
               headers: {'content-type': 'application/json'},
+              request: request,
             );
           }
           expect(request.url.path, '/rest/v1/rpc/correction_receipt_ai');
@@ -40,6 +41,7 @@ void main() {
             '{"status":"reviewing","reply":"학원실록 AI 검토: 확인 중입니다."}',
             200,
             headers: {'content-type': 'application/json'},
+            request: request,
           );
         }),
       );
