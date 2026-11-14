@@ -103,7 +103,8 @@ def _prune(hist: dict, today: str | None = None) -> None:
                 del rows[key]
 
 
-def brief(academies: list[dict], generated_at: str | None = None) -> dict:
+def brief(academies: list[dict], generated_at: str | None = None,
+          region: str | None = None) -> dict:
     """마지막 회차가 직전 회차에서 무엇을 바꿨는지 — 아침 알림 한 통 분량.
 
     순위는 (학군 × 과목) 안에서만 뜻이 있으므로 같은 코호트끼리만 견준다.
@@ -111,6 +112,10 @@ def brief(academies: list[dict], generated_at: str | None = None) -> dict:
     우리가 만든 것이다.
     """
     acad = _load().get("academies", {})
+    if region:
+        # 한 학군만. 그 학군에 있었던 날이 하루라도 있는 학원.
+        acad = {k: v for k, v in acad.items()
+                if any(row.get("region") == region for row in v.values())}
     days = sorted({d for rows in acad.values() for d in rows})
     if not days:
         return {"day": None, "generatedAt": generated_at}

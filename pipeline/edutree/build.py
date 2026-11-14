@@ -1373,6 +1373,9 @@ def run(with_cafe: bool = False, from_cache: bool = False,
     from . import agent_cycle
     academies, mode = load_academies(from_cache=from_cache)
     print(f"학원 {len(academies)}곳 · 모드 {mode}")
+    from . import digest
+    # 캐시 실행은 수집 시도가 아니다 — 아침 소식 검색도 하지 않는다.
+    digest.LIVE_SEARCH = mode == "live" and not from_cache and config.HAS_NAVER
     if mode == "live":
         from . import agent_batches
         handoff = agent_batches.import_batches(academies)
@@ -1892,24 +1895,36 @@ def run(with_cafe: bool = False, from_cache: bool = False,
         # 부산물이다. 여기서 죽으면 채점까지 잃는다.
         print(f"  ! 프로필 실패: {exc}")
 
-    export(evaluated, registry_only, mentions, scores, cohorts, mode,
-           subject_scores, claim_rows, candidates=candidates,
-           profiles=profiles_out, gate_stats={"irrelevant": dropped, **bstat})
-
-    # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
+    # 공식 홈페이지 순환. ★ export **앞**에 둔다 — 대치 일정 달력이 이번 회차
+    # 공지를 읽어야 한다. 뒤에 두면 한 회차 늦는다(apply_answers 를 load_rules
+    # 앞에 둔 것과 같은 이유). 등록 주소로 확인된 홈페이지와 위키 홈페이지만.
+    official_cache = {}
     try:
-        # 등록 주소로 확인된 홈페이지와 사람이 검수한 홈페이지를 순환한다.
-        official_cache = {}
         homepages = {a["id"]: a["homepage"] for a in evaluated
                      if a.get("homepage")}
         homepages.update({aid: h["homepage"] for aid, h in wiki_hints.items()
                           if h.get("homepage")})
+        from . import official as official_mod
         if homepages and mode == "live" and not from_cache:
-            from . import official as official_mod
-            official_cache = official_mod.collect(homepages)
+            from . import digest as digest_mod
+            ranked = [{"id": a["id"], "regionId": a.get("region_id"),
+                       "subjects": a.get("subjects"),
+                       "score": {"sampleSize": len(by_key.get(a["id"]) or [])}}
+                      for a in evaluated]
+            official_cache = official_mod.collect(
+                homepages, priority=digest_mod.homepage_priority(ranked))
         elif homepages:
-            from . import official as official_mod
             official_cache = official_mod._load_cache()
+    except Exception as exc:                                  # noqa: BLE001
+        print(f"  ! 공식 홈페이지 순환 실패: {exc}")
+
+    export(evaluated, registry_only, mentions, scores, cohorts, mode,
+           subject_scores, claim_rows, candidates=candidates,
+           profiles=profiles_out, gate_stats={"irrelevant": dropped, **bstat},
+           official=official_cache)
+
+    # 분류 위키 성장 — 이번 실행이 알게 된 것을 페이지에 되적는다.
+    try:
 
         # 요약. 키가 없으면 아무 일도 안 한다 — 점수에는 쓰이지 않는다.
         from . import summarize
@@ -2257,7 +2272,7 @@ def _assign_subject_ranks(academies: list[dict], subject_scores: dict) -> None:
 
 def export(evaluated, registry_only, mentions, scores, cohorts, mode,
            subject_scores=None, claim_rows=None, candidates=None,
-           profiles=None, gate_stats=None) -> None:
+           profiles=None, gate_stats=None, official=None) -> None:
     out = config.EXPORT_DIR
     regions = config.regions()
     tree = config.techtree()
@@ -2622,8 +2637,31 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
     }
     if mode == "live":
         # 아침 알림이 읽는 한 장. 이름·코호트는 여기서만 안다.
-        files["nightly_brief.json"] = history.brief(
-            evaluated, files["meta.json"]["generatedAt"])
+        stamp = files["meta.json"]["generatedAt"]
+        files["nightly_brief.json"] = history.brief(evaluated, stamp)
+        # 대치 학부모방 소식(학년 구간별)과 한 달 일정. 지난 회차 산출물은
+        # 덮어쓰기 전 디스크에 있다 — 그것과 견준다.
+        from . import digest
+        before_rows = []
+        for name in ("academies.json", "registry.json"):
+            try:
+                before_rows += json.loads((out / name).read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                pass
+        try:
+            changed = bool(files["nightly_brief.json"].get("scoringChanged"))
+            daechi, calendar = digest.build(
+                payload_academies + payload_registry, before_rows,
+                digest.load_calendar(out / "calendar.json"), changed,
+                official=official)
+            files["nightly_brief.json"]["daechi"] = daechi
+            files["calendar.json"] = {"region": "대치", "generatedAt": stamp,
+                                      "windowDays": digest.WINDOW_DAYS,
+                                      "events": calendar}
+            print(f"  대치 일정 {len(calendar)}건 · 유아 테스트로 뺀 글 "
+                  f"{daechi['bannedCount']}건")
+        except Exception as error:    # 부산물이다 — 랭킹 회차를 잃지 않는다
+            print(f"  ! 대치 아침 소식을 못 만들었습니다: {type(error).__name__}: {error}")
     for name, data in files.items():
         path = out / name
         # ★ 빈 결과로 **좋은 데이터를 덮지 않는다.**

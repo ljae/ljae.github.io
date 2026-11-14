@@ -26,6 +26,7 @@ from __future__ import annotations
 import json
 import re
 import time
+from html import unescape
 from datetime import date
 from urllib.parse import urljoin, urlparse
 from urllib.robotparser import RobotFileParser
@@ -41,6 +42,8 @@ TIMEOUT = 15
 PER_RUN = 40
 # 다시 확인하기까지. 학원 홈페이지는 매일 바뀌지 않는다.
 REVISIT_DAYS = 14
+# 학년 구간 달력에 오르는 대표 학원(digest.homepage_priority).
+PRIORITY_REVISIT_DAYS = 3
 
 _TAG = re.compile(r"<(script|style)[^>]*>.*?</\1>", re.S | re.I)
 _MARKUP = re.compile(r"<[^>]+>")
@@ -112,8 +115,39 @@ def _allowed(url: str, session) -> tuple[bool, str]:
     return True, "허용"
 
 
+# 일정이 될 만한 공지 한 줄. 학원이 자기 사이트에 건 **제목**만 남긴다 —
+# directory.py 가 소개 페이지의 소식 제목을 남기는 것과 같은 선이다.
+_EVENT_HINT = re.compile(r"설명회|레벨\s*테스트|레테|입학\s*(시험|테스트)|진단\s*평가|개강|모집")
+_TEXT_NODE = re.compile(r">([^<>]{4,120})<")
+_DATE_HINT = re.compile(r"(?:20\d\d\s*[.\-/년]\s*)?\d{1,2}\s*[.\-/월]\s*\d{1,2}\s*일?")
+NOTICE_MAX = 8
+
+
+def _notices(html: str) -> list[dict]:
+    """텍스트 마디 중 일정 낱말이 있는 것. 날짜는 그 마디나 바로 뒤 두 마디에서.
+
+    본문 단락을 통째로 남기지 않으려고 80자에서 자른다. 날짜 없는 공지도
+    남긴다 — 달력에는 안 오르지만 '무엇을 알리고 있나' 는 된다.
+    """
+    nodes = [_WS.sub(" ", unescape(n)).strip() for n in _TEXT_NODE.findall(_TAG.sub(" ", html))]
+    nodes = [n for n in nodes if n]
+    out, seen = [], set()
+    for i, node in enumerate(nodes):
+        if not _EVENT_HINT.search(node) or node in seen:
+            continue
+        seen.add(node)
+        near = " ".join(nodes[i:i + 3])
+        # 홈페이지 공지는 연도를 자주 뺀다('11월 22일'). 날짜 조각만 남기고
+        # 연도는 달력이 오늘을 기준으로 정한다(digest.event_dates).
+        out.append({"title": node[:80],
+                    "dateHints": [m.group(0) for m in _DATE_HINT.finditer(near)][:6]})
+        if len(out) >= NOTICE_MAX:
+            break
+    return out
+
+
 def _observe(html: str, base_url: str) -> dict:
-    """페이지에서 **세는 것만** 한다. 본문은 남기지 않는다."""
+    """페이지에서 **세는 것만** 한다. 본문은 남기지 않는다(공지 제목만 예외)."""
     text = _MARKUP.sub(" ", _TAG.sub(" ", html))
     text = _WS.sub(" ", text)
     links = set(re.findall(r'href=["\']([^"\']+)["\']', html, re.I))
@@ -125,6 +159,7 @@ def _observe(html: str, base_url: str) -> dict:
         "pages": len({urljoin(base_url, l) for l in links
                       if not l.startswith(("#", "mailto:", "tel:", "javascript:"))}),
         "length": len(text),
+        "events": _notices(html),
     }
 
 
@@ -241,7 +276,8 @@ def lookup_contacts(academies: list[dict], live: bool = True,
             "category": filled_cat, "cached": len(cache)}
 
 
-def collect(homepages: dict[str, str], limit: int = PER_RUN) -> dict:
+def collect(homepages: dict[str, str], limit: int = PER_RUN,
+            priority: set[str] | frozenset = frozenset()) -> dict:
     """{학원 id: 홈페이지} → {학원 id: 관찰}. 캐시에 누적한다.
 
     오래 안 본 곳부터 본다. 매 실행 전부 부르지 않는 이유는 예의이기도
@@ -263,8 +299,10 @@ def collect(homepages: dict[str, str], limit: int = PER_RUN) -> dict:
         except ValueError:
             return 1e9
 
-    due = [aid for aid in homepages if staleness(aid) >= REVISIT_DAYS]
-    due.sort(key=staleness, reverse=True)
+    # 대표 학원은 일정 달력에 오른다 — 2주에 한 번이면 한 달 달력이 비어 있다.
+    due = [aid for aid in homepages
+           if staleness(aid) >= (PRIORITY_REVISIT_DAYS if aid in priority else REVISIT_DAYS)]
+    due.sort(key=lambda aid: (aid not in priority, -staleness(aid)))
     due = due[:limit]
     if not due:
         return cache
