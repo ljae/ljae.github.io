@@ -2655,10 +2655,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
                 digest.load_calendar(out / "calendar.json"), changed,
                 official=official)
             files["nightly_brief.json"]["daechi"] = daechi
-            files["calendar.json"] = {"region": "대치", "generatedAt": stamp,
+            files["calendar.json"] = {"regions": list(digest.REGIONS), "generatedAt": stamp,
                                       "windowDays": digest.WINDOW_DAYS,
                                       "events": calendar}
-            print(f"  대치 일정 {len(calendar)}건 · 유아 테스트로 뺀 글 "
+            print(f"  학군 일정 {len(calendar)}건 · 유아 테스트로 뺀 글 "
                   f"{daechi['bannedCount']}건")
         except Exception as error:    # 부산물이다 — 랭킹 회차를 잃지 않는다
             print(f"  ! 대치 아침 소식을 못 만들었습니다: {type(error).__name__}: {error}")

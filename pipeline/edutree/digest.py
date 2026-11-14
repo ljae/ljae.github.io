@@ -8,9 +8,10 @@
 - `nightly_brief.json` 의 `daechi` — 방마다 지난밤 바뀐 것. 로컬 알림 작업이
   07:30 슬랙에 '카톡방 붙여넣기용' 블록 넷으로 붙인다. 사람이 읽고 붙여
   넣는다 — 오픈채팅 자동 게시는 카카오 운영정책(봇·매크로 금지)상 쓰지 않는다.
-- `calendar.json` — 앞으로 한 달의 설명회·테스트·개강 일정. 회차마다 새로
-  찾은 것을 **쌓고**, 날짜가 지난 것만 뺀다(검색 API 는 최근 글만 돌려주므로
-  2주 전에 공지된 12월 설명회가 오늘 검색에는 안 나올 수 있다).
+- `calendar.json` — **네 학군**(대치·목동·잠실·반포)의 앞으로 두 달 설명회·
+  테스트·개강 일정. 항목마다 `regions` 와 달력 칸에 쓸 짧은 말(`label`).
+  회차마다 새로 찾은 것을 **쌓고**, 날짜가 지난 것만 뺀다(검색 API 는 최근
+  글만 돌려주므로 2주 전에 공지된 12월 설명회가 오늘 검색에는 안 나올 수 있다).
 
 싣는 것은 전부 우리가 정당하게 가진 것이다.
 1. 랭킹 변동 — **화면과 같은 규칙으로** (과목 × 학년 구간) 순위를 세워
@@ -43,13 +44,19 @@ BANDS = tuple(config.GRADE_BANDS)             # elem_low · elem_high · middle 
 NEW_WITHIN_DAYS = 60          # 개설일이 이보다 오래면 '새 학원' 이 아니라 새로 잡힌 것
 GONE_BULK = 15                # 하루에 이만큼 넘게 빠지면 필터 변화로 본다
 NEWS_DAYS = 3                 # 이보다 오래된 글은 '지난밤 소식' 이 아니다
-WINDOW_DAYS = 31              # 일정 달력의 앞쪽 끝
+WINDOW_DAYS = 62              # 일정 달력의 앞쪽 끝 — 이번 달과 다음 달을 덮는다
 WEEK_DAYS = 7                 # 아침 소식의 '이번 주 일정'
 RISE_MIN = 3                  # 이만큼은 올라야 '상승' 으로 적는다
 RISE_TOP = 10                 # 10위 밖의 움직임은 싣지 않는다
-EVENT_QUERIES = ("대치 설명회", "대치동 학원 설명회", "대치 설명회 일정",
-                 "대치 레벨테스트 일정", "대치 입학테스트", "대치 초등 설명회",
-                 "대치 중등 설명회", "대치 고등 설명회", "대치 개강")
+# 학군마다 같은 질의를 한다. 대치가 아닌 학군도 달력에 오른다.
+REGIONS = ("daechi", "mokdong", "jamsil", "banpo")
+_QUERY_TAILS = ("설명회", "학원 설명회", "설명회 일정", "레벨테스트 일정",
+                "입학테스트", "개강")
+_REGION_QUERY = {"daechi": "대치", "mokdong": "목동", "jamsil": "잠실", "banpo": "반포"}
+
+
+def event_queries() -> list[str]:
+    return [f"{_REGION_QUERY[r]} {t}" for r in REGIONS for t in _QUERY_TAILS]
 EVENT_SOURCES = ("naver_blog", "naver_news")
 LIVE_SEARCH = False           # build.run 이 캐시 실행이 아닐 때만 켠다
 
@@ -58,8 +65,37 @@ _TEST = re.compile(r"(레벨\s*테스트|레테|입학\s*(시험|테스트)|진�
                    r"|입학\s*(시험|테스트)|진단\s*평가")
 _SESSION = re.compile(r"설명회")
 _OPEN = re.compile(r"개강|신규\s*모집|신입생\s*모집")
-# 제목이 대치 학원가를 가리켜야 한다. 다른 지역 '설명회' 가 섞여 온다.
-_PLACE = re.compile(r"대치|도곡|은마|한티")
+# 제목이 우리 학군을 가리켜야 한다. 다른 지역 '설명회' 가 섞여 온다.
+# regions.yaml 의 dong_list 에 학부모가 실제로 쓰는 말을 더했다.
+_PLACES = {
+    "daechi": re.compile(r"대치|도곡|은마|한티|개포"),
+    "mokdong": re.compile(r"목동|신정동|양천|오목교"),
+    "jamsil": re.compile(r"잠실|신천동|방이동|송파|석촌"),
+    "banpo": re.compile(r"반포|잠원|서초|방배|고속터미널"),
+}
+KIND_WORDS = {"session": "설명회", "test": "테스트", "open": "개강"}
+_BRACKET = re.compile(r"\[([^\]]{2,20})\]")
+# 구청 설명회('서초구, 대입 정시 설명회') — 학원이 아니어도 학부모 일정이다.
+_DISTRICT = re.compile(r"(강남구|서초구|송파구|양천구)")
+# '[설명회] 뉴파인 반포본원…' — 꼬리표 바로 뒤 낱말.
+_AFTER_TAG = re.compile(r"\]\s*([가-힣A-Za-z][가-힣A-Za-z0-9]{1,9})")
+_ACADEMY_TOKEN = re.compile(r"([가-힣A-Za-z0-9]{2,16}(?:어학원|학원|아카데미|논술|수학|영어|에듀))")
+
+
+def short_name(text: str) -> str | None:
+    """달력 칸에 들어갈 학원 이름 — 대괄호 안이나 '…학원' 낱말의 알맹이."""
+    from .analyze import name_core
+    for m in [*_BRACKET.finditer(text), *_ACADEMY_TOKEN.finditer(text),
+              *_AFTER_TAG.finditer(text)]:
+        core = name_core(m.group(1))
+        if 2 <= len(core) <= 8 and not _NOT_NAMES.search(core):
+            return core
+    m = _DISTRICT.search(text)
+    return m.group(1) if m else None
+
+
+def label_for(kind: str, name: str | None) -> str:
+    return f"{name} {KIND_WORDS[kind]}" if name else KIND_WORDS[kind]
 # 유아(만 3세~취학 전). '예비초'·'예비초1' 은 취학 전 1년이지만 '예비초2~6' 은
 # 지금 초등학생이다 — 금지 대상이 아니다(실측: 에디센 '예비초2 입학시험').
 _PRESCHOOL = re.compile(r"예비\s*초(?!\s*[2-6])|[5-7]\s*세|유치|유아|영유")
@@ -69,7 +105,22 @@ _BAND_WORDS = {
     "middle": re.compile(r"중등|중학|중\s*[1-3](?!\d)|예비\s*고|특목|자사고|과학고|외고|영재고|국제고"),
     "high": re.compile(r"고등|고\s*[1-3](?!\d)|수능|정시|수시|대입|의대|N수|재수|입시"),
 }
-_DATE = re.compile(r"(?:(20\d\d)\s*[.\-/년]\s*)?(\d{1,2})\s*[.\-/월]\s*(\d{1,2})\s*일?")
+# 날짜. 연도가 있으면 '.', '-', '/', 년월일 무엇이든. 연도가 없으면 '11월 28일'
+# 꼴이나 '11/28'·'11.28' 꼴만 — '1-1 시작반'(교재 단원)·'1.5년차'(영유 연차)를
+# 1월 1일·1월 5일로 읽던 것을 막는다(실측 2026-11-14).
+_DATE = re.compile(
+    r"(20\d\d)\s*[.\-/년]\s*(\d{1,2})\s*[.\-/월]\s*(\d{1,2})"
+    r"|(?<![\d.])(\d{1,2})\s*월\s*(\d{1,2})\s*일"
+    r"|(?<![\d.\-])(\d{1,2})\s*[./]\s*(\d{1,2})(?![\d.]|\s*(?:년|학년|배|%|시간|회|명|점|세|개월))")
+# 검색 결과가 학원 이야기여야 한다. '목동 재건축 현장설명회' 같은 것이 온다.
+_ACADEMY_CONTEXT = re.compile(r"학원|어학원|교습|학부모|입시|레벨|수학|영어|국어|과학|논술|"
+                              r"초등|중등|고등|유치원|영재|특목|정시|수시|대입|학년|수능")
+_NOT_ACADEMY = re.compile(r"재건축|재개발|분양|수주|시공|아파트|부동산|입주|청약")
+# 지점 규칙의 남의 동네 목록에 없는데 실측에 나온 곳. 전역 목록(analyze)에
+# 넣기 전에 같은 이름의 학원 브랜드가 있는지 봐야 하므로 여기 둔다.
+_OTHER_PLACES = ("남양읍", "남양주")
+# 대괄호 안이 학원 이름이 아닌 경우('[설명회]'·'[이슈]').
+_NOT_NAMES = re.compile(r"설명회|이슈|공지|안내|속보|단독|모집|개강|특강|무료|후기|정보|관$")
 
 
 # ── 랭킹 ─────────────────────────────────────────────────────────
@@ -171,23 +222,31 @@ def registry_changes(now_rows: list[dict], before_rows: list[dict],
 
 
 # ── 일정 ─────────────────────────────────────────────────────────
-def event_dates(text: str, today: date) -> list[str]:
-    """제목·요약에 적힌 날짜 중 오늘부터 한 달 안의 것. 연도가 없으면 가까운
-    쪽으로 읽는다(11월에 '1월 9일' 은 내년)."""
-    out = set()
+def _resolve(match: tuple, today: date) -> date | None:
+    """한 날짜 조각을 날짜로. 연도가 없으면 가까운 쪽(11월에 '1월 9일' 은 내년)."""
+    y, m1, d1, m2, d2, m3, d3 = match
+    m, d = int(m1 or m2 or m3), int(d1 or d2 or d3)
+    if not (1 <= m <= 12 and 1 <= d <= 31):
+        return None
+    year = int(y) if y else (today.year if m >= today.month - 1 else today.year + 1)
+    try:
+        return date(year, m, d)
+    except ValueError:
+        return None
+
+
+def event_dates(text: str, today: date, first_only: bool = False) -> list[str]:
+    """적힌 날짜 중 오늘부터 두 달 안의 것.
+
+    `first_only` — 홈페이지 공지는 첫 날짜가 행사일이고 뒤의 날짜는 기간의 끝
+    이나 게시일이다('가을학기 개강 8.31 ~ 12.27'). 첫 날짜가 지났으면 지난
+    공지라 아무것도 내지 않는다(실측: 청담 가을학기 개강이 12/27 로 올랐다).
+    """
     end = today + timedelta(days=WINDOW_DAYS)
-    for y, m, d in _DATE.findall(text):
-        m, d = int(m), int(d)
-        if not (1 <= m <= 12 and 1 <= d <= 31):
-            continue
-        year = int(y) if y else (today.year if m >= today.month - 1 else today.year + 1)
-        try:
-            when = date(year, m, d)
-        except ValueError:
-            continue
-        if today <= when <= end:
-            out.add(when.isoformat())
-    return sorted(out)
+    found = [w for w in (_resolve(m, today) for m in _DATE.findall(text)) if w]
+    if first_only:
+        found = found[:1]
+    return sorted({w.isoformat() for w in found if today <= w <= end})
 
 
 def classify(rows: list[dict], today: date | None = None) -> tuple[list[dict], int]:
@@ -200,7 +259,10 @@ def classify(rows: list[dict], today: date | None = None) -> tuple[list[dict], i
         url, posted = r.get("source_url") or r.get("url"), r.get("posted_at")
         if not url or url in seen or not posted or posted < oldest or posted > today.isoformat():
             continue
-        if not _PLACE.search(title):
+        regions = [r for r, p in _PLACES.items() if p.search(title)]
+        if not regions or not _ACADEMY_CONTEXT.search(title) or _NOT_ACADEMY.search(title):
+            continue
+        if any(w in title for w in _OTHER_PLACES):
             continue
         # '[대치명인성북]' — 브랜드에 '대치' 가 박힌 다른 지역 지점(CLAUDE.md 지점 절).
         if any(w in title for w in OTHER_REGION_WORDS):
@@ -215,6 +277,7 @@ def classify(rows: list[dict], today: date | None = None) -> tuple[list[dict], i
             continue
         text = title + " " + (r.get("snippet") or "")
         out.append({"title": title, "url": url, "postedAt": posted, "kind": kind,
+                    "regions": regions, "label": label_for(kind, short_name(title)),
                     "source": "news" if r.get("source") == "naver_news" else "blog",
                     "dates": event_dates(text, today),
                     "bands": [b for b in BANDS if _BAND_WORDS[b].search(title)]})
@@ -234,7 +297,7 @@ def search_rows() -> list[dict] | None:
         return None
     from . import naver
     rows = []
-    for query in EVENT_QUERIES:
+    for query in event_queries():
         for source in EVENT_SOURCES:
             try:
                 for r in naver.search(source, query, max_results=30):
@@ -245,15 +308,18 @@ def search_rows() -> list[dict] | None:
     return rows
 
 
-PRIORITY_TOP = 25             # 홈페이지를 자주 볼 대치 대표 학원 수
+PRIORITY_TOP = 15             # 학군마다 홈페이지를 자주 볼 대표 학원 수
 
 
-def homepage_priority(rows: list[dict], region: str = REGION) -> set[str]:
-    """홈페이지를 사흘마다 볼 학원 — 그 학군에서 근거가 가장 두꺼운 학술 학원."""
-    rows = [r for r in rows if r.get("regionId") == region
-            and set(r.get("subjects") or []) - {"arts", "etc", "general"}]
-    rows.sort(key=lambda r: -((r.get("score") or {}).get("sampleSize") or 0))
-    return {str(r["id"]) for r in rows[:PRIORITY_TOP]}
+def homepage_priority(rows: list[dict], regions=REGIONS) -> set[str]:
+    """홈페이지를 사흘마다 볼 학원 — 학군마다 근거가 가장 두꺼운 학술 학원."""
+    out: set[str] = set()
+    for region in regions:
+        picked = [r for r in rows if r.get("regionId") == region
+                  and set(r.get("subjects") or []) - {"arts", "etc", "general"}]
+        picked.sort(key=lambda r: -((r.get("score") or {}).get("sampleSize") or 0))
+        out |= {str(r["id"]) for r in picked[:PRIORITY_TOP]}
+    return out
 
 
 def _academy_bands(r: dict) -> list[str]:
@@ -264,14 +330,14 @@ def _academy_bands(r: dict) -> list[str]:
 
 
 def homepage_events(cache: dict, rows: list[dict], today: date,
-                    region: str = REGION) -> tuple[list[dict], int]:
+                    regions=REGIONS) -> tuple[list[dict], int]:
     """공식 홈페이지 공지(official.collect 의 events) → 일정 항목.
 
     제목에 학년 표지가 없으면 **그 학원의 대상 학년**을 쓴다 — 홈페이지 공지는
     '겨울학기 설명회' 처럼 학년을 안 적는 것이 보통이고, 학원이 누구를 받는지는
     이미 안다. 한 달 넘게 못 본 홈페이지의 공지는 믿지 않는다.
     """
-    by_id = {str(r["id"]): r for r in rows if r.get("regionId") == region}
+    by_id = {str(r["id"]): r for r in rows if r.get("regionId") in regions}
     oldest = (today - timedelta(days=WINDOW_DAYS)).isoformat()
     out, banned, seen = [], 0, set()
     for aid, c in (cache or {}).items():
@@ -292,7 +358,7 @@ def homepage_events(cache: dict, rows: list[dict], today: date,
             if kind == "test" and _PRESCHOOL.search(title):
                 banned += 1
                 continue
-            dates = event_dates(" ".join(n.get("dateHints") or []), today)
+            dates = event_dates(" ".join(n.get("dateHints") or []), today, first_only=True)
             # 같은 행사를 홈페이지 여러 곳이 말한다('겨울학기 개강' 배너와 공지 줄).
             if not dates or (aid, kind, dates[0]) in seen:
                 continue
@@ -300,6 +366,8 @@ def homepage_events(cache: dict, rows: list[dict], today: date,
             out.append({"title": f"{name} · {title}", "url": c.get("url"),
                         "key": f'{c.get("url")}#{title}', "postedAt": c.get("checked_on"),
                         "kind": kind, "source": "homepage", "dates": dates,
+                        "regions": [r["regionId"]],
+                        "label": label_for(kind, short_name(name) or name),
                         "bands": [b for b in BANDS if _BAND_WORDS[b].search(title)]
                                  or _academy_bands(r)})
     return out, banned
@@ -312,11 +380,19 @@ def merge_calendar(previous: list[dict], found: list[dict], today: date) -> list
     for e in found:
         if e["dates"]:
             keep[e.get("key") or e["url"]] = e
-    out = []
-    for e in keep.values():
+    out, same = [], set()
+    for e in sorted(keep.values(), key=lambda e: e.get("source") != "homepage"):
         dates = [d for d in e.get("dates") or [] if d >= today.isoformat()]
-        if dates:
-            out.append({**e, "dates": dates})
+        if not dates:
+            continue
+        # 같은 행사를 기사 여러 건이 쓴다. 이름 붙은 말(label)이 같고 첫 날이
+        # 같으면 하나만. 이름 없는 '설명회' 는 서로 다른 행사일 수 있어 남긴다.
+        kind_only = e.get("label") in KIND_WORDS.values()
+        sig = (dates[0], e.get("label"), tuple(e.get("regions") or []))
+        if not kind_only and sig in same:
+            continue
+        same.add(sig)
+        out.append({**e, "dates": dates})
     out.sort(key=lambda e: (e["dates"][0], e["title"]))
     return out
 
@@ -330,6 +406,9 @@ def _for_band(items: list[dict], band: str) -> list[dict]:
 def rooms(moves: dict, calendar: list[dict], news: list[dict] | None,
           registry: dict, today: date) -> dict:
     week_end = (today + timedelta(days=WEEK_DAYS)).isoformat()
+    # 방은 대치 학부모방이다. 달력은 네 학군을 담지만 방에는 대치 일정만.
+    calendar = [e for e in calendar if REGION in (e.get("regions") or [REGION])]
+    news = [e for e in news or [] if REGION in (e.get("regions") or [REGION])]
     out = {}
     for band in BANDS:
         week = [e for e in _for_band(calendar, band) if e["dates"][0] <= week_end]
