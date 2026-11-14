@@ -20,9 +20,12 @@ import 'wheel_selector.dart';
 /// 학부모가 매번 찾는 화면은 아니다 — 첫 화면의 '산식' 절 설명에서
 /// 링크로 들어가고, 라우트는 그대로 살아 있다(`core/router.dart`).
 /// 관리자 화면(`/admin`)이 같은 방식으로 메뉴 밖에 있다.
+///
+/// 홈(`/`)도 메뉴에 없다. 로고가 홈으로 가고, 그 자리에 학부모가 철마다
+/// 찾는 설명회·테스트 일정을 둔다. 홈에서는 어느 칸도 켜지 않는다.
 const navItems = <(String path, String label, IconData icon)>[
-  ('/', '홈', Icons.home_outlined),
   ('/rank', '학원 탐색', Icons.search_outlined),
+  ('/calendar', '일정', Icons.calendar_month_outlined),
   if (Env.parentCompareEnabled)
     ('/compare', '비교 노트', Icons.compare_arrows_outlined)
   else
@@ -452,10 +455,11 @@ class _BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    var index = navItems.indexWhere(
+    // 못 찾으면(홈·산식 등 메뉴 밖 화면) 어느 칸도 켜지 않는다. 0 으로
+    // 뭉개면 홈에 있는데 '학원 탐색' 에 있다고 말하게 된다.
+    final index = navItems.indexWhere(
       (i) => i.$1 == '/' ? location == '/' : location.startsWith(i.$1),
     );
-    if (index < 0) index = 0;
 
     final dark = Theme.of(context).brightness == Brightness.dark;
     final accent = AppColors.accentOn(dark);
