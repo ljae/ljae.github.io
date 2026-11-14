@@ -2620,6 +2620,10 @@ def export(evaluated, registry_only, mentions, scores, cohorts, mode,
             },
         },
     }
+    if mode == "live":
+        # 아침 알림이 읽는 한 장. 이름·코호트는 여기서만 안다.
+        files["nightly_brief.json"] = history.brief(
+            evaluated, files["meta.json"]["generatedAt"])
     for name, data in files.items():
         path = out / name
         # ★ 빈 결과로 **좋은 데이터를 덮지 않는다.**

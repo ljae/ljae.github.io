@@ -103,6 +103,67 @@ def _prune(hist: dict, today: str | None = None) -> None:
                 del rows[key]
 
 
+def brief(academies: list[dict], generated_at: str | None = None) -> dict:
+    """마지막 회차가 직전 회차에서 무엇을 바꿨는지 — 아침 알림 한 통 분량.
+
+    순위는 (학군 × 과목) 안에서만 뜻이 있으므로 같은 코호트끼리만 견준다.
+    산식 판이 바뀐 회차는 그렇게 적는다 — 그날의 변동은 학원이 아니라
+    우리가 만든 것이다.
+    """
+    acad = _load().get("academies", {})
+    days = sorted({d for rows in acad.values() for d in rows})
+    if not days:
+        return {"day": None, "generatedAt": generated_at}
+    day, prev = days[-1], (days[-2] if len(days) > 1 else None)
+    names = {a["id"]: (a.get("display_name") or a.get("name") or a["id"]) for a in academies}
+    regions = {r["id"]: r.get("name_ko") or r["id"] for r in config.regions()}
+
+    def item(key: str, now: dict, before: dict | None) -> dict:
+        return {"name": names.get(key, key),
+                "region": regions.get(now.get("region"), now.get("region")),
+                "subject": config.SUBJECTS.get(now.get("subject"), now.get("subject")),
+                "from": before.get("r") if before else None, "to": now.get("r")}
+
+    entered = left = moved = 0
+    firsts, rises = [], []
+    versions = set()
+    for key, rows in acad.items():
+        now, before = rows.get(day), rows.get(prev) if prev else None
+        if now and before and (now.get("region"), now.get("subject")) != (
+                before.get("region"), before.get("subject")):
+            before = None                    # 코호트가 바뀌면 등수를 견줄 수 없다
+        if now:
+            versions.add(now.get("version"))
+        if before:
+            versions.add(before.get("version"))
+        if now and not before:
+            entered += 1 if prev else 0
+        elif before and not now:
+            left += 1
+        if not (now and before) or now.get("r") is None or before.get("r") is None:
+            if now and prev and now.get("r") == 1:
+                firsts.append(item(key, now, None))
+            continue
+        if now["r"] != before["r"]:
+            moved += 1
+            if now["r"] == 1:
+                firsts.append(item(key, now, before))
+            elif before["r"] - now["r"] > 0:
+                rises.append(item(key, now, before))
+    rises.sort(key=lambda x: (-(x["from"] - x["to"]), x["to"], x["name"]))
+    firsts.sort(key=lambda x: (x["region"] or "", x["subject"] or "", x["name"]))
+    ranked = sum(1 for rows in acad.values() if day in rows)
+    return {
+        "day": day, "previousDay": prev, "generatedAt": generated_at,
+        "ranked": ranked,
+        "rankedBefore": sum(1 for rows in acad.values() if prev in rows) if prev else None,
+        "entered": entered, "left": left, "moved": moved,
+        "scoringChanged": len(versions - {None}) > 1,
+        "newFirsts": firsts[:5], "newFirstCount": len(firsts),
+        "topRises": rises[:3],
+    }
+
+
 def payload() -> dict:
     """앱 번들로 내보낼 형태. 저장 형태를 그대로 쓴다."""
     hist = _load()
