@@ -111,8 +111,8 @@ final router = GoRouter(
           pageBuilder: (context, state) => _fade(const BoardPage()),
         ),
 
-        // 대치 학원 일정. 헤더 메뉴에는 두지 않는다(HeaderLayout 폭 상수를
-        // 건드리지 않으려고) — 홈에서 들어온다.
+        // 학군별 학원 일정. 헤더·하단 바 메뉴의 '일정' 칸이다(홈 자리를
+        // 이어받아 칸 수가 같다 — HeaderLayout._nav 그대로).
         GoRoute(
           path: '/calendar',
           pageBuilder: (context, state) => _fade(const CalendarPage()),
