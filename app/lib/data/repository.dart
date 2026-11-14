@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'browser_store.dart' as store;
 import 'models.dart';
 
 /// 데이터 접근 계층.
@@ -729,9 +731,35 @@ class Selection {
   int get hashCode => Object.hash(regionId, subject, gradeBand);
 }
 
+/// 학년 구간은 **방문을 넘어 기억한다.** 학부모는 아이 학년이 바뀌지 않는 한
+/// 매번 같은 구간을 고른다. 처음 온 사람은 예비초~초3. 모든 메뉴가 이 한
+/// 값을 본다(헤더 선택). 학군·과목은 기억하지 않는다 — 요청 범위가 학년이다.
+const gradeBandStoreKey = 'openedu.gradeBand';
+const _validGradeBands = {'elem_low', 'elem_high', 'middle', 'high'};
+
+/// 저장된 값이 없거나 알 수 없는 값이면 첫 방문 기본값.
+Selection initialSelection(String? storedBand) => _validGradeBands.contains(storedBand)
+    ? Selection(gradeBand: storedBand!)
+    : const Selection();
+
 class SelectionNotifier extends Notifier<Selection> {
+  /// 웹에서만 읽고 쓴다. 테스트(VM)의 저장소 대역은 테스트끼리 공유되는
+  /// 메모리라, 거기 쓰면 한 테스트의 학년이 다음 테스트로 샌다.
+  static bool persist = kIsWeb;
+
   @override
-  Selection build() => const Selection();
+  Selection build() =>
+      initialSelection(persist ? store.readPublic(gradeBandStoreKey) : null);
+
+  @override
+  set state(Selection value) {
+    final changed = value.gradeBand != stateOrNull?.gradeBand;
+    super.state = value;
+    // URL 의 ?band= 로 들어온 것도 그 사람의 최근 선택이다.
+    if (persist && changed && _validGradeBands.contains(value.gradeBand)) {
+      store.writePublic(gradeBandStoreKey, value.gradeBand);
+    }
+  }
 
   void restore(Selection selection) => state = selection;
 

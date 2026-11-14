@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'repository.dart';
 
-/// 대치 학원 일정(설명회·테스트·개강) — `assets/data/calendar.json`.
+/// 학군별 학원 일정(설명회·테스트·개강) — `assets/data/calendar.json`.
 ///
 /// 만드는 쪽은 `pipeline/edutree/digest.py` 다. 학원 측이 올린 안내 글을
 /// 공식 검색 API 로 찾아 제목에 적힌 날짜만 옮긴 것이라 **우리가 확인한
@@ -37,6 +37,13 @@ class CalendarEvent {
   /// 비면 학년 공통 — 어느 학년 필터에서도 보인다.
   final List<String> bands;
 
+  /// 이 글이 속한 학군 id. 옛 파일(대치만 싣던 때)의 행에는 없다 —
+  /// 그때는 대치뿐이었으므로 없으면 `['daechi']` 로 읽는다.
+  final List<String> regions;
+
+  /// 달력 칸에 적을 짧은 말('세정 설명회'). 없으면 종류 낱말.
+  final String label;
+
   const CalendarEvent({
     required this.title,
     required this.url,
@@ -45,7 +52,19 @@ class CalendarEvent {
     required this.source,
     required this.dates,
     required this.bands,
-  });
+    this.regions = const ['daechi'],
+    String? label,
+  }) : label = label ?? '';
+
+  /// 칸에 적을 말. 파일에 없으면 종류 낱말('설명회').
+  String get cellLabel => label.trim().isNotEmpty
+      ? label.trim()
+      : (calendarKindNames[kind] ?? kind);
+
+  /// [regionId] 가 null 이거나 'all' 이면 어느 학군이든 맞는다
+  /// (`EduTreeData.matchRegion` 과 같은 뜻).
+  bool inRegion(String? regionId) =>
+      regionId == null || regionId == 'all' || regions.contains(regionId);
 
   bool get isCommon => bands.isEmpty;
 
@@ -64,6 +83,13 @@ class CalendarEvent {
       if (day != null) dates.add(day);
     }
     if (dates.isEmpty) return null;
+    final rawRegions = raw['regions'];
+    final regions = [
+      if (rawRegions is List)
+        for (final r in rawRegions)
+          if (r is String && r.isNotEmpty) r,
+    ];
+    final label = raw['label'];
     return CalendarEvent(
       title: title.trim(),
       url: url,
@@ -75,6 +101,8 @@ class CalendarEvent {
         for (final b in (raw['bands'] as List?) ?? const [])
           if (b is String) b,
       ],
+      regions: regions.isEmpty ? const ['daechi'] : regions,
+      label: label is String ? label : null,
     );
   }
 }
@@ -91,13 +119,14 @@ DateTime? parseCalendarDay(String s) {
 }
 
 class AcademyCalendar {
-  final String region;
+  /// 파일이 다루는 학군 id. 옛 파일은 `region: '대치'` 한 값뿐이었다.
+  final List<String> regions;
   final String generatedAt;
   final int windowDays;
   final List<CalendarEvent> events;
 
   const AcademyCalendar({
-    required this.region,
+    required this.regions,
     required this.generatedAt,
     required this.windowDays,
     required this.events,
@@ -110,8 +139,14 @@ class AcademyCalendar {
       if (j is! Map) return null;
       final raw = j['events'];
       if (raw is! List) return null;
+      final rawRegions = j['regions'];
       return AcademyCalendar(
-        region: (j['region'] as String?) ?? '대치',
+        regions: rawRegions is List
+            ? [
+                for (final r in rawRegions)
+                  if (r is String) r,
+              ]
+            : const ['daechi'],
         generatedAt: (j['generatedAt'] as String?) ?? '',
         windowDays: (j['windowDays'] as num?)?.toInt() ?? 31,
         events: [for (final e in raw) ?CalendarEvent.tryParse(e)],
@@ -129,40 +164,49 @@ class AcademyCalendar {
     return DateTime.utc(k.year, k.month, k.day);
   }
 
-  /// 오늘 이후의 날짜만 펼쳐 날짜별로 묶는다. 한 글이 여러 날이면 날마다 선다.
+  /// 거르개를 지난 글을 날짜별로 묶는다(지난 날짜 포함). 한 글이 여러
+  /// 날이면 날마다 선다. 달력 격자와 목록이 **같은 묶음**을 본다 — 따로
+  /// 거르면 격자에 있는 날이 목록에 없는 일이 생긴다.
   ///
   /// [band] 가 null 이면 전체. 아니면 그 학년 글 + 학년 공통 글.
-  /// [kind] 가 null 이면 종류 전체.
+  /// [kind] 가 null 이면 종류 전체. [region] 이 null·'all' 이면 학군 전체.
+  Map<DateTime, List<CalendarEvent>> byDay({
+    String? band,
+    String? kind,
+    String? region,
+  }) {
+    final out = <DateTime, List<CalendarEvent>>{};
+    for (final e in events) {
+      if (band != null && !e.isCommon && !e.bands.contains(band)) continue;
+      if (kind != null && e.kind != kind) continue;
+      if (!e.inRegion(region)) continue;
+      for (final d in e.dates.toSet()) {
+        out.putIfAbsent(d, () => []).add(e);
+      }
+    }
+    const kindOrder = ['session', 'test', 'open'];
+    for (final list in out.values) {
+      list.sort((a, b) {
+        final k = kindOrder
+            .indexOf(a.kind)
+            .compareTo(kindOrder.indexOf(b.kind));
+        return k != 0 ? k : a.title.compareTo(b.title);
+      });
+    }
+    return out;
+  }
+
+  /// 오늘 이후의 날짜만 날짜순으로.
   List<CalendarDay> agenda({
     required DateTime today,
     String? band,
     String? kind,
+    String? region,
   }) {
     final start = DateTime.utc(today.year, today.month, today.day);
-    final byDay = <DateTime, List<CalendarEvent>>{};
-    for (final e in events) {
-      if (band != null && !e.isCommon && !e.bands.contains(band)) continue;
-      if (kind != null && e.kind != kind) continue;
-      for (final d in e.dates.toSet()) {
-        if (d.isBefore(start)) continue;
-        byDay.putIfAbsent(d, () => []).add(e);
-      }
-    }
-    const kindOrder = ['session', 'test', 'open'];
-    final days = byDay.keys.toList()..sort();
-    return [
-      for (final d in days)
-        CalendarDay(
-          day: d,
-          events: byDay[d]!
-            ..sort((a, b) {
-              final k = kindOrder
-                  .indexOf(a.kind)
-                  .compareTo(kindOrder.indexOf(b.kind));
-              return k != 0 ? k : a.title.compareTo(b.title);
-            }),
-        ),
-    ];
+    final grouped = byDay(band: band, kind: kind, region: region);
+    final days = grouped.keys.where((d) => !d.isBefore(start)).toList()..sort();
+    return [for (final d in days) CalendarDay(day: d, events: grouped[d]!)];
   }
 }
 
@@ -240,3 +284,22 @@ final calendarFilterProvider =
     NotifierProvider<CalendarFilterNotifier, CalendarFilter>(
       CalendarFilterNotifier.new,
     );
+
+/// 학군 이름(id → '대치'). 앱 자료(`regions.json`)가 왔으면 그 이름을,
+/// 아직이면 네 학군의 고정 이름을 쓴다 — 일정 화면이 학원 자료 전체를
+/// 기다리지 않게. 시험에서는 바꿔 끼운다.
+const _fallbackRegionNames = <String, String>{
+  'daechi': '대치',
+  'mokdong': '목동',
+  'jamsil': '잠실',
+  'banpo': '반포',
+};
+
+final calendarRegionNamesProvider = Provider<Map<String, String>>((ref) {
+  final loaded = ref.watch(dataProvider.select((d) => d.value?.regionById));
+  if (loaded == null || loaded.isEmpty) return _fallbackRegionNames;
+  return {
+    ..._fallbackRegionNames,
+    for (final e in loaded.entries) e.key: e.value.nameKo,
+  };
+});
