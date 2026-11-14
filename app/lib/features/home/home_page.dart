@@ -384,7 +384,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ),
                             TextButton(
                               onPressed: () => context.go('/calendar'),
-                              child: const Text('대치 설명회·테스트 일정 →'),
+                              child: const Text('학원 설명회·테스트 일정 →'),
                             ),
                           ],
                         ),

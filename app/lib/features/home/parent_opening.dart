@@ -34,11 +34,20 @@ class ParentOpening extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '학원 선택,\n확인할 수 있는 정보부터.',
+                    '광고는 거르고,\n진짜 기록만 남겼습니다.',
                     style: text.displayMedium?.copyWith(
                       fontSize: wide ? 44 : 30,
                       height: 1.3,
                       letterSpacing: -1.2,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // 머리 위 학군 줄과 같은 글자 크기(labelLarge). 주묵은
+                  // 그 줄이 이미 쓰므로 여기는 먹빛 회색으로 낮춘다.
+                  Text(
+                    '대한민국 학원 데이터 플랫폼, 학원실록',
+                    style: text.labelLarge?.copyWith(
+                      color: AppColors.mutedOn(dark),
                     ),
                   ),
                   const SizedBox(height: 14),
