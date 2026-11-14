@@ -1,20 +1,27 @@
 {
- "region": "대치",
- "generatedAt": "2026-11-14T13:00:00+00:00",
- "windowDays": 31,
+ "regions": [
+  "daechi",
+  "mokdong",
+  "jamsil",
+  "banpo"
+ ],
+ "generatedAt": "2026-11-14T14:00:00+00:00",
+ "windowDays": 62,
  "events": [
   {
-   "title": "대치숨마투스학원, 남양읍 학부모 대상 앵콜 입시설명회",
-   "url": "https://www.vegannews.co.kr/news/article.html?no=397143",
-   "postedAt": "2026-10-26",
+   "title": "[설명회] 뉴파인 반포본원 초등부, 11월 학부모 간담회 & 학년별 겨울....",
+   "url": "https://blog.naver.com/newfine_elemid/224477148381",
+   "postedAt": "2026-11-14",
    "kind": "session",
-   "source": "news",
-   "dates": [
-    "2026-11-14"
+   "regions": [
+    "banpo"
    ],
-   "bands": [
-    "high"
-   ]
+   "label": "뉴파인 설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-16"
+   ],
+   "bands": []
   },
   {
    "title": "세정학원 · 다가오는 설명회",
@@ -26,16 +33,39 @@
    "dates": [
     "2026-11-16"
    ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
    "bands": [
     "middle",
     "high"
    ]
   },
   {
+   "title": "[잠실 시그마 수학학원] 가천대 메디컬 논술 파이널 9일 집중반 개강....",
+   "url": "https://blog.naver.com/sigmamath21/224475202660",
+   "postedAt": "2026-11-13",
+   "kind": "open",
+   "regions": [
+    "jamsil"
+   ],
+   "label": "시그마 개강",
+   "source": "blog",
+   "dates": [
+    "2026-11-20"
+   ],
+   "bands": []
+  },
+  {
    "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
    "url": "https://dhnews.co.kr/news/view/1065597871378502",
    "postedAt": "2026-10-29",
    "kind": "open",
+   "regions": [
+    "daechi"
+   ],
+   "label": "슈파스 개강",
    "source": "news",
    "dates": [
     "2026-11-20",
@@ -50,6 +80,10 @@
    "url": "https://www.itbiznews.com/news/articleView.html?idxno=230722",
    "postedAt": "2026-11-09",
    "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "스카이 설명회",
    "source": "news",
    "dates": [
     "2026-11-21"
@@ -68,6 +102,10 @@
    "dates": [
     "2026-11-22"
    ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
    "bands": [
     "high"
    ]
@@ -82,9 +120,45 @@
    "dates": [
     "2026-11-23"
    ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
    "bands": [
     "high"
    ]
+  },
+  {
+   "title": "서울 서초구, 수능 이틀 후 '정시 전략 설명회'…1:1 컨설팅·맞춤 상담...",
+   "url": "https://www.dailian.co.kr/news/view/1712265/?sc=Naver",
+   "postedAt": "2026-11-09",
+   "kind": "session",
+   "regions": [
+    "banpo"
+   ],
+   "label": "서초구 설명회",
+   "source": "news",
+   "dates": [
+    "2026-11-24"
+   ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
+   "url": "https://blog.naver.com/mathlevel/224469057824",
+   "postedAt": "2026-11-13",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "수준 설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-28"
+   ],
+   "bands": []
   },
   {
    "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(5차)",
@@ -96,6 +170,10 @@
    "dates": [
     "2026-11-28"
    ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
    "bands": [
     "high"
    ]
@@ -110,9 +188,34 @@
    "dates": [
     "2026-11-30"
    ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "에이프릴 개강",
    "bands": [
     "elem_low",
     "elem_high"
+   ]
+  },
+  {
+   "title": "청담어학원 · 26년 겨울학기 개강",
+   "url": "https://creverse.com/cdi/mokdong/",
+   "key": "https://creverse.com/cdi/mokdong/#26년 겨울학기 개강",
+   "postedAt": "2026-11-14",
+   "kind": "open",
+   "source": "homepage",
+   "dates": [
+    "2026-11-30"
+   ],
+   "regions": [
+    "mokdong"
+   ],
+   "label": "청담 개강",
+   "bands": [
+    "elem_low",
+    "elem_high",
+    "middle",
+    "high"
    ]
   },
   {
@@ -120,12 +223,34 @@
    "url": "https://blog.naver.com/hongbis/224476861546",
    "postedAt": "2026-11-14",
    "kind": "open",
+   "regions": [
+    "daechi"
+   ],
+   "label": "피엘 개강",
    "source": "blog",
    "dates": [
     "2026-12-05",
     "2026-12-06"
    ],
    "bands": []
+  },
+  {
+   "title": "송파메가스터디학원 · 01. 04(월) 개강",
+   "url": "http://songpa.megastudy.net/",
+   "key": "http://songpa.megastudy.net/#01. 04(월) 개강",
+   "postedAt": "2026-11-14",
+   "kind": "open",
+   "source": "homepage",
+   "dates": [
+    "2027-01-04"
+   ],
+   "regions": [
+    "jamsil"
+   ],
+   "label": "메가 개강",
+   "bands": [
+    "high"
+   ]
   }
  ]
 }
