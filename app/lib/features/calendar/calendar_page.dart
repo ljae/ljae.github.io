@@ -10,11 +10,14 @@ import '../../widgets/annals_controls.dart';
 import '../../widgets/common.dart';
 import '../../widgets/contact.dart';
 import '../../widgets/content_loading.dart';
+import 'month_grid.dart';
 
-/// 대치 학원 일정 — 앞으로 한 달의 설명회·테스트·개강.
+/// 학군별 학원 일정 — 이번 달·다음 달의 설명회·테스트·개강.
 ///
-/// 읽기 전용이다. 달력 격자 대신 **날짜별 목록**으로 둔다 — 휴대폰에서
-/// 칸 하나에 글 제목이 안 들어간다. 주묵은 '오늘' 하나에만 쓴다.
+/// 읽기 전용이다. 위에 두 달의 **달력 격자**(칸에는 짧은 말 '세정 설명회'
+/// 만), 아래에 **날짜별 목록**(원문 제목·출처)을 둔다. 격자는 훑어보는
+/// 자리이고 목록이 읽는 자리다 — 칸 하나에 원문 제목은 안 들어간다.
+/// 주묵은 '오늘' 하나에만 쓴다.
 class CalendarPage extends ConsumerWidget {
   const CalendarPage({super.key});
 
@@ -29,6 +32,12 @@ class CalendarPage extends ConsumerWidget {
 
   static const emptyText = '이 기간에 모은 일정이 없습니다';
 
+  /// 머리말. 학군 선택을 따른다('대치 학원 일정' · '전체 학군 학원 일정').
+  static String titleFor(String regionId, Map<String, String> names) =>
+      regionId == 'all'
+      ? '전체 학군 학원 일정'
+      : '${names[regionId] ?? regionId} 학원 일정';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref
@@ -42,20 +51,54 @@ class CalendarPage extends ConsumerWidget {
   }
 }
 
-class _Body extends ConsumerWidget {
+class _Body extends ConsumerStatefulWidget {
   final AcademyCalendar? calendar;
   const _Body({required this.calendar});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends ConsumerState<_Body> {
+  /// 목록의 날짜 머리마다 하나. 달력 칸을 누르면 그 머리로 내려간다.
+  /// build 마다 새로 만들면 열쇠가 바뀌어 찾을 수 없으므로 여기 둔다.
+  final _dayKeys = <DateTime, GlobalKey>{};
+
+  GlobalKey _keyFor(DateTime day) =>
+      _dayKeys.putIfAbsent(day, () => GlobalKey(debugLabel: 'day-$day'));
+
+  void _scrollTo(DateTime day) {
+    final ctx = _dayKeys[day]?.currentContext;
+    if (ctx == null) return;
+    final still = MediaQuery.of(context).disableAnimations;
+    Scrollable.ensureVisible(
+      ctx,
+      alignment: 0.02,
+      duration: still ? Duration.zero : const Duration(milliseconds: 320),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final today = ref.watch(calendarTodayProvider);
     final filter = ref.watch(calendarFilterProvider);
     final headerBand = ref.watch(selectionProvider.select((s) => s.gradeBand));
+    final regionId = ref.watch(selectionProvider.select((s) => s.regionId));
+    final regionNames = ref.watch(calendarRegionNamesProvider);
+    final allRegions = regionId == 'all';
     final band = filter.allBands ? null : headerBand;
-    final cal = calendar;
-    final days = cal?.agenda(today: today, band: band, kind: filter.kind);
+    final cal = widget.calendar;
+    final grouped = cal?.byDay(band: band, kind: filter.kind, region: regionId);
+    final days = cal?.agenda(
+      today: today,
+      band: band,
+      kind: filter.kind,
+      region: regionId,
+    );
+    final listed = {for (final d in days ?? const <CalendarDay>[]) d.day};
     final eventCount = days?.fold<int>(0, (n, d) => n + d.events.length) ?? 0;
     final collected = cal?.generatedDayKst;
 
@@ -76,14 +119,27 @@ class _Body extends ConsumerWidget {
               children: [
                 Text('설명회 · 테스트 · 개강', style: text.labelMedium),
                 const SizedBox(height: 6),
-                Text('${cal?.region ?? '대치'} 학원 일정', style: text.headlineLarge),
+                Text(
+                  CalendarPage.titleFor(regionId, regionNames),
+                  style: text.headlineLarge,
+                ),
                 const SizedBox(height: AppSpace.sm),
                 Text(
-                  '앞으로 ${cal?.windowDays ?? 31}일 안의 일정을 날짜별로 모았습니다. '
-                  '누르면 원문이 새 창에서 열립니다.',
+                  '이번 달과 다음 달의 일정을 달력과 날짜별 목록으로 모았습니다. '
+                  '달력의 날짜를 누르면 그날 목록으로 내려가고, 목록을 누르면 '
+                  '원문이 새 창에서 열립니다.',
                   style: text.bodyMedium,
                 ),
-                const SizedBox(height: AppSpace.md),
+                const SizedBox(height: AppSpace.lg),
+                if (grouped != null) ...[
+                  MonthGrids(
+                    today: today,
+                    byDay: grouped,
+                    listedDays: listed,
+                    onTapDay: _scrollTo,
+                  ),
+                  const SizedBox(height: AppSpace.lg),
+                ],
                 _Notice(dark: dark),
                 const SizedBox(height: AppSpace.lg),
                 _Filters(band: band, kind: filter.kind),
@@ -116,7 +172,12 @@ class _Body extends ConsumerWidget {
                   )
                 else
                   for (final d in days)
-                    _DaySection(day: d, isToday: d.day == today),
+                    _DaySection(
+                      key: _keyFor(d.day),
+                      day: d,
+                      isToday: d.day == today,
+                      regionNames: allRegions ? regionNames : null,
+                    ),
               ],
             ),
           ),
@@ -232,7 +293,15 @@ String _ymd(DateTime d) =>
 class _DaySection extends StatelessWidget {
   final CalendarDay day;
   final bool isToday;
-  const _DaySection({required this.day, required this.isToday});
+
+  /// 학군 전체를 볼 때만 — 줄마다 어느 학군 글인지 적는다.
+  final Map<String, String>? regionNames;
+  const _DaySection({
+    super.key,
+    required this.day,
+    required this.isToday,
+    this.regionNames,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +351,7 @@ class _DaySection extends StatelessWidget {
           ),
           for (var i = 0; i < day.events.length; i++) ...[
             if (i != 0) Rule(color: AppColors.ruleSoftOn(dark)),
-            _EventRow(event: day.events[i]),
+            _EventRow(event: day.events[i], regionNames: regionNames),
           ],
         ],
       ),
@@ -292,13 +361,8 @@ class _DaySection extends StatelessWidget {
 
 class _EventRow extends StatelessWidget {
   final CalendarEvent event;
-  const _EventRow({required this.event});
-
-  static Color kindColor(String kind, bool dark) => switch (kind) {
-    'session' => AppColors.navyOn(dark),
-    'test' => AppColors.estimatedOn(dark),
-    _ => AppColors.mutedOn(dark),
-  };
+  final Map<String, String>? regionNames;
+  const _EventRow({required this.event, this.regionNames});
 
   @override
   Widget build(BuildContext context) {
@@ -307,6 +371,10 @@ class _EventRow extends StatelessWidget {
     final bands = event.isCommon
         ? '학년 공통'
         : event.bands.map((b) => gradeBandNames[b] ?? b).join('·');
+    final names = regionNames;
+    final region = names == null
+        ? null
+        : event.regions.map((r) => names[r] ?? r).join('·');
     final meta = [
       calendarSourceNames[event.source] ?? '출처 미상',
       bands,
@@ -314,7 +382,9 @@ class _EventRow extends StatelessWidget {
     ].join(' · ');
     return Semantics(
       link: true,
-      label: '${calendarKindNames[event.kind]} ${event.title}, 원문 새 창에서 열기',
+      label:
+          '${region == null ? '' : '$region '}'
+          '${calendarKindNames[event.kind]} ${event.title}, 원문 새 창에서 열기',
       excludeSemantics: true,
       child: InkWell(
         onTap: () => openExternal(event.url),
@@ -325,12 +395,25 @@ class _EventRow extends StatelessWidget {
             children: [
               SizedBox(
                 width: 64,
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: TagMark(
-                    calendarKindNames[event.kind] ?? event.kind,
-                    color: kindColor(event.kind, dark),
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TagMark(
+                      calendarKindNames[event.kind] ?? event.kind,
+                      color: calendarKindColor(event.kind, dark),
+                    ),
+                    if (region != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        region,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: text.labelSmall?.copyWith(
+                          color: AppColors.inkOn(dark),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
               const SizedBox(width: AppSpace.sm),
