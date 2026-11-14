@@ -81,7 +81,9 @@ def ev(title, url, posted="2026-11-14", snippet="", source="naver_blog"):
 
 
 def test_dates_are_read_within_a_month_and_roll_into_next_year():
-    assert digest.event_dates("11/25 · 12/6 · 12/20 설명회", TODAY) == ["2026-11-25", "2026-12-06"]
+    # 두 달 창: 11/15 + 62일 = 1/16. 1/20 은 아직 밖이다.
+    assert digest.event_dates("11/25 · 12/20 · 1월 9일 · 1/20 설명회", TODAY) == [
+        "2026-11-25", "2026-12-20", "2027-01-09"]
     assert digest.event_dates("1월 9일 개강", date(2026, 12, 20)) == ["2027-01-09"]
     assert digest.event_dates("2026.11.10 마감", TODAY) == []
 
@@ -98,10 +100,30 @@ def test_classify_filters_place_branch_kind_and_the_preschool_test_ban():
     ]
     got, banned = digest.classify(rows, TODAY)
     assert banned == 1
-    assert [(e["url"], e["kind"], e["bands"], e["dates"]) for e in got] == [
-        ("u1", "session", [], ["2026-11-28"]),
-        ("u6", "test", ["elem_low"], ["2026-12-05"]),
+    assert [(e["url"], e["kind"], e["bands"], e["dates"], e["regions"]) for e in got] == [
+        ("u1", "session", [], ["2026-11-28"], ["daechi"]),
+        ("u6", "test", ["elem_low"], ["2026-12-05"], ["daechi"]),
     ]
+
+
+def test_all_four_regions_are_gathered_with_short_labels():
+    rows = [ev("목동 세정학원 고등 입시 설명회", "m"),
+            ev("[잠실 해법수학] 겨울방학 개강 안내", "j"),
+            ev("반포 영어 레벨테스트 일정 안내", "b"),
+            ev("평촌 학원 설명회", "x")]
+    got = {e["url"]: e for e in digest.classify(rows, TODAY)[0]}
+    assert sorted(got) == ["b", "j", "m"]
+    assert (got["m"]["regions"], got["m"]["label"]) == (["mokdong"], "세정 설명회")
+    assert (got["j"]["regions"], got["j"]["label"]) == (["jamsil"], "해법 개강")
+    assert (got["b"]["regions"], got["b"]["label"]) == (["banpo"], "테스트")
+    assert len(digest.event_queries()) == 4 * 6
+
+
+def test_rooms_only_carry_daechi_events():
+    cal = [{"url": "d", "title": "대치", "dates": ["2026-11-18"], "bands": [], "regions": ["daechi"]},
+           {"url": "m", "title": "목동", "dates": ["2026-11-18"], "bands": [], "regions": ["mokdong"]}]
+    r = digest.rooms({}, cal, [], {}, TODAY)
+    assert [e["url"] for e in r["high"]["thisWeek"]] == ["d"]
 
 
 def test_calendar_accumulates_and_drops_only_past_dates():
@@ -153,7 +175,7 @@ def test_homepage_notices_keep_titles_and_date_tokens_only():
 def test_homepage_events_use_academy_bands_and_respect_the_ban():
     rows = [{"id": "H", "name": "트윈클어학원", "regionId": "daechi",
              "gradeBands": ["elem_low", "elem_high"]},
-            {"id": "M", "name": "목동학원", "regionId": "mokdong"}]
+            {"id": "M", "name": "목동학원", "regionId": "pangyo"}]
     cache = {"H": {"url": "https://h.kr", "checked_on": "2026-11-14", "blocked": None,
                    "observed": {"events": [
                        {"title": "겨울학기 설명회", "dateHints": ["11월 28일"]},
@@ -167,6 +189,8 @@ def test_homepage_events_use_academy_bands_and_respect_the_ban():
                    "observed": {"events": [{"title": "설명회", "dateHints": ["11/30"]}]}}}
     got, banned = digest.homepage_events(cache, rows, TODAY)
     assert banned == 1
+    assert all(e["regions"] == ["daechi"] for e in got)
+    assert got[0]["label"] == "트윈클 설명회"
     assert [(e["title"], e["bands"], e["dates"]) for e in got] == [
         ("트윈클어학원 · 겨울학기 설명회", ["elem_low", "elem_high"], ["2026-11-28"]),
         ("트윈클어학원 · 중등 입학테스트 일정", ["middle"], ["2026-12-03"]),
@@ -181,4 +205,38 @@ def test_priority_is_the_thickest_daechi_academic_academies():
     rows += [{"id": 999, "regionId": "daechi", "subjects": ["arts"], "score": {"sampleSize": 999}},
              {"id": 998, "regionId": "mokdong", "subjects": ["math"], "score": {"sampleSize": 998}}]
     got = digest.homepage_priority(rows)
-    assert len(got) == digest.PRIORITY_TOP and "39" in got and "999" not in got and "998" not in got
+    assert len(got) == digest.PRIORITY_TOP + 1 and "39" in got and "999" not in got
+    assert "998" in got                       # 목동도 제 몫의 자리를 갖는다
+
+
+def test_dates_ignore_unit_numbers_and_years_of_attendance():
+    assert digest.event_dates("[목동관] 12월/ 중등 1-1 시작반 개강", TODAY) == []
+    assert digest.event_dates("영어유치원 설명회 (6세 1-1.5년차)", TODAY) == []
+    assert digest.event_dates("2026-11-28 설명회 · 12월 3일 · 12/6", TODAY) == [
+        "2026-11-28", "2026-12-03", "2026-12-06"]
+
+
+def test_homepage_notices_use_the_first_date_and_drop_past_terms():
+    assert digest.event_dates("8.31 12.27", TODAY, first_only=True) == []        # 지난 학기
+    assert digest.event_dates("2026.11.30 2027.02.28", TODAY, first_only=True) == ["2026-11-30"]
+
+
+def test_search_needs_academy_context_and_real_names_in_labels():
+    rows = [ev("[이슈] 목동 재건축 수주전, 4·8단지 현장설명회", "re"),
+            ev("대치숨마투스학원, 남양읍 학부모 대상 앵콜 입시설명회", "far"),
+            ev("[설명회] 뉴파인 반포본원 초등부 겨울 설명회", "np"),
+            ev("서초구, 2027학년도 대입 정시 지원전략 설명회", "gu")]
+    got = {e["url"]: e for e in digest.classify(rows, TODAY)[0]}
+    assert sorted(got) == ["gu", "np"]
+    assert got["np"]["label"] == "뉴파인 설명회"
+
+
+def test_same_named_event_from_several_articles_is_listed_once():
+    found = [{"url": f"n{i}", "title": "t", "label": "서초구 설명회", "regions": ["banpo"],
+              "dates": ["2026-11-24"], "source": "news"} for i in range(3)]
+    found += [{"url": f"x{i}", "title": "t", "label": "설명회", "regions": ["banpo"],
+               "dates": ["2026-11-24"], "source": "blog"} for i in range(2)]
+    got = digest.merge_calendar([], found, TODAY)
+    assert [e["label"] for e in got].count("서초구 설명회") == 1
+    assert [e["label"] for e in got].count("설명회") == 2
+    assert digest.short_name("서초구, 2027학년도 대입 정시 지원전략 설명회") == "서초구"
