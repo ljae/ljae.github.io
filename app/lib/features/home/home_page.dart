@@ -382,6 +382,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                               onPressed: () => context.go('/tree'),
                               child: const Text('학년별 학습 경로 →'),
                             ),
+                            TextButton(
+                              onPressed: () => context.go('/calendar'),
+                              child: const Text('대치 설명회·테스트 일정 →'),
+                            ),
                           ],
                         ),
                         if (Env.parentVoiceEnabled) ...[
