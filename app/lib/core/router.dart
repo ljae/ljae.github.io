@@ -8,6 +8,7 @@ import '../features/academy/academy_page.dart';
 import '../features/board/board_page.dart';
 import '../features/admin/admin_page.dart';
 import '../features/board/post_page.dart';
+import '../features/calendar/calendar_page.dart';
 import '../features/home/home_page.dart';
 import '../features/map/map_page.dart';
 import '../features/method/method_page.dart';
@@ -108,6 +109,13 @@ final router = GoRouter(
         GoRoute(
           path: '/board',
           pageBuilder: (context, state) => _fade(const BoardPage()),
+        ),
+
+        // 대치 학원 일정. 헤더 메뉴에는 두지 않는다(HeaderLayout 폭 상수를
+        // 건드리지 않으려고) — 홈에서 들어온다.
+        GoRoute(
+          path: '/calendar',
+          pageBuilder: (context, state) => _fade(const CalendarPage()),
         ),
 
         GoRoute(
