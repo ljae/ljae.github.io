@@ -149,6 +149,8 @@ void main() {
         );
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
+        expect(find.text('광고는 거르고,\n진짜 기록만 남겼습니다.'), findsOneWidget);
+        expect(find.text('대한민국 학원 데이터 플랫폼, 학원실록'), findsOneWidget);
         await tester.ensureVisible(find.text('학원 살펴보기'));
         await tester.tap(find.text('학원 살펴보기'));
         expect(explored, isTrue);

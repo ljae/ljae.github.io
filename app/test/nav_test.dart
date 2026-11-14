@@ -12,8 +12,18 @@ void main() {
   test('메뉴에 산식이 없다', () {
     expect(navItems.map((i) => i.$1), isNot(contains('/method')));
     expect(navItems.map((i) => i.$2), isNot(contains('산식')));
-    // 메뉴가 줄어도 홈은 첫 칸이어야 하단 바의 폴백(index 0)이 홈이다.
-    expect(navItems.first.$1, '/');
+  });
+
+  test('메뉴는 학원 탐색 · 일정 차례이고 홈 칸은 없다', () {
+    // 홈은 로고가 맡는다. 메뉴 첫 두 칸이 학부모가 가장 자주 찾는 둘이다.
+    expect(navItems.map((i) => i.$2), isNot(contains('홈')));
+    expect(navItems.map((i) => i.$1), isNot(contains('/')));
+    expect(navItems[0].$1, '/rank');
+    expect(navItems[0].$2, '학원 탐색');
+    expect(navItems[1].$1, '/calendar');
+    expect(navItems[1].$2, '일정');
+    // HeaderLayout._nav 는 네 칸 기준의 실측치다.
+    expect(navItems.length, 4);
   });
 
   test('/method 라우트는 그대로 살아 있다', () {
