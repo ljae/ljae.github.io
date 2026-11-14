@@ -184,6 +184,10 @@ class _ReviewTile extends ConsumerWidget {
             ),
             const SizedBox(height: AppSpace.sm),
             Text(review.body, style: text.bodyLarge),
+            if (review.agentReply != null) ...[
+              const SizedBox(height: 8),
+              Text(review.agentReply!, style: text.bodyMedium),
+            ],
             if (review.gradeBand != null ||
                 review.subject != null ||
                 review.tags.isNotEmpty) ...[

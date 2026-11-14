@@ -119,6 +119,10 @@ class _PostBody extends ConsumerWidget {
       const Divider(height: AppSpace.lg * 1.6),
 
       SelectionArea(child: Text(post.body, style: text.bodyLarge)),
+      if (post.agentReply != null) ...[
+        const SizedBox(height: 12),
+        Text(post.agentReply!, style: text.bodyMedium),
+      ],
 
       // 언급된 학원으로 건너갈 수 있게 한다. 글에서 이름만 보고 끝나면
       // 그 학원이 실제로 어떤 곳인지 확인할 길이 없다.
@@ -218,6 +222,10 @@ class _CommentsState extends ConsumerState<_Comments> {
                             ]),
                             const SizedBox(height: 4),
                             Text(c.body, style: text.bodyMedium),
+                            if (c.agentReply != null) ...[
+                              const SizedBox(height: 8),
+                              Text(c.agentReply!, style: text.bodyMedium),
+                            ],
                           ]),
                     ),
                   ),

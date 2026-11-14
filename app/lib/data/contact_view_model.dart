@@ -39,6 +39,7 @@ class ContactViewModel {
   final String? _phone;
   final String? _officialUrl;
   final bool phoneDisputed, homepageDisputed;
+  final DateTime? verifiedAt;
   String? get phone =>
       !phoneDisputed && safePhoneDigits(_phone) != null ? _phone : null;
   String? get officialUrl =>
@@ -49,6 +50,7 @@ class ContactViewModel {
     this.address,
     String? phone,
     String? officialUrl,
+    this.verifiedAt,
     this.phoneDisputed = false,
     this.homepageDisputed = false,
   }) : _phone = phone,
@@ -68,5 +70,7 @@ class ContactViewModel {
           address: d.registry!.address,
         );
   bool get hasContact => phone != null || officialUrl != null;
-  String get provenance => '수집 자료의 연락처 · 지점별 원출처 대조일과 최근 연결 여부 미확인';
+  String get provenance => verifiedAt == null
+      ? '수집 자료의 연락처 · 지점별 원출처 대조일과 최근 연결 여부 미확인'
+      : '전화번호: 나이스 등록번호·학원명·주소 대조 · ${verifiedAt!.toLocal().year}.${verifiedAt!.toLocal().month}.${verifiedAt!.toLocal().day} 확인 (실제 연결 여부 미확인)';
 }

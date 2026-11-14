@@ -16,6 +16,7 @@ import '../../widgets/annals.dart';
 import '../../widgets/common.dart';
 import '../../data/claim_disputes.dart';
 import '../../data/corrections.dart';
+import '../feedback/correction_reply.dart';
 import '../../data/leveltests.dart';
 import '../../data/reservations.dart';
 import '../../widgets/contact.dart';
@@ -1347,6 +1348,7 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
   String _kind = 'fix';
   bool _sending = false;
   String? _error;
+  bool _submitted = false;
 
   @override
   void dispose() {
@@ -1382,10 +1384,10 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
         message: _message.text.trim(),
       );
       if (!mounted) return;
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('접수되었습니다. 검토 후 연락처로 회신드립니다.')),
-      );
+      setState(() {
+        _submitted = true;
+        _sending = false;
+      });
     } catch (_) {
       if (mounted) {
         setState(() {
@@ -1399,7 +1401,25 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final enabled = ref.watch(correctionServiceProvider).enabled;
+    final service = ref.watch(correctionServiceProvider);
+    final enabled = service.enabled;
+    if (_submitted) {
+      return Padding(
+        padding: const EdgeInsets.all(AppSpace.lg),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CorrectionReplyPanel(academyKey: widget.academyKey),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('닫기'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Padding(
       padding: EdgeInsets.only(
@@ -1413,9 +1433,14 @@ class _CorrectionSheetState extends ConsumerState<_CorrectionSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('${widget.academyName} — 정보 정정 요청', style: text.titleLarge),
+            if (service.hasReceiptFor(widget.academyKey))
+              TextButton(
+                onPressed: () => setState(() => _submitted = true),
+                child: const Text('최근 정정 답변 확인'),
+              ),
             const SizedBox(height: 4),
             Text(
-              '접수 내용은 공개되지 않으며, 운영자 검토 후 데이터에 반영됩니다.',
+              'AI가 공개 근거를 검토합니다. 확인된 단순 정보는 반영하고, 근거가 부족하거나 서로 다르면 담당자가 확인합니다.',
               style: text.bodySmall,
             ),
             const SizedBox(height: AppSpace.md),
