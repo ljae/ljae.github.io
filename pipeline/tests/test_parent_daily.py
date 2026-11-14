@@ -82,6 +82,8 @@ def test_http_ceiling_no_redirect_and_no_retry(monkeypatch):
         content=b'{}'
     monkeypatch.setattr(requests,'get',lambda *a,**kw:calls.append(kw) or Response())
     s=d.Search()
+    # CI runs this step without Naver secrets; the ceiling is under test, not credentials.
+    monkeypatch.setattr(s.naver,'_headers',lambda mode:{})
     for _ in range(5):
         with pytest.raises(ValueError):s.get('hub','webkr','test',3)
     assert s.requests==len(calls)==4

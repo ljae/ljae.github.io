@@ -74,3 +74,33 @@ def test_quality_corrupt_history_is_not_overwritten(tmp_path, monkeypatch):
     with pytest.raises(ValueError):
         ranking_quality.record({}, "2026-09-17")
     assert path.read_text() == "broken"
+
+
+def test_brief_compares_only_within_the_same_cohort(tmp_path, monkeypatch):
+    monkeypatch.setattr(history, "PATH", tmp_path / "history.json")
+    monkeypatch.setattr(config, "regions", lambda: [{"id": "daechi", "name_ko": "대치"}])
+    def row(rank, subject="math", version="v1"):
+        return {"r": rank, "t": 50.0, "n": 12, "subject": subject,
+                "region": "daechi", "version": version}
+    (tmp_path / "history.json").write_text(json.dumps({"schools": {}, "academies": {
+        "A": {"2026-11-13": row(2), "2026-11-14": row(1)},
+        "B": {"2026-11-13": row(1), "2026-11-14": row(2)},
+        "C": {"2026-11-13": row(9), "2026-11-14": row(4)},
+        "D": {"2026-11-13": row(3)},
+        "E": {"2026-11-14": row(5)},
+        "F": {"2026-11-13": row(7, "english"), "2026-11-14": row(3)},
+    }}), encoding="utf-8")
+    b = history.brief([{"id": "A", "name": "가나"}, {"id": "C", "display_name": "다라 (대치동)"}],
+                      "2026-11-14T19:00:00+00:00")
+    assert (b["day"], b["previousDay"], b["ranked"], b["rankedBefore"]) == (
+        "2026-11-14", "2026-11-13", 5, 5)
+    # F 는 과목이 바뀌어 견줄 수 없다 — 새로 들어온 것으로 센다.
+    assert (b["entered"], b["left"], b["moved"]) == (2, 1, 3)
+    assert b["newFirsts"] == [{"name": "가나", "region": "대치", "subject": "수학", "from": 2, "to": 1}]
+    assert b["topRises"] == [{"name": "다라 (대치동)", "region": "대치", "subject": "수학", "from": 9, "to": 4}]
+    assert b["scoringChanged"] is False
+
+
+def test_brief_without_history_reports_no_day(tmp_path, monkeypatch):
+    monkeypatch.setattr(history, "PATH", tmp_path / "history.json")
+    assert history.brief([])["day"] is None
