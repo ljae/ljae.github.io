@@ -78,6 +78,9 @@ SOURCE_LABELS = {
     "naver_kin": "지식iN",
     "naver_web": "네이버 웹문서",
     "naver_news": "네이버 뉴스",
+    "daum_cafe": "다음 카페",
+    "daum_blog": "다음 블로그",
+    "daum_web": "다음 웹문서",
     "cafe_local": "카페 수집",
     "edutree_review": "학원실록 후기",
 }

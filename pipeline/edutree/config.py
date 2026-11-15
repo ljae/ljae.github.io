@@ -42,6 +42,10 @@ SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", "").strip()
 
 HAS_NEIS = bool(NEIS_API_KEY)
 HAS_NAVER = bool(NAVER_CLIENT_ID and NAVER_CLIENT_SECRET)
+# 다음(카카오) 검색 API. developers.kakao.com 앱의 REST API 키 하나다.
+# 없으면 다음 소스만 빠지고 나머지는 그대로 돈다(daum.py).
+KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY", "").strip()
+HAS_DAUM = bool(KAKAO_REST_API_KEY)
 HAS_SUPABASE = bool(SUPABASE_URL and SUPABASE_SERVICE_KEY)
 
 # ── 트리스코어 가중치 (docs/SPEC.md §4 와 반드시 일치) ──────────────

@@ -1024,6 +1024,9 @@ def select_for_mentions(academies: list[dict],
         want[aid] = want.get(aid, 0) + bonus
     if acted:
         print(f"  행동 신호: {len(acted):,}곳에 전화·예약 기록 (수집 우선순위에 반영)")
+    # 학부모 제보(/tell)도 같은 층이다 — 수집 우선순위에만, 점수에는 안 쓴다.
+    from . import parent_reports
+    parent_reports.add_to(want)
 
     # ★ 형제 신호 — 같은 브랜드가 이미 두껍게 확인된 곳의 **미수집 지점**을
     #   앞으로 당긴다 (2026-09-05).
@@ -1318,6 +1321,16 @@ def load_mentions(academies: list[dict], mode: str,
         print("네이버 검색 API 수집 중…")
         region_names = {r["id"]: r["name_ko"] for r in config.regions()}
         mentions.extend(naver.collect_all(academies, region_names))
+        if config.HAS_DAUM:
+            from . import daum
+            print("다음 검색 API 수집 중…")
+            # 같은 글이 두 검색에 다 잡히면 먼저 온 네이버 쪽이 임자다
+            # (블로그 본문 보강이 source 를 본다).
+            seen = {(m["url_hash"], m["academy_key"]) for m in mentions}
+            extra = [m for m in daum.collect_all(academies, region_names)
+                     if (m["url_hash"], m["academy_key"]) not in seen]
+            print(f"  다음에서 새 글 {len(extra):,}건")
+            mentions.extend(extra)
     else:
         print("네이버 키 없음 → 합성 언급 생성 (demo 모드)")
         mentions.extend(_synthesize_mentions(academies))

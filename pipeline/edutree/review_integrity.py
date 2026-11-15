@@ -3,6 +3,7 @@ import re
 from urllib.parse import urlsplit, parse_qs
 
 INFORMATION = {"naver_news": "news", "naver_web": "web_information",
+               "daum_web": "web_information",
                "naver_kin": "question_answer"}
 QUESTION = re.compile(r"어떤가요|어때요|다녀보신|다니시는\s*분|추천\s*부탁|추천해\s*주세요|궁금합니다|궁금하네요|아시는\s*분|계실까요|계신가요|가능할까요|보려는데")
 EXPERIENCE = re.compile(

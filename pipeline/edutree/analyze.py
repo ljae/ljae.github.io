@@ -256,7 +256,7 @@ def score_credibility(text: str, title: str = "", source: str = "") -> float:
         score += 0.10                              # 1인칭 경험
     if any(k in flat for k in ("다녔", "다니는", "보냈", "보내는", "등록", "그만둔")):
         score += 0.10                              # 실제 수강 이력
-    if source == "naver_cafe":
+    if source in ("naver_cafe", "daum_cafe"):
         score += 0.05                              # 카페가 블로그보다 광고 비중이 낮음
     if len(flat) < 40:
         score -= 0.15                              # 한 줄짜리는 신뢰도 낮음
@@ -1473,7 +1473,8 @@ def analyze(mention: dict, academy_name: str = "",
     mention = dict(mention)
     # 검색 API의 카페명/언론사/웹 도메인은 개인 식별자가 아니다.
     # 누적 캐시의 잘못된 작성자도 매 재채점마다 정리한다.
-    if mention.get("source") in {"naver_cafe", "naver_web", "naver_news", "naver_kin"}:
+    if mention.get("source") in {"naver_cafe", "naver_web", "naver_news", "naver_kin",
+                                 "daum_cafe", "daum_web"}:
         mention["author_hash"] = None
     mention.update({
         "sentiment": sentiment,
