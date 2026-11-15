@@ -1,4 +1,5 @@
 import '../features/compare/compare_page.dart';
+import '../features/feedback/parent_report_page.dart';
 import '../features/feedback/parent_voice_page.dart';
 import '../features/admin/parent_voice_page.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +77,13 @@ final router = GoRouter(
         GoRoute(
           path: '/feedback',
           pageBuilder: (_, state) => _fade(const ParentVoicePage()),
+        ),
+        // 학부모 제보. 고르기만 하는 익명 폼 — 점수에는 쓰이지 않는다.
+        GoRoute(
+          path: '/tell',
+          pageBuilder: (_, state) => _fade(
+            ParentReportPage(academyId: state.uri.queryParameters['academy']),
+          ),
         ),
         GoRoute(
           path: '/admin/parent-voice',
