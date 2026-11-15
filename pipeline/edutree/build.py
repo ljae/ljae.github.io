@@ -931,7 +931,8 @@ def _previous_scores() -> dict:
         rows = json.loads(path.read_text(encoding="utf-8"))
     except (ValueError, OSError):
         return {}
-    return {r["id"]: {"is_ranked": (r.get("score") or {}).get("isRanked", False)}
+    return {r["id"]: {"is_ranked": (r.get("score") or {}).get("isRanked", False),
+                      "sample": (r.get("score") or {}).get("sampleSize") or 0}
             for r in rows}
 
 
@@ -1229,6 +1230,30 @@ def select_for_mentions(academies: list[dict],
 
         selected.extend(picked)
         skipped.extend(a for a in rows if a["id"] not in chosen)
+
+    # ★ 저장소가 근거를 잃은 학원을 되찾는다 (2026-11-15).
+    #
+    #   위 배정은 '안 봐도 근거가 저장소에 남는다' 를 전제한다. 그 전제가
+    #   깨진 적이 있다 — 야간 실패가 25일 이어지는 동안 actions 캐시가
+    #   만료돼, 게시된 랭킹의 근거 보유 1,263곳 중 저장소에 남은 곳이
+    #   688곳뿐이었다. 400칸 순환으로는 며칠이 걸리고 그동안 게시 게이트가
+    #   (근거 30% 넘게 감소) 매 회차 게시를 막는다.
+    #   → 직전 게시본에 표본이 있었는데 저장소에 한 줄도 없는 곳만, 정해진
+    #     상한 안에서 이번 회차에 더 본다. 표본 큰 곳부터. 평소에는 0곳이다.
+    if known is not None and known and prev_scores:
+        lost = sorted(
+            (a for a in skipped
+             if (prev_scores.get(a["id"]) or {}).get("sample", 0) > 0
+             and a["id"] not in known),
+            key=lambda a: (-(prev_scores[a["id"]].get("sample") or 0), a["id"]))
+        recover = lost[:max(0, config.NAVER_RECOVERY_MAX)]
+        if recover:
+            ids = {a["id"] for a in recover}
+            selected.extend(recover)
+            skipped = [a for a in skipped if a["id"] not in ids]
+            print(f"  근거 되찾기: 직전 게시본에 표본이 있었는데 저장소에 없는 "
+                  f"{len(lost):,}곳 중 {len(recover):,}곳을 더 수집"
+                  f" (상한 {config.NAVER_RECOVERY_MAX})")
 
     other = [a for a in academies if a.get("region_id") not in regions]
     skipped.extend(other)
