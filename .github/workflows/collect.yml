@@ -91,6 +91,8 @@ jobs:
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          # 없으면 다음 소스만 빠진다(빈 문자열 = 미설정).
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           NAVER_MAP_CLIENT_ID: ${{ secrets.NAVER_MAP_CLIENT_ID }}
