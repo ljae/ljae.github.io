@@ -55,6 +55,9 @@ class MentionReview {
         'naver_kin' => '네이버 지식iN',
         'naver_web' => '네이버 웹문서',
         'naver_news' => '네이버 뉴스',
+        'daum_cafe' => '다음 카페',
+        'daum_blog' => '다음 블로그',
+        'daum_web' => '다음 웹문서',
         'edutree_review' => '학원실록 후기',
         _ => source,
       };

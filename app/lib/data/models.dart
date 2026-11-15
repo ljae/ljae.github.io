@@ -756,6 +756,9 @@ class Evidence {
     'naver_kin' => '지식iN',
     'naver_web' => '웹문서',
     'naver_news' => '뉴스',
+    'daum_cafe' => '다음 카페',
+    'daum_blog' => '다음 블로그',
+    'daum_web' => '웹문서',
     'cafe_local' => '카페 수집',
     _ => source,
   };
