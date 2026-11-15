@@ -24,6 +24,8 @@ def check() -> None:
          "https://open.neis.go.kr/portal/myPage/actKeyPage.do"),
         ("네이버 검색 API", config.HAS_NAVER, "NAVER_CLIENT_ID / NAVER_CLIENT_SECRET",
          "https://console.ncloud.com/naver-api-hub/application  (또는 developers.naver.com)"),
+        ("다음 검색 API (선택)", config.HAS_DAUM, "KAKAO_REST_API_KEY",
+         "https://developers.kakao.com  (앱 → REST API 키)"),
         ("Supabase", config.HAS_SUPABASE, "SUPABASE_URL / SUPABASE_SERVICE_KEY",
          "https://supabase.com/dashboard"),
     ]
