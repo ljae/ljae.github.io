@@ -156,6 +156,30 @@ def test_순위권은_주기가_지났을_때만_다시_보고_그_자리를_안
     assert len(skipped) == 10
 
 
+def test_저장소가_잃은_근거는_예산_밖에서_상한까지_되찾는다(monkeypatch):
+    """캐시 만료로 저장소가 비면 400칸 순환으로는 게시 게이트를 못 넘는다."""
+    monkeypatch.setattr(config, "NAVER_MAX_ACADEMIES", 4)    # 학군당 1
+    monkeypatch.setattr(config, "NAVER_RECOVERY_MAX", 3)
+    rows = [_academy(i) for i in range(10)]
+    from edutree import coverage, demand
+    monkeypatch.setattr(coverage, "load", lambda: {})
+    monkeypatch.setattr(demand, "load", lambda: {})
+    # a1~a5 는 직전 게시본에 표본이 있었다. a1 만 저장소에 남았다.
+    prev = {f"a{i}": {"is_ranked": False, "sample": 10 * i} for i in range(1, 6)}
+    selected, skipped = build.select_for_mentions(rows, prev, known={"a1", "a9"})
+    ids = [a["id"] for a in selected]
+    normal = ids[0]
+    lost = [f"a{i}" for i in (5, 4, 3, 2) if f"a{i}" != normal]
+    assert ids[1:] == lost[:3], "표본 큰 곳부터, 상한까지만 되찾는다"
+    assert "a1" not in ids[1:], "저장소에 근거가 남은 곳은 되찾을 것이 없다"
+    assert len(selected) + len(skipped) == len(rows)
+
+    # 대비군: 저장소가 온전하면 예산 그대로다.
+    selected, _ = build.select_for_mentions(
+        rows, prev, known={f"a{i}" for i in range(1, 6)})
+    assert len(selected) == 1
+
+
 def test_며칠_지났는지는_기록이_없으면_모른다():
     from edutree import coverage
     assert coverage.days_since(None) is None
