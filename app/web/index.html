@@ -8,12 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
 
-  <title>학원실록 — 우리 아이에게 맞는 학원 찾기</title>
+  <title>학원실록 — 대치·목동·반포·잠실 학원 찾기</title>
   <meta name="description" content="대치·목동·반포·잠실 학원을 학년·과목별로 찾아보세요. 수업 특징, 통학 위치, 공공 등록 정보와 공개 후기 근거를 상담 전에 확인하세요.">
-  <meta name="keywords" content="대치동학원, 목동학원, 반포학원, 잠실학원, 학원테크트리, 학원랭킹, 학원후기, 사고력수학, 어학원레벨, 학군, 선행, 레벨테스트">
   <meta name="author" content="Open Edu">
   <link rel="canonical" href="https://openedu4u.com/">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <!-- analytics:non-content:start -->
   <script defer src="/analytics.js"></script>
   <!-- analytics:non-content:end -->
@@ -24,16 +23,18 @@
   <meta property="og:site_name" content="학원실록">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:url" content="https://openedu4u.com/">
-  <meta property="og:title" content="학원실록 — 우리 아이에게 맞는 학원 찾기">
+  <meta property="og:title" content="학원실록 — 대치·목동·반포·잠실 학원 찾기">
   <meta property="og:description" content="학년·수업 특징·통학 위치·후기 근거를 함께 살펴보는 학원 안내.">
   <meta property="og:image" content="https://openedu4u.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="학원실록 — 대치·목동·반포·잠실 학원 안내">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="학원실록 — 우리 아이에게 맞는 학원 찾기">
+  <meta name="twitter:title" content="학원실록 — 대치·목동·반포·잠실 학원 찾기">
   <meta name="twitter:description" content="우리 아이의 학년과 과목에 맞는 학원을 찾고, 공식 정보와 후기 근거를 비교하세요.">
   <meta name="twitter:image" content="https://openedu4u.com/og-image.png">
+  <meta name="twitter:image:alt" content="학원실록 — 대치·목동·반포·잠실 학원 안내">
 
   <!-- iOS -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -53,6 +54,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://openedu4u.com/#website",
     "name": "학원실록",
     "alternateName": "Hakwon Silok",
     "url": "https://openedu4u.com/",
@@ -137,6 +139,11 @@
     #boot .status { margin: 14px 0 0; color: var(--boot-muted); font-size: 12px; line-height: 1.7; }
     #boot .retry { display: inline-block; margin-top: 12px; color: var(--boot-accent); font-size: 13px; text-underline-offset: 4px; padding: 8px 0; }
     #boot .retry[hidden] { display: none; }
+    #boot .directory { margin-top: 20px; border-top: 1px solid var(--boot-line); padding-top: 12px; }
+    #boot .directory p { margin: 0; font-size: 13px; color: var(--boot-muted); line-height: 1.7; }
+    #boot .directory ul { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; padding: 0; margin: 4px 0; }
+    #boot .directory a { display: inline-flex; align-items: center; min-height: 44px; color: var(--boot-accent); font-size: 14px; text-underline-offset: 4px; }
+    #boot a:focus-visible { outline: 3px solid var(--boot-accent); outline-offset: 3px; }
     #boot .boot-footer { text-align: center; padding: 20px 24px max(24px, env(safe-area-inset-bottom)); font-size: 12px; line-height: 1.8; color: var(--boot-muted); }
     @media (prefers-color-scheme: dark) {
       #boot { --boot-bg: #101218; --boot-surface: #181B23; --boot-ink: #EDE7D9;
@@ -149,6 +156,7 @@
     }
     @keyframes boot-slide { from { transform: translateX(-100%); } to { transform: translateX(390%); } }
   </style>
+  <noscript><style>#boot .bar, #boot-status { display: none; }</style></noscript>
 </head>
 <body>
   <div id="boot">
@@ -162,12 +170,22 @@
     <main class="boot-main">
       <section class="boot-card" aria-labelledby="boot-title">
         <div class="eyebrow">우리 아이에게 맞는 학원 찾기</div>
-        <h1 id="boot-title">학원 정보를<br>불러오고 있어요</h1>
-        <p class="description">대상 학년부터 수업 특징, 통학 위치까지.<br>상담에 필요한 정보를 준비하고 있어요.</p>
+        <h1 id="boot-title">대치·목동·반포·잠실<br>우리 아이 학원 찾기</h1>
+        <p class="description">학년·과목별 학원과 통학 위치를 살펴보세요. 공공 등록 정보와 공개 후기 근거를 상담 전에 확인할 수 있습니다.</p>
         <div class="bar" aria-hidden="true"><i></i></div>
-        <p id="boot-status" class="status" role="status" aria-live="polite">잠시만 기다려 주세요.</p>
+        <p id="boot-status" class="status" role="status" aria-live="polite">학원 정보를 불러오고 있어요. 잠시만 기다려 주세요.</p>
         <a class="retry" id="boot-retry" href="" hidden>다시 불러오기</a>
-        <noscript><p class="status">학원을 찾아보려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+        <noscript><p class="status">아래 학군·과목별 목록에서 학원 정보를 확인하세요. 지도와 비교 기능은 JavaScript를 켜면 이용할 수 있습니다.</p></noscript>
+        <nav class="directory" aria-label="학군별 학원 정보">
+          <p>지역별 학원·학교 정보 바로 보기</p>
+          <ul>
+            <li><a href="/g/daechi.html">대치</a></li>
+            <li><a href="/g/mokdong.html">목동</a></li>
+            <li><a href="/g/banpo.html">반포</a></li>
+            <li><a href="/g/jamsil.html">잠실</a></li>
+          </ul>
+          <a href="/browse/">학군·과목별 전체 목록</a>
+        </nav>
       </section>
     </main>
     <footer class="boot-footer">대치 · 목동 · 반포 · 잠실</footer>

@@ -112,7 +112,8 @@ def won(v) -> str:
 
 
 def page(title: str, desc: str, canonical: str, body: str,
-         jsonld: dict | list | None = None, breadcrumb: list | None = None) -> str:
+         jsonld: dict | list | None = None, breadcrumb: list | None = None,
+         *, og_type: str = "website") -> str:
     # Internal navigation works in preview and production; canonical metadata stays absolute.
     body = body.replace(f'href="{SITE}/', 'href="/')
     blocks = []
@@ -135,27 +136,37 @@ def page(title: str, desc: str, canonical: str, body: str,
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<link rel="canonical" href="{canonical}">
+<link rel="canonical" href="{esc(canonical)}">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-<meta property="og:type" content="article">
+<meta property="og:type" content="{esc(og_type)}">
 <meta property="og:site_name" content="학원실록">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:url" content="{canonical}">
+<meta property="og:url" content="{esc(canonical)}">
 <meta property="og:image" content="{SITE}/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="학원실록 — 대치·목동·반포·잠실 학원 안내">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:image" content="{SITE}/og-image.png">
+<meta name="twitter:image:alt" content="학원실록 — 대치·목동·반포·잠실 학원 안내">
 <link rel="icon" href="{SITE}/favicon.ico" sizes="any">
 {scripts}
 <link rel="stylesheet" href="/seo.css">
 <!-- analytics:non-content:start --><script defer src="/analytics.js"></script><!-- analytics:non-content:end -->
 </head>
 <body>
+<a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
 <header><a class="brand" href="/">학원실록</a><span class="by">by Open Edu</span></header>
-<main>
+<main id="main-content">
 {('<nav class="breadcrumb" aria-label="현재 위치">' + ' › '.join(f'<a href="{esc(u.removeprefix(SITE))}">{esc(n)}</a>' for n, u in breadcrumb[:-1]) + ' › ' + esc(breadcrumb[-1][0]) + '</nav>') if breadcrumb else ''}
 {body}
 </main>
 <footer>
+<nav aria-label="학원 정보 안내"><a href="/browse/">학군·과목별 학원 목록</a> · <a href="/method.html">평가 기준</a> · <a href="/privacy/">개인정보 안내</a></nav>
 <p>출처: NEIS 학원·학교 공시정보, 네이버 검색 API. 산식은 <a href="/method.html">공개</a>합니다.</p>
 <p>운영: <a href="/openedu/">Open Edu</a> · Open Edu는 영어 교육 사업자입니다.</p>
 </footer>
@@ -309,7 +320,7 @@ def academy_pages(out: Path, academies, registry, regions, meta=None,
     for old, new in (aliases or {}).items():
         # Same useful content, current canonical. GitHub Pages serves HTTP 200, not 301.
         notice = f'<p class="panel">이 등록 정보는 <a href="/a/{new}.html">현재 학원 정보</a>로 통합되었습니다.</p>'
-        document = documents[new].replace('<main>', '<main>' + notice, 1)
+        document = documents[new].replace('<main id="main-content">', '<main id="main-content">' + notice, 1)
         (out / "a" / f'{old}.html').write_text(document, encoding="utf-8")
     return urls
 
@@ -375,6 +386,92 @@ def school_pages(out: Path, schools, regions) -> list[str]:
     return urls
 
 
+def subject_groups(academies) -> dict[str, list[dict]]:
+    """Complete, deterministic discovery lists; missing subjects remain unknown."""
+    groups = {subject: [] for subject in SUBJECTS}
+    for academy in academies:
+        subjects = set(academy.get("subjects") or []) & SUBJECTS.keys()
+        for subject in subjects or {"general"}:
+            groups[subject].append(academy)
+    return {subject: sorted(rows, key=lambda a: ((a.get("displayName") or a["name"]).casefold(), str(a["id"])))
+            for subject, rows in groups.items() if rows}
+
+
+def browse_page(out: Path, regions, academies, registry, tracks) -> list[str]:
+    """An ordinary HTML entry point for every region, subject and learning path."""
+    url = f"{SITE}/browse/"
+    title = "대치·목동·반포·잠실 학원 찾기 — 학군·과목별 목록 | 학원실록"
+    desc = "대치·목동·반포·잠실의 학원을 지역과 과목별로 찾아보세요. 학원 주소와 등록 정보, 학군별 학교와 학년별 학습 경로를 함께 확인할 수 있습니다."
+    body = ['<h1>학군·과목별 학원 찾기</h1>', f'<p class="sub">{esc(desc)}</p>']
+    entities = list(academies) + list(registry)
+    for region in regions:
+        rid, name = region['id'], region['name_ko']
+        rows = [a for a in entities if a.get('regionId') == rid]
+        body.append(f'<section class="panel"><h2><a href="/g/{esc(rid)}.html">{esc(name)} 학원·학교</a></h2>'
+                    f'<p>등록 학원·교습소 {len(rows):,}곳 · {esc(" · ".join(region.get("dong_list", [])))}</p>'
+                    '<ul class="directory-links">')
+        for subject, group in subject_groups(rows).items():
+            body.append(f'<li><a href="/g/{esc(rid)}/{subject}.html">{esc(SUBJECTS[subject])} {len(group):,}곳</a></li>')
+        body.append('</ul></section>')
+    if tracks:
+        body.append('<section class="panel"><h2>학년·과목별 학습 경로</h2><ul class="directory-links">')
+        for track in tracks:
+            body.append(f'<li><a href="/t/{esc(track["id"])}.html">{esc(track["title"])}</a></li>')
+        body.append('</ul><p class="note">학습 경로는 큐레이션 자료입니다. 현재 모집 대상과 입학 조건은 각 학원에 확인하세요.</p></section>')
+    ld = {"@context": "https://schema.org", "@type": "CollectionPage",
+          "name": title, "description": desc, "url": url, "inLanguage": "ko-KR"}
+    (out / 'browse').mkdir(parents=True, exist_ok=True)
+    (out / 'browse/index.html').write_text(page(title, desc, url, '\n'.join(body), ld,
+        [("학원실록", f"{SITE}/"), ("학군·과목별 학원 찾기", url)]), encoding='utf-8')
+    return [url]
+
+
+def subject_pages(out: Path, regions, academies, registry) -> list[str]:
+    """Stable topic URLs expose the full directory, including unscored academies.
+
+    Each current group has fewer than 600 entries. Render the complete lightweight
+    HTML list instead of hiding discovery behind an app filter or a load-more button.
+    """
+    urls = []
+    entities = list(academies) + list(registry)
+    for region in regions:
+        rid, name = region['id'], region['name_ko']
+        groups = subject_groups(a for a in entities if a.get('regionId') == rid)
+        (out / 'g' / rid).mkdir(parents=True, exist_ok=True)
+        for subject, rows in groups.items():
+            label = SUBJECTS[subject]
+            heading = f"{name} {label} 학원 목록"
+            title = f"{heading} — 주소·등록 정보 | 학원실록"
+            desc = f"{name} 지역의 {label} 학원·교습소 {len(rows):,}곳을 이름순으로 살펴보세요. 주소와 등록 정보를 확인하고 상세 페이지에서 대상 학년과 연락처의 확인 상태를 비교할 수 있습니다."
+            url = f'{SITE}/g/{rid}/{subject}.html'
+            body = [f'<h1>{esc(heading)}</h1>', f'<p class="sub">{esc(desc)}</p>',
+                    '<p class="note">이름순 목록이며 추천 순위가 아닙니다. 과목은 공개 자료의 분류입니다. 현재 모집 학년·과정은 학원에 직접 확인하세요.</p>',
+                    '<nav aria-label="같은 학군의 다른 과목"><ul class="directory-links">']
+            for other, group in groups.items():
+                current = ' aria-current="page"' if other == subject else ''
+                body.append(f'<li><a href="/g/{esc(rid)}/{other}.html"{current}>{esc(SUBJECTS[other])} {len(group):,}곳</a></li>')
+            body.append(f'</ul></nav><section aria-labelledby="academy-list"><h2 id="academy-list">학원·교습소 {len(rows):,}곳</h2><ul class="related">')
+            items = []
+            for academy in rows:
+                aid = str(academy['id'])
+                display_name = academy.get('displayName') or academy['name']
+                body.append(f'<li><a href="/a/{esc(aid)}.html">{esc(display_name)}</a>'
+                            f'<small>{esc(academy.get("address")) or "주소 미확인"}</small></li>')
+                items.append({"@type": "ListItem", "position": len(items) + 1,
+                              "name": display_name, "url": f'{SITE}/a/{aid}.html'})
+            body.append('</ul></section>')
+            body.append(f'<a class="cta" href="{esc(app_link("rank", region=rid, subject=subject if subject != "general" else None))}">앱에서 조건을 바꿔 탐색하기</a>')
+            ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": heading,
+                  "description": desc, "url": url, "inLanguage": "ko-KR",
+                  "mainEntity": {"@type": "ItemList", "itemListOrder": "https://schema.org/ItemListUnordered",
+                                 "numberOfItems": len(items), "itemListElement": items}}
+            document = page(title, desc, url, '\n'.join(body), ld,
+                [("학원실록", f"{SITE}/"), (name, f"{SITE}/g/{rid}.html"), (f"{label} 학원", url)])
+            (out / 'g' / rid / f'{subject}.html').write_text(document, encoding='utf-8')
+            urls.append(url)
+    return urls
+
+
 def region_pages(out: Path, regions, academies, registry, schools, meta) -> list[str]:
     urls = []
     (out / "g").mkdir(parents=True, exist_ok=True)
@@ -395,13 +492,10 @@ def region_pages(out: Path, regions, academies, registry, schools, meta) -> list
                 f"({', '.join(r['dong_list'])})</p>"]
 
         body.append('<section class="panel"><h2>과목별 학원 찾기</h2><ul>')
-        for subject, label in SUBJECTS.items():
-            rows = sorted([a for a in allac if subject in (a.get("subjects") or [])],
-                          key=lambda a: (a.get("displayName") or a["name"], str(a["id"])))
-            if not rows or subject == "general":
-                continue
-            body.append(f'<li><a href="{SITE}{esc(app_link("rank", region=rid, subject=subject))}">{esc(name)} {esc(label)} {len(rows)}곳 탐색</a></li>')
-            body.append('<ul>' + ''.join(f'<li><a href="{SITE}/a/{esc(a["id"])}.html">{esc(a.get("displayName") or a["name"])}</a></li>' for a in rows[:8]) + '</ul>')
+        for subject, rows in subject_groups(allac).items():
+            label = SUBJECTS[subject]
+            body.append(f'<li><a href="/g/{esc(rid)}/{subject}.html">{esc(name)} {esc(label)} {len(rows):,}곳 전체 보기</a>')
+            body.append('<ul>' + ''.join(f'<li><a href="{SITE}/a/{esc(a["id"])}.html">{esc(a.get("displayName") or a["name"])}</a></li>' for a in rows[:8]) + '</ul></li>')
         body.append('</ul><p class="note">이름순 탐색 목록입니다. 실제 모집 학년은 각 상세에서 확인해 주세요.</p></section>')
 
         for lv, label in (("elementary", "초등학교"), ("middle", "중학교"), ("high", "고등학교")):
@@ -658,7 +752,7 @@ def method_page(out: Path, meta) -> list[str]:
     }
     (out / "method.html").write_text(
         page(title, desc, f"{SITE}/method.html", "\n".join(b), ld,
-             [("학원실록", f"{SITE}/"), ("트리스코어 산식", f"{SITE}/method.html")]),
+             [("학원실록", f"{SITE}/"), ("트리스코어 산식", f"{SITE}/method.html")], og_type="article"),
         encoding="utf-8")
     return [f"{SITE}/method.html"]
 
@@ -776,6 +870,8 @@ def main(target: str, *, manifest_path=None, previous_manifest=None, allow_remov
         if (out / "openedu" / existing).is_file():
             urls.append(f"{SITE}/openedu/{existing}")
     urls += method_page(out, meta)
+    urls += browse_page(out, regions, academies, registry, tracks)
+    urls += subject_pages(out, regions, academies, registry)
     urls += region_pages(out, regions, academies, registry, schools, meta)
     urls += track_pages(out, tracks, academies)
     urls += school_pages(out, schools, regions)
@@ -783,7 +879,8 @@ def main(target: str, *, manifest_path=None, previous_manifest=None, allow_remov
     lifecycle = json.loads((ROOT / 'pipeline/data/url_lifecycle.json').read_text())
     notices = unavailable_academy_pages(out, lifecycle['entries'], entities, aliases)
 
-    manifest = inventory(out, urls, previous=previous, aliases=aliases, notices=notices, allow_removals=allow_removals)
+    manifest = inventory(out, urls, previous=previous, aliases=aliases, notices=notices,
+                         allow_removals=allow_removals, require_reachable=True)
     write_sitemap(out, urls, manifest)
     save_manifest(manifest_path, manifest)
     # Only identity mappings are public. Search data and the private manifest stay outside _site.

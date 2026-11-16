@@ -167,3 +167,106 @@ def test_current_pilot_and_recovered_identity_inputs_have_public_evidence():
     reviewed=validate_aliases(mappings,entities)
     assert reviewed['3000052565']=='3000030824'
     assert reviewed['3000052139']=='3000052110'
+
+
+def test_subject_directories_link_every_academy_including_unknown_subjects(tmp_path):
+    from pipeline.growth.inventory import PageParser
+    regions = [{'id': 'banpo', 'name_ko': '반포'}]
+    rows = [academy(str(i)) for i in range(100, 112)]
+    rows[0]['subjects'] = ['english', 'math']
+    rows[1]['subjects'] = []
+    rows[2]['subjects'] = ['general']
+    rows[3]['subjects'] = ['unrecognized']
+    rows[-1]['name'] = rows[-1]['displayName'] = '학원 <안내> & 상담'
+    urls = seo.subject_pages(tmp_path, regions, rows[:5], rows[5:])
+    assert set(urls) == {f'{seo.SITE}/g/banpo/{s}.html' for s in ('english', 'math', 'general')}
+    linked = set()
+    for url in urls:
+        document = (tmp_path / url.removeprefix(seo.SITE + '/')).read_text()
+        parser = PageParser()
+        parser.feed(document)
+        assert parser.canonical == url and not parser.noindex
+        links = [link for link in parser.links if link.startswith('/a/')]
+        assert len(links) == len(set(links))
+        linked.update(links)
+        assert 'aggregateRating' not in document
+        assert 'ItemListUnordered' in document
+        import re
+        data = [json.loads(block) for block in re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', document, re.S)]
+        listing = next(block['mainEntity'] for block in data if block.get('@type') == 'CollectionPage')
+        assert listing['numberOfItems'] == len(links)
+        assert [item['url'] for item in listing['itemListElement']] == [seo.SITE + link for link in links]
+    assert linked == {f'/a/{a["id"]}.html' for a in rows}
+    english = (tmp_path / 'g/banpo/english.html').read_text()
+    assert '학원 &lt;안내&gt; &amp; 상담' in english
+    unknown = (tmp_path / 'g/banpo/general.html').read_text()
+    assert '과목 미확인' in unknown and 'unrecognized' not in unknown
+
+
+def test_region_hubs_offer_static_subject_links_and_keep_app_action(tmp_path):
+    regions = [{'id': 'banpo', 'name_ko': '반포', 'dong_list': ['반포동']}]
+    rows = [academy(), {**academy('101'), 'subjects': ['general']}]
+    seo.region_pages(tmp_path, regions, [], rows, [], {})
+    document = (tmp_path / 'g/banpo.html').read_text()
+    assert 'href="/g/banpo/english.html"' in document
+    assert 'href="/g/banpo/general.html"' in document
+    assert 'href="/#/rank?region=banpo"' in document
+    assert '</li><ul>' not in document
+
+
+def test_browse_page_connects_regions_subjects_and_learning_tracks(tmp_path):
+    from pipeline.growth.inventory import PageParser
+    regions = [{'id': 'banpo', 'name_ko': '반포', 'dong_list': ['반포동']}]
+    tracks = [{'id': 'english_middle', 'title': '중등 영어', 'grade_band': 'middle'}]
+    urls = seo.browse_page(tmp_path, regions, [], [academy()], tracks)
+    parser = PageParser()
+    parser.feed((tmp_path / 'browse/index.html').read_text())
+    assert urls == [f'{seo.SITE}/browse/'] and parser.canonical == urls[0]
+    assert {'/g/banpo.html', '/g/banpo/english.html', '/t/english_middle.html'} <= set(parser.links)
+    assert '/g/banpo/math.html' not in parser.links
+
+
+def test_search_metadata_includes_consistent_accessible_share_cards():
+    from html.parser import HTMLParser
+    class Metadata(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.values = {}
+        def handle_starttag(self, tag, attrs):
+            a = dict(attrs)
+            if tag == 'meta':
+                self.values[a.get('name') or a.get('property')] = a.get('content')
+    title, desc = '학원 <안내> & 비교', '주소와 "등록 정보"'
+    document = seo.page(title, desc, f'{seo.SITE}/g/banpo.html', '<h1>반포</h1>')
+    parser = Metadata()
+    parser.feed(document)
+    assert parser.values['twitter:title'] == parser.values['og:title'] == title
+    assert parser.values['twitter:description'] == parser.values['description'] == desc
+    assert parser.values['twitter:image'] == parser.values['og:image']
+    assert parser.values['twitter:image:alt'] == parser.values['og:image:alt']
+    assert parser.values['og:image:width'] == '1200'
+    assert parser.values['og:image:height'] == '630'
+
+
+def test_homepage_has_useful_html_navigation_before_flutter_loads():
+    from pipeline.growth.inventory import PageParser
+    document = (seo.ROOT / 'app/web/index.html').read_text()
+    parser = PageParser()
+    parser.feed(document)
+    assert '/browse/' in parser.links
+    assert all(f'/g/{region}.html' in parser.links for region in ('daechi', 'mokdong', 'banpo', 'jamsil'))
+    assert '학원 정보를<br>불러오고 있어요</h1>' not in document
+
+
+def test_reachability_gate_does_not_treat_app_hash_links_as_directory_links(tmp_path):
+    home, detail = f'{seo.SITE}/', f'{seo.SITE}/a/100.html'
+    (tmp_path / 'a').mkdir()
+    (tmp_path / 'a/100.html').write_text(f'<link rel="canonical" href="{detail}">')
+    template = f'<link rel="canonical" href="{home}"><a href="{{}}">학원 정보</a>'
+    (tmp_path / 'index.html').write_text(template.format('/#/academy/100'))
+    with pytest.raises(ValueError, match='UNREACHABLE_SEARCH_PAGES'):
+        inventory(tmp_path, [home, detail], require_reachable=True)
+    (tmp_path / 'index.html').write_text(template.format('/a/100.html'))
+    result = inventory(tmp_path, [home, detail], require_reachable=True)
+    assert not result['issues']

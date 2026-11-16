@@ -40,7 +40,7 @@ def semantic_hash(document: str) -> str:
 
 
 def inventory(site_dir: Path, urls: list[str], *, previous=None, today=None,
-              aliases=None, notices=None, allow_removals=False) -> dict:
+              aliases=None, notices=None, allow_removals=False, require_reachable=False) -> dict:
     if not urls or len(urls) != len(set(urls)):
         raise ValueError("EMPTY_OR_DUPLICATE_SITEMAP")
     previous = previous or {"pages": {}}
@@ -125,6 +125,25 @@ def inventory(site_dir: Path, urls: list[str], *, previous=None, today=None,
         raise ValueError(f"UNEXPECTED_URL_REMOVAL: {len(unexpected)+len(removed_compatibility)+len(missing_notices)} URLs; review lifecycle/alias records first")
     if issues:
         raise ValueError(f"BROKEN_INTERNAL_LINKS: {json.dumps(issues[:8], ensure_ascii=False)}")
+    if require_reachable:
+        root_url = f'{origin.scheme}://{origin.netloc}/'
+        pending, reachable = [root_url], set()
+        while pending:
+            current = pending.pop()
+            if current in reachable or current not in pages:
+                continue
+            reachable.add(current)
+            for link in pages[current]['outgoingUrls']:
+                target = urlsplit(urljoin(current, link))
+                # App fragments are interactive destinations, not HTML detail pages.
+                if target.fragment.startswith('/'):
+                    continue
+                target_url = target._replace(query='', fragment='').geturl()
+                if target_url in pages and target_url not in reachable:
+                    pending.append(target_url)
+        unreachable = sorted(set(pages) - reachable)
+        if unreachable:
+            raise ValueError(f'UNREACHABLE_SEARCH_PAGES: {len(unreachable)} URLs; {unreachable[:8]}')
     return {"schemaVersion": 1, "generatedAt": today, "templateVersion": "search-detail-v2",
             "pages": pages, "compatibilityUrls": compatibility, "unavailableUrls": unavailable,
             "removed": removed + removed_compatibility, "issues": issues}
