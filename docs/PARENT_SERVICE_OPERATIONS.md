@@ -7,7 +7,7 @@ these jobs do not introduce additional autonomous agent identities.
 
 ## Active contracts introduced by this change
 
-1. Nightly collection retains its existing 04:00 KST schedule, identity gates,
+1. Nightly collection is scheduled daily at 22:23 KST (13:23 UTC), with identity gates,
    deduplication, scoring formula, correction intake, tests and data publishing.
    Built-in setup-python pip caching is removed after the setup stack overflow
    in run 42531171510. The essential collected-source cache remains intact.
@@ -80,6 +80,23 @@ relevant tests, and verify the public result. Keep scoring weights unchanged.
 Schedules become active only after the workflow reaches the default branch.
 Actual deployment and run outcomes are recorded in the dated pilot report.
 
+### Nightly Naver and Daum updates (2026-11-16)
+
+The 22:23 KST trigger runs full collection; GitHub can start it hours late, so
+the completion time is not guaranteed. Full runs require NEIS, Naver and Kakao
+credentials. After collection, Naver cafe/blog and Daum cafe/blog/web must each
+have a successful API check dated within that run. A successful empty search is
+valid; a cached success, missing key or disabled source is not. The
+`nightly-source-health` artifact records the checks. Explicit cache rescoring and
+directory-only maintenance do not claim to be fresh source collection.
+
+Collected caches and candidate ranking artifacts are retained even if the
+durable checkpoint or publication gate fails. Public writes still require a
+verified encrypted checkpoint and the existing freshness/coverage gates.
+Nonpublishing review runs now execute the same publication audit, making a
+coverage hold visible before release. Run 43780643315 was a cache-only replay:
+its success did not mean that the November 15 Naver/Daum collection was published.
+
 ## Evidence continuity and recovery
 
 The 2026-11-09 recovery found that the GitHub source cache had expired during the
@@ -125,7 +142,7 @@ history remain preserved in Git.
 ## Low-token local daily review (2026-11-09)
 
 The user authorised a daily update routine with local inference and small budgets.
-The existing GitHub 04:00 collector and 07:30 public freshness audit remain the
+The existing GitHub 22:23 collector and 07:30 public freshness audit remain the
 collection/publication owners. New local job `work.itdo.openedu-daily` is a small
 research review, not a second full ranking collector or an additional persona.
 
