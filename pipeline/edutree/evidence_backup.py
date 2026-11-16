@@ -24,6 +24,10 @@ FILES = ('mention_store.json.gz', 'first_seen.json', 'collect_history.json',
          'neis_academies.json', 'profiles.json', 'claim_llm.json',
          'post_summaries.json', 'blog_texts.json', 'source_health.json')
 MAX_BYTES = 512 * 1024 * 1024
+# The gzip-compressed archive has a separate limit from its expanded JSON.
+# A growing cumulative mention store crossed 512 MiB uncompressed while the
+# encrypted checkpoint remained under the transport limit. Keep both bounded.
+MAX_RAW_BYTES = 1024 * 1024 * 1024
 
 
 def key_bytes(value):
@@ -37,8 +41,8 @@ def key_bytes(value):
 
 def raw_rows(data):
     with gzip.GzipFile(fileobj=io.BytesIO(data)) as f:
-        payload = f.read(MAX_BYTES + 1)
-    if len(payload) > MAX_BYTES:
+        payload = f.read(MAX_RAW_BYTES + 1)
+    if len(payload) > MAX_RAW_BYTES:
         raise ValueError('Evidence store exceeds recovery limit')
     result = json.loads(payload)
     if result.get('version') != 1 or not isinstance(result.get('rows'), dict) or not result['rows']:
