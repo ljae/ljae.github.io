@@ -67,6 +67,26 @@ def test_empty_store_and_symlinks_fail_closed(tmp_path):
     with pytest.raises(ValueError, match='nonempty'):
         backup.pack(src, secrets.token_bytes(32))
 
+def test_growing_raw_store_roundtrips_without_loosening_archive_limit(tmp_path, monkeypatch):
+    # A compressed evidence store can stay small while its JSON exceeds the
+    # archive byte budget; collection must not lose its durable checkpoint.
+    monkeypatch.setattr(backup, 'MAX_BYTES', 1024)
+    monkeypatch.setattr(backup, 'MAX_RAW_BYTES', 2048, raising=False)
+    src, dst = tmp_path/'src', tmp_path/'dst'
+    make_cache(src)
+    rows = {'version': 1, 'rows': {'old': {'snippet': 'x' * 1200}}}
+    (src/'mention_store.json.gz').write_bytes(gzip.compress(json.dumps(rows).encode()))
+    key = secrets.token_bytes(32)
+    encrypted, manifest = backup.pack(src, key)
+    assert manifest['rawRows'] == 1
+    assert len(encrypted) < backup.MAX_BYTES
+    backup.restore(encrypted, key, dst)
+    assert backup.raw_rows((dst/'mention_store.json.gz').read_bytes()) == rows['rows']
+    rows['rows']['old']['snippet'] = 'x' * 2200
+    (src/'mention_store.json.gz').write_bytes(gzip.compress(json.dumps(rows).encode()))
+    with pytest.raises(ValueError, match='recovery limit'):
+        backup.pack(src, key)
+
 
 def test_missing_cache_restores_seed_and_too_small_checkpoint_cannot_pass(tmp_path, monkeypatch):
     src = tmp_path/'src'; make_cache(src)
