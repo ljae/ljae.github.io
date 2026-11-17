@@ -464,6 +464,518 @@
         "oldAddress": "서울특별시 서초구 서래로 17",
         "region": "banpo"
       }
+    },
+    {
+      "id": "13751",
+      "name": "카이스트보습학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "카이스트보습학원",
+        "oldAddress": "서울특별시 송파구 마천로 20",
+        "region": "jamsil"
+      }
+    },
+    {
+      "id": "16348",
+      "name": "빅스영어보습학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "빅스영어보습학원",
+        "oldAddress": "서울특별시 강남구 선릉로 225",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "23356",
+      "name": "수학하는사람들수학교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "수학하는사람들수학교습소",
+        "oldAddress": "서울특별시 양천구 목동서로 349",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "24808",
+      "name": "안세라영어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "안세라영어교습소",
+        "oldAddress": "서울특별시 강남구 삼성로61길 30",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "27249",
+      "name": "탑아너스잉글리쉬(TOPHONORSENGLISH)학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "탑아너스잉글리쉬(TOPHONORSENGLISH)학원",
+        "oldAddress": "서울특별시 강남구 삼성로 212",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000014455",
+      "name": "수이수능학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "수이수능학원",
+        "oldAddress": "서울특별시 강남구 영동대로57길 16",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000014632",
+      "name": "아트봄미술교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "아트봄미술교습소",
+        "oldAddress": "서울특별시 강남구 개포로82길 13-9",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000016660",
+      "name": "이박원어학학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "이박원어학학원",
+        "oldAddress": "서울특별시 송파구 위례성대로16길 7",
+        "region": "jamsil"
+      }
+    },
+    {
+      "id": "3000020503",
+      "name": "유주코칭&컨설팅진로진학상담교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "유주코칭&컨설팅진로진학상담교습소",
+        "oldAddress": "서울특별시 강남구 선릉로62길 32-1",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000021668",
+      "name": "코어아카데미영어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "코어아카데미영어교습소",
+        "oldAddress": "서울특별시 서초구 사평대로45길 10-25",
+        "region": "banpo"
+      }
+    },
+    {
+      "id": "3000023601",
+      "name": "비전매쓰수학교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "비전매쓰수학교습소",
+        "oldAddress": "서울특별시 서초구 고무래로 90-7",
+        "region": "banpo"
+      }
+    },
+    {
+      "id": "3000023915",
+      "name": "달콤교육영특영어학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "달콤교육영특영어학원",
+        "oldAddress": "서울특별시 송파구 마천로 14",
+        "region": "jamsil"
+      }
+    },
+    {
+      "id": "3000024070",
+      "name": "정확한독해구문분석정독영어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "정확한독해구문분석정독영어교습소",
+        "oldAddress": "서울특별시 양천구 목동서로 349",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000024159",
+      "name": "누나영아카데미어학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "누나영아카데미어학원",
+        "oldAddress": "서울특별시 서초구 서초대로78길 30",
+        "region": "banpo"
+      }
+    },
+    {
+      "id": "3000025722",
+      "name": "아이스마일잉글리시잠실영어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "아이스마일잉글리시잠실영어교습소",
+        "oldAddress": "서울특별시 송파구 올림픽로35길 112",
+        "region": "jamsil"
+      }
+    },
+    {
+      "id": "3000029380",
+      "name": "소엔코딩학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "소엔코딩학원",
+        "oldAddress": "서울특별시 양천구 목동서로 349",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000035570",
+      "name": "비쥬발레학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "비쥬발레학원",
+        "oldAddress": "서울특별시 양천구 등촌로 228",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000036621",
+      "name": "바람국어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "바람국어교습소",
+        "oldAddress": "서울특별시 양천구 목동동로8길 29",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000037869",
+      "name": "폴리어수학학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "폴리어수학학원",
+        "oldAddress": "서울특별시 양천구 목동서로 285",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000040414",
+      "name": "수학전문체인지그라운드수학교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "수학전문체인지그라운드수학교습소",
+        "oldAddress": "서울특별시 강남구 남부순환로 2917",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000041160",
+      "name": "아거수학학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "아거수학학원",
+        "oldAddress": "서울특별시 양천구 목동서로 77",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000046226",
+      "name": "애니벅스미술학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "애니벅스미술학원",
+        "oldAddress": "서울특별시 강남구 강남대로102길 14",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000046396",
+      "name": "유알(UR)학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "유알(UR)학원",
+        "oldAddress": "서울특별시 양천구 목동서로 349",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000048630",
+      "name": "창수학교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "창수학교습소",
+        "oldAddress": "서울특별시 양천구 목동서로 77",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000050349",
+      "name": "메이저맵진로진학학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "메이저맵진로진학학원",
+        "oldAddress": "서울특별시 강남구 삼성로75길 33",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000050966",
+      "name": "365국어교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "365국어교습소",
+        "oldAddress": "서울특별시 강남구 삼성로 150",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000051440",
+      "name": "바른개념창수학교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "바른개념창수학교습소",
+        "oldAddress": "서울특별시 양천구 목동서로 77",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000051709",
+      "name": "정쌤리딩수학영어랑국어랑학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "정쌤리딩수학영어랑국어랑학원",
+        "oldAddress": "서울특별시 양천구 중앙로36길 15",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000052847",
+      "name": "전기가오리독서논술원격학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "전기가오리독서논술원격학원",
+        "oldAddress": "서울특별시 강남구 도곡로63길 26",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000054510",
+      "name": "입시위키스터디센터입시학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "입시위키스터디센터입시학원",
+        "oldAddress": "서울특별시 양천구 오목로 322",
+        "region": "mokdong"
+      }
+    },
+    {
+      "id": "3000060327",
+      "name": "래미안피아노교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "래미안피아노교습소",
+        "oldAddress": "서울특별시 강남구 선릉로 8",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "5347",
+      "name": "수이학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-17",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "수이학원",
+        "oldAddress": "서울특별시 강남구 영동대로57길 16",
+        "region": "daechi"
+      }
     }
   ]
 }
