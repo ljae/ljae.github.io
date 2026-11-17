@@ -156,17 +156,31 @@ def test_analytics_instrumentation_does_not_fake_article_freshness():
 
 
 def test_current_pilot_and_recovered_identity_inputs_have_public_evidence():
-    import hashlib
     root=Path(__file__).resolve().parents[2]
     entities={str(a['id']):a for f in ['academies','registry'] for a in json.loads((root/'app/assets/data'/f'{f}.json').read_text())}
     pilot=json.loads((root/'pipeline/data/search_content_pilot.json').read_text())
     assert len(pilot['treatmentIds'])==4 and not set(pilot['treatmentIds'])&set(pilot['controlIds'])
-    for aid in pilot['treatmentIds']:
+    # The experiment keeps its original assignments when a registration drops
+    # out of a later NEIS snapshot. Only current entities receive snippets;
+    # URL continuity is checked separately against the deployed manifest.
+    for aid in set(pilot['treatmentIds']) & entities.keys():
         assert entities[aid]['address'] and set(entities[aid]['subjects'])-{'general'}
     mappings=json.loads((root/'pipeline/data/url_aliases.json').read_text())['entries']
     reviewed=validate_aliases(mappings,entities)
     assert reviewed['3000052565']=='3000030824'
     assert reviewed['3000052139']=='3000052110'
+
+
+def test_missing_pilot_registration_does_not_block_or_create_a_phantom_page(tmp_path):
+    pilot_path = seo.ROOT / 'pipeline/data/search_content_pilot.json'
+    before = pilot_path.read_bytes()
+    pilot = json.loads(before)
+    present, absent = pilot['treatmentIds'][:2]
+    urls = seo.academy_pages(tmp_path, [], [academy(present)],
+                             [{'id': 'banpo', 'name_ko': '반포'}])
+    assert urls == [f'{seo.SITE}/a/{present}.html']
+    assert not (tmp_path / 'a' / f'{absent}.html').exists()
+    assert pilot_path.read_bytes() == before  # Do not silently reassign the cohort.
 
 
 def test_subject_directories_link_every_academy_including_unknown_subjects(tmp_path):

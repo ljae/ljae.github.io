@@ -230,6 +230,46 @@
         "region": "daechi",
         "interpretation": "같은 브랜드·건물의 관/과정 등록 통합. 현재 통합 registrationIds에 이전 ID가 명시됨. 층·호수 및 실제 모집은 지점에 확인."
       }
+    },
+    {
+      "oldId": "3000048255",
+      "canonicalId": "3000044069",
+      "status": "verified",
+      "reviewedAt": "2026-11-17",
+      "evidence": {
+        "method": "same_address_and_explicit_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "대치이강프리미엄엠에스1학원",
+        "oldAddress": "서울특별시 강남구 삼성로 352",
+        "region": "daechi",
+        "canonicalRegisteredName": "대치이강프리미엄",
+        "canonicalAddress": "서울특별시 강남구 삼성로 352",
+        "registrationIds": [
+          "3000048255"
+        ]
+      }
+    },
+    {
+      "oldId": "3000048386",
+      "canonicalId": "3000028594",
+      "status": "verified",
+      "reviewedAt": "2026-11-17",
+      "evidence": {
+        "method": "same_address_and_explicit_registration_membership",
+        "previousCommit": "feb88efb01b9c77ef69779db7abb84c0c7e77aea",
+        "currentCommit": "258437a3dd2ac02a2a89304ec5cd7d19441f2195",
+        "currentAssetsSha256": "020e44d7130ddb1cd4380c09cb387178e815e12fb1de21fb2cbf8d64db3e1374",
+        "oldName": "에이비(ab)재팬일본유학미술학원",
+        "oldAddress": "서울특별시 강남구 봉은사로4길 22",
+        "region": "daechi",
+        "canonicalRegisteredName": "애니벅스",
+        "canonicalAddress": "서울특별시 강남구 봉은사로4길 22",
+        "registrationIds": [
+          "3000048386"
+        ]
+      }
     }
   ]
 }
