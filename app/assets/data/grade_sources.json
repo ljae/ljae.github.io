@@ -570,6 +570,27 @@
   ]
  },
  {
+  "academyId": "18149",
+  "name": "목동씨디아이에이프릴어학원",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "양천목동 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
+    "url": "https://www.creverse.com/april/mokdong/introduction/faq/list",
+    "shortSummary": null,
+    "checkedAt": "2026-09-20",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "english"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "26936",
   "name": "시매쓰목동학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -1171,27 +1192,6 @@
     "title": "대상 학년 확인 근거",
     "summary": "공식 페이지는 엠:리젠 프로그램을 초4~6으로 표시하고 해당 관을 오목로 300으로 명시합니다. 본관의 중·고등 시간표를 이 관에 옮기지 않았습니다.",
     "url": "https://www.xn--oy2b23tugp1f.com/Location",
-    "shortSummary": null,
-    "checkedAt": "2026-09-20",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "18149",
-  "name": "목동씨디아이에이프릴어학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "양천목동 캠퍼스 공식 FAQ는 수강 대상을 7세~초6으로 안내합니다. 지점별 개설 프로그램·레벨에 따라 실제 입학 가능한 학년은 달라질 수 있습니다.",
-    "url": "https://www.creverse.com/april/mokdong/introduction/faq/list",
     "shortSummary": null,
     "checkedAt": "2026-09-20",
     "kind": "official",

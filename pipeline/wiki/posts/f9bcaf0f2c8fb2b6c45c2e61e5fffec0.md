@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.41 (긍정) · 신뢰도 0.34 · **스팸 배제**
-- 붙은 학원 4곳 · 과목 english·korean·science
+- 붙은 학원 5곳 · 과목 english·korean·science
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -32,6 +32,7 @@ stale_after:
 - [[../academies/3000043794|애플과학학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 - [[../academies/3000012128|아트피아연기학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 - [[../academies/3000052057|띵크올리오학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
+- [[../academies/3000033957|주액터스연기학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 <!-- /auto:edges -->
 
 ## 검수

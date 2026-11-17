@@ -1,0 +1,39 @@
+---
+url_hash: "611dd48ba2b6ef8cbdbd3d5b6dd51fad"
+url: https://damoahub.com/%ED%95%99%EC%9B%90/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%96%91%EC%B2%9C%EA%B5%AC/%EB%AA%A91%EB%8F%99/%ED%94%8C%EB%9D%BC%ED%86%A4%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8%EB%AA%A9%EC%9A%B4%EB%8F%85%EC%84%9C%ED%86%A0%EB%A1%A0%EB%85%BC%EC%88%A0%EA%B5%90%EC%8A%B5%EC%86%8C/
+source: daum_web
+title: 플라톤아카데미목운독서토론논술교습소 — 양천구 학원 수강료·교습과목·위치
+posted_at: 2026-10-23
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 플라톤아카데미목운독서토론논술교습소 — 양천구 학원 수강료·교습과목·위치
+
+원문: https://damoahub.com/%ED%95%99%EC%9B%90/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C/%EC%96%91%EC%B2%9C%EA%B5%AC/%EB%AA%A91%EB%8F%99/%ED%94%8C%EB%9D%BC%ED%86%A4%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8%EB%AA%A9%EC%9A%B4%EB%8F%85%EC%84%9C%ED%86%A0%EB%A1%A0%EB%85%BC%EC%88%A0%EA%B5%90%EC%8A%B5%EC%86%8C/
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.37 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 korean
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000043608|플라톤아카데미목운독서토론논술교습소]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
