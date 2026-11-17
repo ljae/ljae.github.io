@@ -1,0 +1,48 @@
+---
+url_hash: "d2ddb5fbcf281bfda793638f0c0cda9a"
+url: https://cafe.daum.net/apt7345/QBtm/349
+source: daum_cafe
+title: 게임학원 등 학원정보 학원개원 학원검색 학원명단 안내
+posted_at: 2026-01-14
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 게임학원 등 학원정보 학원개원 학원검색 학원명단 안내
+
+원문: https://cafe.daum.net/apt7345/QBtm/349
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.38 · **스팸 배제**
+- 붙은 학원 10곳 · 과목 english
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000053307|수시레시피정시레시피학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000038263|콴다(QANDA)원격학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000033374|강남하이퍼의대관학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/1000036776|강남하이퍼학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000017272|김영일교육컨설팅학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/16590|와세다에듀학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/1000036309|강남아이지에스(IGS)통역학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000021597|오하운폴댄스학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000039237|폴러스폴댄스학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000028128|블랙칸댄스학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->

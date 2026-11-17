@@ -19,8 +19,8 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.00 (중립) · 신뢰도 0.35
-- 붙은 학원 1곳 · 과목 korean
+- 감성 +0.00 (중립) · 신뢰도 0.41
+- 붙은 학원 1곳 · 과목 english
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -28,7 +28,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/3000023628|러빈아트(Lovin' art)미술교습소]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000028436|씨엠에스(CMS)서초영재관학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

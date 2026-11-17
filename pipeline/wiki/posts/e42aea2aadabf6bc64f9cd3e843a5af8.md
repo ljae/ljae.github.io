@@ -19,8 +19,8 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 -0.38 (부정) · 신뢰도 0.41
-- 붙은 학원 1곳 · 과목 math
+- 감성 -0.38 (부정) · 신뢰도 0.40 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 science
 <!-- /auto:digest -->
 
 <!-- auto:summary -->

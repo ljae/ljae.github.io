@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 -0.38 (부정) · 신뢰도 0.34 · **스팸 배제**
-- 붙은 학원 1곳 · 과목 english
+- 붙은 학원 2곳 · 과목 english
 - 진입난이도 신호: hard
 <!-- /auto:digest -->
 
@@ -30,6 +30,7 @@ stale_after:
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
 - [[../academies/9294|아이엘이]] — 글이 이 권역을 밝힘 · 감성 -0.38
+- [[../academies/14212|피아이어학원]] — 이름이 본문에 등장 · 감성 -0.12
 <!-- /auto:edges -->
 
 ## 검수

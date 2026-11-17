@@ -1,0 +1,416 @@
+{
+ "day": "2026-11-17",
+ "previousDay": "2026-10-20",
+ "generatedAt": "2026-11-17T00:17:22.942327+00:00",
+ "ranked": 292,
+ "rankedBefore": 279,
+ "entered": 74,
+ "left": 58,
+ "moved": 182,
+ "scoringChanged": false,
+ "newFirsts": [
+  {
+   "name": "기파랑문해원대치본원학원",
+   "region": "대치",
+   "subject": "국어·논술",
+   "from": 3,
+   "to": 1
+  },
+  {
+   "name": "플레이코딩아카데미학원",
+   "region": "대치",
+   "subject": "기타",
+   "from": null,
+   "to": 1
+  },
+  {
+   "name": "스즈키바이올린교습소",
+   "region": "대치",
+   "subject": "예체능",
+   "from": 2,
+   "to": 1
+  },
+  {
+   "name": "목동문예창작학원",
+   "region": "목동",
+   "subject": "국어·논술",
+   "from": 2,
+   "to": 1
+  },
+  {
+   "name": "범연기학원",
+   "region": "목동",
+   "subject": "기타",
+   "from": 3,
+   "to": 1
+  }
+ ],
+ "newFirstCount": 13,
+ "topRises": [
+  {
+   "name": "대치수능선배",
+   "region": "대치",
+   "subject": "수학",
+   "from": 41,
+   "to": 9
+  },
+  {
+   "name": "다함영재원학원",
+   "region": "대치",
+   "subject": "수학",
+   "from": 38,
+   "to": 14
+  },
+  {
+   "name": "그로튼아카데미학원",
+   "region": "대치",
+   "subject": "영어",
+   "from": 33,
+   "to": 12
+  }
+ ],
+ "daechi": {
+  "region": "대치",
+  "scoringChanged": false,
+  "searched": true,
+  "bannedCount": 0,
+  "calendarCount": 13,
+  "homepageEvents": 0,
+  "rooms": {
+   "elem_low": {
+    "label": "예비초~초3",
+    "ranking": {
+     "newFirsts": [
+      {
+       "name": "엠에스씨",
+       "subject": "국어·논술",
+       "from": null,
+       "to": 1
+      },
+      {
+       "name": "아담리즈수학대치센터학원",
+       "subject": "기타",
+       "from": null,
+       "to": 1
+      }
+     ],
+     "rises": [
+      {
+       "name": "알파잉글리쉬학원",
+       "subject": "영어",
+       "from": 14,
+       "to": 9
+      }
+     ]
+    },
+    "thisWeek": [],
+    "news": [],
+    "newAcademies": [],
+    "goneAcademies": [
+     {
+      "name": "365국어교습소",
+      "bands": []
+     },
+     {
+      "name": "래미안피아노교습소",
+      "bands": []
+     },
+     {
+      "name": "메이저맵진로진학학원",
+      "bands": []
+     },
+     {
+      "name": "빅스영어보습학원",
+      "bands": []
+     },
+     {
+      "name": "수학전문체인지그라운드수학교습소",
+      "bands": [
+       "elem_low",
+       "elem_high",
+       "middle",
+       "high"
+      ]
+     }
+    ]
+   },
+   "elem_high": {
+    "label": "초4~초6",
+    "ranking": {
+     "newFirsts": [],
+     "rises": [
+      {
+       "name": "알파잉글리쉬학원",
+       "subject": "영어",
+       "from": 13,
+       "to": 9
+      },
+      {
+       "name": "개념폴리아",
+       "subject": "수학",
+       "from": 6,
+       "to": 3
+      },
+      {
+       "name": "다함영재원학원",
+       "subject": "수학",
+       "from": 10,
+       "to": 7
+      }
+     ]
+    },
+    "thisWeek": [],
+    "news": [],
+    "newAcademies": [],
+    "goneAcademies": [
+     {
+      "name": "365국어교습소",
+      "bands": []
+     },
+     {
+      "name": "래미안피아노교습소",
+      "bands": []
+     },
+     {
+      "name": "메이저맵진로진학학원",
+      "bands": []
+     },
+     {
+      "name": "빅스영어보습학원",
+      "bands": []
+     },
+     {
+      "name": "수학전문체인지그라운드수학교습소",
+      "bands": [
+       "elem_low",
+       "elem_high",
+       "middle",
+       "high"
+      ]
+     }
+    ]
+   },
+   "middle": {
+    "label": "중등",
+    "ranking": {
+     "newFirsts": [
+      {
+       "name": "아이엘이",
+       "subject": "영어",
+       "from": 2,
+       "to": 1
+      },
+      {
+       "name": "기파랑문해원대치본원학원",
+       "subject": "국어·논술",
+       "from": 2,
+       "to": 1
+      }
+     ],
+     "rises": [
+      {
+       "name": "콴다일로",
+       "subject": "수학",
+       "from": 20,
+       "to": 9
+      },
+      {
+       "name": "김현정수학",
+       "subject": "수학",
+       "from": 17,
+       "to": 8
+      },
+      {
+       "name": "개념폴리아",
+       "subject": "수학",
+       "from": 8,
+       "to": 2
+      }
+     ]
+    },
+    "thisWeek": [],
+    "news": [
+     {
+      "title": "[대치엠에스지] 2026 겨울 설명회 일정 안내 ; 초중등 과학·영재교육....",
+      "url": "https://blog.naver.com/msgedu/224479818608",
+      "postedAt": "2026-11-17",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "엠에스지 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle"
+      ]
+     }
+    ],
+    "newAcademies": [],
+    "goneAcademies": [
+     {
+      "name": "365국어교습소",
+      "bands": []
+     },
+     {
+      "name": "래미안피아노교습소",
+      "bands": []
+     },
+     {
+      "name": "메이저맵진로진학학원",
+      "bands": []
+     },
+     {
+      "name": "빅스영어보습학원",
+      "bands": []
+     },
+     {
+      "name": "수이학원",
+      "bands": [
+       "middle",
+       "high"
+      ]
+     }
+    ]
+   },
+   "high": {
+    "label": "고등",
+    "ranking": {
+     "newFirsts": [
+      {
+       "name": "세계로학원",
+       "subject": "국어·논술",
+       "from": 2,
+       "to": 1
+      },
+      {
+       "name": "비욘드싱잉강남점학원",
+       "subject": "예체능",
+       "from": null,
+       "to": 1
+      }
+     ],
+     "rises": [
+      {
+       "name": "대치수능선배",
+       "subject": "수학",
+       "from": 32,
+       "to": 6
+      },
+      {
+       "name": "강남종로학원",
+       "subject": "영어",
+       "from": 10,
+       "to": 4
+      },
+      {
+       "name": "예섬학원",
+       "subject": "국어·논술",
+       "from": 8,
+       "to": 4
+      }
+     ]
+    },
+    "thisWeek": [
+     {
+      "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
+      "url": "https://dhnews.co.kr/news/view/1065597871378502",
+      "postedAt": "2026-10-29",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "슈파스 개강",
+      "source": "news",
+      "dates": [
+       "2026-11-20",
+       "2026-12-05"
+      ],
+      "bands": [
+       "high"
+      ]
+     },
+     {
+      "title": "스카이입시교육학원 대치동점, 2027 경찰대학 면접 설명회 개최…집단토...",
+      "url": "https://www.itbiznews.com/news/articleView.html?idxno=230722",
+      "postedAt": "2026-11-09",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "스카이 설명회",
+      "source": "news",
+      "dates": [
+       "2026-11-21"
+      ],
+      "bands": [
+       "high"
+      ]
+     },
+     {
+      "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(3차)",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(3차)",
+      "postedAt": "2026-11-14",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-22"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "세정 설명회",
+      "bands": [
+       "high"
+      ]
+     },
+     {
+      "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(4차)",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(4차)",
+      "postedAt": "2026-11-14",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-23"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "세정 설명회",
+      "bands": [
+       "high"
+      ]
+     }
+    ],
+    "news": [],
+    "newAcademies": [],
+    "goneAcademies": [
+     {
+      "name": "365국어교습소",
+      "bands": []
+     },
+     {
+      "name": "래미안피아노교습소",
+      "bands": []
+     },
+     {
+      "name": "메이저맵진로진학학원",
+      "bands": []
+     },
+     {
+      "name": "빅스영어보습학원",
+      "bands": []
+     },
+     {
+      "name": "수이수능학원",
+      "bands": [
+       "high"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

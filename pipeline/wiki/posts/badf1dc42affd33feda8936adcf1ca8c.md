@@ -19,9 +19,9 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.83 (긍정) · 신뢰도 0.15 · 스팸 0.81 · **스팸 배제**
-- 붙은 학원 1곳 · 과목 math
-- 등급반 언급: advanced·basic·top
+- 감성 +0.41 (긍정) · 신뢰도 0.28
+- 붙은 학원 1곳 · 과목 science
+- 등급반 언급: advanced
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -29,7 +29,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/3000028436|씨엠에스(CMS)서초영재관학원]] — 글이 이 권역을 밝힘 · 감성 +0.83
+- [[../academies/3000028436|씨엠에스(CMS)서초영재관학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 <!-- /auto:edges -->
 
 ## 검수

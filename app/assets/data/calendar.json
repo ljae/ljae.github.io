@@ -5,43 +5,9 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-14T14:00:00+00:00",
+ "generatedAt": "2026-11-17T00:17:22.942327+00:00",
  "windowDays": 62,
  "events": [
-  {
-   "title": "[설명회] 뉴파인 반포본원 초등부, 11월 학부모 간담회 & 학년별 겨울....",
-   "url": "https://blog.naver.com/newfine_elemid/224477148381",
-   "postedAt": "2026-11-14",
-   "kind": "session",
-   "regions": [
-    "banpo"
-   ],
-   "label": "뉴파인 설명회",
-   "source": "blog",
-   "dates": [
-    "2026-11-16"
-   ],
-   "bands": []
-  },
-  {
-   "title": "세정학원 · 다가오는 설명회",
-   "url": "https://sejungedu.com",
-   "key": "https://sejungedu.com#다가오는 설명회",
-   "postedAt": "2026-11-14",
-   "kind": "session",
-   "source": "homepage",
-   "dates": [
-    "2026-11-16"
-   ],
-   "regions": [
-    "daechi"
-   ],
-   "label": "세정 설명회",
-   "bands": [
-    "middle",
-    "high"
-   ]
-  },
   {
    "title": "[잠실 시그마 수학학원] 가천대 메디컬 논술 파이널 9일 집중반 개강....",
    "url": "https://blog.naver.com/sigmamath21/224475202660",
@@ -216,6 +182,24 @@
     "elem_high",
     "middle",
     "high"
+   ]
+  },
+  {
+   "title": "[목동 정이조 본원_중등영어]12월 학기 개강! 겨울방학, 영어 실력을 ....",
+   "url": "https://blog.naver.com/cyjenglish20/224479434628",
+   "postedAt": "2026-11-16",
+   "kind": "open",
+   "regions": [
+    "mokdong"
+   ],
+   "label": "정이조본원 개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-03",
+    "2026-12-04"
+   ],
+   "bands": [
+    "middle"
    ]
   },
   {
