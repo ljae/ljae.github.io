@@ -5,7 +5,7 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-17T22:52:04.720326+00:00",
+ "generatedAt": "2026-11-18T22:30:30.319747+00:00",
  "windowDays": 62,
  "events": [
   {
@@ -37,6 +37,24 @@
     "2026-11-20",
     "2026-12-05"
    ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "송파메가스터디학원 · 11. 20(금)부터 순차 개강",
+   "url": "https://russelsp.megastudy.net/",
+   "key": "https://russelsp.megastudy.net/#11. 20(금)부터 순차 개강",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "source": "homepage",
+   "dates": [
+    "2026-11-20"
+   ],
+   "regions": [
+    "jamsil"
+   ],
+   "label": "메가 개강",
    "bands": [
     "high"
    ]
@@ -75,6 +93,26 @@
    "bands": [
     "high"
    ]
+  },
+  {
+   "title": "[조동현논술] 대학별 논술 파이널 11/23(월) 개강 - 방이동논술학원 대....",
+   "url": "https://blog.naver.com/sebit1278/224482501024",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "regions": [
+    "jamsil"
+   ],
+   "label": "조동현 개강",
+   "source": "blog",
+   "dates": [
+    "2026-11-23",
+    "2026-11-24",
+    "2026-11-25",
+    "2026-11-26",
+    "2026-11-27",
+    "2026-11-28"
+   ],
+   "bands": []
   },
   {
    "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(4차)",
@@ -204,7 +242,7 @@
    "title": "청담어학원 · 26년 겨울학기 개강",
    "url": "https://creverse.com/cdi/mokdong/",
    "key": "https://creverse.com/cdi/mokdong/#26년 겨울학기 개강",
-   "postedAt": "2026-11-14",
+   "postedAt": "2026-11-18",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -256,6 +294,24 @@
    "bands": []
   },
   {
+   "title": "송파메가스터디학원 · 12. 07(월) 개강",
+   "url": "https://russelsp.megastudy.net/",
+   "key": "https://russelsp.megastudy.net/#12. 07(월) 개강",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "source": "homepage",
+   "dates": [
+    "2026-12-07"
+   ],
+   "regions": [
+    "jamsil"
+   ],
+   "label": "메가 개강",
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "이투스247학원 송파점, 12월 11일 입시설명회 개최…김영준 입시센터장...",
    "url": "https://www.thebilliards.kr/news/articleView.html?idxno=32471",
    "postedAt": "2026-11-17",
@@ -271,6 +327,22 @@
    "bands": [
     "high"
    ]
+  },
+  {
+   "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
+   "url": "https://blog.naver.com/dcsmartjungil/224482099366",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "regions": [
+    "daechi",
+    "jamsil"
+   ],
+   "label": "스마트정일 개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-14"
+   ],
+   "bands": []
   },
   {
    "title": "송파메가스터디학원 · 01. 04(월) 개강",
@@ -289,6 +361,21 @@
    "bands": [
     "high"
    ]
+  },
+  {
+   "title": "공통수학1·2 20회로 끝내는 겨울방학, 반포 세정학원 1월 11일 개강",
+   "url": "https://blog.naver.com/lkwmathlab/224480017601",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "regions": [
+    "banpo"
+   ],
+   "label": "공통 개강",
+   "source": "blog",
+   "dates": [
+    "2027-01-11"
+   ],
+   "bands": []
   }
  ]
 }

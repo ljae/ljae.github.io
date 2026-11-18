@@ -1,81 +1,45 @@
 {
- "day": "2026-11-17",
- "previousDay": "2026-10-20",
- "generatedAt": "2026-11-17T22:52:04.720326+00:00",
- "ranked": 295,
- "rankedBefore": 279,
- "entered": 78,
- "left": 59,
- "moved": 182,
+ "day": "2026-11-18",
+ "previousDay": "2026-11-17",
+ "generatedAt": "2026-11-18T22:30:30.319747+00:00",
+ "ranked": 303,
+ "rankedBefore": 295,
+ "entered": 9,
+ "left": 1,
+ "moved": 101,
  "scoringChanged": false,
- "newFirsts": [
-  {
-   "name": "기파랑문해원대치본원학원",
-   "region": "대치",
-   "subject": "국어·논술",
-   "from": 3,
-   "to": 1
-  },
-  {
-   "name": "플레이코딩아카데미학원",
-   "region": "대치",
-   "subject": "기타",
-   "from": null,
-   "to": 1
-  },
-  {
-   "name": "스즈키바이올린교습소",
-   "region": "대치",
-   "subject": "예체능",
-   "from": 2,
-   "to": 1
-  },
-  {
-   "name": "목동문예창작학원",
-   "region": "목동",
-   "subject": "국어·논술",
-   "from": 2,
-   "to": 1
-  },
-  {
-   "name": "범연기학원",
-   "region": "목동",
-   "subject": "기타",
-   "from": 3,
-   "to": 1
-  }
- ],
- "newFirstCount": 14,
+ "newFirsts": [],
+ "newFirstCount": 0,
  "topRises": [
   {
-   "name": "대치수능선배",
+   "name": "모노스학원",
    "region": "대치",
    "subject": "수학",
-   "from": 41,
-   "to": 9
+   "from": 24,
+   "to": 18
   },
   {
-   "name": "다함영재원학원",
-   "region": "대치",
+   "name": "메이플",
+   "region": "반포",
    "subject": "수학",
-   "from": 38,
-   "to": 14
+   "from": 6,
+   "to": 3
   },
   {
-   "name": "매쓰몽대치",
-   "region": "대치",
+   "name": "씨엠에스보습학원",
+   "region": "목동",
    "subject": "수학",
-   "from": 31,
-   "to": 11
+   "from": 6,
+   "to": 3
   }
  ],
  "daechi": {
   "region": "대치",
   "scoringChanged": false,
   "searched": true,
-  "bannedCount": 1,
-  "calendarCount": 16,
-  "homepageEvents": 0,
+  "bannedCount": 0,
+  "calendarCount": 21,
+  "homepageEvents": 4,
   "rooms": {
    "elem_low": {
     "label": "예비초~초3",
@@ -86,29 +50,19 @@
     "thisWeek": [],
     "news": [
      {
-      "title": "대치동 최상위권 단과 러셀학원 설명회 소개 (대치역 7·8번 출구 바....",
-      "url": "https://blog.naver.com/many_rounds_of_life/224481069542",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "러셀 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[매쓰몽 대치 본원 (1관)] 12월 수학 동화 단과 개강!",
-      "url": "https://blog.naver.com/mathmong21/224480981940",
-      "postedAt": "2026-11-17",
+      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
+      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
+      "postedAt": "2026-11-18",
       "kind": "open",
       "regions": [
-       "daechi"
+       "daechi",
+       "jamsil"
       ],
-      "label": "개강",
+      "label": "스마트정일 개강",
       "source": "blog",
-      "dates": [],
+      "dates": [
+       "2026-12-14"
+      ],
       "bands": []
      }
     ],
@@ -124,66 +78,19 @@
     "thisWeek": [],
     "news": [
      {
-      "title": "대치동 예비중3 수학 | 함수학 MS반 미적분1 1월 개강 & 11/28 설명회",
-      "url": "https://blog.naver.com/hahmmath/224481203336",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [
-       "2026-11-28"
-      ],
-      "bands": [
-       "elem_high",
-       "middle"
-      ]
-     },
-     {
-      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
-      "url": "https://blog.naver.com/hahmmath/224481192001",
-      "postedAt": "2026-11-17",
+      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
+      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
+      "postedAt": "2026-11-18",
       "kind": "open",
       "regions": [
-       "daechi"
+       "daechi",
+       "jamsil"
       ],
-      "label": "공통 개강",
+      "label": "스마트정일 개강",
       "source": "blog",
       "dates": [
-       "2026-11-28",
-       "2027-01-04"
+       "2026-12-14"
       ],
-      "bands": [
-       "elem_high",
-       "middle"
-      ]
-     },
-     {
-      "title": "대치동 최상위권 단과 러셀학원 설명회 소개 (대치역 7·8번 출구 바....",
-      "url": "https://blog.naver.com/many_rounds_of_life/224481069542",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "러셀 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[매쓰몽 대치 본원 (1관)] 12월 수학 동화 단과 개강!",
-      "url": "https://blog.naver.com/mathmong21/224480981940",
-      "postedAt": "2026-11-17",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "개강",
-      "source": "blog",
-      "dates": [],
       "bands": []
      }
     ],
@@ -199,66 +106,19 @@
     "thisWeek": [],
     "news": [
      {
-      "title": "대치동 예비중3 수학 | 함수학 MS반 미적분1 1월 개강 & 11/28 설명회",
-      "url": "https://blog.naver.com/hahmmath/224481203336",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [
-       "2026-11-28"
-      ],
-      "bands": [
-       "elem_high",
-       "middle"
-      ]
-     },
-     {
-      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
-      "url": "https://blog.naver.com/hahmmath/224481192001",
-      "postedAt": "2026-11-17",
+      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
+      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
+      "postedAt": "2026-11-18",
       "kind": "open",
       "regions": [
-       "daechi"
+       "daechi",
+       "jamsil"
       ],
-      "label": "공통 개강",
+      "label": "스마트정일 개강",
       "source": "blog",
       "dates": [
-       "2026-11-28",
-       "2027-01-04"
+       "2026-12-14"
       ],
-      "bands": [
-       "elem_high",
-       "middle"
-      ]
-     },
-     {
-      "title": "대치동 최상위권 단과 러셀학원 설명회 소개 (대치역 7·8번 출구 바....",
-      "url": "https://blog.naver.com/many_rounds_of_life/224481069542",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "러셀 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[매쓰몽 대치 본원 (1관)] 12월 수학 동화 단과 개강!",
-      "url": "https://blog.naver.com/mathmong21/224480981940",
-      "postedAt": "2026-11-17",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "개강",
-      "source": "blog",
-      "dates": [],
       "bands": []
      }
     ],
@@ -268,7 +128,14 @@
    "high": {
     "label": "고등",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "미래탐구학원",
+       "subject": "수학",
+       "from": 2,
+       "to": 1
+      }
+     ],
      "rises": []
     },
     "thisWeek": [
@@ -346,60 +213,20 @@
     ],
     "news": [
      {
-      "title": "대치미래탐구 2027’ 고2 겨울방학 수학 학습 전략설명회",
-      "url": "https://blog.naver.com/hongbis/224481202334",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": [
-       "high"
-      ]
-     },
-     {
-      "title": "대치동 최상위권 단과 러셀학원 설명회 소개 (대치역 7·8번 출구 바....",
-      "url": "https://blog.naver.com/many_rounds_of_life/224481069542",
-      "postedAt": "2026-11-17",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "러셀 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[매쓰몽 대치 본원 (1관)] 12월 수학 동화 단과 개강!",
-      "url": "https://blog.naver.com/mathmong21/224480981940",
-      "postedAt": "2026-11-17",
+      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
+      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
+      "postedAt": "2026-11-18",
       "kind": "open",
       "regions": [
-       "daechi"
+       "daechi",
+       "jamsil"
       ],
-      "label": "개강",
+      "label": "스마트정일 개강",
       "source": "blog",
-      "dates": [],
+      "dates": [
+       "2026-12-14"
+      ],
       "bands": []
-     },
-     {
-      "title": "[대치 통합사회] 혁명전야 개강｜수능 개념 완성부터 평가원·교육....",
-      "url": "https://blog.naver.com/myungin5520484/224480479633",
-      "postedAt": "2026-11-17",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "통합사회 개강",
-      "source": "blog",
-      "dates": [],
-      "bands": [
-       "high"
-      ]
      }
     ],
     "newAcademies": [],

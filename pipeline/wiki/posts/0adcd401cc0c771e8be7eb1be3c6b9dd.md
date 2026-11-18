@@ -20,7 +20,8 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.41 (긍정) · 신뢰도 0.34 · **스팸 배제**
-- 붙은 학원 2곳 · 과목 english
+- 붙은 학원 3곳 · 과목 english
+- 등급반 언급: advanced·regular
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -30,6 +31,7 @@ stale_after:
 <!-- auto:edges -->
 - [[../academies/18108|리틀팍스어학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 - [[../academies/9929|청담어학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
+- [[../academies/14212|피아이어학원]] — 글이 이 권역을 밝힘 · 감성 +0.41
 <!-- /auto:edges -->
 
 ## 검수
