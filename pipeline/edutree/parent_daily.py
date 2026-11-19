@@ -64,13 +64,23 @@ def choose(queue, history):
     return sorted(queue, key=lambda r: (history.get(r['id'], {}).get('checkedAt', ''), r['id']))[:2]
 
 
+def query_for(branch):
+    # Name + district only. The earlier form (name + full road address + four
+    # keywords) matched long unrelated documents — yearbooks, merchant
+    # spreadsheets — and branch_match rejected every hit for ten days running
+    # (2026-11-10..19). Measured 11-19: this form kept 3 of 3 for each academy tried.
+    district = re.search(r'[가-힣]+구(?=\s|$)', branch.get('address') or '')
+    return ' '.join(filter(None, [branch['name'], district and district.group(0)]))[:220]
+
+
 class Search:
-    """Existing Naver credentials; at most four HTTP GETs including mode probes."""
+    """Existing Naver credentials; at most four HTTP GETs, no separate mode probe."""
     def __init__(self):
         from . import naver
         self.naver = naver
         self.requests = 0
         self.mode = None
+        self.fetched = None  # items the last query returned, before branch_match
 
     def get(self, mode, service, query, count):
         import requests
@@ -90,19 +100,25 @@ class Search:
     def __call__(self, branch):
         if not config.HAS_NAVER:
             raise ValueError('search_credentials_missing')
+        query = query_for(branch)
         if self.mode is None:
+            # The first real query doubles as the mode probe: a throwaway probe
+            # spent one of the four daily requests on nothing.
             modes = [config.NAVER_API_MODE] if config.NAVER_API_MODE in self.naver.MODES else self.naver.MODE_ORDER
+            data = None
             for mode in modes:
                 try:
-                    self.get(mode, 'webkr', '학원 공식', 1)
+                    data = self.get(mode, 'webkr', query, 3)
                     self.mode = mode
                     break
-                except ValueError:
-                    pass
-            if self.mode is None:
+                except ValueError as error:
+                    if str(error) == 'search_budget_exhausted':
+                        raise
+            if data is None:
                 raise ValueError('search_connection_unavailable')
-        query = f"{branch['name']} {branch.get('address') or ''} 초등 수학 공식 모집"
-        data = self.get(self.mode, 'webkr', query[:220], 3)
+        else:
+            data = self.get(self.mode, 'webkr', query, 3)
+        self.fetched = len(data.get('items', []))
         rows = []
         for item in data.get('items', [])[:3]:
             url = item.get('link', '')
@@ -209,8 +225,12 @@ def run(*, manual=False, search=None, reviewer=None, now=None):
                 rows = sorted(search(branch), key=lambda row: row['id'])
                 signature = digest(json.dumps(rows, sort_keys=True, ensure_ascii=False).encode())
                 old = history.get(branch['id'], {})
+                # Nothing kept is 'empty', never 'changed': an empty list hashes
+                # the same for every academy and reads as news when it is none.
                 branch_report = {'id': branch['id'], 'name': branch['name'], 'address': branch.get('address'),
-                                 'status': 'unchanged' if old.get('sha256') == signature else 'changed',
+                                 'status': 'empty' if not rows else
+                                           'unchanged' if old.get('sha256') == signature else 'changed',
+                                 'fetched': getattr(search, 'fetched', None),
                                  'results': rows, 'sha256': signature}
                 report['branches'].append(branch_report)
                 if branch_report['status'] == 'changed':
@@ -219,6 +239,9 @@ def run(*, manual=False, search=None, reviewer=None, now=None):
                 code = str(error) if re.fullmatch(r'search_[a-z0-9_]{1,60}', str(error)) else 'search_failed'
                 report['errors'].append({'stage': 'search', 'academyId': branch['id'], 'type': type(error).__name__, 'code': code})
         report['searchRequests'] = search.requests
+        if report['branches'] and all(b['status'] == 'empty' for b in report['branches']):
+            # A day that found nothing is not a completed review.
+            report['errors'].append({'stage': 'search', 'type': 'NoCandidates', 'code': 'search_no_candidates'})
         supplied = packet(changed)
         if supplied['search_candidates']:
             report['modelCalls'] = 1  # attempted; usage stays unknown on timeout
@@ -243,7 +266,11 @@ def run(*, manual=False, search=None, reviewer=None, now=None):
              'Candidate search results only; no academy facts or rankings were published.', '',
              '## Public service', json.dumps(report.get('publicHealth', {}), ensure_ascii=False), '', '## Branches']
     for branch in report['branches']:
-        lines.append(f"- {branch['name']}: {branch['status']}; {len(branch['results'])} source candidates.")
+        fetched = '?' if branch.get('fetched') is None else branch['fetched']
+        lines.append(f"- {branch['name']}: {branch['status']}; {len(branch['results'])} source candidates "
+                     f"kept of {fetched} search results.")
+    if report['errors']:
+        lines += ['', '## Problems', *sorted({e.get('code', 'unknown') for e in report['errors']})]
     if report['prioritised_ids']:
         lines += ['', '## Priority source IDs for official branch verification', *report['prioritised_ids']]
     lines += ['', 'Full evidence, exact source URLs, model usage and errors: latest.json.']
