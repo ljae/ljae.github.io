@@ -125,3 +125,41 @@ def test_irrelevant_search_results_are_dropped_before_model_packet(monkeypatch):
     search=d.Search(); search.mode='hub'
     monkeypatch.setattr(search,'get',lambda *args:{'items':[{'link':'https://example.com','title':'vocab.txt','description':'무관한 자료'}]})
     assert search({'id':'1','name':'아드폰테스','address':'서울특별시 양천구 목동중앙로 73'})==[]
+
+
+def test_query_is_name_and_district_only():
+    # 2026-11-10..19: name + full road address + keywords returned only unrelated
+    # documents, so every day kept zero candidates and still said "completed".
+    assert d.query_for({'name':'쌓인수학학원','address':'서울특별시 양천구 목동서로 301-5'})=='쌓인수학학원 양천구'
+    assert d.query_for({'name':'쌓인수학학원'})=='쌓인수학학원'
+
+
+def test_first_query_is_the_mode_probe(monkeypatch):
+    monkeypatch.setattr(d.config,'HAS_NAVER',True)
+    monkeypatch.setattr(d.config,'NAVER_API_MODE','auto')
+    search=d.Search(); seen=[]
+    def get(mode,service,query,count):
+        seen.append((mode,query)); search.requests+=1
+        if mode=='hub': raise ValueError('search_http_401')
+        return {'items':[{'link':'https://example.com','title':'양천구 쌓인수학학원','description':'안내'}]}
+    monkeypatch.setattr(search,'get',get)
+    branch={'id':'1','name':'쌓인수학학원','address':'서울특별시 양천구 목동서로 301-5'}
+    assert len(search(branch))==1 and search.mode=='legacy' and search.fetched==1
+    assert [q for _,q in seen]==['쌓인수학학원 양천구']*2
+    search(branch)
+    assert len(seen)==3
+
+
+def test_day_without_candidates_is_not_completed(monkeypatch,tmp_path):
+    setup_job(monkeypatch,tmp_path)
+    class Nothing:
+        requests=0; fetched=3
+        def __call__(self, branch):
+            self.requests+=1
+            return []
+    async def reviewer(packet): raise AssertionError('no model call without candidates')
+    r=d.run(now=datetime(2026,11,10,8,tzinfo=d.SEOUL),search=Nothing(),reviewer=reviewer)
+    assert r['status']=='partial' and r['modelCalls']==0
+    assert [b['status'] for b in r['branches']]==['empty','empty']
+    assert [e['code'] for e in r['errors']]==['search_no_candidates']
+    assert 'search_no_candidates' in (tmp_path/'latest.md').read_text()
