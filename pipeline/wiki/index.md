@@ -429,6 +429,7 @@
 - [채움국어학원](academies/3000050337.md) — jamsil
 - [비욘드싱잉강남점학원](academies/3000050343.md) — daechi
 - [꿈의선미술학원](academies/3000050348.md) — jamsil
+- [빌리발레스튜디오학원](academies/3000050690.md) — mokdong
 - [강남은마한우리독서토론논술교습소](academies/3000050945.md) — daechi
 - [올바른인재학원](academies/3000051062.md) — daechi
 - [기파랑문해원](academies/3000051080.md) — mokdong

@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.38 · **스팸 배제**
-- 붙은 학원 2곳 · 과목 korean
+- 붙은 학원 3곳 · 과목 korean·science
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -28,6 +28,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
+- [[../academies/3000014288|데프댄스(DEF DANCE)학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/3000013817|에듀모스트어학학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/3000015438|사이버제이엘에스원격학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->

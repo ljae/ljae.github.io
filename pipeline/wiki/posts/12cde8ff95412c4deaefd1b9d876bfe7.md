@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.40
-- 붙은 학원 6곳 · 과목 korean·math·science
+- 붙은 학원 7곳 · 과목 korean·math·science
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -33,6 +33,7 @@ stale_after:
 - [[../academies/25183|배선영국어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/19134|에이원(A1)과학학원]] — 이름이 본문에 등장 · 감성 +0.45
 - [[../academies/3000039505|대치인트로만화학원]] — 이름이 본문에 등장 · 감성 +0.00
+- [[../academies/3000030024|네오캣(NEO CAT)미술학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/3000029034|크레아뜰리에미술교습소]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 

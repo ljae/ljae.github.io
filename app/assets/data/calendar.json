@@ -5,7 +5,7 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-18T22:30:30.319747+00:00",
+ "generatedAt": "2026-11-19T22:45:51.415114+00:00",
  "windowDays": 62,
  "events": [
   {
@@ -42,6 +42,25 @@
    ]
   },
   {
+   "title": "세정학원 · 다가오는 설명회",
+   "url": "https://sejungedu.com",
+   "key": "https://sejungedu.com#다가오는 설명회",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-11-20"
+   ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
    "title": "송파메가스터디학원 · 11. 20(금)부터 순차 개강",
    "url": "https://russelsp.megastudy.net/",
    "key": "https://russelsp.megastudy.net/#11. 20(금)부터 순차 개강",
@@ -55,6 +74,24 @@
     "jamsil"
    ],
    "label": "메가 개강",
+   "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "[입시_설명회]2026.11월,12월 설명회(대치, 목동)",
+   "url": "https://blog.naver.com/iwillbee/224483987547",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "regions": [
+    "daechi",
+    "mokdong"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-21"
+   ],
    "bands": [
     "high"
    ]
@@ -80,7 +117,7 @@
    "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(3차)",
    "url": "https://sejungedu.com",
    "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(3차)",
-   "postedAt": "2026-11-14",
+   "postedAt": "2026-11-19",
    "kind": "session",
    "source": "homepage",
    "dates": [
@@ -90,6 +127,23 @@
     "daechi"
    ],
    "label": "세정 설명회",
+   "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "이종환 입시센터장 & 대치동 라인업 직강! 2028 대입 설명회 (의약대·....",
+   "url": "https://blog.naver.com/myunginbusan/224483500470",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-22"
+   ],
    "bands": [
     "high"
    ]
@@ -118,7 +172,7 @@
    "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(4차)",
    "url": "https://sejungedu.com",
    "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(4차)",
-   "postedAt": "2026-11-14",
+   "postedAt": "2026-11-19",
    "kind": "session",
    "source": "homepage",
    "dates": [
@@ -145,6 +199,43 @@
    "dates": [
     "2026-11-24"
    ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
+   "url": "https://sejungedu.com",
+   "key": "https://sejungedu.com#2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-11-25"
+   ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
+   "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(5차)",
+   "url": "https://sejungedu.com",
+   "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(5차)",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-11-26"
+   ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "세정 설명회",
    "bands": [
     "high"
    ]
@@ -202,10 +293,10 @@
    ]
   },
   {
-   "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(5차)",
+   "title": "세정학원 · 예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
    "url": "https://sejungedu.com",
-   "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(5차)",
-   "postedAt": "2026-11-14",
+   "key": "https://sejungedu.com#예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
+   "postedAt": "2026-11-19",
    "kind": "session",
    "source": "homepage",
    "dates": [
@@ -216,6 +307,7 @@
    ],
    "label": "세정 설명회",
    "bands": [
+    "middle",
     "high"
    ]
   },
@@ -223,7 +315,7 @@
    "title": "대치에이프릴어학원 · 26년 겨울학기 개강",
    "url": "https://www.creverse.com/april/dogok",
    "key": "https://www.creverse.com/april/dogok#26년 겨울학기 개강",
-   "postedAt": "2026-11-14",
+   "postedAt": "2026-11-19",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -342,6 +434,41 @@
    "dates": [
     "2026-12-14"
    ],
+   "bands": []
+  },
+  {
+   "title": "휴브레인입시컨설팅센터학원 · [2026학년도 특목고/자사고 합격자 대상 예비고1 설명회]",
+   "url": "http://www.huebrain.co.kr/",
+   "key": "http://www.huebrain.co.kr/#[2026학년도 특목고/자사고 합격자 대상 예비고1 설명회]",
+   "postedAt": "2026-11-19",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-12-26"
+   ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "휴브레인컨설팅 설명회",
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
+   "title": "러셀대치학원 · 01. 02(토) 개강",
+   "url": "https://russeldc.megastudy.net/",
+   "key": "https://russeldc.megastudy.net/#01. 02(토) 개강",
+   "postedAt": "2026-11-19",
+   "kind": "open",
+   "source": "homepage",
+   "dates": [
+    "2027-01-02"
+   ],
+   "regions": [
+    "daechi"
+   ],
+   "label": "러셀 개강",
    "bands": []
   },
   {
