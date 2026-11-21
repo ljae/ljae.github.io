@@ -157,7 +157,12 @@ jobs:
             OPENEDU_CLAIM_LLM_LIMIT=0 OPENEDU_SUMMARY_PER_RUN=0 python pipeline/run.py --from-cache
           else
             python -m pipeline.edutree.source_health start
-            python pipeline/run.py
+            # ★ 평소 67분 걸리는 단계가 2026-11-20 회차에 4시간 넘게 멈춰 있었다.
+            #   멈춘 자리를 알 길이 없었다 — 로그는 마지막 print 에서 끊기고
+            #   job 제한(300분)이 통째로 탄 뒤에야 죽는다. 180분에 SIGABRT 를
+            #   보내면 faulthandler 가 **모든 스레드의 스택**을 로그에 남긴다.
+            timeout --signal=ABRT --kill-after=60s 180m \
+              python -X faulthandler pipeline/run.py
           fi
 
       - name: 생성된 대상학년 필터 데이터 감사

@@ -30,12 +30,41 @@ def test_old_success_cannot_stand_in_for_tonights_collection(source):
         rows, STARTED, now=NOW)
 
 
-@pytest.mark.parametrize('status', ['disabled', 'rate_limited', 'network_error'])
+@pytest.mark.parametrize('status', ['disabled', 'rate_limited'])
 def test_daum_failure_is_visible_even_when_naver_succeeded(status):
     rows = health()
     rows['daum_cafe']['status'] = status
     assert 'source_unavailable:daum_cafe' in source_health.collection_problems(
         rows, STARTED, now=NOW)
+
+
+def test_unreachable_daum_publishes_on_naver_alone_with_a_warning():
+    """2026-11-20: 러너에서 다음이 통째로 안 닿아 한 회차가 사라졌다."""
+    rows = health()
+    for name in ('daum_cafe', 'daum_blog', 'daum_web'):
+        rows[name].update(status='network_error', requests=5, errors=5)
+    assert source_health.collection_problems(rows, STARTED, now=NOW) == []
+    assert source_health.collection_warnings(rows, STARTED, now=NOW) == [
+        'source_unreachable:daum_cafe', 'source_unreachable:daum_blog',
+        'source_unreachable:daum_web']
+
+
+@pytest.mark.parametrize('source', ['naver_cafe', 'naver_blog'])
+def test_unreachable_naver_still_blocks_publication(source):
+    rows = health()
+    rows[source]['status'] = 'network_error'
+    assert 'source_unavailable:' + source in source_health.collection_problems(
+        rows, STARTED, now=NOW)
+
+
+def test_unreachable_daum_from_an_older_run_or_never_tried_still_blocks():
+    rows = health()
+    rows['daum_cafe'].update(status='network_error',
+                             checkedAt=(STARTED - timedelta(seconds=1)).isoformat())
+    rows['daum_blog'].update(status='network_error', requests=0)
+    problems = source_health.collection_problems(rows, STARTED, now=NOW)
+    assert 'not_checked_this_run:daum_cafe' in problems
+    assert 'source_unavailable:daum_blog' in problems
 
 
 @pytest.mark.parametrize('value', [None, '', '2026-11-16', 'bad', 123])

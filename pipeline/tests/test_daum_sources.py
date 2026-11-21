@@ -160,3 +160,44 @@ def test_다음_카페는_네이버_카페와_같은_대접을_받는다():
         analyze.score_credibility(text, "후기", "naver_cafe")
     assert review_integrity.evidence_kind({"source": "daum_web"}) == "web_information"
     assert naver.SOURCE_LABELS["daum_cafe"] == "다음 카페"
+
+
+def test_연결이_안_되는_소스는_다섯_번_뒤_이번_실행에서_뺀다(api, monkeypatch):
+    """2026-11-20 야간: dapi.kakao.com 이 러너에서 통째로 안 닿아 질의
+    2,539건이 15초씩 기다렸고, 10분짜리 단계가 4시간 반을 돌다 죽었다."""
+    _, _ = api
+    monkeypatch.setattr(daum, "_network_failures", {})
+    calls: list[str] = []
+
+    def unreachable(url, params=None, headers=None, timeout=None):
+        calls.append(url.rsplit("/", 1)[-1])
+        raise daum.requests.ConnectTimeout("no route")
+
+    monkeypatch.setattr(daum.requests, "get", unreachable)
+    academies = [{**ACADEMY, "id": str(i)} for i in range(40)]
+    assert daum.collect_all(academies, {"daechi": "대치"}, workers=1) == []
+    assert daum._disabled_sources == set(daum.SOURCES)
+    for name in ("cafe", "blog", "web"):
+        assert calls.count(name) == daum.NETWORK_FAILURE_LIMIT
+
+
+def test_응답이_한_번_오면_연결_실패를_다시_센다(api, monkeypatch):
+    routes, _ = api
+    monkeypatch.setattr(daum, "_network_failures", {})
+    routes["cafe"] = _page([CAFE])
+    state = {"n": 0}
+    real = daum.requests.get
+
+    def flaky(url, params=None, headers=None, timeout=None):
+        state["n"] += 1
+        if state["n"] % 5:                     # 다섯 번에 네 번 끊긴다
+            raise daum.requests.ConnectionError("reset")
+        return real(url, params=params, headers=headers, timeout=timeout)
+
+    monkeypatch.setattr(daum.requests, "get", flaky)
+    for _ in range(20):
+        try:
+            daum.search("daum_cafe", "q")
+        except daum.DaumError:
+            pass
+    assert "daum_cafe" not in daum._disabled_sources   # 간헐 실패로는 안 뺀다

@@ -18,6 +18,8 @@
 ★ 수집기는 키가 없거나 꺼져 있으면 건너뛰고 네이버 결과를 보존한다.
   전체 야간 실행은 source_health의 별도 검사로 두 검색의 실제 갱신을
   요구한다. 다음 실패도 근거 캐시는 남기지만 게시 성공으로 처리하지 않는다.
+  단 하나의 예외: 이번 회차에 시도했는데 **연결이 안 된 것**이면 경고만
+  남기고 네이버만으로 게시한다(source_health.OPTIONAL_WHEN_UNREACHABLE).
 """
 from __future__ import annotations
 
@@ -46,6 +48,33 @@ TIMEOUT = 15
 SLEEP = 0.12
 
 _disabled_sources: set[str] = set()
+
+# ★ 연결이 안 되는 소스를 끝까지 두드리지 않는다 (2026-11-20).
+#   그날 밤 러너에서 dapi.kakao.com 이 통째로 안 닿았다(ConnectTimeout).
+#   한도(429)·키 거부(401)에는 차단기가 있었는데 **연결 실패에는 없어서**
+#   질의 2,539건이 하나하나 15초를 다 기다렸다 — 평소 10분짜리 단계가
+#   4시간 반을 돌다 job 제한에 걸려 죽었고, 이미 끝난 네이버 수집까지
+#   함께 버려졌다. 연달아 이만큼 안 닿으면 이번 실행에서 그 소스를 뺀다.
+#   응답이 한 번이라도 오면(상태 코드 무관) 다시 0 부터 센다.
+NETWORK_FAILURE_LIMIT = 5
+_network_failures: dict[str, int] = {}
+_failure_lock = threading.Lock()
+
+
+def _network_failed(source: str) -> bool:
+    """연결 실패 한 건을 센다. 이번에 차단기가 내려갔으면 True."""
+    with _failure_lock:
+        _network_failures[source] = _network_failures.get(source, 0) + 1
+        if (_network_failures[source] < NETWORK_FAILURE_LIMIT
+                or source in _disabled_sources):
+            return False
+        _disabled_sources.add(source)
+        return True
+
+
+def _network_ok(source: str) -> None:
+    with _failure_lock:
+        _network_failures.pop(source, None)
 
 
 class DaumError(RuntimeError):
@@ -130,7 +159,11 @@ def search(source: str, query: str, max_results: int = SIZE) -> list[dict]:
                                 headers=_headers(), timeout=TIMEOUT)
         except requests.RequestException as exc:
             source_health.record(source, "network_error")
+            if _network_failed(source):
+                print(f"    ! {source} 에 연달아 {NETWORK_FAILURE_LIMIT}번 연결하지 "
+                      f"못했습니다({type(exc).__name__}) — 이번 실행에서 제외합니다.")
             raise DaumError(f"{source}: {type(exc).__name__}") from exc
+        _network_ok(source)
         if resp.status_code == 429:
             source_health.record(source, "rate_limited")
             retries += 1
@@ -202,6 +235,7 @@ def collect_all(academies: Iterable[dict], region_names: dict[str, str],
     if not config.HAS_DAUM or not academies:
         return []
     _disabled_sources.clear()
+    _network_failures.clear()
     out: list[dict] = []
     lock = threading.Lock()
     done = 0

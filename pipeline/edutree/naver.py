@@ -95,6 +95,29 @@ _resolved_mode: str | None = None
 #  실패시키면 한도만 태우고 로그도 못 읽게 된다.)
 _disabled_sources: set[str] = set()
 
+# ★ 연결 실패 차단기 — daum.py 와 같은 규칙이다(2026-11-20, 거기 경위가 있다).
+#   한도·키 거부에는 차단기가 있는데 연결 실패에는 없어서, 소스가 통째로
+#   안 닿는 밤에는 질의마다 TIMEOUT 을 다 기다리며 job 제한까지 돈다.
+NETWORK_FAILURE_LIMIT = 5
+_network_failures: dict[str, int] = {}
+_failure_lock = threading.Lock()
+
+
+def _network_failed(source: str) -> bool:
+    """연결 실패 한 건을 센다. 이번에 차단기가 내려갔으면 True."""
+    with _failure_lock:
+        _network_failures[source] = _network_failures.get(source, 0) + 1
+        if (_network_failures[source] < NETWORK_FAILURE_LIMIT
+                or source in _disabled_sources):
+            return False
+        _disabled_sources.add(source)
+        return True
+
+
+def _network_ok(source: str) -> None:
+    with _failure_lock:
+        _network_failures.pop(source, None)
+
 _TAG = re.compile(r"<[^>]+>")
 
 
@@ -272,7 +295,11 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
                                 headers=_headers(mode), timeout=TIMEOUT)
         except requests.RequestException as exc:
             source_health.record(source, "network_error")
+            if _network_failed(source):
+                print(f"    ! {source} 에 연달아 {NETWORK_FAILURE_LIMIT}번 연결하지 "
+                      f"못했습니다({type(exc).__name__}) — 이번 실행에서 제외합니다.")
             raise NaverError(f"{source}: {type(exc).__name__}") from exc
+        _network_ok(source)
         if resp.status_code == 429:
             source_health.record(source, "rate_limited")
             retries += 1
@@ -525,6 +552,7 @@ def collect_all(academies: Iterable[dict], region_names: dict[str, str],
     from . import source_health
     source_health.reset()
     _disabled_sources.clear()
+    _network_failures.clear()
     all_mentions: list[dict] = []
     lock = threading.Lock()
     done = 0
