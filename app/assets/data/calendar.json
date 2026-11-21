@@ -5,79 +5,9 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-19T22:45:51.415114+00:00",
+ "generatedAt": "2026-11-21T03:33:49.191007+00:00",
  "windowDays": 62,
  "events": [
-  {
-   "title": "[잠실 시그마 수학학원] 가천대 메디컬 논술 파이널 9일 집중반 개강....",
-   "url": "https://blog.naver.com/sigmamath21/224475202660",
-   "postedAt": "2026-11-13",
-   "kind": "open",
-   "regions": [
-    "jamsil"
-   ],
-   "label": "시그마 개강",
-   "source": "blog",
-   "dates": [
-    "2026-11-20"
-   ],
-   "bands": []
-  },
-  {
-   "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
-   "url": "https://dhnews.co.kr/news/view/1065597871378502",
-   "postedAt": "2026-10-29",
-   "kind": "open",
-   "regions": [
-    "daechi"
-   ],
-   "label": "슈파스 개강",
-   "source": "news",
-   "dates": [
-    "2026-11-20",
-    "2026-12-05"
-   ],
-   "bands": [
-    "high"
-   ]
-  },
-  {
-   "title": "세정학원 · 다가오는 설명회",
-   "url": "https://sejungedu.com",
-   "key": "https://sejungedu.com#다가오는 설명회",
-   "postedAt": "2026-11-19",
-   "kind": "session",
-   "source": "homepage",
-   "dates": [
-    "2026-11-20"
-   ],
-   "regions": [
-    "daechi"
-   ],
-   "label": "세정 설명회",
-   "bands": [
-    "middle",
-    "high"
-   ]
-  },
-  {
-   "title": "송파메가스터디학원 · 11. 20(금)부터 순차 개강",
-   "url": "https://russelsp.megastudy.net/",
-   "key": "https://russelsp.megastudy.net/#11. 20(금)부터 순차 개강",
-   "postedAt": "2026-11-18",
-   "kind": "open",
-   "source": "homepage",
-   "dates": [
-    "2026-11-20"
-   ],
-   "regions": [
-    "jamsil"
-   ],
-   "label": "메가 개강",
-   "bands": [
-    "high"
-   ]
-  },
   {
    "title": "[입시_설명회]2026.11월,12월 설명회(대치, 목동)",
    "url": "https://blog.naver.com/iwillbee/224483987547",
@@ -334,7 +264,7 @@
    "title": "청담어학원 · 26년 겨울학기 개강",
    "url": "https://creverse.com/cdi/mokdong/",
    "key": "https://creverse.com/cdi/mokdong/#26년 겨울학기 개강",
-   "postedAt": "2026-11-18",
+   "postedAt": "2026-11-21",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -370,6 +300,41 @@
    ]
   },
   {
+   "title": "[반포 입시 설명회 | 윤앤고 × 엘브라운 예비고1 설명회 — 고교학점....",
+   "url": "https://blog.naver.com/elbrownbpbp/224484715648",
+   "postedAt": "2026-11-20",
+   "kind": "session",
+   "regions": [
+    "banpo"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-12-05"
+   ],
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
+   "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
+   "url": "https://dhnews.co.kr/news/view/1065597871378502",
+   "postedAt": "2026-10-29",
+   "kind": "open",
+   "regions": [
+    "daechi"
+   ],
+   "label": "슈파스 개강",
+   "source": "news",
+   "dates": [
+    "2026-12-05"
+   ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "대치피엘학원 정은주t 심화문풀반개강",
    "url": "https://blog.naver.com/hongbis/224476861546",
    "postedAt": "2026-11-14",
@@ -389,7 +354,7 @@
    "title": "송파메가스터디학원 · 12. 07(월) 개강",
    "url": "https://russelsp.megastudy.net/",
    "key": "https://russelsp.megastudy.net/#12. 07(월) 개강",
-   "postedAt": "2026-11-18",
+   "postedAt": "2026-11-21",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -437,6 +402,24 @@
    "bands": []
   },
   {
+   "title": "해커스어학원 · 12/22★유학설명회",
+   "url": "http://www.hackers.ac/",
+   "key": "http://www.hackers.ac/#12/22★유학설명회",
+   "postedAt": "2026-11-21",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-12-22"
+   ],
+   "regions": [
+    "banpo"
+   ],
+   "label": "해커스 설명회",
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "휴브레인입시컨설팅센터학원 · [2026학년도 특목고/자사고 합격자 대상 예비고1 설명회]",
    "url": "http://www.huebrain.co.kr/",
    "key": "http://www.huebrain.co.kr/#[2026학년도 특목고/자사고 합격자 대상 예비고1 설명회]",
@@ -469,7 +452,9 @@
     "daechi"
    ],
    "label": "러셀 개강",
-   "bands": []
+   "bands": [
+    "high"
+   ]
   },
   {
    "title": "송파메가스터디학원 · 01. 04(월) 개강",

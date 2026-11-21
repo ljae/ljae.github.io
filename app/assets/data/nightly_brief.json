@@ -1,36 +1,72 @@
 {
- "day": "2026-11-19",
- "previousDay": "2026-11-18",
- "generatedAt": "2026-11-19T22:45:51.415114+00:00",
- "ranked": 303,
+ "day": "2026-11-21",
+ "previousDay": "2026-11-19",
+ "generatedAt": "2026-11-21T03:33:49.191007+00:00",
+ "ranked": 331,
  "rankedBefore": 303,
- "entered": 1,
+ "entered": 31,
  "left": 1,
- "moved": 74,
+ "moved": 207,
  "scoringChanged": false,
- "newFirsts": [],
- "newFirstCount": 0,
+ "newFirsts": [
+  {
+   "name": "씨앤에이논술학원",
+   "region": "대치",
+   "subject": "국어·논술",
+   "from": 4,
+   "to": 1
+  },
+  {
+   "name": "코리아엔터아카데미학원",
+   "region": "대치",
+   "subject": "예체능",
+   "from": 3,
+   "to": 1
+  },
+  {
+   "name": "비욘드코딩",
+   "region": "반포",
+   "subject": "기타",
+   "from": 2,
+   "to": 1
+  },
+  {
+   "name": "잠실차이랑중국어학원",
+   "region": "잠실",
+   "subject": "국어·논술",
+   "from": 2,
+   "to": 1
+  },
+  {
+   "name": "고운",
+   "region": "잠실",
+   "subject": "기타",
+   "from": null,
+   "to": 1
+  }
+ ],
+ "newFirstCount": 5,
  "topRises": [
   {
-   "name": "시매쓰목동학원",
-   "region": "목동",
+   "name": "돌파수학학원",
+   "region": "대치",
    "subject": "수학",
-   "from": 22,
+   "from": 28,
+   "to": 8
+  },
+  {
+   "name": "정영어학원",
+   "region": "대치",
+   "subject": "영어",
+   "from": 35,
    "to": 15
   },
   {
-   "name": "올마이티캠퍼스",
-   "region": "대치",
-   "subject": "수학",
-   "from": 25,
-   "to": 21
-  },
-  {
-   "name": "씨엠에스(CMS)서초영재관학원",
+   "name": "해커스어학원",
    "region": "반포",
-   "subject": "수학",
-   "from": 10,
-   "to": 8
+   "subject": "영어",
+   "from": 19,
+   "to": 4
   }
  ],
  "daechi": {
@@ -38,16 +74,39 @@
   "scoringChanged": false,
   "searched": true,
   "bannedCount": 1,
-  "calendarCount": 28,
-  "homepageEvents": 13,
+  "calendarCount": 27,
+  "homepageEvents": 12,
   "rooms": {
    "elem_low": {
     "label": "예비초~초3",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "홍익미술교습소",
+       "subject": "예체능",
+       "from": null,
+       "to": 1
+      }
+     ],
      "rises": []
     },
-    "thisWeek": [],
+    "thisWeek": [
+     {
+      "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
+      "url": "https://blog.naver.com/mathlevel/224469057824",
+      "postedAt": "2026-11-13",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "수준 설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": []
+     }
+    ],
     "news": [
      {
       "title": "대치동 유토마학원, 2027학년도 인문·수리·약술논술 파이널 강좌 개강",
@@ -60,22 +119,6 @@
       "label": "유토마 개강",
       "source": "news",
       "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
-      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
-      "postedAt": "2026-11-18",
-      "kind": "open",
-      "regions": [
-       "daechi",
-       "jamsil"
-      ],
-      "label": "스마트정일 개강",
-      "source": "blog",
-      "dates": [
-       "2026-12-14"
-      ],
       "bands": []
      }
     ],
@@ -85,10 +128,70 @@
    "elem_high": {
     "label": "초4~초6",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "잼코딩",
+       "subject": "기타",
+       "from": null,
+       "to": 1
+      }
+     ],
      "rises": []
     },
-    "thisWeek": [],
+    "thisWeek": [
+     {
+      "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
+      "url": "https://blog.naver.com/mathlevel/224469057824",
+      "postedAt": "2026-11-13",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "수준 설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": []
+     },
+     {
+      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
+      "url": "https://blog.naver.com/hahmmath/224481192001",
+      "postedAt": "2026-11-17",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "공통 개강",
+      "source": "blog",
+      "dates": [
+       "2026-11-28",
+       "2027-01-04"
+      ],
+      "bands": [
+       "elem_high",
+       "middle"
+      ]
+     },
+     {
+      "title": "대치동 예비중3 수학 | 함수학 MS반 미적분1 1월 개강 & 11/28 설명회",
+      "url": "https://blog.naver.com/hahmmath/224481203336",
+      "postedAt": "2026-11-17",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": [
+       "elem_high",
+       "middle"
+      ]
+     }
+    ],
     "news": [
      {
       "title": "대치동 유토마학원, 2027학년도 인문·수리·약술논술 파이널 강좌 개강",
@@ -102,22 +205,6 @@
       "source": "news",
       "dates": [],
       "bands": []
-     },
-     {
-      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
-      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
-      "postedAt": "2026-11-18",
-      "kind": "open",
-      "regions": [
-       "daechi",
-       "jamsil"
-      ],
-      "label": "스마트정일 개강",
-      "source": "blog",
-      "dates": [
-       "2026-12-14"
-      ],
-      "bands": []
      }
     ],
     "newAcademies": [],
@@ -126,29 +213,36 @@
    "middle": {
     "label": "중등",
     "ranking": {
-     "newFirsts": [],
-     "rises": []
+     "newFirsts": [
+      {
+       "name": "씨앤에이논술학원",
+       "subject": "국어·논술",
+       "from": 3,
+       "to": 1
+      }
+     ],
+     "rises": [
+      {
+       "name": "돌파수학학원",
+       "subject": "수학",
+       "from": 14,
+       "to": 4
+      },
+      {
+       "name": "정영어학원",
+       "subject": "영어",
+       "from": 11,
+       "to": 4
+      },
+      {
+       "name": "선경어학원",
+       "subject": "영어",
+       "from": 8,
+       "to": 3
+      }
+     ]
     },
     "thisWeek": [
-     {
-      "title": "세정학원 · 다가오는 설명회",
-      "url": "https://sejungedu.com",
-      "key": "https://sejungedu.com#다가오는 설명회",
-      "postedAt": "2026-11-19",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-20"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "세정 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
       "url": "https://sejungedu.com",
@@ -167,9 +261,112 @@
        "middle",
        "high"
       ]
+     },
+     {
+      "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
+      "url": "https://blog.naver.com/mathlevel/224469057824",
+      "postedAt": "2026-11-13",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "수준 설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": []
+     },
+     {
+      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
+      "url": "https://blog.naver.com/hahmmath/224481192001",
+      "postedAt": "2026-11-17",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "공통 개강",
+      "source": "blog",
+      "dates": [
+       "2026-11-28",
+       "2027-01-04"
+      ],
+      "bands": [
+       "elem_high",
+       "middle"
+      ]
+     },
+     {
+      "title": "대치동 예비중3 수학 | 함수학 MS반 미적분1 1월 개강 & 11/28 설명회",
+      "url": "https://blog.naver.com/hahmmath/224481203336",
+      "postedAt": "2026-11-17",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": [
+       "elem_high",
+       "middle"
+      ]
+     },
+     {
+      "title": "세정학원 · 예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
+      "postedAt": "2026-11-19",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-28"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "세정 설명회",
+      "bands": [
+       "middle",
+       "high"
+      ]
      }
     ],
     "news": [
+     {
+      "title": "[대치·반포 새움] 2027 예비고1 영어 겨울방학 설명회 후기 & 핵심 요....",
+      "url": "https://blog.naver.com/jinnayingjia/224485803441",
+      "postedAt": "2026-11-21",
+      "kind": "session",
+      "regions": [
+       "daechi",
+       "banpo"
+      ],
+      "label": "새움 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
+     {
+      "title": "대치동 수학학원 입학테스트, 중2-2 도형이 약하다면 꼭 확인하세요",
+      "url": "https://blog.naver.com/hnc_jenny/224485784740",
+      "postedAt": "2026-11-21",
+      "kind": "test",
+      "regions": [
+       "daechi"
+      ],
+      "label": "테스트",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle"
+      ]
+     },
      {
       "title": "대치동 유토마학원, 2027학년도 인문·수리·약술논술 파이널 강좌 개강",
       "url": "https://www.abcn.kr/news/articleView.html?idxno=94691",
@@ -182,22 +379,6 @@
       "source": "news",
       "dates": [],
       "bands": []
-     },
-     {
-      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
-      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
-      "postedAt": "2026-11-18",
-      "kind": "open",
-      "regions": [
-       "daechi",
-       "jamsil"
-      ],
-      "label": "스마트정일 개강",
-      "source": "blog",
-      "dates": [
-       "2026-12-14"
-      ],
-      "bands": []
      }
     ],
     "newAcademies": [],
@@ -208,52 +389,34 @@
     "ranking": {
      "newFirsts": [
       {
-       "name": "시대인재수학스쿨 (도곡로 434)",
-       "subject": "수학",
-       "from": 2,
+       "name": "씨앤에이논술학원",
+       "subject": "국어·논술",
+       "from": 3,
        "to": 1
       }
      ],
-     "rises": []
+     "rises": [
+      {
+       "name": "더킹고등수학전문학원",
+       "subject": "수학",
+       "from": 21,
+       "to": 7
+      },
+      {
+       "name": "선경어학원",
+       "subject": "영어",
+       "from": 13,
+       "to": 5
+      },
+      {
+       "name": "강안교육학원",
+       "subject": "수학",
+       "from": 16,
+       "to": 10
+      }
+     ]
     },
     "thisWeek": [
-     {
-      "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
-      "url": "https://dhnews.co.kr/news/view/1065597871378502",
-      "postedAt": "2026-10-29",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "슈파스 개강",
-      "source": "news",
-      "dates": [
-       "2026-11-20",
-       "2026-12-05"
-      ],
-      "bands": [
-       "high"
-      ]
-     },
-     {
-      "title": "세정학원 · 다가오는 설명회",
-      "url": "https://sejungedu.com",
-      "key": "https://sejungedu.com#다가오는 설명회",
-      "postedAt": "2026-11-19",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-20"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "세정 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "[입시_설명회]2026.11월,12월 설명회(대치, 목동)",
       "url": "https://blog.naver.com/iwillbee/224483987547",
@@ -323,9 +486,63 @@
       "bands": [
        "high"
       ]
+     },
+     {
+      "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(4차)",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(4차)",
+      "postedAt": "2026-11-19",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-23"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "세정 설명회",
+      "bands": [
+       "high"
+      ]
+     },
+     {
+      "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
+      "postedAt": "2026-11-19",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-25"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "세정 설명회",
+      "bands": [
+       "middle",
+       "high"
+      ]
      }
     ],
     "news": [
+     {
+      "title": "[대치·반포 새움] 2027 예비고1 영어 겨울방학 설명회 후기 & 핵심 요....",
+      "url": "https://blog.naver.com/jinnayingjia/224485803441",
+      "postedAt": "2026-11-21",
+      "kind": "session",
+      "regions": [
+       "daechi",
+       "banpo"
+      ],
+      "label": "새움 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
      {
       "title": "대치동 유토마학원, 2027학년도 인문·수리·약술논술 파이널 강좌 개강",
       "url": "https://www.abcn.kr/news/articleView.html?idxno=94691",
@@ -337,22 +554,6 @@
       "label": "유토마 개강",
       "source": "news",
       "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[2027학년도 정규반] 스마트정일학원 대치점·송파점, 12월 14일 개강",
-      "url": "https://blog.naver.com/dcsmartjungil/224482099366",
-      "postedAt": "2026-11-18",
-      "kind": "open",
-      "regions": [
-       "daechi",
-       "jamsil"
-      ],
-      "label": "스마트정일 개강",
-      "source": "blog",
-      "dates": [
-       "2026-12-14"
-      ],
       "bands": []
      }
     ],

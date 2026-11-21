@@ -1,0 +1,39 @@
+---
+url_hash: "d842fb6e1067c5a5ddad0e624bec1dde"
+url: https://namu.wiki/w/%EB%82%98%EB%AC%B4%EC%9C%84%ED%82%A4:%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%ED%95%99%EA%B5%90
+source: daum_web
+title: 나무위키:프로젝트/학교 - 나무위키
+posted_at: 2025-04-09
+author_hash: 
+# ↓ 엔진이 읽는 판단 필드. 사람이 쓴다 — 엔진은 절대 덮어쓰지 않는다.
+#   verdict: confirmed | rejected | reclassified
+#   reject_reason: 동명이인 | 무관 | 광고 | 오래됨 | 중복 | 기타
+verdict:
+reject_reason:
+reassign_to: []
+stale_after:
+---
+# 나무위키:프로젝트/학교 - 나무위키
+
+원문: https://namu.wiki/w/%EB%82%98%EB%AC%B4%EC%9C%84%ED%82%A4:%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%ED%95%99%EA%B5%90
+
+## 요약
+<!-- auto:digest -->
+- 감성 +0.00 (중립) · 신뢰도 0.33 · **스팸 배제**
+- 붙은 학원 1곳 · 과목 불명
+<!-- /auto:digest -->
+
+<!-- auto:summary -->
+<!-- /auto:summary -->
+
+## 이 글이 붙은 학원
+<!-- auto:edges -->
+- [[../academies/3000046236|융합인재학원]] — 이름이 본문에 등장 · 감성 +0.00
+<!-- /auto:edges -->
+
+## 검수
+<!-- auto:review -->
+- (운영자 판정 없음)
+<!-- /auto:review -->
+
+<!-- 여기부터 산문. 이 글을 어떻게 읽어야 하는지 근거와 함께 적을 것. -->
