@@ -295,11 +295,41 @@ def apply(mentions: list[dict], academies: list[dict],
         #   후보 이름을 고쳐서도 막았지만, 통로 자체를 닫는 것이 낫다.
         #
         #   지점이 하나뿐인 학원에는 불명일 것이 없으므로 그대로 근거다.
+        #
+        #   ★ 예외: 시드에 `unknown_region_home` 을 적은 브랜드(생각하는황소
+        #   → 대치, 2026-11-22 사용자 결정)는 지역 불명 글을 그 학군 지점
+        #   **한 곳에만** 센다. 나눠 주지 않으므로 같은 글이 두 지점의 등수를
+        #   함께 만들지 않는다. 화면에는 '브랜드 공통' 으로 적힌다.
         if siblings.get(key):
-            stats["brand_unknown"] += 1
+            home_region = (by_id.get(key) or {}).get("unknown_region_home")
+            target = None
+            if home_region:
+                target = next((a for a in [by_id.get(key), *siblings[key]]
+                               if a and a.get("region_id") == home_region), None)
+            if target is None:
+                stats["brand_unknown"] += 1
+                continue
+            if target["id"] == key:
+                m["branch_basis"] = "brand"
+                kept.append(m)
+                stats["brand_home"] = stats.get("brand_home", 0) + 1
+                continue
+            pair = (m.get("url_hash", ""), target["id"])
+            if pair in seen or not analyze.is_relevant(
+                    m, candidates.get(target["id"], set()),
+                    generic.get(target["id"], False), rivals):
+                stats["brand_unknown"] += 1
+                continue
+            seen.add(pair)
+            copy = dict(m)
+            copy["academy_key"] = target["id"]
+            copy["academy_name"] = target.get("name")
+            copy["region_id"] = target.get("region_id")
+            copy["branch_basis"] = "brand"
+            kept.append(copy)
+            stats["brand_home"] = stats.get("brand_home", 0) + 1
             continue
         m["branch_basis"] = "direct"
         kept.append(m)
 
-    _ = by_id
     return kept, stats

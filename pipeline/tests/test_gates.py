@@ -338,6 +338,46 @@ def test_지점이_하나뿐이면_지역_불명도_그대로_근거다():
     assert stats["brand_unknown"] == 0
 
 
+BULL = [
+    {"id": "BD", "name": "생각하는황소학원", "region_id": "daechi", "dong": "대치동",
+     "brand": "생각하는황소", "unknown_region_home": "daechi",
+     "aliases": ["생각황소"]},
+    {"id": "BM", "name": "생각하는황소", "region_id": "mokdong", "dong": "목동",
+     "brand": "생각하는황소", "unknown_region_home": "daechi",
+     "aliases": ["생각황소"]},
+    {"id": "BS", "name": "생각하는황소서초", "region_id": "banpo", "dong": "반포동",
+     "brand": "생각하는황소", "unknown_region_home": "daechi",
+     "aliases": ["생각황소"]},
+]
+
+
+def test_지역_불명_글은_지정한_학군_지점_한_곳에만_센다():
+    """2026-11-22 사용자 결정: 생각하는황소의 지역 불명 글은 대치로 센다.
+    목동·서초 이름으로 수집된 같은 글도 대치로 옮기고, 나눠 주지 않는다."""
+    c = {a["id"]: analyze.name_candidates(a) for a in BULL}
+    g = {a["id"]: False for a in BULL}
+    ms = [post("생각하는 황소 레테 보고 왔어요", "생각하는황소 입학시험 후기",
+               url_hash="u1", academy_key="BM"),
+          post("생각하는 황소 레테 보고 왔어요", "생각하는황소 입학시험 후기",
+               url_hash="u1", academy_key="BD"),
+          post("생각하는황소 후기", "생각하는황소 숙제가 많아요",
+               url_hash="u2", academy_key="BS"),
+          post("목동 생각하는황소 후기", "생각하는황소 목동 다녀요",
+               url_hash="u3", academy_key="BM")]
+    kept, stats = branches.apply(ms, BULL, c, g, frozenset())
+    got = sorted((k["url_hash"], k["academy_key"], k["branch_basis"]) for k in kept)
+    assert got == [("u1", "BD", "brand"), ("u2", "BD", "brand"),
+                   ("u3", "BM", "region")]
+    assert stats["brand_unknown"] == 0
+
+
+def test_지정이_없는_브랜드의_지역_불명_글은_여전히_버린다():
+    m = post("정상어학원 후기", "정상어학원 다녀왔어요", academy_key="D")
+    kept, stats = _apply([m])
+    assert kept == []
+    assert stats["brand_unknown"] == 1
+
+
 def test_목록에_없는_동은_제목에_있으면_남의_동네다():
     """'불당동 새로운 학원'(천안)이 목동 새로운학원의 근거였다(9/3 실측).
 

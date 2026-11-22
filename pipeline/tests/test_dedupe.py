@@ -55,6 +55,35 @@ def test_주소가_달라도_관_표기가_있으면_묶는다():
     assert len(merged_names(rows)) == 1
 
 
+def test_생각하는황소는_관을_합치고_학군은_가른다():
+    """2026-11-22: 대치 본관·3관을 나눴더니 관을 안 밝힌 대치 글 약 800건이
+    '어느 관인지 모름' 으로 버려졌다(표본 144 → 7). 학부모에게는 한 학원이다."""
+    rows = [rec("생각하는황소학원", "서울특별시 강남구 영동대로 302", "20218",
+                region_id="daechi"),
+            rec("생각하는황소3관학원", "서울특별시 강남구 역삼로 448", "3000027640",
+                region_id="daechi"),
+            rec("생각하는황소4관학원", "서울특별시 강남구 역삼로 448", "3000036727",
+                region_id="daechi"),
+            rec("생각하는황소서초2관학원", "서울특별시 서초구 고무래로10길 26",
+                "3000030617", region_id="banpo"),
+            rec("생각하는황소서초3관학원", "서울특별시 서초구 신반포로 195",
+                "3000036651", region_id="banpo"),
+            rec("생각하는황소서초4관학원", "서울특별시 서초구 효령로 398",
+                "3000040159", region_id="banpo"),
+            rec("생각하는황소3관학원", "서울특별시 양천구 오목로 300", "3000048214",
+                region_id="mokdong"),
+            rec("생각하는황소", "서울특별시 양천구 오목로 321-1", "3000035580",
+                region_id="mokdong")]
+    out, _ = dedupe.apply(rows)
+    by_region = {}
+    for m in out:
+        by_region.setdefault(m["region_id"], []).append(m)
+    assert {r: len(v) for r, v in by_region.items()} == {
+        "daechi": 1, "banpo": 1, "mokdong": 1}
+    assert set(by_region["daechi"][0]["registration_ids"]) == {
+        "20218", "3000027640", "3000036727"}
+
+
 def test_어학원_별관이_본관과_이어진다():
     """'아이엘이(별관)어학원' 의 hall_key 가 '아이엘이어' 로 남아 안 이어졌다.
     업종어를 **복합형부터** 떼야 '어학원' 이 떨어진다."""

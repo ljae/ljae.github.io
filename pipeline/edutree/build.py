@@ -197,6 +197,8 @@ def _merge_seed_into_neis(neis_rows: list[dict]) -> list[dict]:
             matched += 1
             row["brand"] = brand["name"]
             row["collection_priority"] = int(brand.get("collection_priority") or 0)
+            if brand.get("unknown_region_home"):
+                row["unknown_region_home"] = brand["unknown_region_home"]
             display_names = brand.get("display_names") or {}
             display_name = display_names.get(str(row.get("id") or row.get("aca_asnum")))
             if display_name:
@@ -1624,6 +1626,8 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                  if bstat.get("sibling") else "")
               + (f" · 제 권역 지점으로 {bstat['rehomed']:,}건 재귀속"
                  if bstat.get("rehomed") else "")
+              + (f" · 지역 불명을 지정 학군 지점으로 {bstat['brand_home']:,}건"
+                 if bstat.get("brand_home") else "")
               + (f" · 목록에 없는 동 {bstat['foreign_dong']:,}건 제외"
                  if bstat.get("foreign_dong") else ""))
 

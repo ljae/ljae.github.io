@@ -37,15 +37,16 @@ def test_general_registration_does_not_block_curated_thinking_bull_match():
     assert matched["subjects"] == ["math"]
     assert matched["curated_stages"] is True
     assert matched["collection_priority"] == 100
-    assert matched["display_name"] == "생각하는황소 서초 본관·2관"
+    assert matched["display_name"] == "생각하는황소 서초"
+    assert matched["unknown_region_home"] == "daechi"
 
 
 def test_curated_branch_name_survives_display_name_assignment():
     rows = [{"id": "main", "name": "생각하는황소학원",
-             "display_name": "생각하는황소 대치 본관",
+             "display_name": "생각하는황소 대치",
              "region_id": "daechi", "road_address": "서울특별시 강남구 영동대로 302"}]
     build.assign_display_names(rows)
-    assert rows[0]["display_name"] == "생각하는황소 대치 본관"
+    assert rows[0]["display_name"] == "생각하는황소 대치"
 
 
 def academy(aid, *, capacity, subjects=("english",), region="daechi",
