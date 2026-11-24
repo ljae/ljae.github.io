@@ -19,9 +19,10 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.00 (중립) · 신뢰도 0.19 · 스팸 0.20
+- 감성 +0.34 (긍정) · 신뢰도 0.31 · 스팸 0.20
 - 붙은 학원 1곳 · 과목 math
-- 등급반 언급: advanced
+- 진입난이도 신호: hard
+- 등급반 언급: advanced·basic
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -29,7 +30,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/3000038195|브레노스]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000038195|브레노스]] — 글이 이 권역을 밝힘 · 감성 +0.34
 <!-- /auto:edges -->
 
 ## 검수

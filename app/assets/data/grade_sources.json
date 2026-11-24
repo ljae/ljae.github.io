@@ -1,5 +1,26 @@
 [
  {
+  "academyId": "3000019253",
+  "name": "에프엠에이(FMA)수학교습소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
+    "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
+    "shortSummary": null,
+    "checkedAt": "2026-09-19",
+    "kind": "directory",
+    "sourceScope": "branch",
+    "subjects": [
+     "math"
+    ]
+   }
+  ]
+ },
+ {
   "academyId": "3000050776",
   "name": "프루브수학교습소",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -252,95 +273,6 @@
   ]
  },
  {
-  "academyId": "3000027640",
-  "name": "생각하는황소",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "대치 입학시험 지원 경쟁 보도",
-    "summary": "한겨레는 2024년 대치 신입생 시험에 약 1,800명이 지원해 330명을 모집했다고 보도했습니다. 특정 회차·지역의 지원 경쟁 사례이며 전국 합격률이나 전체 학부모 선호도는 아닙니다.",
-    "url": "https://www.hani.co.kr/arti/society/schooling/1165801.html",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2024-11-04",
-    "shortSummary": "2024년 대치 특정 회차: 약 1,800명 지원·330명 모집 보도(전국 합격률 아님)."
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "수학학원 수요·입학 준비 보도",
-    "summary": "시사저널e는 초2·초3 입학시험을 앞두고 준비 학원을 찾는 수요와 황소의 높은 인기를 보도했습니다. 언론의 현장 취재이며 대표 표본을 뽑은 선호도 조사나 전국 순위는 아닙니다.",
-    "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=412690",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2025-06-20",
-    "shortSummary": "언론 현장 취재에서 초2·초3 입학 준비 수요와 높은 인기가 언급됐습니다."
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "대치 3관 공개 리뷰 집계",
-    "summary": "강남엄마의 대치 3관 페이지에는 확인 당시 리뷰 32건과 추천 24명이 표시됐습니다. 해당 플랫폼의 지점별 공개 집계이며, 브랜드 전체나 재원생 전체를 대표하는 추천율은 아닙니다.",
-    "url": "https://www.gangmom.kr/institute/65b7af89b83683813731448e",
-    "checkedAt": "2026-09-24",
-    "kind": "review_aggregator",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
-    ],
-    "shortSummary": "대치 3관 페이지: 공개 리뷰 32건·추천 24명(플랫폼 집계)."
-   }
-  ]
- },
- {
   "academyId": "3000032396",
   "name": "황수비수학학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -358,82 +290,6 @@
     "subjects": [
      "math"
     ]
-   }
-  ]
- },
- {
-  "academyId": "20218",
-  "name": "생각하는황소학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "대치 입학시험 지원 경쟁 보도",
-    "summary": "한겨레는 2024년 대치 신입생 시험에 약 1,800명이 지원해 330명을 모집했다고 보도했습니다. 특정 회차·지역의 지원 경쟁 사례이며 전국 합격률이나 전체 학부모 선호도는 아닙니다.",
-    "url": "https://www.hani.co.kr/arti/society/schooling/1165801.html",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2024-11-04",
-    "shortSummary": "2024년 대치 특정 회차: 약 1,800명 지원·330명 모집 보도(전국 합격률 아님)."
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "수학학원 수요·입학 준비 보도",
-    "summary": "시사저널e는 초2·초3 입학시험을 앞두고 준비 학원을 찾는 수요와 황소의 높은 인기를 보도했습니다. 언론의 현장 취재이며 대표 표본을 뽑은 선호도 조사나 전국 순위는 아닙니다.",
-    "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=412690",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2025-06-20",
-    "shortSummary": "언론 현장 취재에서 초2·초3 입학 준비 수요와 높은 인기가 언급됐습니다."
    }
   ]
  },
@@ -497,54 +353,6 @@
     "subjects": [
      "english"
     ]
-   }
-  ]
- },
- {
-  "academyId": "3000048214",
-  "name": "생각하는황소3관학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
    }
   ]
  },
@@ -633,54 +441,6 @@
   ]
  },
  {
-  "academyId": "3000035580",
-  "name": "생각하는황소",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
-   }
-  ]
- },
- {
   "academyId": "3000039918",
   "name": "필즈더클래식목동센터학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -698,54 +458,6 @@
     "subjects": [
      "math"
     ]
-   }
-  ]
- },
- {
-  "academyId": "3000036651",
-  "name": "생각하는황소서초3관학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
    }
   ]
  },
@@ -830,102 +542,6 @@
     "subjects": [
      "english"
     ]
-   }
-  ]
- },
- {
-  "academyId": "3000029897",
-  "name": "생각하는황소서초",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
-   }
-  ]
- },
- {
-  "academyId": "3000040159",
-  "name": "생각하는황소서초4관학원",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
-    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
-    "shortSummary": null,
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "입학·레벨테스트",
-    "title": "저학년 입학 시험 대상",
-    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "url": "https://www.thinking-bull.com/student1",
-    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
-    "checkedAt": "2026-09-24",
-    "kind": "official",
-    "sourceScope": "admission",
-    "subjects": [
-     "math"
-    ]
-   },
-   {
-    "topic": "학부모 선호·진입경쟁",
-    "title": "초2 실제 재원 및 입학 정책 보도",
-    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
-    "url": "https://www.joongang.co.kr/article/25396275",
-    "checkedAt": "2026-09-24",
-    "kind": "media",
-    "sourceScope": "brand",
-    "subjects": [
-     "math"
-    ],
-    "publishedAt": "2026-01-08",
-    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
    }
   ]
  },
@@ -1098,6 +714,54 @@
   ]
  },
  {
+  "academyId": "3000035580",
+  "name": "생각하는황소",
+  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
+  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
+  "notes": [
+   {
+    "topic": "대상 학년",
+    "title": "대상 학년 확인 근거",
+    "summary": "공식 FAQ는 초등 4학년부터 고등 1학년 과정까지의 수학을 지도한다고 안내합니다. 이 브랜드 공통 교육 범위를 표시하며 지점별 현재 개설 반이나 모집 여부를 뜻하지 않습니다.",
+    "url": "https://www.thinking-bull.com/faq/?idx=121825933&bmode=view",
+    "shortSummary": null,
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ]
+   },
+   {
+    "topic": "입학·레벨테스트",
+    "title": "저학년 입학 시험 대상",
+    "summary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "url": "https://www.thinking-bull.com/student1",
+    "shortSummary": "초등 저학년은 정규 초등 과정 수강 학년이 아니라 입학시험 응시 대상입니다. 공식 안내상 현 초2·초3(예비 초3·초4)이 응시해 초4-1 시작반에 지원합니다.",
+    "checkedAt": "2026-09-24",
+    "kind": "official",
+    "sourceScope": "admission",
+    "subjects": [
+     "math"
+    ]
+   },
+   {
+    "topic": "학부모 선호·진입경쟁",
+    "title": "초2 실제 재원 및 입학 정책 보도",
+    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
+    "url": "https://www.joongang.co.kr/article/25396275",
+    "checkedAt": "2026-09-24",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ],
+    "publishedAt": "2026-01-08",
+    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
+   }
+  ]
+ },
+ {
   "academyId": "3002",
   "name": "씨앤씨학원",
   "scope": "학원명·등록번호·주소를 대조한 학년 안내",
@@ -1114,27 +778,6 @@
     "sourceScope": "branch",
     "subjects": [
      "english"
-    ]
-   }
-  ]
- },
- {
-  "academyId": "3000019253",
-  "name": "에프엠에이(FMA)수학교습소",
-  "scope": "학원명·등록번호·주소를 대조한 학년 안내",
-  "caveat": "확인한 모집 대상 기준입니다. 선행 교재의 학년은 포함하지 않습니다. 현재 개설 반은 지점에 확인해 주세요.",
-  "notes": [
-   {
-    "topic": "대상 학년",
-    "title": "대상 학년 확인 근거",
-    "summary": "등록명과 주소를 대조한 학원 소개의 명시적 대상: 초4~고3. 과목: 수학.",
-    "url": "https://www.gangmom.kr/institute/65b7af5ab8368381372f277a",
-    "shortSummary": null,
-    "checkedAt": "2026-09-19",
-    "kind": "directory",
-    "sourceScope": "branch",
-    "subjects": [
-     "math"
     ]
    }
   ]
@@ -1220,6 +863,78 @@
     "subjects": [
      "english"
     ]
+   }
+  ]
+ },
+ {
+  "academyId": "20218",
+  "name": "생각하는황소",
+  "scope": "공개 후기·언론 자료를 학원 브랜드와 대조",
+  "caveat": "언론 보도와 공개 후기 집계는 공식 모집 정보나 대표 표본 조사와 구분해 읽어 주세요.",
+  "notes": [
+   {
+    "topic": "학부모 선호·진입경쟁",
+    "title": "대치 입학시험 지원 경쟁 보도",
+    "summary": "한겨레는 2024년 대치 신입생 시험에 약 1,800명이 지원해 330명을 모집했다고 보도했습니다. 특정 회차·지역의 지원 경쟁 사례이며 전국 합격률이나 전체 학부모 선호도는 아닙니다.",
+    "url": "https://www.hani.co.kr/arti/society/schooling/1165801.html",
+    "checkedAt": "2026-09-24",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ],
+    "publishedAt": "2024-11-04",
+    "shortSummary": "2024년 대치 특정 회차: 약 1,800명 지원·330명 모집 보도(전국 합격률 아님)."
+   },
+   {
+    "topic": "학부모 선호·진입경쟁",
+    "title": "초2 실제 재원 및 입학 정책 보도",
+    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
+    "url": "https://www.joongang.co.kr/article/25396275",
+    "checkedAt": "2026-09-24",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ],
+    "publishedAt": "2026-01-08",
+    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
+   },
+   {
+    "topic": "학부모 선호·진입경쟁",
+    "title": "수학학원 수요·입학 준비 보도",
+    "summary": "시사저널e는 초2·초3 입학시험을 앞두고 준비 학원을 찾는 수요와 황소의 높은 인기를 보도했습니다. 언론의 현장 취재이며 대표 표본을 뽑은 선호도 조사나 전국 순위는 아닙니다.",
+    "url": "https://www.sisajournal-e.com/news/articleView.html?idxno=412690",
+    "checkedAt": "2026-09-24",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ],
+    "publishedAt": "2025-06-20",
+    "shortSummary": "언론 현장 취재에서 초2·초3 입학 준비 수요와 높은 인기가 언급됐습니다."
+   }
+  ]
+ },
+ {
+  "academyId": "3000029897",
+  "name": "생각하는황소서초",
+  "scope": "공개 후기·언론 자료를 학원 브랜드와 대조",
+  "caveat": "언론 보도와 공개 후기 집계는 공식 모집 정보나 대표 표본 조사와 구분해 읽어 주세요.",
+  "notes": [
+   {
+    "topic": "학부모 선호·진입경쟁",
+    "title": "초2 실제 재원 및 입학 정책 보도",
+    "summary": "중앙일보는 초2 재원 사례와 학원 대표의 설명을 보도했습니다. 대표는 학부모 요청으로 초2부터 다닐 수 있도록 했지만 권장하지 않는다고 밝혔습니다. 실제 초2 수강 사례와 저학년 수강 권고 여부를 구분해 읽어야 합니다.",
+    "url": "https://www.joongang.co.kr/article/25396275",
+    "checkedAt": "2026-09-24",
+    "kind": "media",
+    "sourceScope": "brand",
+    "subjects": [
+     "math"
+    ],
+    "publishedAt": "2026-01-08",
+    "shortSummary": "초2 재원 사례가 보도됐고, 대표는 초2 입학이 가능하지만 권장하지 않는다고 설명했습니다."
    }
   ]
  }

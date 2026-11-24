@@ -19,8 +19,8 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.00 (중립) · 신뢰도 0.59
-- 붙은 학원 1곳 · 과목 english
+- 감성 -0.31 (부정) · 신뢰도 0.59
+- 붙은 학원 2곳 · 과목 english·math
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -28,6 +28,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
+- [[../academies/3000050612|목동소마센터학원]] — 글이 이 권역을 밝힘 · 감성 -0.31
 - [[../academies/25432|목동야마하음악학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 

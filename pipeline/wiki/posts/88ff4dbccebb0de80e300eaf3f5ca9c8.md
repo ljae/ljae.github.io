@@ -19,9 +19,9 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.00 (중립) · 신뢰도 0.33
-- 붙은 학원 1곳 · 과목 math
-- 등급반 언급: advanced
+- 감성 +0.91 (긍정) · 신뢰도 0.70
+- 붙은 학원 2곳 · 과목 math
+- 등급반 언급: advanced·basic·regular·top
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -29,7 +29,8 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/18037|씨엠에스보습학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/18037|씨엠에스보습학원]] — 글이 이 권역을 밝힘 · 감성 +0.91
+- [[../academies/3000035580|생각하는황소]] — 글이 이 권역을 밝힘 · 감성 +0.91
 <!-- /auto:edges -->
 
 ## 검수
