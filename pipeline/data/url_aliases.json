@@ -270,6 +270,86 @@
           "3000048386"
         ]
       }
+    },
+    {
+      "oldId": "3000027640",
+      "canonicalId": "20218",
+      "status": "verified",
+      "reviewedAt": "2026-11-24",
+      "evidence": {
+        "method": "explicit_registration_membership_after_hall_merge",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "생각하는황소",
+        "oldAddress": "서울특별시 강남구 역삼로 448",
+        "region": "daechi",
+        "canonicalRegisteredName": "생각하는황소",
+        "canonicalAddress": "서울특별시 강남구 영동대로 302",
+        "registrationIds": [
+          "3000027640"
+        ]
+      }
+    },
+    {
+      "oldId": "3000048214",
+      "canonicalId": "3000035580",
+      "status": "verified",
+      "reviewedAt": "2026-11-24",
+      "evidence": {
+        "method": "explicit_registration_membership_after_hall_merge",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "생각하는황소3관학원",
+        "oldAddress": "서울특별시 양천구 오목로 300",
+        "region": "mokdong",
+        "canonicalRegisteredName": "생각하는황소",
+        "canonicalAddress": "서울특별시 양천구 오목로 321-1",
+        "registrationIds": [
+          "3000048214"
+        ]
+      }
+    },
+    {
+      "oldId": "3000036651",
+      "canonicalId": "3000029897",
+      "status": "verified",
+      "reviewedAt": "2026-11-24",
+      "evidence": {
+        "method": "explicit_registration_membership_after_hall_merge",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "생각하는황소서초3관학원",
+        "oldAddress": "서울특별시 서초구 신반포로 195",
+        "region": "banpo",
+        "canonicalRegisteredName": "생각하는황소서초",
+        "canonicalAddress": "서울특별시 서초구 효령로 398",
+        "registrationIds": [
+          "3000036651"
+        ]
+      }
+    },
+    {
+      "oldId": "3000040159",
+      "canonicalId": "3000029897",
+      "status": "verified",
+      "reviewedAt": "2026-11-24",
+      "evidence": {
+        "method": "explicit_registration_membership_after_hall_merge",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "생각하는황소서초4관학원",
+        "oldAddress": "서울특별시 서초구 효령로 398",
+        "region": "banpo",
+        "canonicalRegisteredName": "생각하는황소서초",
+        "canonicalAddress": "서울특별시 서초구 효령로 398",
+        "registrationIds": [
+          "3000040159"
+        ]
+      }
     }
   ]
 }

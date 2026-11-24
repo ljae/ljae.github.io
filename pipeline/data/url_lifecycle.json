@@ -976,6 +976,102 @@
         "oldAddress": "서울특별시 강남구 영동대로57길 16",
         "region": "daechi"
       }
+    },
+    {
+      "id": "27355",
+      "name": "나미여앤피카소미술교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "나미여앤피카소미술교습소",
+        "oldAddress": "서울특별시 강남구 역삼로52길 14",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000037646",
+      "name": "수준영재수학학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "수준영재수학학원",
+        "oldAddress": "서울특별시 강남구 도곡로 323",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000038609",
+      "name": "프로기A원격학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "프로기A원격학원",
+        "oldAddress": "서울특별시 서초구 서초대로40길 83",
+        "region": "banpo"
+      }
+    },
+    {
+      "id": "3000055002",
+      "name": "대치바모스학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "대치바모스학원",
+        "oldAddress": "서울특별시 강남구 삼성로71길 17",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000054880",
+      "name": "도모액팅스튜디오연기교습소",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "도모액팅스튜디오연기교습소",
+        "oldAddress": "서울특별시 강남구 역삼로 246",
+        "region": "daechi"
+      }
+    },
+    {
+      "id": "3000037862",
+      "name": "프로기원격학원",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-24",
+      "reason": "absent_from_current_public_records_not_confirmed_closed",
+      "evidence": {
+        "method": "previous_deployed_id_vs_current_registry_and_registration_membership",
+        "previousCommit": "2057442e258ee4a0160ed1c83af54d2bcaaee13d",
+        "currentCommit": "5ad6f1b4d355374e804abd48ea9eb6886b30d55a",
+        "currentAssetsSha256": "c94f6df333693332b6982406a8c7b54584e1b814d8e8c057c790c711ecd6baad",
+        "oldName": "프로기원격학원",
+        "oldAddress": "서울특별시 서초구 서초대로40길 83",
+        "region": "banpo"
+      }
     }
   ]
 }
