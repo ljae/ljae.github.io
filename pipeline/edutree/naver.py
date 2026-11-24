@@ -272,6 +272,11 @@ def normalize_item(source: str, item: dict) -> dict | None:
     }
 
 
+# 한 번만 다시 묻는다. 긴 장애에서 요청마다 오래 기다리면 수집 단계가
+# 180분 제한에 닿는다 — 짧은 흔들림만 넘기고 나머지는 회차 판정에 맡긴다.
+SERVER_RETRY_WAITS = (3.0,)
+
+
 def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     """한 소스에서 질의어 하나를 페이지네이션하며 수집한다."""
     if source in _disabled_sources:
@@ -283,6 +288,7 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
     out: list[dict] = []
     start = 1
     retries = 0
+    server_retries = 0
     while start <= MAX_START and len(out) < max_results:
         params = {
             "query": query,
@@ -309,10 +315,21 @@ def search(source: str, query: str, max_results: int = 300) -> list[dict]:
             time.sleep(2.0)
             continue
         retries = 0
+        body = resp.text[:200] if resp.status_code != 200 else ""
+        # 네이버 서버 쪽 일시 오류. HTTP 400 으로 와도 본문이 errorCode 500
+        # '서비스 예외' 면 요청이 아니라 서버 문제다(2026-11-24 실측 1,034건).
+        # 잠깐 기다려 한 번 다시 묻고, 그래도 안 되면 일시 장애로 적는다.
+        server_side = resp.status_code >= 500 or (
+            resp.status_code == 400 and '"errorCode":500' in body.replace(" ", ""))
+        if server_side and server_retries < len(SERVER_RETRY_WAITS):
+            time.sleep(SERVER_RETRY_WAITS[server_retries])
+            server_retries += 1
+            continue
+        server_retries = 0
         if resp.status_code != 200:
-            source_health.record(source, "disabled" if resp.status_code in (401, 403)
+            source_health.record(source, "server_error" if server_side else
+                                 "disabled" if resp.status_code in (401, 403)
                                  else f"http_{resp.status_code}")
-            body = resp.text[:200]
             if resp.status_code in (401, 403) and "활성화" in body:
                 _disabled_sources.add(source)
                 print(f"    ! {source} 는 이 애플리케이션에서 활성화되어 있지 않습니다 "

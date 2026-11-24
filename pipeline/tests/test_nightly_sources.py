@@ -57,6 +57,42 @@ def test_unreachable_naver_still_blocks_publication(source):
         rows, STARTED, now=NOW)
 
 
+def test_partial_naver_outage_publishes_with_a_warning():
+    """2026-11-24: 네이버가 13분 '서비스 예외'·연결 실패를 냈다. 요청의 80%가
+    성공했는데 마지막 요청이 실패라는 이유로 게시가 막혔다."""
+    rows = health()
+    rows['naver_cafe'].update(status='network_error', requests=1436, errors=285,
+                              results=21459,
+                              failures={'server_error': 278, 'network_error': 7})
+    assert source_health.collection_problems(rows, STARTED, now=NOW) == []
+    assert source_health.collection_warnings(rows, STARTED, now=NOW) == [
+        'source_degraded:naver_cafe']
+
+
+@pytest.mark.parametrize('failures,errors', [
+    ({'server_error': 8}, 8),                       # 성공이 절반 미만
+    ({'server_error': 1, 'disabled': 1}, 2),        # 키 거부가 섞임
+    ({'rate_limited': 2}, 2),                       # 한도는 일시 장애가 아니다
+    (None, 2),                                      # 실패 종류를 모름
+])
+def test_naver_outage_still_blocks_when_not_clearly_partial(failures, errors):
+    rows = health()
+    rows['naver_blog'].update(status='server_error', requests=10, errors=errors)
+    if failures is not None:
+        rows['naver_blog']['failures'] = failures
+    assert 'source_unavailable:naver_blog' in source_health.collection_problems(
+        rows, STARTED, now=NOW)
+
+
+def test_record_counts_failure_kinds():
+    source_health.reset()
+    for status in ('available', 'server_error', 'network_error', 'server_error'):
+        source_health.record('naver_web', status)
+    row = source_health._rows['naver_web']
+    source_health.reset()
+    assert row['errors'] == 3 and row['failures'] == {'server_error': 2, 'network_error': 1}
+
+
 def test_unreachable_daum_from_an_older_run_or_never_tried_still_blocks():
     rows = health()
     rows['daum_cafe'].update(status='network_error',
