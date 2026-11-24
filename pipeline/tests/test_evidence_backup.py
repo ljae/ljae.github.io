@@ -187,7 +187,7 @@ def test_published_checkpoint_floor_and_receipt_are_preserved_by_cli(tmp_path, m
     monkeypatch.chdir(tmp_path)
     p = tmp_path/'app/assets/data/meta.json'; p.parent.mkdir(parents=True)
     p.write_text(json.dumps({'rankingQuality': {'validMentions': 2},
-                             'evidenceContinuity': {'rawRows': 99}}))
+                             'evidenceContinuity': {'rawRows': 5000, 'evidenceRows': 99}}))
     monkeypatch.setenv('OPENEDU_EVIDENCE_BACKUP_KEY', base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())
     monkeypatch.setenv('GH_REPO', 'owner/repo'); monkeypatch.setenv('GH_TOKEN', 'synthetic')
     seen = []
@@ -196,11 +196,14 @@ def test_published_checkpoint_floor_and_receipt_are_preserved_by_cli(tmp_path, m
     monkeypatch.setattr(backup, 'recover', recover)
     monkeypatch.setattr(sys, 'argv', ['backup', 'restore'])
     backup.main()
+    # 바닥은 근거 줄 수다. 원본 줄 수(5000)는 예산으로 줄 수 있어 바닥이 아니다.
     assert seen == [99]
     monkeypatch.setattr(backup, 'checkpoint', lambda *args: {
-        'rawRows': 120, 'asset': 'evidence-cache-new.aes', 'sha256': 'a'*64, 'verified': True})
+        'rawRows': 120, 'evidenceRows': 100, 'asset': 'evidence-cache-new.aes',
+        'sha256': 'a'*64, 'verified': True})
     monkeypatch.setattr(sys, 'argv', ['backup', 'checkpoint'])
     backup.main()
     recorded = json.loads(p.read_text())['evidenceContinuity']
     assert recorded['rawRows'] == 120 and recorded['verified']
+    assert recorded['evidenceRows'] == 100
     assert recorded['checkpointSha256'] == 'a'*64

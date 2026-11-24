@@ -2095,6 +2095,14 @@ def run(with_cafe: bool = False, from_cache: bool = False,
                   f" · 대기 {cycle['pending']}회")
         if cycle.get("blocked"):
             print("  ! 랭킹 에이전트 학습 보류: 과거 오류 회귀 검증 실패 · 기존 정책 유지")
+    # 언급 저장소 보존 — 게이트를 지난 글에 근거 표시를 남기고, 저장소를
+    # 백업 한도 안의 크기 예산으로 줄인다(mention_store.retain). 실제 수집
+    # 회차에만 한다 — 캐시 실행은 저장소에 쓰지 않는다.
+    if mode == "live" and not from_cache:
+        from . import mention_store
+        with agent_cycle._lock():
+            mention_store.retain({m.get("url_hash") for m in mentions
+                                  if m.get("url_hash")})
     return {
         "mode": mode,
         "evaluated": len(evaluated),

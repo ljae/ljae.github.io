@@ -40,6 +40,23 @@ VERSION = 1
 # 최대치(한 학원 1,500건)를 넉넉히 덮는다. 넘치면 오래 못 본 것부터 뺀다.
 KEEP_PER_ACADEMY = 2000
 
+# ★ 저장소 원본(JSON) 크기 예산 (2026-11-24).
+#   저장소는 검색 결과를 **전부** 쌓았다. 실측 11-23: 127만 줄 중 게이트를
+#   지나 근거가 된 것은 10만 줄(8%)이고, 밤마다 12만 줄씩 늘었다. 11-16 에
+#   백업 검사 한도(512 MiB)를 넘어 1 GiB 로 올렸고, 11-22 에 그것도 넘어
+#   야간 게시가 이틀 연속 멈췄다. 한도를 또 올리면 같은 일이 또 온다 —
+#   한도는 넘지 않게 **쓰는 쪽이 지켜야** 한다.
+#   evidence_backup.MAX_RAW_BYTES(1 GiB)의 70%. 남는 30% 는 하룻밤 증가분
+#   (약 110 MiB)을 몇 번 받아낼 여유다.
+RAW_BUDGET_BYTES = 700 * 1024 * 1024
+# 근거 표시. 게이트를 지나 근거 후보가 된 적이 있는 글(url_hash)의 줄에
+# 마지막으로 그랬던 날을 적는다. **보존 순서에만 쓴다** — 점수·게이트는
+# 이 값을 읽지 않는다(매 회차 원자료에서 다시 판정한다는 원칙 그대로).
+EVIDENCE_FIELD = "evidence_seen"
+# 근거만으로 예산의 이만큼을 넘으면 알린다. 근거는 지우지 않으므로 이때가
+# 사람이 보존 정책을 다시 볼 차례다(밤 3천 줄 남짓 늘어 1년 넘게 남는다).
+EVIDENCE_WARN_SHARE = 0.6
+
 # 저장하는 원본 필드. 분석 결과(sentiment 등)는 넣지 않는다.
 RAW_FIELDS = ("source", "source_url", "url_hash", "author_hash", "title",
               "snippet", "posted_at", "date_source", "collected_at", "query",
@@ -156,12 +173,72 @@ def _cap(store: dict[str, dict]) -> int:
     for keys in by_ac.values():
         if len(keys) <= KEEP_PER_ACADEMY:
             continue
-        keys.sort(key=lambda k: (store[k].get("last_seen") or "",
+        # 근거가 된 적 없는 줄부터 뺀다. 그 안에서는 오래 못 본 것부터.
+        keys.sort(key=lambda k: (bool(store[k].get(EVIDENCE_FIELD)),
+                                 store[k].get("last_seen") or "",
                                  store[k].get("first_seen") or ""))
         for k in keys[: len(keys) - KEEP_PER_ACADEMY]:
             del store[k]
             dropped += 1
     return dropped
+
+
+def _row_bytes(key: str, row: dict) -> int:
+    """저장 파일 안에서 이 줄이 차지하는 대략의 바이트(UTF-8, 구분자 포함)."""
+    return (len(json.dumps(key, ensure_ascii=False).encode())
+            + len(json.dumps(row, ensure_ascii=False).encode()) + 4)
+
+
+def retain(evidence_hashes: set[str], today: str | None = None,
+           budget: int | None = None, quiet: bool = False) -> dict:
+    """근거 표시를 남기고, 저장소를 크기 예산 안으로 줄인다.
+
+    - 이번 회차 게이트를 지난 글의 줄에 `evidence_seen` 을 적는다.
+    - 예산을 넘으면 **근거가 된 적 없는 줄만**, 오래 못 본 것부터 뺀다.
+      근거가 된 줄은 지우지 않는다 — '한 번 찾은 근거는 남는다' 는 이
+      저장소의 약속이다. 뺀 줄도 검색에 다시 걸리면 다음 회차에 새로 들어온다.
+    - 근거만으로 예산을 넘기면 지우지 않고 알린다(`overBudget`).
+    """
+    limit = RAW_BUDGET_BYTES if budget is None else budget
+    day = today or date.today().isoformat()
+    with _store_lock():
+        store = load()
+        if not store:
+            return {"rows": 0, "evidenceRows": 0, "bytes": 0, "dropped": 0,
+                    "budget": limit, "overBudget": False}
+        for row in store.values():
+            if row.get("url_hash") in evidence_hashes:
+                row[EVIDENCE_FIELD] = day
+        sizes = {k: _row_bytes(k, r) for k, r in store.items()}
+        total = sum(sizes.values()) + 32
+        dropped = 0
+        if total > limit:
+            loose = sorted((k for k, r in store.items() if not r.get(EVIDENCE_FIELD)),
+                           key=lambda k: (store[k].get("last_seen") or "",
+                                          store[k].get("first_seen") or ""))
+            for k in loose:
+                if total <= limit:
+                    break
+                total -= sizes.pop(k)
+                del store[k]
+                dropped += 1
+        evidence = sum(1 for r in store.values() if r.get(EVIDENCE_FIELD))
+        evidence_bytes = sum(sizes[k] for k, r in store.items() if r.get(EVIDENCE_FIELD))
+        _save(store)
+    result = {"rows": len(store), "evidenceRows": evidence, "bytes": total,
+              "dropped": dropped, "budget": limit, "overBudget": total > limit,
+              "evidenceShare": round(evidence_bytes / limit, 3)}
+    if not quiet:
+        print(f"  언급 저장소 보존: {len(store):,}줄 · 근거 {evidence:,}줄 · "
+              f"{total / 2**20:,.0f}/{limit / 2**20:,.0f} MiB"
+              + (f" · 근거 아닌 줄 {dropped:,}건 정리" if dropped else ""))
+        if result["overBudget"]:
+            print("  ! 언급 저장소: 근거만으로 크기 예산을 넘었다 — 지우지 않았다. "
+                  "백업 한도(evidence_backup.MAX_RAW_BYTES)에 닿기 전에 보존 정책을 정할 것")
+        elif result["evidenceShare"] >= EVIDENCE_WARN_SHARE:
+            print(f"  ! 언급 저장소: 근거가 크기 예산의 {result['evidenceShare']:.0%} — "
+                  "보존 정책을 다시 볼 때가 다가온다")
+    return result
 
 
 def rows_of(store: dict[str, dict]) -> list[dict]:

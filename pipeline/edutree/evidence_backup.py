@@ -39,10 +39,17 @@ def key_bytes(value):
     return key
 
 
-def raw_rows(data):
+def raw_rows(data, local=False):
+    """local=True 는 이 러너가 쓴 로컬 저장소를 읽을 때만 쓴다.
+
+    한도는 내려받은 체크포인트(외부에서 온 바이트)와 새로 만들 체크포인트의
+    크기를 막는 것이다. 로컬 저장소가 한도를 넘었다고 '읽을 수 없음' 으로
+    치면, 복구가 그 저장소를 빈 것으로 보고 옛 체크포인트로 **덮어써**
+    그 사이 수집한 근거를 잃는다(2026-11-23 실측: 11-22 수집분 소실).
+    """
     with gzip.GzipFile(fileobj=io.BytesIO(data)) as f:
-        payload = f.read(MAX_RAW_BYTES + 1)
-    if len(payload) > MAX_RAW_BYTES:
+        payload = f.read() if local else f.read(MAX_RAW_BYTES + 1)
+    if not local and len(payload) > MAX_RAW_BYTES:
         raise ValueError('Evidence store exceeds recovery limit')
     result = json.loads(payload)
     if result.get('version') != 1 or not isinstance(result.get('rows'), dict) or not result['rows']:
@@ -64,11 +71,14 @@ def pack(cache, key):
                 raise ValueError('Evidence changed during checkpoint')
     if sum(map(len, entries.values())) > MAX_BYTES:
         raise ValueError('Checkpoint too large')
-    count = len(raw_rows(entries.get('mention_store.json.gz', b'')))
+    rows = raw_rows(entries.get('mention_store.json.gz', b''))
+    count = len(rows)
+    evidence = sum(1 for r in rows.values() if isinstance(r, dict) and r.get('evidence_seen'))
+    del rows
     if 'first_seen.json' not in entries:
         raise ValueError('First-seen history required; never recreate it as today')
     manifest = {'version': 1, 'createdAt': datetime.now(timezone.utc).isoformat(),
-                'rawRows': count, 'sha256': {n: hashlib.sha256(b).hexdigest() for n, b in entries.items()}}
+                'rawRows': count, 'evidenceRows': evidence, 'sha256': {n: hashlib.sha256(b).hexdigest() for n, b in entries.items()}}
     out = io.BytesIO()
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as archive:
         archive.writestr('manifest.json', json.dumps(manifest))
@@ -118,7 +128,7 @@ def restore(data, key, cache):
                 # Preserve independently collected rows as well as the backup.
                 rows = raw_rows(incoming)
                 try:
-                    current = raw_rows(path.read_bytes())
+                    current = raw_rows(path.read_bytes(), local=True)
                 except (OSError, ValueError, EOFError):
                     current = {}
                 for k, v in current.items():
@@ -188,7 +198,7 @@ def recover(cache, seed, key, repo, token, minimum=1):
     count = 0
     receipt = {}
     try:
-        count = len(raw_rows((cache / 'mention_store.json.gz').read_bytes()))
+        count = len(raw_rows((cache / 'mention_store.json.gz').read_bytes(), local=True))
         receipt = json.loads((cache / 'evidence-checkpoint.json').read_text())
     except (OSError, ValueError, EOFError):
         pass
@@ -249,7 +259,8 @@ def checkpoint(cache, key, repo, token):
         if response.status_code != 204:
             print('Checkpoint retained; older-asset cleanup deferred')
     result = {'asset': name, 'assetId': saved['id'], 'sha256': digest,
-              'rawRows': manifest['rawRows'], 'bytes': len(body), 'verified': True}
+              'rawRows': manifest['rawRows'], 'evidenceRows': manifest['evidenceRows'],
+              'bytes': len(body), 'verified': True}
     (Path(cache) / 'evidence-checkpoint.json').write_text(json.dumps(result))
     return result
 
@@ -264,14 +275,19 @@ def main():
     repo, token = os.environ['GH_REPO'], os.environ['GH_TOKEN']
     if args.command == 'restore':
         meta = json.loads(Path('app/assets/data/meta.json').read_text())
+        # 바닥은 '근거' 의 수다. 원본 줄 수(rawRows)를 바닥으로 두면 저장소가
+        # 크기 예산으로 줄어드는 순간 복구가 '너무 작다' 로 멈춘다 — 근거가
+        # 아닌 검색 잔여물까지 영원히 들고 다니라는 래칫이 된다.
+        continuity = meta.get('evidenceContinuity', {})
         minimum = max(1, int(meta.get('rankingQuality', {}).get('validMentions', 0)),
-                      int(meta.get('evidenceContinuity', {}).get('rawRows', 0)))
+                      int(continuity.get('evidenceRows', 0)))
         result = recover(args.cache, args.seed, key, repo, token, minimum)
     else:
         result = checkpoint(args.cache, key, repo, token)
         meta_path = Path('app/assets/data/meta.json')
         meta = json.loads(meta_path.read_text())
         meta['evidenceContinuity'] = {'rawRows': result['rawRows'],
+                                     'evidenceRows': result['evidenceRows'],
                                      'checkpointAsset': result['asset'],
                                      'checkpointSha256': result['sha256'],
                                      'verified': result['verified']}
