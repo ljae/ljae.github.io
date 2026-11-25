@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 -0.38 (부정) · 신뢰도 0.35 · **스팸 배제**
-- 붙은 학원 2곳 · 과목 english
+- 붙은 학원 3곳 · 과목 english
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -30,6 +30,7 @@ stale_after:
 <!-- auto:edges -->
 - [[../academies/9929|청담어학원]] — 글이 이 권역을 밝힘 · 감성 -0.38
 - [[../academies/8683|서초청담어학원]] — 글이 이 권역을 밝힘 · 감성 -0.38
+- [[../academies/19721|서초에이프릴어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

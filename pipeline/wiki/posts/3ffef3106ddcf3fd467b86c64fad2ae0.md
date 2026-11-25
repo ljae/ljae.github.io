@@ -21,8 +21,7 @@ stale_after:
 <!-- auto:digest -->
 - 감성 +0.45 (긍정) · 신뢰도 0.63
 - 붙은 학원 1곳 · 과목 math
-- 진입난이도 신호: wait
-- 등급반 언급: regular
+- 등급반 언급: top
 <!-- /auto:digest -->
 
 <!-- auto:summary -->

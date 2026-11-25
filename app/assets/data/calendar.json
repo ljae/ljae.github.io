@@ -5,7 +5,7 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-24T11:37:43.087152+00:00",
+ "generatedAt": "2026-11-25T00:29:04.819143+00:00",
  "windowDays": 62,
  "events": [
   {
@@ -19,30 +19,12 @@
    "label": "조동현 개강",
    "source": "blog",
    "dates": [
-    "2026-11-24",
     "2026-11-25",
     "2026-11-26",
     "2026-11-27",
     "2026-11-28"
    ],
    "bands": []
-  },
-  {
-   "title": "서울 서초구, 수능 이틀 후 '정시 전략 설명회'…1:1 컨설팅·맞춤 상담...",
-   "url": "https://www.dailian.co.kr/news/view/1712265/?sc=Naver",
-   "postedAt": "2026-11-09",
-   "kind": "session",
-   "regions": [
-    "banpo"
-   ],
-   "label": "서초구 설명회",
-   "source": "news",
-   "dates": [
-    "2026-11-24"
-   ],
-   "bands": [
-    "high"
-   ]
   },
   {
    "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
@@ -59,6 +41,25 @@
    ],
    "label": "세정 설명회",
    "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
+   "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
+   "url": "https://blog.naver.com/iwillbee/224490706651",
+   "postedAt": "2026-11-25",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-26"
+   ],
+   "bands": [
+    "elem_high",
     "middle",
     "high"
    ]
@@ -238,10 +239,46 @@
    "bands": []
   },
   {
+   "title": "대치독수리의대관 예비고3 2028수능 입시전략설명회",
+   "url": "https://blog.naver.com/hongbis/224490628425",
+   "postedAt": "2026-11-24",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-29"
+   ],
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
+   "title": "외대부고 하나고등학교 인재선발법 - 대치 SNT 설명회 요약본",
+   "url": "https://blog.naver.com/snt_oxbridge/224490504831",
+   "postedAt": "2026-11-24",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-29",
+    "2026-12-01"
+   ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "대치에이프릴어학원 · 26년 겨울학기 개강",
    "url": "https://www.creverse.com/april/dogok",
    "key": "https://www.creverse.com/april/dogok#26년 겨울학기 개강",
-   "postedAt": "2026-11-19",
+   "postedAt": "2026-11-25",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -267,10 +304,7 @@
    "label": "테스트",
    "source": "blog",
    "dates": [
-    "2026-11-30",
-    "2026-12-01",
-    "2026-12-12",
-    "2026-12-19"
+    "2026-11-30"
    ],
    "bands": []
   },
@@ -481,6 +515,24 @@
    ],
    "label": "해커스 설명회",
    "bands": [
+    "high"
+   ]
+  },
+  {
+   "title": "반포 예비고1 겨울특강 12월26일~순차 개강 통합과학,화학,생명과학",
+   "url": "https://blog.naver.com/pharoseducation/224490673316",
+   "postedAt": "2026-11-25",
+   "kind": "open",
+   "regions": [
+    "banpo"
+   ],
+   "label": "개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-26"
+   ],
+   "bands": [
+    "middle",
     "high"
    ]
   },
