@@ -21,6 +21,7 @@ stale_after:
 <!-- auto:digest -->
 - 감성 +0.41 (긍정) · 신뢰도 0.36 · **스팸 배제**
 - 붙은 학원 2곳 · 과목 english
+- 등급반 언급: regular
 <!-- /auto:digest -->
 
 <!-- auto:summary -->

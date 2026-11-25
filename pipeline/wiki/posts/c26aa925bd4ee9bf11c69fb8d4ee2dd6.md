@@ -20,7 +20,7 @@ stale_after:
 ## 요약
 <!-- auto:digest -->
 - 감성 +0.00 (중립) · 신뢰도 0.34 · **스팸 배제**
-- 붙은 학원 2곳 · 과목 english·korean
+- 붙은 학원 3곳 · 과목 english·korean·science
 - 등급반 언급: top
 <!-- /auto:digest -->
 
@@ -31,6 +31,7 @@ stale_after:
 <!-- auto:edges -->
 - [[../academies/3000011244|해빛나인어학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 - [[../academies/3000024520|플레이코딩아카데미학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/3000021512|에스플러스학원]] — 글이 이 권역을 밝힘 · 감성 +0.00
 <!-- /auto:edges -->
 
 ## 검수

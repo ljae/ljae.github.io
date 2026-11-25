@@ -1,12 +1,12 @@
 {
  "day": "2026-11-25",
  "previousDay": "2026-11-24",
- "generatedAt": "2026-11-25T00:29:04.819143+00:00",
- "ranked": 379,
+ "generatedAt": "2026-11-25T23:50:20.585895+00:00",
+ "ranked": 383,
  "rankedBefore": 375,
- "entered": 4,
- "left": 0,
- "moved": 121,
+ "entered": 10,
+ "left": 2,
+ "moved": 159,
  "scoringChanged": false,
  "newFirsts": [
   {
@@ -22,30 +22,37 @@
    "subject": "수학",
    "from": 3,
    "to": 1
+  },
+  {
+   "name": "폴리어학원",
+   "region": "목동",
+   "subject": "영어",
+   "from": 2,
+   "to": 1
   }
  ],
- "newFirstCount": 2,
+ "newFirstCount": 3,
  "topRises": [
   {
-   "name": "그로튼아카데미학원",
+   "name": "러셀대치학원",
+   "region": "대치",
+   "subject": "수학",
+   "from": 33,
+   "to": 11
+  },
+  {
+   "name": "리더스아카데미어학원",
    "region": "대치",
    "subject": "영어",
-   "from": 20,
-   "to": 13
+   "from": 35,
+   "to": 20
   },
   {
-   "name": "원더스잉글리시아카데미(Wonders English Academy)학원",
-   "region": "반포",
+   "name": "대치에이프릴어학원",
+   "region": "대치",
    "subject": "영어",
-   "from": 27,
-   "to": 21
-  },
-  {
-   "name": "와이즈만",
-   "region": "반포",
-   "subject": "수학",
-   "from": 11,
-   "to": 7
+   "from": 19,
+   "to": 11
   }
  ],
  "daechi": {
@@ -53,14 +60,21 @@
   "scoringChanged": false,
   "searched": true,
   "bannedCount": 1,
-  "calendarCount": 37,
-  "homepageEvents": 13,
+  "calendarCount": 40,
+  "homepageEvents": 15,
   "rooms": {
    "elem_low": {
     "label": "예비초~초3",
     "ranking": {
      "newFirsts": [],
-     "rises": []
+     "rises": [
+      {
+       "name": "대치에이프릴어학원",
+       "subject": "영어",
+       "from": 15,
+       "to": 10
+      }
+     ]
     },
     "thisWeek": [
      {
@@ -163,40 +177,14 @@
     ],
     "news": [
      {
-      "title": "2026년 12월 대치동 학원 설명회 일정｜예비학년별 신청 안내 [대치맘....",
-      "url": "https://blog.naver.com/daechi__mom/224490992061",
+      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
+      "url": "https://blog.naver.com/hnaaa2864/224492071145",
       "postedAt": "2026-11-25",
-      "kind": "session",
+      "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인학원 Mi-ON LIVE CLASS | 겨울방학 온라인 강좌 및 줌 설명회 안....",
-      "url": "https://blog.naver.com/hoomyungin/224490481489",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "명인 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인 Mi-ON 줌 LIVE 설명회｜겨울방학 영어·국어·수학안내",
-      "url": "https://blog.naver.com/epmmin/224490474180",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
+      "label": "개강",
       "source": "blog",
       "dates": [],
       "bands": []
@@ -208,7 +196,20 @@
    "elem_high": {
     "label": "초4~초6",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "엠에스씨",
+       "subject": "국어·논술",
+       "from": 2,
+       "to": 1
+      },
+      {
+       "name": "한국영재학원",
+       "subject": "기타",
+       "from": 2,
+       "to": 1
+      }
+     ],
      "rises": []
     },
     "thisWeek": [
@@ -316,40 +317,14 @@
     ],
     "news": [
      {
-      "title": "2026년 12월 대치동 학원 설명회 일정｜예비학년별 신청 안내 [대치맘....",
-      "url": "https://blog.naver.com/daechi__mom/224490992061",
+      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
+      "url": "https://blog.naver.com/hnaaa2864/224492071145",
       "postedAt": "2026-11-25",
-      "kind": "session",
+      "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인학원 Mi-ON LIVE CLASS | 겨울방학 온라인 강좌 및 줌 설명회 안....",
-      "url": "https://blog.naver.com/hoomyungin/224490481489",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "명인 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인 Mi-ON 줌 LIVE 설명회｜겨울방학 영어·국어·수학안내",
-      "url": "https://blog.naver.com/epmmin/224490474180",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
+      "label": "개강",
       "source": "blog",
       "dates": [],
       "bands": []
@@ -363,9 +338,9 @@
     "ranking": {
      "newFirsts": [
       {
-       "name": "애니포스만화학원",
-       "subject": "예체능",
-       "from": null,
+       "name": "엠에스씨",
+       "subject": "국어·논술",
+       "from": 3,
        "to": 1
       }
      ],
@@ -430,6 +405,24 @@
       ]
      },
      {
+      "title": "2027 대치 시대인재 예비고3 입시설명회 일정 및 예약 안내 (11/27 금요....",
+      "url": "https://blog.naver.com/hohoy/224492043531",
+      "postedAt": "2026-11-25",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-27"
+      ],
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
+     {
       "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
       "url": "https://blog.naver.com/mathlevel/224469057824",
       "postedAt": "2026-11-13",
@@ -458,31 +451,12 @@
        "2026-11-28"
       ],
       "bands": []
-     },
-     {
-      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
-      "url": "https://blog.naver.com/hahmmath/224481192001",
-      "postedAt": "2026-11-17",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "공통 개강",
-      "source": "blog",
-      "dates": [
-       "2026-11-28",
-       "2027-01-04"
-      ],
-      "bands": [
-       "elem_high",
-       "middle"
-      ]
      }
     ],
     "news": [
      {
-      "title": "2026년 12월 대치동 학원 설명회 일정｜예비학년별 신청 안내 [대치맘....",
-      "url": "https://blog.naver.com/daechi__mom/224490992061",
+      "title": "[대치동필수학학원] 서울 대치동 수학 설명회, 해외 초중등 가정을 ....",
+      "url": "https://blog.naver.com/mathclinic1004/224492061302",
       "postedAt": "2026-11-25",
       "kind": "session",
       "regions": [
@@ -491,25 +465,27 @@
       "label": "설명회",
       "source": "blog",
       "dates": [],
-      "bands": []
+      "bands": [
+       "middle"
+      ]
      },
      {
-      "title": "대치명인학원 Mi-ON LIVE CLASS | 겨울방학 온라인 강좌 및 줌 설명회 안....",
-      "url": "https://blog.naver.com/hoomyungin/224490481489",
-      "postedAt": "2026-11-24",
-      "kind": "session",
+      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
+      "url": "https://blog.naver.com/hnaaa2864/224492071145",
+      "postedAt": "2026-11-25",
+      "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "명인 설명회",
+      "label": "개강",
       "source": "blog",
       "dates": [],
       "bands": []
      },
      {
-      "title": "대치명인 Mi-ON 줌 LIVE 설명회｜겨울방학 영어·국어·수학안내",
-      "url": "https://blog.naver.com/epmmin/224490474180",
-      "postedAt": "2026-11-24",
+      "title": "[대치새움 설명회 영상] 2027 예비고1 영어 겨울방학 전략 & 10회 특강 ....",
+      "url": "https://blog.naver.com/jinnayingjia/224491207153",
+      "postedAt": "2026-11-25",
       "kind": "session",
       "regions": [
        "daechi"
@@ -517,7 +493,10 @@
       "label": "설명회",
       "source": "blog",
       "dates": [],
-      "bands": []
+      "bands": [
+       "middle",
+       "high"
+      ]
      }
     ],
     "newAcademies": [],
@@ -526,15 +505,15 @@
    "high": {
     "label": "고등",
     "ranking": {
-     "newFirsts": [
+     "newFirsts": [],
+     "rises": [
       {
-       "name": "애니포스만화학원",
-       "subject": "예체능",
-       "from": null,
-       "to": 1
+       "name": "러셀대치학원",
+       "subject": "수학",
+       "from": 23,
+       "to": 6
       }
-     ],
-     "rises": []
+     ]
     },
     "thisWeek": [
      {
@@ -613,6 +592,24 @@
       ]
      },
      {
+      "title": "2027 대치 시대인재 예비고3 입시설명회 일정 및 예약 안내 (11/27 금요....",
+      "url": "https://blog.naver.com/hohoy/224492043531",
+      "postedAt": "2026-11-25",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-27"
+      ],
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
+     {
       "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
       "url": "https://blog.naver.com/mathlevel/224469057824",
       "postedAt": "2026-11-13",
@@ -626,27 +623,40 @@
        "2026-11-28"
       ],
       "bands": []
-     },
-     {
-      "title": "[대치동사관학교학원]2028윈터스쿨[설명회,11/28(토),(우선선발/합격생....",
-      "url": "https://blog.naver.com/edupower1/224490271982",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "사관학교 설명회",
-      "source": "blog",
-      "dates": [
-       "2026-11-28"
-      ],
-      "bands": []
      }
     ],
     "news": [
      {
-      "title": "2026년 12월 대치동 학원 설명회 일정｜예비학년별 신청 안내 [대치맘....",
-      "url": "https://blog.naver.com/daechi__mom/224490992061",
+      "title": "동대문 정상대치고등부 12월 대개강 | 고등 영어·수학·국어·통합과....",
+      "url": "https://blog.naver.com/ddmjls/224492117068",
+      "postedAt": "2026-11-25",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "개강",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "high"
+      ]
+     },
+     {
+      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
+      "url": "https://blog.naver.com/hnaaa2864/224492071145",
+      "postedAt": "2026-11-25",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "개강",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치새움 설명회 영상] 2027 예비고1 영어 겨울방학 전략 & 10회 특강 ....",
+      "url": "https://blog.naver.com/jinnayingjia/224491207153",
       "postedAt": "2026-11-25",
       "kind": "session",
       "regions": [
@@ -655,33 +665,10 @@
       "label": "설명회",
       "source": "blog",
       "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인학원 Mi-ON LIVE CLASS | 겨울방학 온라인 강좌 및 줌 설명회 안....",
-      "url": "https://blog.naver.com/hoomyungin/224490481489",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "명인 설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "대치명인 Mi-ON 줌 LIVE 설명회｜겨울방학 영어·국어·수학안내",
-      "url": "https://blog.naver.com/epmmin/224490474180",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": []
+      "bands": [
+       "middle",
+       "high"
+      ]
      }
     ],
     "newAcademies": [],
