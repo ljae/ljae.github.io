@@ -1,58 +1,51 @@
 {
- "day": "2026-11-25",
- "previousDay": "2026-11-24",
- "generatedAt": "2026-11-25T23:50:20.585895+00:00",
- "ranked": 383,
- "rankedBefore": 375,
- "entered": 10,
- "left": 2,
- "moved": 159,
+ "day": "2026-11-26",
+ "previousDay": "2026-11-25",
+ "generatedAt": "2026-11-26T23:47:14.730439+00:00",
+ "ranked": 386,
+ "rankedBefore": 383,
+ "entered": 6,
+ "left": 3,
+ "moved": 112,
  "scoringChanged": false,
  "newFirsts": [
   {
-   "name": "애니포스만화학원",
+   "name": "스즈키바이올린교습소",
    "region": "대치",
    "subject": "예체능",
-   "from": null,
-   "to": 1
-  },
-  {
-   "name": "와이즈만영재교육학원",
-   "region": "목동",
-   "subject": "수학",
-   "from": 3,
-   "to": 1
-  },
-  {
-   "name": "폴리어학원",
-   "region": "목동",
-   "subject": "영어",
    "from": 2,
+   "to": 1
+  },
+  {
+   "name": "반포세정",
+   "region": "반포",
+   "subject": "영어",
+   "from": 3,
    "to": 1
   }
  ],
- "newFirstCount": 3,
+ "newFirstCount": 2,
  "topRises": [
   {
-   "name": "러셀대치학원",
-   "region": "대치",
-   "subject": "수학",
-   "from": 33,
-   "to": 11
-  },
-  {
-   "name": "리더스아카데미어학원",
+   "name": "애슐리코칭영어교습소",
    "region": "대치",
    "subject": "영어",
-   "from": 35,
-   "to": 20
+   "from": 43,
+   "to": 32
   },
   {
-   "name": "대치에이프릴어학원",
+   "name": "강대학원",
+   "region": "목동",
+   "subject": "수학",
+   "from": 25,
+   "to": 16
+  },
+  {
+   "name": "그로튼아카데미학원",
    "region": "대치",
    "subject": "영어",
    "from": 19,
-   "to": 11
+   "to": 14
   }
  ],
  "daechi": {
@@ -60,21 +53,14 @@
   "scoringChanged": false,
   "searched": true,
   "bannedCount": 1,
-  "calendarCount": 40,
-  "homepageEvents": 15,
+  "calendarCount": 41,
+  "homepageEvents": 14,
   "rooms": {
    "elem_low": {
     "label": "예비초~초3",
     "ranking": {
      "newFirsts": [],
-     "rises": [
-      {
-       "name": "대치에이프릴어학원",
-       "subject": "영어",
-       "from": 15,
-       "to": 10
-      }
-     ]
+     "rises": []
     },
     "thisWeek": [
      {
@@ -177,17 +163,20 @@
     ],
     "news": [
      {
-      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
-      "url": "https://blog.naver.com/hnaaa2864/224492071145",
-      "postedAt": "2026-11-25",
+      "title": "대치동 수학학원 12월 개강 안내 수찬학원 대치 (초3~고3 소수정예 맞....",
+      "url": "https://blog.naver.com/sd9220/224493643699",
+      "postedAt": "2026-11-26",
       "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "개강",
+      "label": "수찬 개강",
       "source": "blog",
       "dates": [],
-      "bands": []
+      "bands": [
+       "elem_low",
+       "high"
+      ]
      }
     ],
     "newAcademies": [],
@@ -196,20 +185,7 @@
    "elem_high": {
     "label": "초4~초6",
     "ranking": {
-     "newFirsts": [
-      {
-       "name": "엠에스씨",
-       "subject": "국어·논술",
-       "from": 2,
-       "to": 1
-      },
-      {
-       "name": "한국영재학원",
-       "subject": "기타",
-       "from": 2,
-       "to": 1
-      }
-     ],
+     "newFirsts": [],
      "rises": []
     },
     "thisWeek": [
@@ -315,57 +291,17 @@
       "bands": []
      }
     ],
-    "news": [
-     {
-      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
-      "url": "https://blog.naver.com/hnaaa2864/224492071145",
-      "postedAt": "2026-11-25",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "개강",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     }
-    ],
+    "news": [],
     "newAcademies": [],
     "goneAcademies": []
    },
    "middle": {
     "label": "중등",
     "ranking": {
-     "newFirsts": [
-      {
-       "name": "엠에스씨",
-       "subject": "국어·논술",
-       "from": 3,
-       "to": 1
-      }
-     ],
+     "newFirsts": [],
      "rises": []
     },
     "thisWeek": [
-     {
-      "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-      "url": "https://sejungedu.com",
-      "key": "https://sejungedu.com#2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-      "postedAt": "2026-11-19",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-25"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "세정 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
       "url": "https://blog.naver.com/iwillbee/224490706651",
@@ -451,54 +387,28 @@
        "2026-11-28"
       ],
       "bands": []
-     }
-    ],
-    "news": [
-     {
-      "title": "[대치동필수학학원] 서울 대치동 수학 설명회, 해외 초중등 가정을 ....",
-      "url": "https://blog.naver.com/mathclinic1004/224492061302",
-      "postedAt": "2026-11-25",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": [
-       "middle"
-      ]
      },
      {
-      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
-      "url": "https://blog.naver.com/hnaaa2864/224492071145",
-      "postedAt": "2026-11-25",
+      "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
+      "url": "https://blog.naver.com/hahmmath/224481192001",
+      "postedAt": "2026-11-17",
       "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "개강",
+      "label": "공통 개강",
       "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[대치새움 설명회 영상] 2027 예비고1 영어 겨울방학 전략 & 10회 특강 ....",
-      "url": "https://blog.naver.com/jinnayingjia/224491207153",
-      "postedAt": "2026-11-25",
-      "kind": "session",
-      "regions": [
-       "daechi"
+      "dates": [
+       "2026-11-28",
+       "2027-01-04"
       ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
       "bands": [
-       "middle",
-       "high"
+       "elem_high",
+       "middle"
       ]
      }
     ],
+    "news": [],
     "newAcademies": [],
     "goneAcademies": []
    },
@@ -506,35 +416,9 @@
     "label": "고등",
     "ranking": {
      "newFirsts": [],
-     "rises": [
-      {
-       "name": "러셀대치학원",
-       "subject": "수학",
-       "from": 23,
-       "to": 6
-      }
-     ]
+     "rises": []
     },
     "thisWeek": [
-     {
-      "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-      "url": "https://sejungedu.com",
-      "key": "https://sejungedu.com#2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-      "postedAt": "2026-11-19",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-25"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "세정 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
       "url": "https://blog.naver.com/iwillbee/224490706651",
@@ -623,9 +507,40 @@
        "2026-11-28"
       ],
       "bands": []
+     },
+     {
+      "title": "[대치동사관학교학원]2028윈터스쿨[설명회,11/28(토),(우선선발/합격생....",
+      "url": "https://blog.naver.com/edupower1/224490271982",
+      "postedAt": "2026-11-24",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "사관학교 설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-28"
+      ],
+      "bands": []
      }
     ],
     "news": [
+     {
+      "title": "대치동 수학학원 12월 개강 안내 수찬학원 대치 (초3~고3 소수정예 맞....",
+      "url": "https://blog.naver.com/sd9220/224493643699",
+      "postedAt": "2026-11-26",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "수찬 개강",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "elem_low",
+       "high"
+      ]
+     },
      {
       "title": "동대문 정상대치고등부 12월 대개강 | 고등 영어·수학·국어·통합과....",
       "url": "https://blog.naver.com/ddmjls/224492117068",
@@ -638,35 +553,6 @@
       "source": "blog",
       "dates": [],
       "bands": [
-       "high"
-      ]
-     },
-     {
-      "title": "[대치동 초등수학] 2026년 12월 커리큘럼 & 2027년 신규반 개강 안내",
-      "url": "https://blog.naver.com/hnaaa2864/224492071145",
-      "postedAt": "2026-11-25",
-      "kind": "open",
-      "regions": [
-       "daechi"
-      ],
-      "label": "개강",
-      "source": "blog",
-      "dates": [],
-      "bands": []
-     },
-     {
-      "title": "[대치새움 설명회 영상] 2027 예비고1 영어 겨울방학 전략 & 10회 특강 ....",
-      "url": "https://blog.naver.com/jinnayingjia/224491207153",
-      "postedAt": "2026-11-25",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [],
-      "bands": [
-       "middle",
        "high"
       ]
      }

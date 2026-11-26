@@ -19,8 +19,10 @@ stale_after:
 
 ## 요약
 <!-- auto:digest -->
-- 감성 +0.00 (중립) · 신뢰도 0.07 · 스팸 0.20
+- 감성 +0.59 (긍정) · 신뢰도 0.26 · 스팸 0.20
 - 붙은 학원 1곳 · 과목 math
+- 진입난이도 신호: hard·wait
+- 등급반 언급: basic·regular
 <!-- /auto:digest -->
 
 <!-- auto:summary -->
@@ -28,7 +30,7 @@ stale_after:
 
 ## 이 글이 붙은 학원
 <!-- auto:edges -->
-- [[../academies/29177|매쓰몽대치]] — 글이 이 권역을 밝힘 · 감성 +0.00
+- [[../academies/29177|매쓰몽대치]] — 글이 이 권역을 밝힘 · 감성 +0.59
 <!-- /auto:edges -->
 
 ## 검수

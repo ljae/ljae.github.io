@@ -5,46 +5,9 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-25T23:50:20.585895+00:00",
+ "generatedAt": "2026-11-26T23:47:14.730439+00:00",
  "windowDays": 62,
  "events": [
-  {
-   "title": "[조동현논술] 대학별 논술 파이널 11/23(월) 개강 - 방이동논술학원 대....",
-   "url": "https://blog.naver.com/sebit1278/224482501024",
-   "postedAt": "2026-11-18",
-   "kind": "open",
-   "regions": [
-    "jamsil"
-   ],
-   "label": "조동현 개강",
-   "source": "blog",
-   "dates": [
-    "2026-11-25",
-    "2026-11-26",
-    "2026-11-27",
-    "2026-11-28"
-   ],
-   "bands": []
-  },
-  {
-   "title": "세정학원 · 2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-   "url": "https://sejungedu.com",
-   "key": "https://sejungedu.com#2027 고1(현 중3) ‘대학 합격을 좌우하는’ 고교선택 <최종 점검> 설명회",
-   "postedAt": "2026-11-19",
-   "kind": "session",
-   "source": "homepage",
-   "dates": [
-    "2026-11-25"
-   ],
-   "regions": [
-    "daechi"
-   ],
-   "label": "세정 설명회",
-   "bands": [
-    "middle",
-    "high"
-   ]
-  },
   {
    "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
    "url": "https://blog.naver.com/iwillbee/224490706651",
@@ -63,6 +26,23 @@
     "middle",
     "high"
    ]
+  },
+  {
+   "title": "[조동현논술] 대학별 논술 파이널 11/23(월) 개강 - 방이동논술학원 대....",
+   "url": "https://blog.naver.com/sebit1278/224482501024",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "regions": [
+    "jamsil"
+   ],
+   "label": "조동현 개강",
+   "source": "blog",
+   "dates": [
+    "2026-11-26",
+    "2026-11-27",
+    "2026-11-28"
+   ],
+   "bands": []
   },
   {
    "title": "대치삼보어학원 · 초등 학부모 설명회",
@@ -447,6 +427,40 @@
    ],
    "bands": [
     "middle"
+   ]
+  },
+  {
+   "title": "목동 올바른 수학 설명회)+ 초고 12/3, 초저12/8 11am",
+   "url": "https://blog.naver.com/dalbong13/224493642731",
+   "postedAt": "2026-11-26",
+   "kind": "session",
+   "regions": [
+    "mokdong"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-12-03",
+    "2026-12-08"
+   ],
+   "bands": []
+  },
+  {
+   "title": "[와이즈만 서초센터] 예비 초1 ~ 초3 교과 수학 신규 개강!",
+   "url": "https://blog.naver.com/weizmann_seocho_/224493347536",
+   "postedAt": "2026-11-26",
+   "kind": "open",
+   "regions": [
+    "banpo"
+   ],
+   "label": "와이즈만 개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-04",
+    "2026-12-05"
+   ],
+   "bands": [
+    "elem_low"
    ]
   },
   {
