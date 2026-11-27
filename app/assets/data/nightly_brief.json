@@ -1,25 +1,25 @@
 {
- "day": "2026-11-26",
- "previousDay": "2026-11-25",
- "generatedAt": "2026-11-26T23:47:14.730439+00:00",
- "ranked": 386,
- "rankedBefore": 383,
- "entered": 6,
- "left": 3,
- "moved": 112,
+ "day": "2026-11-27",
+ "previousDay": "2026-11-26",
+ "generatedAt": "2026-11-27T23:23:18.762240+00:00",
+ "ranked": 392,
+ "rankedBefore": 386,
+ "entered": 7,
+ "left": 0,
+ "moved": 145,
  "scoringChanged": false,
  "newFirsts": [
   {
-   "name": "스즈키바이올린교습소",
+   "name": "잼코딩",
    "region": "대치",
-   "subject": "예체능",
-   "from": 2,
+   "subject": "기타",
+   "from": 5,
    "to": 1
   },
   {
-   "name": "반포세정",
-   "region": "반포",
-   "subject": "영어",
+   "name": "코리아엔터아카데미학원",
+   "region": "대치",
+   "subject": "예체능",
    "from": 3,
    "to": 1
   }
@@ -27,25 +27,25 @@
  "newFirstCount": 2,
  "topRises": [
   {
-   "name": "애슐리코칭영어교습소",
+   "name": "아카로드학원",
    "region": "대치",
-   "subject": "영어",
-   "from": 43,
-   "to": 32
-  },
-  {
-   "name": "강대학원",
-   "region": "목동",
    "subject": "수학",
-   "from": 25,
-   "to": 16
+   "from": 34,
+   "to": 17
   },
   {
-   "name": "그로튼아카데미학원",
+   "name": "블루스카이학원",
    "region": "대치",
-   "subject": "영어",
-   "from": 19,
-   "to": 14
+   "subject": "수학",
+   "from": 24,
+   "to": 10
+  },
+  {
+   "name": "더킹고등수학전문학원",
+   "region": "대치",
+   "subject": "수학",
+   "from": 14,
+   "to": 3
   }
  ],
  "daechi": {
@@ -53,13 +53,20 @@
   "scoringChanged": false,
   "searched": true,
   "bannedCount": 1,
-  "calendarCount": 41,
-  "homepageEvents": 14,
+  "calendarCount": 46,
+  "homepageEvents": 13,
   "rooms": {
    "elem_low": {
     "label": "예비초~초3",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "홍익아트미술교습소",
+       "subject": "예체능",
+       "from": null,
+       "to": 1
+      }
+     ],
      "rises": []
     },
     "thisWeek": [
@@ -163,20 +170,43 @@
     ],
     "news": [
      {
-      "title": "대치동 수학학원 12월 개강 안내 수찬학원 대치 (초3~고3 소수정예 맞....",
-      "url": "https://blog.naver.com/sd9220/224493643699",
-      "postedAt": "2026-11-26",
+      "title": "대치명인 Mi-ON 온라인 줌 LIVE 설명회 | 영어,국어,수학 수업 일정 안....",
+      "url": "https://blog.naver.com/sujimyungin0818/224495034565",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치동 영어학원 심슨어학원] 겨울학기 개강 ㅣ 새로운 학년을 준....",
+      "url": "https://blog.naver.com/hkshim/224495041184",
+      "postedAt": "2026-11-27",
       "kind": "open",
       "regions": [
        "daechi"
       ],
-      "label": "수찬 개강",
+      "label": "영심슨 개강",
       "source": "blog",
       "dates": [],
-      "bands": [
-       "elem_low",
-       "high"
-      ]
+      "bands": []
+     },
+     {
+      "title": "[대치개념폴리아학원]1월 초등개강설명회",
+      "url": "https://blog.naver.com/gnpolyad/224495018173",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "개념폴리아 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
      }
     ],
     "newAcademies": [],
@@ -185,29 +215,17 @@
    "elem_high": {
     "label": "초4~초6",
     "ranking": {
-     "newFirsts": [],
+     "newFirsts": [
+      {
+       "name": "홍익아트미술교습소",
+       "subject": "예체능",
+       "from": null,
+       "to": 1
+      }
+     ],
      "rises": []
     },
     "thisWeek": [
-     {
-      "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
-      "url": "https://blog.naver.com/iwillbee/224490706651",
-      "postedAt": "2026-11-25",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [
-       "2026-11-26"
-      ],
-      "bands": [
-       "elem_high",
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
       "url": "https://blog.naver.com/mathlevel/224469057824",
@@ -289,9 +307,68 @@
        "2026-11-29"
       ],
       "bands": []
+     },
+     {
+      "title": "대치에이프릴어학원 · 26년 겨울학기 개강",
+      "url": "https://www.creverse.com/april/dogok",
+      "key": "https://www.creverse.com/april/dogok#26년 겨울학기 개강",
+      "postedAt": "2026-11-25",
+      "kind": "open",
+      "source": "homepage",
+      "dates": [
+       "2026-11-30"
+      ],
+      "regions": [
+       "daechi"
+      ],
+      "label": "에이프릴 개강",
+      "bands": [
+       "elem_low",
+       "elem_high"
+      ]
      }
     ],
-    "news": [],
+    "news": [
+     {
+      "title": "대치명인 Mi-ON 온라인 줌 LIVE 설명회 | 영어,국어,수학 수업 일정 안....",
+      "url": "https://blog.naver.com/sujimyungin0818/224495034565",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치동 영어학원 심슨어학원] 겨울학기 개강 ㅣ 새로운 학년을 준....",
+      "url": "https://blog.naver.com/hkshim/224495041184",
+      "postedAt": "2026-11-27",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "영심슨 개강",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치개념폴리아학원]1월 초등개강설명회",
+      "url": "https://blog.naver.com/gnpolyad/224495018173",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "개념폴리아 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     }
+    ],
     "newAcademies": [],
     "goneAcademies": []
    },
@@ -299,47 +376,22 @@
     "label": "중등",
     "ranking": {
      "newFirsts": [],
-     "rises": []
+     "rises": [
+      {
+       "name": "아카로드학원",
+       "subject": "수학",
+       "from": 20,
+       "to": 9
+      },
+      {
+       "name": "블루스카이학원",
+       "subject": "수학",
+       "from": 11,
+       "to": 5
+      }
+     ]
     },
     "thisWeek": [
-     {
-      "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
-      "url": "https://blog.naver.com/iwillbee/224490706651",
-      "postedAt": "2026-11-25",
-      "kind": "session",
-      "regions": [
-       "daechi"
-      ],
-      "label": "설명회",
-      "source": "blog",
-      "dates": [
-       "2026-11-26"
-      ],
-      "bands": [
-       "elem_high",
-       "middle",
-       "high"
-      ]
-     },
-     {
-      "title": "대치삼보어학원 · 초등 학부모 설명회",
-      "url": "http://www.samboh.co.kr",
-      "key": "http://www.samboh.co.kr#초등 학부모 설명회",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-26"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "삼보 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
      {
       "title": "2027 대치 시대인재 예비고3 입시설명회 일정 및 예약 안내 (11/27 금요....",
       "url": "https://blog.naver.com/hohoy/224492043531",
@@ -406,23 +458,11 @@
        "elem_high",
        "middle"
       ]
-     }
-    ],
-    "news": [],
-    "newAcademies": [],
-    "goneAcademies": []
-   },
-   "high": {
-    "label": "고등",
-    "ranking": {
-     "newFirsts": [],
-     "rises": []
-    },
-    "thisWeek": [
+     },
      {
-      "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
-      "url": "https://blog.naver.com/iwillbee/224490706651",
-      "postedAt": "2026-11-25",
+      "title": "대치동 예비중3 수학 | 함수학 MS반 미적분1 1월 개강 & 11/28 설명회",
+      "url": "https://blog.naver.com/hahmmath/224481203336",
+      "postedAt": "2026-11-17",
       "kind": "session",
       "regions": [
        "daechi"
@@ -430,51 +470,126 @@
       "label": "설명회",
       "source": "blog",
       "dates": [
-       "2026-11-26"
+       "2026-11-28"
       ],
       "bands": [
        "elem_high",
-       "middle",
-       "high"
+       "middle"
       ]
      },
      {
-      "title": "대치삼보어학원 · 초등 학부모 설명회",
-      "url": "http://www.samboh.co.kr",
-      "key": "http://www.samboh.co.kr#초등 학부모 설명회",
-      "postedAt": "2026-11-24",
-      "kind": "session",
-      "source": "homepage",
-      "dates": [
-       "2026-11-26"
-      ],
-      "regions": [
-       "daechi"
-      ],
-      "label": "삼보 설명회",
-      "bands": [
-       "middle",
-       "high"
-      ]
-     },
-     {
-      "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(5차)",
+      "title": "세정학원 · 예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
       "url": "https://sejungedu.com",
-      "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(5차)",
+      "key": "https://sejungedu.com#예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
       "postedAt": "2026-11-19",
       "kind": "session",
       "source": "homepage",
       "dates": [
-       "2026-11-26"
+       "2026-11-28"
       ],
       "regions": [
        "daechi"
       ],
       "label": "세정 설명회",
       "bands": [
+       "middle",
+       "high"
+      ]
+     }
+    ],
+    "news": [
+     {
+      "title": "2026 대치138학원 학생과 함께하는 마지막 예비고3 설명회",
+      "url": "https://blog.naver.com/with3stars/224495187274",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "138 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle",
        "high"
       ]
      },
+     {
+      "title": "대치명인 Mi-ON 온라인 줌 LIVE 설명회 | 영어,국어,수학 수업 일정 안....",
+      "url": "https://blog.naver.com/sujimyungin0818/224495034565",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치동 영어학원 심슨어학원] 겨울학기 개강 ㅣ 새로운 학년을 준....",
+      "url": "https://blog.naver.com/hkshim/224495041184",
+      "postedAt": "2026-11-27",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "영심슨 개강",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치개념폴리아학원]1월 초등개강설명회",
+      "url": "https://blog.naver.com/gnpolyad/224495018173",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "개념폴리아 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     }
+    ],
+    "newAcademies": [],
+    "goneAcademies": []
+   },
+   "high": {
+    "label": "고등",
+    "ranking": {
+     "newFirsts": [
+      {
+       "name": "잼코딩",
+       "subject": "기타",
+       "from": 2,
+       "to": 1
+      }
+     ],
+     "rises": [
+      {
+       "name": "블루스카이학원",
+       "subject": "수학",
+       "from": 16,
+       "to": 7
+      },
+      {
+       "name": "더킹고등수학전문학원",
+       "subject": "수학",
+       "from": 9,
+       "to": 2
+      },
+      {
+       "name": "모닝에듀",
+       "subject": "영어",
+       "from": 11,
+       "to": 6
+      }
+     ]
+    },
+    "thisWeek": [
      {
       "title": "2027 대치 시대인재 예비고3 입시설명회 일정 및 예약 안내 (11/27 금요....",
       "url": "https://blog.naver.com/hohoy/224492043531",
@@ -522,39 +637,117 @@
        "2026-11-28"
       ],
       "bands": []
-     }
-    ],
-    "news": [
+     },
      {
-      "title": "대치동 수학학원 12월 개강 안내 수찬학원 대치 (초3~고3 소수정예 맞....",
-      "url": "https://blog.naver.com/sd9220/224493643699",
-      "postedAt": "2026-11-26",
-      "kind": "open",
+      "title": "[입시_설명회]2026.11-12.대찬김경태소장,두각,플라즈마(대치), 시대인....",
+      "url": "https://blog.naver.com/iwillbee/224493914950",
+      "postedAt": "2026-11-27",
+      "kind": "session",
       "regions": [
        "daechi"
       ],
-      "label": "수찬 개강",
+      "label": "설명회",
       "source": "blog",
-      "dates": [],
+      "dates": [
+       "2026-11-28",
+       "2026-12-04"
+      ],
       "bands": [
-       "elem_low",
        "high"
       ]
      },
      {
-      "title": "동대문 정상대치고등부 12월 대개강 | 고등 영어·수학·국어·통합과....",
-      "url": "https://blog.naver.com/ddmjls/224492117068",
-      "postedAt": "2026-11-25",
-      "kind": "open",
+      "title": "세정학원 · 예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
+      "url": "https://sejungedu.com",
+      "key": "https://sejungedu.com#예비고1 ‘대학 합격을 좌우하는’ 고교선택 &lt;최종 점검&gt; 설명회 ★ 강남권 남학교 vs 강남권 공학 선택의 해법 제시…",
+      "postedAt": "2026-11-19",
+      "kind": "session",
+      "source": "homepage",
+      "dates": [
+       "2026-11-28"
+      ],
       "regions": [
        "daechi"
       ],
-      "label": "개강",
+      "label": "세정 설명회",
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
+     {
+      "title": "[대치동경찰대학시험학원]2028윈터스쿨[설명회,11/29(일),(2026수석합격....",
+      "url": "https://blog.naver.com/skyace789/224490350509",
+      "postedAt": "2026-11-24",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "경찰대학시험 설명회",
+      "source": "blog",
+      "dates": [
+       "2026-11-29"
+      ],
+      "bands": []
+     }
+    ],
+    "news": [
+     {
+      "title": "2026 대치138학원 학생과 함께하는 마지막 예비고3 설명회",
+      "url": "https://blog.naver.com/with3stars/224495187274",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "138 설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": [
+       "middle",
+       "high"
+      ]
+     },
+     {
+      "title": "2026 대치138학원 현고3,N수생을 위한 정시설명회",
+      "url": "https://blog.naver.com/with3stars/224495183458",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "138 설명회",
       "source": "blog",
       "dates": [],
       "bands": [
        "high"
       ]
+     },
+     {
+      "title": "대치명인 Mi-ON 온라인 줌 LIVE 설명회 | 영어,국어,수학 수업 일정 안....",
+      "url": "https://blog.naver.com/sujimyungin0818/224495034565",
+      "postedAt": "2026-11-27",
+      "kind": "session",
+      "regions": [
+       "daechi"
+      ],
+      "label": "설명회",
+      "source": "blog",
+      "dates": [],
+      "bands": []
+     },
+     {
+      "title": "[대치동 영어학원 심슨어학원] 겨울학기 개강 ㅣ 새로운 학년을 준....",
+      "url": "https://blog.naver.com/hkshim/224495041184",
+      "postedAt": "2026-11-27",
+      "kind": "open",
+      "regions": [
+       "daechi"
+      ],
+      "label": "영심슨 개강",
+      "source": "blog",
+      "dates": [],
+      "bands": []
      }
     ],
     "newAcademies": [],

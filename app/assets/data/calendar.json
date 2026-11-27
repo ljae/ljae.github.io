@@ -5,82 +5,9 @@
   "jamsil",
   "banpo"
  ],
- "generatedAt": "2026-11-26T23:47:14.730439+00:00",
+ "generatedAt": "2026-11-27T23:23:18.762240+00:00",
  "windowDays": 62,
  "events": [
-  {
-   "title": "[입시_설명회]2026년 11월26일~30일 설명회(대치)_다원(예비중1-3수학), ....",
-   "url": "https://blog.naver.com/iwillbee/224490706651",
-   "postedAt": "2026-11-25",
-   "kind": "session",
-   "regions": [
-    "daechi"
-   ],
-   "label": "설명회",
-   "source": "blog",
-   "dates": [
-    "2026-11-26"
-   ],
-   "bands": [
-    "elem_high",
-    "middle",
-    "high"
-   ]
-  },
-  {
-   "title": "[조동현논술] 대학별 논술 파이널 11/23(월) 개강 - 방이동논술학원 대....",
-   "url": "https://blog.naver.com/sebit1278/224482501024",
-   "postedAt": "2026-11-18",
-   "kind": "open",
-   "regions": [
-    "jamsil"
-   ],
-   "label": "조동현 개강",
-   "source": "blog",
-   "dates": [
-    "2026-11-26",
-    "2026-11-27",
-    "2026-11-28"
-   ],
-   "bands": []
-  },
-  {
-   "title": "대치삼보어학원 · 초등 학부모 설명회",
-   "url": "http://www.samboh.co.kr",
-   "key": "http://www.samboh.co.kr#초등 학부모 설명회",
-   "postedAt": "2026-11-24",
-   "kind": "session",
-   "source": "homepage",
-   "dates": [
-    "2026-11-26"
-   ],
-   "regions": [
-    "daechi"
-   ],
-   "label": "삼보 설명회",
-   "bands": [
-    "middle",
-    "high"
-   ]
-  },
-  {
-   "title": "세정학원 · 2027학년도 고3(현 고2) 대입전략 설명회(5차)",
-   "url": "https://sejungedu.com",
-   "key": "https://sejungedu.com#2027학년도 고3(현 고2) 대입전략 설명회(5차)",
-   "postedAt": "2026-11-19",
-   "kind": "session",
-   "source": "homepage",
-   "dates": [
-    "2026-11-26"
-   ],
-   "regions": [
-    "daechi"
-   ],
-   "label": "세정 설명회",
-   "bands": [
-    "high"
-   ]
-  },
   {
    "title": "2027 대치 시대인재 예비고3 입시설명회 일정 및 예약 안내 (11/27 금요....",
    "url": "https://blog.naver.com/hohoy/224492043531",
@@ -98,6 +25,22 @@
     "middle",
     "high"
    ]
+  },
+  {
+   "title": "[조동현논술] 대학별 논술 파이널 11/23(월) 개강 - 방이동논술학원 대....",
+   "url": "https://blog.naver.com/sebit1278/224482501024",
+   "postedAt": "2026-11-18",
+   "kind": "open",
+   "regions": [
+    "jamsil"
+   ],
+   "label": "조동현 개강",
+   "source": "blog",
+   "dates": [
+    "2026-11-27",
+    "2026-11-28"
+   ],
+   "bands": []
   },
   {
    "title": "11월 28일 대치수준수학 초등학생 겨울방학 특강·정규반 설명회",
@@ -128,6 +71,24 @@
     "2026-11-28"
    ],
    "bands": []
+  },
+  {
+   "title": "[입시_설명회]2026.11-12.대찬김경태소장,두각,플라즈마(대치), 시대인....",
+   "url": "https://blog.naver.com/iwillbee/224493914950",
+   "postedAt": "2026-11-27",
+   "kind": "session",
+   "regions": [
+    "daechi"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-28",
+    "2026-12-04"
+   ],
+   "bands": [
+    "high"
+   ]
   },
   {
    "title": "대치동 예비중2 수학 | 함수학 MS반 공통수학2 1월 4일 개강 & 11/28 설....",
@@ -222,6 +183,24 @@
    ]
   },
   {
+   "title": "해커스어학원 · 11/28_SAT·유학설명회",
+   "url": "http://www.hackers.ac/",
+   "key": "http://www.hackers.ac/#11/28_SAT·유학설명회",
+   "postedAt": "2026-11-27",
+   "kind": "session",
+   "source": "homepage",
+   "dates": [
+    "2026-11-28"
+   ],
+   "regions": [
+    "banpo"
+   ],
+   "label": "해커스 설명회",
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "[대치동경찰대학시험학원]2028윈터스쿨[설명회,11/29(일),(2026수석합격....",
    "url": "https://blog.naver.com/skyace789/224490350509",
    "postedAt": "2026-11-24",
@@ -292,6 +271,24 @@
    ]
   },
   {
+   "title": "목동 시대인재 2027 예비고3 입시설명회(11월30일 월요일)",
+   "url": "https://blog.naver.com/hohoy/224495089433",
+   "postedAt": "2026-11-27",
+   "kind": "session",
+   "regions": [
+    "mokdong"
+   ],
+   "label": "설명회",
+   "source": "blog",
+   "dates": [
+    "2026-11-30"
+   ],
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
    "title": "잠실 수학학원 겨울 입학테스트 2027 | CMS 11/30 마감·와이즈만 무료 12....",
    "url": "https://blog.naver.com/studiousweet/224490190953",
    "postedAt": "2026-11-24",
@@ -311,7 +308,7 @@
    "title": "청담어학원 · 26년 겨울학기 개강",
    "url": "https://creverse.com/cdi/mokdong/",
    "key": "https://creverse.com/cdi/mokdong/#26년 겨울학기 개강",
-   "postedAt": "2026-11-24",
+   "postedAt": "2026-11-27",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -482,6 +479,24 @@
    ]
   },
   {
+   "title": "개포동 예비 고1 영어 문법 특강｜12월 5일 개강, 어떤 학생에게 필요....",
+   "url": "https://blog.naver.com/sky-coach/224494388124",
+   "postedAt": "2026-11-27",
+   "kind": "open",
+   "regions": [
+    "daechi"
+   ],
+   "label": "개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-05"
+   ],
+   "bands": [
+    "middle",
+    "high"
+   ]
+  },
+  {
    "title": "대치동 슈파스논술, 수능 직후 '대학별 논술 파이널' 개강",
    "url": "https://dhnews.co.kr/news/view/1065597871378502",
    "postedAt": "2026-10-29",
@@ -518,7 +533,7 @@
    "title": "송파메가스터디학원 · 12. 07(월) 개강",
    "url": "https://russelsp.megastudy.net/",
    "key": "https://russelsp.megastudy.net/#12. 07(월) 개강",
-   "postedAt": "2026-11-24",
+   "postedAt": "2026-11-27",
    "kind": "open",
    "source": "homepage",
    "dates": [
@@ -566,10 +581,44 @@
    "bands": []
   },
   {
+   "title": "[커리큘럼] 뉴파인 반포본원 초중등관 \"12월\" 대개강 중2 수학 프로그....",
+   "url": "https://blog.naver.com/newfine_elemid/224494742721",
+   "postedAt": "2026-11-27",
+   "kind": "open",
+   "regions": [
+    "banpo"
+   ],
+   "label": "커리큘럼 개강",
+   "source": "blog",
+   "dates": [
+    "2026-12-21"
+   ],
+   "bands": [
+    "middle"
+   ]
+  },
+  {
+   "title": "[행사 안내] 송파구 정시 상담/정시설명회(무료) 12월21일~30일 진행 [1....",
+   "url": "https://blog.naver.com/yonsei-easymath/224494898542",
+   "postedAt": "2026-11-27",
+   "kind": "session",
+   "regions": [
+    "jamsil"
+   ],
+   "label": "송파구 설명회",
+   "source": "blog",
+   "dates": [
+    "2026-12-21"
+   ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "해커스어학원 · 12/22★유학설명회",
    "url": "http://www.hackers.ac/",
    "key": "http://www.hackers.ac/#12/22★유학설명회",
-   "postedAt": "2026-11-24",
+   "postedAt": "2026-11-27",
    "kind": "session",
    "source": "homepage",
    "dates": [
@@ -658,6 +707,23 @@
    ]
   },
   {
+   "title": "대치 메이드존, '2027 윈터스쿨' 12월 31일 개강… 고등·N수생 겨울방학...",
+   "url": "https://www.koreadaily.com/article/20261126224737677",
+   "postedAt": "2026-11-27",
+   "kind": "open",
+   "regions": [
+    "daechi"
+   ],
+   "label": "개강",
+   "source": "news",
+   "dates": [
+    "2026-12-31"
+   ],
+   "bands": [
+    "high"
+   ]
+  },
+  {
    "title": "러셀대치학원 · 01. 02(토) 개강",
    "url": "https://russeldc.megastudy.net/",
    "key": "https://russeldc.megastudy.net/#01. 02(토) 개강",
@@ -709,6 +775,23 @@
    "label": "메가 개강",
    "bands": [
     "high"
+   ]
+  },
+  {
+   "title": "[커리큘럼] 뉴파인 반포본원 초중등관 \"12월\" 대개강 중3 수학 프로그....",
+   "url": "https://blog.naver.com/newfine_elemid/224494895650",
+   "postedAt": "2026-11-27",
+   "kind": "open",
+   "regions": [
+    "banpo"
+   ],
+   "label": "커리큘럼 개강",
+   "source": "blog",
+   "dates": [
+    "2027-01-08"
+   ],
+   "bands": [
+    "middle"
    ]
   },
   {
